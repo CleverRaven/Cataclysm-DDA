@@ -680,67 +680,178 @@ bool veh_interact::do_install( std::string &msg )
                                                    pgettext("Vehicle Parts|","F")} };
 
     std::array <std::function<bool(const vpart_info*)>,8> tab_filters; // filter for each tab, last one
-    tab_filters[0] = [&](const vpart_info *) { return true; }; // All
-    tab_filters[1] = [&](const vpart_info *p) { auto &part = *p;
-                                                   return part.has_flag(VPFLAG_CARGO) && // Cargo
-                                                   !part.has_flag("TURRET"); };
-    tab_filters[2] = [&](const vpart_info *p) { auto &part = *p;
-                                                   return part.has_flag(VPFLAG_LIGHT) || // Light
-                                                   part.has_flag(VPFLAG_CONE_LIGHT) ||
-                                                   part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
-                                                   part.has_flag(VPFLAG_DOME_LIGHT) ||
-                                                   part.has_flag(VPFLAG_AISLE_LIGHT) ||
-                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT); };
-    tab_filters[3] = [&](const vpart_info *p) { auto &part = *p;
-                                                   return part.has_flag("TRACK") || //Util
-                                                   part.has_flag(VPFLAG_FRIDGE) ||
-                                                   part.has_flag("KITCHEN") ||
-                                                   part.has_flag("WELDRIG") ||
-                                                   part.has_flag("CRAFTRIG") ||
-                                                   part.has_flag("CHEMLAB") ||
-                                                   part.has_flag("FORGE") ||
-                                                   part.has_flag("HORN") ||
-                                                   part.has_flag("BEEPER") ||
-                                                   part.has_flag("WATCH") ||
-                                                   part.has_flag("ALARMCLOCK") ||
-                                                   part.has_flag(VPFLAG_RECHARGE) ||
-                                                   part.has_flag("VISION") ||
-                                                   part.has_flag("POWER_TRANSFER") ||
-                                                   part.has_flag("FAUCET") ||
-                                                   part.has_flag("STEREO") ||
-                                                   part.has_flag("CHIMES") ||
-                                                   part.has_flag("MUFFLER") ||
-                                                   part.has_flag("REMOTE_CONTROLS") ||
-                                                   part.has_flag("CURTAIN") ||
-                                                   part.has_flag("SEATBELT") ||
-                                                   part.has_flag("SECURITY") ||
-                                                   part.has_flag("SEAT") ||
-                                                   part.has_flag("BED") ||
-                                                   part.has_flag("DOOR_MOTOR") ||
-                                                   part.has_flag("WATER_PURIFIER"); };
-    tab_filters[4] = [&](const vpart_info *p) { auto &part = *p;
-                                                   return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
-                                                   part.has_flag("ROOF") ||
-                                                   part.has_flag(VPFLAG_ARMOR)) &&
-                                                   !part.has_flag("WHEEL") &&
-                                                   !tab_filters[3](p); };
+    
+    // All
+    tab_filters[0] = [&]( const vpart_info *p ){
+        auto &part = *p;
+
+        if( !veh->is_furniture ) {
+            return !part.has_flag( VPFLAG_FURNITURE );
+        } else {
+            return true;
+        }
+    }; 
+
+    // Cargo
+    tab_filters[1] = [&]( const vpart_info *p ) {
+        auto &part = *p;
+
+        if( !veh->is_furniture ) {
+            return part.has_flag( VPFLAG_CARGO ) &&
+                !part.has_flag( "TURRET" ) &&
+            !part.has_flag( VPFLAG_FURNITURE );
+        } else {
+            return part.has_flag( VPFLAG_CARGO );
+        }
+
+    };
+    
+    // Light
+    tab_filters[2] = [&]( const vpart_info *p ) {
+        auto &part = *p;
+        if( !veh->is_furniture ) {
+            return part.has_flag( VPFLAG_LIGHT ) || 
+                   part.has_flag( VPFLAG_CONE_LIGHT ) ||
+                   part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
+                   part.has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part.has_flag( VPFLAG_AISLE_LIGHT ) ||
+                   part.has_flag( VPFLAG_ATOMIC_LIGHT ) &&
+                   !part.has_flag( VPFLAG_FURNITURE );
+        } else {
+            return part.has_flag( VPFLAG_LIGHT ) ||
+                   part.has_flag( VPFLAG_CONE_LIGHT ) ||
+                   part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
+                   part.has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part.has_flag( VPFLAG_AISLE_LIGHT ) ||
+                   part.has_flag( VPFLAG_ATOMIC_LIGHT );
+        }
+    };
+
+    //Util
+    tab_filters[3] = [&]( const vpart_info *p ) {
+      auto &part = *p;
+      if( !veh->is_furniture ) {
+          return part.has_flag( "TRACK" ) || 
+                 part.has_flag( VPFLAG_FRIDGE ) ||
+                 part.has_flag( "KITCHEN" ) ||
+                 part.has_flag( "WELDRIG" ) ||
+                 part.has_flag( "CRAFTRIG" ) ||
+                 part.has_flag( "CHEMLAB" ) ||
+                 part.has_flag( "FORGE" ) ||
+                 part.has_flag( "HORN" ) ||
+                 part.has_flag( "BEEPER" ) ||
+                 part.has_flag( "WATCH" ) ||
+                 part.has_flag( "ALARMCLOCK" ) ||
+                 part.has_flag( VPFLAG_RECHARGE ) ||
+                 part.has_flag( "VISION" ) ||
+                 part.has_flag( "POWER_TRANSFER" ) ||
+                 part.has_flag( "FAUCET" ) ||
+                 part.has_flag( "STEREO" ) ||
+                 part.has_flag( "CHIMES" ) ||
+                 part.has_flag( "MUFFLER" ) ||
+                 part.has_flag( "REMOTE_CONTROLS" ) ||
+                 part.has_flag( "CURTAIN" ) ||
+                 part.has_flag( "SEATBELT" ) ||
+                 part.has_flag( "SECURITY" ) ||
+                 part.has_flag( "SEAT" ) ||
+                 part.has_flag( "BED" ) ||
+                 part.has_flag( "DOOR_MOTOR" ) ||
+                 part.has_flag( "WATER_PURIFIER" ) &&
+                 !part.has_flag( VPFLAG_FURNITURE );
+      } else {
+          return part.has_flag( "TRACK" ) || //Util
+                 part.has_flag( VPFLAG_FRIDGE ) ||
+                 part.has_flag( "KITCHEN" ) ||
+                 part.has_flag( "WELDRIG" ) ||
+                 part.has_flag( "CRAFTRIG" ) ||
+                 part.has_flag( "CHEMLAB" ) ||
+                 part.has_flag( "FORGE" ) ||
+                 part.has_flag( "HORN" ) ||
+                 part.has_flag( "BEEPER" ) ||
+                 part.has_flag( "WATCH" ) ||
+                 part.has_flag( "ALARMCLOCK" ) ||
+                 part.has_flag( VPFLAG_RECHARGE ) ||
+                 part.has_flag( "VISION" ) ||
+                 part.has_flag( "POWER_TRANSFER" ) ||
+                 part.has_flag( "FAUCET" ) ||
+                 part.has_flag( "STEREO" ) ||
+                 part.has_flag( "CHIMES" ) ||
+                 part.has_flag( "MUFFLER" ) ||
+                 part.has_flag( "REMOTE_CONTROLS" ) ||
+                 part.has_flag( "CURTAIN" ) ||
+                 part.has_flag( "SEATBELT" ) ||
+                 part.has_flag( "SECURITY" ) ||
+                 part.has_flag( "SEAT" ) ||
+                 part.has_flag( "BED" ) ||
+                 part.has_flag( "DOOR_MOTOR" ) ||
+                 part.has_flag( "WATER_PURIFIER" );
+      }
+
+
+
+
+  };
+    // Hull
+    tab_filters[4] = [&]( const vpart_info *p ) {    auto &part = *p;
+        if( !veh->is_furniture ) {
+            return( part.has_flag( VPFLAG_OBSTACLE ) || 
+                part.has_flag( "ROOF" ) ||
+                part.has_flag( VPFLAG_ARMOR ) ) &&
+                !part.has_flag( "WHEEL" ) &&
+                !part.has_flag( VPFLAG_FURNITURE ) &&
+                !tab_filters[3]( p );
+        } else {
+            return( part.has_flag( VPFLAG_OBSTACLE ) ||
+                part.has_flag( "ROOF" ) ||
+                part.has_flag( VPFLAG_ARMOR ) ) &&
+                !part.has_flag( "WHEEL" ) &&
+                !tab_filters[3]( p );
+        }    
+    };
+    
+    // Internals
     tab_filters[5] = [&](const vpart_info *p) { auto &part = *p;
-                                                   return part.has_flag(VPFLAG_ENGINE) || // Internals
-                                                   part.has_flag(VPFLAG_ALTERNATOR) ||
-                                                   part.has_flag(VPFLAG_CONTROLS) ||
-                                                   part.location == "fuel_source" ||
-                                                   part.location == "on_battery_mount" ||
-                                                   (part.location.empty() && part.has_flag("FUEL_TANK")); };
+        if( !veh->is_furniture ) {
+            return part.has_flag( VPFLAG_ENGINE ) || 
+            part.has_flag( VPFLAG_ALTERNATOR ) ||
+            part.has_flag( VPFLAG_CONTROLS ) ||
+            part.location == "fuel_source" ||
+            part.location == "on_battery_mount" ||
+            ( part.location.empty() && part.has_flag( "FUEL_TANK" ) ) &&
+            !part.has_flag( VPFLAG_FURNITURE );
+        } else {
+            return part.has_flag( VPFLAG_ENGINE ) ||
+            part.has_flag( VPFLAG_ALTERNATOR ) ||
+            part.has_flag( VPFLAG_CONTROLS ) ||
+            part.location == "fuel_source" ||
+            part.location == "on_battery_mount" ||
+            ( part.location.empty() && part.has_flag( "FUEL_TANK" ) );
+        }
+    };
 
     // Other: everything that's not in the other filters
     tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) {
         for (size_t i=1; i < tab_filters.size()-2; i++ ) {
-            if( tab_filters[i](part) ) return false;
+            if( !veh->is_furniture ) {
+                if( tab_filters[i]( part ) && !part->has_flag( VPFLAG_FURNITURE ) ) {
+                    return false;
+                }
+            } else {
+                if( tab_filters[i]( part ) ) {
+                    return false;
+                }
+            }
         }
         return true; };
 
     std::string filter; // The user specified filter
-    tab_filters[7] = [&](const vpart_info *p){ return lcmatch( p->name(), filter ); };
+    tab_filters[7] = [&](const vpart_info *p){ 
+        if( !veh->is_furniture ) {
+            return lcmatch( p->name(), filter ) && !p->has_flag( VPFLAG_FURNITURE );
+            } else {
+                return lcmatch( p->name(), filter );
+            }
+    };
 
     // full list of mountable parts, to be filtered according to tab
     std::vector<const vpart_info*> tab_vparts = can_mount;
@@ -748,12 +859,7 @@ bool veh_interact::do_install( std::string &msg )
     int pos = 0;
     size_t tab = 0;
     while (true) {
-
-        if ( veh->is_furniture ) {
-            display_list(pos, tab_vparts, 2);
-        } else {
-            display_list(pos, tab_vparts, 2, true);
-        }
+        display_list(pos, tab_vparts, 2);
 
         // draw tab menu
         int tab_x = 0;
@@ -2005,20 +2111,18 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param list The list to display parts from.
  * @param header Number of lines occupied by the list header
  */
-void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header, bool furni)
+void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
 {
     werase (w_list);
     int lines_per_page = page_size - header;
     size_t page = pos / lines_per_page;
     for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
-        if ( !furni ) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dkgray;
         trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name().c_str() );
-        }
     }
     wrefresh (w_list);
 }
