@@ -7797,7 +7797,7 @@
     "category": "tools",
     "name": "trumpet",
     "name_plural": "trumpets",
-    "description": "A brass-plated trumpet with only a few dents here and there.",
+    "description": "A brass trumpet with only a few dents here and there.",
     "weight": 1500,
     "volume": 10,
     "price": 7500,

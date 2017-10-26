@@ -2039,7 +2039,7 @@
             ]
         },
         "symbol" : "{",
-        "description" : "A brass-plated alto saxophone with a neck strap, so you can wear it while playing.",
+        "description" : "A brass alto saxophone with a neck strap, so you can wear it while playing.",
         "price" : 7500,
         "material" : ["brass"],
         "volume" : 18,
