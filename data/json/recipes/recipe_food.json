@@ -5449,6 +5449,7 @@
   "result": "sugar",
   "id_suffix": "from_beets",
   "category": "CC_FOOD",
+  "byproducts": [ [ "molasses", 1 ] ],
   "subcategory": "CSC_FOOD_OTHER",
   "note": "process sugar beets into sugar",
   "skill_used": "cooking",
