@@ -133,6 +133,7 @@ data/json/mapgen/arcade.json
 data/json/mapgen/bar.json
 data/json/mapgen/basement/basement_guns.json
 data/json/mapgen/basement/basement_weed.json
+data/json/mapgen/bike_shop.json
 data/json/mapgen/bookstore1.json
 data/json/mapgen/bookstore2.json
 data/json/mapgen/bookstore3.json
