@@ -236,16 +236,11 @@ void veh_interact::allocate_windows()
     move_cursor(0, 0); // display w_disp & w_parts
 }
 
-void veh_interact::set_title( std::string msg, ... ) const
+void veh_interact::set_title( const std::string &msg ) const
 {
-    va_list args;
-    va_start( args, msg );
-    const auto str = vstring_format( msg, args );
-    va_end( args );
-
     werase( w_mode );
     nc_color col = c_ltgray;
-    print_colored_text( w_mode, 0, 1, col, col, str );
+    print_colored_text( w_mode, 0, 1, col, col, msg );
     wrefresh( w_mode );
 }
 
