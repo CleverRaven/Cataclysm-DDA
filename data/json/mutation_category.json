@@ -1,6 +1,25 @@
 [
     {
         "type" : "mutation_category",
+        "id" : "mutation_any",
+        "name" : "Any",
+        "category" : "ANY",
+        "threshold_mut" : "",
+        "mutagen_message" : "mutagen message here",
+        "iv_message" : "You inject yoursel-arRGH!",
+        "iv_min_mutations" : 3,
+        "iv_additional_mutations" : 2,
+        "iv_additional_mutations_chance" : 4,
+        "iv_fatigue" : 20,
+        "iv_sound" : true,
+        "iv_sound_message" : "You scream in agony!!",
+        "iv_noise" : 15,
+        "iv_sleep" : true,
+        "iv_sleep_message" : "You writhe and collapse to the ground.",
+        "iv_sleep_dur" : 400,
+        "junkie_message" : "You quiver with anticipation..."
+    },{
+        "type" : "mutation_category",
         "id" : "mutation_plant",
         "name" : "Plant",
         "category" : "PLANT",

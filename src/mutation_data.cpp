@@ -60,10 +60,15 @@ static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unord
 void load_mutation_category(JsonObject &jsobj)
 {
     mutation_category_trait new_category;
-    std::string id = jsobj.get_string("id");
-    new_category.id=id;
+    new_category.id = jsobj.get_string("id");
     new_category.name =_(jsobj.get_string("name").c_str());
-    new_category.category =jsobj.get_string("category").c_str();
+    new_category.category = jsobj.get_string( "category" );
+    // @todo Remove
+    new_category.category_full = jsobj.get_string( "category_full", "MUTCAT_" + new_category.category );
+    // @todo Remove default, make it required
+    new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut", "THRESH_" + new_category.category ) );
+    new_category.mutagen_flag = jsobj.get_string( "mutagen_flag", "MUTAGEN_" + new_category.category );
+
     new_category.mutagen_message = _(jsobj.get_string("mutagen_message", "You drink your mutagen").c_str());
     new_category.mutagen_hunger  = jsobj.get_int("mutagen_hunger", 10);
     new_category.mutagen_thirst  = jsobj.get_int("mutagen_thirst", 10);
@@ -89,7 +94,28 @@ void load_mutation_category(JsonObject &jsobj)
     new_category.memorial_message = _(jsobj.get_string("memorial_message", "Crossed a threshold").c_str());
     new_category.junkie_message = _(jsobj.get_string("junkie_message", "Oh, yeah! That's the stuff!").c_str());
 
-    mutation_category_traits[id] = new_category;
+    mutation_category_traits[new_category.id] = new_category;
+}
+
+const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
+{
+    return mutation_category_traits;
+}
+
+void mutation_category_trait::reset()
+{
+    mutation_category_traits.clear();
+}
+
+void mutation_category_trait::check_consistency()
+{
+    for( const auto &pr : mutation_category_traits ) {
+        const mutation_category_trait &cat = pr.second;
+        if( !cat.threshold_mut.is_empty() && !cat.threshold_mut.is_valid() ) {
+            debugmsg( "Mutation category %s has threshold mutation %s, which does not exist",
+                      cat.id.c_str(), cat.threshold_mut.c_str() );
+        }
+    }
 }
 
 static mut_attack load_mutation_attack( JsonObject &jo )
