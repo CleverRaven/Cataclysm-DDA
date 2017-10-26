@@ -285,7 +285,13 @@ inline bool query_yn( const char *const msg, Args &&... args )
 {
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
-bool query_int( int &result, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
+
+bool query_int( int &result, const std::string &msg );
+template<typename ...Args>
+inline bool query_int( int &result, const char *const msg, Args &&... args )
+{
+    return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
+}
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );

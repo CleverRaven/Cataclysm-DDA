@@ -689,13 +689,8 @@ bool query_yn( const std::string &text )
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
-bool query_int( int &result, const char *mes, ... )
+bool query_int( int &result, const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     string_input_popup popup;
     popup.title( text );
     popup.text( "" ).only_digits( true );
