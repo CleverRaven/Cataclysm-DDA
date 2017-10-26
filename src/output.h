@@ -335,13 +335,38 @@ typedef enum {
     PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 } PopupFlags;
 
-long popup_getkey( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_top( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_nowait( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 );
-void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+template<typename ...Args>
+inline long popup_getkey( const char *const mes, Args &&... args )
+{
+    return popup( string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
+}
+template<typename ...Args>
+inline void popup_top( const char *const mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_ON_TOP );
+}
+template<typename ...Args>
+inline void popup_nowait( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_NO_WAIT );
+}
+void popup_status( const char *const title, const std::string &mes );
+template<typename ...Args>
+inline void popup_status( const char *const title, const char *const mes, Args &&... args )
+{
+    return popup_status( title, string_format( mes, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void popup( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
+}
 long popup( const std::string &text, PopupFlags flags );
-void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+template<typename ...Args>
+inline void full_screen_popup( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
+}
 
 WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
 WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );

@@ -702,15 +702,6 @@ bool query_int( int &result, const std::string &text )
     return true;
 }
 
-long popup_getkey( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return popup( text, PF_GET_KEY );
-}
-
 // compatibility stub for uimenu(cancelable, mes, options)
 int menu_vec( bool cancelable, const char *mes,
               const std::vector<std::string> options )
@@ -736,15 +727,6 @@ int menu( bool const cancelable, const char *const mes, ... )
     }
     va_end( ap );
     return ( uimenu( cancelable, mes, options ) );
-}
-
-void popup_top( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_ON_TOP );
 }
 
 static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
@@ -834,25 +816,7 @@ long popup( const std::string &text, PopupFlags flags )
     return ch;
 }
 
-void popup( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_NONE );
-}
-
-void popup_nowait( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_NO_WAIT );
-}
-
-void popup_status( const char *title, const char *msg, ... )
+void popup_status( const char *const title, const std::string &fmt )
 {
     std::string text;
     if( !test_mode && title != nullptr ) {
@@ -860,21 +824,7 @@ void popup_status( const char *title, const char *msg, ... )
         text += "\n";
     }
 
-    va_list ap;
-    va_start( ap, msg );
-    const std::string fmt = vstring_format( msg, ap );
-    va_end( ap );
-
     popup( text + fmt, PF_NO_WAIT );
-}
-
-void full_screen_popup( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_FULLSCREEN );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
