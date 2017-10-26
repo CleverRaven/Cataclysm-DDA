@@ -71,7 +71,7 @@
         "bgcolor": "yellow",
         "move_cost_mod": -1,
         "required_str": 5,
-        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE". "CLIMBABLE", "PERMEABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
         "examine_action": "chainfence",
         "deconstruct": {
             "items": [
@@ -97,7 +97,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT", "THIN_OBSTACLE". "CLIMBABLE", "PERMEABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
         "examine_action": "chainfence",
         "deconstruct": {
             "items": [
