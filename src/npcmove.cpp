@@ -2007,8 +2007,8 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 void npc::drop_items( int weight, int volume )
 {
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
-             name.c_str(), weight, volume, inv.size(), weight_carried(),
-             weight_capacity(), volume_carried() / units::legacy_volume_factor,
+             name.c_str(), weight, volume, inv.size(), to_gram( weight_carried() ),
+             to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
              volume_capacity() / units::legacy_volume_factor );
 
     int weight_dropped = 0, volume_dropped = 0;
