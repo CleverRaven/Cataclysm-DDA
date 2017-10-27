@@ -77,6 +77,13 @@ inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
     return value;
 }
 template<typename RT, typename T>
+inline typename std::enable_if < is_integer<RT>::value
+&&std::is_enum<typename std::decay<T>::type>::value,
+RT >::type convert( RT *, const string_formatter &, T &&value, int )
+{
+    return static_cast<RT>( value );
+}
+template<typename RT, typename T>
 inline typename std::enable_if < std::is_floating_point<RT>::value &&is_numeric<T>::value
 &&!is_integer<T>::value, RT >::type convert( RT *, const string_formatter &, T &&value, int )
 {
@@ -123,6 +130,7 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
 template<typename RT, typename T>
 inline typename std::enable_if < std::is_pointer<typename std::decay<T>::type>::value ||
 is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
+std::is_enum<typename std::decay<T>::type>::value ||
 is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&, ... )
 {
     throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
