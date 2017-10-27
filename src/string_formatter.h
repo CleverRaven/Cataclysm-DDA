@@ -47,8 +47,6 @@ std::string handle_string_format_error();
  * overload matches.
  */
 /**@{*/
-template<typename RT>
-class converter;
 // Test for arithmetic type, *excluding* bool. printf can not handle bool, so can't we.
 template<typename T>
 using is_numeric = typename std::conditional <
