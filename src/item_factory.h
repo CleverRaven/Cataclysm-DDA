@@ -212,9 +212,7 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param def The new item type, must not be null.
          */
-        void add_item_type( const itype &def ) {
-            m_runtimes[ def.id ].reset( new itype( def ) );
-        }
+        void add_item_type( const itype &def );
 
         /**
          * Check if an iuse is known to the Item_factory.

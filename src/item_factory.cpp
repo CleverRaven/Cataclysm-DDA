@@ -313,14 +313,13 @@ void Item_factory::finalize_post( itype &obj )
         for( const auto &act : repair_actions ) {
             const use_function *func = m_templates[tool].get_use( act );
             if( func == nullptr ) {
-                return;
+                continue;
             }
 
             // tool has a possible repair action, check if the materials are compatible
             const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
-
             if( std::any_of( obj.materials.begin(), obj.materials.end(), [&opts]( const material_id &m ) {
-                return opts.count( m );
+                return opts.count( m ) > 0;
             } ) ) {
                 obj.repair.insert( tool );
             }
@@ -343,6 +342,13 @@ void Item_factory::finalize() {
 
     for( auto &e : m_templates ) {
         finalize_post( e.second );
+    }
+
+    // We may actually have some runtimes here - ones loaded from saved game
+    // @todo support for runtimes that repair
+    for( auto &e : m_runtimes ) {
+        finalize_pre( *e.second );
+        finalize_post( *e.second );
     }
 }
 
@@ -437,6 +443,15 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
 
 void Item_factory::add_actor( iuse_actor *ptr ) {
     iuse_function_list[ ptr->type ] = use_function( ptr );
+}
+
+void Item_factory::add_item_type( const itype &def ) {
+    auto &new_item_ptr = m_runtimes[ def.id ];
+    new_item_ptr.reset( new itype( def ) );
+    if( frozen ) {
+        finalize_pre( *new_item_ptr );
+        finalize_post( *new_item_ptr );
+    }
 }
 
 void Item_factory::init()
