@@ -2090,8 +2090,8 @@ void veh_interact::display_details( const vpart_info *part )
         }
 
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
-                       (label + ": <color_ltgray>%d</color>").c_str(),
-                       part->size);
+                       "%s: <color_ltgray>%d</color>", label.c_str(),
+                       to_milliliter( part->size ) );
     }
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
