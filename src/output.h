@@ -444,20 +444,8 @@ std::string trim_punctuation_marks( const std::string &s );
 std::string to_upper_case( const std::string &s );
 
 /**
- * @name printf-like string formatting.
- *
- * These functions perform string formatting, according to the rules of the `printf` function,
- * see `man 3 printf` or any other documentation.
- *
- * In short: the pattern parameter is a string with optional placeholders, which will be
- * replaced with formatted data from the further arguments. The further arguments must have
- * a type that matches the type expected by the placeholder.
- * The placeholders look like this:
- * - `%s` expects an argument of type `const char*`, which is inserted as is.
- * - `%d` expects an argument of type `int`, which is formatted as decimal number.
- * - `%f` expects an argument of type `float` or `double`, which is formatted as decimal number.
- *
- * There are more placeholders and options to them (see documentation of `printf`).
+ * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
+ * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
  */
 std::string vstring_format( const char *pattern, va_list argptr );
 

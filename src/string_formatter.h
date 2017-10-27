@@ -25,6 +25,8 @@ const char *string_formatter_set_temp_buffer( const string_formatter &, std::str
 std::string handle_string_format_error();
 
 /**
+ * @defgroup string_formatter_convert Convert functions for @ref string_formatter
+ *
  * The `convert` functions here are used to convert the input value of
  * @ref string_formatter::parse into the requested type, as defined by the format specifiers.
  *
@@ -335,8 +337,28 @@ class string_formatter
 
 } // namespace cata
 
-/// Simple wrapper over @ref string_formatter::parse. It catches any exceptions and returns
-/// some error string. Otherwise it just returns the formatted string.
+/**
+ * Simple wrapper over @ref string_formatter::parse. It catches any exceptions and returns
+ * some error string. Otherwise it just returns the formatted string.
+ *
+ * These functions perform string formatting according to the rules of the `printf` function,
+ * see `man 3 printf` or any other documentation.
+ *
+ * In short: the \p format parameter is a string with optional placeholders, which will be
+ * replaced with formatted data from the further arguments. The further arguments must have
+ * a type that matches the type expected by the placeholder.
+ * The placeholders look like this:
+ * - `%s` expects an argument of type `const char*` or `std::string` or numeric (which is
+ *   converted to a string via `to_string`), which is inserted as is.
+ * - `%d` expects an argument of an integer type (int, short, ...), which is formatted as
+ *   decimal number.
+ * - `%f` expects a numeric argument (integer / floating point), which is formatted as
+ *   decimal number.
+ *
+ * There are more placeholders and options to them (see documentation of `printf`).
+ * Note that this wrapper (via @ref string_formatter) automatically converts the arguments
+ * to match the given format specifier (if possible) - see @ref string_formatter_convert.
+ */
 /**@{*/
 template<typename ...Args>
 inline std::string string_format( std::string format, Args &&...args )
