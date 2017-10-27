@@ -222,16 +222,6 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
 }
 
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color base_color, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, base_color, text );
-}
-
-int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                          nc_color base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );

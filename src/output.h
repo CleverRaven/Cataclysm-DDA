@@ -226,12 +226,18 @@ inline int fold_and_print( WINDOW *const w, const int begin_y, const int begin_x
  * value for `begin_line`.
  */
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const char *mes, ... ) PRINTF_LIKE( 7, 8 );
+                         nc_color color, const std::string &mes );
 /**
- * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
+ * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
-int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const std::string &text );
+template<typename ...Args>
+inline int fold_and_print_from( WINDOW *const w, const int begin_y, const int begin_x,
+                                const int width, const int begin_line,
+                                const nc_color color, const char *const mes, Args &&... args )
+{
+    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, color, string_format( mes,
+                                std::forward<Args>( args )... ) );
+}
 /**
  * Prints a single line of text. The text is automatically trimmed to fit into the given
  * width. The function handles @ref color_tags correctly.
