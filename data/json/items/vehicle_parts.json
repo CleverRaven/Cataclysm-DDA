@@ -1032,7 +1032,7 @@
         "material": "steel",
         "category": "veh_parts",
         "weight": 500,
-        "volume": 2,
+        "volume": 1,
         "price": 800
     }
 ]

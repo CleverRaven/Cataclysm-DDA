@@ -2387,10 +2387,11 @@
         "broken_symbol" : "+",
         "broken_color" : "light_gray",
         "durability" : 25,
+        "folded_volume": 1,
         "item" : "cargo_lock",
         "difficulty" : 1,
         "location" : "on_lockable_cargo",
-        "flags" : ["CARGO_LOCKED", "TOOL_SCREWDRIVER"],
+        "flags" : ["CARGO_LOCKING", "FOLDABLE", "INTERNAL", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "clockworks", "count": [0,2]},
             {"item": "scrap", "count": [2,6]}
