@@ -439,17 +439,6 @@ void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    wattron( w, FG );
-    mvwprintw( w, y, x, "%s", text.c_str() );
-    wattroff( w, FG );
-}
-
 void wprintz( WINDOW *w, nc_color FG, const char *mes, ... )
 {
     va_list ap;

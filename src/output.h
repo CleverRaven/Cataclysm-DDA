@@ -264,7 +264,16 @@ void mvputch_hi( int y, int x, nc_color FG, const std::string &ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 5, 6 );
+
+template<typename ...Args>
+inline void mvwprintz( WINDOW *const w, const int y, const int x, const nc_color FG,
+                       const char *const mes, Args &&... args )
+{
+    wattron( w, FG );
+    mvwprintw( w, y, x, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
+    wattroff( w, FG );
+}
+
 void wprintz( WINDOW *w, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 3, 4 );
 
 void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
