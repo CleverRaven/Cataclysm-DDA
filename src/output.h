@@ -241,7 +241,7 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                      const char *mes, ... ) PRINTF_LIKE( 6, 7 );
-void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... );
+void center_print( WINDOW *w, int y, nc_color FG, const std::string &mes );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
                  const char *mes, ... ) PRINTF_LIKE( 5, 6 );
 void display_table( WINDOW *w, const std::string &title, int columns,

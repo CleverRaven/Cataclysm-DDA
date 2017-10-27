@@ -341,13 +341,8 @@ std::string name_and_value( std::string name, int value, int field_width )
     return name_and_value( name, string_format( "%d", value ), field_width );
 }
 
-void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... )
+void center_print( WINDOW *const w, const int y, const nc_color FG, const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     int window_width = getmaxx( w );
     int string_width = utf8_width( text );
     int x;
@@ -526,7 +521,7 @@ void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color 
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff( w, border_color );
     if( !title.empty() ) {
-        center_print( w, 0, title_color, title.c_str() );
+        center_print( w, 0, title_color, title );
     }
 }
 

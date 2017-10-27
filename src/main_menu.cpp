@@ -88,12 +88,12 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
             mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, mmenu_title[i].c_str() );
         }
     } else {
-        center_print( w_open, iLine++, cColor1, mmenu_title[0].c_str() );
+        center_print( w_open, iLine++, cColor1, mmenu_title[0] );
     }
 
     if( bShowDDA ) {
         iLine++;
-        center_print( w_open, iLine++, cColor3, _( "Version: %s" ), getVersionString() );
+        center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
     }
 
     int menu_length = 0;
