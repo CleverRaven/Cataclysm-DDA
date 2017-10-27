@@ -494,6 +494,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VISION```
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
+- ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WINDOW``` Can see through this part and can install curtains over it.
 
 ## Ammo
