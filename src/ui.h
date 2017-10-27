@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
-#include "printf_check.h"
+#include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -209,9 +209,14 @@ class uimenu: public ui_container
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
         void addentry( std::string str );
-        void addentry( const char *format, ... ) PRINTF_LIKE( 2, 3 );
         void addentry( int r, bool e, int k, std::string str );
-        void addentry( int r, bool e, int k, const char *format, ... ) PRINTF_LIKE( 5, 6 );
+        // K is templated so it matches a `char` literal and a `long` value.
+        // Using a fixed type (either `char` or `long`) will lead to ambiguity with the
+        // other overload when called with the wrong type.
+        template<typename K, typename ...Args>
+        void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {
+            return addentry( r, e, k, string_format( format, std::forward<Args>( args )... ) );
+        }
         void addentry_desc( std::string str, std::string desc );
         void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
         void settext( std::string str );

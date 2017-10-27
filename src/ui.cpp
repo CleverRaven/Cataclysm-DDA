@@ -896,24 +896,6 @@ void uimenu::addentry(int r, bool e, int k, std::string str)
     entries.push_back(uimenu_entry(r, e, k, str));
 }
 
-void uimenu::addentry(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(text));
-}
-
-void uimenu::addentry(int r, bool e, int k, const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(r, e, k, text));
-}
-
 void uimenu::addentry_desc(std::string str, std::string desc)
 {
     entries.push_back(uimenu_entry(str, desc));
