@@ -1585,6 +1585,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
     }
 
     // Cargo locks must go on lockable cargo containers
+    // TODO: do this automatically using "location":"on_mountpoint"
     if(part.has_flag("CARGO_LOCKING")) {
         bool anchor_found = false;
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
