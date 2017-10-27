@@ -1474,7 +1474,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         menu.return_invalid = true;
 
         if( pt.crew() ) {
-            menu.addentry( 0, true, 'c', "Clear assignment" );
+            menu.addentry( 0, true, 'c', _( "Clear assignment" ) );
         }
 
         for( const npc *e : g->allies() ) {
