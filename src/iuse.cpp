@@ -1111,14 +1111,14 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint& )
     // Categorized/targeted mutagens go here.
     for( auto& iter : mutation_category_trait::get_all() ) {
         mutation_category_trait m_category = iter.second;
-        const std::string &mutation_category = m_category.category_full;
-        if( !it->has_flag( mutation_category ) ) {
+        if( !it->has_flag( m_category.mutagen_flag ) ) {
             continue;
         }
 
         int mut_count = 1 + ( it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0 );
 
         p->add_msg_if_player( m_category.mutagen_message.c_str() );
+        const std::string &mutation_category = m_category.category_full;
         for( int i = 0; i < mut_count; i++ ) {
             p->mutate_category( mutation_category );
             p->mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
