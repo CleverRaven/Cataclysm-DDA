@@ -1505,11 +1505,6 @@ std::string raw_string_format( const char *pattern, ... )
     return result;
 }
 
-std::string vstring_format( std::string const &pattern, va_list argptr )
-{
-    return vstring_format( pattern.c_str(), argptr );
-}
-
 void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
