@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-14 18:24+0800\n"
-"PO-Revision-Date: 2017-10-20 10:52+0000\n"
+"POT-Creation-Date: 2017-10-20 18:01+0800\n"
+"PO-Revision-Date: 2017-10-27 10:17+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -7248,6 +7248,21 @@ msgid ""
 msgstr "一個舒適的羊毛頭巾。這是你可能在時尚雜誌上看見那些笨重的頭巾之一。"
 
 #: lang/json/ARMOR_from_json.py
+msgid "golden crown"
+msgid_plural "golden crowns"
+msgstr[0] "金王冠"
+
+#. ~ Description for golden crown
+#: lang/json/ARMOR_from_json.py
+msgid "A delicate golden crown featuring flowering trees."
+msgstr ""
+
+#. ~ Description for golden crown
+#: lang/json/ARMOR_from_json.py
+msgid "A golden crown for the monarch of survivors."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "cuirass"
 msgid_plural "cuirasses"
 msgstr[0] "胸甲"
@@ -14225,6 +14240,53 @@ msgid ""
 "water.  You must, however, have a container to store the water in."
 msgstr "你的手掌埋入了奈米碳管讓你能從屍體中提取水分，並淨化成可飲用的淨水。但是你要先準備個容器裝水。"
 
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "EMP Projector CBM"
+msgid_plural "EMP Projector CBMs"
+msgstr[0] ""
+
+#. ~ Description for EMP Projector CBM
+#. ~ Description for EMP Projector
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/gun_from_json.py
+msgid ""
+"A ranged emp generator system is implanted on the palm of the user's right "
+"hand and arm.  Fires super-concentrated electric pulses for a short "
+"distance.  Extremely effective against electronic targets but mostly useless"
+" otherwise."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Ionic Overload Generator CBM"
+msgid_plural "Ionic Overload Generator CBMs"
+msgstr[0] ""
+
+#. ~ Description for Ionic Overload Generator CBM
+#. ~ Description for Ionic Overload Generator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+msgid ""
+"A powerful ion energy generator is implanted on the user's chest.  Fires a "
+"powerful, ever-expanding energy blast.  The resulting blast ignites oxygen "
+"creating fires as it moves and an explosion on impact. Close range use is "
+"highly discouraged."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Autonomous Surgical Razors CBM"
+msgid_plural "Autonomous Surgical Razors CBMs"
+msgstr[0] ""
+
+#. ~ Description for Autonomous Surgical Razors CBM
+#. ~ Description for autonomous surgical razors
+#. ~ Description for Autonomous Surgical Razors
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/TOOL_from_json.py
+#: lang/json/bionic_from_json.py
+msgid ""
+"Implanted on the user's fingers is a system of surgical grade razors.  While"
+" activated, they will continously drain power to make automated precise cuts"
+" but you will be unable to wield anything."
+msgstr ""
+
 #: lang/json/BOOK_from_json.py
 msgid "Lessons for the Novice Bowhunter"
 msgid_plural "Lessons for the Novice Bowhunter"
@@ -14908,6 +14970,18 @@ msgid ""
 "A textbook that illustrates the science and technique of the ancient art of "
 "glassblowing."
 msgstr "一本講解傳統玻璃吹制技術的教科書。"
+
+#: lang/json/BOOK_from_json.py
+msgid "Antique Adornments"
+msgid_plural "Antique Adornments"
+msgstr[0] "古風飾物"
+
+#. ~ Description for Antique Adornments
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A comprehensive and illustrated history of crown, bracelet, necklace and "
+"others."
+msgstr "一本附有插圖，廣泛地介紹王冠、手鐲、項鍊以及其他東西的歷史由來的書。"
 
 #: lang/json/BOOK_from_json.py
 msgid "Crafty Crafter's Quarterly"
@@ -26308,6 +26382,17 @@ msgid ""
 msgstr "一個高品質鏡頭，適合用於聚焦或散光。或許可以用來生火。"
 
 #: lang/json/GENERIC_from_json.py
+msgid "pair of tinted glass"
+msgid_plural "pairs of tinted glass"
+msgstr[0] ""
+
+#. ~ Description for pair of tinted glass
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A pair of small darkened glass, like the one that sunglasses are made of."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "burnt out bionic"
 msgid_plural "burnt out bionics"
 msgstr[0] "燒焦的生化插件"
@@ -30714,7 +30799,7 @@ msgstr[0] "粗製長繩索"
 msgid ""
 "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to"
 " hold up to falls, but still useful for some things."
-msgstr "一段 30 英尺長的粗製繩索，以天然物料編織而成。強軔度的不足雖然無助你免於墜落的危險，但仍然對某些物品有用。"
+msgstr "一段 30 英尺長的粗製繩索，以天然物料編織而成。強韌度不足以令你防止墜落，但仍然有某些用途。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift bayonet"
@@ -33483,6 +33568,15 @@ msgstr "殭屍夜視"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Gives all zombies perfect nightvision."
 msgstr "賜予所有殭屍完美的夜視能力。"
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Bionics Systems Mod"
+msgstr ""
+
+#. ~ Description for Bionics Systems Mod
+#: lang/json/MOD_INFO_from_json.py
+msgid "Adds and rebalances bionics and CBMs."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Vehicle Additions Pack"
@@ -39157,22 +39251,18 @@ msgid ""
 " a built-in SMG."
 msgstr "這是一台未啟動的槍塔。使用這個物品會將它啟動，放置在地面上會自動組裝。槍塔能以內建的衝鋒槍掃射敵人，卻不會誤傷到你。"
 
-#: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
 msgid "brazier"
 msgid_plural "braziers"
 msgstr[0] "火盆"
 
-#. ~ Use action done_message for brazier.
-#: lang/json/TOOL_from_json.py
-msgid "You place the brazier securely."
-msgstr "你安全的放置下火盆。"
-
 #. ~ Description for brazier
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a large metal stand with slots on the side.  Use it to place it "
-"somewhere then set fires in it with no risk of spreading."
-msgstr "側邊有孔的大金屬盆。把它放在某處，在裡面點火可以防止火勢蔓延。"
+"This is a large metal stand with slots on the side.  You can set it "
+"somewhere through the construction menu and then set fires in it with no "
+"risk of spreading."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "brick kiln"
@@ -44519,6 +44609,11 @@ msgid ""
 msgstr "勝利之劍雷瓦汀，豐饒之神弗雷的佩劍複製品。傳說能獨自飛舞殺敵。武器上有金銀裝飾。"
 
 #: lang/json/TOOL_from_json.py
+msgid "autonomous surgical razors"
+msgid_plural "autonomous surgical razorss"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "growing blob frame"
 msgid_plural "growing blob frames"
 msgstr[0] "成長中的黏稠框架"
@@ -46331,6 +46426,22 @@ msgstr "你的體內裝了一個原子鐘讓你隨時都知道現在的時間，
 msgid "Water Extraction Unit"
 msgstr "水分萃取元件"
 
+#: lang/json/bionic_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
+msgid "EMP Projector"
+msgid_plural "EMP Projectors"
+msgstr[0] "電磁脈衝發射器"
+
+#: lang/json/bionic_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
+msgid "Ionic Overload Generator"
+msgid_plural "Ionic Overload Generators"
+msgstr[0] ""
+
+#: lang/json/bionic_from_json.py
+msgid "Autonomous Surgical Razors"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py
 msgid "torso"
 msgstr "軀幹"
@@ -46908,6 +47019,10 @@ msgstr "放置鍛造爐"
 #: lang/json/construction_from_json.py
 msgid "Place Still"
 msgstr "放置蒸餾器"
+
+#: lang/json/construction_from_json.py
+msgid "Place Brazier"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Water Well"
@@ -49838,11 +49953,13 @@ msgstr "水槽"
 msgid "oven"
 msgstr "烤箱"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "metal screeching!"
 msgstr "金屬嘎嘎聲！"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "clang!"
 msgstr "鐺！"
 
@@ -50899,6 +51016,10 @@ msgid_plural "pump action shotguns"
 msgstr[0] "泵動式霰彈槍"
 
 #: lang/json/gun_from_json.py
+msgid "chuk chuk."
+msgstr "咔嚓咔嚓。"
+
+#: lang/json/gun_from_json.py
 msgid "base SMG"
 msgid_plural "base SMGs"
 msgstr[0] "基本衝鋒槍"
@@ -51176,7 +51297,8 @@ msgid ""
 "with ammo belts."
 msgstr "Leadworks LLC公司的 L523 犢牛式步槍基底，使用常見的 5.56 子彈。它的設計能讓你快速、安全、有效率的更換組件，切換成不同類型的槍械。這把野心頗大的輕機槍搭配了重型槍管、前把手，還有Leadworks獨家的動態穩定系統，另外還可以改裝使用容量高達100發的彈鼓供彈。與其他配置不同，L523 輕機槍可以裝載彈鏈。"
 
-#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: src/turret.cpp
 msgid "auto"
 msgstr "自動"
 
@@ -51804,7 +51926,7 @@ msgid ""
 "firearm produced during the civil war.  With  a capacity of 9 modern .44 "
 "cartridges and a single 12 gauge shell, it makes a great companion for those"
 " who wander the \"Earth-that-was\"."
-msgstr ""
+msgstr "一把現代化版本的LeMat左輪手槍，在國民戰爭時期生產的一把稀有、昂貴的槍械。它可以裝填 9發 .44子彈以及一發散彈，使它成為在\"曾經是地球\"流浪的優秀夥伴。"
 
 #: lang/json/gun_from_json.py
 msgid "Ruger Redhawk"
@@ -52603,6 +52725,10 @@ msgid ""
 "A large flamethrower with substantial gas reserves.  Very menacing and "
 "deadly."
 msgstr "一把有著大量瓦斯儲存槽的火焰噴射器。非常危險又致命。"
+
+#: lang/json/gun_from_json.py
+msgid "slosh."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
@@ -53605,11 +53731,6 @@ msgid ""
 msgstr "一把設計良好的土製卡賓槍，使用輕型步槍子彈。配備可拆卸的 10 發裝彈夾與削短式槍管，在土製武器中表現卓越。"
 
 #: lang/json/gun_from_json.py
-msgid "EMP Projector"
-msgid_plural "EMP Projectors"
-msgstr[0] "電磁脈衝發射器"
-
-#: lang/json/gun_from_json.py
 msgid ""
 "A powerful electrolaser developed by paramilitary R&D not long before the "
 "cataclysm.  Especially effective against electronic targets.  It charges off"
@@ -53818,6 +53939,14 @@ msgid ""
 "A launcher for anti-tank guided missiles.  While highly accurate, it isn't "
 "fire-and-forget.  Obviously it needs to be mounted on a vehicle to fire."
 msgstr "一個反坦克導彈發射台。儘管有著高精確度，它並不具備「射後不理」的能力。很明顯地，這東西要安裝在車輛上使用。"
+
+#: lang/json/gun_from_json.py
+msgid ""
+"A powerful ion energy generator is implanted on the user's chest.  Fires a "
+"powerful, ever-expanding energy blast that goes through various targets.  "
+"The energy shot ignites oxygen creating fires as it moves and an explosion "
+"on impact."
+msgstr ""
 
 #: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
 msgid "biting blob"
@@ -55019,6 +55148,17 @@ msgid ""
 "A long ranged rifle scope used by civilians and military alike, increases "
 "weight but improves accuracy greatly."
 msgstr "民間與軍用的長程狙擊鏡，大幅增加準確性與一點重量。"
+
+#: lang/json/gunmod_from_json.py
+msgid "ACOG scope"
+msgid_plural "ACOG scopes"
+msgstr[0] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An Advanced Combat Optical Gunsight, a milspec medium magnification scope.  "
+"Increases weight but improves accuracy significantly."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "RS1219 scope"
@@ -63197,6 +63337,16 @@ msgid ""
 msgstr "你的牙齒特化成兩吋長的獠牙，在特定的狀況能夠增加額外的攻擊。"
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You sink your fangs into %s"
+msgstr "你用獠牙咬住了 %s"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s sinks their fangs into %2$s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Incisors"
 msgstr "門牙"
 
@@ -65623,6 +65773,16 @@ msgid ""
 msgstr "啄食獵物是你每天的日常工作。可以稍微減少身體潮濕的懲罰。"
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You jackhammer into %s with your beak"
+msgstr "你用鳥喙快速鑿著 %s"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s jackhammer into %2$s with their beak"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Hummingbird Beak"
 msgstr "蜂鳥鳥嘴"
 
@@ -65818,6 +65978,16 @@ msgid ""
 "You've developed the ability to control your vines; they make good lashes.  "
 "You can even rappel down sheer drops using them, but disconnecting HURTS."
 msgstr "你能夠控制自己身上的藤蔓，它們是良好的鞭子。你甚至可以利用它們來垂降，但要是斷掉的話會痛。"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You lash %s with a vine"
+msgstr "你用藤蔓鞭打 %s"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s lashes %2$s with their vines"
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Vine Sprouter"
@@ -66058,6 +66228,26 @@ msgid ""
 "dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  "
 "Somewhat decreases wet penalties."
 msgstr "你的手臂變形成了觸手，增加敏捷 1 點，增加了手部累贅 30 點，並且再也不能戴手套。稍微增加防水能力。"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You slap %s with your tentacle"
+msgstr "你用觸手揮打 %s"
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s slaps %2$s with their tentacle"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You rake %s with your tentacle"
+msgstr "你用觸手擊打 %s "
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s rakes %2$s with their tentacle"
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "4 Tentacles"
@@ -66883,6 +67073,10 @@ msgstr ""
 msgid "Captive"
 msgstr ""
 
+#: lang/json/overmap_terrain_from_json.py
+msgid "house"
+msgstr "房屋"
+
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp src/mapdata.cpp
 msgid "nothing"
 msgstr "沒東西"
@@ -66931,10 +67125,6 @@ msgstr "河"
 #: lang/json/overmap_terrain_from_json.py
 msgid "river bank"
 msgstr "河岸"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "house"
-msgstr "房屋"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "parking lot"
@@ -67598,7 +67788,7 @@ msgstr "果園地攤"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "dairy farm"
-msgstr "牛奶製品農場"
+msgstr "奶牛場"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "orchard"
@@ -67622,7 +67812,7 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "art gallery"
-msgstr ""
+msgstr "美術館"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "derelict property"
@@ -67646,7 +67836,7 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "hunting blind"
-msgstr ""
+msgstr "狩獵偽裝"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "small storage units"
@@ -70070,9 +70260,9 @@ msgstr "竊賊"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You thought this would your lucky break.  Does it count as breaking and "
+"You thought this would be your lucky break.  Does it count as breaking and "
 "entering if everyone in town is undead?"
-msgstr "你覺得這就是你的幸運日。如果城裡每個人都*死*了，闖空門還算是偷嗎？"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -70083,9 +70273,9 @@ msgstr "竊賊"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You thought this would your lucky break.  Does it count as breaking and "
+"You thought this would be your lucky break.  Does it count as breaking and "
 "entering if everyone in town is undead?"
-msgstr "你覺得這就是你的幸運日。如果城裡每個人都*死*了，闖空門還算是偷嗎？"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -71844,6 +72034,34 @@ msgid ""
 "A wise student of ancient and forbidden knowledge; you are a wizard, a "
 "mystical practitioner of the (bionic) arcane arts."
 msgstr "鑽研古代禁忌知識的狡邪研究者；妳是巫師，祕法(生化技術)這門藝術的操縱者。"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Surgeon"
+msgstr ""
+
+#. ~ Profession (male Bionic Surgeon) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"As one of the top surgeons in the country, you were chosen for an "
+"augmentation program to expand the medical field. With your experties and "
+"augmentations, you can preform precise surgery with little assitance."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Surgeon"
+msgstr ""
+
+#. ~ Profession (female Bionic Surgeon) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"As one of the top surgeons in the country, you were chosen for an "
+"augmentation program to expand the medical field. With your experties and "
+"augmentations, you can preform precise surgery with little assitance."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -94805,9 +95023,9 @@ msgstr "當前回合: %d; 下次生成 %d.\n%s\n"
 
 #: src/game.cpp
 #, c-format
-msgid "%d monster exists.\n"
-msgid_plural "%d monsters exist.\n"
-msgstr[0] "尚存 %d 個怪物。\n"
+msgid "%d creature exists.\n"
+msgid_plural "%d creatures exist.\n"
+msgstr[0] ""
 
 #: src/game.cpp
 #, c-format
@@ -100539,7 +100757,7 @@ msgid "This book has <num> <info>unread chapter</info>."
 msgid_plural "This book has <num> <info>unread chapters</info>."
 msgstr[0] "這本書有 <num> <info>篇未讀章節</info>。"
 
-#: src/item.cpp src/player.cpp
+#: src/item.cpp
 #, c-format
 msgid "This book contains %1$d crafting recipe: %2$s"
 msgid_plural "This book contains %1$d crafting recipes: %2$s"
@@ -113811,11 +114029,6 @@ msgid "Volume: %s %s, Weight: %.1f %s"
 msgstr "體積: %s %s, 重量: %.1f %s"
 
 #: src/npctalk.cpp
-#, c-format
-msgid "Cost $%.2f"
-msgstr "花費 $%.2f"
-
-#: src/npctalk.cpp
 msgid "Exchange"
 msgstr "交易"
 
@@ -113823,6 +114036,11 @@ msgstr "交易"
 #, c-format
 msgid "Profit $%.2f"
 msgstr "收入 $%.2f"
+
+#: src/npctalk.cpp
+#, c-format
+msgid "Cost $%.2f"
+msgstr "花費 $%.2f"
 
 #: src/npctalk.cpp
 #, c-format
@@ -115468,6 +115686,11 @@ msgstr "你目前的健康值是 %d。"
 
 #: src/player.cpp
 #, c-format
+msgid "Your %s HURTS!"
+msgstr "你的 %s 很痛！"
+
+#: src/player.cpp
+#, c-format
 msgid "Your %s hurts!"
 msgstr "你的 %s 受創了！"
 
@@ -115486,11 +115709,6 @@ msgstr "當這東西死掉時，你的內心翻騰。"
 #: src/player.cpp
 msgid "Your bowels gurgle as something inside them dies."
 msgstr "當這東西死掉時，你的腸子咕嚕了一下。"
-
-#: src/player.cpp
-#, c-format
-msgid "Your %s HURTS!"
-msgstr "你的 %s 很痛！"
 
 #: src/player.cpp
 #, c-format
@@ -116347,6 +116565,12 @@ msgstr "讀這本書會影響你的士氣 %d"
 msgid "A chapter of this book takes %d minute to read."
 msgid_plural "A chapter of this book takes %d minutes to read."
 msgstr[0] "這本書一個章節需要 %d 分鐘才能讀完。"
+
+#: src/player.cpp
+#, c-format
+msgid "This book contains %1$u crafting recipe: %2$s"
+msgid_plural "This book contains %1$u crafting recipes: %2$s"
+msgstr[0] "這本書包含了 %1$u 種製作配方: %2$s"
 
 #: src/player.cpp
 msgid "It might help you figuring out some more recipes."
@@ -120152,8 +120376,8 @@ msgstr " 世界選項 "
 
 #: src/worldfactory.cpp
 #, c-format
-msgid "Page %d"
-msgstr "頁面 %d"
+msgid "Page %lu"
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Pick a world to enter game"
