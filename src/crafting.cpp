@@ -691,12 +691,12 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             std::string tmpStr;
             if( item::count_by_charges( map_ha.type ) ) {
                 tmpStr = string_format( _( "%s (%d charges nearby)" ),
-                    item::nname( map_ha.type ),
-                    map_inv.charges_of( map_ha.type ) );
+                                        item::nname( map_ha.type ),
+                                        map_inv.charges_of( map_ha.type ) );
             } else {
                 tmpStr = string_format( _( "%s (%d nearby)" ),
-                    item::nname( map_ha.type ),
-                    map_inv.amount_of( map_ha.type ) );
+                                        item::nname( map_ha.type ),
+                                        map_inv.amount_of( map_ha.type ) );
             }
             cmenu.addentry( tmpStr );
         }
@@ -704,12 +704,12 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             std::string tmpStr;
             if( item::count_by_charges( player_ha.type ) ) {
                 tmpStr = string_format( _( "%s (%d charges on person)" ),
-                    item::nname( player_ha.type ),
-                    charges_of( player_ha.type ) );
+                                        item::nname( player_ha.type ),
+                                        charges_of( player_ha.type ) );
             } else {
                 tmpStr = string_format( _( "%s (%d on person)" ),
-                    item::nname( player_ha.type ),
-                    amount_of( player_ha.type ) );
+                                        item::nname( player_ha.type ),
+                                        amount_of( player_ha.type ) );
             }
             cmenu.addentry( tmpStr );
         }
@@ -717,12 +717,12 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             std::string tmpStr;
             if( item::count_by_charges( elem.type ) ) {
                 tmpStr = string_format( _( "%s (%d charges nearby & on person)" ),
-                    item::nname( elem.type ),
-                    map_inv.charges_of( elem.type ) + charges_of( elem.type ) );
+                                        item::nname( elem.type ),
+                                        map_inv.charges_of( elem.type ) + charges_of( elem.type ) );
             } else {
                 tmpStr = string_format( _( "%s (%d nearby & on person)" ),
-                    item::nname( elem.type ),
-                    map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
+                                        item::nname( elem.type ),
+                                        map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             }
         }
 
@@ -893,8 +893,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( "%s (%d charges nearby)",
-                    item::nname( map_ha.type ),
-                    map_inv.charges_of( map_ha.type ) );
+                                                    item::nname( map_ha.type ),
+                                                    map_inv.charges_of( map_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
                 std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
@@ -904,8 +904,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( "%s (%d charges on person)",
-                    item::nname( player_ha.type ),
-                    map_inv.charges_of( player_ha.type ) );
+                                                    item::nname( player_ha.type ),
+                                                    map_inv.charges_of( player_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
                 tmenu.addentry( item::nname( player_ha.type ) );
