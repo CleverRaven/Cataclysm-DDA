@@ -215,7 +215,6 @@ class uimenu: public ui_container
         void addentry_desc( std::string str, std::string desc );
         void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
         void settext( std::string str );
-        void settext( const char *format, ... ) PRINTF_LIKE( 2, 3 );
 
         void reset();
         ~uimenu();

@@ -929,14 +929,6 @@ void uimenu::settext(std::string str)
     text = str;
 }
 
-void uimenu::settext(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    text = vstring_format(format, ap);
-    va_end(ap);
-}
-
 pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
 {
     last = INT_MIN;
