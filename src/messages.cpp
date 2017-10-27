@@ -336,7 +336,8 @@ void Messages::display_messages()
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
+                right_print( w, line, 2, c_ltblue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                             unit.c_str() ) );
                 lasttime = timepassed.get_turn();
             }
 

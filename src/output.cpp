@@ -355,13 +355,8 @@ void center_print( WINDOW *const w, const int y, const nc_color FG, const std::s
 }
 
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... )
+                 const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
     trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );

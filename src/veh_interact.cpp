@@ -1071,9 +1071,9 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             "%s     <color_ltgray>%3s</color>",
+                             string_format( "%s     <color_ltgray>%3s</color>",
                              pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
-                             pt.enabled ? _( "Yes" ) : _( "No" ) );
+                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
             // display engine fauls (if any)
@@ -1098,8 +1098,8 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
                     right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 "%s  %5.1fL", item::nname( pt.ammo_current() ).c_str(),
-                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
+                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current().c_str() ),
+                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
@@ -1112,7 +1112,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             "%i    %3i%%", pt.ammo_capacity(), pct );
+                             string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
            opts.emplace_back( "BATTERY", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
@@ -1121,7 +1121,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     auto details_ammo = []( const vehicle_part &pt, WINDOW *w, int y ) {
         if( pt.ammo_remaining() ) {
             right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() );
+                         string_format( "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() ) );
         }
     };
 
@@ -1141,7 +1141,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
             const npc *who = pt.crew();
             if( who ) {
-                right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_ltgray, "%s", who->name.c_str() );
+                right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_ltgray, who->name );
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {

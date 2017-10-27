@@ -243,7 +243,7 @@ void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color ba
                      const char *mes, ... ) PRINTF_LIKE( 6, 7 );
 void center_print( WINDOW *w, int y, nc_color FG, const std::string &mes );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... ) PRINTF_LIKE( 5, 6 );
+                 const std::string &mes );
 void display_table( WINDOW *w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = "",
