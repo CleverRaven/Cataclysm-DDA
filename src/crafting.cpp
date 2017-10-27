@@ -724,6 +724,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                         item::nname( elem.type ),
                                         map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             }
+            cmenu.addentry( tmpStr );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
