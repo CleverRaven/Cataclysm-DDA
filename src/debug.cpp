@@ -70,7 +70,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     if( stdscr == nullptr ) {
-        std::cerr << text.c_str() << std::endl;
+        std::cerr << text << std::endl;
         abort();
     }
 
