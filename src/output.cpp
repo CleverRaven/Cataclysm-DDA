@@ -114,17 +114,6 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-// returns number of printed lines
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                    const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return fold_and_print( w, begin_y, begin_x, width, base_color, text );
-}
-
 void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color,
                          const std::string &text )
 {

@@ -181,9 +181,8 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &cur_color, nc_color 
 int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color,
                       const std::string &scroll_msg );
 /**
- * Format, fold and print text in the given window. The function handles @ref color_tags and
- * uses them while printing. It expects a printf-like format string and matching
- * arguments to that format (see @ref raw_string_format).
+ * Fold and print text in the given window. The function handles @ref color_tags and
+ * uses them while printing.
  *
  * @param w Window we are printing in
  * @param begin_y The column index on which to start each line.
@@ -197,12 +196,17 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
  * the height of the window.
  */
 int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
-                    const char *mes, ... ) PRINTF_LIKE( 6, 7 );
+                    const std::string &mes );
 /**
- * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
+ * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
-                    const std::string &text );
+template<typename ...Args>
+inline int fold_and_print( WINDOW *const w, const int begin_y, const int begin_x, const int width,
+                           const nc_color color, const char *const mes, Args &&... args )
+{
+    return fold_and_print( w, begin_y, begin_x, width, color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
