@@ -274,7 +274,13 @@ inline void mvwprintz( WINDOW *const w, const int y, const int x, const nc_color
     wattroff( w, FG );
 }
 
-void wprintz( WINDOW *w, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 3, 4 );
+template<typename ...Args>
+inline void wprintz( WINDOW *const w, const nc_color FG, const char *const mes, Args &&... args )
+{
+    wattron( w, FG );
+    wprintw( w, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
+    wattroff( w, FG );
+}
 
 void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
                          chtype tl = 1, chtype tr = 1,

@@ -439,17 +439,6 @@ void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void wprintz( WINDOW *w, nc_color FG, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    wattron( w, FG );
-    wprintw( w, "%s", text.c_str() );
-    wattroff( w, FG );
-}
-
 void draw_custom_border( WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl,
                          chtype tr, chtype bl, chtype br, nc_color FG, int posy, int height,
                          int posx, int width )
