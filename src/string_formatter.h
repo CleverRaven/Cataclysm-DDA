@@ -5,13 +5,11 @@
 //@todo replace with std::optional
 #include "optional.h"
 #include "compatibility.h"
+#include "printf_check.h"
 
 #include <string>
 #include <typeinfo>
 #include <type_traits>
-
-//@todo put into namespace
-std::string raw_string_format( const char *, ... );
 
 namespace cata
 {
@@ -282,6 +280,8 @@ class string_formatter
                     break;
             }
         }
+
+        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 
         template<typename T>
         void do_formating( T &&value ) {

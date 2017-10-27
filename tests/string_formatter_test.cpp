@@ -1,10 +1,21 @@
 #include "catch/catch.hpp"
 
 #include "string_formatter.h"
+#include "output.h"
 
 #include <limits>
 #include <iostream>
 #include <vector>
+#include <cstdarg>
+
+static std::string raw_string_format( const char *const pattern, ... )
+{
+    va_list ap;
+    va_start( ap, pattern );
+    std::string result = vstring_format( pattern, ap );
+    va_end( ap );
+    return result;
+}
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>

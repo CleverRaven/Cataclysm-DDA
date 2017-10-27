@@ -1496,15 +1496,6 @@ std::string vstring_format( char const *format, va_list args )
 }
 #endif
 
-std::string raw_string_format( const char *pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
-}
-
 void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name

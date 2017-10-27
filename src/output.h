@@ -7,7 +7,6 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "units.h"
-#include "printf_check.h"
 #include "string_formatter.h"
 
 #include <cstdarg>
@@ -460,10 +459,7 @@ std::string to_upper_case( const std::string &s );
  *
  * There are more placeholders and options to them (see documentation of `printf`).
  */
-/*@{*/
-std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 std::string vstring_format( const char *pattern, va_list argptr );
-/*@}*/
 
 // TODO: move these elsewhere
 // string manipulations.
