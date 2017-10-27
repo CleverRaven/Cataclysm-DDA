@@ -233,7 +233,7 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                          nc_color color, const std::string &text );
 /**
- * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
+ * Prints a single line of text. The text is automatically trimmed to fit into the given
  * width. The function handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
@@ -244,7 +244,14 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
  * @param mes Actual message to print
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... ) PRINTF_LIKE( 6, 7 );
+                     const std::string &mes );
+template<typename ...Args>
+inline void trim_and_print( WINDOW *const w, const int begin_y, const int begin_x, const int width,
+                            const nc_color base_color, const char *const mes, Args &&... args )
+{
+    return trim_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
 void center_print( WINDOW *w, int y, nc_color FG, const std::string &mes );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
                  const std::string &mes );

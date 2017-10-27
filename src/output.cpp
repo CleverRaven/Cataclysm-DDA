@@ -134,13 +134,8 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base
 }
 
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... )
+                     const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -180,7 +175,7 @@ void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color ba
             }
         }
     } else {
-        sText = std::move( text );
+        sText = text;
     }
 
     print_colored_text( w, begin_y, begin_x, base_color, base_color, sText );
