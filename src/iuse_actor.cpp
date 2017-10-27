@@ -1800,7 +1800,7 @@ void musical_instrument_actor::load( JsonObject &obj )
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
     player_descriptions = obj.get_string_array( "player_descriptions" );
-    npc_descriptions = obj.get_string_array( " npc_descriptions" );
+    npc_descriptions = obj.get_string_array( "npc_descriptions" );
 }
 
 long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint& ) const
