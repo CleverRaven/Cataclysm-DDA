@@ -2295,7 +2295,7 @@
         "type" : "construction",
         "description" : "Build Rock Forge",
         "category" : "FURN",
-        "required_skills" : [ [ "fabrication", 5 ] ],
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 120,
         "qualities": [
             [ { "id": "DIG", "level": 2 } ],
