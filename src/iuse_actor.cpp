@@ -2098,7 +2098,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return item::reload_option( &p, &obj, &obj, std::move( e ) );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, opts );
+    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
     if( !sel ) {
         return false; // cancelled menu
     }
