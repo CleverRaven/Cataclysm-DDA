@@ -195,7 +195,7 @@ class string_formatter
         // Helper for common logic in @ref read_width and @ref read_precision.
         cata::optional<int> read_number_or_argument_index();
         /// Throws an exception containing the given message and the @ref format.
-		[[noreturn]]
+        [[noreturn]]
         void throw_error( const std::string &msg ) const;
         friend void throw_error( const string_formatter &sf, const std::string &msg ) {
             sf.throw_error( msg );
