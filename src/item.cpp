@@ -4677,7 +4677,7 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_magazine() ) {
+    if( ammo->is_magazine() || target->has_flag( "RELOAD_ONE" )) {
         qty_ = 1L;
         return;
     }
