@@ -866,6 +866,28 @@
     }
   },
   {
+    "id": "bot_antimateriel",
+    "type": "TOOL",
+    "name": "inactive antimateriel turret",
+    "description": "This is an inactive antimateriel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "weight": 1550,
+    "volume": 14,
+    "price": 500500,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_bmg",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_manhack",
     "type": "TOOL",
     "name": "inactive manhack",
