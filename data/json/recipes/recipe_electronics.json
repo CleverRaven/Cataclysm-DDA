@@ -605,6 +605,7 @@
       [ "scrap", 2 ],
       [ "pan", 1 ],
       [ "pot", 1 ],
+      [ "pot_copper", 1 ],
       [ "knife_butcher", 2 ],
       [ "knife_steak", 6 ],
       [ "knife_butter", 6 ],
@@ -665,12 +666,13 @@
     [ [ "element", 4 ] ],
     [ [ "amplifier", 1 ] ],
     [
-      [ "scrap", 6 ],
-      [ "pan", 2 ],
-      [ "pot", 2 ],
-      [ "knife_butcher", 6 ],
-      [ "knife_steak", 18 ],
-      [ "knife_butter", 18 ],
+      [ "scrap", 2 ],
+      [ "pan", 1 ],
+      [ "pot", 1 ],
+      [ "pot_copper", 1 ],
+      [ "knife_butcher", 2 ],
+      [ "knife_steak", 6 ],
+      [ "knife_butter", 6 ],
       [ "muffler", 1 ]
     ],
     [ [ "cable", 15 ] ]
@@ -1536,7 +1538,7 @@
   "components": [
     [[ "frame", 1 ]],
     [[ "hotplate", 1 ]],
-    [[ "pot", 1 ]],
+    [[ "pot", 1 ], [ "pot_copper", 1 ]],
     [[ "pan", 1 ]],
     [[ "water_faucet", 1 ]],
     [[ "cable", 5 ]]
@@ -1866,7 +1868,7 @@
     [ [ "amplifier", 2 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 10 ] ],
-    [ [ "pot", 1 ] ],
+    [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
     [ [ "plastic_chunk", 18 ] ]
   ]
 },{
