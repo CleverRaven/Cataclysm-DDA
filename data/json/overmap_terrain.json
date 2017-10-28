@@ -658,6 +658,12 @@
         "color" : "i_magenta"
     },{
         "type" : "overmap_terrain",
+        "id" : "s_butcher",
+        "name" : "butcher",
+        "copy-from" : "generic_city_building",
+        "color" : "i_red"
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_pizza_parlor",
         "name" : "pizza parlor",
         "copy-from" : "generic_city_building",

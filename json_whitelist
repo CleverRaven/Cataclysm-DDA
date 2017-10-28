@@ -138,6 +138,7 @@ data/json/mapgen/bookstore2.json
 data/json/mapgen/bookstore3.json
 data/json/mapgen/boxing.json
 data/json/mapgen/bunker.json
+data/json/mapgen/butcher.json
 data/json/mapgen/cabin03.json
 data/json/mapgen/cathedral.json
 data/json/mapgen/clothing2.json
