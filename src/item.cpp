@@ -727,6 +727,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
+        if( count_by_charges() && !is_food() ) {
+            info.push_back( iteminfo( "BASE", _( "Amount: " ),"<num>", charges, true, "", true, false, true ) );
+        }
+
         if( !type->rigid ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
         }
