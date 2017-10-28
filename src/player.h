@@ -846,7 +846,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item::reload_option select_ammo( const item& base, bool prompt = false ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
