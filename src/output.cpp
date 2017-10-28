@@ -1422,22 +1422,17 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
 void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
                    const int iNumEntries )
 {
-    if( get_option<bool>( "MENU_SCROLL" ) ) {
-        if( iNumEntries > iContentHeight ) {
-            iStartPos = iCurrentLine - ( iContentHeight - 1 ) / 2;
-
-            if( iStartPos < 0 ) {
-                iStartPos = 0;
-            } else if( iStartPos + iContentHeight > iNumEntries ) {
-                iStartPos = iNumEntries - iContentHeight;
-            }
-        } else {
+    if ( iNumEntries <= iContentHeight ) {
+        iStartPos = 0;
+    } else if ( get_option<bool>( "MENU_SCROLL" ) ) {
+        iStartPos = iCurrentLine - ( iContentHeight - 1 ) / 2;
+        if( iStartPos < 0 ) {
             iStartPos = 0;
+        } else if( iStartPos + iContentHeight > iNumEntries ) {
+            iStartPos = iNumEntries - iContentHeight;
         }
     } else {
-        if( iNumEntries <= iContentHeight ) {
-            iStartPos = 0;
-        } else if( iCurrentLine < iStartPos ) {
+        if( iCurrentLine < iStartPos ) {
             iStartPos = iCurrentLine;
         } else if( iCurrentLine >= iStartPos + iContentHeight ) {
             iStartPos = 1 + iCurrentLine - iContentHeight;
