@@ -10,6 +10,7 @@
 #include <string>
 #include <typeinfo>
 #include <type_traits>
+#include <utility>
 
 namespace cata
 {
