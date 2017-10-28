@@ -460,7 +460,7 @@
       "fun_bonus": 2,
       "speed_penalty": 18,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your banjo.",
         "You play a bluegrass tune on your banjo.",
         "You play a quick, Southern ditty on your banjo."
@@ -685,7 +685,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
@@ -1711,7 +1711,7 @@
       "fun_bonus": 2,
       "speed_penalty": 13,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your clarinet.",
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
@@ -3099,7 +3099,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
@@ -7837,7 +7837,7 @@
       "fun_bonus": 4,
       "speed_penalty": 17,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your trumpet.",
         "You play a slow, mourning piece on your trumpet.",
         "You play a little ballad on your trumpet."
@@ -7868,7 +7868,7 @@
       "fun_bonus": 2,
       "speed_penalty": 20,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your ukulele.",
         "You play a cute little ditty on your ukulele.",
         "You play a small jam on your ukulele."
@@ -7971,7 +7971,7 @@
       "fun_bonus": 3,
       "speed_penalty": 25,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your violin.",
         "You play a beautiful orchestral piece on your violin.",
         "You play a quick, southern ditty on your fiddle."
@@ -8002,7 +8002,7 @@
       "fun_bonus": 4,
       "speed_penalty": 25,
       "description_frequency": 10,
-      "descriptions": [
+      "player_descriptions": [
         "You play a quick, folksy tune on your fiddle.",
         "As you pull the bow across its strings, it makes an evil hiss.",
         "You play a tune so fierce, it feels like hell's broke loose."
