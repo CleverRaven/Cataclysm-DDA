@@ -688,14 +688,27 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         uimenu cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+                                                item::nname( map_ha.type ),
+                                                map_ha.count,
+                                                item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
+                                                    map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            cmenu.addentry( item::nname( player_ha.type ) );
+            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+                                                item::nname( player_ha.type ),
+                                                player_ha.count,
+                                                item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
+                                                    player_ha.type ) );
+            cmenu.addentry( tmpStr );
         }
         for( auto &elem : mixed ) {
-            std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+                                                item::nname( elem.type ),
+                                                elem.count,
+                                                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
+                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             cmenu.addentry( tmpStr );
         }
 
@@ -864,11 +877,27 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            tmenu.addentry( tmpStr );
+            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                                                    item::nname( map_ha.type ),
+                                                    map_ha.count,
+                                                    map_inv.charges_of( map_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+                tmenu.addentry( tmpStr );
+            }
         }
         for( auto &player_ha : player_has ) {
-            tmenu.addentry( item::nname( player_ha.type ) );
+            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                                                    item::nname( player_ha.type ),
+                                                    player_ha.count,
+                                                    charges_of( player_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                tmenu.addentry( item::nname( player_ha.type ) );
+            }
         }
 
         if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
