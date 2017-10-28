@@ -689,24 +689,26 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
             std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
-                item::nname( map_ha.type ),
-                map_ha.count,
-                item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of( map_ha.type ) );
+                                                item::nname( map_ha.type ),
+                                                map_ha.count,
+                                                item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
+                                                    map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
             std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
-                item::nname( player_ha.type ),
-                player_ha.count,
-                item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of( player_ha.type ) );
+                                                item::nname( player_ha.type ),
+                                                player_ha.count,
+                                                item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
+                                                    player_ha.type ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &elem : mixed ) {
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                item::nname( elem.type ),
-                elem.count,
-                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) : 
-                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
+                                                item::nname( elem.type ),
+                                                elem.count,
+                                                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
+                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             cmenu.addentry( tmpStr );
         }
 
