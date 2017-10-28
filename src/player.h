@@ -180,9 +180,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects(effect e, bool reduced) override;
-        /** Processes human-specific effects effects before calling Creature::process_effects(). */
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects(effect &it);
@@ -848,7 +846,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item::reload_option select_ammo( const item& base, bool prompt = false ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
@@ -1574,6 +1572,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
+
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &e, bool is_new ) override;
 
     private:
         friend class debug_menu::mission_debug;

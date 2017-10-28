@@ -1891,9 +1891,13 @@
             "fun": -5,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "You produce a happy tune on your harmonica.",
-                "You whistle on your harmonica."
+            "player_descriptions": [
+                "You produce a happy tune on the harmonica.",
+                "You whistle on the harmonica."
+            ],
+            "npc_descriptions": [
+                "produce a happy tune on the harmonica.",
+                "whistle on the harmonica."
             ]
         },
         "symbol" : "-",
@@ -1923,10 +1927,15 @@
             "fun": 2,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "You strum a few chords on your guitar.",
-                "You pluck a few notes on your guitar.",
-                "You play a slow blues-y tune on your guitar."
+            "player_descriptions": [
+                "You strum a few chords on the guitar.",
+                "You pluck a few notes on the guitar.",
+                "You play a slow blues-y tune on the guitar."
+            ],
+            "npc_descriptions": [
+                "strum a few chords on the guitar.",
+                "pluck a few notes on the guitar.",
+                "play a slow blues-y tune on the guitar."
             ]
         },
         "symbol" : "-",
@@ -1960,10 +1969,15 @@
             "fun": 2,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "Your pipes drone loudly as you strike a battle hymn from the chanter.",
+            "player_descriptions": [
+                "Your pipes drone loudly as you strikes a battle hymn from the chanter.",
                 "Your pipes drone a slow and piercing dirge.",
-                "You strike a lively quick step march on your pipes."
+                "You strike a lively quick step march on their pipes."
+            ],
+            "npc_descriptions": [
+                "pipes drone loudly as it strikes a battle hymn from the chanter.",
+                "pipes drone a slow and piercing dirge.",
+                "strike a lively quick step march on their pipes."
             ]
         },
         "symbol" : "-",
@@ -1996,10 +2010,15 @@
             "fun": -2,
             "fun_bonus": 4,
             "description_frequency": 20,
-            "descriptions": [
-                "You play a little tune on your tuba.",
-                "You play a ditty on your tuba.",
-                "You play a marching tune on your tuba."
+            "player_descriptions": [
+                "You play a little tune on the tuba.",
+                "You play a ditty on the tuba.",
+                "You play a marching tune on the tuba."
+            ],
+            "npc_descriptions": [
+                "play a little tune on the tuba.",
+                "play a ditty on the tuba.",
+                "play a marching tune on the tuba."
             ]
         },
         "symbol" : "&",
@@ -2032,10 +2051,15 @@
             "fun": -3,
             "fun_bonus": 4,
             "description_frequency": 20,
-            "descriptions": [
-                "You play a little tune on your saxophone.",
-                "You play a soulful jazz piece on your sax.",
-                "You play a quick, energetic ditty on your sax."
+            "player_descriptions": [
+                "You play a little tune on the saxophone.",
+                "You play a soulful jazz piece on the sax.",
+                "You play a quick, energetic ditty on the sax."
+            ],
+            "npc_descriptions": [
+                "play a little tune on the saxophone.",
+                "play a soulful jazz piece on the sax.",
+                "play a quick, energetic ditty on the sax."
             ]
         },
         "symbol" : "{",

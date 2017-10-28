@@ -18,7 +18,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "small_storage_units",
+    "id": "storage_units_small",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "s_storageunits_small_2_north" },

@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
+#include "string_formatter.h"
 #include "sounds.h"
 #include "translations.h"
 #include "monster.h"

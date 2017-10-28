@@ -231,7 +231,7 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
             // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet(*it_ref);
+            assign_empty_invlet(*it_ref, &(g->u));
         }
     }
 
@@ -278,7 +278,7 @@ void inventory::restack(player *p)
 
         const int ipos = p->invlet_to_position(topmost.invlet);
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(topmost);
+            assign_empty_invlet(topmost, p);
             for( std::list<item>::iterator stack_iter = stack.begin();
                  stack_iter != stack.end(); ++stack_iter ) {
                 stack_iter->invlet = topmost.invlet;
@@ -850,13 +850,13 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it, bool force)
+void inventory::assign_empty_invlet(item &it, Character *p, bool force)
 {
     if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 
-    std::set<char> cur_inv = allocated_invlets();
+    std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
     for (auto iter : assigned_invlet) {
         if (iter.second == target_type && !cur_inv.count(iter.first)) {
@@ -947,7 +947,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit );
+            assign_empty_invlet( newit, &(g->u) );
         }
     }
 }

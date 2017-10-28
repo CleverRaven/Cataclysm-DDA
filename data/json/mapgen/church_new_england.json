@@ -37,7 +37,7 @@
       ],
       "mapping": {
         "b": {
-          "traps": "tr_brazier"
+          "furniture": "f_brazier"
         }
       },
       "items": {

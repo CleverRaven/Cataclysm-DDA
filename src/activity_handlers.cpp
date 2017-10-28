@@ -13,6 +13,7 @@
 #include "requirements.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "string_formatter.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -1906,7 +1907,6 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    p->practice( skill_id( "mechanics" ), 1 );
 }
 
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )

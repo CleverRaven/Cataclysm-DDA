@@ -27,6 +27,7 @@
 #include "vehicle_selector.h"
 #include "ui.h"
 
+#include "string_formatter.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -591,8 +592,12 @@ void npc::talk_to_u()
     } while( !d.done );
     delwin( d.win );
     g->refresh_all();
-    // Don't query if we're training the player
-    if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
+
+    if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
+        g->u.cancel_activity();
+
+        // Don't query if we're training the player
+    } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
         g->cancel_activity_query( _( "%s talked to you." ), name.c_str() );
     }
 }

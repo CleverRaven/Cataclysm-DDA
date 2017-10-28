@@ -13,6 +13,7 @@
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "string_formatter.h"
 #include "ui.h"
 #include "debug.h"
 #include "sounds.h"
@@ -411,7 +412,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         if( pt.is_battery() ) {
-            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
+                pt.ammo_set( "battery", pt.ammo_capacity() );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomise battery ammo a bit
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+            } else {
+                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            }
         }
 
         if( pt.is_tank() && type->parts[p].fuel != "null" ) {
@@ -463,7 +472,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
                 (destroyAlarm && part_flag(p, "SECURITY"))) {
                 set_hp( parts[ p ], 0 );
             }
@@ -521,7 +529,16 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
         }
     }
-
+    // destroy tires until the vehicle is not drivable
+    if( destroyTires && !wheelcache.empty() ) {
+        int tries = 0;
+        while( valid_wheel_config( false ) && tries < 100 ) {
+            // wheel config is still valid, destroy the tire.
+            set_hp( parts[random_entry( wheelcache )], 0 );
+            tries++;
+        }
+    }
+    
     invalidate_mass();
 }
 /**
@@ -1228,9 +1245,20 @@ void vehicle::start_engines( const bool take_control )
     }
 
     int start_time = 0;
+    // record the first usable engine as the referenced position checked at the end of the engine starting activity
+    bool has_starting_engine_position = false;
+    tripoint starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() && parts[ engines[ e ] ].enabled ) {
+            starting_engine_position = global_part_pos3( engines[ e ] );
+            has_starting_engine_position = true;
+        }
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
+    }
+
+    if(!has_starting_engine_position){
+        starting_engine_position = global_pos3();
     }
 
     if( !has_engine ) {
@@ -1244,7 +1272,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
-    g->u.activity.placement = global_pos3() - g->u.pos();
+    g->u.activity.placement = starting_engine_position - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 

@@ -32,6 +32,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "monattack.h"
+#include "string_formatter.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "worldfactory.h"
@@ -2193,6 +2194,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("toggle_pixel_minimap");
+    ctxt.register_action("toggle_auto_pulp_butcher");
     ctxt.register_action("action_menu");
     ctxt.register_action("main_menu");
     ctxt.register_action("item_action_menu");
@@ -3418,6 +3420,13 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             toggle_pixel_minimap();
+            break;
+
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+            get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
+            get_options().save();
+            //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
+            add_msg( string_format( _( "Auto %s is now %s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? "ON" : "OFF" ).c_str() );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -9371,15 +9380,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    int iCatSortNum = 0;
-    std::map<int, std::string> mSortCategory;
 
-    std::string last_cat_name;
-    for( int i = 0; i < ( int )monster_list.size(); i++ ) {
-        const std::string &cat_name = Creature::get_attitude_ui_data( monster_list[i]->attitude_to( u ) ).first;
-        if( cat_name != last_cat_name ) {
-            mSortCategory[i + iCatSortNum++] = cat_name;
-            last_cat_name = cat_name;
+    // first integer is the row the attitude category string is printed in the menu
+    std::map<int, Creature::Attitude> mSortCategory;
+
+    for( int i = 0, last_attitude = -1; i < ( int )monster_list.size(); i++ ) {
+        const auto attitude = monster_list[i]->attitude_to( u );
+        if( attitude != last_attitude ) {
+            mSortCategory[i + mSortCategory.size()] = attitude;
+            last_attitude = attitude;
         }
     }
 
@@ -9422,88 +9431,117 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         }
 
-        int num_mon = monster_list.size() + iCatSortNum;
-
-        if( monster_list.empty() ) {
+        if ( monster_list.empty() ) {
             wrefresh(w_monsters_border);
             mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
         } else {
             werase(w_monsters);
+            const int iNumMonster = monster_list.size();
+            const int iMenuSize = monster_list.size() + mSortCategory.size();
 
-            calcStartPos( iStartPos, iActive, iMaxRows, int( num_mon ) );
+            const int numw = iNumMonster > 999 ? 4 :
+                             iNumMonster > 99  ? 3 :
+                             iNumMonster > 9   ? 2 : 1;
 
-            cCurMon = monster_list[iActive];
-            iActivePos = cCurMon->pos() - u.pos();
-
-            int numw = num_mon > 9 ? 2 : 1;
-            int iCatSortOffset = 0;
-            const auto endY = std::min<int>( iMaxRows, int( num_mon ) - iStartPos );
-            for( int y = 0; y < endY; ++y ) {
-                if( !mSortCategory[y].empty() ) {
-                    mvwprintz( w_monsters, y - iStartPos, 1, c_magenta, "%s", mSortCategory[y].c_str() );
-                    iCatSortOffset++;
+            // given the currently selected monster iActive. get the selected row
+            int iSelPos = iActive;
+            for (auto &ia : mSortCategory) {
+                int index = ia.first;
+                if (index <= iSelPos) {
+                    ++iSelPos;
                 } else {
-                    const auto critter = monster_list[y - iCatSortOffset + iStartPos];
-                    const bool selected = ( cCurMon == critter );
-                    const auto m = dynamic_cast<monster*>( critter );
-                    const auto p = dynamic_cast<npc*>( critter );
-
-                    if( critter->sees( g->u ) ) {
-                        mvwprintz(w_monsters, y, 0, c_yellow, "!");
-                    }
-
-                    bool type_npc = false;
-                    if( m != nullptr ) {
-                        mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
-                    } else {
-                        mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
-                        type_npc = true;
-                    }
-
-                    if ( selected && !get_safemode().empty() ) {
-                        for (int i = 1; i < width-2; i++) {
-                            mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
-                                     i, BORDER_COLOR, LINE_OXOX); // -
-                        }
-                        std::string sSafemode = _("<A>dd to safemode Blacklist");
-                        const std::string monName = (type_npc) ? get_safemode().npc_type_name() : m->name();
-                        if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
-                            sSafemode = _("<R>emove from safemode Blacklist");
-                        }
-
-                        shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
-                        c_white, c_ltgreen, sSafemode);
-                    }
-
-                    nc_color color = c_white;
-                    std::string sText;
-
-                    if( m != nullptr ) {
-                        m->get_HP_Bar(color, sText);
-                    } else {
-                        std::tie(sText, color) =
-                            ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
-                    }
-                    mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
-
-                    if( m != nullptr ) {
-                        const auto att = m->get_attitude();
-                        sText = att.first;
-                        color = att.second;
-                    } else if( p != nullptr ) {
-                        sText = npc_attitude_name( p->attitude );
-                        color = p->symbol_color();
-                    }
-                    mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
-
-                    mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                numw, rl_dist( u.pos(), critter->pos() ),
-                                direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
+                    break;
                 }
+            }
+            // use selected row get the start row
+            calcStartPos( iStartPos, iSelPos, iMaxRows, iMenuSize );
+
+            // get first visible monster and category
+            int iCurMon = iStartPos;
+            auto CatSortIter = mSortCategory.cbegin();
+            while (CatSortIter != mSortCategory.cend() && CatSortIter->first < iStartPos) {
+                ++CatSortIter;
+                --iCurMon;
+            }
+
+            const auto endY = std::min<int>( iMaxRows, iMenuSize );
+            for (int y = 0; y < endY; ++y) {
+                if ( CatSortIter != mSortCategory.cend() ) {
+                    const int iCurPos = iStartPos + y;
+                    const int iCatPos = CatSortIter->first;
+                    if ( iCurPos == iCatPos ) {
+                        std::string const& cat_name = Creature::get_attitude_ui_data(CatSortIter->second).first;
+                        mvwprintz( w_monsters, y, 1, c_magenta, "%s", cat_name.c_str() );
+                        ++CatSortIter;
+                        continue;
+                    }
+                }
+                // select current monster
+                const auto critter = monster_list[iCurMon];
+                const bool selected = iCurMon == iActive;
+                ++iCurMon;
+                if( critter->sees( g->u ) ) {
+                    mvwprintz(w_monsters, y, 0, c_yellow, "!");
+                }
+                bool is_npc = false;
+                const monster* m = dynamic_cast<monster*>( critter );
+                const npc*     p = dynamic_cast<npc*>( critter );
+
+                if ( m != nullptr ) {
+                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
+                } else {
+                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
+                    is_npc = true;
+                }
+
+                if ( selected && !get_safemode().empty() ) {
+                    for (int i = 1; i < width-2; i++) {
+                        mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
+                                 i, BORDER_COLOR, LINE_OXOX); // -
+                    }
+                    const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
+
+                    std::string sSafemode;
+                    if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
+                        sSafemode = _("<R>emove from safemode Blacklist");
+                    } else {
+                        sSafemode = _("<A>dd to safemode Blacklist");
+                    }
+
+                    shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
+                                   c_white, c_ltgreen, sSafemode);
+                }
+
+                nc_color color = c_white;
+                std::string sText;
+
+                if( m != nullptr ) {
+                    m->get_HP_Bar(color, sText);
+                } else {
+                    std::tie(sText, color) =
+                        ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
+                }
+                mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
+
+                if( m != nullptr ) {
+                    const auto att = m->get_attitude();
+                    sText = att.first;
+                    color = att.second;
+                } else if( p != nullptr ) {
+                    sText = npc_attitude_name( p->attitude );
+                    color = p->symbol_color();
+                }
+                mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
+
+                mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                           numw, rl_dist( u.pos(), critter->pos() ),
+                           direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
             mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_ltgreen, " %*d", numw, iActive + 1 );
             wprintz( w_monsters_border, c_white, " / %*d ", numw, int( monster_list.size() ) );
+
+            cCurMon = monster_list[iActive];
 
             werase(w_monster_info);
             cCurMon->print_info(w_monster_info, 1, 11, 1);
@@ -9520,6 +9558,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
 
             //Only redraw trail/terrain if x/y position changed
+            iActivePos = cCurMon->pos() - u.pos();
             if( iActivePos != iLastActivePos ) {
                 iLastActivePos = iActivePos;
                 centerlistview( iActivePos );
@@ -11722,6 +11761,48 @@ void game::place_player( const tripoint &dest_loc )
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
+
+    //Auto pulp or butcher
+    if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
+        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER_ACTION" );
+        if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
+            std::vector<int> corpses;
+            auto items = m.i_at( u.pos() );
+
+            for( size_t i = 0; i < items.size(); i++ ) {
+                if( items[i].is_corpse() ) {
+                    corpses.push_back( i );
+                }
+            }
+
+            if( !corpses.empty() ) {
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+                for( int i : corpses ) {
+                    u.activity.values.push_back( i );
+                }
+            }
+        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
+            static const auto pulp = [&]( const tripoint &pos ) {
+                for( const auto &maybe_corpse : m.i_at( pos ) ) {
+                    if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() && maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
+                        u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+                        u.activity.placement = pos;
+                        u.activity.auto_resume = true;
+                        return;
+                    }
+                }
+            };
+
+            pulp( u.pos() );
+
+            if( pulp_butcher == "pulp_adjacent" ) {
+                static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+                for( auto &elem : adjacentDir ) {
+                    pulp( u.pos() + direction_XY( elem ) );
+                }
+            }
+        }
+    }
 
     //Autopickup
     if (get_option<bool>( "AUTO_PICKUP" ) && (!get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0) &&

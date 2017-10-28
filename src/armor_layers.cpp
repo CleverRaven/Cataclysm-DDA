@@ -5,6 +5,7 @@
 #include "input.h"
 #include "output.h"
 #include "item.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "npc.h"
 #include "cata_utility.h"
@@ -444,7 +445,7 @@ void player::sort_armor()
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
                     const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
+                    worn.pop_front();
                     worn.insert( worn.end(), tmp_item );
                 }
 
@@ -466,7 +467,7 @@ void player::sort_armor()
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
                     const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
+                    worn.pop_back();
                     worn.insert( worn.begin(), tmp_item );
                 }
 

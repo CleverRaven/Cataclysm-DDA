@@ -70,9 +70,7 @@
         "I": "f_sofa",
         "K": "f_bench"
       },
-      "toilets": {
-        "B": {}
-      }
+      "toilets": { "B": {  } }
     }
   }
 ]

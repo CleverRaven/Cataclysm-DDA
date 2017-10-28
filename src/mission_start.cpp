@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "name.h"
 #include <sstream>
+#include "string_formatter.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"

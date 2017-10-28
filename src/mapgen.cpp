@@ -12,6 +12,7 @@
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
+#include "string_formatter.h"
 #include "mapgenformat.h"
 #include "mapbuffer.h"
 #include "overmapbuffer.h"
@@ -415,10 +416,10 @@ void reset_mapgens()
 size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
-        debugmsg( "invalid value %d for x", x );
+        debugmsg( "invalid value %lu for x in calc_index", static_cast<unsigned long>( x ) );
     }
     if( y >= mapgensize_y ) {
-        debugmsg( "invalid value %d for y", y );
+        debugmsg( "invalid value %lu for y in calc_index", static_cast<unsigned long>( y ) );
     }
     return y * mapgensize_y + x;
 }
@@ -565,9 +566,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray ) {
             tmp_y2 = jmapgen_int( pjo, "y2" );
             inboundchk( tmp_x2, tmp_y2, pjo );
         }
-        if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
+        if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if (tmpop == JMAPGEN_SETMAP_BASH){
+        } else if( tmpop == JMAPGEN_SETMAP_BASH ){
             //suppress warning
         } else {
             std::string tmpid = pjo.get_string("id");

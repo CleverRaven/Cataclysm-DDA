@@ -833,12 +833,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire:
                     {
-                        // Entire objects for ter/frn for flags, but only id for trp
-                        // because the only trap we're checking for is brazier
+                        // Entire objects for ter/frn for flags
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
-                        const auto &trp = map_tile.get_trap();
                         // We've got ter/furn cached, so let's use that
                         const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
                                                !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
@@ -848,9 +846,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
                         // Checks if the fire can spread
-                        const bool can_spread = tr_brazier != trp &&
-                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
-
+                        // If the flames are in furniture with fire_container flag like brazier or oven,
+                        // they're fully contained, so skip consuming terrain
+                        const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -901,8 +899,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, true);
                             //Damage the vehicle in the fire.
                         }
-                        // If the flames are in a brazier, they're fully contained,
-                        // so skip consuming terrain
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water

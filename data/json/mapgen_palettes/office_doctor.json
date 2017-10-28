@@ -62,8 +62,6 @@
       "t": "f_table",
       "y": "f_indoor_plant_y"
     },
-    "toilets": {
-      "&": {}
-    }
+    "toilets": { "&": {  } }
   }
 ]

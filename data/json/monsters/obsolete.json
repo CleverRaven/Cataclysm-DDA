@@ -81,13 +81,7 @@
     "color": "green",
     "melee_cut": 0,
     "dodge": 6,
-    "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "max_range": 5
-      }
-    ],
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]

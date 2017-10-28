@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include "flag.h"
+#include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"
@@ -3997,7 +3998,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? MAX_RECOIL : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? 500 : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -4259,6 +4260,14 @@ const itype * item::ammo_data() const
 
     if( is_magazine() ) {
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const auto e : mods ) {
+        if( e->type->mod->ammo_modifier &&
+            item_controller->has_template( itype_id( e->type->mod->ammo_modifier.str() ) ) ) {
+            return item_controller->find_template( itype_id( e->type->mod->ammo_modifier.str() ) );
+        }
     }
 
     return curammo;

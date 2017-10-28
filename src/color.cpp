@@ -5,6 +5,7 @@
 #include "path_info.h"
 #include "cata_utility.h"
 #include "filesystem.h"
+#include "string_formatter.h"
 #include "ui.h"
 #include "translations.h"
 #include <iostream>
@@ -113,7 +114,8 @@ color_id color_manager::color_to_id( const nc_color color ) const
 nc_color color_manager::get( const color_id col ) const
 {
     if( col >= num_colors ) {
-        debugmsg( "Invalid color index: %d. Color array size: %d", col, color_array.size() );
+        debugmsg( "Invalid color index: %d. Color array size: %ld", col,
+                  static_cast<unsigned long>( color_array.size() ) );
         return 0;
     }
 

@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "string_formatter.h"
 #include "mtype.h"
 #include "weather.h"
 #include "npc.h"

@@ -116,7 +116,7 @@
                     "fields": { "field": "fd_blood" }
                 },
                 "X": {
-                    "traps": "tr_brazier",
+                    "furniture": "f_brazier",
                     "item": { "item": "2x4" },
                     "fields": { "field": "fd_fire" }
                 }

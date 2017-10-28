@@ -8,6 +8,7 @@
 #include "output.h"
 #include "calendar.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <deque>
 #include <iterator>

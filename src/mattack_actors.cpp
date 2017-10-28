@@ -59,7 +59,7 @@ mattack_actor *leap_actor::clone() const
 
 bool leap_actor::call( monster &z ) const
 {
-    if( !z.can_act() ) {
+    if( !z.can_act() || !z.move_effects( false ) ) {
         return false;
     }
 

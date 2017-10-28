@@ -6,6 +6,7 @@
 #include "player.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"

@@ -22,6 +22,7 @@ struct mutation_branch;
 class item;
 using trait_id = string_id<mutation_branch>;
 using itype_id = std::string;
+struct mutation_category_trait;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -175,6 +176,50 @@ struct mutation_branch {
     // For init.cpp: load mutation data from json
     static void load( JsonObject &jsobj );
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
+    static void check_consistency();
+};
+
+struct mutation_category_trait {
+    std::string name;
+    std::string id;
+    // Mutation catagory i.e "BIRD", "CHIMERA"
+    std::string category;
+    // For some reason most code uses "MUTCAT_category" instead of just "category"
+    // This exists only to prevent ugly string hacks
+    // @todo Make this not exist
+    std::string category_full;
+    // The trait that you gain when you break the threshold for this category
+    trait_id threshold_mut;
+
+    // The flag a mutagen needs to target this category
+    std::string mutagen_flag;
+    std::string mutagen_message; // message when you consume mutagen
+    int mutagen_hunger  = 10;//these are defaults
+    int mutagen_thirst  = 10;
+    int mutagen_pain    = 2;
+    int mutagen_fatigue = 5;
+    int mutagen_morale  = 0;
+    std::string iv_message; //message when you inject an iv;
+    int iv_min_mutations    = 1; //the minimum mutations an injection provides
+    int iv_additional_mutations = 2;
+    int iv_additional_mutations_chance = 3; //chance of additional mutations
+    int iv_hunger   = 10;
+    int iv_thirst   = 10;
+    int iv_pain     = 2;
+    int iv_fatigue  = 5;
+    int iv_morale   = 0;
+    int iv_morale_max = 0;
+    bool iv_sound = false;  //determines if you make a sound when you inject mutagen
+    std::string iv_sound_message = "NULL";
+    int iv_noise = 0;    //the amount of noise produced by the sound
+    bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
+    std::string iv_sleep_message = "NULL";
+    int iv_sleep_dur = 0;
+    std::string junkie_message;
+    std::string memorial_message; //memorial message when you cross a threshold
+
+    static const std::map<std::string, mutation_category_trait> &get_all();
+    static void reset();
     static void check_consistency();
 };
 

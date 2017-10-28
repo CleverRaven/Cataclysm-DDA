@@ -3,6 +3,7 @@
 #include "calendar.h"
 #include "generic_factory.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "skill.h"
 

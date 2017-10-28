@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "rng.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "player.h"
 #include "translations.h"
 #include "messages.h"

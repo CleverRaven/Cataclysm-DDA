@@ -211,7 +211,6 @@ trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,
@@ -278,7 +277,6 @@ void trap::finalize()
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
     tr_cot = trapfind( "tr_cot" );
-    tr_brazier = trapfind( "tr_brazier" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
     tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );

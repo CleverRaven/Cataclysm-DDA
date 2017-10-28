@@ -18,6 +18,7 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "color_loader.h"
 #include "font_loader.h"
 

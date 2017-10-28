@@ -18,6 +18,7 @@
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "vehicle_group.h"
+#include "string_formatter.h"
 #include "crafting.h"
 #include "crafting_gui.h"
 #include "mapdata.h"
@@ -231,6 +232,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add( "city_building", &city_buildings::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -361,7 +363,7 @@ void DynamicDataLoader::unload_data()
     mission_type::reset();
     item_controller->reset();
     mutations_category.clear();
-    mutation_category_traits.clear();
+    mutation_category_trait::reset();
     mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
@@ -477,6 +479,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         { _( "Scenarios" ), &scenario::check_definitions },
         { _( "Martial arts" ), &check_martialarts },
         { _( "Mutations" ), &mutation_branch::check_consistency },
+        { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
         { _( "Overmap connections" ), &overmap_connections::check_consistency },
         { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
         { _( "Overmap locations" ), &overmap_locations::check_consistency },

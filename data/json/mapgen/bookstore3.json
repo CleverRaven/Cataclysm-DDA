@@ -48,13 +48,7 @@
         "|": "t_wall",
         "~": "t_sidewalk"
       },
-      "furniture": {
-        "#": "f_counter",
-        "S": "f_statue",
-        "T": "f_table",
-        "]": "f_bookcase",
-        "q": "f_dahlia"
-      },
+      "furniture": { "#": "f_counter", "S": "f_statue", "T": "f_table", "]": "f_bookcase", "q": "f_dahlia" },
       "place_items": [
         { "item": "novels", "x": [ 5, 9 ], "y": 12, "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "homebooks", "x": [ 5, 9 ], "y": 12, "chance": 30, "repeat": [ 2, 3 ] },

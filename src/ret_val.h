@@ -2,7 +2,7 @@
 #ifndef RET_VAL_H
 #define RET_VAL_H
 
-#include "output.h"
+#include "string_formatter.h"
 #include "printf_check.h"
 
 #include <string>

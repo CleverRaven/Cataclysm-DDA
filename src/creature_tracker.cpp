@@ -2,6 +2,7 @@
 #include "pathfinding.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "mtype.h"
 #include "item.h"

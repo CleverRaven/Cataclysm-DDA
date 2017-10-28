@@ -16,12 +16,7 @@
   {
     "id": "dirt_rubble",
     "type": "item_group",
-    "items": [
-      [ "rock", 60 ],
-      [ "sharp_rock", 30 ],
-      [ "material_shrd_limestone", 2 ],
-      [ "splinter", 10 ]
-    ]
+    "items": [ [ "rock", 60 ], [ "sharp_rock", 30 ], [ "material_shrd_limestone", 2 ], [ "splinter", 10 ] ]
   },
   {
     "id": "reactor_equipment",

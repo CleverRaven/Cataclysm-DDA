@@ -282,19 +282,19 @@ Once you have Homebrew installed, open Terminal and run one of the following com
 
 For a curses build:
 
-    brew install homebrew/games/cataclysm
+    brew install cataclysm
 
 For a tiles build:
 
-    brew install homebrew/games/cataclysm --with-tiles
+    brew install cataclysm --with-tiles
 
 For an experimental curses build:
 
-    brew install homebrew/games/cataclysm --HEAD
+    brew install cataclysm --HEAD
 
 For an experimental tiles build:
 
-    brew install homebrew/games/cataclysm --with-tiles --HEAD
+    brew install cataclysm --with-tiles --HEAD
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
