@@ -240,6 +240,8 @@ class string_formatter
         }
         /**@}*/
 
+        void add_long_long_length_modifier();
+
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
             // Removes the prefix "ll", "l", "h" and "hh", we later add "ll" again and that
@@ -261,14 +263,14 @@ class string_formatter
                     return do_formating( get_nth_arg_as<int, 0>( format_arg_index, std::forward<Args>( args )... ) );
                 case 'd':
                 case 'i':
-                    current_format.insert( current_format.size() - 1, "ll" );
+                    add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<signed long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'o':
                 case 'u':
                 case 'x':
                 case 'X':
-                    current_format.insert( current_format.size() - 1, "ll" );
+                    add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'a':

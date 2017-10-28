@@ -123,3 +123,22 @@ std::string cata::string_formatter::raw_string_format( const char *const pattern
     va_end( ap );
     return result;
 }
+
+void cata::string_formatter::add_long_long_length_modifier()
+{
+    const char *modifier;
+#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
+    // mingw does not support '%llu' normally (it does with __USE_MINGW_ANSI_STDIO)
+    // instead one has to use '%I64u'/'I32u'
+    if( sizeof( signed long long int ) == 4 ) {
+        modifier = "I32";
+    } else {
+        static_assert( sizeof( signed long long int ) == 8,
+                       "unexpected size of long long, format specifier 'I64' does not work" );
+        modifier = "I64";
+    }
+#else
+    modifier = "ll";
+#endif
+    current_format.insert( current_format.size() - 1, modifier );
+}
