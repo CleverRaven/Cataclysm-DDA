@@ -19,7 +19,8 @@ namespace cata
 class string_formatter;
 
 // wrapper to allow calling string_formatter::throw_error before the definition of string_formatter
-void [[noreturn]] throw_error( const string_formatter &, const std::string & );
+[[noreturn]]
+void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
 const char *string_formatter_set_temp_buffer( const string_formatter &, std::string );
 // Handle currently active exception from string_formatter and return it as string
@@ -194,7 +195,8 @@ class string_formatter
         // Helper for common logic in @ref read_width and @ref read_precision.
         cata::optional<int> read_number_or_argument_index();
         /// Throws an exception containing the given message and the @ref format.
-        void [[noreturn]] throw_error( const std::string &msg ) const;
+		[[noreturn]]
+        void throw_error( const std::string &msg ) const;
         friend void throw_error( const string_formatter &sf, const std::string &msg ) {
             sf.throw_error( msg );
         }
