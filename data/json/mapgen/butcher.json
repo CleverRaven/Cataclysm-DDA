@@ -82,7 +82,12 @@
         { "group": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 4 ], "y": [ 6, 10 ] },
         { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 16, 14 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT", "chance": 1, "x": [ 9, 4 ], "y": [ 5, 13 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT", "chance": 1, "x": [ 9, 4 ], "y": [ 5, 13 ] } ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 4, 7 ], "y": [ 5, 12 ], "repeat": [ 8, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 4, 7 ], "y": [ 5, 12 ], "repeat": [ 1, 5 ] },
+        { "field": "fd_blood", "x": [ 4, 19 ], "y": [ 14, 17 ], "repeat": [ 4, 8 ] }
+      ]
     }
   },
   {
