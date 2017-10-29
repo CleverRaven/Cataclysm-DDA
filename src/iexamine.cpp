@@ -1701,6 +1701,14 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
     g->m.spawn_item(examp, "marloss_seed", 1, 3);
 }
 
+/**
+ * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
+ * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
+ * Also spawns eggs.
+ * @param p The player
+ * @param examp Location of egg sack
+ * @param montype The monster type of the created spiders.
+ */
 void iexamine::egg_sack_generic( player &p, const tripoint &examp,
                                  const mtype_id& montype )
 {
@@ -1835,6 +1843,15 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
 }
 
+/**
+ * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
+ * @param type The seed type, must have a @ref itype::seed slot.
+ * @param plant_count Number of fruits to generate. For charge-based items, this
+ *     specifies multiples of the default charge.
+ * @param seed_count Number of seeds to generate.
+ * @param byproducts If true, byproducts (like straw, withered plants, see
+ * @ref islot_seed::byproducts) are included.
+ */
 std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
                                              const int seed_count, const bool byproducts )
 {
@@ -2279,6 +2296,9 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
     else                                { return 0; }
 }
 
+/**
+ * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
+ */
 bool iexamine::has_keg( const tripoint &pos )
 {
     return get_keg_capacity( pos ) > 0;
@@ -2441,6 +2461,11 @@ void iexamine::keg(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
+ * will be removed from the liquid item.
+ * @return Whether any charges have been transferred at all.
+ */
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
