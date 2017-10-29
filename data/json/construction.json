@@ -2403,7 +2403,7 @@
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_empty",
-        "verb": "buidling the charcoal kiln"
+        "verb": "building the charcoal kiln"
     },{
         "type" : "construction",
         "description" : "Build Metal Charcoal Kiln",
@@ -2424,7 +2424,7 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_metal_empty",
-        "verb": "buidling the metal charcoal kiln"
+        "verb": "building the metal charcoal kiln"
     },{
         "type" : "construction",
         "description" : "Build Smoking Rack",
@@ -2444,7 +2444,7 @@
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_smoking_rack",
-        "verb": "buidling the smoking rack"
+        "verb": "building the smoking rack"
     },{
         "type" : "construction",
         "description" : "Build Rock Forge",
@@ -2461,7 +2461,7 @@
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge_rock",
-        "verb": "buidling the rock forge"
+        "verb": "building the rock forge"
     },{
         "type" : "construction",
         "description" : "Build Clay Kiln",
@@ -2479,7 +2479,7 @@
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_clay_kiln",
-        "verb": "buidling the clay kiln"
+        "verb": "building the clay kiln"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 1 : metal frame",
@@ -2500,7 +2500,7 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "t_m_frame",
-        "verb": "buidling the reinforced glass window frame"
+        "verb": "building the reinforced glass window frame"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 2 : Reinforced Glass",
@@ -2520,7 +2520,7 @@
         ],
         "pre_terrain" : "t_m_frame",
         "post_terrain" : "t_reinforced_glass",
-        "verb": "buidling the reinforced glass window"
+        "verb": "building the reinforced glass window"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 3 : Metal shutters",
@@ -2540,6 +2540,6 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter",
-        "verb": "buidling the reinforced shutters"
+        "verb": "building the reinforced shutters"
     }
 ]
