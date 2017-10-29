@@ -3,7 +3,20 @@
 #define TRANSLATIONS_H
 
 #ifndef translate_marker
+/**
+ * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
+ * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
+ * do anything, the argument is passed through it without any changes.
+ */
 #define translate_marker(x) x
+#endif
+#ifndef translate_marker_context
+/**
+ * Same as @ref translate_marker, but also provides a context (string literal). This is similar
+ * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
+ * passes the *second* argument through.
+ */
+#define translate_marker_context(c, x) x
 #endif
 
 #ifdef LOCALIZE
