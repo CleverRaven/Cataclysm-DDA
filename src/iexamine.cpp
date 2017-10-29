@@ -72,12 +72,18 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
+/**
+ * Nothing player can interact with here.
+ */
 void iexamine::none(player &p, const tripoint &examp)
 {
     (void)p; //unused
     add_msg(_("That is a %s."), g->m.name(examp).c_str());
 }
 
+/**
+ * Pick an apropriate item and apply dimond coating if possible.
+ */
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item &e ) {
@@ -112,6 +118,9 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
     p.mod_moves( -1000 );
 }
 
+/**
+ * Use "gas pump."  Will pump any liquids on tile.
+ */
 void iexamine::gaspump(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername(examp).c_str())) {
@@ -283,6 +292,7 @@ private:
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
     };
 
+    //!Get a new cash card. $1.00 fine.
     bool do_purchase_card() {
         const char *prompt = _("This will automatically deduct $1.00 from your bank account. Continue?");
 
@@ -300,6 +310,7 @@ private:
         return true;
     }
 
+    //!Deposit money from cash card into bank account.
     bool do_deposit_money() {
         item *src = choose_card(_("Insert card for deposit."));
         if (!src) {
@@ -327,6 +338,7 @@ private:
         return true;
     }
 
+    //!Move money from bank acount onto cash card.
     bool do_withdraw_money() {
         item *dst = choose_card(_("Insert card for withdrawal."));
         if (!dst) {
@@ -349,6 +361,7 @@ private:
         return true;
     }
 
+    //!Move money between cash cards.
     bool do_transfer_money() {
         item *dst = choose_card(_("Insert card for deposit."));
         if (!dst) {
@@ -382,6 +395,7 @@ private:
         return true;
     }
 
+    //!Move the money from all the cash cards in inventory to a single card.
     bool do_transfer_all_money() {
         item *dst;
         if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
@@ -422,11 +436,17 @@ private:
 };
 } //namespace
 
+/**
+ * launches the atm menu class which then handles all the atm interactions.
+ */
 void iexamine::atm(player &p, const tripoint& )
 {
     atm_menu {p}.start();
 }
 
+/**
+ * Generates vending machine UI and allows players to purchase contained items with a cash card.
+ */
 void iexamine::vending(player &p, const tripoint &examp)
 {
     constexpr int moves_cost = 250;
@@ -590,6 +610,9 @@ void iexamine::vending(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * If there's water, allow it's usage but add chance of poison.
+ */
 void iexamine::toilet(player &p, const tripoint &examp)
 {
     auto items = g->m.i_at(examp);
@@ -611,6 +634,9 @@ void iexamine::toilet(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
+ */
 void iexamine::elevator(player &p, const tripoint &examp)
 {
     (void)p; //unused
@@ -621,6 +647,9 @@ void iexamine::elevator(player &p, const tripoint &examp)
     g->vertical_move( movez, false );
 }
 
+/**
+ * Open gate.
+ */
 void iexamine::controls_gate(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername( examp ).c_str())) {
@@ -630,6 +659,9 @@ void iexamine::controls_gate(player &p, const tripoint &examp)
     g->open_gate( examp );
 }
 
+/**
+ * Use id/hack reader. Using an id despawns turrets.
+ */
 void iexamine::cardreader(player &p, const tripoint &examp)
 {
     itype_id card_type = (g->m.ter(examp) == t_card_science ? "id_science" :
@@ -684,6 +716,9 @@ void iexamine::cardreader(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removal of rubble. Select best shovel and invoke "DIG" on tile.
+ */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
     static quality_id quality_dig( "DIG" );
@@ -714,6 +749,9 @@ void iexamine::rubble(player &p, const tripoint &examp)
     p.invoke_item( *it, "DIG", examp );
 }
 
+/**
+ * Try to pry create open with crowbar.
+ */
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
@@ -744,6 +782,9 @@ void iexamine::crate(player &p, const tripoint &examp)
 }
 
 
+/**
+ * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
+ */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
     if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
@@ -788,6 +829,9 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * If player has amorphous trait, slip through the bars.
+ */
 void iexamine::bars(player &p, const tripoint &examp)
 {
     if(!(p.has_trait(trait_AMORPHOUS))) {
@@ -810,6 +854,9 @@ void iexamine::bars(player &p, const tripoint &examp)
     p.setpos( examp );
 }
 
+/**
+ * Determine structure's type and prompts its removal.
+ */
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
     const auto &fr = g->m.furn( examp ).obj();
@@ -884,6 +931,9 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
     g->m.add_item_or_charges( examp, item( dropped, calendar::turn ) );
 }
 
+/**
+ * If there is a 2x4 around, prompt placing it across pit.
+ */
 void iexamine::pit(player &p, const tripoint &examp)
 {
     inventory map_inv;
@@ -925,6 +975,9 @@ void iexamine::pit(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removing the 2x4 placed across the pit
+ */
 void iexamine::pit_covered(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove cover?"))) {
@@ -945,6 +998,9 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Put fencing on fenceposts.
+ */
 void iexamine::fence_post(player &p, const tripoint &examp)
 {
 
@@ -990,6 +1046,9 @@ void iexamine::fence_post(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removing the rope from rope fence. Leaves the posts.
+ */
 void iexamine::remove_fence_rope(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1004,6 +1063,9 @@ void iexamine::remove_fence_rope(player &p, const tripoint &examp)
 
 }
 
+/**
+ * Prompt removing the wire from wire fence. Leaves the posts.
+ */
 void iexamine::remove_fence_wire(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1018,6 +1080,9 @@ void iexamine::remove_fence_wire(player &p, const tripoint &examp)
     p.moves -= 200;
 }
 
+/**
+ * Prompt removing the wire from wire fence. Leaves the posts.
+ */
 void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1032,6 +1097,9 @@ void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
     p.moves -= 200;
 }
 
+/**
+ * Loop prompt to bet $10.
+ */
 void iexamine::slot_machine( player &p, const tripoint& )
 {
     if (p.cash < 10) {
@@ -1057,6 +1125,13 @@ void iexamine::slot_machine( player &p, const tripoint& )
     }
 }
 
+/**
+ * Attempt to crack safe through audio-feedback manual lock manipulation.
+ * 
+ * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
+ * Time per attempt affected by perception and mechanics. 30 minutes per atempt minimum.
+ * Small chance of just guessing the combo without listening device.
+ */
 void iexamine::safe(player &p, const tripoint &examp)
 {
     if ( !( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
@@ -1090,6 +1165,9 @@ void iexamine::safe(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Attempt to pick the gunsafe's lock and open it.
+ */
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
@@ -1132,6 +1210,9 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Attempt to "hack" the gunsafe's electronic lock and open it.
+ */
 void iexamine::gunsafe_el(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
@@ -1162,6 +1243,9 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Checks that player is outside and has crowbar then, calls iuse.crowbar.
+ */
 void iexamine::locked_object( player &p, const tripoint &examp) {
     // Print ordinary examine message if inside (where you can open doors/windows anyway)
     if (!g->m.is_outside(p.pos())) {
@@ -1181,7 +1265,6 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
     iuse dummy;
     dummy.crowbar( &p, &fakecrow, false, examp );
 }
-
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
@@ -1210,6 +1293,9 @@ void iexamine::bulletin_board(player &, const tripoint &examp)
     }
 }
 
+/**
+ * Display popup with refrence to "The Enigma of Amigara Fault."
+ */
 void iexamine::fault( player &, const tripoint & )
 {
     popup(_("\
@@ -1218,6 +1304,9 @@ as far back into the solid rock as you can see.  The holes are humanoid in\n\
 shape, but with long, twisted, distended limbs."));
 }
 
+/**
+ * Spawn 1d4 wyrms and sink pedestal into ground.
+ */
 void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
 {
     if (!g->m.i_at(examp).empty()) {
@@ -1248,6 +1337,9 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
 
+/**
+ * Put petrified eye on pedistal causing into to sink into ground open temple.
+ */
 void iexamine::pedestal_temple(player &p, const tripoint &examp)
 {
 
@@ -1268,6 +1360,9 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
 large semi-spherical indentation at the top."));
 }
 
+/**
+ * Unlock/open door or atempt to peek through peephole.
+ */
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
         // if door is a locked type attempt to open
@@ -1361,6 +1456,9 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
 }
 
+/**
+ * If it's winter: show msg and, return true. Otherwise return false
+ */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
     if (calendar::turn.get_season() == WINTER) {
@@ -1377,12 +1475,18 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
     return false;
 }
 
+/**
+ * Helper method to see if player has traits, hunger and mothwear for drinking nectar.
+ */
 bool can_drink_nectar( const player &p )
 {
     return (p.has_active_mutation( trait_id( "PROBOSCIS" ) )  || p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
         ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth)));
 }
 
+/**
+ * Consume Nectar. -15 hunger.
+ */
 bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
@@ -1395,6 +1499,12 @@ bool drink_nectar( player &p )
     return false;
 }
 
+/**
+ * Promt Pick (or drink nectar if able) poppy bud. Not safe for player.
+ * 
+ * Dinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
+ * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and, 4 dmg to each leg
+ */
 void iexamine::flower_poppy(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1443,6 +1553,9 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     g->m.spawn_item(examp, "poppy_bud");
 }
 
+/**
+ * It's a flower, drink nectar if your able to.
+ */
 void iexamine::flower_bluebell(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1457,6 +1570,9 @@ void iexamine::flower_bluebell(player &p, const tripoint &examp)
     return;
 }
 
+/**
+ * Dig up its roots or drink its nectar if you can.
+ */
 void iexamine::flower_dahlia(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1554,6 +1670,9 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * Only harvest a plant once per season.  Display mesage and call iexamine::none.
+ */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
     p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
@@ -1624,6 +1743,9 @@ void iexamine::egg_sackws( player &p, const tripoint &examp )
     egg_sack_generic( p, examp, mon_spider_web_s );
 }
 
+/**
+ * Remove furnature. Add spore effect.
+ */
 void iexamine::fungus(player &p, const tripoint &examp)
 {
     add_msg(_("The %s crumbles into spores!"), g->m.furnname(examp).c_str());
@@ -1632,6 +1754,9 @@ void iexamine::fungus(player &p, const tripoint &examp)
     p.moves -= 50;
 }
 
+/**
+ * If it's warm enough, pick one of the player's seeds and plant it.
+ */
 void iexamine::dirtmound(player &p, const tripoint &examp)
 {
 
@@ -2595,6 +2720,14 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
+/**
+ * Returns the weight of all the items on tile made of specific material.
+ * 
+ * @param &stack item stack.
+ * @param &material the material whose mass we want.
+ * @param remove_items are the items getting consumed in the process?
+ * @param include_contents dose item contents count towards the weight?
+ */
 units::mass sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
 {
     units::mass sum_weight = 0;
@@ -3431,12 +3564,12 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 /**
-* Given then name of one of the above functions, returns the matching function
-* pointer. If no match is found, defaults to iexamine::none but prints out a
-* debug message as a warning.
-* @param function_name The name of the function to get.
-* @return A function pointer to the specified function.
-*/
+ * Given then name of one of the above functions, returns the matching function
+ * pointer. If no match is found, defaults to iexamine::none but prints out a
+ * debug message as a warning.
+ * @param function_name The name of the function to get.
+ * @return A function pointer to the specified function.
+ */
 iexamine_function iexamine_function_from_string(std::string const &function_name)
 {
     static const std::map<std::string, iexamine_function> function_map = {{
