@@ -2794,5 +2794,106 @@
                 { "item": "sheet_metal", "count": [0, 2] }
             ]
         }
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd1",
+        "name" : "basic command desk",
+        "symbol" : "#",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 2000,
+        "flags": [ "BASE_CMD1", "BASE_CORE", "FLAMMABLE", "ORGANIC" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd2",
+        "name" : "base command desk",
+        "symbol" : "#",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 500,
+        "flags": [ "BASE_CMD2", "BASE_CORE", "FLAMMABLE" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd3",
+        "name" : "base command console",
+        "symbol" : "6",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 100,
+        "flags": [ "BASE_CMD3", "BASE_CORE", "NOITEM" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd3_net",
+        "name" : "networked command console",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 50,
+        "flags": [ "BASE_CMD3", "BASE_CORE", "NETWORKED", "NOITEM" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd4",
+        "name" : "base command console mk.2",
+        "symbol" : "6",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags": [ "BASE_CMD4", "BASE_CORE", "NOITEM" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd4_net",
+        "name" : "networked command console mk.2",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags": [ "BASE_CMD4", "BASE_CORE", "NETWORKED", "NOITEM" ]
+    },{
+        "type:" : "funiture",
+        "id" : "base_cmd5",
+        "name" : "advanced command console",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags": [ "BASE_CMD5", "BASE_CORE", "NETWORKED", "NOITEM" ]
+    },{
+        "type" : "furniture",
+        "id" : "base_notice1",
+        "name" : "notice board",
+        "symbol": "6",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["FLAMMABLE", "NOITEM", "ORGANIC", "BASE_AUX"],
+        "examine_action": "base_notice",
+        "deconstruct" : {
+            "items": [
+                { "item": "2x4", "count": 4 },
+                { "item": "nail", "charges": [4, 8] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "base_notice2",
+        "name" : "notification screen",
+        "symbol": "6",
+        "bgcolor": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action" : "base_notice",
+        "flags" : [ "NOITEM", "BASE_AUX"]
     }
 ]
+
