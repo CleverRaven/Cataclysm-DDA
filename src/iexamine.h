@@ -107,7 +107,8 @@ void reload_furniture( player &p, const tripoint &examp );
 void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
-void climb_down( player &p, const tripoint &examp );
+void base_control(player &p, const tripoint &examp);
+void base_view(player &p, const tripoint &examp);
 hack_result hack_attempt( player &p );
 
 /**

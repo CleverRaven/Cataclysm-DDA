@@ -3430,6 +3430,66 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::base_control( player &p, const tripoint &examp) {
+    if (p.home == NULL){
+        add_msg("The GM prevents you from messing with other people's base settings.");
+        return;
+    }
+    int choice = 0;
+    top_menu:
+    switch(p.home.get_level()) {//Change options presented based on base's level
+        case 1: {
+            choice = menu(true, _("Ration Supplies."),
+                _("Ammunition type Prefrences."),
+                _("Cancel"), NULL);
+            if (choice == 3) return;
+
+    }
+    sub_menu:
+    switch (choice) {
+        case 0: return;
+        case 1: {//rationing rules
+            int ratwhat = menu(true, _("Food Rationing..."),
+                _("Ammunition Rationing..."),
+                _("Meds/First Aid Rationing..."),
+                _("Back"), NULL);
+            switch (ratwhatk){
+                case 1: {
+                    int lv = menu(true, _("Ration Level:"),
+                        _("None: Eat anything and everything whenever you want."),
+                        _("Light: Eat when hungry. Pay some attention to food use."),
+                        _("Medium: Eat when hungry. Always cook nutritious food."),
+                        _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
+                    p.home.set_food_ration(lv-1);
+                }
+                case 2: {
+                    int lv = menu(true, _("Ration Level:"),
+                        _("None: Use anything and everything you want."),
+                        _("Light:"),
+                        _("Medium:"),
+                        _("Heavy:"), NULL);
+                    p.home.set_ammo_ration(lv-1);
+                }
+                case 3: {
+                    int lv = menu(true, _("Ration Level:"),
+                        _("None: Use anything and everything you want."),
+                        _("Light:"),
+                        _("Medium:"),
+                        _("Heavy:"), NULL);
+                    p.home.set_med_ration(lv-1);
+                }
+                case 4: {
+                    goto top_menu;
+                }
+            }
+            goto sub_menu;
+        }
+        case 2: {//ammo type prefrences
+            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+        }
+    }
+}
+
 /**
 * Given then name of one of the above functions, returns the matching function
 * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3505,6 +3565,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down }
+        { "base_control", &iexamine::base_control},
+        { "base_view", &iexamine::base_view}
     }};
 
     auto iter = function_map.find( function_name );
