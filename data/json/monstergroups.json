@@ -1507,10 +1507,49 @@
     "type": "monstergroup",
     "default": "mon_dog_zombie_rot",
     "monsters": [
-      { "monster": "mon_dog_zombie_rot", "freq": 400, "cost_multiplier": 1 },
-      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_dog", "freq": 400, "cost_multiplier": 1 },
-      { "monster": "mon_cat", "freq": 400, "cost_multiplier": 1 }
+      { "monster": "mon_dog_zombie_rot", "freq": 400, "cost_multiplier": 0 },
+      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "freq": 400, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_ZOO_FISH",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_fish_sbass", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_lobster", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fish_lbass", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_crayfish", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_eel", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_pickerel", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fish_carp", "freq": 400, "cost_multiplier": 0 },
+      { "monster": "mon_fish_bluegill", "freq": 300, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_ZOO_BIRD",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_crow", "freq": 300, "cost_multiplier": 0 },
+      { "monster": "mon_duck", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_turkey", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_chicken", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_bat", "freq": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_ZOO_ANIMAL",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_crow", "freq": 300, "cost_multiplier": 0 },
+      { "monster": "mon_duck", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_turkey", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_chicken", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_bat", "freq": 200, "cost_multiplier": 0 }
     ]
   }
 ]
