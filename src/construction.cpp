@@ -803,6 +803,8 @@ void complete_construction()
         }
     }
 
+    add_msg( m_info, _( "You finish %s." ), built.verb.c_str() );
+
     // clear the activity
     u.activity.set_to_null();
 
@@ -1141,6 +1143,7 @@ void load_construction(JsonObject &jo)
     con.id = constructions.size();
 
     con.description = _(jo.get_string("description").c_str());
+    con.verb = _( jo.get_string( "verb" ).c_str() );
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {
