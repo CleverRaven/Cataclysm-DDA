@@ -82,7 +82,7 @@ void iexamine::none(player &p, const tripoint &examp)
 }
 
 /**
- * Pick an apropriate item and apply dimond coating if possible.
+ * Pick an appropriate item and apply diamond coating if possible.
  */
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
@@ -611,7 +611,7 @@ void iexamine::vending(player &p, const tripoint &examp)
 }
 
 /**
- * If there's water, allow it's usage but add chance of poison.
+ * If there's water, allow its usage but add chance of poison.
  */
 void iexamine::toilet(player &p, const tripoint &examp)
 {
@@ -750,7 +750,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 }
 
 /**
- * Try to pry create open with crowbar.
+ * Try to pry crate open with crowbar.
  */
 void iexamine::crate(player &p, const tripoint &examp)
 {
@@ -1129,7 +1129,7 @@ void iexamine::slot_machine( player &p, const tripoint& )
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  * 
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per atempt minimum.
+ * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
 void iexamine::safe(player &p, const tripoint &examp)
@@ -1244,7 +1244,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
 }
 
 /**
- * Checks that player is outside and has crowbar then, calls iuse.crowbar.
+ * Checks that player is outside and has crowbar then calls iuse.crowbar.
  */
 void iexamine::locked_object( player &p, const tripoint &examp) {
     // Print ordinary examine message if inside (where you can open doors/windows anyway)
@@ -1294,7 +1294,7 @@ void iexamine::bulletin_board(player &, const tripoint &examp)
 }
 
 /**
- * Display popup with refrence to "The Enigma of Amigara Fault."
+ * Display popup with reference to "The Enigma of Amigara Fault."
  */
 void iexamine::fault( player &, const tripoint & )
 {
@@ -1338,7 +1338,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
 }
 
 /**
- * Put petrified eye on pedistal causing into to sink into ground open temple.
+ * Put petrified eye on pedestal causing it to sink into ground and open temple.
  */
 void iexamine::pedestal_temple(player &p, const tripoint &examp)
 {
@@ -1361,7 +1361,7 @@ large semi-spherical indentation at the top."));
 }
 
 /**
- * Unlock/open door or atempt to peek through peephole.
+ * Unlock/open door or attempt to peek through peephole.
  */
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
@@ -1457,7 +1457,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
 }
 
 /**
- * If it's winter: show msg and, return true. Otherwise return false
+ * If it's winter: show msg and return true. Otherwise return false
  */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
@@ -1476,7 +1476,7 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
 }
 
 /**
- * Helper method to see if player has traits, hunger and mothwear for drinking nectar.
+ * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
 bool can_drink_nectar( const player &p )
 {
@@ -1500,10 +1500,10 @@ bool drink_nectar( player &p )
 }
 
 /**
- * Promt Pick (or drink nectar if able) poppy bud. Not safe for player.
+ * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
  * 
- * Dinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
- * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and, 4 dmg to each leg
+ * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
+ * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
 void iexamine::flower_poppy(player &p, const tripoint &examp)
 {
@@ -1671,7 +1671,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
 }
 
 /**
- * Only harvest a plant once per season.  Display mesage and call iexamine::none.
+ * Only harvest a plant once per season.  Display message and call iexamine::none.
  */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
@@ -1752,7 +1752,7 @@ void iexamine::egg_sackws( player &p, const tripoint &examp )
 }
 
 /**
- * Remove furnature. Add spore effect.
+ * Remove furniture. Add spore effect.
  */
 void iexamine::fungus(player &p, const tripoint &examp)
 {
