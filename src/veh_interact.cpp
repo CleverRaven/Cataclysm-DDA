@@ -697,9 +697,9 @@ bool veh_interact::do_install( std::string &msg )
         auto &part = *p;
 
         if( !veh->is_furniture ) {
-            return part.has_flag( VPFLAG_CARGO ) &&
-                !part.has_flag( "TURRET" ) &&
-            !part.has_flag( VPFLAG_FURNITURE );
+            return ( part.has_flag( VPFLAG_CARGO ) &&
+                    !part.has_flag( "TURRET" ) ) &&
+                    !part.has_flag( VPFLAG_FURNITURE );
         } else {
             return part.has_flag( VPFLAG_CARGO );
         }
@@ -710,13 +710,13 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[2] = [&]( const vpart_info *p ) {
         auto &part = *p;
         if( !veh->is_furniture ) {
-            return part.has_flag( VPFLAG_LIGHT ) || 
-                   part.has_flag( VPFLAG_CONE_LIGHT ) ||
-                   part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
-                   part.has_flag( VPFLAG_DOME_LIGHT ) ||
-                   part.has_flag( VPFLAG_AISLE_LIGHT ) ||
-                   part.has_flag( VPFLAG_ATOMIC_LIGHT ) &&
-                   !part.has_flag( VPFLAG_FURNITURE );
+            return ( part.has_flag( VPFLAG_LIGHT ) ||
+                     part.has_flag( VPFLAG_CONE_LIGHT ) ||
+                     part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
+                     part.has_flag( VPFLAG_DOME_LIGHT ) ||
+                     part.has_flag( VPFLAG_AISLE_LIGHT ) ||
+                     part.has_flag( VPFLAG_ATOMIC_LIGHT ) ) &&
+                     !part.has_flag( VPFLAG_FURNITURE );
         } else {
             return part.has_flag( VPFLAG_LIGHT ) ||
                    part.has_flag( VPFLAG_CONE_LIGHT ) ||
@@ -731,33 +731,33 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[3] = [&]( const vpart_info *p ) {
       auto &part = *p;
       if( !veh->is_furniture ) {
-          return part.has_flag( "TRACK" ) || 
-                 part.has_flag( VPFLAG_FRIDGE ) ||
-                 part.has_flag( "KITCHEN" ) ||
-                 part.has_flag( "WELDRIG" ) ||
-                 part.has_flag( "CRAFTRIG" ) ||
-                 part.has_flag( "CHEMLAB" ) ||
-                 part.has_flag( "FORGE" ) ||
-                 part.has_flag( "HORN" ) ||
-                 part.has_flag( "BEEPER" ) ||
-                 part.has_flag( "WATCH" ) ||
-                 part.has_flag( "ALARMCLOCK" ) ||
-                 part.has_flag( VPFLAG_RECHARGE ) ||
-                 part.has_flag( "VISION" ) ||
-                 part.has_flag( "POWER_TRANSFER" ) ||
-                 part.has_flag( "FAUCET" ) ||
-                 part.has_flag( "STEREO" ) ||
-                 part.has_flag( "CHIMES" ) ||
-                 part.has_flag( "MUFFLER" ) ||
-                 part.has_flag( "REMOTE_CONTROLS" ) ||
-                 part.has_flag( "CURTAIN" ) ||
-                 part.has_flag( "SEATBELT" ) ||
-                 part.has_flag( "SECURITY" ) ||
-                 part.has_flag( "SEAT" ) ||
-                 part.has_flag( "BED" ) ||
-                 part.has_flag( "DOOR_MOTOR" ) ||
-                 part.has_flag( "WATER_PURIFIER" ) &&
-                 !part.has_flag( VPFLAG_FURNITURE );
+          return ( part.has_flag( "TRACK" ) ||
+              part.has_flag( VPFLAG_FRIDGE ) ||
+              part.has_flag( "KITCHEN" ) ||
+              part.has_flag( "WELDRIG" ) ||
+              part.has_flag( "CRAFTRIG" ) ||
+              part.has_flag( "CHEMLAB" ) ||
+              part.has_flag( "FORGE" ) ||
+              part.has_flag( "HORN" ) ||
+              part.has_flag( "BEEPER" ) ||
+              part.has_flag( "WATCH" ) ||
+              part.has_flag( "ALARMCLOCK" ) ||
+              part.has_flag( VPFLAG_RECHARGE ) ||
+              part.has_flag( "VISION" ) ||
+              part.has_flag( "POWER_TRANSFER" ) ||
+              part.has_flag( "FAUCET" ) ||
+              part.has_flag( "STEREO" ) ||
+              part.has_flag( "CHIMES" ) ||
+              part.has_flag( "MUFFLER" ) ||
+              part.has_flag( "REMOTE_CONTROLS" ) ||
+              part.has_flag( "CURTAIN" ) ||
+              part.has_flag( "SEATBELT" ) ||
+              part.has_flag( "SECURITY" ) ||
+              part.has_flag( "SEAT" ) ||
+              part.has_flag( "BED" ) ||
+              part.has_flag( "DOOR_MOTOR" ) ||
+              part.has_flag( "WATER_PURIFIER" ) ) &&
+              !part.has_flag( VPFLAG_FURNITURE );
       } else {
           return part.has_flag( "TRACK" ) || //Util
                  part.has_flag( VPFLAG_FRIDGE ) ||
@@ -794,12 +794,11 @@ bool veh_interact::do_install( std::string &msg )
     // Hull
     tab_filters[4] = [&]( const vpart_info *p ) {    auto &part = *p;
         if( !veh->is_furniture ) {
-            return( part.has_flag( VPFLAG_OBSTACLE ) || 
-                part.has_flag( "ROOF" ) ||
-                part.has_flag( VPFLAG_ARMOR ) ) &&
-                !part.has_flag( "WHEEL" ) &&
-                !part.has_flag( VPFLAG_FURNITURE ) &&
-                !tab_filters[3]( p );
+            return( ( part.has_flag( VPFLAG_OBSTACLE ) ||
+                      part.has_flag( "ROOF" ) ||
+                      part.has_flag( VPFLAG_ARMOR ) ) &&
+                      !part.has_flag( "WHEEL" ) &&
+                      !tab_filters[3]( p ) ) && !part.has_flag( VPFLAG_FURNITURE );
         } else {
             return( part.has_flag( VPFLAG_OBSTACLE ) ||
                 part.has_flag( "ROOF" ) ||
@@ -811,14 +810,13 @@ bool veh_interact::do_install( std::string &msg )
     
     // Internals
     tab_filters[5] = [&](const vpart_info *p) { auto &part = *p;
-        if( !veh->is_furniture ) {
-            return part.has_flag( VPFLAG_ENGINE ) || 
-            part.has_flag( VPFLAG_ALTERNATOR ) ||
-            part.has_flag( VPFLAG_CONTROLS ) ||
-            part.location == "fuel_source" ||
-            part.location == "on_battery_mount" ||
-            ( part.location.empty() && part.has_flag( "FUEL_TANK" ) ) &&
-            !part.has_flag( VPFLAG_FURNITURE );
+        if( !veh->is_furniture  ) {
+            return ( part.has_flag( VPFLAG_ENGINE ) ||
+              part.has_flag( VPFLAG_ALTERNATOR ) ||
+              part.has_flag( VPFLAG_CONTROLS ) ||
+              part.location == "fuel_source" ||
+              part.location == "on_battery_mount" ||
+              ( part.location.empty() &&part.has_flag( "FUEL_TANK" ) ) ) && !part.has_flag( VPFLAG_FURNITURE );
         } else {
             return part.has_flag( VPFLAG_ENGINE ) ||
             part.has_flag( VPFLAG_ALTERNATOR ) ||
@@ -833,7 +831,7 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) {
         for (size_t i=1; i < tab_filters.size()-2; i++ ) {
             if( !veh->is_furniture ) {
-                if( tab_filters[i]( part ) && !part->has_flag( VPFLAG_FURNITURE ) ) {
+                if( tab_filters[i]( part ) || part->has_flag( VPFLAG_FURNITURE ) ) {
                     return false;
                 }
             } else {
