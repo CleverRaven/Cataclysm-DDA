@@ -14,8 +14,7 @@
             ]
         ],
         "pre_special" : "check_deconstruct",
-        "post_special" : "done_deconstruct",
-        "verb": "deconstructing the furniture"
+        "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
         "description" : "Deconstruct Simple Furniture",
@@ -25,8 +24,7 @@
         "pre_note" : "Certain terrain and furniture can be deconstructed without any tools.",
         "pre_flags" : "EASY_DECONSTRUCT",
         "pre_special" : "check_deconstruct",
-        "post_special" : "done_deconstruct",
-        "verb": "deconstructing the furniture"
+        "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
@@ -35,8 +33,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_pit_shallow",
-        "verb": "digging a shallow pit"
+        "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 2: deep pit",
@@ -45,8 +42,7 @@
         "time" : 90,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_pit",
-        "verb": "digging a deep pit"
+        "post_terrain" : "t_pit"
     },{
         "type" : "construction",
         "description" : "Spike Pit",
@@ -57,8 +53,7 @@
             [ [ "spear_wood", 4 ], [ "pointy_stick", 4] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_pit_spiked",
-        "verb": "digging a spike pit"
+        "post_terrain" : "t_pit_spiked"
     },{
         "type" : "construction",
         "description" : "Glass Pit",
@@ -69,8 +64,7 @@
             [ ["glass_shard", 20] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_pit_glass",
-        "verb": "digging a glass pit"
+        "post_terrain" : "t_pit_glass"
     },{
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a pit",
@@ -79,8 +73,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_pit_shallow",
-        "verb": "filling the pit"
+        "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in the spiked pit",
@@ -89,8 +82,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_spiked",
-        "post_terrain" : "t_pit_shallow",
-        "verb": "filling the spike pit"
+        "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a glass pit",
@@ -99,8 +91,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_glass",
-        "post_terrain" : "t_pit_shallow",
-        "verb": "filling the glass pit"
+        "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in the shallow pit",
@@ -109,8 +100,7 @@
         "time" : 15,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_dirt",
-        "verb": "filling the pit"
+        "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
         "description" : "Till Soil",
@@ -119,8 +109,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_dirtmound",
-        "verb": "tilling the soil"
+        "post_terrain" : "t_dirtmound"
     },{
         "type" : "construction",
         "description" : "Tamp Ground",
@@ -129,8 +118,7 @@
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain": "t_dirtmound",
-        "post_terrain" : "t_dirt",
-        "verb": "tamping the ground"
+        "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
         "description" : "Chop Down Tree",
@@ -140,8 +128,7 @@
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
         "pre_flags" : "TREE",
         "post_terrain" : "t_dirt",
-        "post_special" : "done_tree",
-        "verb": "chopping down the tree"
+        "post_special" : "done_tree"
     },{
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Logs",
@@ -153,8 +140,7 @@
         ] ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
-        "post_special" : "done_trunk_log",
-        "verb": "chopping the trunk into logs"
+        "post_special" : "done_trunk_log"
     },{
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
@@ -166,8 +152,7 @@
         ] ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
-        "post_special" : "done_trunk_plank",
-        "verb": "chopping the trunk into planks"
+        "post_special" : "done_trunk_plank"
     },{
         "type" : "construction",
         "skill" : "survival",
@@ -184,8 +169,7 @@
             [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ]
         ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_improvised_shelter",
-        "verb": "building the improvised shelter"
+        "post_terrain" : "t_improvised_shelter"
     },{
         "type" : "construction",
         "description" : "Build Door Curtain", "//": "Door frame not required",
@@ -203,8 +187,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "t_door_curtain_c",
-        "verb": "hanging the curtain"
+        "post_terrain" : "t_door_curtain_c"
     },{
         "type" : "construction",
         "description" : "Build Makeshift Door",
@@ -220,8 +203,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "t_door_frame",
-        "post_terrain" : "t_door_makeshift_c",
-        "verb": "building the makeshift door"
+        "post_terrain" : "t_door_makeshift_c"
     },{
         "type" : "construction",
         "description" : "Build Door", "//": "Step 1: door frame",
@@ -236,8 +218,7 @@
             [ [ "nail", 24 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_door_frame",
-        "verb": "building the door frame"
+        "post_terrain" : "t_door_frame"
     },{
         "type" : "construction",
         "description" : "Build Door", "//": "Step 2: door",
@@ -252,8 +233,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_terrain" : "t_door_frame",
-        "post_terrain" : "t_door_c",
-        "verb": "building the door"
+        "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
         "description" : "Build Door", "//": "Step 3: peephole",
@@ -275,8 +255,7 @@
             [ [ "peephole", 1 ] ]
         ],
         "pre_terrain" : "t_door_c",
-        "post_terrain" : "t_door_c_peep",
-        "verb": "making the peep hole"
+        "post_terrain" : "t_door_c_peep"
     },{
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the regular door",
@@ -291,8 +270,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_terrain" : "t_door_b",
-        "post_terrain" : "t_door_c",
-        "verb": "repairing the door"
+        "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the peephole door",
@@ -307,8 +285,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_terrain" : "t_door_b_peep",
-        "post_terrain" : "t_door_c_peep",
-        "verb": "repairing the door"
+        "post_terrain" : "t_door_c_peep"
     },{
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the reinforced door",
@@ -323,8 +300,7 @@
             [ [ "nail", 24 ] ]
         ],
         "pre_terrain" : "t_rdoor_b",
-        "post_terrain" : "t_rdoor_c",
-        "verb": "repairing the door"
+        "post_terrain" : "t_rdoor_c"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "regular door",
@@ -339,8 +315,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_flags" : "BARRICADABLE_DOOR",
-        "post_terrain" : "t_door_boarded",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "peephole door",
@@ -355,8 +330,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_door_c_peep",
-        "post_terrain" : "t_door_boarded_peep",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_door_boarded_peep"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged door",
@@ -371,8 +345,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_flags" : "BARRICADABLE_DOOR_DAMAGED",
-        "post_terrain" : "t_door_boarded_damaged",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_door_boarded_damaged"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged peephole door",
@@ -387,8 +360,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_door_b_peep",
-        "post_terrain" : "t_door_boarded_damaged_peep",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_door_boarded_damaged_peep"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "the reinforced doors",
@@ -403,8 +375,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_flags" : "BARRICADABLE_DOOR_REINFORCED",
-        "post_terrain" : "t_rdoor_boarded",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_rdoor_boarded"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "damaged reinforced doors",
@@ -419,8 +390,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_flags" : "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
-        "post_terrain" : "t_rdoor_boarded_damaged",
-        "verb": "boarding up the door"
+        "post_terrain" : "t_rdoor_boarded_damaged"
     },{
         "type" : "construction",
         "description" : "Reinforce Wood Door",
@@ -435,8 +405,7 @@
             [ [ "nail", 48 ] ]
         ],
         "pre_flags" : "BARRICADABLE_DOOR",
-        "post_terrain" : "t_rdoor_c",
-        "verb": "reinforcing the door"
+        "post_terrain" : "t_rdoor_c"
     },{
         "type" : "construction",
         "description" : "Build Metal Door", "//": "step 1: door frame",
@@ -456,8 +425,7 @@
             [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_mdoor_frame",
-        "verb": "building the metal door frame"
+        "post_terrain" : "t_mdoor_frame"
     },{
         "type" : "construction",
         "description" : "Build Metal Door", "//": "Step 2: metal door",
@@ -480,8 +448,7 @@
             [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
         ],
         "pre_terrain" : "t_mdoor_frame",
-        "post_terrain" : "t_door_metal_c",
-        "verb": "building the metal door"
+        "post_terrain" : "t_door_metal_c"
     },{
         "type" : "construction",
         "description" : "Build Metal Door", "//": "Step 3: peephole",
@@ -494,8 +461,7 @@
             [ { "id": "WRENCH", "level": 1 } ] ],
         "components" : [ [ [ "peephole", 1 ] ] ],
         "pre_terrain" : "t_door_metal_c",
-        "post_terrain" : "t_door_metal_c_peep",
-        "verb": "making the peep hole"
+        "post_terrain" : "t_door_metal_c_peep"
     },{
         "type" : "construction",
         "description" : "Build Window", "//": "Step 1: window frame",
@@ -510,8 +476,7 @@
             [ [ "nail", 30 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_window_empty",
-        "verb": "building the window frame"
+        "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
         "description" : "Build Window", "//": "Step 2: window, no curtains",
@@ -522,8 +487,7 @@
             [ [ "glass_sheet", 1 ] ]
         ],
         "pre_terrain" : "t_window_empty",
-        "post_terrain" : "t_window_no_curtains",
-        "verb": "building the window"
+        "post_terrain" : "t_window_no_curtains"
     },{
         "type" : "construction",
         "description" : "Build Window", "//": "Step 3: window with curtains",
@@ -541,8 +505,7 @@
             [ [ "string_36", 1 ] ]
         ],
         "pre_terrain" : "t_window_no_curtains",
-        "post_terrain" : "t_window_domestic",
-        "verb": "hanging the curtains"
+        "post_terrain" : "t_window_domestic"
     },{
         "type" : "construction",
         "description" : "Clean Broken Window",
@@ -550,8 +513,7 @@
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "pre_terrain" : "t_window_frame",
-        "post_terrain" : "t_window_empty",
-        "verb": "clearing the broken glass"
+        "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -562,8 +524,7 @@
             [ [ "duct_tape", 50 ] ]
         ],
         "pre_terrain" : "t_window",
-        "post_terrain" : "t_window_taped",
-        "verb": "taping up the window"
+        "post_terrain" : "t_window_taped"
     },{
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -574,8 +535,7 @@
             [ [ "duct_tape", 50 ] ]
         ],
         "pre_terrain" : "t_window_domestic",
-        "post_terrain" : "t_window_domestic_taped",
-        "verb": "taping up the window"
+        "post_terrain" : "t_window_domestic_taped"
     },{
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -586,8 +546,7 @@
             [ [ "duct_tape", 50 ] ]
         ],
         "pre_terrain" : "t_window_alarm",
-        "post_terrain" : "t_window_alarm_taped",
-        "verb": "taping up the window"
+        "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -598,8 +557,7 @@
             [ [ "duct_tape", 50 ] ]
         ],
         "pre_terrain" : "t_window_no_curtains",
-        "post_terrain" : "t_window_no_curtains_taped",
-        "verb": "taping up the window"
+        "post_terrain" : "t_window_no_curtains_taped"
     },{
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -610,8 +568,7 @@
             { "id": "CUT", "level": 1 }
         ] ],
         "pre_terrain" : "t_window_taped",
-        "post_terrain" : "t_window",
-        "verb": "removing the tape from the window"
+        "post_terrain" : "t_window"
     },{
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -622,8 +579,7 @@
             { "id": "CUT", "level": 1 }
         ] ],
         "pre_terrain" : "t_window_domestic_taped",
-        "post_terrain" : "t_window_domestic",
-        "verb": "removing the tape from the window"
+        "post_terrain" : "t_window_domestic"
     },{
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -634,8 +590,7 @@
             { "id": "CUT", "level": 1 }
         ] ],
         "pre_terrain" : "t_window_alarm_taped",
-        "post_terrain" : "t_window_alarm",
-        "verb": "removing the tape from the window"
+        "post_terrain" : "t_window_alarm"
     },{
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
@@ -646,8 +601,7 @@
             { "id": "CUT", "level": 1 }
         ] ],
         "pre_terrain" : "t_window_no_curtains_taped",
-        "post_terrain" : "t_window_no_curtains",
-        "verb": "removing the tape from the window"
+        "post_terrain" : "t_window_no_curtains"
     },{
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up normal window",
@@ -662,8 +616,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_flags" : "BARRICADABLE_WINDOW",
-        "post_terrain" : "t_window_boarded",
-        "verb": "boarding up the window"
+        "post_terrain" : "t_window_boarded"
     },{
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up window with curtains",
@@ -679,8 +632,7 @@
         ],
         "pre_flags" : "BARRICADABLE_WINDOW_CURTAINS",
         "post_terrain" : "t_window_boarded",
-        "post_special" : "done_window_curtains",
-        "verb": "boarding up the window"
+        "post_special" : "done_window_curtains"
     },{
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up empty window",
@@ -695,8 +647,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_window_empty",
-        "post_terrain" : "t_window_boarded_noglass",
-        "verb": "boarding up the window"
+        "post_terrain" : "t_window_boarded_noglass"
     },{
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up window frame only",
@@ -711,8 +662,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_window_frame",
-        "post_terrain" : "t_window_boarded_noglass",
-        "verb": "boarding up the window"
+        "post_terrain" : "t_window_boarded_noglass"
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Window", "//": "For regular windows",
@@ -727,8 +677,7 @@
             [ [ "nail", 16 ] ]
         ],
         "pre_terrain" : "t_window_boarded",
-        "post_terrain" : "t_window_reinforced",
-        "verb": "reinforcing the window"
+        "post_terrain" : "t_window_reinforced"
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Window", "//": "For windows with no glass that were barricaded",
@@ -743,8 +692,7 @@
             [ [ "nail", 16 ] ]
         ],
         "pre_terrain" : "t_window_boarded_noglass",
-        "post_terrain" : "t_window_reinforced_noglass",
-        "verb": "reinforcing the window"
+        "post_terrain" : "t_window_reinforced_noglass"
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Window", "//": "Armo up regular reinforced window",
@@ -759,8 +707,7 @@
             [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
         ],
         "pre_terrain" : "t_window_reinforced",
-        "post_terrain" : "t_window_enhanced",
-        "verb": "reinforcing the window"
+        "post_terrain" : "t_window_enhanced"
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Window", "//": "When underlying window has no glass",
@@ -775,8 +722,7 @@
             [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
         ],
         "pre_terrain" : "t_window_reinforced_noglass",
-        "post_terrain" : "t_window_enhanced_noglass",
-        "verb": "reinforcing the window"
+        "post_terrain" : "t_window_enhanced_noglass"
     },{
         "type" : "construction",
         "description" : "Build Metal Bars",
@@ -800,8 +746,7 @@
             [ [ "sheet_metal", 2 ] ]
         ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "t_bars",
-        "verb": "building metal bars"
+        "post_terrain" : "t_bars"
     },{
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall where a window used to be",
@@ -816,8 +761,7 @@
             [ [ "nail", 20 ] ]
         ],
         "pre_terrain" : "t_window_empty",
-        "post_terrain" : "t_wall_half",
-        "verb": "building half the wood wall"
+        "post_terrain" : "t_wall_half"
     },{
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall in an empty space",
@@ -832,8 +776,7 @@
             [ [ "nail", 20 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_wall_half",
-        "verb": "building half the wood wall"
+        "post_terrain" : "t_wall_half"
     },{
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 2: complete the half made wall",
@@ -848,8 +791,7 @@
             [ [ "nail", 20 ] ]
         ],
         "pre_terrain" : "t_wall_half",
-        "post_terrain" : "t_wall_wood",
-        "verb": "building the wood wall"
+        "post_terrain" : "t_wall_wood"
     },{
         "type" : "construction",
         "description" : "Repair Wood Wall", "//": "fix a chip",
@@ -864,8 +806,7 @@
             [ [ "nail", 16 ] ]
         ],
         "pre_terrain" : "t_wall_wood_chipped",
-        "post_terrain" : "t_wall_wood",
-        "verb": "repairing the wood wall"
+        "post_terrain" : "t_wall_wood"
     },{
         "type" : "construction",
         "description" : "Repair Wood Wall", "//": "fix the broken to chipped",
@@ -880,8 +821,7 @@
             [ [ "nail", 32 ] ]
         ],
         "pre_terrain" : "t_wall_wood_broken",
-        "post_terrain" : "t_wall_wood_chipped",
-        "verb": "repairing the wood wall"
+        "post_terrain" : "t_wall_wood_chipped"
     },{
         "type" : "construction",
         "description" : "Build Log Wall", "//": "Step 1: half of a log wall",
@@ -894,8 +834,7 @@
             [ [ "stick", 3 ], [ "2x4", 6 ] ]
         ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_wall_log_half",
-        "verb": "building half the log wall"
+        "post_terrain" : "t_wall_log_half"
     },{
         "type" : "construction",
         "description" : "Build Log Wall", "//": "Step 2: Finish the log wall",
@@ -908,8 +847,7 @@
             [ [ "stick", 3 ], [ "2x4", 6 ] ]
         ],
         "pre_terrain" : "t_wall_log_half",
-        "post_terrain" : "t_wall_log",
-        "verb": "building the log wall"
+        "post_terrain" : "t_wall_log"
     },{
         "type" : "construction",
         "description" : "Repair Log Wall", "//": "Fix the chipped back to normal",
@@ -924,8 +862,7 @@
             [ [ "nail", 16 ] ]
         ],
         "pre_terrain" : "t_wall_log_chipped",
-        "post_terrain" : "t_wall_log",
-        "verb": "repairing the log wall"
+        "post_terrain" : "t_wall_log"
     },{
         "type" : "construction",
         "description" : "Repair Log Wall", "//": "fix broken back to chipped",
@@ -941,8 +878,7 @@
             [ [ "nail", 24 ] ]
         ],
         "pre_terrain" : "t_wall_log_broken",
-        "post_terrain" : "t_wall_log_chipped",
-        "verb": "repairing the log wall"
+        "post_terrain" : "t_wall_log_chipped"
     },{
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
@@ -955,8 +891,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_sandbag_half",
-        "verb": "building half the sandbag wall"
+        "post_terrain" : "f_sandbag_half"
     },{
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 2: Finish the sandbag wall",
@@ -969,8 +904,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "f_sandbag_half",
-        "post_terrain" : "f_sandbag_wall",
-        "verb": "building the sandbag wall"
+        "post_terrain" : "f_sandbag_wall"
     },{
         "type" : "construction",
         "description" : "Build Metal Wall", "//": "Step 1: foundation",
@@ -990,8 +924,7 @@
                 [ [ "steel_plate", 2] ]
         ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_scrap_wall_halfway",
-        "verb": "building half the metal wall"
+        "post_terrain" : "t_scrap_wall_halfway"
     },{
         "type" : "construction",
         "description" : "Build Metal Wall", "//": "Step 2: finish wall",
@@ -1011,8 +944,7 @@
                 [ [ "steel_plate", 2] ]
         ],
         "pre_terrain" : "t_scrap_wall_halfway",
-        "post_terrain" : "t_scrap_wall",
-        "verb": "building the metal wall"
+        "post_terrain" : "t_scrap_wall"
     },{
         "type" : "construction",
         "description" : "Build Brick Wall", "//": "Step 1: start wall",
@@ -1028,8 +960,7 @@
     [ [ "water", 1], ["water_clean", 1]]
         ],
         "pre_terrain" : "t_dirt",
-        "post_terrain" : "t_brick_wall_halfway",
-        "verb": "building half the brick wall"
+        "post_terrain" : "t_brick_wall_halfway"
     },{
         "type" : "construction",
         "description" : "Build Brick Wall", "//": "Step 2: finish wall",
@@ -1045,8 +976,7 @@
     [ [ "water", 1], ["water_clean", 1]]
         ],
         "pre_terrain" : "t_brick_wall_halfway",
-        "post_terrain" : "t_brick_wall",
-        "verb": "building the brick wall"
+        "post_terrain" : "t_brick_wall"
     },{
         "type" : "construction",
         "description" : "Build Simple Concrete Wall", "//": "Step 1: foundation",
@@ -1062,8 +992,7 @@
                 [ [ "water", 4], [ "water_clean", 4] ]
         ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_sconc_wall_halfway",
-        "verb": "building half the concrete wall"
+        "post_terrain" : "t_sconc_wall_halfway"
     },{
         "type" : "construction",
         "description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
@@ -1079,8 +1008,7 @@
                 [ [ "water", 4], [ "water_clean", 4] ]
         ],
         "pre_terrain" : "t_sconc_wall_halfway",
-        "post_terrain" : "t_sconc_wall",
-        "verb": "building the concrete wall"
+        "post_terrain" : "t_sconc_wall"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
@@ -1096,8 +1024,7 @@
                 [ [ "rebar", 16] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_reb_cage",
-        "verb": "building the rebar cage"
+        "post_terrain" : "t_reb_cage"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
@@ -1113,8 +1040,7 @@
                 [ [ "water", 4 ], [ "water_clean", 4 ] ]
         ],
         "pre_terrain" : "t_reb_cage",
-        "post_terrain" : "t_strconc_wall_halfway",
-        "verb": "building half the reinforced concrete wall"
+        "post_terrain" : "t_strconc_wall_halfway"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
@@ -1130,8 +1056,7 @@
                 [ [ "water", 4 ], [ "water_clean", 4 ] ]
         ],
         "pre_terrain" : "t_strconc_wall_halfway",
-        "post_terrain" : "t_strconc_wall",
-        "verb": "building the reinforced concrete wall"
+        "post_terrain" : "t_strconc_wall"
     },{
         "type" : "construction",
         "description" : "Build Metal Roof",
@@ -1152,8 +1077,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_scrap_floor",
-        "verb": "building the metal roof"
+        "post_terrain" : "t_scrap_floor"
     },{
             "type" : "construction",
         "description" : "Build Concrete Roof", "//": "Step 1: rebar cage & supports",
@@ -1171,8 +1095,7 @@
                 [ [ "pipe", 4] ]
         ],
         "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_ov_smreb_cage",
-        "verb": "building the concrete roof supports"
+        "post_terrain" : "t_ov_smreb_cage"
     },{
         "type" : "construction",
         "description" : "Build Concrete Roof", "//": "Step 2: roof & floor",
@@ -1187,8 +1110,7 @@
                 [ [ "water", 4] ]
         ],
         "pre_terrain" : "t_ov_smreb_cage",
-        "post_terrain" : "t_thconc_floor",
-        "verb": "building the concrete roof"
+        "post_terrain" : "t_thconc_floor"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 1: rebar cage & supports",
@@ -1206,8 +1128,7 @@
                 [ [ "pipe", 4] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_ov_reb_cage",
-        "verb": "building the reinforced concrete roof supports"
+        "post_terrain" : "t_ov_reb_cage"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 2: start roof & floor",
@@ -1222,8 +1143,7 @@
                 [ [ "water", 3] ]
         ],
         "pre_terrain" : "t_ov_reb_cage",
-        "post_terrain" : "t_strconc_floor_halfway",
-        "verb": "building half the reinforced concrete roof"
+        "post_terrain" : "t_strconc_floor_halfway"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 3: finish roof & floor",
@@ -1238,8 +1158,7 @@
                 [ [ "water", 3] ]
         ],
         "pre_terrain" : "t_strconc_floor_halfway",
-        "post_terrain" : "t_strconc_floor",
-        "verb": "building the reinforced concrete roof"
+        "post_terrain" : "t_strconc_floor"
     },{
         "type" : "construction",
         "description" : "Build Palisade Wall",
@@ -1252,8 +1171,7 @@
             [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ], [ "chain", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_palisade",
-        "verb": "building the palisade wall"
+        "post_terrain" : "t_palisade"
     },{
         "type" : "construction",
         "description" : "Build Stone Wall", "//": "Step 1: half the wall",
@@ -1268,8 +1186,7 @@
             [ [ "rock", 12 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_rock_wall_half",
-        "verb": "building half the stone wall"
+        "post_terrain" : "t_rock_wall_half"
     },{
         "type" : "construction",
         "description" : "Build Stone Wall", "//": "Step 2: the full wall",
@@ -1284,8 +1201,7 @@
             [ [ "rock", 12 ] ]
         ],
         "pre_terrain" : "t_rock_wall_half",
-        "post_terrain" : "t_rock_wall",
-        "verb": "building the stone wall"
+        "post_terrain" : "t_rock_wall"
     },{
         "type" : "construction",
         "description" : "Build Roof",
@@ -1301,8 +1217,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor",
-        "verb": "building the roof"
+        "post_terrain" : "t_floor"
     },{
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
@@ -1316,8 +1231,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor",
-        "verb": "building the log & sod roof"
+        "post_terrain" : "t_floor"
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
@@ -1333,8 +1247,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
         "pre_special" : "check_empty",
-        "post_terrain" : "t_palisade_pulley",
-        "verb": "building the rope & pulley"
+        "post_terrain" : "t_palisade_pulley"
     },{
         "type" : "construction",
         "description" : "Build Palisade Gate",
@@ -1352,8 +1265,7 @@
         ],
         "pre_note" : "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_palisade_gate",
-        "verb": "building the palisade gate"
+        "post_terrain" : "t_palisade_gate"
     },{
         "type" : "construction",
         "description" : "Build Fence Posts",
@@ -1372,8 +1284,7 @@
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_fence_post",
-        "verb": "building the fence posts"
+        "post_terrain" : "t_fence_post"
     },{
         "type" : "construction",
         "description" : "Build Fence",
@@ -1388,8 +1299,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_fence_post",
-        "post_terrain" : "t_fence_h",
-        "verb": "building the fence"
+        "post_terrain" : "t_fence_h"
     },{
         "type" : "construction",
         "description" : "Realign Fence", "//": "horizontal to vertical",
@@ -1397,8 +1307,7 @@
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_fence_h",
-        "post_terrain" : "t_fence_v",
-        "verb": "realigning the fence"
+        "post_terrain" : "t_fence_v"
     },{
         "type" : "construction",
         "description" : "Build Fence Gate",
@@ -1419,8 +1328,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_fencegate_c",
-        "verb": "building the fence gate"
+        "post_terrain" : "t_fencegate_c"
     },{
         "type" : "construction",
         "description" : "Realign Fence", "//": "vertical to horizontal",
@@ -1428,8 +1336,7 @@
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_fence_v",
-        "post_terrain" : "t_fence_h",
-        "verb": "realigning the fence"
+        "post_terrain" : "t_fence_h"
     },{
         "type" : "construction",
         "description" : "Build Wire Fence", "//": "Step 1: fence posts",
@@ -1444,8 +1351,7 @@
             [ [ "scrap", 8 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_chainfence_posts",
-        "verb": "building the fence posts"
+        "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
         "description" : "Build Wire Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
@@ -1456,8 +1362,7 @@
             [ [ "wire", 20 ] ]
         ],
         "pre_terrain" : "t_chainfence_posts",
-        "post_terrain" : "t_chainfence_v",
-        "verb": "building the fence"
+        "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
         "description" : "Realign Fence",
@@ -1465,8 +1370,7 @@
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_chainfence_h",
-        "post_terrain" : "t_chainfence_v",
-        "verb": "realigning the fence"
+        "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
         "description" : "Realign Fence",
@@ -1474,8 +1378,7 @@
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_chainfence_v",
-        "post_terrain" : "t_chainfence_h",
-        "verb": "realigning the fence"
+        "post_terrain" : "t_chainfence_h"
     },{
         "type" : "construction",
         "description" : "Build Wire Gate",
@@ -1489,8 +1392,7 @@
         ],
         "pre_note" : "Needs to be supported on both sides by fencing, walls, etc.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_chaingate_c",
-        "verb": "building the fence gate"
+        "post_terrain" : "t_chaingate_c"
     },{
         "type" : "construction",
         "description" : "Seal Crate",
@@ -1503,8 +1405,7 @@
         ],
         "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
         "pre_terrain" : "f_crate_o",
-        "post_terrain" : "f_crate_c",
-        "verb": "sealing the crate"
+        "post_terrain" : "f_crate_c"
     },{
         "type" : "construction",
         "description" : "Build Crate",
@@ -1521,8 +1422,7 @@
             [ [ "nail", 24 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_crate_o",
-        "verb": "building the crate"
+        "post_terrain" : "f_crate_o"
     },{
         "type" : "construction",
         "description" : "Seal Coffin",
@@ -1534,8 +1434,7 @@
         ],
         "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
         "pre_terrain" : "f_coffin_o",
-        "post_terrain" : "f_coffin_c",
-        "verb": "sealing the coffin"
+        "post_terrain" : "f_coffin_c"
     },{
         "type" : "construction",
         "description" : "Build Coffin",
@@ -1553,8 +1452,7 @@
             [ [ "nail", 24 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_coffin_o",
-        "verb": "building the coffin"
+        "post_terrain" : "f_coffin_o"
     },{
         "type" : "construction",
         "description" : "Build Bulletin Board",
@@ -1574,8 +1472,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_bulletin",
-        "verb": "building the bulletin board"
+        "post_terrain" : "f_bulletin"
     },{
         "type" : "construction",
         "description" : "Build Dresser",
@@ -1595,8 +1492,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_dresser",
-        "verb": "building the dresser"
+        "post_terrain" : "f_dresser"
     },{
         "type" : "construction",
         "description" : "Build Bookcase",
@@ -1616,8 +1512,7 @@
             [ [ "nail", 16 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_bookcase",
-        "verb": "building the bookcase"
+        "post_terrain" : "f_bookcase"
     },{
         "type" : "construction",
         "description" : "Build Locker",
@@ -1637,8 +1532,7 @@
             [ [ "pipe", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_locker",
-        "verb": "building the locker"
+        "post_terrain" : "f_locker"
     },{
         "type" : "construction",
         "description" : "Build Metal Rack",
@@ -1657,8 +1551,7 @@
             [ [ "pipe", 12 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_rack",
-        "verb": "building the metal rack"
+        "post_terrain" : "f_rack"
     },{
         "type" : "construction",
         "description" : "Build Cupboard",
@@ -1673,8 +1566,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_cupboard",
-        "verb": "building the cupboard"
+        "post_terrain" : "f_cupboard"
     },{
         "type" : "construction",
         "description" : "Build Counter",
@@ -1689,8 +1581,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_counter",
-        "verb": "building the counter"
+        "post_terrain" : "f_counter"
     },{
         "type" : "construction",
         "description" : "Build Table",
@@ -1705,8 +1596,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_table",
-        "verb": "building the table"
+        "post_terrain" : "f_table"
     },{
         "type" : "construction",
         "description" : "Build Chair",
@@ -1721,8 +1611,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_chair",
-        "verb": "building the chair"
+        "post_terrain" : "f_chair"
     },{
         "type" : "construction",
         "description" : "Build Bench",
@@ -1737,8 +1626,7 @@
             [ [ "nail", 10 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_bench",
-        "verb": "building the bench"
+        "post_terrain" : "f_bench"
     },{
         "type" : "construction",
         "description" : "Build Makeshift Bed",
@@ -1754,8 +1642,7 @@
             [  [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_makeshift_bed",
-        "verb": "building the makeshift bed"
+        "post_terrain" : "f_makeshift_bed"
     },{
         "type" : "construction",
         "description" : "Build Straw Bed",
@@ -1768,8 +1655,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_straw_bed",
-        "verb": "building the straw bed"
+        "post_terrain" : "f_straw_bed"
     },{
         "type" : "construction",
         "description" : "Build Bed",
@@ -1790,8 +1676,7 @@
             [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_bed",
-        "verb": "building the bed"
+        "post_terrain" : "f_bed"
     },{
         "type" : "construction",
         "description" : "Build Armchair",
@@ -1812,8 +1697,7 @@
             [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_armchair",
-        "verb": "building the armchair"
+        "post_terrain" : "f_armchair"
     },{
         "type" : "construction",
         "description" : "Build Sofa",
@@ -1834,8 +1718,7 @@
             [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_sofa",
-        "verb": "building the sofa"
+        "post_terrain" : "f_sofa"
     },{
         "type" : "construction",
         "description" : "Build Sign",
@@ -1850,8 +1733,7 @@
             [ [ "nail", 6 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_sign",
-        "verb": "building the sign"
+        "post_terrain" : "f_sign"
     },{
         "type" : "construction",
         "description" : "Build Stone Fireplace",
@@ -1870,8 +1752,7 @@
             [ [ "rock", 40 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_fireplace",
-        "verb": "building the stone fireplace"
+        "post_terrain" : "f_fireplace"
     },{
         "type" : "construction",
         "description" : "Build Wood Stove",
@@ -1886,8 +1767,7 @@
             [ [ "pipe", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_woodstove",
-        "verb": "building the wood stove"
+        "post_terrain" : "f_woodstove"
     },{
         "type" : "construction",
         "description" : "Build Fermenting Vat",
@@ -1909,8 +1789,7 @@
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_fvat_empty",
-        "verb": "building the fermenting vat"
+        "post_terrain" : "f_fvat_empty"
     },{
         "type" : "construction",
         "description" : "Build Wooden Keg",
@@ -1932,8 +1811,7 @@
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_wood_keg",
-        "verb": "building the wooden keg"
+        "post_terrain" : "f_wood_keg"
     },
     {
         "type" : "construction",
@@ -1952,8 +1830,7 @@
             [ [ "water_faucet", 1] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_standing_tank",
-        "verb": "building the standing tank"
+        "post_terrain" : "f_standing_tank"
     },{
         "type" : "construction",
         "description" : "Place Anvil",
@@ -1965,8 +1842,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_anvil",
-        "verb": "placing the anvil"
+        "post_terrain" : "f_anvil"
     },{
         "type" : "construction",
         "description" : "Place Forge",
@@ -1978,8 +1854,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_forge",
-        "verb": "placing the forge"
+        "post_terrain" : "f_forge"
     },{
         "type" : "construction",
         "description" : "Place Still",
@@ -1991,8 +1866,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_still",
-        "verb": "placing the still"
+        "post_terrain" : "f_still"
     },{
         "type" : "construction",
         "description" : "Place Brazier",
@@ -2003,8 +1877,7 @@
             [ [ "brazier", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_brazier",
-        "verb": "placing the brazier"
+        "post_terrain" : "f_brazier"
     },{
         "type" : "construction",
         "description" : "Build Water Well",
@@ -2025,8 +1898,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_pit",
-        "post_terrain" : "t_covered_well",
-        "verb": "building the well"
+        "post_terrain" : "t_covered_well"
     },{
         "type" : "construction",
         "description" : "Build Water Well",
@@ -2046,8 +1918,7 @@
             [ [ "pipe", 6 ] ]
         ],
         "pre_terrain" : "t_covered_well",
-        "post_terrain" : "t_water_pump",
-        "verb": "adding a pump to the well"
+        "post_terrain" : "t_water_pump"
     },{
         "type" : "construction",
         "description" : "Paint Wall Red",
@@ -2061,8 +1932,7 @@
             [ [ "r_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_r",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_r"
     },{
         "type" : "construction",
         "description" : "Paint Wall Blue",
@@ -2076,8 +1946,7 @@
             [ [ "b_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_b",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_b"
     },{
         "type" : "construction",
         "description" : "Paint Wall white",
@@ -2091,8 +1960,7 @@
             [ [ "w_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_w",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_w"
     },{
         "type" : "construction",
         "description" : "Paint Wall Green",
@@ -2106,8 +1974,7 @@
             [ [ "g_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_g",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_g"
     },{
         "type" : "construction",
         "description" : "Paint Wall Purple",
@@ -2121,8 +1988,7 @@
             [ [ "p_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_p",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_p"
     },{
         "type" : "construction",
         "description" : "Paint Wall Yellow",
@@ -2136,8 +2002,7 @@
             [ [ "y_paint", 25 ] ]
           ],
         "pre_terrain" : "t_wall",
-        "post_terrain" : "t_wall_y",
-        "verb": "painting the wall"
+        "post_terrain" : "t_wall_y"
     },{
         "type" : "construction",
         "description" : "Take Paint Off Wall", "//": "For vertical walls",
@@ -2148,8 +2013,7 @@
             [ "chipper"]
           ],
         "pre_flags" : "CHIP",
-        "post_terrain" : "t_wall",
-        "verb": "removing paint from the wall"
+        "post_terrain" : "t_wall"
     },{
         "type" : "construction",
         "description" : "Remove Carpet",
@@ -2160,8 +2024,7 @@
             { "id": "HAMMER", "level": 2 }
         ] ],
         "pre_flags" : "RUG",
-        "post_terrain" : "t_floor",
-        "verb": "removing the carpet"
+        "post_terrain" : "t_floor"
     },{
         "type" : "construction",
         "description" : "Carpet Floor Red",
@@ -2176,8 +2039,7 @@
             [ [ "r_carpet", 1 ] ]
           ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "t_carpet_red",
-        "verb": "laying the carpet"
+        "post_terrain" : "t_carpet_red"
     },{
         "type" : "construction",
         "description" : "Carpet Floor Purple",
@@ -2192,8 +2054,7 @@
             [ [ "p_carpet", 1 ] ]
           ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "t_carpet_purple",
-        "verb": "laying the carpet"
+        "post_terrain" : "t_carpet_purple"
     },{
         "type" : "construction",
         "description" : "Carpet Floor Yellow",
@@ -2208,8 +2069,7 @@
             [ [ "y_carpet", 1 ] ]
           ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "t_carpet_yellow",
-        "verb": "laying the carpet"
+        "post_terrain" : "t_carpet_yellow"
     },{
         "type" : "construction",
         "description" : "Carpet Floor Green",
@@ -2224,8 +2084,7 @@
             [ [ "g_carpet", 1 ] ]
           ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "t_carpet_green",
-        "verb": "laying the carpet"
+        "post_terrain" : "t_carpet_green"
     },{
         "type" : "construction",
         "description" : "Dig Downstair",
@@ -2244,8 +2103,7 @@
             [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_special" : "done_dig_stair",
-        "verb": "digging stairs"
+        "post_special" : "done_dig_stair"
     },{
         "type" : "construction",
         "description" : "Mine Downstair",
@@ -2265,8 +2123,7 @@
         ],
         "pre_special" : "check_down_OK",
         "pre_terrain" : "t_rock_floor",
-        "post_special" : "done_mine_downstair",
-        "verb": "mining"
+        "post_special" : "done_mine_downstair"
     },{
         "type" : "construction",
         "description" : "Mine Upstair",
@@ -2290,8 +2147,7 @@
         ],
         "pre_special" : "check_up_OK",
         "pre_terrain" : "t_rock",
-        "post_special" : "done_mine_upstair",
-        "verb": "mining"
+        "post_special" : "done_mine_upstair"
     },{
         "type" : "construction",
         "description" : "Start Vehicle Construction", "//": "Rest of vehicle construction done in the vehicle construction menu",
@@ -2301,8 +2157,7 @@
         "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle",
-        "vehicle_start" : true,
-        "verb": "building the vehicle"
+        "vehicle_start" : true
     },{
         "type" : "construction",
         "description" : "Build Road Barricade",
@@ -2317,8 +2172,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_barricade_road",
-        "verb": "building the road barricade"
+        "post_terrain" : "f_barricade_road"
     },{
         "type" : "construction",
         "description" : "Build Pontoon Bridge", "//": "Set up pontoon bridge",
@@ -2334,8 +2188,7 @@
             [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
         ],
         "pre_terrain" : "t_water_dp",
-        "post_terrain" : "t_pontoon_dp",
-        "verb": "building the pontoon bridge"
+        "post_terrain" : "t_pontoon_dp"
     },{
         "type" : "construction",
         "description" : "Build Dock/Shallow Bridge", "//": "Set up dock",
@@ -2351,8 +2204,7 @@
             [ [ "nail", 12  ] ]
         ],
         "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_dock",
-        "verb": "building the dock"
+        "post_terrain" : "t_dock"
     },{
         "type" : "construction",
         "description" : "Cut Down Grass",
@@ -2361,8 +2213,7 @@
         "time" : 6,
         "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass",
-        "post_terrain" : "t_dirt",
-        "verb": "cutting the grass"
+        "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
         "description" : "Extract Sand",
@@ -2371,8 +2222,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_sand",
-        "post_special" : "done_extract_sand",
-        "verb": "extracting sand"
+        "post_special" : "done_extract_sand"
     },{
         "type" : "construction",
         "description" : "Extract Clay",
@@ -2381,8 +2231,7 @@
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_clay",
-        "post_special" : "done_extract_clay",
-        "verb": "extracting clay"
+        "post_special" : "done_extract_clay"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",
@@ -2402,8 +2251,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_kiln_empty",
-        "verb": "building the charcoal kiln"
+        "post_terrain" : "f_kiln_empty"
     },{
         "type" : "construction",
         "description" : "Build Metal Charcoal Kiln",
@@ -2423,8 +2271,7 @@
             [ [ "pipe", 4 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "f_kiln_metal_empty",
-        "verb": "building the metal charcoal kiln"
+        "post_terrain" : "f_kiln_metal_empty"
     },{
         "type" : "construction",
         "description" : "Build Smoking Rack",
@@ -2443,8 +2290,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_smoking_rack",
-        "verb": "building the smoking rack"
+        "post_terrain" : "f_smoking_rack"
     },{
         "type" : "construction",
         "description" : "Build Rock Forge",
@@ -2460,8 +2306,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_forge_rock",
-        "verb": "building the rock forge"
+        "post_terrain" : "f_forge_rock"
     },{
         "type" : "construction",
         "description" : "Build Clay Kiln",
@@ -2478,8 +2323,7 @@
         ],
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
-        "post_terrain" : "f_clay_kiln",
-        "verb": "building the clay kiln"
+        "post_terrain" : "f_clay_kiln"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 1 : metal frame",
@@ -2499,8 +2343,7 @@
             [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_m_frame",
-        "verb": "building the reinforced glass window frame"
+        "post_terrain" : "t_m_frame"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 2 : Reinforced Glass",
@@ -2519,8 +2362,7 @@
             [["reinforced_glass_sheet", 1]]
         ],
         "pre_terrain" : "t_m_frame",
-        "post_terrain" : "t_reinforced_glass",
-        "verb": "building the reinforced glass window"
+        "post_terrain" : "t_reinforced_glass"
     },{
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 3 : Metal shutters",
@@ -2539,7 +2381,6 @@
             [ [ "steel_plate", 2 ]]
         ],
         "pre_terrain" : "t_reinforced_glass",
-        "post_terrain" : "t_reinforced_glass_shutter",
-        "verb": "building the reinforced shutters"
+        "post_terrain" : "t_reinforced_glass_shutter"
     }
 ]

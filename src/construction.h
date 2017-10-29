@@ -23,7 +23,6 @@ using requirement_id = string_id<requirement_data>;
 struct construction {
         std::string category; //Construction type category
         std::string description; // how the action is displayed to the player
-        std::string verb; // Describes the activity. e.g. "digging a shallow pit"
         std::string pre_note; // Additional note displayed along with construction requirements.
         std::string pre_terrain; // beginning terrain for construction
         std::string post_terrain;// final terrain after construction
