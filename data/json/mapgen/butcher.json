@@ -100,6 +100,7 @@
     "id": "butcher_meat",
     "items": [
       [ "meat", 20 ],
+      [ "offal", 10 ],
       [ "lunchmeat", 15 ],
       [ "bologna", 10 ],
       [ "hotdogs_frozen", 6 ],
@@ -107,8 +108,10 @@
       [ "sweet_sausage", 2 ],
       [ "bag_meat_vac", 2 ],
       [ "meat_canned", 2 ],
+      [ "offal_canned", 2 ],
       [ "meat_smoked", 2 ],
-      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
     ]
   },
   {
