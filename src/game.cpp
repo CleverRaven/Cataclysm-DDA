@@ -3249,7 +3249,7 @@ bool game::handle_action()
 
         case ACTION_CONTROL_VEHICLE:
             if (u.has_active_mutation( trait_SHELL2 )) {
-                add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
+                add_msg( m_info, _( "You can't operate a vehicle or furniture while you're in your shell." ) );
             } else {
                 control_vehicle();
             }
@@ -7200,12 +7200,12 @@ void game::control_vehicle()
         }
     } else {
         tripoint examp;
-        if (!choose_adjacent(_("Control vehicle where?"), examp)) {
+        if( !choose_adjacent( _( "Control vehicle or furniture where?" ), examp ) ) {
             return;
         }
         veh = m.veh_at(examp, veh_part);
         if (!veh) {
-            add_msg(_("No vehicle there."));
+            add_msg( _( "No vehicle or furniture there." ) );
             return;
         }
         if (veh->interact_vehicle_locked()){
@@ -11901,10 +11901,15 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( veh1 != nullptr && veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle ) {
-        add_msg(_("There are vehicle controls here."));
-        add_msg(m_info, _("%s to drive."),
+    if( veh1 != nullptr && veh1->part_with_feature( vpart1, "CONTROLS" ) >= 0 && u.in_vehicle) {
+        add_msg( _( "There are vehicle controls here." ) );
+        if (!veh1->is_furniture) {
+            add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
+        } else {
+            add_msg( m_info, _( "%s to control." ),
+         press_x( ACTION_CONTROL_VEHICLE ).c_str() );
+        }
     }
 }
 
