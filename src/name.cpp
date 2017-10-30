@@ -80,8 +80,7 @@ static void load( JsonIn &jsin )
             | gender_flag( jo.get_string( "gender", "" ) );
 
         // find group type and add name to group
-        auto &group = names.insert( {type, {}} ).first->second;
-        group.push_back( jo.get_string( "name" ) );
+        names[type].push_back( jo.get_string( "name" ) );
     }
 }
 
