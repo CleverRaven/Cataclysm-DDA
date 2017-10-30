@@ -339,7 +339,7 @@ void init_names()
 {
     const std::string filename = PATH_INFO::find_translated_file( "namesdir",
                                  ".json", "names" );
-    load_names_from_file(filename);
+    Name::load_from_file(filename);
 }
 
 void DynamicDataLoader::unload_data()
@@ -399,7 +399,7 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
 
     // TODO:
-    //    NameGenerator::generator().clear_names();
+    //    Name::clear();
 }
 
 extern void calculate_mapgen_weights();

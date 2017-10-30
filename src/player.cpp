@@ -18,7 +18,6 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
-#include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
