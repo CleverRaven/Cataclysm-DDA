@@ -32,6 +32,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "base_home.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3431,12 +3432,31 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 void iexamine::base_control( player &p, const tripoint &examp) {
-    if (p.home == NULL){
+    #define base (p->home) 
+    if (base == NULL){
         add_msg("The GM prevents you from messing with other people's base settings.");
         return;
     }
-    int choice = 0;
+    
+    uimenu desktop;
+    desktop.text = _("Base Command Options:");
+    desktop.addentry( 1, true, MENU_AUTOASSIGN, _("Ration Supplies.") );
+    desktop.addentry( 2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences.") );
+    desktop.addentry( 3, true, MENU_AUTOASSIGN, _("Crafting Priorities.") );
+    if (base.get_level() > 1){//add lv.2 options
+        desktop.addentry( , true, MENU_AUTOASSIGN,  );
+        if (base.get_level() > 2){//add lv.3 options
+            desktop.addentry( , true, MENU_AUTOASSIGN,  );
+            if (map::has_flag_furn("NETWORKED", exmp){
+                desktop.addentry( , true, MENU_AUTOASSIGN,  );
+            }
+        }
+    }
+    desktop.addentry( , true, MENU_AUTOASSIGN,  );
+    desktop.addentry( , true, MENU_AUTOASSIGN,  );
+    
     top_menu:
+    int choice = 0;
     switch(p.home.get_level()) {//Change options presented based on base's level
         case 1: {
             choice = menu(true, _("Ration Supplies."),
@@ -3564,8 +3584,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
-        { "base_control", &iexamine::base_control},
+        { "climb_down", &iexamine::climb_down },
+        { "base_cmd", &iexamine::base_control},
         { "base_view", &iexamine::base_view}
     }};
 

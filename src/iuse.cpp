@@ -4938,6 +4938,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
 int iuse::spray_can(player *p, item *it, bool, const tripoint& )
 {
+    //TODO: add check to see if at home base. If so allow write npc comands like "NO_NPC"
     bool ismarker = (it->typeId() == "permanent_marker" || it->typeId() == "survival_marker");
     if (ismarker) {
         int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL);
@@ -4959,6 +4960,7 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
 
 int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
 {
+    //TODO: add check to see if at home base. If so allow write npc comands like "NO_NPC"
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
                           .identifier( "graffiti" )
