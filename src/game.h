@@ -907,7 +907,10 @@ class game
         void wear( int pos );
         void wear( item_location& loc );
 
-        void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void takeoff(); // Remove armor  'T'
+        void takeoff( int pos );
+        void takeoff( item_location& loc );
+
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );

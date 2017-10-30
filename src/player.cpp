@@ -8310,27 +8310,37 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+ret_val<bool> player::can_takeoff( const item& it, const std::list<item> *res ) const
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
     } );
 
     if( iter == worn.end() ) {
-        add_msg_player_or_npc( m_info,
-            _( "You are not wearing that item." ),
-            _( "<npcname> is not wearing that item." ) );
-        return false;
+        return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) : _( "<npcname> is not wearing that item." ) );
     }
 
     const auto dependent = get_dependent_worn_items( it );
     if( res == nullptr && !dependent.empty() ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You can't take off power armor while wearing other power armor components." ),
-                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+        return ret_val<bool>::make_failure( !is_npc() ? _( "You can't take off power armor while wearing other power armor components." ) : _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+bool player::takeoff( const item &it, std::list<item> *res )
+{
+    const auto ret = can_takeoff( it, res );
+    if ( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
         return false;
     }
 
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
+        return &it == &wit;
+    } );
+
+    const auto dependent = get_dependent_worn_items( it );
     for( const auto dep_it : dependent ) {
         if( !takeoff( *dep_it, res ) ) {
             return false; // Failed to takeoff a dependent item

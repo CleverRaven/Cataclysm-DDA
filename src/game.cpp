@@ -10534,16 +10534,26 @@ void game::wear(item_location& loc)
     u.wear( u.i_at( loc.obtain( u ) ) );
 }
 
+void game::takeoff()
+{
+    item_location loc = game_menus::inv::take_off( u );
+
+    if( loc ) {
+        takeoff( loc );
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
 void game::takeoff(int pos)
 {
-    if (pos == INT_MIN) {
-        pos = game_menus::inv::take_off( u );
-    }
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
-        return;
-    }
-    u.takeoff( pos );
+    item_location loc( u, &u.i_at( pos ) );
+    takeoff( loc );
+}
+
+void game::takeoff(item_location& loc)
+{
+    u.takeoff( u.i_at( loc.obtain( u ) ) );
 }
 
 void game::change_side(int pos)

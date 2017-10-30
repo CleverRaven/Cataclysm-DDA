@@ -134,28 +134,21 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game_menus::inv::take_off( player &p )
-{
-    return g->inv_for_filter( _( "Take off item" ), [ &p ]( const item & it ) {
-        return p.is_worn( it );
-    }, _( "You don't wear anything." ) );
-}
-
 class armor_inventory_preset: public inventory_selector_preset
 {
     public:
-        armor_inventory_preset( const player &p ) : p( p ) {
+        armor_inventory_preset( const std::string &color ) : color( color ) {
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_encumber() );
-            }, _( "ENC" ) );
+            }, _( "ENCUMBRANCE" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return loc->get_storage() > 0 ? string_format( "<color_yellow>%s</color>",
+            append_cell( [ this, color ]( const item_location & loc ) {
+                return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return string_format( "<color_yellow>%d%%</color>", loc->get_coverage() );
+            append_cell( [ this, color ]( const item_location & loc ) {
+                return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
             }, _( "COVERAGE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -183,6 +176,21 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENV" ) );
         }
 
+    private:
+        std::string get_number_string( int number, bool display_zeroes = false ) const {
+            return number ||
+                   display_zeroes ? string_format( "<%s>%d</color>", color, number ) : std::string();
+        }
+
+        const std::string &color;
+};
+
+class wear_inventory_preset: public armor_inventory_preset
+{
+    public:
+        wear_inventory_preset( const player &p,
+                               const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+
         bool is_shown( const item_location &loc ) const override {
             return loc->is_armor() && !p.is_worn( *loc );
         }
@@ -198,18 +206,43 @@ class armor_inventory_preset: public inventory_selector_preset
         }
 
     private:
-        std::string get_number_string( int number, bool display_zeroes = false ) const {
-            return number ||
-                   display_zeroes ? string_format( "<color_yellow>%d</color>", number ) : std::string();
-        }
-
         const player &p;
 };
 
 item_location game_menus::inv::wear( player &p )
 {
-    return inv_internal( p, armor_inventory_preset( p ), _( "Wear item" ), 1,
+    return inv_internal( p, wear_inventory_preset( p, "color_yellow" ), _( "Wear item" ), 1,
                          _( "You have nothing to wear." ) );
+}
+
+class take_off_inventory_preset: public armor_inventory_preset
+{
+    public:
+        take_off_inventory_preset( const player &p,
+                                   const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_armor() && p.is_worn( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = p.can_takeoff( *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::take_off( player &p )
+{
+    return inv_internal( p, take_off_inventory_preset( p, "color_red" ), _( "Take off item" ), 1,
+                         _( "You don't wear anything." ) );
 }
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,

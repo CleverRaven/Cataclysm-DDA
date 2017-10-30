@@ -868,6 +868,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         ret_val<bool> can_wear( const item& it ) const;
 
         /**
+         * Check player capable of takeing off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
+
+        /**
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
          */
