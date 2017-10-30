@@ -11,13 +11,13 @@ class IsOneOf : public Catch::MatcherBase<std::string>
         virtual bool match( std::string const &s ) const override {
             return values.count( s ) > 0;
         }
-        virtual std::string describe() const {
+        virtual std::string describe() const override {
             std::string s = "is one of {";
             for( auto const &i : values ) {
                 s += i + ", ";
             }
             s.back() = '}';
-            return std::move( s );
+            return s;
         }
 };
 
