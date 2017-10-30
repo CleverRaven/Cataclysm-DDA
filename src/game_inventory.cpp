@@ -142,12 +142,12 @@ class armor_inventory_preset: public inventory_selector_preset
                 return get_number_string( loc->get_encumber() );
             }, _( "ENCUMBRANCE" ) );
 
-            append_cell( [ this, color ]( const item_location & loc ) {
+            append_cell( [ color ]( const item_location & loc ) {
                 return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
-            append_cell( [ this, color ]( const item_location & loc ) {
+            append_cell( [ color ]( const item_location & loc ) {
                 return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
             }, _( "COVERAGE" ) );
 
@@ -177,9 +177,8 @@ class armor_inventory_preset: public inventory_selector_preset
         }
 
     private:
-        std::string get_number_string( int number, bool display_zeroes = false ) const {
-            return number ||
-                   display_zeroes ? string_format( "<%s>%d</color>", color, number ) : std::string();
+        std::string get_number_string( int number ) const {
+            return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
         }
 
         const std::string &color;
