@@ -212,13 +212,6 @@ item_location game_menus::inv::wear( player &p )
                          _( "You have nothing to wear." ) );
 }
 
-/*int game_menus::inv::wear( player &p )
-{
-    return g->inv_for_filter( _( "Wear item" ), [ &p ]( const item & it ) {
-        return it.is_armor() && !p.is_worn( it );
-    }, _( "You don't have any items to wear." ) );
-}*/
-
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
                                     const std::string &none_message )
 {
