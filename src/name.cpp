@@ -4,7 +4,6 @@
 #include "name.h"
 #include "json.h"
 #include "string_formatter.h"
-#include "output.h"
 #include "translations.h"
 #include "rng.h"
 #include "cata_utility.h"
