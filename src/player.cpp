@@ -7372,10 +7372,10 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
 
             reload_callback( std::vector<item::reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
-                             int _last_key, int _default_to, bool preload ) :
+                             int _last_key, int _default_to, bool _can_partial_reload ) :
                            opts( _opts ), draw_row( _draw_row ),
                            last_key( _last_key ), default_to( _default_to ),
-                           can_partial_reload( preload )
+                           can_partial_reload( _can_partial_reload )
             {}
 
             bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
