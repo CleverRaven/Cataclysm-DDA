@@ -35,7 +35,6 @@ void swap_letters( player &p );
 
 /** Todo: let them return item_location */
 int take_off( player &p );
-int wear( player &p );
 
 /**
  * Select items to drop.
@@ -63,6 +62,8 @@ item_location wield( player &p );
 item_location holster( player &p, item &holster );
 /** Choosing a gun to saw down it's barell. */
 item_location saw_barrel( player &p, item &tool );
+/** Choose item to wear. */
+item_location wear( player &p );
 /*@}*/
 
 }

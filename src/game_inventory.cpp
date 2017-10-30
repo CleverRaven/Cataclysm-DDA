@@ -141,12 +141,81 @@ int game_menus::inv::take_off( player &p )
     }, _( "You don't wear anything." ) );
 }
 
-int game_menus::inv::wear( player &p )
+class armor_inventory_preset: public inventory_selector_preset
+{
+public:
+    armor_inventory_preset( const player &p ) : p( p ) {
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->get_encumber() );
+        }, _( "ENC" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return loc->get_storage() > 0 ? string_format( "<color_yellow>%s</color>", format_volume( loc->get_storage() ) ) : std::string();
+        }, _( "STORAGE" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return string_format( "<color_yellow>%d%%</color>", loc->get_coverage() );
+        }, _( "COVERAGE" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->get_warmth() );
+        }, _( "WARMTH" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->bash_resist() );
+        }, _( "BASH" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->cut_resist() );
+        }, _( "CUT" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->acid_resist() );
+        }, _( "ACID" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->fire_resist() );
+        }, _( "FIRE" ) );
+
+        append_cell( [ this ]( const item_location & loc ) {
+            return get_number_string( loc->get_env_resist() );
+        }, _( "ENV" ) );
+    }
+
+    bool is_shown( const item_location &loc ) const override {
+        return loc->is_armor() && !p.is_worn( *loc );
+    }
+
+    std::string get_denial( const item_location &loc ) const override {
+        const auto ret = p.can_wear( *loc );
+
+        if( !ret.success() ) {
+            return trim_punctuation_marks( ret.str() );
+        }
+
+        return std::string();
+    }
+
+private:
+    std::string get_number_string( int number, bool display_zeroes = false ) const {
+        return number || display_zeroes ? string_format( "<color_yellow>%d</color>", number ) : std::string();
+    }
+
+    const player &p;
+};
+
+item_location game_menus::inv::wear( player &p )
+{
+    return inv_internal( p, armor_inventory_preset( p ), _( "Wear item" ), 1,
+                         _( "You have nothing to wear." ) );
+}
+
+/*int game_menus::inv::wear( player &p )
 {
     return g->inv_for_filter( _( "Wear item" ), [ &p ]( const item & it ) {
         return it.is_armor() && !p.is_worn( it );
     }, _( "You don't have any items to wear." ) );
-}
+}*/
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
                                     const std::string &none_message )

@@ -358,7 +358,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),

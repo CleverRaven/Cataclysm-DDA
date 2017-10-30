@@ -10512,18 +10512,26 @@ void game::eat(int pos)
     }
 }
 
-void game::wear(int pos)
+void game::wear()
 {
-    if (pos == INT_MIN) {
-        pos = game_menus::inv::wear( u );
-    }
+    item_location loc = game_menus::inv::wear( u );
 
-    if( pos == INT_MIN ) {
+    if( loc ) {
+        wear( loc );
+    } else {
         add_msg( _( "Never mind." ) );
-        return;
     }
+}
 
-    u.wear( pos );
+void game::wear( int pos )
+{
+    item_location loc( u, &u.i_at( pos ) );
+    wear( loc );
+}
+
+void game::wear(item_location& loc)
+{
+    u.wear( u.i_at( loc.obtain( u ) ) );
 }
 
 void game::takeoff(int pos)

@@ -710,7 +710,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
             it.item_tags.insert( "FIT" );
         }
 
-        if( who.can_wear( it ) ) {
+        if( who.can_wear( it ).success() ) {
             who.worn.push_back( it );
         }
     }
@@ -945,7 +945,7 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( encumb_ok && can_wear( it, false ) ) {
+        if( encumb_ok && can_wear( it ).success() ) {
             // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return wear_item( it, false );
         }
