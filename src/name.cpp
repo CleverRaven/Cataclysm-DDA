@@ -102,7 +102,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
             matching_groups.push_back( it );
         }
     }
-    return std::move( matching_groups );
+    return matching_groups;
 }
 
 // Get a random name with the specified flag
