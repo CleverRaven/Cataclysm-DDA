@@ -2382,5 +2382,159 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command", "//" : "Level 1 : Basic Command Desk",
+        "category" : "OTHER",
+        "required_skills" : [ [ "fabrication", 3 ] ],
+        "time" : 30,
+        "qualities" : [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_new_base",
+        "pre_flags" : "INDOORS",
+        "post_special" : "done_new_base",
+        "post_terrain" : "f_base_cmd1"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command", "//" : "Level 2: Base Command Desk",
+        "category" : "OTHER",
+        "required_skills" : [ [ "electronics", 2], ["computers", 2] ],
+        "time" : 5,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 1} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD1",
+        "post_special" : "done_base_lv2"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command", "//" : "Level 3: Base Command Console",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 5 ],
+            [ "electronics", 5 ],
+            [ "computers", 4]
+        ],
+        "time" : 120,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD2",
+        "post_special" : "done_base_lv3"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command", "//" : "Level 4: Base Command Console MK.II",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 5 ],
+            [ "electronics", 7 ],
+            [ "computers", 6]
+        ],
+        "time" : 150,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD3",
+        "post_special" : "done_base_lv4"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command", "//" : "Level 5: Advanced Command Console",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 8 ],
+            [ "electronics", 9 ],
+            [ "computers", 8 ]
+        ],
+        "time" : 300,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD4",
+        "post_special" : "done_base_lv5"
+    },{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Notice Board",
+        "category" : "OTHER",
+        "required_skills" : [ [ "fabrication", 2 ] ],
+        "time" : 20,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_base_connect",
+        "post_terrain" : "f_base_notice1"
+    },{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Display Screen",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 2 ],
+            [ "electronics", 2]
+         ],
+        "time" : 20,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SCREW", "level": 1 } ]
+            ],
+        "components" : [
+            [ [ "2x4", 2 ] ],
+            [ [ "nail", 4 ] ],
+            [ [ "notice_screen", 1] ]
+        ],
+        "pre_special" : "check_base_connect",
+        "post_terrain" : "f_base_notice2"
+    },{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Networked Display Screen",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 2 ],
+            [ "electronics", 2]
+         ],
+        "time" : 20,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SCREW", "level": 1 } ]
+            ],
+        "components" : [
+            [ [ "notice_screen_net", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_base_notice2_net"
+    },{
+        "type" : "construction",
+        "description" : "Install Network Module",
+        "category" : "OTHER",
+        "required_skills" : [ [ "electronics", 5 ] ],
+        "time" : 15,
+        "qualities" :[
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [ "net_module", 1] ]
+        ],
+        "pre_flags" : "CONNECTABLE",
+        "post_special" : "done_base_connect"
     }
 ]

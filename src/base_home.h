@@ -13,11 +13,11 @@ class ammunition_type;
 using ammotype_id = string_id<ammunition_type>;
 
 enum base_area_flag{
-    BASE_IN, //Inside of actual base
-    BASE_GND, //on base grounds. i.e. between perimiter fence and building
-    BASE_WALL, //terrain seperating BASE_IN and BASE_GND
-    BASE_EDGE, //outer edge of base area
-    NO_NPC,  //NPCs stay out
+    BASE_IN, /**Inside of actual base*/
+    BASE_GND, /**On base grounds. i.e. between perimeter fence and building*/
+    BASE_WALL, /**Terrain seperating BASE_IN and BASE_GND*/
+    BASE_EDGE, /**outer edge of base area*/
+    NO_NPC,  /**NPCs stay out*/
 };
 
 class base_home
@@ -27,11 +27,13 @@ class base_home
     int food_ration_lv;
     int ammo_ration_lv;
     int med_ration_lv;
-    std::unordered_map<ammotype_id, int> gun_count; //stores ammo_type, #guns_that_use_them*burst size
-    std::unordered_map<ammotype_id, int> ammo_count; //stores ammo_types, ammount
 
-    std::list<base_area_flag> baflag[SEEX][SEEY];  //aditional ter and fur flags specific to bases
-    std::list<tripoint> communal_storage;//list of locations of communal storage
+    std::unordered_map<ammotype_id, int> gun_count; /**stores ammo_type, #guns_that_use_them*burst size*/
+    std::unordered_map<ammotype_id, int> ammo_count; /**stores ammo_types, amount*/
+
+    std::list<base_area_flag> baflag[SEEX][SEEY];  /**additional ter and fur flags specific to bases*/
+    std::list<tripoint> communal_storage;/**list of locations of communal storage*/
+    std::list<std::tuple<tripoint, tripoint>> bunks;/**list of <location of bed, location of personal storage>. length = population limit.*/
 
     void count_guns();
     void define_base_area(const submap &base_map, const tripoint &coreloc);  //populates baflag[][]
