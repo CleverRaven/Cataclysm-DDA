@@ -593,7 +593,7 @@ void npc::execute_action( npc_action action )
                     continue;
                 }
 
-                const player *passenger = veh->get_passenger( p2 );
+                const Creature *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }

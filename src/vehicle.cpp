@@ -2787,26 +2787,32 @@ std::vector<int> vehicle::boarded_parts() const
     std::vector<int> res;
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag (p, VPFLAG_BOARDABLE) &&
-                parts[p].has_flag(vehicle_part::passenger_flag)) {
+            get_passenger (p)) {
             res.push_back ((int)p);
         }
     }
     return res;
 }
 
-player *vehicle::get_passenger(int p) const
+template<typename T>
+T *vehicle::get_passenger(int p) const
 {
     p = part_with_feature (p, VPFLAG_BOARDABLE, false);
-    if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
+    if (p >= 0)
     {
-     const int player_id = parts[p].passenger_id;
-     if( player_id == g->u.getID()) {
-      return &g->u;
-     }
-        return g->npc_by_id( player_id );
+	T *psg = g->critter_at<T> (global_part_pos3(p));
+	if (psg && psg->in_vehicle()) {
+	    return psg;
+	}
     }
     return 0;
 }
+
+template Creature *vehicle::get_passenger(int) const;
+template Character *vehicle::get_passenger(int) const;
+template player *vehicle::get_passenger(int) const;
+template npc *vehicle::get_passenger(int) const;
+template monster *vehicle::get_passenger(int) const;
 
 int vehicle::global_x() const
 {
@@ -4371,7 +4377,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     Creature *driver = pl_ctrl ? &g->u : nullptr;
 
     // If in a vehicle assume it's this one
-    if( ph != nullptr && ph->in_vehicle() ) {
+    if( critter != nullptr && critter->in_vehicle() ) {
         critter = nullptr;
         ph = nullptr;
     }
@@ -6461,7 +6467,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
 
         if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
-            const player *p = get_passenger( i );
+            const Creature *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : units::mass( 0 );
         }

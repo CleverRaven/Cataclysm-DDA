@@ -779,7 +779,8 @@ public:
     std::vector<int> boarded_parts() const;
 
     // get passenger at part p
-    player *get_passenger (int p) const;
+    template<typename T = Creature>
+    T *get_passenger (int p) const;
 
     /**
      * Get the coordinates (in map squares) of this vehicle, it's the same
