@@ -881,7 +881,6 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
         if( psg->pos() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
@@ -1219,14 +1218,6 @@ void map::board_vehicle( const tripoint &pos, player *p )
                   veh->parts[ part ].name().c_str() );
         return;
     }
-    if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
-        Creature *psg = veh->get_passenger( seat_part );
-        debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->get_name() : "<null>" );
-        unboard_vehicle( pos );
-    }
-    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
-    veh->parts[seat_part].passenger_id = p->getID();
     veh->invalidate_mass();
 
     p->setpos( pos );
@@ -1266,7 +1257,6 @@ void map::unboard_vehicle( const tripoint &p )
     if( driver ) {
 	driver->controlling_vehicle = false;
     }
-    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
     veh->invalidate_mass();
 }
@@ -1339,7 +1329,6 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
                 g->u.posx(), g->u.posy(), g->u.posz(),
                 prt,
                 part_pos.x, part_pos.y, part_pos.z );
-            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
     }
@@ -1356,7 +1345,6 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
                 prt,
                 part_pos.x, part_pos.y, part_pos.z,
                 g->u.posx(), g->u.posy(), g->u.posz() );
-            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
 

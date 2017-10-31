@@ -435,9 +435,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
               open(p);
             }
         }
-        if (part_flag(p, "BOARDABLE")) {      // no passengers
-            parts[p].remove_flag(vehicle_part::passenger_flag);
-        }
 
         // initial vehicle damage
         if (veh_status == 0) {
@@ -6466,9 +6463,8 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part += j.weight();
         }
 
-        if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
+        if( pi.has_flag( VPFLAG_BOARDABLE ) ) {
             const Creature *p = get_passenger( i );
-            // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : units::mass( 0 );
         }
 

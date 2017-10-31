@@ -87,8 +87,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend item_location;
     friend class turret_data;
 
-    enum : int { passenger_flag = 1 };
-
     vehicle_part(); /** DefaultConstructible */
 
     vehicle_part( const vpart_id& vp, int dx, int dy, item&& it );
