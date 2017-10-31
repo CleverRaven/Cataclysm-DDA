@@ -27,25 +27,25 @@ enum base_area_flag
 };
 
 //furniture flags in json
-    //BASE_CORE -> Is the very heart and soul of a base.
-    //BASE_CMD# -> Level provided by control core.
-    //CMD_SYS -> Acts as a data conduit for the command system.  If adjacent or forms a path to BASE_CORE, allows placement of aux systems.
-    //AUX_SYS -> Is an auxiliary system. Must be built adjacent to BASE_CORE flag or CMD_SYS flag linked to a BASE_CORE flag.
-    //Connectable -> Possible to install network module
-    //NETWORKED -> Network enabled; able to form connection between command and remote system. 
-
+//BASE_CORE -> Is the very heart and soul of a base.
+//BASE_CMD# -> Level provided by control core.
+//CMD_SYS -> Acts as a data conduit for the command system.  If adjacent or forms a path to BASE_CORE, allows placement of aux systems.
+//AUX_SYS -> Is an auxiliary system. Must be built adjacent to BASE_CORE flag or CMD_SYS flag linked to a BASE_CORE flag.
+//Connectable -> Possible to install network module
+//NETWORKED -> Network enabled; able to form connection between command and remote system.
 
 /**
  * Stores capacities of command system and the auxiliary systems present.
  */
-struct command_sys{
-    bool network = false;/**Is the command system wifi enabled? (cmd core must be networked)*/
-    bool auto_conn = true;/**Automaticaly connect to remote systems if able*/
-    int max_conn = 0;/**Network capacity (in generic units).*/
-    int max_cpu;/**Maximum processing power (in generic units.*/
+struct command_sys
+{
+    bool network = false;  /**Is the command system wifi enabled? (cmd core must be networked)*/
+    bool auto_conn = true; /**Automaticaly connect to remote systems if able*/
+    int max_conn = 0;      /**Network capacity (in generic units).*/
+    int max_cpu;           /**Maximum processing power (in generic units.*/
 
-    std::unordered_map<furn_id, int> aux_sys;/**Maps <auxiliary system type, # in command system>*/
-    std::unordered_map<furn_id, int> remote_sys;/**Maps <remote system type, # connected to command system*/
+    std::unordered_map<furn_id, int> aux_sys;    /**Maps <auxiliary system type, # in command system>*/
+    std::unordered_map<furn_id, int> remote_sys; /**Maps <remote system type, # connected to command system*/
 };
 
 class base_home
@@ -59,14 +59,14 @@ class base_home
     //#########################//
 
     //data members
-    int base_level;/**Level of command core. Determins max # of aux sys and, use of certain features.*/
+    int base_level; /**Level of command core. Determins max # of aux sys and, use of certain features.*/
     command_sys cmd_sys;
 
     std::list<base_area_flag> baflag[SEEX][SEEY]; /**additional ter and fur flags specific to bases.*/
-    std::list<npc_based *> freeloaders; /**list containing references to the NPCs staying at the base.*/
+    std::list<npc_based *> freeloaders;           /**list containing references to the NPCs staying at the base.*/
 
     std::list<tripoint> bunks;        /**list containing locations of sleeping spots in base.*/
-    std::list<tripoint> storage_open; /**list containing locations of unclaimed/designated storage furnature.*/    
+    std::list<tripoint> storage_open; /**list containing locations of unclaimed/designated storage furnature.*/
 
     //functions
     void define_base_area(const submap &base_map, const tripoint &coreloc); //populates baflag[][]
