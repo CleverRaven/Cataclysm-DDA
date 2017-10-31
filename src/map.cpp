@@ -1224,7 +1224,6 @@ void map::board_vehicle( const tripoint &pos, player *p )
     veh->invalidate_mass();
 
     p->setpos( pos );
-    p->in_vehicle = true;
     if( p == &g->u ) {
         g->update_map( g->u );
     }
@@ -1240,7 +1239,6 @@ void map::unboard_vehicle( const tripoint &p )
         // Try and force unboard the player anyway.
         passenger = g->critter_at<player>( p );
         if( passenger ) {
-            passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
         }
         return;
@@ -1256,7 +1254,6 @@ void map::unboard_vehicle( const tripoint &p )
         debugmsg ("map::unboard_vehicle: passenger not found");
         return;
     }
-    passenger->in_vehicle = false;
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
@@ -3643,7 +3640,7 @@ void map::crush( const tripoint &p )
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
-        if( crushed_player->in_vehicle ) {
+        if( crushed_player->in_vehicle() ) {
             vehicle *veh = veh_at(p, veh_part);
             player_inside = veh != nullptr && veh->is_inside(veh_part);
         }
@@ -6469,7 +6466,7 @@ void map::shift( const int sx, const int sy )
     set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
-    if( g->u.in_vehicle ) {
+    if( g->u.in_vehicle() ) {
         g->u.setx( g->u.posx() - sx * SEEX );
         g->u.sety( g->u.posy() - sy * SEEY );
     }
@@ -7971,7 +7968,7 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
     const player * const p = dynamic_cast<const player *>( &c );
-    if( p != nullptr && p->in_vehicle ) {
+    if( p != nullptr && p->in_vehicle() ) {
         return;
     }
     if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {

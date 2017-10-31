@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "debug.h"
 #include "field.h"
 #include "projectile.h"
@@ -1426,6 +1427,17 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
 void Creature::check_dead_state() {
     if( is_dead_state() ) {
         die( nullptr );
+    }
+}
+
+bool Creature::in_vehicle() const
+{
+    int part = -1;
+    auto veh = g->m.veh_at( pos(), part );
+    if( !veh ) {
+        return false;
+    } else {
+        return veh->part_with_feature( part, VPFLAG_BOARDABLE, false ) >= 0;
     }
 }
 

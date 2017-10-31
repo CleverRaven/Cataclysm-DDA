@@ -296,6 +296,7 @@ class Creature
         virtual const tripoint &pos() const = 0;
 
         virtual void setpos( const tripoint &pos ) = 0;
+        virtual bool in_vehicle() const;
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects(bool attacking) = 0;

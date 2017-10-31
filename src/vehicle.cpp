@@ -2447,7 +2447,7 @@ int vehicle::part_displayed_at(int const local_x, int const local_y) const
         return -1;
     }
 
-    bool in_vehicle = g->u.in_vehicle;
+    bool in_vehicle = g->u.in_vehicle();
     if (in_vehicle) {
         // They're in a vehicle, but are they in /this/ vehicle?
         std::vector<int> psg_parts = boarded_parts();
@@ -4371,7 +4371,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     Creature *driver = pl_ctrl ? &g->u : nullptr;
 
     // If in a vehicle assume it's this one
-    if( ph != nullptr && ph->in_vehicle ) {
+    if( ph != nullptr && ph->in_vehicle() ) {
         critter = nullptr;
         ph = nullptr;
     }
