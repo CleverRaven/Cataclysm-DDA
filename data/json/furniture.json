@@ -2804,7 +2804,7 @@
         "required_str" : -1,
         "examine_action" : "base_cmd",
         "max_volume" : 2000,
-        "flags" : [ "BASE_CMD1", "BASE_CORE", "FLAMMABLE", "ORGANIC" ]
+        "flags" : [ "BASE_CMD1", "BASE_CORE", "CMD_SYS", "FLAMMABLE", "ORGANIC" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd2",
@@ -2815,7 +2815,7 @@
         "required_str" : -1,
         "examine_action" : "base_cmd",
         "max_volume" : 500,
-        "flags" : [ "BASE_CMD2", "BASE_CORE", "FLAMMABLE" ]
+        "flags" : [ "BASE_CMD2", "BASE_CORE", "CMD_SYS", "FLAMMABLE" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd3",
@@ -2826,7 +2826,7 @@
         "required_str" : -1,
         "examine_action" : "base_cmd",
         "max_volume" : 100,
-        "flags" : [ "BASE_CMD3", "BASE_CORE", "NOITEM" ]
+        "flags" : [ "BASE_CMD3", "BASE_CORE", "CMD_SYS", "NOITEM" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd3_net",
@@ -2837,7 +2837,7 @@
         "required_str" : -1,
         "examine_action" : "base_cmd",
         "max_volume" : 50,
-        "flags" : [ "BASE_CMD3", "BASE_CORE", "NETWORKED", "NOITEM" ]
+        "flags" : [ "BASE_CMD3", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd4",
@@ -2847,7 +2847,7 @@
         "move_cost_mod" : -1,
         "required_str" : -1,
         "examine_action" : "base_cmd",
-        "flags" : [ "BASE_CMD4", "BASE_CORE", "NOITEM" ]
+        "flags" : [ "BASE_CMD4", "BASE_CORE", "CMD_SYS", "NOITEM" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd4_net",
@@ -2857,7 +2857,7 @@
         "move_cost_mod" : -1,
         "required_str" : -1,
         "examine_action" : "base_cmd",
-        "flags" : [ "BASE_CMD4", "BASE_CORE", "NETWORKED", "NOITEM" ]
+        "flags" : [ "BASE_CMD4", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
     },{
         "type:" : "furniture",
         "id" : "f_base_cmd5",
@@ -2867,7 +2867,7 @@
         "move_cost_mod" : -1,
         "required_str" : -1,
         "examine_action" : "base_cmd",
-        "flags": [ "BASE_CMD5", "BASE_CORE", "NETWORKED", "NOITEM" ]
+        "flags": [ "BASE_CMD5", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
     },{
         "type" : "furniture",
         "id" : "f_base_notice1",
@@ -2877,7 +2877,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE", "NOITEM", "ORGANIC"],
-        "examine_action": "base_notice",
+        "examine_action": "base_view",
         "deconstruct" : {
             "items": [
                 { "item": "2x4", "count": 4 },
@@ -2892,8 +2892,8 @@
         "bgcolor": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "examine_action" : "base_notice2",
-        "flags" : [ "NOITEM", "BASE_AUX"]
+        "examine_action" : "base_view_ele",
+        "flags" : [ "NOITEM", "CMD_SYS"]
     },{
         "type" : "furniture",
         "id" : "f_base_notice2_net",
@@ -2902,8 +2902,56 @@
         "bgcolor": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "examine_action" : "base_notice2",
-        "flags" : [ "NOITEM", "BASE_AUX", "NETWORKED"]
+        "examine_action" : "base_view_ele",
+        "flags" : [ "NOITEM", "BASE_AUX", "CMD_SYS", "NETWORKED"]
+    },{
+        "type" : "furniture",
+        "id" : "net_hub",
+        "name" : "network connection hub",
+        "symbol" :"#" ,
+        "bgcolor" : "blue",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_discon",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "sec_ctr",
+        "name" : "security control system",
+        "symbol" : "{",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_sec",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "pa_sys",
+        "name" : "public announcement system",
+        "symbol" : "p",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_pa",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "cpu_bank",
+        "name" : "server bank",
+        "symbol" : "#",
+        "bgcolor" : "dkgray",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "com_sys",
+        "name" : "radio communication system",
+        "symbol" : "p",
+        "bgcolor" : "ltgray",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_com",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
     }
 ]
-

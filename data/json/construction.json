@@ -2384,7 +2384,7 @@
         "post_terrain" : "t_reinforced_glass_shutter"
     },{
         "type" : "construction",
-        "description" : "Build Base Command", "//" : "Level 1 : Basic Command Desk",
+        "description" : "Build Base Command Core", "//" : "Level 1 : Basic Command Desk",
         "category" : "OTHER",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
@@ -2402,7 +2402,7 @@
         "post_terrain" : "f_base_cmd1"
     },{
         "type" : "construction",
-        "description" : "Build Base Command", "//" : "Level 2: Base Command Desk",
+        "description" : "Build Base Command Core", "//" : "Level 2: Base Command Desk",
         "category" : "OTHER",
         "required_skills" : [ [ "electronics", 2], ["computers", 2] ],
         "time" : 5,
@@ -2416,7 +2416,7 @@
         "post_special" : "done_base_lv2"
     },{
         "type" : "construction",
-        "description" : "Build Base Command", "//" : "Level 3: Base Command Console",
+        "description" : "Build Base Command Core", "//" : "Level 3: Base Command Console",
         "category" : "OTHER",
         "required_skills" : [ 
             [ "fabrication", 5 ],
@@ -2434,7 +2434,7 @@
         "post_special" : "done_base_lv3"
     },{
         "type" : "construction",
-        "description" : "Build Base Command", "//" : "Level 4: Base Command Console MK.II",
+        "description" : "Build Base Command Core", "//" : "Level 4: Base Command Console MK.II",
         "category" : "OTHER",
         "required_skills" : [ 
             [ "fabrication", 5 ],
@@ -2452,7 +2452,7 @@
         "post_special" : "done_base_lv4"
     },{
         "type" : "construction",
-        "description" : "Build Base Command", "//" : "Level 5: Advanced Command Console",
+        "description" : "Build Base Command Core", "//" : "Level 5: Advanced Command Console",
         "category" : "OTHER",
         "required_skills" : [ 
             [ "fabrication", 8 ],
@@ -2526,13 +2526,13 @@
         "type" : "construction",
         "description" : "Install Network Module",
         "category" : "OTHER",
-        "required_skills" : [ [ "electronics", 5 ] ],
+        "required_skills" : [ [ "electronics", 4 ] ],
         "time" : 15,
         "qualities" :[
             [ { "id" : "SCREW", "level" : 2} ]
         ],
         "components" : [
-            [ [ "net_module", 1] ]
+            [ [ "network_mod", 1] ]
         ],
         "pre_flags" : "CONNECTABLE",
         "post_special" : "done_base_connect"

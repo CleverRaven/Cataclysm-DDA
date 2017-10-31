@@ -3431,6 +3431,11 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+/**
+ * Use base command to edit options and utalize base functions.
+ * 
+ * TODO: Finish writting. Change to uimenu.
+ */
 void iexamine::base_control( player &p, const tripoint &examp) {
     #define base (p->home) 
     if (base == NULL){
@@ -3444,31 +3449,27 @@ void iexamine::base_control( player &p, const tripoint &examp) {
     desktop.addentry( 2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences.") );
     desktop.addentry( 3, true, MENU_AUTOASSIGN, _("Crafting Priorities.") );
     if (base.get_level() > 1){//add lv.2 options
-        desktop.addentry( , true, MENU_AUTOASSIGN,  );
+        desktop.addentry( 4, true, MENU_AUTOASSIGN, _("View Status.") );
+        desktop.addentry( 5, true, MENU_AUTOASSIGN, _("Base Planner.") )
         if (base.get_level() > 2){//add lv.3 options
-            desktop.addentry( , true, MENU_AUTOASSIGN,  );
-            if (map::has_flag_furn("NETWORKED", exmp){
-                desktop.addentry( , true, MENU_AUTOASSIGN,  );
+            desktop.addentry( 6, true, MENU_AUTOASSIGN, _("Personel Managment.") );
+            if (base.get_level() > 3){//lv.4 allows basic access to aux system options
             }
         }
     }
-    desktop.addentry( , true, MENU_AUTOASSIGN,  );
-    desktop.addentry( , true, MENU_AUTOASSIGN,  );
+    desktop.addentry( 0, true, MENU_AUTOASSIGN, _("Cancel") ); //cancel always 0 and at bottom
+    //desktop.addentry( , true, MENU_AUTOASSIGN,  );
     
-    top_menu:
-    int choice = 0;
-    switch(p.home.get_level()) {//Change options presented based on base's level
-        case 1: {
-            choice = menu(true, _("Ration Supplies."),
-                _("Ammunition type Prefrences."),
-                _("Cancel"), NULL);
-            if (choice == 3) return;
+    int topchoice=0;
+    desk_menu:
+    desktop.query();
+    deskchoice = desktop.ret;
 
-    }
-    sub_menu:
-    switch (choice) {
-        case 0: return;
+    switch (deskchoice) {
+        case 0: return;//cancel -> done
         case 1: {//rationing rules
+            uimenu ratrule;
+
             int ratwhat = menu(true, _("Food Rationing..."),
                 _("Ammunition Rationing..."),
                 _("Meds/First Aid Rationing..."),
@@ -3506,9 +3507,67 @@ void iexamine::base_control( player &p, const tripoint &examp) {
         }
         case 2: {//ammo type prefrences
             add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            //TODO: Menu assign prefrence (weight) to ammo types.  Prefrence to be refrenced by NPC choosing weapon.
+        }
+        case 3: {//crafting priorities
+            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            //TODO: Menu assign priorities (weight) to craft recipies.  NPCs to refrence priorities when crafting.
+        }
+        case 4: {//view status.
+            iexamine::base_view_ele();
+        }
+        case 5: {//base planner
+            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+        }
+        case 6: {//personel managment
+            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
         }
     }
 }
+
+/**
+ * View base status/information from a bulletin board. (limited info)
+ */
+void iexamine::base_view( player &p, const tripoint &examp) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+/**
+ * View base status/information from a monator. (lots of info)
+ */
+void iexamine::base_view_ele( player &p, const tripoint &examp) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+/**
+ * Manually disconnect random remote system(s).  With a hammer or wrench you can fix the connection.
+ * LOLz joke method. 
+ */
+void iexamine::base_discon( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+/**
+ * Mannage basic and security remote systems.  (Lights! Cammera! Action...of connected turrets!) 
+ */
+void iexamine::base_sec( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+/**
+ * Give instructions to all NPCs in earshot of connected PA speakers.  Music works too.
+ */
+void iexamine::base_pa( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+ 
+/**
+ * Manage/use base' communication system. (bassically limited cell phone infustructure.)
+ */
+void iexamine::base_com( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
 
 /**
 * Given then name of one of the above functions, returns the matching function
@@ -3587,6 +3646,11 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "climb_down", &iexamine::climb_down },
         { "base_cmd", &iexamine::base_control},
         { "base_view", &iexamine::base_view}
+        { "base_view_ele", &iexamine::base_view_ele},
+        { "base_discon", &iexamine::base_discon},
+        { "base_pa", &iexamine::base_pa},
+        { "base_com", &iexamine::base_com},
+        { "base_sec", &iexamine::base_sec},
     }};
 
     auto iter = function_map.find( function_name );

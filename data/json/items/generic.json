@@ -2389,10 +2389,10 @@
         "bashing" : 5,
         "to_hit" : -5
     },{
-        "id" : "network_module",
+        "id" : "network_mod",
         "type" : "GENERIC",
         "name" : "network module",
-        "description" : "A wireless adapter that can be connected to a wide array of stuff.  Could possibly allow one to connect remote systems to a base command system; a \"base\" theater for instance...",
+        "description" : "A wireless adapter that can be connected to a wide array of stuff. Could possibly allow one to connect remote systems to a base command system.",
         "symbol" : ",",
         "color" : "dark_gray",
         "flags" : "TRADER_AVOID",

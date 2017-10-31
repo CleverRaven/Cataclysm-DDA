@@ -32,6 +32,11 @@ void base_home::define_base_area(const submap &base_map, const tripoint &coreloc
     //for easy reference
     int x = coreloc.x;
     int y = coreloc.y;
+
+    //TODO:  Re-write. Previous implementation wasn't going to work. (immpossible to distinguish between underground and thick rock wall)
+    ///soo much work wasted (T_T)
+
+    //TODO: basically implement bfs
 }
 
 /**
@@ -44,7 +49,6 @@ void base_home::define_base_area(const submap &base_map, const tripoint &coreloc
 void base_home::count_guns()
 {
     for (int i=0; i<communal_storage.length; i++){
-        for (int k=0; i<)
     }
 }
 
@@ -79,4 +83,12 @@ void base_home::set_med_ration(int val)
  */
 void base_home::change_lv(int new_level){
     base_level = new_level;
+}
+
+/**
+ * Run "HomeMakeoverDesignStudio.exe" basically wants to start a simplified map editor so you can plan your base's development.
+ * Ideally NPCs could then follow said plan and work while you are away.
+ */
+void base_home::run_design(){
+    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
