@@ -8,21 +8,11 @@
 #include "rng.h"
 #include "cata_utility.h"
 
-static inline nameFlags operator&( nameFlags l, nameFlags r )
-{
-    return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
-
 namespace Name
 {
 static std::map< nameFlags, std::vector< std::string > > names;
 
-struct str_flag {
-    char const *str;
-    nameFlags f;
-};
-
-static const str_flag usage_flags[] = {
+static const std::map< std::string, nameFlags > usage_flags = {
     { "given",     nameIsGivenName },
     { "family",    nameIsFamilyName },
     { "universal", nameIsGivenName | nameIsFamilyName },
@@ -30,7 +20,8 @@ static const str_flag usage_flags[] = {
     { "city",      nameIsTownName },
     { "world",     nameIsWorldName }
 };
-static const str_flag gender_flags[] = {
+
+static const std::map< std::string, nameFlags > gender_flags {
     { "male",   nameIsMaleName },
     { "female", nameIsFemaleName },
     { "unisex", nameIsUnisexName }
@@ -38,22 +29,18 @@ static const str_flag gender_flags[] = {
 
 static nameFlags usage_flag( std::string const &usage )
 {
-    for( auto const &i : usage_flags ) {
-        if( usage == i.str ) {
-            return i.f;
-        }
+    auto it = usage_flags.find( usage );
+    if( it != usage_flags.end() ) {
+        return it->second;
     }
     return static_cast< nameFlags >( 0 );
 }
 
 static nameFlags gender_flag( std::string const &gender )
 {
-    if( !gender.empty() ) {
-        for( auto const &i : gender_flags ) {
-            if( gender == i.str ) {
-                return i.f;
-            }
-        }
+    auto it = gender_flags.find( gender );
+    if( it != gender_flags.end() ) {
+        return it->second;
     }
     return static_cast< nameFlags >( 0 );
 }
@@ -109,7 +96,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 std::string get( nameFlags searchFlags )
 {
     auto matching_groups = get_matching_groups( searchFlags );
-    if( matching_groups.size() ) {
+    if( ! matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;
         for( auto const &i : matching_groups ) {
