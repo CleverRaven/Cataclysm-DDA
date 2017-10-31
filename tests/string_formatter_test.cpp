@@ -120,7 +120,12 @@ TEST_CASE( "string_formatter" )
 
     // format string with width and precision
     test_new_old_pattern( "%-*.*f", nullptr, 4, 7, 100.44 );
-    test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
+
+    // sprintf of some systems doesn't support the 'N$' syntax, if it's
+    // not supported, the result is either empty, or the input string
+    if( raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
+        test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
+    }
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4 ) );
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4, 5 ) );
