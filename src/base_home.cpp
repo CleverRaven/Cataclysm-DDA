@@ -1,8 +1,11 @@
 #include "base_home.h"
 #include "submap.h"
-#include <unordered_map>
 #include "mapdata.h"
 #include "map.h"
+
+#include <unordered_map>
+#include <list>
+#include <set>
 
 base_home::base(submap &base_map,const tripoint &coreloc){
     base::define_base_area(base_map, coreloc);
@@ -16,7 +19,7 @@ base_home::base(submap &base_map,const tripoint &coreloc){
  */
 bool base_home::has_base_flag(const tripoint &p, base_area_flag flag)
 {
-    return(baflag[p.x][p.y])
+    return(baflag[p.x][p.y].count(flag))
 }
 
 /**
@@ -48,7 +51,7 @@ void base_home::define_base_area(const submap &base_map, const tripoint &coreloc
  */
 void base_home::count_guns()
 {
-    for (int i=0; i<communal_storage.length; i++){
+    for (int i=0; i<communal_storage.length(); i++){
     }
 }
 
@@ -90,5 +93,5 @@ void base_home::change_lv(int new_level){
  * Ideally NPCs could then follow said plan and work while you are away.
  */
 void base_home::run_design(){
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }

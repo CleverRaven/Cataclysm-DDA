@@ -1,0 +1,253 @@
+This file is for me to store stuff I want to remove but don't want to/ feel like deleting .
+Just ignore this completely it will be removed before code is ready to be merged.
+
+#####################
+##construction.json
+#####################
+
+{
+        "type" : "construction",
+        "description" : "Build Base Command Core", "//" : "Level 2: Base Command Desk",
+        "category" : "OTHER",
+        "required_skills" : [ [ "electronics", 2], ["computers", 2] ],
+        "time" : 5,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 1} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD1",
+        "post_special" : "done_base_lv2"
+    },
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+,{
+        "type" : "construction",
+        "description" : "Build Base Command Core", "//" : "Level 4: Base Command Console MK.II",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 5 ],
+            [ "electronics", 7 ],
+            [ "computers", 6]
+        ],
+        "time" : 150,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD3",
+        "post_special" : "done_base_lv4"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command Core", "//" : "Level 5: Advanced Command Console",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 8 ],
+            [ "electronics", 9 ],
+            [ "computers", 8 ]
+        ],
+        "time" : 300,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [] ]
+        ],
+        "pre_flags" : "BASE_CMD4",
+        "post_special" : "done_base_lv5"
+    }
+~~~~~~~~~~~~~~~~~~~~~~
+{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Networked Display Screen",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 2 ],
+            [ "electronics", 2]
+         ],
+        "time" : 20,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SCREW", "level": 1 } ]
+            ],
+        "components" : [
+            [ [ "notice_screen_net", 1] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_base_notice2_net"
+    },
+
+#####################
+##furniture.json
+#####################
+
+,{
+        "type:" : "furniture",
+        "id" : "f_base_cmd2",
+        "name" : "base command desk",
+        "symbol" : "#",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 500,
+        "flags" : [ "BASE_CMD2", "BASE_CORE", "CMD_SYS", "FLAMMABLE" ]
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+,{
+        "type:" : "furniture",
+        "id" : "f_base_cmd4",
+        "name" : "base command console mk.2",
+        "symbol" : "6",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags" : [ "BASE_CMD4", "BASE_CORE", "CMD_SYS", "NOITEM" ]
+    },{
+        "type:" : "furniture",
+        "id" : "f_base_cmd4_net",
+        "name" : "networked command console mk.2",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags" : [ "BASE_CMD4", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
+    },{
+        "type:" : "furniture",
+        "id" : "f_base_cmd5",
+        "name" : "advanced command console",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "flags": [ "BASE_CMD5", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
+    }
+~~~~~~~~~~~~~~~~~~~~~~~
+    ,{
+        "type" : "furniture",
+        "id" : "net_hub",
+        "name" : "network connection hub",
+        "symbol" :"#" ,
+        "bgcolor" : "blue",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_discon",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "sec_ctr",
+        "name" : "security control system",
+        "symbol" : "{",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_sec",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "pa_sys",
+        "name" : "public announcement system",
+        "symbol" : "p",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_pa",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "cpu_bank",
+        "name" : "server bank",
+        "symbol" : "#",
+        "bgcolor" : "dkgray",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "com_sys",
+        "name" : "radio communication system",
+        "symbol" : "p",
+        "bgcolor" : "ltgray",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_com",
+        "flags" : ["NOITEM", "BASE_AUX", "CMD_SYS"]
+    }
+
+    #############################
+    ##recipe_electronics.json
+    #############################
+
+    ,{
+  "result" : "notice_screen",
+  "type" : "recipe",
+  "category" : "CC_ELECTRONIC",
+  "subcategory" : "CSC_ELECTRONIC_PARTS",
+  "skill_used" : "electronics",
+  "difficulty" : 4,
+  "skills_required" : [ [ "electronics", 4 ], [ "fabrication", 4 ] ],
+  "time" : 1200000,
+  "reversible" : false,
+  "autolearn" : true,
+  "qualities" : [ { "id" : "SCREW", "level" : 2 }  ],
+  "tools": [
+    [
+      [ "soldering_iron", 25 ],
+      [ "toolset", 25 ]
+    ]
+  ],
+  "components" : [
+    [ "small_lcd_screen", 10 ],
+    [ "processor", 3 ],
+    [ "RAM", 2 ],
+    [ "cable", 60 ],
+    [ "amplifier", 4 ],
+    [ "power_supply", 2 ],
+    [ "plastic_chunk", 12 ]
+  ]
+},{
+  "result" : "notice_screen",
+  "id_suffix" : "from-TV",
+  "type" : "recipe",
+  "category" : "CC_ELECTRONIC",
+  "subcategory" : "CSC_ELECTRONIC_PARTS",
+  "skill_used" : "electronics",
+  "difficulty" : 2,
+  "skills_required" : [ [ "electronics", 2 ], [ "fabrication", 2 ] ],
+  "time" : 20000,
+  "reversible" : false,
+  "autolearn" : true,
+  "qualities" : [ { "id" : "SCREW", "level" : 2 }  ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components" : [
+    [ "television", 1 ],
+    [ "cable", 30 ],
+    [ "plastic_chunk", 4 ]
+  ]
+},{
+  "result" : "notice_screen_net",
+  "type" : "recipe",
+  "category" : "CC_ELECTRONIC",
+  "subcategory" : "CSC_ELECTRONIC_PARTS",
+  "skill_used" : "electronics",
+  "difficulty" : 5,
+  "skills_required" : [ [ "electronics", 4 ] ],
+  "time" : 1200000,
+  "reversible" : false,
+  "autolearn" : true,
+  "qualities" : [ { "id" : "SCREW", "level" : 2 }  ],
+  "components" : [
+    [ "notice_screen", 1 ],
+    [ "network_mod", 1]
+  ]
+}

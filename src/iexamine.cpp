@@ -3436,8 +3436,8 @@ void iexamine::climb_down( player &p, const tripoint &examp )
  * 
  * TODO: Finish writting. Change to uimenu.
  */
-void iexamine::base_control( player &p, const tripoint &examp) {
-    #define base (p->home) 
+void iexamine::base_control( player &p, const tripoint &examp ) {
+    auto &base = p->home; 
     if (base == NULL){
         add_msg("The GM prevents you from messing with other people's base settings.");
         return;
@@ -3448,13 +3448,11 @@ void iexamine::base_control( player &p, const tripoint &examp) {
     desktop.addentry( 1, true, MENU_AUTOASSIGN, _("Ration Supplies.") );
     desktop.addentry( 2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences.") );
     desktop.addentry( 3, true, MENU_AUTOASSIGN, _("Crafting Priorities.") );
-    if (base.get_level() > 1){//add lv.2 options
-        desktop.addentry( 4, true, MENU_AUTOASSIGN, _("View Status.") );
-        desktop.addentry( 5, true, MENU_AUTOASSIGN, _("Base Planner.") )
-        if (base.get_level() > 2){//add lv.3 options
-            desktop.addentry( 6, true, MENU_AUTOASSIGN, _("Personel Managment.") );
-            if (base.get_level() > 3){//lv.4 allows basic access to aux system options
-            }
+    desktop.addentry( 4, true, MENU_AUTOASSIGN, _("View Status.") );//not sure if this should actually be included.
+    desktop.addentry( 5, true, MENU_AUTOASSIGN, _("Personel Managment.") );
+    desktop.addentry( 6, true, MENU_AUTOASSIGN, _("Base Planner.") )
+    if (base.get_level() > 1){//Having a computer grants more functions. Only levels 1 and 3 implemented.
+        if (base.get_level() > 2){//Having a console alows access to aux system features
         }
     }
     desktop.addentry( 0, true, MENU_AUTOASSIGN, _("Cancel") ); //cancel always 0 and at bottom
@@ -3463,64 +3461,71 @@ void iexamine::base_control( player &p, const tripoint &examp) {
     int topchoice=0;
     desk_menu:
     desktop.query();
-    deskchoice = desktop.ret;
 
-    switch (deskchoice) {
+    //.addentry( , true, MENU_AUTOASSIGN,  );
+    switch (desktop.ret) {
         case 0: return;//cancel -> done
         case 1: {//rationing rules
-            uimenu ratrule;
+            char* ratlvs[] = {//enum to print levels as string
+                _("None"),
+                _("Light"),
+                _("Medium"),
+                _("Heavy")
+            };
+            uimenu ratmenu;
+            ratmenu.text = _("Set Rationing Levels:")
+            ratmenu.addentry( 1, true, MENU_AUTOASSIGN, string_format( _("Food Rationing: %s"), ratlvs[base.get_food_ration()] ) );
+            ratmenu.addentry( 2, true, MENU_AUTOASSIGN, string_format( _("Ammunition Rationing: %s"), ratlvs[base.get_ammo_ration()] ) );
+            ratmenu.addentry( 3, true, MENU_AUTOASSIGN, string_format( _("Medicine/First Aid Rationing: %s"), ratlvs[base.get_med_ration()] ) );
+            ratmenu.addentry( 0, true, MENU_AUTOASSIGN, _("Back") );
 
-            int ratwhat = menu(true, _("Food Rationing..."),
-                _("Ammunition Rationing..."),
-                _("Meds/First Aid Rationing..."),
-                _("Back"), NULL);
-            switch (ratwhatk){
-                case 1: {
-                    int lv = menu(true, _("Ration Level:"),
-                        _("None: Eat anything and everything whenever you want."),
-                        _("Light: Eat when hungry. Pay some attention to food use."),
-                        _("Medium: Eat when hungry. Always cook nutritious food."),
-                        _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
-                    p.home.set_food_ration(lv-1);
-                }
-                case 2: {
-                    int lv = menu(true, _("Ration Level:"),
-                        _("None: Use anything and everything you want."),
-                        _("Light:"),
-                        _("Medium:"),
-                        _("Heavy:"), NULL);
-                    p.home.set_ammo_ration(lv-1);
-                }
-                case 3: {
-                    int lv = menu(true, _("Ration Level:"),
-                        _("None: Use anything and everything you want."),
-                        _("Light:"),
-                        _("Medium:"),
-                        _("Heavy:"), NULL);
-                    p.home.set_med_ration(lv-1);
-                }
-                case 4: {
-                    goto top_menu;
-                }
-            }
-            goto sub_menu;
-        }
+            do {
+                ratmenu.query();
+                switch (ratmenu.ret){
+                    case 0://"Back" don't do anything and loop will end
+                    case 1: {//food
+                        int lv = menu(true, _("Ration Level:"),
+                            _("None: Eat anything and everything whenever you want."),
+                            _("Light: Eat when hungry. Pay some attention to food use."),
+                            _("Medium: Eat when hungry. Always cook nutritious food."),
+                            _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
+                        p.home.set_food_ration(lv-1);
+                    }
+                    case 2: {//ammo
+                        int lv = menu(true, _("Ration Level:"),
+                            _("None: Use anything and everything you want."),
+                            _("Light:"),
+                            _("Medium:"),
+                            _("Heavy:"), NULL);
+                        p.home.set_ammo_ration(lv-1);
+                    }
+                    case 3: {//meds
+                        int lv = menu(true, _("Ration Level:"),
+                            _("None: Use anything and everything you want."),
+                            _("Light:"),
+                            _("Medium:"),
+                            _("Heavy:"), NULL);
+                        p.home.set_med_ration(lv-1);
+                    }
+                }//ratmenu switch
+            } while ( ratmenu.ret != 0 );
+        }//desktop switch case 1
         case 2: {//ammo type prefrences
-            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
             //TODO: Menu assign prefrence (weight) to ammo types.  Prefrence to be refrenced by NPC choosing weapon.
         }
         case 3: {//crafting priorities
-            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
             //TODO: Menu assign priorities (weight) to craft recipies.  NPCs to refrence priorities when crafting.
         }
         case 4: {//view status.
             iexamine::base_view_ele();
         }
         case 5: {//base planner
-            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
         }
         case 6: {//personel managment
-            add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
         }
     }
 }
@@ -3529,14 +3534,14 @@ void iexamine::base_control( player &p, const tripoint &examp) {
  * View base status/information from a bulletin board. (limited info)
  */
 void iexamine::base_view( player &p, const tripoint &examp) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
 
 /**
  * View base status/information from a monator. (lots of info)
  */
 void iexamine::base_view_ele( player &p, const tripoint &examp) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
 
 /**
@@ -3544,28 +3549,28 @@ void iexamine::base_view_ele( player &p, const tripoint &examp) {
  * LOLz joke method. 
  */
 void iexamine::base_discon( player &p, const tripoint &examp ) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
 
 /**
  * Mannage basic and security remote systems.  (Lights! Cammera! Action...of connected turrets!) 
  */
 void iexamine::base_sec( player &p, const tripoint &examp ) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
 
 /**
  * Give instructions to all NPCs in earshot of connected PA speakers.  Music works too.
  */
 void iexamine::base_pa( player &p, const tripoint &examp ) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
  
 /**
  * Manage/use base' communication system. (bassically limited cell phone infustructure.)
  */
 void iexamine::base_com( player &p, const tripoint &examp ) {
-    add_msg("Not implemented yet.","(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
 }
 
 

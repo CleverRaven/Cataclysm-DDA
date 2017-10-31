@@ -62,7 +62,6 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "n: Unarmed Styles" ) );
     headers.push_back( _( "o: Survival Tips" ) );
     headers.push_back( _( "p: Driving" ) );
-    headers.push_back( _( "q: Bases" ) );
 
     size_t half_size = headers.size() / 2;
     int second_column = getmaxx( win ) / 2;

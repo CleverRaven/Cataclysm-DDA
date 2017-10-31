@@ -1,11 +1,14 @@
 #pragma once
-#ifndef BASE_HOME
-#define BASE_HOME
+#ifndef BASE_HOME_H
+#define BASE_HOME_h
 
 #include "submap.h"
-#include <unordered_map>
 #include "ammo.h"
 #include "string_id.h"
+
+#include <unordered_map>
+#include <set>
+#include <list>
 
 struct submap;
 struct tripoint;
@@ -42,7 +45,7 @@ struct command_sys
     bool network = false;  /**Is the command system wifi enabled? (cmd core must be networked)*/
     bool auto_conn = true; /**Automaticaly connect to remote systems if able*/
     int max_conn = 0;      /**Network capacity (in generic units).*/
-    int max_cpu;           /**Maximum processing power (in generic units.*/
+    int max_cpu = 0;       /**Maximum processing power (in generic units.*/
 
     std::unordered_map<furn_id, int> aux_sys;    /**Maps <auxiliary system type, # in command system>*/
     std::unordered_map<furn_id, int> remote_sys; /**Maps <remote system type, # connected to command system*/
@@ -51,7 +54,7 @@ struct command_sys
 class base_home
 {
 
-    base(submap &base_map, const tripoint &coreloc);
+    base_home(submap &base_map, const tripoint &coreloc);
 
   private:
     //########PRIVATE##########//
@@ -61,8 +64,9 @@ class base_home
     //data members
     int base_level; /**Level of command core. Determins max # of aux sys and, use of certain features.*/
     command_sys cmd_sys;
+    int owner_id; /**Player's ID*/ 
 
-    std::list<base_area_flag> baflag[SEEX][SEEY]; /**additional ter and fur flags specific to bases.*/
+    std::set<base_area_flag> baflag[SEEX][SEEY]; /**additional ter and fur flags specific to bases.*/
     std::list<npc_based *> freeloaders;           /**list containing references to the NPCs staying at the base.*/
 
     std::list<tripoint> bunks;        /**list containing locations of sleeping spots in base.*/
@@ -76,8 +80,8 @@ class base_home
     //#########################//
 
     //data members
-    std::unordered_map<ammotype_id, int> gun_count;  /**stores <ammo_type, #guns_that_use_them>.*/
-    std::unordered_map<ammotype_id, int> ammo_count; /**stores <ammo_types, amount>.*/
+    //std::unordered_map<ammotype_id, int> gun_count;  /**stores <ammo_type, #guns_that_use_them>.*/
+    //std::unordered_map<ammotype_id, int> ammo_count; /**stores <ammo_types, amount>.*/
 
     std::list<tripoint> storage_comm; /**list containing locations of communal storage.*/
 
@@ -89,9 +93,9 @@ class base_home
     //#########################//
 
     //data members
-    int food_ration_lv; /**Severity of food rationing. 0 = no rationing. Max = 3.*/
-    int ammo_ration_lv; /**Severity of ammo rationing. 0 = no rationing. Max = 3.*/
-    int med_ration_lv;  /**Severity of medicine/first aid rationing. 0 = no rationing. Max = 3.*/
+    int food_ration_lv = 0; /**Severity of food rationing. 0 = no rationing. Max = 3.*/
+    int ammo_ration_lv = 0; /**Severity of ammo rationing. 0 = no rationing. Max = 3.*/
+    int med_ration_lv = 0;  /**Severity of medicine/first aid rationing. 0 = no rationing. Max = 3.*/
 
     //functions
 
@@ -104,13 +108,11 @@ class base_home
     void change_lv(int new_level);
     void run_design();
 
-    inline int get_level()
-    {
+    int get_level(){
         return base_level;
     }
-    inline int get_max_pop()
-    {
-        return max(bunks.length, storage_open.length) + npcs.length;
+    int get_max_pop(){
+        return std::max(bunks.length(), storage_open.length()) + npcs.length();
     }
 
     //##########PUBLIC#########//
@@ -125,16 +127,13 @@ class base_home
     void set_ammo_ration(int val);
     void set_med_ration(int val);
 
-    inline int get_food_ration()
-    {
+    int get_food_ration(){
         return food_ration_lv;
     }
-    inline int get_ammo_ration()
-    {
+    int get_ammo_ration(){
         return ammo_ration_lv;
     }
-    inline int get_med_ration()
-    {
+    int get_med_ration(){
         return med_ration_lv;
     }
 };

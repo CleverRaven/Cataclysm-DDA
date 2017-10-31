@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPC_BASED
-#define NPC_BASED
+#ifndef NPC_BASED_H
+#define NPC_BASED_H
 
 #include "npc.h"
 
