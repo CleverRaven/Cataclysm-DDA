@@ -10554,7 +10554,13 @@ void game::change_side(int pos)
 
 void game::reload( int pos, bool prompt )
 {
-    item *it = &u.i_at( pos );
+    item_location loc( u, &u.i_at( pos ) );
+    reload( loc, prompt );
+}
+
+void game::reload( item_location &loc, bool prompt )
+{
+    item *it = &u.i_at( loc.obtain( u ) );
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -10612,7 +10618,6 @@ void game::reload( int pos, bool prompt )
 void game::reload()
 {
     if( !u.is_armed() ) {
-
         vehicle *veh = m.veh_at( u.pos() );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10625,7 +10630,17 @@ void game::reload()
             return;
         }
 
-        add_msg(m_info, _( "You're not wielding anything." ) );
+        item_location item_loc = inv_map_splice( [&]( const item &it ) {
+            return u.rate_action_reload( it ) == HINT_GOOD;
+        }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+        if( !item_loc ) {
+            add_msg( _("Never mind.") );
+            return;
+        }
+
+        reload( item_loc );
+
     } else {
         reload( -1 );
     }
