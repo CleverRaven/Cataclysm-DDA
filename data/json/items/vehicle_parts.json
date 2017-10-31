@@ -1022,5 +1022,19 @@
         "weight": 1000,
         "volume": 4,
         "price": 3000
+    },{
+        "id": "mirror",
+        "type":"GENERIC",
+        "name": "hand mirror",
+        "description": "A small hand mirror.  It could be used as wing mirror or internal mirror when mounted on a vehicle.",
+        "symbol": "o",
+        "color": "light_cyan",
+        "material": "glass",
+        "category": "veh_parts",
+        "weight": 300,
+        "volume": 3,
+        "price": 15000,
+        "bashing": 2,
+        "to_hit": -3
     }
 ]
