@@ -295,6 +295,11 @@ void Item_factory::register_cached_uses( const itype &obj )
         if( e.first == "GUN_REPAIR" ) {
             gun_tools.insert( obj.id );
         }
+
+        // can this item be used to repair wood/paper/bone/chitin items?
+        if( e.first == "MISC_REPAIR" ) {
+            misc_tools.insert( obj.id );
+        }
     }
 }
 
@@ -303,6 +308,14 @@ void Item_factory::finalize_post( itype &obj )
     // handle complex firearms as a special case
     if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
+        return;
+    }
+
+    // handle wood/paper/bone/chitin items as a special case
+    if( !obj.gun && !obj.count_by_charges() && std::any_of( obj.materials.begin(), obj.materials.end(),
+        []( const material_id &m ) { return m == material_id( "wood" ) || m == material_id( "paper" ) ||
+            m == material_id( "bone" ) || m == material_id( "chitin" ); } ) ) {
+        std::copy( misc_tools.begin(), misc_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
 
