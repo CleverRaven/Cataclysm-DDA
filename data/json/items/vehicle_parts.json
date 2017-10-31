@@ -1025,8 +1025,8 @@
     },{
         "id": "mirror",
         "type":"GENERIC",
-        "name": "hand mirror",
-        "description": "A small hand mirror.  It could be used as wing mirror or internal mirror when mounted on a vehicle.",
+        "name": "car mirror",
+        "description": "A small car mirror.  It could be used as wing mirror or internal mirror when mounted on a vehicle.",
         "symbol": "o",
         "color": "light_cyan",
         "material": "glass",
