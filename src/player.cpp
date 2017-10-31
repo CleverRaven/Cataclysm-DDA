@@ -8320,8 +8320,7 @@ ret_val<bool> player::can_takeoff( const item& it, const std::list<item> *res ) 
         return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) : _( "<npcname> is not wearing that item." ) );
     }
 
-    const auto dependent = get_dependent_worn_items( it );
-    if( res == nullptr && !dependent.empty() ) {
+    if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ? _( "You can't take off power armor while wearing other power armor components." ) : _( "<npcname> can't take off power armor while wearing other power armor components." ) );
     }
 
@@ -8339,13 +8338,6 @@ bool player::takeoff( const item &it, std::list<item> *res )
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
     } );
-
-    const auto dependent = get_dependent_worn_items( it );
-    for( const auto dep_it : dependent ) {
-        if( !takeoff( *dep_it, res ) ) {
-            return false; // Failed to takeoff a dependent item
-        }
-    }
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
