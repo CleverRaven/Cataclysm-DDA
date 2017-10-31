@@ -137,17 +137,17 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
 class armor_inventory_preset: public inventory_selector_preset
 {
     public:
-        armor_inventory_preset( const std::string &color ) : color( color ) {
+        armor_inventory_preset( const std::string &color_in ) : color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_encumber() );
             }, _( "ENCUMBRANCE" ) );
 
-            append_cell( [ color ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
-            append_cell( [ color ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
             }, _( "COVERAGE" ) );
 
@@ -181,7 +181,7 @@ class armor_inventory_preset: public inventory_selector_preset
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
         }
 
-        const std::string &color;
+        const std::string color;
 };
 
 class wear_inventory_preset: public armor_inventory_preset
