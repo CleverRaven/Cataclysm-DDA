@@ -954,12 +954,11 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
         add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        if( veh->is_furniture ) {
-            add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-            add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-            add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-            add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-            add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
+        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
         }
 
         if( has_part( "DOOR_MOTOR" ) ) {
