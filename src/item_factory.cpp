@@ -2275,6 +2275,9 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 
 const std::string calc_category( const itype &obj )
 {
+    if( obj.artifact ) {
+        return "artifacts";
+    }
     if( obj.gun && !obj.gunmod ) {
         return "guns";
     }
