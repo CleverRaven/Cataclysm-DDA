@@ -159,7 +159,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         }
         if (curtab < 0) {
             delete retworld;
-            return NULL;
+            return nullptr;
         }
     } else { // 'Play NOW'
 #ifndef LUA
@@ -190,7 +190,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         worldname = "DEFENSE";
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
@@ -215,7 +215,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         delete all_worlds[worldname];
         delete special_world;
         all_worlds.erase(worldname);
-        return NULL;
+        return nullptr;
     }
 
     return special_world;
@@ -250,7 +250,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     } else {
         // something horribly wrong happened
         DebugLog( D_ERROR, DC_ALL ) << "worldfactory::convert_to_world -- World Conversion Failed!";
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -584,13 +584,20 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     werase(w_worlds_header);
     werase(w_worlds_tooltip);
 
-    return NULL;
+    return nullptr;
 }
 
 void worldfactory::remove_world(std::string worldname)
 {
-    delete all_worlds[worldname];
-    all_worlds.erase(worldname);
+    auto it = all_worlds.find(worldname);
+    if( it != all_worlds.end() ) {
+        WORLDPTR wptr = it->second;
+        if( active_world == wptr ) {
+            active_world = nullptr;
+        }
+        delete wptr;
+        all_worlds.erase( it );
+    }
 }
 
 std::string worldfactory::pick_random_name()
@@ -904,16 +911,16 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         if( redraw_description ) {
             werase( w_description );
 
-            MOD_INFORMATION *selmod = NULL;
+            MOD_INFORMATION *selmod = nullptr;
             if( current_tab_mods.empty() ) {
-                // Do nothing, leave selmod == NULL
+                // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
                 selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
             } else if( !active_mod_order.empty() ) {
                 selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
             }
 
-            if( selmod != NULL ) {
+            if( selmod != nullptr ) {
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
                                c_white, mman_ui->get_information(selmod));
             }

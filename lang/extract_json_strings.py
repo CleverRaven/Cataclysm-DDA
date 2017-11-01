@@ -329,6 +329,13 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "skill" in item:
+        # legacy code: the "gun type" is calculated in `item::gun_type` and
+        # it's basically the skill id, except for archery (which is either
+        # bow or crossbow). Once "gun type" is loaded from JSON, it should
+        # be extracted directly.
+        if not item.get("skill") == "archery":
+            writestr(outfile, item.get("skill"), context="gun_type_type")
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
@@ -356,6 +363,9 @@ def extract_gunmod(item):
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, context="gun_type_type")
 
 
 def extract_professions(item):
@@ -838,10 +848,6 @@ def extract(item, infilename):
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
-            wrote = True
-    if "mod_targets" in item:
-        for target in item["mod_targets"]:
-            writestr(outfile, target, **kwargs)
             wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:

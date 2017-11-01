@@ -815,6 +815,18 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
+         translate_marker( "If true, enables auto pulping resurrecting corpses or auto butchering any corpse.  Never pulps acidic corpses.  Disabled as long as any enemy monster is seen." ),
+         false
+    );
+
+    add( "AUTO_PULP_BUTCHER_ACTION", "general", translate_marker( "Auto pulp or butcher action" ),
+         translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
+         { { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "butcher"
+        );
+
+    mOptionsSort["general"]++;
+
     add( "DANGEROUS_PICKUPS", "general", translate_marker( "Dangerous pickups" ),
         translate_marker( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
         false

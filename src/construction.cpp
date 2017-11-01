@@ -803,6 +803,8 @@ void complete_construction()
         }
     }
 
+    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+
     // clear the activity
     u.activity.set_to_null();
 

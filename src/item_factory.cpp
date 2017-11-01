@@ -1464,7 +1464,10 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "install_time", slot.install_time );
 
     if( jo.has_member( "mod_targets" ) ) {
-        slot.usable = jo.get_tags( "mod_targets");
+        slot.usable.clear();
+        for( const auto t : jo.get_tags( "mod_targets" ) ) {
+            slot.usable.insert( gun_type_type( t ) );
+        }
     }
 
     if( jo.has_array( "mode_modifier" ) ) {
@@ -1921,14 +1924,26 @@ void Item_factory::clear()
     frozen = false;
 }
 
-Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
+std::string to_string( Item_group::Type t )
 {
+    switch( t ) {
+        case Item_group::Type::G_COLLECTION:
+            return "collection";
+        case Item_group::Type::G_DISTRIBUTION:
+            return "distribution";
+    }
 
-    Item_group *ig = dynamic_cast<Item_group *>(isd);
-    if (ig == NULL) {
+    return "BUGGED";
+}
+
+Item_group *make_group_or_throw( const Group_tag &group_id, Item_spawn_data *&isd, Item_group::Type t,
+                                 int ammo_chance, int magazine_chance )
+{
+    Item_group *ig = dynamic_cast<Item_group *>( isd );
+    if( ig == nullptr ) {
         isd = ig = new Item_group( t, 100, ammo_chance, magazine_chance );
-    } else if (ig->type != t) {
-        throw std::runtime_error("item group already defined with different type");
+    } else if( ig->type != t ) {
+        throw std::runtime_error("item group \"" + group_id + "\" already defined with type \"" + to_string( ig->type ) + "\"" );
     }
     return ig;
 }
@@ -2091,7 +2106,7 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     Item_spawn_data *&isd = m_template_groups[group_id];
-    Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
+    Item_group* const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
     while( entries.has_more() ) {
         JsonObject subobj = entries.next_object();
@@ -2111,7 +2126,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     } else if( subtype != "collection" ) {
         jsobj.throw_error("unknown item group type", "subtype");
     }
-    ig = make_group_or_throw( isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
+    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");

@@ -58,7 +58,7 @@ class optional
 
     public:
         constexpr optional() noexcept : dummy(), full( false ) { }
-        constexpr optional( const nullopt_t ) noexcept : optional() { }
+        constexpr optional( const nullopt_t ) noexcept : dummy(), full( false ) { }
 
         optional( const optional &other ) {
             if( other.full ) {

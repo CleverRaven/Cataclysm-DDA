@@ -58,6 +58,7 @@
     "armor_bash": 14,
     "armor_cut": 16,
     "luminance": 210,
+    "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 100 },
     "special_attacks": [
       {
@@ -65,6 +66,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "m107a1",
+        "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],

@@ -18,7 +18,6 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
-#include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
@@ -7224,7 +7223,7 @@ void player::rooted()
     }
 }
 
-item::reload_option player::select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const
+item::reload_option player::select_ammo( const item &base, std::vector<item::reload_option> opts ) const
 {
     using reload_option = item::reload_option;
 
@@ -7325,7 +7324,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     // This is the entry that has out default
     int default_to = 0;
 
-    for( auto i = 0; i != ( int )opts.size(); ++i ) {
+    for( auto i = 0; i < ( int )opts.size(); ++i ) {
         const item& ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() : *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -7367,15 +7366,17 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     struct reload_callback : public uimenu_callback {
         public:
             std::vector<item::reload_option> &opts;
-            const std::function<std::string( int )> &draw_row;
+            const std::function<std::string( int )> draw_row;
             int last_key;
-            int default_to;
+            const int default_to;
+            const bool can_partial_reload;
 
             reload_callback( std::vector<item::reload_option> &_opts,
-                             const std::function<std::string( int )> &_draw_row,
-                             int _last_key, int _default_to ) :
+                             std::function<std::string( int )> _draw_row,
+                             int _last_key, int _default_to, bool _can_partial_reload ) :
                            opts( _opts ), draw_row( _draw_row ),
-                           last_key( _last_key ), default_to( _default_to )
+                           last_key( _last_key ), default_to( _default_to ),
+                           can_partial_reload( _can_partial_reload )
             {}
 
             bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
@@ -7386,25 +7387,28 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                     menu->ret = default_to;
                     return true;
                 }
-                if( idx < 0 || idx > (int)opts.size() - 1 ) {
+                if( idx < 0 || idx >= (int)opts.size() ) {
                     return false;
                 }
                 auto &sel = opts[ idx ];
                 switch( cur_key ) {
                     case KEY_LEFT:
-                        sel.qty( sel.qty() - 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() - 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
 
                     case KEY_RIGHT:
-                        sel.qty( sel.qty() + 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() + 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
                 }
                 return false;
             }
-        // @todo Get rid of the const cast - it's fucking bullshit
-    } cb( const_cast<std::vector<item::reload_option> &>( opts ), draw_row, last_key, default_to );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
     menu.callback = &cb;
 
     menu.query();
@@ -7484,7 +7488,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         }
     }
 
-    return std::move( select_ammo( base, ammo_list ) );
+    return select_ammo( base, std::move( ammo_list ) );
 }
 
 bool player::can_wear( const item& it, bool alert ) const
