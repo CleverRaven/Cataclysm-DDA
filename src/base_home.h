@@ -66,11 +66,14 @@ class base_home
     command_sys cmd_sys;
     int owner_id; /**Player's ID*/ 
 
-    std::set<base_area_flag> baflag[SEEX][SEEY]; /**additional ter and fur flags specific to bases.*/
-    std::list<npc_based *> freeloaders;           /**list containing references to the NPCs staying at the base.*/
+    std::set<base_area_flag> baflag[SEEX][SEEY]; /**Additional ter and fur flags specific to bases.*/
+    std::list<npc_based *> freeloaders;          /**List containing references to the NPCs staying at the base.*/
 
-    std::list<tripoint> bunks;        /**list containing locations of sleeping spots in base.*/
-    std::list<tripoint> storage_open; /**list containing locations of unclaimed/designated storage furnature.*/
+    std::list<tripoint> bunks;          /**List containing locations of sleeping spots in base.*/
+    std::list<tripoint> storage_open;   /**List containing locations of unclaimed/designated storage furnature.*/
+    std::list<tripoint> player_bed;     /**Location of player's bed.  List just incase.*/ 
+    std::list<tripoint> player_stash;   /**List containing locations of furnature claimed by player*/
+    //note: deal with deconstruction, destruction and, death. Unclaiming can be done by overwriting and adding handling there.*/
 
     //functions
     void define_base_area(const submap &base_map, const tripoint &coreloc); //populates baflag[][]
@@ -111,8 +114,11 @@ class base_home
     int get_level(){
         return base_level;
     }
+    int num_resident(){
+        return freeloaders.length();
+    }
     int get_max_pop(){
-        return std::max(bunks.length(), storage_open.length()) + npcs.length();
+        return std::max(bunks.length() + player_bed.length(), storage_open.length() + player_stash.length() ) + npcs.length();
     }
 
     //##########PUBLIC#########//

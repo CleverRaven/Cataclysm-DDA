@@ -3594,105 +3594,125 @@ void iexamine::climb_down( player &p, const tripoint &examp )
  * 
  * TODO: Finish writting. Change to uimenu.
  */
-void iexamine::base_control( player &p, const tripoint &examp ) {
-    auto &base = p->home; 
-    if (base == NULL){
+void iexamine::base_control(player &p, const tripoint &examp)
+{
+    auto &base = p->home;
+    if (base == NULL)
+    {
         add_msg("The GM prevents you from messing with other people's base settings.");
         return;
     }
-    
+
     uimenu desktop;
     desktop.text = _("Base Command Options:");
-    desktop.addentry( 1, true, MENU_AUTOASSIGN, _("Ration Supplies.") );
-    desktop.addentry( 2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences.") );
-    desktop.addentry( 3, true, MENU_AUTOASSIGN, _("Crafting Priorities.") );
-    desktop.addentry( 4, true, MENU_AUTOASSIGN, _("View Status.") );//not sure if this should actually be included.
-    desktop.addentry( 5, true, MENU_AUTOASSIGN, _("Personel Managment.") );
-    desktop.addentry( 6, true, MENU_AUTOASSIGN, _("Base Planner.") )
-    if (base.get_level() > 1){//Having a computer grants more functions. Only levels 1 and 3 implemented.
-        if (base.get_level() > 2){//Having a console alows access to aux system features
+    desktop.addentry(1, true, MENU_AUTOASSIGN, _("Ration Supplies."));
+    desktop.addentry(2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences."));
+    desktop.addentry(3, true, MENU_AUTOASSIGN, _("Crafting Priorities."));
+    desktop.addentry(4, true, MENU_AUTOASSIGN, _("View Status.")); //not sure if this should actually be included.
+    desktop.addentry(5, true, MENU_AUTOASSIGN, _("Personel Managment."));
+    desktop.addentry(6, true, MENU_AUTOASSIGN, _("Base Planner.")) if (base.get_level() > 1)
+    { //Having a computer grants more functions. Only levels 1 and 3 implemented.
+        if (base.get_level() > 2)
+        { //Having a console alows access to aux system features
         }
     }
-    desktop.addentry( 0, true, MENU_AUTOASSIGN, _("Cancel") ); //cancel always 0 and at bottom
+    desktop.addentry(0, true, MENU_AUTOASSIGN, _("Cancel")); //cancel always 0 and at bottom
     //desktop.addentry( , true, MENU_AUTOASSIGN,  );
-    
-    int topchoice=0;
-    desk_menu:
+
+    int topchoice = 0;
+desk_menu:
     desktop.query();
 
     //.addentry( , true, MENU_AUTOASSIGN,  );
-    switch (desktop.ret) {
-        case 0: return;//cancel -> done
-        case 1: {//rationing rules
-            char* ratlvs[] = {//enum to print levels as string
-                _("None"),
-                _("Light"),
-                _("Medium"),
-                _("Heavy")
-            };
-            uimenu ratmenu;
-            ratmenu.text = _("Set Rationing Levels:")
-            ratmenu.addentry( 1, true, MENU_AUTOASSIGN, string_format( _("Food Rationing: %s"), ratlvs[base.get_food_ration()] ) );
-            ratmenu.addentry( 2, true, MENU_AUTOASSIGN, string_format( _("Ammunition Rationing: %s"), ratlvs[base.get_ammo_ration()] ) );
-            ratmenu.addentry( 3, true, MENU_AUTOASSIGN, string_format( _("Medicine/First Aid Rationing: %s"), ratlvs[base.get_med_ration()] ) );
-            ratmenu.addentry( 0, true, MENU_AUTOASSIGN, _("Back") );
+    do{
+        switch (desktop.ret){
+            case 0: return; //cancel -> done
+            case 1:{//rationing rules
+                char *ratlvs[] = {//enum to print levels as string
+                    _("None"),
+                    _("Light"),
+                    _("Medium"),
+                    _("Heavy")
+                };
+                uimenu ratmenu;
+                ratmenu.text = _("Set Rationing Levels:");
+                ratmenu.addentry(1, true, MENU_AUTOASSIGN, string_format(_("Food Rationing: %s"), ratlvs[base.get_food_ration()]));
+                ratmenu.addentry(2, true, MENU_AUTOASSIGN, string_format(_("Ammunition Rationing: %s"), ratlvs[base.get_ammo_ration()]));
+                ratmenu.addentry(3, true, MENU_AUTOASSIGN, string_format(_("Medicine/First Aid Rationing: %s"), ratlvs[base.get_med_ration()]));
+                ratmenu.addentry(0, true, MENU_AUTOASSIGN, _("Back"));
 
-            do {
-                ratmenu.query();
-                switch (ratmenu.ret){
-                    case 0://"Back" don't do anything and loop will end
-                    case 1: {//food
-                        int lv = menu(true, _("Ration Level:"),
-                            _("None: Eat anything and everything whenever you want."),
-                            _("Light: Eat when hungry. Pay some attention to food use."),
-                            _("Medium: Eat when hungry. Always cook nutritious food."),
-                            _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
-                        p.home.set_food_ration(lv-1);
-                    }
-                    case 2: {//ammo
-                        int lv = menu(true, _("Ration Level:"),
-                            _("None: Use anything and everything you want."),
-                            _("Light:"),
-                            _("Medium:"),
-                            _("Heavy:"), NULL);
-                        p.home.set_ammo_ration(lv-1);
-                    }
-                    case 3: {//meds
-                        int lv = menu(true, _("Ration Level:"),
-                            _("None: Use anything and everything you want."),
-                            _("Light:"),
-                            _("Medium:"),
-                            _("Heavy:"), NULL);
-                        p.home.set_med_ration(lv-1);
-                    }
-                }//ratmenu switch
-            } while ( ratmenu.ret != 0 );
-        }//desktop switch case 1
-        case 2: {//ammo type prefrences
-            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
-            //TODO: Menu assign prefrence (weight) to ammo types.  Prefrence to be refrenced by NPC choosing weapon.
-        }
-        case 3: {//crafting priorities
-            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
-            //TODO: Menu assign priorities (weight) to craft recipies.  NPCs to refrence priorities when crafting.
-        }
-        case 4: {//view status.
-            iexamine::base_view_ele();
-        }
-        case 5: {//base planner
-            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
-        }
-        case 6: {//personel managment
-            add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
-        }
-    }
+                do{
+                    ratmenu.query();
+                    switch (ratmenu.ret){
+                        case 0: //"Back" don't do anything and loop will end
+                        case 1:{ //food
+                            int lv = menu(true, _("Ration Level:"),
+                                _("None: Eat anything and everything whenever you want."),
+                                _("Light: Eat when hungry. Pay some attention to food use."),
+                                _("Medium: Eat when hungry. Always cook nutritious food."),
+                                _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
+                            p.home.set_food_ration(lv - 1);
+                        }
+                        case 2:{ //ammo
+                            int lv = menu(true, _("Ration Level:"),
+                                _("None: Use anything and everything you want."),
+                                _("Light:"),
+                                _("Medium:"),
+                                _("Heavy:"), NULL);
+                            p.home.set_ammo_ration(lv - 1);
+                        }
+                        case 3:{ //meds
+                            int lv = menu(true, _("Ration Level:"),
+                                _("None: Use anything and everything you want."),
+                                _("Light:"),
+                                _("Medium:"),
+                                _("Heavy:"), NULL);
+                            p.home.set_med_ration(lv - 1);
+                        }
+                    } //ratmenu switch
+                } while (ratmenu.ret != 0);//loop rationing options
+            } //desktop case 1 rationing
+            case 2:{ //ammo type prefrences
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+                //TODO: Menu assign prefrence (weight) to ammo types.  Prefrence to be refrenced by NPC choosing weapon
+                //Use relayering UI?
+            }
+            case 3:{ //crafting priorities
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+                //TODO: Menu assign priorities (weight) to craft recipies.  NPCs to refrence priorities when crafting.
+            }
+            case 4:{ //view status.
+                if (base.get_level == 1) iexamine::base_view(p, examp);
+                else iexamine::base_view_ele(p, examp);
+            }
+            case 5:{ //base planner
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            }
+            case 6:{ //personel managment
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            }
+        } //desktop switch
+        desktop.query();
+    } while (desktop.ret); //desktop loop
 }
 
 /**
  * View base status/information from a bulletin board. (limited info)
  */
 void iexamine::base_view( player &p, const tripoint &examp) {
-    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    auto &base = p->home;
+    //Window size values are currently arbitrary but window shouldn't be full screen if possible
+    //This function is in the source but no header refrence...
+    //static WINDOW_PTR board = output::create_popup_window( 40, 40, output::PopupFlags::PF_GET_KEY);
+    
+    //Simple implementation for now
+    std::list<std::string> basicInfo;
+    basicInfo.push_back( string_format( _("%s's Home Sweet Base"), p.get_name() );
+    basicInfo.push_back( _("") );//add blank line
+    basicInfo.push_back( string_format( _("Command System Level: %d"), base.get_level() ) );
+    basicInfo.push_back( _("") );//add blank line
+    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base.num_resident(), base.get_max_pop() );
+    popup_getkey(basicInfo);
 }
 
 /**
