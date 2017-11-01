@@ -3590,7 +3590,6 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 /**
-<<<<<<< HEAD
  * Use base command to edit options and utalize base functions.
  * 
  * TODO: Finish writting. Change to uimenu.
@@ -3734,20 +3733,12 @@ void iexamine::base_com( player &p, const tripoint &examp ) {
 
 
 /**
-* Given then name of one of the above functions, returns the matching function
-* pointer. If no match is found, defaults to iexamine::none but prints out a
-* debug message as a warning.
-* @param function_name The name of the function to get.
-* @return A function pointer to the specified function.
-*/
-=======
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
  * debug message as a warning.
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
->>>>>>> master
 iexamine_function iexamine_function_from_string(std::string const &function_name)
 {
     static const std::map<std::string, iexamine_function> function_map = {{
