@@ -251,3 +251,40 @@ Just ignore this completely it will be removed before code is ready to be merged
     [ "network_mod", 1]
   ]
 }
+
+
+##############
+##help.cpp
+##############
+
+std::vector<std::string> text_bases()
+{
+    std::vector<std::string> text;
+
+    text.push_back( _( "\
+While the home you once new is no longer, survivors seeking more than just a place to stash their stuff or \
+hoping no monsters discover their resting place can with a little effort build a new home in the Cataclysm." ) );
+    text.push_back( _( "Designating a Base\n\
+Creating a home base begins with the construction of a \"base command core\" INSIDE the building that will \
+designated as a base.  The command core is the heart and soul of the base and \
+its destruction will un-designate the base so building it in a safe yet acessable place is important." ) );
+    text.push_back( _( "Command System\n\
+One of the great things about computers is their ability to form larger systems.  A \"command system\" \
+is created by joining auxiliary systems with the command core.  Auxiliary systems increase the functionality \
+of a base however, without access to pre-cataclysm networking hardware, the number of systems that can be linked \
+will be limited by the functionality of the command core.  Additionally, in order to effectively operate, \
+auxiliary systems must be adjacent to either the command core or something that can handle the data transfer \
+like, another auxiliary system.") );
+    text.push_back( _("Remote Systems Network\n
+A command system can be \"network enabled\" by installing a network module on the command core.  \
+Once enabled, remote systems can be connected to the command system as long as they are within range.  \
+Any number of remote systems can be connected so long as the network doesn't get overwhelmed and the command /
+system is able to keep up.  Adding network hubs and server banks to the command system will help with this.") );
+    text.push_back( _("Based NPC Followers\n
+Every person requires a place to sleep and a place to stash their stuff in order to live in a base.  \
+Any reasonably comfortable place to sleep qualifies but the floor doesn't qualify as storage space.  \
+They will not be happy if at the end of a hard day of zombie smashing, they find someone emptied their beer stash
+and pasted out on their bed.  By writting on a piece of furnature, it and all contained items can be personally 
+claimed or designated for communal use.  NPCs will consume food, reload and, rearm themselves from communal storages \
+and will deposit unwanted stuff there.  Doors can also be marked \"No Access!\" to prevent unwanted intrusion.") );
+}
