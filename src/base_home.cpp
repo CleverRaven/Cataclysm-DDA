@@ -10,8 +10,8 @@
 base_home::base(submap &base_map,const tripoint &coreloc){
     base::define_base_area(base_map, coreloc);
     base_map.spawns.clear();//remove spawns so nothing apears in base just outside it.
-    base_level = 1;
-    food_ration_lv = ammo_ration_lv = med_ration_lv = 0; //no rationing to start
+    base_level;
+    food_ration_lv = ammo_ration_lv = med_ration_lv; //no rationing to start
 }
 
 /**
@@ -55,25 +55,18 @@ void base_home::count_guns()
     }
 }
 
-/**
- * Set food_ration_lv to value.
- */
 void base_home::set_food_ration(int val)
 {
     food_ration_lv = val;
 }
 
-/**
- * Set ammo_ration_lv to value.
- */
+
 void base_home::set_ammo_ration(int val)
 {
     ammo_ration_lv = val;
 }
 
-/**
- * Set med_ration_lv to value.
- */
+
 void base_home::set_med_ration(int val)
 {
     med_ration_lv = val;

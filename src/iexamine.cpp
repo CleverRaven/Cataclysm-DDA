@@ -33,6 +33,7 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "base_home.h"
+#include "npc_based.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3628,17 +3629,12 @@ desk_menu:
         switch (desktop.ret){
             case 0: return; //cancel -> done
             case 1:{//rationing rules
-                char *ratlvs[] = {//enum to print levels as string
-                    _("None"),
-                    _("Light"),
-                    _("Medium"),
-                    _("Heavy")
-                };
                 uimenu ratmenu;
                 ratmenu.text = _("Set Rationing Levels:");
-                ratmenu.addentry(1, true, MENU_AUTOASSIGN, string_format(_("Food Rationing: %s"), ratlvs[base.get_food_ration()]));
-                ratmenu.addentry(2, true, MENU_AUTOASSIGN, string_format(_("Ammunition Rationing: %s"), ratlvs[base.get_ammo_ration()]));
-                ratmenu.addentry(3, true, MENU_AUTOASSIGN, string_format(_("Medicine/First Aid Rationing: %s"), ratlvs[base.get_med_ration()]));
+                ratmenu.addentry(1, true, MENU_AUTOASSIGN, string_format(_("Food Rationing: %s"), home_base::ration_enum::base.get_food_ration()));
+                ratmenu.addentry(2, true, MENU_AUTOASSIGN, string_format(_("Water/Drink Rationing: %s"), home_base::ration_enum::base.get_ammo_ration()));
+                ratmenu.addentry(3, true, MENU_AUTOASSIGN, string_format(_("Ammunition Rationing: %s"), home_base::ration_enum::base.get_ammo_ration()));
+                ratmenu.addentry(4, true, MENU_AUTOASSIGN, string_format(_("Medicine/First Aid Rationing: %s"), home_base::ration_enum::base.get_med_ration()));
                 ratmenu.addentry(0, true, MENU_AUTOASSIGN, _("Back"));
 
                 do{
@@ -3646,27 +3642,35 @@ desk_menu:
                     switch (ratmenu.ret){
                         case 0: //"Back" don't do anything and loop will end
                         case 1:{ //food
-                            int lv = menu(true, _("Ration Level:"),
+                            int lv = menu(true, _("Food Rationing Level:"),
                                 _("None: Eat anything and everything whenever you want."),
                                 _("Light: Eat when hungry. Pay some attention to food use."),
-                                _("Medium: Eat when hungry. Always cook nutritious food."),
-                                _("Heavy: Eat when very hungry. Optimize food usage."), NULL);
+                                _("Moderate: Eat when hungry. Always cook nutritious food."),
+                                _("Heavy: Eat only when very hungry. Optimize food usage."), NULL);
                             p.home.set_food_ration(lv - 1);
                         }
-                        case 2:{ //ammo
-                            int lv = menu(true, _("Ration Level:"),
+                        case 2:{
+                            int lv = menu(true, _("Water Rationing Level:"),
+                            _("None: Drink anything and everything whenever you want."),
+                            _("Light: Drink when your thursty.  Don't overdo the salt or liquor."),
+                            _("Moderate: Water is for drinking and vital crafts only."),
+                            _("Heavy: Drink only when very Thursty.  \"Become the camel.\""), NULL);
+                            p.home.set_food_ration(lv - 1);
+                        }
+                        case 3:{ //ammo
+                            int lv = menu(true, _("Amunition Rationing Level:"),
                                 _("None: Use anything and everything you want."),
-                                _("Light:"),
-                                _("Medium:"),
-                                _("Heavy:"), NULL);
+                                _("Light: Don't shoot if you don't think you'll hit them."),
+                                _("Moderate: \"Don't shoot until you see decay of their eyes."),//instead of "whites of.."
+                                _("Heavy: Only shoot as an absolute last resort. I.e. we're over run."), NULL);
                             p.home.set_ammo_ration(lv - 1);
                         }
-                        case 3:{ //meds
-                            int lv = menu(true, _("Ration Level:"),
-                                _("None: Use anything and everything you want."),
-                                _("Light:"),
-                                _("Medium:"),
-                                _("Heavy:"), NULL);
+                        case 4:{ //meds
+                            int lv = menu(true, _("Medicine Rationing Level:"),
+                                _("None: Use/take anything and everything you want."),
+                                _("Light: Use medicine to treat apropriate injuries/illness only."),//no recreational use and use a bandage not a first aid kit for that scratch.
+                                _("Moderate: \"It's just a flesh wound.\"  Tough out minor wounds."),
+                                _("Heavy: \"Tis But a scratch!\"  Ignore all but the most serious wounds."), NULL);//switched quotation with med. For MP refrence.
                             p.home.set_med_ration(lv - 1);
                         }
                     } //ratmenu switch
@@ -3698,6 +3702,10 @@ desk_menu:
 
 /**
  * View base status/information from a bulletin board. (limited info)
+ * 
+ * This is supposed to represent viewing stuff posted on a bulletin board so,
+ * displaying the info in a whole bunch of small frames like they are diffrent notes should
+ * be a future goal.
  */
 void iexamine::base_view( player &p, const tripoint &examp) {
     auto &base = p->home;
@@ -3707,12 +3715,33 @@ void iexamine::base_view( player &p, const tripoint &examp) {
     
     //Simple implementation for now
     std::list<std::string> basicInfo;
-    basicInfo.push_back( string_format( _("%s's Home Sweet Base"), p.get_name() );
-    basicInfo.push_back( _("") );//add blank line
+    basicInfo.push_back( string_format( _("%s's Home Sweet Base%n"), p.get_name(), int len );
+    //TODO add len '~'s as an underline 
+    basicInfo.push_back( _("") );//add blank line.
     basicInfo.push_back( string_format( _("Command System Level: %d"), base.get_level() ) );
-    basicInfo.push_back( _("") );//add blank line
-    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base.num_resident(), base.get_max_pop() );
-    popup_getkey(basicInfo);
+    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base.num_personnel(), base.get_max_pop() );
+    basicInfo.push_back( string_format( _("Open Bunks: %d"), base.num_bunks() ) );
+    basicInfo.push_back( string_format( _("Open Storage: %d"), base.num_storage_open()));
+    basicInfo.push_back( string_format( _("Communal Storage Locations: %d"), base.num_comm_storage() ) );
+    std::list<std::string> rationInfo;
+    rationInfo.push_back( _("Supply Rationing") );
+    rationInfo.push_back( _("~~~~~~~~~~~~~~~~") );
+    rationInfo.push_back( string_format( _("Food: %s"), base_home::ration_levels::base.get_food_ration() );
+    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base.get_food_ration() );
+    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base.get_food_ration() );
+    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base.get_food_ration() );
+    std::list<std::string> resInfo
+    auto &peeps = p->home.get_personnel();
+    resInfo.push_back( _("Base Residents") );
+    resInfo.push_back( _("~~~~~~~~~~~~~~") );
+    basicInfo.push_back( _("") );//add blank line.
+    for ( int 1 = 0; i < peeps.length() ){
+        resInfo.push_back( string_format( _("%d. %s: Some Information."), i, peeps[i].get_name() ) );
+    }
+
+    output::popup_getkey( basicInfo );
+    output::popup_getkey( rationInfo );
+    output::popup_getkey( resInfo );
 }
 
 /**
