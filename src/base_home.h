@@ -118,7 +118,7 @@ class base_home
         return freeloaders.length();
     }
     int get_max_pop(){
-        return std::max(bunks.length() + player_bed.length(), storage_open.length() + player_stash.length() ) + npcs.length();
+        return std::min(bunks.length() + player_bed.length(), storage_open.length() + player_stash.length() ) + freeloaders.length();
     }
 
     //##########PUBLIC#########//
