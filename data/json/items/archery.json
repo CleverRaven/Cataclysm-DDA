@@ -1,22 +1,6 @@
 [
    {
       "type" : "AMMO",
-      "id" : "arrowhead",
-      "price" : 300,
-      "name" : "arrowhead",
-      "symbol" : "=",
-      "color" : "light_gray",
-      "description" : "Steel heads for an arrow.  Placing these on arrows will make them more damaging and piercing.",
-      "material" : "steel",
-      "volume" : 1,
-      "weight" : 8,
-      "bashing" : 1,
-      "ammo_type" : "components",
-      "count" : 10,
-      "stack_size" : 20
-   },
-   {
-      "type" : "AMMO",
       "id" : "arrow_fire_hardened_fletched",
       "price" : 900,
       "name" : "fire-hardened wooden arrow",
@@ -521,21 +505,6 @@
       "clip_size" : 1,
       "reload" : 80,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
-   },
-   {
-      "id":"arrowhead_plastic",
-      "type":"AMMO",
-      "color":"green",
-      "symbol":"=",
-      "name":"plastic arrowhead",
-      "description":"Plastic heads for an arrow.  Placing these on arrows will make them more damaging and piercing.",
-      "price": 100,
-      "material":"plastic",
-      "bashing":1,
-      "weight":1,
-      "volume":1,
-      "ammo_type":"components",
-      "count":10
    },
     {   "type" : "AMMO",
         "id" : "throwing_knife",
