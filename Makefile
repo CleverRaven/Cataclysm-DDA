@@ -552,15 +552,16 @@ ifdef TILES
   endif
 else
   ifeq ($(CROSS),)
-    ifneq ($(shell which ncursesw5-config 2>/dev/null),)
-      HAVE_NCURSESW5CONFIG = 1
+  # Below might be pointless but this was done to fix #22329
+    ifneq ($(shell which pkg-config 2>/dev/null),)
+      HAVE_PKGCONFIG = 1
     endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
-  ifeq ($(HAVE_NCURSESW5CONFIG),1)
-    CXXFLAGS += $(shell ncursesw5-config --cflags)
-    LDFLAGS += $(shell ncursesw5-config --libs)
+  ifeq ($(HAVE_PKGCONFIG),1)
+    CXXFLAGS += $(shell pkg-config --cflags ncurses)
+    LDFLAGS += $(shell pkg-config --libs ncurses)
   else
     ifneq ($(TARGETSYSTEM),WINDOWS)
       LDFLAGS += -lncurses
