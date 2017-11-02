@@ -6,53 +6,99 @@
 #include <unordered_map>
 #include <list>
 #include <set>
+#include <queue>
 
-base_home::base(submap &base_map,const tripoint &coreloc){
-    base::define_base_area(base_map, coreloc);
-    base_map.spawns.clear();//remove spawns so nothing apears in base just outside it.
-    base_level;
-    food_ration_lv = ammo_ration_lv = med_ration_lv; //no rationing to start
+base_home::base(player &p, const tripoint &coreloc){
+    gen_overlay();
+    define_base_area(base_map, coreloc);
+    //TODO: Remove spawn points from base
 }
 
 /**
- * Check if location has a base specific flag.
- */
-bool base_home::has_base_flag(const tripoint &p, base_area_flag flag)
-{
-    return(baflag[p.x][p.y].count(flag))
+ * Populates bmap.  (Add references to all the tiles in a submap)
+*/
+void gen_overlay(){
+    //TODO: Get help.
 }
 
 /**
- * Populates data members containing information read from the map.
+ * Populates bmap.bflag based on the rest of bmap.  Finds area of base
  * 
  * CAUTION: WILL RESET THE BASE!!! (mostly)
  * TODO: Populate baflag with flags coresponding to the structure containing the command desk.
  * TODO: Populate storage_open with locations of storage furnature (lockers etc.)
  * TODO: Populate bunks with locations of sleeping areas (beds, cots, etc.)
  */
-void base_home::define_base_area(const submap &base_map, const tripoint &coreloc)
-{
-    //for easy reference
-    int x = coreloc.x;
-    int y = coreloc.y;
-
-    //TODO:  Re-write. Previous implementation wasn't going to work. (immpossible to distinguish between underground and thick rock wall)
-    ///soo much work wasted (T_T)
-
-    //TODO: basically implement bfs
-}
-
-/**
- * Recount # of guns using each ammo type in base.
- *
- * TODO: Count the guns in communal storage.
- * TODO: Multiply by burst size.
- * TODO: Count NPC and Player Guns.
- */
-void base_home::count_guns()
-{
-    for (int i=0; i<communal_storage.length(); i++){
+void base_home::define_base_area(const tripoint &coreloc) {
+    //First we map out the base floor by basically BFS all the "INDOORS" flags.
+    //Set up.
+    std::queue q;
+    std::set<tripoint> pushed; //not sure how big it needs to get before std::unordered_set is better than std::set.
+    tripoint cur, temp;
+    que.push(coreloc);
+    pushed.insert(coreloc);
+    //Make life easier for myself;
+    auto &x = cur.x;
+    auto &y = cur.y;
+    auto &z = cur.z;
+    auto &ter = bmap.ter;
+    auto &frn = bmap.fur;
+    auto &bf = bmap.bflag[x][y];
+    auto &in = base_flag::BASE_IN;
+    auto &wall = base_flag
+    //Start search.
+    while (!q.empty()){//While there are connected indoor tiles
+        cur = q.pop();
+        bf.push_back(in);//mark as in the base
+        //Lets populate other things while we're at it.
+        if ( store_fern.count(frn[x][y]) ) storage_open.push_back(cur); //Storage furnature
+        if ( sleep_furn.count(frn[x][y]) ) bunks.push_back(cur, 0); //sleep furnature
+        else if ( sleep_trap.count(bmap.trp[x][y]) ) bunks.push_back(cur, 0);//sleep traps (cots, rollmats)
+        //now lets try and put the surrounding tiles in the que.
+        temp = tripoint(x+1, y, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x-1, y, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x, y+1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        } 
+        temp = tripoint(x, y-1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x+1, y+1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x+1, y-1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x-1 ,y+1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
+        temp = tripoint(x-1, y-1, z);
+        if (ter[temp.x][temp.y].has_flag("INDOORS") && !pushed.count(temp) ){
+            q.push(temp);
+            pushed.push(temp);
+        }
     }
+
+    //at this point, bmap::bflag should contain a maping of base's floor space so,
+    //now we add in base walls and account for walls, small celling holes and the like.
 }
 
 void base_home::set_food_ration(int val)

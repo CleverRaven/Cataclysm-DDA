@@ -1,5 +1,49 @@
-This file is for me to store stuff I want to remove but don't want to/ feel like deleting .
 Just ignore this completely it will be removed before code is ready to be merged.
+This file is for me to conveniently store stuff cut from the code for later use/reference. yay cut and paste! \(^v^)/
+
+##################
+##base_home.h
+##################
+
+/**
+ * Stores capacities of command system and the auxiliary systems present.
+ * THIS IS TO BE IMPLEMENTED LATER
+ */
+struct command_sys
+{
+    bool network = false;  /**Is the command system wifi enabled? (cmd core must be networked)*/
+    bool auto_conn = true; /**Automaticaly connect to remote systems if able*/
+    int max_conn = 0;      /**Network capacity (in generic units).*/
+    int max_cpu = 0;       /**Maximum processing power (in generic units.*/
+
+    std::unordered_map<furn_id, int> aux_sys;    /**Maps <auxiliary system type, # in command system>*/
+    std::unordered_map<furn_id, int> remote_sys; /**Maps <remote system type, # connected to command system*/
+};
+
+~~~~~~~~~
+command_sys cmd_sys;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//private items and stuff
+//data members
+    std::unordered_map<ammotype_id, int> gun_count;  /**stores <ammo_type, #guns_that_use_them>.*/
+    std::unordered_map<ammotype_id, int> ammo_count; /**stores <ammo_types, amount>.*/
+
+#####################
+##base_home.cpp
+#####################
+
+/**
+ * Recount # of guns using each ammo type in base.
+ *
+ * TODO: Count the guns in communal storage.
+ * TODO: Multiply by burst size.
+ * TODO: Count NPC and Player Guns.
+ */
+void base_home::count_guns()
+{
+}
+
 
 #####################
 ##construction.json

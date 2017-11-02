@@ -14,13 +14,35 @@ struct submap;
 struct tripoint;
 class ammunition_type;
 
-using furn_id = int_id<furn_t>;
-using ammotype_id = string_id<ammunition_type>;
+//Furnature accepted as a storage place.
+//TODO: Move to json once I get around to figure out how cdda's json works
+const std::set<furn_id> store_furn {
+    "f_locker",
+    "f_dresser",
+    "f_rack",
+    "f_bookcase",
+    "f_safe_o"
+}
+
+//Need way to dermine if it counts as a bunk.
+//Finding the "This seems like a nice place to sleep" code is annoying so,
+//lets do the same should be in json hack for now
+const std::set<furn_id> sleep_furn {//Furnature that counts as a bunk
+    "f_bed",
+    "f_makeshift_bed",
+    "f_straw_bed"
+}
+const std::set<trap_id> sleep_trap {//Traps that count as a bunk
+    "tr_cot",
+    "tr_rollmat",
+    "tr_fur_rollmat"
+}
+
 
 /**
  * Flags unique to a base.
  */
-enum base_area_flag
+enum base_flag
 {
     BASE_IN,   /**Inside of actual base*/
     BASE_GND,  /**On base grounds. i.e. between perimeter fence and building*/
@@ -47,66 +69,68 @@ enum class ration_enum : char {
     Heavily Rationing = 3
 }
 
-
 /**
- * Stores capacities of command system and the auxiliary systems present.
- * THIS IS TO BE IMPLEMENTED LATER
- */
-struct command_sys
-{
-    bool network = false;  /**Is the command system wifi enabled? (cmd core must be networked)*/
-    bool auto_conn = true; /**Automaticaly connect to remote systems if able*/
-    int max_conn = 0;      /**Network capacity (in generic units).*/
-    int max_cpu = 0;       /**Maximum processing power (in generic units.*/
+ * Contain's entire base map.  Point is to merge base's submaps into one object.
+ * 
+ * For now max base area =  1 map tile.  Eventually, player should have way to turn 2x2 map tile building into a base.
+ * Might need expation to 1x2/2x1 since double tile houses are a thing now.
+ * Not Z-level supporting.
+ */  
+struct base_overlay {
+    std::set<base_area_flag> bflag[OMAPX][OMPY]; /**Additional map tile flags specific to a base.*/
+    //copy from submap and change to references. 
+    ter_id          &ter[OMAPX][OMPY];  // Terrain on each square
+    furn_id         &frn[OMAPX][OMPY];  // Furniture on each square
+    std::uint8_t    &lum[OMAPX][OMPY];  // Number of items emitting light on each square
+    std::list<item> &itm[OMAPX][OMPY];  // Items on each square
+    field           &fld[OMAPX][OMPY];  // Field on each square
+    trap_id         &trp[OMAPX][OMPY];  // Trap on each square
+    int             &rad[OMAPX][OMPY];  // Irradiation of each square
+}
 
-    std::unordered_map<furn_id, int> aux_sys;    /**Maps <auxiliary system type, # in command system>*/
-    std::unordered_map<furn_id, int> remote_sys; /**Maps <remote system type, # connected to command system*/
-};
 
 class base_home
 {
 
-    base_home(submap &base_map, const tripoint &coreloc);
+    base_home(player &p, const tripoint &coreloc);
 
   private:
-    //########PRIVATE##########//
-    //#BASE CORE AND LOCATIONS#//
-    //#########################//
+                //########PRIVATE##########//
+                //#BASE CORE AND LOCATIONS#//
+                //#########################//
 
     //data members
     int base_level; /**Level of command core. Determins max # of aux sys and, use of certain features.*/
-    command_sys cmd_sys;
     int owner_id; /**Player's ID*/ 
-
-    std::set<base_area_flag> baflag[SEEX][SEEY]; /**Additional ter and fur flags specific to bases.*/
+    base_overlay bmap; /**The base's map.*/
+    
     std::list<&npc_based> freeloaders;          /**List containing references to the NPCs staying at the base.*/
 
-    std::list<tripoint> bunks;          /**List containing locations of sleeping spots in base.*/
+    std::unordered_map<tripoint, int> bunks;          /**Sleeping spots in base. <location, ownerID*/
     std::list<tripoint> storage_open;   /**List containing locations of unclaimed/designated storage furnature.*/
-    std::list<tripoint> player_bed;     /**Location of player's bed.  List just incase.*/ 
-    std::list<tripoint> player_stash;   /**List containing locations of furnature claimed by player*/
+    std::list<tripoint> storage_player;   /**List containing locations of furnature claimed by player*/
     std::list<tripoint> storage_comm;   /**list containing locations of communal storage.*/
     //note: deal with deconstruction, destruction and, death. Unclaiming can be done by overwriting and adding handling there.*/
+    //storage is broken up for performance consideratons.
 
     //functions
+    void gen_overlay(const submap &base_map);
     void define_base_area(const submap &base_map, const tripoint &coreloc); //populates baflag[][]
+    bool has_base_flag(const tripoint &p, base_flag flag)
+    {
+        return(bmap[p.x][p.y].bflag.count(flag) );
+    }
 
-    //########PRIVATE##########//
-    //#ITEMS AND STASHED STUFF#//
-    //#########################//
-
-    //data members
-    //std::unordered_map<ammotype_id, int> gun_count;  /**stores <ammo_type, #guns_that_use_them>.*/
-    //std::unordered_map<ammotype_id, int> ammo_count; /**stores <ammo_types, amount>.*/
-
-    
+                //########PRIVATE##########//
+                //#ITEMS AND STASHED STUFF#//
+                //#########################//    
 
     //functions
     void count_guns(); //update gun_count
 
-    //########PRIVATE##########//
-    //#RULES AND STUFF FOR NPC#//
-    //#########################//
+                //########PRIVATE##########//
+                //#RULES AND STUFF FOR NPC#//
+                //#########################//
 
     //data members
     int food_ration = 0; /**Severity of food rationing. 0 = no rationing. Max = 3.*/
@@ -117,9 +141,9 @@ class base_home
     //functions
 
   public:
-    //##########PUBLIC#########//
-    //#BASE CORE AND LOCATIONS#//
-    //#########################//
+                //##########PUBLIC#########//
+                //#BASE CORE AND LOCATIONS#//
+                //#########################//
 
     bool is_in_base(const tripoint &); //Returns true if inside defined base area.
     void change_lv(int new_level);
@@ -131,11 +155,11 @@ class base_home
     int num_personnel(){
         return freeloaders.length();
     }
-    std::list<&npc_based> num_personnel(){
+    std::list<&npc_based> get_personnel(){
         return freeloaders;
     }
     int get_max_pop(){
-        return std::min(bunks.length() + player_bed.length(), storage_open.length() + player_stash.length() ) + freeloaders.length();
+        return std::min(bunks.length(), storage_open.length() + storage_player.length() + storage_comm.length() );
     }
     int get_num_bunks(){
         return bunks.length();
@@ -147,13 +171,13 @@ class base_home
         return storage_comm.length();
     }
 
-    //##########PUBLIC#########//
-    //#ITEMS AND STORAGE STUFF#//
-    //#########################//
+                //##########PUBLIC#########//
+                //#ITEMS AND STORAGE STUFF#//
+                //#########################//
 
-    //##########PUBLIC#########//
-    //#RULES AND STUFF FOR NPC#//
-    //#########################//
+                //##########PUBLIC#########//
+                //#RULES AND STUFF FOR NPC#//
+                //#########################//
 
     void set_food_ration(int val);
     void set_water_ration(int)
