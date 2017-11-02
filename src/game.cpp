@@ -5154,14 +5154,34 @@ void game::draw_HP()
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
 
+        static auto print_symbol_num = []( WINDOW *w, int num, const std::string &sym,
+                                           const nc_color color ) {
+            while( num-- > 0 ) {
+                wprintz( w, color, sym.c_str() );
+            }
+        };
+
         if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
             //Limb is broken
             std::string limb = "~~%~~";
-            nc_color color = c_red;
+            nc_color color = c_ltred;
 
-            if( u.worn_with_flag( "SPLINT", u.hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
-                limb = "==#==";
-                color = c_blue;
+            const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
+            if( u.worn_with_flag( "SPLINT", bp ) ) {
+                static const efftype_id effect_mending( "mending" );
+                const auto &eff = u.get_effect( effect_mending, bp );
+                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
+                    ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+
+                if( is_self_aware ) {
+                    limb = string_format( "=%2d%%=", mend_perc );
+                    color = c_blue;
+                } else {
+                    const int num = static_cast<int>( mend_perc / 20 );
+                    print_symbol_num( w_HP, num, "#", c_blue );
+                    print_symbol_num( w_HP, 5 - num, "=", c_blue );
+                    continue;
+                }
             }
 
             wprintz( w_HP, color, "%s", limb.c_str() );
@@ -5176,11 +5196,7 @@ void game::draw_HP()
             wprintz( w_HP, hp.second, "%s", hp.first.c_str() );
 
             //Add the trailing symbols for a not-quite-full health bar
-            int bar_remainder = 5;
-            while( bar_remainder > ( int )hp.first.size() ) {
-                --bar_remainder;
-                wprintz(w_HP, c_white, ".");
-            }
+            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
         }
     }
 
