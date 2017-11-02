@@ -325,10 +325,9 @@ size_t inventory_column::get_cells_width() const
 
 void inventory_column::set_filter( const std::string &filter )
 {
-    clear();
     entries = entries_unfiltered;
-    paging_is_valid = false;
     entries_cell_cache.clear();
+    paging_is_valid = false;
     prepare_paging( filter );
 }
 
@@ -1247,11 +1246,9 @@ void inventory_selector::set_filter()
     .max_length( 256 )
     .text( filter.c_str() );
 
-    //draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
-
     do {
         mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, 2, c_cyan, "< " );
-        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 3, c_cyan, " >" );
+        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4, c_cyan, " >" );
         std::string new_filter = spopup.query_string( false );
 
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {

@@ -1675,7 +1675,7 @@ void advanced_inventory::display()
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
-                mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
+                mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 4, c_cyan, " >" );
                 std::string new_filter = spopup.query_string( false );
                 if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
                     // restore original filter
@@ -2008,7 +2008,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             } else {
                 added = !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
             }
-            
+
             if( !added ) {
                 msg = _("Destination area is full.  Remove some items first.");
             }
