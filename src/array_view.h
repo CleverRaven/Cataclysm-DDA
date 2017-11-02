@@ -2,22 +2,16 @@
 #ifndef ARRAY_VIEW_H
 #define ARRAY_VIEW_H
 #include <stdexcept>
-#include <iosfwd>
 #include <utility>
 #include <type_traits>
 #include <iterator>
 #include <initializer_list>
+#include <memory>
 
 template< class DataT >
 class array_view
 {
-    protected:
-        // Data
-        DataT const *_begin = nullptr;
-        DataT const *_end   = nullptr;
-
     public:
-        // Types
         using value_type             = DataT;
         using pointer                = value_type *;
         using const_pointer          = value_type const*;
@@ -25,34 +19,38 @@ class array_view
         using const_reference        = value_type const&;
         using const_iterator         = value_type const*;
         using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-        using size_type              = unsigned int;
-        enum constant : size_type { npos = static_cast<size_type>( -1 ) }; 
+        using size_type              = size_t;
+        enum constant : size_type { npos = static_cast<size_type>( -1 ) };
 
         // Constructors
         constexpr array_view() noexcept = default;
         constexpr array_view( array_view const & ) noexcept = default;
         array_view &operator=( array_view const & ) noexcept = default;
 
+        // construct view from c arrays
         template<size_type N>
         constexpr array_view( value_type const( &s )[N] ) noexcept :
-            _begin(s), _end(s + N)
+            _data( s ), _size( N )
         {}
 
+        // construct view from begin and and end pointers
         constexpr array_view( value_type const *s, value_type const *e ) noexcept :
-            _begin(s), _end(e)
+            _data( s ), _size( static_cast<size_type>( e - s ) )
         {}
 
+        // construct view from pointer and size
         constexpr array_view( value_type const *s, size_type cnt ) noexcept :
-            _begin(s), _end(s + cnt)
+            _data( s ), _size( cnt )
         {}
 
-        /** Allows initializer lists to be used
-         *
-         * void foo(array_view<int>);
-         * foo({1, 2, 3, 4});
-         */
-        constexpr array_view( std::initializer_list<value_type> l) noexcept :
-            _begin(l.begin()), _end(l.end())
+        // construct view from initializer lists
+        constexpr array_view( std::initializer_list<value_type> l ) noexcept :
+            _data( l.begin() ), _size( l.size() )
+        {}
+
+        // construct view to single value
+        constexpr array_view( const_reference v ) noexcept :
+            _data( std::addressof( v ) ), _size( 1 )
         {}
 
         /** Allow any type where .data() and .data() + .size() can be converted
@@ -64,15 +62,16 @@ class array_view
         template <
             class T,
             class = decltype( pointer( std::declval<T>().data() ) ),
+            class = decltype( size_type( std::declval<T>().size() ) ),
             class = decltype( pointer( std::declval<T>().data() + std::declval<T>().size() ) )
             >
         constexpr array_view( T const &s ) noexcept :
-            _begin(s.data()), _end(s.data() + s.size())
+            _data( s.data() ), _size( s.size() )
         {}
 
         // Iterators
         constexpr const_iterator begin() const noexcept {
-            return _begin;
+            return _data;
         }
         constexpr const_iterator cbegin() const noexcept {
             return begin();
@@ -82,7 +81,7 @@ class array_view
         }
 
         constexpr const_iterator end() const noexcept {
-            return _end;
+            return _data + _size;
         }
         constexpr const_iterator cend() const noexcept {
             return end();
@@ -97,18 +96,20 @@ class array_view
         }
 
         const_reference at( size_type idx ) const {
-            if( begin() + idx >= end() ) {
+            if( idx >= size() ) {
                 out_of_range();
             }
             return begin()[idx];
         }
 
+        // invalid when empty() == true
         constexpr const_reference front() const noexcept {
             return begin()[0];
         }
 
+        // invalid when empty() == true
         constexpr const_reference back() const noexcept {
-            return end()[-1];
+            return begin()[size() - 1];
         }
 
         constexpr const_pointer data() const noexcept {
@@ -117,60 +118,56 @@ class array_view
 
         // Capacity
         constexpr size_type size() const noexcept {
-            return static_cast<size_type>(end() - begin());
+            return _size;
         }
 
         constexpr bool empty() const noexcept {
-            return begin() == end();
+            return size() == 0;
         }
 
         constexpr explicit operator bool() const noexcept {
-            return ! empty();
+            return !empty();
         }
 
         // Modifiers
+        // removes first n elements,
         void remove_prefix( size_type n ) noexcept {
-            if( ( _begin += n ) > end() ) {
-                _begin = end();
-            }
+            n = std::min( n, size() );
+            _data += n;
+            _size -= n;
         }
 
+        // removes last n elements,
         void remove_suffix( size_type n ) noexcept {
-            if( ( _end -= n ) < begin() ) {
-                _end = begin();
-            }
+            n = std::min( n, size() );
+            _size -= n;
         }
 
         void swap( array_view &v ) noexcept {
-            std::swap( _begin, v._begin );
-            std::swap( _end,   v._end );
+            std::swap( _data, v._data );
+            std::swap( _size, v._size );
         }
 
         // Operations
-        array_view substr( size_type pos = 0, size_type count = npos ) const {
+        // makes substr of range  [pos, pos+rcount), unlike standard, doesnt throw. just returns empty
+        array_view substr( size_type pos = 0, size_type n = npos ) const noexcept {
             if( pos > size() ) {
-                out_of_range();
+                return array_view{};
             }
-            return {
-                begin() + pos,
-                (count != npos) ? std::min( count, size() - pos ) : size() - pos
-            };
-        }
-
-        size_type find( const_reference val ) const {
-            for( size_type i = 0; i < size(); ++i ) {
-                if( (*this)[i] == val) {
-                    return val;
-                }
+            if( n == npos || pos + n >= size() ) {
+                n = size() - pos;
             }
-            return npos;
+            return array_view{ data() + pos, n };
         }
-
     protected:
         [[noreturn]]
         static void out_of_range() {
             throw std::out_of_range( "Out of bounds access in string_view" );
         }
+
+        // Data
+        const_pointer _data = nullptr;
+        size_type     _size = 0;
 };
 
 #endif
