@@ -277,7 +277,7 @@ class inventory_column
         /** Returns next custom inventory letter. */
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
-        virtual void prepare_paging();
+        virtual void prepare_paging( const std::string &filter = "" );
         /**
          * Event handlers
          */
@@ -296,6 +296,8 @@ class inventory_column
         virtual void on_mode_change( navigation_mode mode ) {
             this->mode = mode;
         }
+
+        void set_filter( const std::string &filter );
 
     protected:
         struct entry_cell_cache_t {
@@ -343,6 +345,7 @@ class inventory_column
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
+        std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
@@ -389,7 +392,7 @@ class selection_column : public inventory_column
             return false;
         }
 
-        virtual void prepare_paging() override;
+        virtual void prepare_paging( const std::string &filter = "" ) override;
 
         virtual void on_change( const inventory_entry &entry ) override;
         virtual void on_mode_change( navigation_mode ) override {
@@ -471,6 +474,7 @@ class inventory_selector
 
         void resize_window( int width, int height );
         void refresh_window() const;
+        void set_filter();
         void update();
 
         /** Tackles screen overflow */
@@ -556,6 +560,7 @@ class inventory_selector
         inventory_column map_column;         // Column for map and vehicle items
 
         const int border = 1;                // Width of the window border
+        std::string filter = "";
 
         bool display_stats = true;
         bool layout_is_valid = false;
