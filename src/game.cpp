@@ -10617,7 +10617,7 @@ void game::reload( item_location &loc, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() ) {
+    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
         vehicle *veh = m.veh_at( u.pos() );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
