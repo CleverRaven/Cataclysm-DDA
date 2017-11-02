@@ -67,7 +67,9 @@ class array_view
             >
         constexpr array_view( T const &s ) noexcept :
             _data( s.data() ), _size( s.size() )
-        {}
+        {
+            static_assert(sizeof(*s.data()) == sizeof(value_type), "Container data would get sliced");
+        }
 
         // Iterators
         constexpr const_iterator begin() const noexcept {
