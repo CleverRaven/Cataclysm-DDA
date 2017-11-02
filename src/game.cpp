@@ -5151,18 +5151,33 @@ void game::draw_HP()
 
     bool const is_self_aware = u.has_trait( trait_id( "SELFAWARE" ) );
 
-    for (int i = 0; i < num_hp_parts; i++) {
-        auto const &hp = get_hp_bar(u.hp_cur[i], u.hp_max[i]);
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        wmove( w_HP, i * dy + hpy, hpx );
 
-        wmove(w_HP, i * dy + hpy, hpx);
-        if (is_self_aware) {
-            wprintz(w_HP, hp.second, "%3d  ", u.hp_cur[i]);
+        if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
+            //Limb is broken
+            std::string limb = "~~%~~";
+            nc_color color = c_red;
+
+            if( u.worn_with_flag( "SPLINT", u.hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
+                limb = "==#==";
+                color = c_blue;
+            }
+
+            wprintz( w_HP, color, "%s", limb.c_str() );
+            continue;
+        }
+
+        auto const &hp = get_hp_bar( u.hp_cur[i], u.hp_max[i] );
+
+        if( is_self_aware ) {
+            wprintz( w_HP, hp.second, "%3d  ", u.hp_cur[i] );
         } else {
-            wprintz(w_HP, hp.second, "%s", hp.first.c_str());
+            wprintz( w_HP, hp.second, "%s", hp.first.c_str() );
 
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
-            while (bar_remainder > (int)hp.first.size()) {
+            while( bar_remainder > ( int )hp.first.size() ) {
                 --bar_remainder;
                 wprintz(w_HP, c_white, ".");
             }
