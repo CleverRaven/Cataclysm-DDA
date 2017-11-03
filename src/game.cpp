@@ -13,6 +13,7 @@
 #include "auto_pickup.h"
 #include "gamemode.h"
 #include "mapbuffer.h"
+#include "map_item_stack.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "editmap.h"
