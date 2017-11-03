@@ -30,6 +30,7 @@ class basic_string_view : public array_view<CharT>
         // Constructors
         // Inherit common constructors
         using base::array_view;
+        constexpr basic_string_view() noexcept = default;
         constexpr basic_string_view( base b ) noexcept : base( b ) {}
         constexpr basic_string_view( basic_string_view const &b ) noexcept = default;
         basic_string_view &operator=( basic_string_view const &b ) noexcept = default;
