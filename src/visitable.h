@@ -2,8 +2,6 @@
 #ifndef VISITABLE_H
 #define VISITABLE_H
 
-#include "enums.h"
-
 #include <functional>
 #include <limits>
 #include <list>
