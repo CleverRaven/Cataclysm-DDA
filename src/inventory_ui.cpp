@@ -1330,11 +1330,11 @@ void inventory_selector::draw_footer( WINDOW *w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( _("[%s]Filter: "), ctxt.press_x( "INVENTORY_FILTER", "", "", "" ), filter );
+        std::string text = string_format( filter.empty() ? _("[%s]Filter") : _("[%s]Filter: "),
+                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
         filter_offset = utf8_width( text + filter ) + 6;
-        const int y = getmaxy( w ) - border;
 
-        mvwprintz( w, y, 2, c_ltgray, "< " );
+        mvwprintz( w, getmaxy( w ) - border, 2, c_ltgray, "< " );
         wprintz( w, c_ltgray, text.c_str() );
         wprintz( w, c_white, filter.c_str() );
         wprintz( w, c_ltgray, " >" );
@@ -1622,6 +1622,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
                           ctxt.get_desc( "RIGHT" ).c_str() );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
         } else {
             on_input( input );
         }
@@ -1700,6 +1702,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             break;
         } else if( input.action == "QUIT" ) {
             return std::list<std::pair<int, int> >();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
         } else {
             on_input( input );
             count = 0;
