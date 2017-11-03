@@ -14,7 +14,7 @@ struct submap;
 struct tripoint;
 class ammunition_type;
 
-//Furnature accepted as a storage place.
+//furniture accepted as a storage place.
 //TODO: Move to json once I get around to figure out how cdda's json works
 const std::set<furn_id> store_furn {
     "f_locker",

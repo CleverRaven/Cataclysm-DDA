@@ -1565,7 +1565,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void set_targeting_data( const targeting_data &td );
 
         /**Pointer to player's home base*/
-        base_home* home;
+        cata::optional<tripoint> home;
     protected:
         // The player's position on the local map.
         tripoint position;

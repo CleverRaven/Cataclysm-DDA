@@ -628,8 +628,6 @@ player::player() : Character()
 
     morale.reset( new player_morale() );
     last_craft.reset( new craft_command() );
-
-    home = NULL;
 }
 
 player::~player() = default;

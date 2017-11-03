@@ -3715,9 +3715,9 @@ void iexamine::base_view( player &p, const tripoint &examp) {
     
     //Simple implementation for now
     std::list<std::string> basicInfo;
-    basicInfo.push_back( string_format( _("%s's Home Sweet Base%n"), p.get_name(), int len );
+    basicInfo.push_back( string_format( _("%s's Home Sweet Base"), p.get_name() );
     //TODO add len '~'s as an underline 
-    basicInfo.push_back( _("") );//add blank line.
+    basicInfo.push_back("");//add blank line.
     basicInfo.push_back( string_format( _("Command System Level: %d"), base.get_level() ) );
     basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base.num_personnel(), base.get_max_pop() );
     basicInfo.push_back( string_format( _("Open Bunks: %d"), base.num_bunks() ) );
@@ -3725,23 +3725,20 @@ void iexamine::base_view( player &p, const tripoint &examp) {
     basicInfo.push_back( string_format( _("Communal Storage Locations: %d"), base.num_comm_storage() ) );
     std::list<std::string> rationInfo;
     rationInfo.push_back( _("Supply Rationing") );
-    rationInfo.push_back( _("~~~~~~~~~~~~~~~~") );
     rationInfo.push_back( string_format( _("Food: %s"), base_home::ration_levels::base.get_food_ration() );
-    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base.get_food_ration() );
-    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base.get_food_ration() );
-    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base.get_food_ration() );
+    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base.get_water_ration() );
+    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base.get_ammo_ration() );
+    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base.get_med_ration() );
     std::list<std::string> resInfo
     auto &peeps = p->home.get_personnel();
     resInfo.push_back( _("Base Residents") );
-    resInfo.push_back( _("~~~~~~~~~~~~~~") );
-    basicInfo.push_back( _("") );//add blank line.
     for ( int 1 = 0; i < peeps.length() ){
         resInfo.push_back( string_format( _("%d. %s: Some Information."), i, peeps[i].get_name() ) );
     }
 
-    output::popup_getkey( basicInfo );
-    output::popup_getkey( rationInfo );
-    output::popup_getkey( resInfo );
+    popup_getkey( basicInfo );
+    popup_getkey( rationInfo );
+    popup_getkey( resInfo );
 }
 
 /**
