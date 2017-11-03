@@ -212,9 +212,7 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param def The new item type, must not be null.
          */
-        void add_item_type( const itype &def ) {
-            m_runtimes[ def.id ].reset( new itype( def ) );
-        }
+        void add_item_type( const itype &def );
 
         /**
          * Check if an iuse is known to the Item_factory.
@@ -342,6 +340,13 @@ class Item_factory
 
         void finalize_item_blacklist();
 
+        /** Applies part of finalization that don't depend on other items. */
+        void finalize_pre( itype &obj );
+        /** Registers the item as having repair actions (if it has any). */
+        void register_cached_uses( const itype &obj );
+        /** Applies part of finalization that depends on other items. */
+        void finalize_post( itype &obj );
+
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 
@@ -355,6 +360,12 @@ class Item_factory
          * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
          */
         std::map<itype_id, std::set<itype_id>> tool_subtypes;
+
+        // tools that have at least one repair action
+        std::set<itype_id> repair_tools;
+
+        // tools that can be used to repair complex firearms
+        std::set<itype_id> gun_tools;
 };
 
 #endif

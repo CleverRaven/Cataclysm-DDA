@@ -18,7 +18,6 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
-#include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
@@ -7368,12 +7367,14 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
             const std::function<std::string( int )> draw_row;
             int last_key;
             const int default_to;
+            const bool can_partial_reload;
 
             reload_callback( std::vector<item::reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
-                             int _last_key, int _default_to ) :
+                             int _last_key, int _default_to, bool _can_partial_reload ) :
                            opts( _opts ), draw_row( _draw_row ),
-                           last_key( _last_key ), default_to( _default_to )
+                           last_key( _last_key ), default_to( _default_to ),
+                           can_partial_reload( _can_partial_reload )
             {}
 
             bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
@@ -7390,18 +7391,22 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                 auto &sel = opts[ idx ];
                 switch( cur_key ) {
                     case KEY_LEFT:
-                        sel.qty( sel.qty() - 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() - 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
 
                     case KEY_RIGHT:
-                        sel.qty( sel.qty() + 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() + 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
     menu.callback = &cb;
 
     menu.query();

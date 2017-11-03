@@ -1778,6 +1778,7 @@
 },{
   "type" : "recipe",
   "result": "lye_powder",
+  "id_suffix": "from_lye",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",

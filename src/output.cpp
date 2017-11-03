@@ -1641,15 +1641,15 @@ void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", NameGenerator::generator().getName( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", NameGenerator::generator().getName( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", NameGenerator::generator().getName( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
                            false );
     }
 }
