@@ -66,9 +66,8 @@ class array_view
             class = decltype( pointer( std::declval<T>().data() + std::declval<T>().size() ) )
             >
         constexpr array_view( T const &s ) noexcept :
-            _data( s.data() ), _size( s.size() )
-        {
-            static_assert(sizeof(*s.data()) == sizeof(value_type), "Container data would get sliced");
+            _data( s.data() ), _size( s.size() ) {
+            static_assert( sizeof( *s.data() ) == sizeof( value_type ), "Container data would get sliced" );
         }
 
         // Iterators
