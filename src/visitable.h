@@ -3,7 +3,6 @@
 #define VISITABLE_H
 
 #include "enums.h"
-#include "string_id.h"
 
 #include <functional>
 #include <limits>
@@ -12,6 +11,8 @@
 #include <vector>
 
 class item;
+template<typename T>
+class string_id;
 struct quality;
 using quality_id = string_id<quality>;
 
