@@ -69,25 +69,6 @@ enum class ration_enum : char {
     Heavily Rationing = 3
 }
 
-/**
- * Contain's entire base map.  Point is to merge base's submaps into one object.
- * 
- * For now max base area =  1 map tile.  Eventually, player should have way to turn 2x2 map tile building into a base.
- * Might need expation to 1x2/2x1 since double tile houses are a thing now.
- * Not Z-level supporting.
- */  
-struct base_overlay {
-    std::set<base_area_flag> bflag[OMAPX][OMPY]; /**Additional map tile flags specific to a base.*/
-    //copy from submap and change to references. 
-    ter_id          &ter[OMAPX][OMPY];  // Terrain on each square
-    furn_id         &frn[OMAPX][OMPY];  // Furniture on each square
-    std::uint8_t    &lum[OMAPX][OMPY];  // Number of items emitting light on each square
-    std::list<item> &itm[OMAPX][OMPY];  // Items on each square
-    field           &fld[OMAPX][OMPY];  // Field on each square
-    trap_id         &trp[OMAPX][OMPY];  // Trap on each square
-    int             &rad[OMAPX][OMPY];  // Irradiation of each square
-}
-
 
 class base_home
 {
@@ -102,7 +83,8 @@ class base_home
     //data members
     int base_level; /**Level of command core. Determins max # of aux sys and, use of certain features.*/
     int owner_id; /**Player's ID*/ 
-    base_overlay bmap; /**The base's map.*/
+    base
+    std::set<base_area_flag> bflag[OMAPX][OMPY]; /**Additional map tile overlay for flags specific to a base. NO-Z levelsupport.*/
     
     std::list<&npc_based> freeloaders;          /**List containing references to the NPCs staying at the base.*/
 
