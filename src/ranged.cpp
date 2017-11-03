@@ -1581,6 +1581,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_multiplier( 0.75 );
     }
 
+    //Multiply despersion on debug parameter
+    const double ranged_mult = get_option<float>("RANGED_DISPERSION_MULT");
+    dispersion.add_multiplier( 1 / ranged_mult );
+
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
         ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {

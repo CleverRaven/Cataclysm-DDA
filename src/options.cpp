@@ -1292,6 +1292,13 @@ void options_manager::init()
         true
         );
 
+    mOptionsSort["debug"]++;
+
+    add( "RANGED_DISPERSION_MULT", "debug", translate_marker("Ranged weapons accuracy multiplier" ),
+        translate_marker( "Scales ranged weapon accuracy. 2.0 is twice as accurate as default, 0.5 is twice less accurate." ),
+        0.01, 100.0, 1.0, 0.01
+       );
+
     ////////////////////////////WORLD DEFAULT////////////////////
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
         translate_marker( "Controls what migrations are applied for legacy worlds" ),
