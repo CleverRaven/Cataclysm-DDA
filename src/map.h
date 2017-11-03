@@ -498,12 +498,6 @@ class map
         */
         vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
         const vehicle *veh_at( const tripoint &p ) const;
-        /**
-        * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
-        * actually exists here.
-        * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
-        */
-        point veh_part_coordinates( const tripoint &p );
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p

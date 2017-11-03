@@ -7255,7 +7255,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at( vpos );
+        int target_part_num;
+        auto target_veh = g->m.veh_at( vpos, target_part_num );
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
@@ -7264,7 +7265,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = g->m.getlocal(source_global);
-            auto source_veh = g->m.veh_at( source_local );
+            int source_part_num;
+            auto source_veh = g->m.veh_at( source_local, source_part_num );
 
             if(source_veh == target_veh) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7275,7 +7277,6 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             }
 
             tripoint target_global = g->m.getabs( vpos );
-            tripoint target_local = vpos;
 
             if(source_veh == nullptr) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7285,17 +7286,21 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
+            const auto veh_part_coordinates = []( const vehicle &veh, const int part_num ) {
+                return veh.parts[part_num].mount;
+            };
+
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = g->m.veh_part_coordinates( source_local );
+            point vcoords = veh_part_coordinates( *source_veh, source_part_num );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = g->m.veh_part_coordinates( target_local );
+            vcoords = veh_part_coordinates( *target_veh, target_part_num );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();

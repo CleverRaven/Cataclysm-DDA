@@ -1340,7 +1340,6 @@ classes = {
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint" } },
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint", "bool" } },
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint", "bool", "bool" } },
-            { name = "veh_part_coordinates", rval = "point", args = { "tripoint" } },
             { name = "water_from", rval = "item", args = { "tripoint" } },
         }
     },
