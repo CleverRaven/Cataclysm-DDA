@@ -33,9 +33,9 @@ void test_string( string_view sv, T const &container )
     REQUIRE( sv.substr( 1 ) != container );
 }
 
-void test_char( string_view sv, char i )
+void test_char( string_view sv, char c )
 {
-    REQUIRE( sv == character );
+    REQUIRE( sv == c );
     REQUIRE( sv != '?' );
     REQUIRE( sv.size() == 1 );
 }
