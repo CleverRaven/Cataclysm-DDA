@@ -199,11 +199,6 @@ class map
 
         map &operator=( map && ) = default;
 
-        // Visual Output
-        void debug();
-
-
-
         /**
          * Sets a dirty flag on the a given cache.
          *
