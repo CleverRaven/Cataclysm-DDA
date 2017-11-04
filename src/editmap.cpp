@@ -603,14 +603,14 @@ void editmap::update_view( bool update_info )
         }
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
-        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ),
+        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
                    terrain_type.name().c_str(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
-            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ),
+            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ).to_i(),
                        furniture_type.name().c_str(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
@@ -620,7 +620,7 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
                    veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
@@ -630,7 +630,7 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "apparent light: %.2f, light_at: %.2f" ),
                    map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
                    map_cache.lm[target.x][target.y] );
-        mvwprintw( w_info, off++, 1, _( "outside: %d" ), g->m.is_outside( target ) );
+        mvwprintw( w_info, off++, 1, _( "outside: %d" ), static_cast<int>( g->m.is_outside( target ) ) );
         std::string extras = "";
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
