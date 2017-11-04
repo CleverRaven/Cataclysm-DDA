@@ -15,12 +15,6 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
-#ifdef debuguimenu
-#define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
-#else
-#define dprint(a,...)      void()
-#endif
-
 /**
 * \defgroup UI "The UI Menu."
 * @{
@@ -117,7 +111,6 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
@@ -132,7 +125,6 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 /*
