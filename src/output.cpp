@@ -337,13 +337,6 @@ int right_print( WINDOW *w, const int line, const int right_indent, const nc_col
     return x;
 }
 
-void mvputch( int y, int x, nc_color FG, const std::string &ch )
-{
-    attron( FG );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( FG );
-}
-
 void wputch( WINDOW *w, nc_color FG, long ch )
 {
     wattron( w, FG );
