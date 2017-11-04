@@ -127,7 +127,6 @@ int wgetch( WINDOW *win );
 int mvgetch( int y, int x );
 int mvwgetch( WINDOW *win, int y, int x );
 int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... ) PRINTF_LIKE( 4, 5 );
-int mvprintw( int y, int x, const char *fmt, ... ) PRINTF_LIKE( 3, 4 );
 int werase( WINDOW *win );
 int start_color( void );
 int init_pair( short pair, short f, short b );
