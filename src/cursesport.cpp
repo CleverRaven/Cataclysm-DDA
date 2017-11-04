@@ -408,16 +408,6 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     return printstring(win, printbuf);
 }
 
-//Prints a formatted string to the main window at the current cursor
-int printw(const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    return printstring(stdscr, printbuf);
-}
-
 //erases a window of all text and attributes
 int werase(WINDOW *win)
 {

@@ -137,7 +137,6 @@ int wattroff( WINDOW *win, int attrs );
 int attron( int attrs );
 int attroff( int attrs );
 int waddch( WINDOW *win, const chtype ch );
-int printw( const char *fmt, ... ) PRINTF_LIKE( 1, 2 );
 int getmaxx( WINDOW *win );
 int getmaxy( WINDOW *win );
 int getbegx( WINDOW *win );
