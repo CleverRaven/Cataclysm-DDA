@@ -267,7 +267,6 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = 
 std::string name_and_value( std::string name, int value, int field_width );
 std::string name_and_value( std::string name, std::string value, int field_width );
 
-void mvputch( int y, int x, nc_color FG, const std::string &ch );
 void wputch( WINDOW *w, nc_color FG, long ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch( WINDOW *w, int y, int x, nc_color FG, long ch );
