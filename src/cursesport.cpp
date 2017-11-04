@@ -438,19 +438,6 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     return printstring(win, printbuf);
 }
 
-//Prints a formatted string to the main window, moves the cursor
-int mvprintw(int y, int x, const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    if (move(y, x) == 0) {
-        return 0;
-    }
-    return printstring(stdscr, printbuf);
-}
-
 //Prints a formatted string to the main window at the current cursor
 int printw(const char *fmt, ...)
 {
