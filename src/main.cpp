@@ -427,11 +427,9 @@ int main(int argc, char *argv[])
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
-         if( initscr() == nullptr ) { // Initialize ncurses
-            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+        if( !init_interface() ) {
             return 1;
         }
-        init_interface();
         noecho();  // Don't echo keypresses
         cbreak();  // C-style breaks (e.g. ^C to SIGINT)
         keypad(stdscr, true); // Numpad is numbers

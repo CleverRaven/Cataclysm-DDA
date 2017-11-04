@@ -242,9 +242,13 @@ extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be ov
 //Tile-version specific functions   *
 //***********************************
 
-void init_interface()
+bool init_interface()
 {
-    return; // dummy function, we have nothing to do here
+    if( initscr() == nullptr ) {
+        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+        return false;
+    }
+    return true;
 }
 //***********************************
 //Non-curses, Window functions      *

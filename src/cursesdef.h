@@ -12,7 +12,7 @@
 #include <curses.h>
 #endif
 
-void init_interface();
+bool init_interface();
 
 struct delwin_functor {
     void operator()( WINDOW *w ) const;
