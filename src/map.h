@@ -24,6 +24,7 @@
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+enum direction : unsigned;
 class player;
 class monster;
 class item;

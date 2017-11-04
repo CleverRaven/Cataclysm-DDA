@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <math.h>
 
 recipe::recipe() : skill_used( "none" ) {}
 

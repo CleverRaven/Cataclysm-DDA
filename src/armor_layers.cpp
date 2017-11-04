@@ -9,6 +9,7 @@
 #include "translations.h"
 #include "npc.h"
 #include "cata_utility.h"
+#include "line.h"
 
 #include <vector>
 #include <string>
