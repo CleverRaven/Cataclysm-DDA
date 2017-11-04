@@ -197,11 +197,6 @@ int wvline(WINDOW *win, chtype ch, int n)
     return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
 }
 
-int mvvline(int y, int x, chtype ch, int n)
-{
-    return mvwvline(stdscr, y, x, ch, n);
-}
-
 int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
 {
     wattron(win, BORDER_COLOR);

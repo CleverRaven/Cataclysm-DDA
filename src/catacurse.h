@@ -110,7 +110,6 @@ int wborder( WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl,
 
 int whline( WINDOW *win, chtype ch, int n );
 int wvline( WINDOW *win, chtype ch, int n );
-int mvvline( int y, int x, chtype ch, int n );
 int mvwhline( WINDOW *win, int y, int x, chtype ch, int n );
 int mvwvline( WINDOW *win, int y, int x, chtype ch, int n );
 
