@@ -152,7 +152,6 @@ int getbegx( WINDOW *win );
 int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
-int move( int y, int x );
 //non-curses functions, Do not call these in the main game code
 extern std::array<pairs, 100> colorpairs;
 void curses_drawwindow( WINDOW *win );
