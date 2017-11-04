@@ -44,6 +44,7 @@
 #include "fault.h"
 #include "vehicle_selector.h"
 #include "units.h"
+#include "ret_val.h"
 
 #include <cmath> // floor
 #include <sstream>

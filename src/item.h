@@ -16,7 +16,6 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
-#include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
 #include "cata_utility.h"
@@ -25,6 +24,8 @@ class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+template<typename T>
+class ret_val;
 namespace units
 {
 template<typename V, typename U>
