@@ -1244,7 +1244,7 @@ void inventory_selector::set_filter()
     string_input_popup spopup;
     spopup.window( w_inv.get(), 4, getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4 )
     .max_length( 256 )
-    .text( filter.c_str() );
+    .text( filter );
 
     do {
         mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, 2, c_cyan, "< " );
@@ -1335,7 +1335,7 @@ void inventory_selector::draw_footer( WINDOW *w ) const
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_ltgray, "< " );
-        wprintz( w, c_ltgray, text.c_str() );
+        wprintz( w, c_ltgray, "%s", text.c_str() );
         wprintz( w, c_white, filter.c_str() );
         wprintz( w, c_ltgray, " >" );
     }

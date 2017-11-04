@@ -560,7 +560,7 @@ class inventory_selector
         inventory_column map_column;         // Column for map and vehicle items
 
         const int border = 1;                // Width of the window border
-        std::string filter = "";
+        std::string filter;
 
         bool display_stats = true;
         bool layout_is_valid = false;
