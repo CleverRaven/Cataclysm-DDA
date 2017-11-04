@@ -19,7 +19,6 @@
 #include "rng.h"
 #include "enums.h"
 #include "pathfinding.h"
-#include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -45,7 +44,8 @@ struct oter_t;
 
 using trap_id = int_id<trap>;
 using oter_id = int_id<oter_t>;
-
+class emit;
+using emit_id = string_id<emit>;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
