@@ -187,11 +187,6 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     return 1;
 }
 
-int hline(chtype ch, int n)
-{
-    return whline(stdscr, ch, n);
-}
-
 int vline(chtype ch, int n)
 {
     return wvline(stdscr, ch, n);
