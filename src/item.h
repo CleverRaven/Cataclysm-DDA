@@ -16,7 +16,6 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
-#include "damage.h"
 #include "debug.h"
 #include "cata_utility.h"
 
@@ -62,6 +61,7 @@ struct quality;
 using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
+struct damage_unit;
 
 enum damage_type : int;
 
@@ -818,16 +818,20 @@ public:
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( double qty, damage_type dt = DT_NULL );
+        bool mod_damage( double qty, damage_type dt );
+        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        bool mod_damage( double qty );
 
     /**
      * Increment item damage constrained @ref max_damage
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool inc_damage( damage_type dt = DT_NULL ) {
+    bool inc_damage( const damage_type dt ) {
         return mod_damage( 1, dt );
     }
+        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        bool inc_damage();
 
     /** Provide color for UI display dependent upon current item damage level */
     nc_color damage_color() const;

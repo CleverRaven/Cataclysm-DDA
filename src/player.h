@@ -11,6 +11,7 @@
 #include "game_constants.h"
 #include "craft_command.h"
 #include "ret_val.h"
+#include "damage.h"
 
 #include <unordered_set>
 #include <bitset>

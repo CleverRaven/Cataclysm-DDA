@@ -3322,6 +3322,16 @@ bool item::mod_damage( double qty, damage_type dt )
     return destroy;
 }
 
+bool item::mod_damage( const double qty )
+{
+    return mod_damage( qty, DT_NULL );
+}
+
+bool item::inc_damage()
+{
+    return inc_damage( DT_NULL );
+}
+
 nc_color item::damage_color() const
 {
     // @todo unify with getDurabilityColor
