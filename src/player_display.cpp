@@ -29,8 +29,7 @@ bool should_combine_bps( const player &p, size_t l, size_t r )
 
 void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
 {
-    int height, width;
-    getmaxyx( win, height, width );
+    const int height = getmaxy( win );
     int orig_line = line;
 
     // fill a set with the indices of the body parts to display

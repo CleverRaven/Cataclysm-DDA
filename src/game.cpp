@@ -452,7 +452,8 @@ void game::init_ui()
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 #else
-    getmaxyx(stdscr, TERMY, TERMX);
+    TERMY = getmaxy( stdscr );
+    TERMX = getmaxx( stdscr );
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if (TERMY % 2) {
@@ -13612,8 +13613,8 @@ void game::autosave()
 
 void intro()
 {
-    int maxx, maxy;
-    getmaxyx(stdscr, maxy, maxx);
+    int maxy = getmaxy( stdscr );
+    int maxx = getmaxx( stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     WINDOW *tmp = newwin(minHeight, minWidth, 0, 0);
@@ -13638,7 +13639,8 @@ void intro()
         }
         wrefresh(tmp);
         inp_mngr.wait_for_any_key();
-        getmaxyx(stdscr, maxy, maxx);
+        maxy = getmaxy( stdscr );
+        maxx = getmaxx( stdscr );
     }
     werase(tmp);
 
