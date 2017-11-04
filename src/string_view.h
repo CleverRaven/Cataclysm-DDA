@@ -44,9 +44,11 @@ class basic_string_view : public array_view<CharT>
         using base::begin;
         using base::cbegin;
         using base::rbegin;
+        using base::crbegin;
         using base::end;
         using base::cend;
         using base::rend;
+        using base::crend;
 
         // Accessors
         using base::operator[];
@@ -57,12 +59,14 @@ class basic_string_view : public array_view<CharT>
 
         // Capacity
         using base::size;
+        using base::length;
         using base::empty;
         using base::operator bool;
 
         // Modifiers
         using base::remove_prefix;
         using base::remove_suffix;
+        using base::pop_back;
         using base::swap;
 
         // Operations
@@ -77,7 +81,47 @@ class basic_string_view : public array_view<CharT>
                 return pos;
             }
             const_iterator it = std::search( begin() + pos, end(), sv.begin(), sv.end(), Traits::eq );
-            return it == end() ? npos : static_cast<size_type>( std::distance( begin(), it ) );
+            return it == end() ? npos : distance( begin(), it );
+        }
+
+        size_type rfind( basic_string_view sv, size_type pos = npos ) const noexcept {
+            if( size() < sv.size() ) {
+                return npos;
+            }
+            if( pos > size() - sv.size() ) {
+                pos = size() - sv.size();
+            }
+            if( sv.size() == 0 ) {
+                return pos;
+            }
+            for( const_iterator it = begin() + pos; it != begin(); --it ) {
+                if( Traits::compare( it, sv.begin(), sv.size() ) == 0 ) {
+                    return it - begin();
+                }
+            }
+            return npos;
+        }
+
+        size_type find_first_of( basic_string_view sv, size_type pos = 0 ) const noexcept {
+            if( pos >= size() || sv.size() == 0 ) {
+                return npos;
+            }
+            const_iterator it = std::find_first_of( begin() + pos, end(), sv.begin(), sv.end(), Traits::eq );
+            return it == end() ? npos : distance( begin(), it );
+        }
+
+        size_type find_last_of( basic_string_view sv, size_type pos = npos ) const noexcept {
+            if( sv.size() == 0 ) {
+                return npos;
+            }
+            if( pos >= size() ) {
+                pos = 0;
+            } else {
+                pos = size() - pos + 1;
+            }
+            const_reverse_iterator it = std::find_first_of( rbegin() + pos, rend(), sv.begin(), sv.end(),
+                                        Traits::eq );
+            return it == rend() ? npos : rdistance( rbegin(), it );
         }
 
         // Conversions to std::string.
@@ -112,14 +156,21 @@ class basic_string_view : public array_view<CharT>
         }
 
     protected:
+        static size_type distance( const_iterator l, const_iterator r ) {
+            return static_cast<size_type>( std::distance( l, r ) );
+        }
+        size_type rdistance( const_reverse_iterator l, const_reverse_iterator r ) const noexcept {
+            return size() - 1 - std::distance( l, r );
+        }
+
         using base::_data;
         using base::_size;
 };
 
 #define MAKE_STRING_VIEW_OPERATOR( OP ) \
     template<class charT, class traits> \
-    constexpr bool operator OP(basic_string_view<charT, traits> x, \
-                               basic_string_view<charT, traits> y ) noexcept \
+    bool operator OP(basic_string_view<charT, traits> x, \
+                     basic_string_view<charT, traits> y ) noexcept \
     { \
         return x.compare(y) OP 0; \
     } \
@@ -127,7 +178,7 @@ class basic_string_view : public array_view<CharT>
               class charT, class traits, \
               class = decltype(basic_string_view<charT, traits>(std::declval<T>())) \
               > \
-    constexpr bool operator OP( basic_string_view<charT, traits> lhs, T const& t ) noexcept \
+    bool operator OP( basic_string_view<charT, traits> lhs, T const& t ) noexcept \
     { \
         return lhs OP basic_string_view<charT, traits>(t); \
     } \
@@ -135,7 +186,7 @@ class basic_string_view : public array_view<CharT>
               class charT, class traits, \
               class = decltype(basic_string_view<charT, traits>(std::declval<T>())) \
               > \
-    constexpr bool operator OP( T const& t, basic_string_view<charT, traits> rhs ) noexcept \
+    bool operator OP( T const& t, basic_string_view<charT, traits> rhs ) noexcept \
     { \
         return basic_string_view<charT, traits>(t) OP rhs; \
     } \
@@ -149,7 +200,31 @@ MAKE_STRING_VIEW_OPERATOR( >= )
 
 #undef MAKE_STRING_VIEW_OPERATOR
 
-constexpr string_view operator""_sv( const char *s, size_t i )
+template<class charT, class traits, class alloc>
+std::basic_string<charT, traits, alloc> &
+operator+=( std::basic_string<charT, traits, alloc> &s,
+            basic_string_view<charT, traits> sv )
+{
+    return s.append( sv.data(), sv.size() );
+}
+
+template<class charT, class traits, class alloc>
+std::basic_string<charT, traits, alloc>
+operator+( std::basic_string<charT, traits, alloc> s,
+           basic_string_view<charT, traits> sv )
+{
+    return s += sv;
+}
+
+template<class charT, class traits, class alloc>
+std::basic_string<charT, traits, alloc>
+operator+( basic_string_view<charT, traits> sv,
+           std::basic_string<charT, traits, alloc> s )
+{
+    return std::string( sv ) += s;
+}
+
+constexpr string_view operator"" _sv( const char *s, size_t i )
 {
     return {s, i};
 }

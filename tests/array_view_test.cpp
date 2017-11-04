@@ -1,105 +1,54 @@
 #include "catch/catch.hpp"
 #include "array_view.h"
 #include "string_view.h"
-
-#include <vector>
-#include <array>
 #include <string>
-#include <algorithm>
-#include <initializer_list>
-#include <sstream>
-
-template<typename T>
-void test_array( array_view<char> av, T const &container )
-{
-    REQUIRE( std::equal( container.begin(), container.end(), av.begin() ) );
-    REQUIRE( av.size() == container.size() );
-    REQUIRE( static_cast<void const *>( &av[0] ) == static_cast<void const *>( &container[0] ) );
-    REQUIRE( static_cast<void const *>( av.data() ) == static_cast<void const *>( container.data() ) );
-    REQUIRE( av.back() == container.back() );
-    REQUIRE( av.empty() == container.empty() );
-}
-
-void test_initlist( array_view<char> av, std::initializer_list<char> ilist )
-{
-    REQUIRE( std::equal( ilist.begin(), ilist.end(), av.begin() ) );
-    REQUIRE( av.size() == ilist.size() );
-}
-
-template<typename T>
-void test_string( string_view sv, T const &container )
-{
-    REQUIRE( sv == container );
-    REQUIRE( sv.substr( 1 ) != container );
-}
-
-void test_char( string_view sv, char c )
-{
-    REQUIRE( sv == c );
-    REQUIRE( sv != '?' );
-    REQUIRE( sv.size() == 1 );
-}
 
 TEST_CASE( "array_view", "[views]" )
 {
-    std::vector<char> vector  =  { 'c', 'u', 't', 'e', ' ' };
-    std::array<char, 5> array = {{ 'c', 'a', 't', 's', ' ' }};
-    std::string string        = "are ";
-    auto init                 = {'t', 'h', 'e', ' '};
-    const char *cstring       = "best";
-    const char  character     = '!';
-    auto from_literal = "from a literal"_sv;
-
-    GIVEN( "An array view constructed from a vector" ) {
-        test_array( vector, vector );
-    }
-    GIVEN( "An array view constructed from an array" ) {
-        test_array( array, array );
-    }
-    GIVEN( "An array view constructed from a string" ) {
-        test_array( string, string );
-    }
-    GIVEN( "An array view constructed from an initializer list" ) {
-        test_initlist( init, init );
-    }
-    GIVEN( "An string view constructed from c string" ) {
-        test_string( cstring, cstring );
-    }
-    GIVEN( "An string view constructed from std::string" ) {
-        test_string( string, string );
-    }
-    GIVEN( "An string view constructed from a single element" ) {
-        test_char( character, character );
-    }
-    GIVEN( "A stringtream filled from a stringview" ) {
-        std::ostringstream ss;
-        string_view sv;
-        ss << ( sv = vector );
-        ss << ( sv = array );
-        ss << ( sv = string );
-        ss << ( sv = init );
-        ss << ( sv = cstring );
-        ss << ( sv = character );
-        REQUIRE( ss.str() == "cute cats are the best!" );
-    }
-    GIVEN( "A stringview \"za warudo\"" ) {
-        string_view sv = "za warudo";
-        REQUIRE( sv > "the world" );
-        REQUIRE( sv.substr( 3 ) == "warudo" );
-        REQUIRE( std::string{sv.substr( 3, 3 )} == "war" );
-        REQUIRE( sv.substr( sv.find( 'r' ) ) == "rudo" );
-        REQUIRE( sv.substr( sv.find( "war" ) ) == "warudo" );
-        REQUIRE( sv.find( "dio" ) == sv.npos );
-        REQUIRE_FALSE( bool( sv.substr( sv.find( "dio" ) ) ) );
-    }
-    GIVEN( "An empty stringview" ) {
-        string_view sv;
-        REQUIRE( sv.empty() );
-        REQUIRE_FALSE( sv == "zombies" );
-        REQUIRE( sv.size() == 0 );
-        REQUIRE( sv.substr( 3 ).size() == 0 );
-        REQUIRE_THROWS( sv.at( 4 ) ) ;
-        REQUIRE( sv != string );
+    std::string s = "CataclysmDDA";
+    string_view sv = s;
+    GIVEN( "A string and a string view constructed from that string" ) {
+        std::string const &sr = s;
+        WHEN( "string is a const&" ) {
+            REQUIRE( sv.at( 5 ) == sr.at( 5 ) );
+            REQUIRE_THROWS( sv.at( 999 ) );
+            REQUIRE_THROWS( sr.at( 999 ) );
+            REQUIRE( sv[4] == sr[4] );
+            REQUIRE( sv.front() == sr.front() );
+            REQUIRE( sv.back() == sr.back() );
+            REQUIRE( bool( sv.data() == sr.data() ) );
+            REQUIRE( bool( &*sv.begin() == &*sr.begin() ) );
+            REQUIRE( bool( &*sv.end() == &*sr.end() ) );
+            REQUIRE( bool( &*sv.rbegin() == &*sr.rbegin() ) );
+            REQUIRE( bool( &*sv.rend() == &*sr.rend() ) );
+            REQUIRE( sv.empty() == sr.empty() );
+            REQUIRE( sv.size() == sr.size() );
+            REQUIRE( sv.length() == sr.length() );
+            REQUIRE( sv.compare( "CataclysmDDR" ) == sr.compare( "CataclysmDDR" ) );
+            REQUIRE( sv.substr( 0, 3 ) == sr.substr( 0, 3 ) );
+            REQUIRE( sv.find( 'D' ) == sr.find( 'D' ) );
+            REQUIRE( sv.rfind( 'D' ) == sr.rfind( 'D' ) );
+            REQUIRE( sv.find_first_of( "ay" ) == sr.find_first_of( "ay" ) );
+            REQUIRE( sv.find_last_of( "ay" ) == sr.find_last_of( "ay" ) );
+            REQUIRE( ( sv + std::string( " is fun" ) ) == ( sr + std::string( " is fun" ) ) );
+            REQUIRE( sv == sr );
+            REQUIRE_FALSE( sv != sr );
+            REQUIRE( ( sv < "Dogaclysm" ) == ( sr < "Dogaclysm" ) );
+        }
+        WHEN( "printing into a stream" ) {
+            std::ostringstream ss1, ss2;
+            ss1 << sv;
+            ss2 << sr;
+            REQUIRE( ss1.str() == ss2.str() );
+        }
+        WHEN( "string is mutable" ) {
+            sv.pop_back();
+            s.pop_back();
+            REQUIRE( sv == s );
+            sv.clear();
+            s.clear();
+            REQUIRE( sv == s );
+        }
     }
 }
 

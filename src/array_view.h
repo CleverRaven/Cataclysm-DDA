@@ -80,6 +80,9 @@ class array_view
         constexpr const_reverse_iterator rbegin() const noexcept {
             return const_reverse_iterator( end() );
         }
+        constexpr const_reverse_iterator crbegin() const noexcept {
+            return rbegin();
+        }
 
         constexpr const_iterator end() const noexcept {
             return _data + _size;
@@ -89,6 +92,9 @@ class array_view
         }
         constexpr const_reverse_iterator rend() const noexcept {
             return const_reverse_iterator( begin() );
+        }
+        constexpr const_reverse_iterator crend() const noexcept {
+            return rend();
         }
 
         // Accessors
@@ -122,6 +128,10 @@ class array_view
             return _size;
         }
 
+        constexpr size_type length() const noexcept {
+            return size();
+        }
+
         constexpr bool empty() const noexcept {
             return size() == 0;
         }
@@ -142,6 +152,15 @@ class array_view
         void remove_suffix( size_type n ) noexcept {
             n = std::min( n, size() );
             _size -= n;
+        }
+
+        void pop_back() noexcept {
+            remove_suffix( 1 );
+        }
+
+        // sets size to 0
+        void clear() noexcept {
+            _size = 0;
         }
 
         void swap( array_view &v ) noexcept {
