@@ -108,7 +108,6 @@ int delwin( WINDOW *win );
 int wborder( WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
              chtype bl, chtype br );
 
-int hline( chtype ch, int n );
 int vline( chtype ch, int n );
 int whline( WINDOW *win, chtype ch, int n );
 int wvline( WINDOW *win, chtype ch, int n );
