@@ -358,14 +358,6 @@ void mvwputch( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, FG );
 }
 
-void mvputch_inv( int y, int x, nc_color FG, const std::string &ch )
-{
-    nc_color HC = invert_color( FG );
-    attron( HC );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( HC );
-}
-
 void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, long ch )
 {
     nc_color HC = invert_color( FG );
