@@ -187,11 +187,6 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     return 1;
 }
 
-int whline(WINDOW *win, chtype ch, int n)
-{
-    return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
-}
-
 int wvline(WINDOW *win, chtype ch, int n)
 {
     return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
