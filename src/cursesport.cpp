@@ -670,10 +670,4 @@ int waddch(WINDOW *win, const chtype ch)
     return printstring( win, buffer );
 }
 
-//Move the cursor of the main window
-int move(int y, int x)
-{
-    return wmove(stdscr, y, x);
-}
-
 #endif
