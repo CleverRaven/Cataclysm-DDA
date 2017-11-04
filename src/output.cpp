@@ -374,14 +374,6 @@ void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void mvputch_hi( int y, int x, nc_color FG, const std::string &ch )
-{
-    nc_color HC = hilite( FG );
-    attron( HC );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( HC );
-}
-
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch )
 {
     nc_color HC = hilite( FG );
