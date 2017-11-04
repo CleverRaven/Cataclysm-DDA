@@ -19,13 +19,21 @@
 #include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
-#include "units.h"
 #include "cata_utility.h"
 
 class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+} // namespace units
 class gun_type_type;
 class gunmod_location;
 class game;

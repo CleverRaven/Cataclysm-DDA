@@ -43,6 +43,7 @@
 #include "input.h"
 #include "fault.h"
 #include "vehicle_selector.h"
+#include "units.h"
 
 #include <cmath> // floor
 #include <sstream>
