@@ -102,8 +102,6 @@ struct WINDOW {
 
 extern WINDOW *stdscr;
 
-#define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
-
 //Curses Functions
 WINDOW *newwin( int nlines, int ncols, int begin_y, int begin_x );
 int delwin( WINDOW *win );
