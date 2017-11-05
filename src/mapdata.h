@@ -327,12 +327,6 @@ struct furn_t : map_data_common_t {
     void check() const override;
 };
 
-/*
-Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
-*/
-//Classic Extras is for when you have special zombies turned off.
-extern const std::set<std::string> classic_extras;
-
 void load_furniture( JsonObject &jo, const std::string &src );
 void load_terrain( JsonObject &jo, const std::string &src );
 
