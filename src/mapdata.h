@@ -2,12 +2,9 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include "game_constants.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "weighted_list.h"
 #include "units.h"
-#include "rng.h"
 
 #include <bitset>
 #include <vector>
