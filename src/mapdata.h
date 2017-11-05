@@ -4,7 +4,6 @@
 
 #include "game_constants.h"
 #include "enums.h"
-#include "iexamine.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "weighted_list.h"
@@ -24,6 +23,8 @@ struct trap;
 struct ter_t;
 struct furn_t;
 class harvest_list;
+class player;
+using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;

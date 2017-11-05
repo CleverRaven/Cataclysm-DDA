@@ -13,6 +13,7 @@
 #include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "iexamine.h"
 #include "string_formatter.h"
 #include "sounds.h"
 #include "debug.h"

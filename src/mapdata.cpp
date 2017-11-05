@@ -13,6 +13,7 @@
 #include "item_group.h"
 #include "calendar.h"
 #include "trap.h"
+#include "iexamine.h"
 
 #include <unordered_map>
 

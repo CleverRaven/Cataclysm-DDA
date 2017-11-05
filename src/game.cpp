@@ -39,6 +39,7 @@
 #include "filesystem.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "iexamine.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
