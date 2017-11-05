@@ -6,6 +6,7 @@
 #include "mapgen.h"
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "weighted_list.h"
 
 class VehicleGroup;
@@ -14,7 +15,7 @@ class VehicleSpawn;
 using vspawn_id = string_id<VehicleSpawn>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+struct point;
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
@@ -61,9 +62,7 @@ struct VehicleLocation {
         return facings.pick();
     }
 
-    point pick_point() const {
-        return point( x.get(), y.get() );
-    }
+    point pick_point() const;
 
     jmapgen_int x;
     jmapgen_int y;

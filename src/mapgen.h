@@ -10,7 +10,8 @@
 
 struct oter_t;
 using oter_id = int_id<oter_t>;
-
+struct point;
+class JsonArray;
 struct mapgendata;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 struct ter_furn_id;
@@ -51,7 +52,7 @@ struct jmapgen_int {
   short valmax;
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
-  jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */

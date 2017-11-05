@@ -468,6 +468,8 @@ mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
 {
 }
 
+jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
+
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
 {
     if( jo.has_array( tag ) ) {

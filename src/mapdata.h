@@ -3,7 +3,6 @@
 #define MAPDATA_H
 
 #include "game_constants.h"
-#include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "weighted_list.h"
@@ -24,6 +23,7 @@ struct ter_t;
 struct furn_t;
 class harvest_list;
 class player;
+struct tripoint;
 using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;
