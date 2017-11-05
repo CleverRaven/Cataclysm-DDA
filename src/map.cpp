@@ -3400,8 +3400,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( tent ) {
         // Get ids of possible centers
         std::set<furn_id> centers;
-        for( const auto &center : bash->tent_centers ) {
-            const furn_str_id cur_id( center );
+        for( const auto &cur_id : bash->tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
@@ -3441,8 +3440,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
                 const auto recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
-                for( const auto &center : recur_bash->tent_centers ) {
-                    const furn_str_id cur_id( center );
+                for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );

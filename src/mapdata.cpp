@@ -164,9 +164,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "WATER",                    TERCONN_WATER },
 } };
 
-void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
+void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers ) {
     while ( ja.has_more() ) {
-        centers.push_back( ja.next_string() );
+        centers.emplace_back( ja.next_string() );
     }
 }
 

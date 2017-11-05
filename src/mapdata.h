@@ -59,8 +59,8 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    // ids used for the special handling of tents (have to be ids of furniture)
-    std::vector<std::string> tent_centers;
+    // ids used for the special handling of tents
+    std::vector<furn_str_id> tent_centers;
     map_bash_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
