@@ -87,8 +87,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend item_location;
     friend class turret_data;
 
-    enum : int { passenger_flag = 1 };
-
     vehicle_part(); /** DefaultConstructible */
 
     vehicle_part( const vpart_id& vp, int dx, int dy, item&& it );
@@ -779,7 +777,8 @@ public:
     std::vector<int> boarded_parts() const;
 
     // get passenger at part p
-    player *get_passenger (int p) const;
+    template<typename T = Creature>
+    T *get_passenger (int p) const;
 
     /**
      * Get the coordinates (in map squares) of this vehicle, it's the same

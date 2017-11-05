@@ -446,7 +446,6 @@ void player::load(JsonObject &data)
     data.read("male", male);
     data.read("cash", cash);
     data.read("recoil", recoil);
-    data.read("in_vehicle", in_vehicle);
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
     }
@@ -532,7 +531,6 @@ void player::store(JsonOut &json) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
-    json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
@@ -1744,7 +1742,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("blood", blood );
     data.read("enabled", enabled );
     data.read("flags", flags );
-    data.read("passenger_id", passenger_id );
     data.read("crew_id", crew_id );
     data.read("items", items);
     data.read("target_first_x", target.first.x);
@@ -1800,7 +1797,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("blood", blood);
     json.member("enabled", enabled);
     json.member("flags", flags);
-    json.member("passenger_id", passenger_id);
     json.member("crew_id", crew_id);
     json.member("items", items);
     json.member("target_first_x", target.first.x);

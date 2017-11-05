@@ -2777,13 +2777,13 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_DOWN:
-            if (!u.in_vehicle) {
+            if (!u.in_vehicle()) {
                 vertical_move(-1, false);
             }
             break;
 
         case ACTION_MOVE_UP:
-            if (!u.in_vehicle) {
+            if (!u.in_vehicle()) {
                 vertical_move(1, false);
             }
             break;
@@ -3134,7 +3134,7 @@ bool game::handle_action()
             break;
 
         case ACTION_CONSTRUCT:
-            if (u.in_vehicle) {
+            if (u.in_vehicle()) {
                 add_msg(m_info, _("You can't construct while in a vehicle."));
             } else if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't construct while you're in your shell."));
@@ -3560,14 +3560,14 @@ bool game::is_game_over()
         return false;
     }
     if (uquit == QUIT_DIED) {
-        if (u.in_vehicle) {
+        if (u.in_vehicle()) {
             m.unboard_vehicle(u.pos());
         }
         u.place_corpse();
         return true;
     }
     if (uquit == QUIT_SUICIDE) {
-        if (u.in_vehicle) {
+        if (u.in_vehicle()) {
             m.unboard_vehicle(u.pos());
         }
         return true;
@@ -3722,7 +3722,7 @@ void game::load(std::string worldname, const save_t &name)
         // player does not have a real id, so assign a new one,
         u.setID( assign_npc_id() );
         // The vehicle stores the IDs of the boarded players, so update it, too.
-        if( u.in_vehicle ) {
+        if( u.in_vehicle() ) {
             int vpart;
             vehicle *veh = m.veh_at( u.pos(), vpart );
             if( veh != nullptr ) {
@@ -6746,11 +6746,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     player *u_or_npc = dynamic_cast< player* >( &first );
     player *other_npc = dynamic_cast< player* >( &second );
 
-    if( u_or_npc->in_vehicle ) {
+    if( u_or_npc->in_vehicle() ) {
         g->m.unboard_vehicle( u_or_npc->pos() );
     }
 
-    if( other_npc->in_vehicle ) {
+    if( other_npc->in_vehicle() ) {
         g->m.unboard_vehicle( other_npc->pos() );
     }
 
@@ -7219,7 +7219,7 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
-    } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle() ) {
         if( !veh->interact_vehicle_locked() ) {
             return;
         }
@@ -11025,7 +11025,6 @@ void game::pldrive(int x, int y)
     if (!veh) {
         dbg(D_ERROR) << "game::pldrive: can't find vehicle! Drive mode is now off.";
         debugmsg("game::pldrive error: can't find vehicle! Drive mode is now off.");
-        u.in_vehicle = false;
         return;
     }
     if( !remote ) {
@@ -11745,7 +11744,7 @@ void game::place_player( const tripoint &dest_loc )
         add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( dest_loc ), 40).c_str());
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
-    if (m.has_flag("ROUGH", dest_loc) && (!u.in_vehicle)) {
+    if (m.has_flag("ROUGH", dest_loc) && (!u.in_vehicle())) {
         if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
             add_msg(m_bad, _("You hurt your left foot on the %s!"),
                     m.has_flag_ter( "ROUGH", dest_loc) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
@@ -11759,7 +11758,7 @@ void game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+u.dex_cur/2, 40) &&
-        (!u.in_vehicle) && (!u.has_trait( trait_PARKOUR ) || one_in(4)) ) {
+        (!u.in_vehicle()) && (!u.has_trait( trait_PARKOUR ) || one_in(4)) ) {
         body_part bp = random_body_part();
         if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
             //~ 1$s - bodypart name in accusative, 2$s is terrain name.
@@ -11794,7 +11793,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // If the player is in a vehicle, unboard them from the current part
-    if( u.in_vehicle ) {
+    if( u.in_vehicle() ) {
         m.unboard_vehicle( u.pos() );
     }
     // Move the player
@@ -11947,7 +11946,7 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( veh1 != nullptr && veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle ) {
+    if( veh1 != nullptr && veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle() ) {
         add_msg(_("There are vehicle controls here."));
         add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
@@ -11961,7 +11960,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
     }
-    if( u.in_vehicle ) {
+    if( u.in_vehicle() ) {
         m.unboard_vehicle( u.pos() );
     }
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
@@ -12022,7 +12021,7 @@ bool game::phasing_move( const tripoint &dest_loc )
     }
 
     if( tunneldist != 0 ) {
-        if( u.in_vehicle ) {
+        if( u.in_vehicle() ) {
             m.unboard_vehicle( u.pos() );
         }
 
@@ -12276,7 +12275,7 @@ void game::plswim( const tripoint &p )
         }
     }
     bool diagonal = (p.x != u.posx() && p.y != u.posy());
-    if( u.in_vehicle ) {
+    if( u.in_vehicle() ) {
         m.unboard_vehicle( u.pos() );
     }
     u.setpos( p );
@@ -12418,7 +12417,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         flvel -= force;
         if( thru ) {
             if( p != nullptr ) {
-                if( p->in_vehicle ) {
+                if( p->in_vehicle() ) {
                     m.unboard_vehicle( p->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
@@ -13453,7 +13452,7 @@ void game::teleport(player *p, bool add_teleglow)
         tries++;
     } while ( tries < 15 && m.impassable( new_pos ) );
     bool can_see = ( is_u || u.sees( new_pos ) );
-    if (p->in_vehicle) {
+    if (p->in_vehicle()) {
         m.unboard_vehicle(p->pos());
     }
     p->setx( new_pos.x );

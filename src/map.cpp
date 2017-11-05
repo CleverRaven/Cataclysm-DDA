@@ -498,7 +498,7 @@ bool map::vehact( vehicle &veh )
         for( int boarded : veh.boarded_parts() ) {
             if( veh.part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;
-                player *passenger = veh.get_passenger( boarded );
+                player *passenger = dynamic_cast<player *>(veh.get_passenger( boarded ));
                 if( passenger != nullptr ) {
                     passenger->practice( skill_driving, 1 );
                 }
@@ -865,9 +865,15 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
 
     int coll_turn = 0;
     for( const auto &ps : boarded ) {
-        player *psg = veh.get_passenger( ps );
-        if( psg == nullptr ) {
+        Creature *any_psg = veh.get_passenger( ps );
+        if( any_psg == nullptr ) {
             debugmsg( "throw passenger: empty passenger at part %d", ps );
+            continue;
+        }
+
+        // TODO: generalize to Creature
+        player *psg = dynamic_cast<player *>( any_psg );
+        if( !psg ) {
             continue;
         }
 
@@ -875,7 +881,6 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
         if( psg->pos() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
@@ -1201,18 +1206,9 @@ void map::board_vehicle( const tripoint &pos, player *p )
                   veh->parts[ part ].name().c_str() );
         return;
     }
-    if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
-        player *psg = veh->get_passenger( seat_part );
-        debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->name.c_str() : "<null>" );
-        unboard_vehicle( pos );
-    }
-    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
-    veh->parts[seat_part].passenger_id = p->getID();
     veh->invalidate_mass();
 
     p->setpos( pos );
-    p->in_vehicle = true;
     if( p == &g->u ) {
         g->update_map( g->u );
     }
@@ -1222,14 +1218,15 @@ void map::unboard_vehicle( const tripoint &p )
 {
     int part = 0;
     vehicle *veh = veh_at( p, part );
-    player *passenger = nullptr;
+    Creature *passenger = nullptr;
+    player *driver = nullptr;
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        passenger = g->critter_at<player>( p );
-        if( passenger ) {
-            passenger->in_vehicle = false;
-            passenger->controlling_vehicle = false;
+        passenger = g->critter_at( p );
+        driver = dynamic_cast<player *>( passenger );
+        if( driver ) {
+            driver->controlling_vehicle = false;
         }
         return;
     }
@@ -1240,13 +1237,14 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     passenger = veh->get_passenger(seat_part);
+    driver = dynamic_cast<player *>( passenger );
     if( !passenger ) {
         debugmsg ("map::unboard_vehicle: passenger not found");
         return;
     }
-    passenger->in_vehicle = false;
-    passenger->controlling_vehicle = false;
-    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
+    if( driver ) {
+	driver->controlling_vehicle = false;
+    }
     veh->skidding = true;
     veh->invalidate_mass();
 }
@@ -1308,17 +1306,26 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 
     // record every passenger inside
     std::vector<int> psg_parts = veh->boarded_parts();
-    std::vector<player *> psgs;
+    std::vector<Creature *> psgs;
+    const tripoint old_veh_pos = veh->global_pos3();
     for( auto &prt : psg_parts ) {
+        auto psg = veh->get_passenger( prt );
+        const tripoint part_pos = old_veh_pos + veh->parts[prt].precalc[0];
         psgs.push_back( veh->get_passenger( prt ) );
+        if( psg->pos() != part_pos ) {
+            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
+                g->u.posx(), g->u.posy(), g->u.posz(),
+                prt,
+                part_pos.x, part_pos.y, part_pos.z );
+            continue;
+        }
     }
 
     bool need_update = false;
     int z_change = 0;
     // Move passengers
-    const tripoint old_veh_pos = veh->global_pos3();
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
-        player *psg = psgs[i];
+        Creature *psg = psgs[i];
         const int prt = psg_parts[i];
         const tripoint part_pos = old_veh_pos + veh->parts[prt].precalc[0];
         if( psg == nullptr ) {
@@ -1326,16 +1333,6 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
                 prt,
                 part_pos.x, part_pos.y, part_pos.z,
                 g->u.posx(), g->u.posy(), g->u.posz() );
-            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
-            continue;
-        }
-
-        if( psg->pos() != part_pos ) {
-            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
-                g->u.posx(), g->u.posy(), g->u.posz(),
-                prt,
-                part_pos.x, part_pos.y, part_pos.z );
-            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
 
@@ -1350,8 +1347,14 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
             z_change = dp.z;
         } else {
             // Player gets z position changed by g->vertical_move()
+            // TODO: what about creatures? maybe it just works
             psgp.z += dp.z;
-            psg->setpos( psgp );
+            auto other = g->critter_at( psgp );
+            if( !other || psg == other ) {
+                psg->setpos( psgp );
+            } else {
+                g->swap_critters( *psg, *other );
+            }
         }
     }
 
@@ -3631,7 +3634,7 @@ void map::crush( const tripoint &p )
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
-        if( crushed_player->in_vehicle ) {
+        if( crushed_player->in_vehicle() ) {
             vehicle *veh = veh_at(p, veh_part);
             player_inside = veh != nullptr && veh->is_inside(veh_part);
         }
@@ -6457,7 +6460,7 @@ void map::shift( const int sx, const int sy )
     set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
-    if( g->u.in_vehicle ) {
+    if( g->u.in_vehicle() ) {
         g->u.setx( g->u.posx() - sx * SEEX );
         g->u.sety( g->u.posy() - sy * SEEY );
     }
@@ -7959,7 +7962,7 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
     const player * const p = dynamic_cast<const player *>( &c );
-    if( p != nullptr && p->in_vehicle ) {
+    if( p != nullptr && p->in_vehicle() ) {
         return;
     }
     if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {

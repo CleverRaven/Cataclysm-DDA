@@ -334,7 +334,7 @@ void npc::move()
         }
 
         // check if in vehicle before rushing off to fetch things
-        if( is_following() && g->u.in_vehicle ) {
+        if( is_following() && g->u.in_vehicle() ) {
             action = npc_follow_embarked;
         } else if( fetching_item ) {
             // Set to true if find_item() found something
@@ -360,7 +360,7 @@ void npc::move()
      */
     if( ai_cache.danger > 0 && target != nullptr &&
         (
-            ( action == npc_follow_embarked && in_vehicle ) ||
+            ( action == npc_follow_embarked && in_vehicle() ) ||
             ( action == npc_follow_player &&
               ( rl_dist( pos(), g->u.pos() ) <= follow_distance() || posz() != g->u.posz() ) )
         ) ) {
@@ -593,7 +593,7 @@ void npc::execute_action( npc_action action )
                     continue;
                 }
 
-                const player *passenger = veh->get_passenger( p2 );
+                const Creature *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -884,7 +884,7 @@ npc_action npc::method_of_attack()
     double danger = evaluate_enemy( *critter );
 
     // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
+    const bool dont_move = in_vehicle() || rules.engagement == ENGAGE_NO_MOVE;
 
     long ups_charges = charges_of( "UPS" );
 
@@ -1556,10 +1556,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     if( moved ) {
         const tripoint old_pos = pos();
-        setpos( p );
-        if( in_vehicle ) {
+        if( in_vehicle() ) {
             g->m.unboard_vehicle( old_pos );
         }
+        setpos( p );
 
         // Close doors behind self (if you can)
         if( is_friend() && rules.close_doors ) {
@@ -2113,7 +2113,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle ) ) {
+    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle() ) ) {
         return false;
     }
 

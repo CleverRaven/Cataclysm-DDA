@@ -1344,7 +1344,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             position = p;
         }
         tripoint view_offset;
-        bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;

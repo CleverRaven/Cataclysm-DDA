@@ -579,7 +579,6 @@ player::player() : Character()
     next_climate_control_check = 0;
     last_climate_control_ret = false;
     active_mission = nullptr;
-    in_vehicle = false;
     controlling_vehicle = false;
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
@@ -2174,7 +2173,7 @@ double player::recoil_vehicle() const
 {
     // @todo vary penalty dependent upon vehicle part on which player is boarded
 
-    if( in_vehicle ) {
+    if( in_vehicle() ) {
         vehicle *veh = g->m.veh_at( pos() );
         if( veh ) {
             return double( abs( veh->velocity ) ) * 3 / 100;
@@ -2810,7 +2809,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
 
     vehicle *veh = g->remoteveh();
-    if( veh == nullptr && in_vehicle ) {
+    if( veh == nullptr && in_vehicle() ) {
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
@@ -3365,7 +3364,7 @@ void player::pause()
     recoil = MAX_RECOIL;
 
     // Train swimming if underwater
-    if( !in_vehicle ) {
+    if( !in_vehicle() ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
@@ -4801,7 +4800,7 @@ void player::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && (has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK )) ) {
+    if( in_vehicle() && (has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK )) ) {
         // TODO: Make NPCs complain
         add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
         mod_pain_noresist( 2 * rng(2, 3) );
@@ -5796,7 +5795,7 @@ void player::suffer()
         }
     }
         //Web Weavers...weave web
-    if (has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle) {
+    if (has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle()) {
       g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
 
      }
@@ -5820,7 +5819,7 @@ void player::suffer()
         }
     }
 
-    if (has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in(3)) {
+    if (has_trait( trait_WEB_SPINNER ) && !in_vehicle() && one_in(3)) {
         g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
     }
 
@@ -9897,7 +9896,7 @@ std::string player::is_snuggling() const
     auto begin = g->m.i_at( pos() ).begin();
     auto end = g->m.i_at( pos() ).end();
 
-    if( in_vehicle ) {
+    if( in_vehicle() ) {
         int vpart;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh != nullptr ) {

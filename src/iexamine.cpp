@@ -817,7 +817,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         p.moves += climb * 10;
         sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(g->u.pos()) );
     }
-    if( p.in_vehicle ) {
+    if( p.in_vehicle() ) {
         g->m.unboard_vehicle( p.pos() );
     }
     p.setpos( examp );

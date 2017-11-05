@@ -2346,7 +2346,7 @@ bool mattack::ranged_pull(monster *z)
         }
 
         if( foe != nullptr ) {
-            if( foe->in_vehicle ) {
+            if( foe->in_vehicle() ) {
                 g->m.unboard_vehicle( foe->pos() );
             }
 
@@ -2455,7 +2455,7 @@ bool mattack::grab_drag(monster *z)
             g->update_map( zpt.x, zpt.y );
         }
         if (foe != nullptr){
-            if (foe->in_vehicle) {
+            if (foe->in_vehicle()) {
                 g->m.unboard_vehicle(foe->pos());
             }
             foe->setpos(zpt);
@@ -3212,7 +3212,7 @@ bool mattack::chickenbot(monster *z)
         mode = 1;
     } else if( ( z->friendly == 0 || player_dist >= 6 ) &&
                // Avoid shooting near player if we're friendly.
-               ( dist >= 12 || ( g->u.in_vehicle && dist >= 6 ) ) ) {
+               ( dist >= 12 || ( g->u.in_vehicle() && dist >= 6 ) ) ) {
                // Only use at long range, unless player is in a vehicle, then tolerate closer targeting.
         mode = 3;
     } else if( dist >= 4 ) {
@@ -3294,7 +3294,7 @@ bool mattack::multi_robot(monster *z)
         mode = 3;
     } else if( dist <= 30 ) {
         mode = 4;
-    } else if( ( target == &g->u && g->u.in_vehicle ) ||
+    } else if( ( target == &g->u && g->u.in_vehicle() ) ||
                  z->friendly != 0 ||
                  cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.

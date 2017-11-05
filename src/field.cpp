@@ -1630,7 +1630,7 @@ void map::player_in_field( player &u )
 
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
-    if (u.in_vehicle) {
+    if (u.in_vehicle()) {
         veh = veh_at( u.pos(), veh_part );
         inside = (veh && veh->is_inside(veh_part));
     }
@@ -1660,14 +1660,14 @@ void map::player_in_field( player &u )
         case fd_web: {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
-            if (!u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle) {
+            if (!u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle()) {
                 //between 5 and 15 minus your current web level.
                 u.add_effect( effect_webbed, 1, num_bp, true, cur->getFieldDensity());
                 cur->setFieldDensity( 0 ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
                 //It should of been destroyed when you ran over it anyway.
-            } else if (u.in_vehicle) {
+            } else if (u.in_vehicle()) {
                 cur->setFieldDensity( 0 );
                 continue;
             }
@@ -1677,7 +1677,7 @@ void map::player_in_field( player &u )
         {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( u.in_vehicle ) {
+            if( u.in_vehicle() ) {
                 break;
             }
 
@@ -1738,7 +1738,7 @@ void map::player_in_field( player &u )
 
         case fd_sap:
             //Sap causes the player to get sap disease, slowing them down.
-            if ( u.in_vehicle ) {
+            if ( u.in_vehicle() ) {
                 break; //sap does nothing to cars.
             }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
@@ -1748,7 +1748,7 @@ void map::player_in_field( player &u )
 
         case fd_sludge:
             //sludge is on the ground, but you are above the ground when boarded on a vehicle
-            if( !u.in_vehicle ) {
+            if( !u.in_vehicle() ) {
                 u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
                 u.moves -= cur->getFieldDensity() * 300;
                 cur->setFieldDensity( 0 );
@@ -1763,7 +1763,7 @@ void map::player_in_field( player &u )
             }
             //Burn the player. Less so if you are in a car or ON a car.
             adjusted_intensity = cur->getFieldDensity();
-            if( u.in_vehicle ) {
+            if( u.in_vehicle() ) {
                 if( inside ) {
                     adjusted_intensity -= 2;
                 } else {
