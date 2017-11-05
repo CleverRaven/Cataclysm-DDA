@@ -5,7 +5,8 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "mapgenformat.h"
+#include <vector>
+
 #include "int_id.h"
 
 struct ter_t;
@@ -19,6 +20,7 @@ class JsonArray;
 class JsonObject;
 struct mapgendata;
 struct tripoint;
+class map;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 struct ter_furn_id;
 
