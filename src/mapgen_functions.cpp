@@ -17,6 +17,7 @@
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
+#include "map.h"
 #include "field.h"
 #include <algorithm>
 #include <iterator>

@@ -3,7 +3,6 @@
 #define BUILDING_GENERATION_H
 
 #include "omdata.h"
-#include "map.h"
 #include "weighted_list.h"
 
 #include <string>
@@ -13,6 +12,10 @@ struct ter_t;
 using ter_id = int_id<ter_t>;
 struct furn_t;
 using furn_id = int_id<furn_t>;
+struct trap;
+using trap_id = int_id<trap>;
+struct regional_settings;
+class map;
 
 struct mapgendata
 {
