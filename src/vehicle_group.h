@@ -7,6 +7,8 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+
+#include "string_id.h"
 #include "weighted_list.h"
 
 class VehicleGroup;
