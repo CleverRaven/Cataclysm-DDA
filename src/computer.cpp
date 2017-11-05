@@ -15,6 +15,7 @@
 #include "monster.h"
 #include "event.h"
 #include "trap.h"
+#include "mapdata.h"
 #include "mtype.h"
 #include "string_formatter.h"
 #include "field.h"

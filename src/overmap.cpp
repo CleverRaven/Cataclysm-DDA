@@ -9,6 +9,7 @@
 #include "line.h"
 #include "game.h"
 #include "npc.h"
+#include "map.h"
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
