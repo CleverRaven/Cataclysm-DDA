@@ -448,7 +448,8 @@ bool player::activate_bionic( int b, bool eff_only )
             projectile proj;
             proj.speed  = 50;
             proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
-            proj.range = rl_dist( pr.second, pos() );
+            // make the projectile stop one tile short to prevent hitting the player
+            proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
             auto dealt = projectile_attack( proj, pr.second, pos(), 0 );

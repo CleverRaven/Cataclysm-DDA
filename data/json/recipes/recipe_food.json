@@ -17,6 +17,21 @@
   ]
 },{
   "type" : "recipe",
+  "result": "water_clean",
+  "category": "CC_FOOD",
+  "id_suffix": "using_water_purifier",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "time": 150,
+  "autolearn": true,
+  "tools": [ [ [ "water_purifier", 1] ] ],
+  "components": [
+    [
+      [ "water", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "salt",
   "id_suffix": "from_salt_water",
   "category": "CC_FOOD",

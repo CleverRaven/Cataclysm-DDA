@@ -446,6 +446,12 @@ void Item_factory::add_actor( iuse_actor *ptr ) {
 }
 
 void Item_factory::add_item_type( const itype &def ) {
+    if( m_runtimes.count( def.id ) > 0 ) {
+        // Do NOT allow overwriting it, it's undefined behavior
+        debugmsg( "Tried to add runtime type %s, but it exists already", def.id.c_str() );
+        return;
+    }
+
     auto &new_item_ptr = m_runtimes[ def.id ];
     new_item_ptr.reset( new itype( def ) );
     if( frozen ) {
@@ -2420,6 +2426,17 @@ std::vector<const itype *> Item_factory::all() const {
     return res;
 }
 
+std::vector<const itype *> Item_factory::get_runtime_types() const
+{
+    std::vector<const itype *> res;
+    res.reserve( m_runtimes.size() );
+    for( const auto &e : m_runtimes ) {
+        res.push_back( e.second.get() );
+    }
+
+    return res;
+}
+
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
     std::vector<const itype *> res;
@@ -2435,7 +2452,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
 Item_tag Item_factory::create_artifact_id() const
 {
     Item_tag id;
-    int i = m_templates.size();
+    int i = m_runtimes.size();
     do {
         id = string_format( "artifact_%d", i );
         i++;

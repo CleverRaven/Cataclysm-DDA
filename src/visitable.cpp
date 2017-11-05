@@ -1,5 +1,6 @@
 #include "visitable.h"
 
+#include "string_id.h"
 #include "debug.h"
 #include "item.h"
 #include "inventory.h"
