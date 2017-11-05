@@ -449,6 +449,8 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string s )
 {
 }
 
+mapgen_function_json_base::~mapgen_function_json_base() = default;
+
 mapgen_function_json::mapgen_function_json( const std::string s, const int w,
                                             const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )

@@ -13,6 +13,7 @@ using oter_id = int_id<oter_t>;
 
 struct mapgendata;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -248,7 +249,7 @@ class mapgen_function_json_base {
 
     protected:
         mapgen_function_json_base( const std::string s );
-        virtual ~mapgen_function_json_base() { }
+        virtual ~mapgen_function_json_base();
 
         void setup_common();
         void setup_setmap( JsonArray &parray );

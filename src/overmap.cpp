@@ -64,6 +64,8 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+
 #include "omdata.h"
 ////////////////
 oter_id  ot_null,

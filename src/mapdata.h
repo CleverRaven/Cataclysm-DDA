@@ -487,15 +487,4 @@ void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
 
-// TODO: move into mapgen headers, it's not needed during normal game play.
-/*
- * It's a terrain! No, it's a furniture! Wait it's both!
- */
-struct ter_furn_id {
-   ter_id ter;
-   furn_id furn;
-   ter_furn_id();
-};
-
-
 #endif

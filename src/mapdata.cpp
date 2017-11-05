@@ -1129,5 +1129,3 @@ void check_furniture_and_terrain()
     terrain_data.check();
     furniture_data.check();
 }
-
-ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
