@@ -11,6 +11,7 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
+#include "calendar.h"
 
 #include <unordered_map>
 

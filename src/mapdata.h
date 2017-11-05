@@ -3,7 +3,6 @@
 #define MAPDATA_H
 
 #include "game_constants.h"
-#include "calendar.h"
 #include "enums.h"
 #include "iexamine.h"
 #include "int_id.h"
