@@ -1458,7 +1458,6 @@ class map
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );
-        void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out ) const;
         vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
