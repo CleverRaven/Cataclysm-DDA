@@ -16,7 +16,6 @@
 #include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "rng.h"
 #include "enums.h"
 #include "pathfinding.h"
 #include "emit.h"
