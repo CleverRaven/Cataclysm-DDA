@@ -1,5 +1,6 @@
-#include "mapgen.h"
 #include "mapgen_functions.h"
+
+#include "mapgen.h"
 #include "map_iterator.h"
 #include "output.h"
 #include "item_factory.h"
