@@ -136,7 +136,7 @@ class basic_string_view : public array_view<CharT>
         }
 
         template<class Alloc>
-        explicit operator std::basic_string<CharT, Traits, Alloc>() const {
+        operator std::basic_string<CharT, Traits, Alloc>() const {
             return to_string<Alloc>();
         }
 

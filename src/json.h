@@ -1,6 +1,8 @@
 #ifndef JSON_H
 #define JSON_H
 
+#include "string_view.h"
+
 #include <type_traits>
 #include <iostream>
 #include <string>
@@ -252,7 +254,7 @@ class JsonIn
         bool read(bool &b);
         bool read(char &c);
         bool read(signed char &c);
-        bool read( unsigned char &c );
+        bool read(unsigned char &c);
         bool read(short unsigned int &s);
         bool read(short int &s);
         bool read(int &i);
@@ -407,7 +409,8 @@ class JsonIn
 
         // error messages
         std::string line_number(int offset_modifier = 0); // for occasional use only
-        void error(std::string message, int offset = 0); // ditto
+        [[ noreturn ]]
+        void error(string_view message, int offset = 0); // ditto
         void rewind(int max_lines = -1, int max_chars = -1);
         std::string substr(size_t pos, size_t len = std::string::npos);
 };
@@ -503,8 +506,7 @@ class JsonOut
         }
 
         // strings need escaping and quoting
-        void write( const std::string &val );
-        void write( const char *val ) { write( std::string( val ) ); }
+        void write( string_view val );
 
         // char should always be written as an unquoted numeral
         void write(          char val ) { write( static_cast<int>( val ) ); }
@@ -574,9 +576,9 @@ class JsonOut
         }
 
         // convenience methods for writing named object members
-        void member(const std::string &name); // TODO: enforce value after
-        void null_member(const std::string &name);
-        template <typename T> void member(const std::string &name, const T &value)
+        void member(string_view name); // TODO: enforce value after
+        void null_member(string_view name);
+        template <typename T> void member(string_view name, const T &value)
         {
             member(name);
             write(value);
@@ -646,51 +648,54 @@ class JsonOut
 class JsonObject
 {
     private:
-        std::map<std::string, int> positions;
+        // unmodified after construction. views to members is safe
+        std::vector<std::pair<std::string, int>> members;
+        std::map<string_view, int> positions;
+
         int start;
         int end;
         bool final_separator;
         JsonIn *jsin;
-        int verify_position(const std::string &name,
-                            const bool throw_exception = true);
 
+        // returns 0 if no such member exists
+        int get_position(string_view name) const noexcept;
+        // throws if no such member exists
+        int verify_position(string_view name);
     public:
         JsonObject(JsonIn &jsin);
         JsonObject(const JsonObject &jsobj);
         JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
-        ~JsonObject()
-        {
-            finish();
-        }
+        ~JsonObject();
 
-        void finish(); // moves the stream to the end of the object
         size_t size();
         bool empty();
 
-        bool has_member(const std::string &name); // true iff named member exists
+        bool has_member(string_view name); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        void throw_error(std::string err);
-        void throw_error(std::string err, const std::string &name);
+        [[ noreturn ]]
+        void throw_error(string_view err);
+        [[ noreturn ]]
+        void throw_error(string_view err, string_view name);
         // seek to a value and return a pointer to the JsonIn (member must exist)
-        JsonIn *get_raw(const std::string &name);
+        JsonIn *get_raw(string_view name);
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
-        bool get_bool(const std::string &name);
-        bool get_bool(const std::string &name, const bool fallback);
-        int get_int(const std::string &name);
-        int get_int(const std::string &name, const int fallback);
-        long get_long(const std::string &name);
-        long get_long(const std::string &name, const long fallback);
-        double get_float(const std::string &name);
-        double get_float(const std::string &name, const double fallback);
-        std::string get_string(const std::string &name);
-        std::string get_string(const std::string &name, const std::string &fallback);
+        bool get_bool(string_view name);
+        bool get_bool(string_view name, const bool fallback);
+        int get_int(string_view name);
+        int get_int(string_view name, const int fallback);
+        long get_long(string_view name);
+        long get_long(string_view name, const long fallback);
+        double get_float(string_view name);
+        double get_float(string_view name, const double fallback);
+        std::string get_string(string_view name);
+        std::string get_string(string_view name, string_view fallback);
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name, const E fallback )
+        E get_enum_value( string_view name, const E fallback )
         {
             if( !has_member( name ) ) {
                 return fallback;
@@ -699,7 +704,7 @@ class JsonObject
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name )
+        E get_enum_value( string_view name )
         {
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
@@ -707,40 +712,40 @@ class JsonObject
 
         // containers by name
         // get_array returns empty array if the member is not found
-        JsonArray get_array(const std::string &name);
-        std::vector<int> get_int_array(const std::string &name);
-        std::vector<std::string> get_string_array(const std::string &name);
+        JsonArray get_array(string_view name);
+        std::vector<int> get_int_array(string_view name);
+        std::vector<std::string> get_string_array(string_view name);
         // get_object returns empty object if not found
-        JsonObject get_object(const std::string &name);
+        JsonObject get_object(string_view name);
 
         // get_tags returns empty set if none found
         template <typename T = std::string>
-        std::set<T> get_tags( const std::string &name );
+        std::set<T> get_tags( string_view name );
 
         // TODO: some sort of get_map(), maybe
 
         // type checking
-        bool has_null(const std::string &name);
-        bool has_bool(const std::string &name);
-        bool has_number(const std::string &name);
-        bool has_int(const std::string &name)
+        bool has_null(string_view name);
+        bool has_bool(string_view name);
+        bool has_number(string_view name);
+        bool has_int(string_view name)
         {
             return has_number(name);
         };
-        bool has_float(const std::string &name)
+        bool has_float(string_view name)
         {
             return has_number(name);
         };
-        bool has_string(const std::string &name);
-        bool has_array(const std::string &name);
-        bool has_object(const std::string &name);
+        bool has_string(string_view name);
+        bool has_array(string_view name);
+        bool has_object(string_view name);
 
         // non-fatally read values by reference
         // return true if the value was set, false otherwise.
         // return false if the member is not found.
-        template <typename T> bool read(const std::string &name, T &t)
+        template <typename T> bool read(string_view name, T &t)
         {
-            int pos = positions[name];
+            int pos = get_position(name);
             if (pos <= start) {
                 return false;
             }
@@ -838,19 +843,16 @@ class JsonArray
         JsonArray(JsonIn &jsin);
         JsonArray(const JsonArray &jsarr);
         JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
-        ~JsonArray()
-        {
-            finish();
-        }
-
-        void finish(); // move the stream position to the end of the array
+        ~JsonArray();
 
         bool has_more(); // true iff more elements may be retrieved with next_*
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error(std::string err);
-        void throw_error(std::string err, int idx );
+        [[ noreturn ]]
+        void throw_error(string_view err);
+        [[ noreturn ]]
+        void throw_error(string_view err, int idx );
 
         // iterative access
         bool next_bool();
@@ -947,10 +949,11 @@ std::set<T> JsonArray::get_tags( int index )
 }
 
 template <typename T>
-std::set<T> JsonObject::get_tags( const std::string &name )
+std::set<T> JsonObject::get_tags( string_view name )
 {
     std::set<T> res;
-    int pos = positions[ name ];
+    const auto it = positions.find(name);
+    const int pos = it == positions.end() ? 0 : it->second;
     if ( pos <= start ) {
         return res;
     }
@@ -1000,11 +1003,11 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 class JsonSerializer
 {
     public:
-        virtual ~JsonSerializer() {}
+        virtual ~JsonSerializer() = default;
         virtual void serialize(JsonOut &jsout) const = 0;
         std::string serialize() const;
         void serialize(std::ostream &o) const;
-        JsonSerializer() { }
+        JsonSerializer() = default;
         JsonSerializer(JsonSerializer &&) = default;
         JsonSerializer(const JsonSerializer &) = default;
         JsonSerializer &operator=(JsonSerializer &&) = default;
@@ -1039,11 +1042,11 @@ class JsonSerializer
 class JsonDeserializer
 {
     public:
-        virtual ~JsonDeserializer() {}
+        virtual ~JsonDeserializer() = default;
         virtual void deserialize(JsonIn &jsin) = 0;
-        void deserialize(const std::string &json_string);
+        void deserialize(string_view json_string);
         void deserialize(std::istream &i);
-        JsonDeserializer() { }
+        JsonDeserializer() = default;
         JsonDeserializer(JsonDeserializer &&) = default;
         JsonDeserializer(const JsonDeserializer &) = default;
         JsonDeserializer &operator=(JsonDeserializer &&) = default;
