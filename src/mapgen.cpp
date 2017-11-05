@@ -1,4 +1,4 @@
-#include "map.h"
+#include "mapgen.h"
 
 #include "coordinate_conversions.h"
 #include "omdata.h"
@@ -19,7 +19,7 @@
 #include "enums.h"
 #include "monstergenerator.h"
 #include "mongroup.h"
-#include "mapgen.h"
+#include "map.h"
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
