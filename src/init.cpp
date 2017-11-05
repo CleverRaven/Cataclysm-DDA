@@ -313,9 +313,10 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
-        JsonObject jo = jsin.get_object();
-        load_object( jo, src );
-        jo.finish();
+        {
+            JsonObject jo = jsin.get_object();
+            load_object( jo, src );
+        }
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
         if (jsin.good()) {
@@ -327,7 +328,6 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         while (!jsin.end_array()) {
             JsonObject jo = jsin.get_object();
             load_object( jo, src );
-            jo.finish();
         }
     } else {
         // not an object or an array?

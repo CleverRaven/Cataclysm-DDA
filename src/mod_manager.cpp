@@ -334,14 +334,12 @@ void mod_manager::load_mod_info(std::string info_file_path)
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             load_modfile(jo, main_path);
-            jo.finish();
         } else if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
                 JsonObject jo = jsin.get_object();
                 load_modfile(jo, main_path);
-                jo.finish();
             }
         } else {
             // not an object or an array?

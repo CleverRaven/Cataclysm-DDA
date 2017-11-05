@@ -55,7 +55,6 @@ class color_loader
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
                 load_colors( jo );
-                jo.finish();
             }
         }
 

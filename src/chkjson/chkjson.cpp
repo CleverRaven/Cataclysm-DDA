@@ -110,9 +110,10 @@ void load_all_from_json(JsonIn &jsin)
     ch = jsin.peek();
     if (ch == '{') {
         // find type and dispatch single object
-        JsonObject jo = jsin.get_object();
-        load_object(jo);
-        jo.finish();
+        {
+            JsonObject jo = jsin.get_object();
+            load_object(jo);
+        }
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
         if (jsin.good()) {
@@ -135,7 +136,6 @@ void load_all_from_json(JsonIn &jsin)
             }
             JsonObject jo = jsin.get_object();
             load_object(jo);
-            jo.finish();
         }
     } else {
         // not an object or an array?
