@@ -10,6 +10,7 @@
 #include "pldata.h"
 #include "messages.h"
 #include "cursesdef.h"
+#include "trap.h"
 #include "sounds.h"
 #include "monattack.h"
 #include "monfaction.h"

@@ -6,7 +6,6 @@
 #include "enums.h"
 #include "iexamine.h"
 #include "int_id.h"
-#include "trap.h"
 #include "string_id.h"
 #include "weighted_list.h"
 #include "units.h"
@@ -18,6 +17,8 @@
 #include <string>
 #include <array>
 
+class JsonObject;
+using nc_color = int;
 struct itype;
 struct trap;
 struct ter_t;
