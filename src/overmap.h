@@ -106,6 +106,14 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct map_extras {
+    unsigned int chance;
+    weighted_int_list<std::string> values;
+
+    map_extras() : chance( 0 ), values() {}
+    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
+};
+
 struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;

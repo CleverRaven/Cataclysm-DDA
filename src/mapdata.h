@@ -333,15 +333,6 @@ Map Extras are overmap specific flags that tell a submap "hey, put something ext
 //Classic Extras is for when you have special zombies turned off.
 extern const std::set<std::string> classic_extras;
 
-struct map_extras {
- unsigned int chance;
- weighted_int_list<std::string> values;
-
- map_extras() : chance(0), values() {}
- map_extras(const unsigned int embellished) : chance(embellished), values() {}
-
-};
-
 void load_furniture( JsonObject &jo, const std::string &src );
 void load_terrain( JsonObject &jo, const std::string &src );
 
