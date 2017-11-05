@@ -18,6 +18,7 @@
 #include "computer.h"
 #include "mapdata.h"
 #include "map.h"
+#include "omdata.h"
 #include "field.h"
 #include <algorithm>
 #include <iterator>
