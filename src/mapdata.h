@@ -33,11 +33,6 @@ using furn_str_id = string_id<furn_t>;
 using itype_id = std::string;
 using harvest_id = string_id<harvest_list>;
 
-// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
