@@ -210,8 +210,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const itype_id& id, int turn, solitary_tag );
         item( const itype *type, int turn, solitary_tag );
 
-        item( JsonObject &jo );
-
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to

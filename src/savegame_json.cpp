@@ -1287,14 +1287,11 @@ void inventory::json_save_items(JsonOut &json) const
 
 void inventory::json_load_items(JsonIn &jsin)
 {
-    try {
-        JsonArray ja = jsin.get_array();
-        while ( ja.has_more() ) {
-            JsonObject jo = ja.next_object();
-            add_item(item( jo ), true, false);
-        }
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        item tmp;
+        tmp.deserialize( jsin );
+        add_item( tmp );
     }
 }
 

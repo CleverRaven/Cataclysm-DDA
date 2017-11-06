@@ -201,11 +201,6 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
     return result;
 }
 
-item::item(JsonObject &jo)
-{
-    deserialize(jo);
-}
-
 item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
