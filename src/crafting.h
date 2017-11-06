@@ -2,11 +2,10 @@
 #ifndef CRAFTING_H
 #define CRAFTING_H
 
-#include "item.h"         // item
-
 #include <list>
 #include <vector>
 
+class item;
 class inventory;
 class npc;
 class player;

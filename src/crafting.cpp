@@ -12,6 +12,7 @@
 #include "ammo.h"
 #include "map.h"
 #include "messages.h"
+#include "item.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
