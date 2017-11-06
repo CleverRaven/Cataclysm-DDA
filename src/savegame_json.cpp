@@ -1654,8 +1654,9 @@ static void migrate_toolmod( item &it )
     }
 }
 
-void item::deserialize(JsonObject &data)
+void item::deserialize( JsonIn &jsin )
 {
+    JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
 }
