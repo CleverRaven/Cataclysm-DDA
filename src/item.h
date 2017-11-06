@@ -9,6 +9,8 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include <map>
+
 #include "visitable.h"
 #include "enums.h"
 #include "bodypart.h"
