@@ -13,7 +13,6 @@
 #include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "enums.h"
