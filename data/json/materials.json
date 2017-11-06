@@ -327,6 +327,7 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 8,
+    "repaired_with": "gold_small",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
@@ -701,6 +702,7 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 8,
+    "repaired_with": "silver_small",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"

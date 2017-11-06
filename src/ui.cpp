@@ -336,7 +336,7 @@ void uimenu::setup()
 
     if ( desc_enabled && !(w_auto && h_auto) ) {
         desc_enabled = false; // give up
-        debugmsg("desc_enabled without w_auto and h_auto (h: %d, w: %d)", h_auto, w_auto);
+        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ), static_cast<int>( w_auto ) );
     }
 
     max_entry_len = 0;
@@ -896,24 +896,6 @@ void uimenu::addentry(int r, bool e, int k, std::string str)
     entries.push_back(uimenu_entry(r, e, k, str));
 }
 
-void uimenu::addentry(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(text));
-}
-
-void uimenu::addentry(int r, bool e, int k, const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(r, e, k, text));
-}
-
 void uimenu::addentry_desc(std::string str, std::string desc)
 {
     entries.push_back(uimenu_entry(str, desc));
@@ -927,14 +909,6 @@ void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string de
 void uimenu::settext(std::string str)
 {
     text = str;
-}
-
-void uimenu::settext(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    text = vstring_format(format, ap);
-    va_end(ap);
 }
 
 pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )

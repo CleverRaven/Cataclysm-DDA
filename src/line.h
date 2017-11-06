@@ -125,6 +125,7 @@ std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
+void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

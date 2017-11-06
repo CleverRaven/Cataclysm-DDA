@@ -47,17 +47,12 @@ std::set<std::string> ignored_messages;
 
 }
 
-void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
-                   ... )
+void realDebugmsg( const char *filename, const char *line, const char *funcname,
+                   const std::string &text )
 {
     assert( filename != nullptr );
     assert( line != nullptr );
     assert( funcname != nullptr );
-
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
 
     if( test_mode ) {
         test_dirty = true;
@@ -75,7 +70,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     if( stdscr == nullptr ) {
-        std::cerr << text.c_str() << std::endl;
+        std::cerr << text << std::endl;
         abort();
     }
 

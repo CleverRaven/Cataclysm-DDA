@@ -545,7 +545,11 @@ class Character : public Creature, public visitable<Character>
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
-        virtual bool query_yn( const char *mes, ... ) const PRINTF_LIKE( 2, 3 ) = 0;
+        template<typename ...Args>
+        bool query_yn( const char *const msg, Args &&... args ) const {
+            return query_yn( string_format( msg, std::forward<Args>( args ) ... ) );
+        }
+        virtual bool query_yn( const std::string &msg ) const = 0;
 
         bool is_immune_field( const field_id fid ) const override;
 
