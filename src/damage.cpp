@@ -1,7 +1,6 @@
 #include "item.h"
 #include "monster.h"
 #include "game.h"
-#include "map.h"
 #include "damage.h"
 #include "rng.h"
 #include "debug.h"

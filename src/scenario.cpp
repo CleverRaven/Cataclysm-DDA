@@ -10,7 +10,6 @@
 #include "player.h"
 #include "bionics.h"
 #include "game.h"
-#include "map.h"
 #include "translations.h"
 #include "pldata.h"
 #include "addiction.h"
