@@ -1986,7 +1986,7 @@ int player::run_cost( int base_cost, bool diag ) const
         } else {
             movecost *= 1.3f;
         }
-    } else if( is_wearing( "swim_fins" ) ) {
+    } else if( worn_with_flag( "FIN" ) ) {
         movecost *= 1.5f;
     }
 
@@ -2042,8 +2042,12 @@ int player::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( is_wearing( "swim_fins" ) ) {
-        ret -= ( 15 * str_cur ) / ( 3 - shoe_type_count( "swim_fins" ) );
+    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r) ) {
+        if ( worn_with_flag ( "FIN", bp_foot_l) && worn_with_flag( "FIN", bp_foot_r) ){
+            ret -= ( 15 * str_cur );
+        } else {
+            ret -= ( 15 * str_cur ) / 2;
+        }
     }
     /** @EFFECT_STR increases swim speed bonus from WEBBED */
     if( has_trait( trait_WEBBED ) ) {
