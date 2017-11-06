@@ -8,7 +8,6 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "line.h"
-#include "options.h"
 #include "item_factory.h"
 #include "projectile.h"
 #include "mapbuffer.h"
@@ -20,7 +19,6 @@
 #include "trap.h"
 #include "item.h"
 #include "messages.h"
-#include "mapsharing.h"
 #include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
@@ -30,7 +28,6 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "artifact.h"
-#include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -39,10 +36,8 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
-#include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
-#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
