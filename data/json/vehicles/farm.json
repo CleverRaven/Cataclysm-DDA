@@ -29,6 +29,7 @@
       { "x": 2, "y": 0, "part": "frame_horizontal" },
       { "x": 2, "y": 0, "part": "board_horizontal" },
       { "x": 2, "y": 0, "part": "headlight" },
+      { "x": 2, "y": 0, "part": "roof" },
       { "x": 2, "y": 0, "part": "omnicam" },
       { "x": 2, "y": -1, "part": "frame_nw" },
       { "x": 2, "y": -1, "part": "wheel_wide_steerable" },

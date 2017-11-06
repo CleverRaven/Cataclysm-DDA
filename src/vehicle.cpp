@@ -54,6 +54,8 @@ static const itype_id fuel_type_diesel("diesel");
 static const itype_id fuel_type_battery("battery");
 static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
+
+static const std::string part_location_null("null");
 static const std::string part_location_structure("structure");
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
@@ -1491,6 +1493,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
     //It also has to be a real part, not the null part
     const vpart_info &part = id.obj();
     if(part.has_flag("NOINSTALL")) {
+        // debugmsg("NOINSTALL fail");
         return false;
     }
 
@@ -1498,11 +1501,13 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     //First part in an empty square MUST be a structural part
     if(parts_in_square.empty() && part.location != part_location_structure) {
+        // debugmsg("No structure fail");
         return false;
     }
 
     //No other part can be placed on a protrusion
     if(!parts_in_square.empty() && part_info(parts_in_square[0]).has_flag("PROTRUSION")) {
+        // debugmsg("Mult protrusion fail");
         return false;
     }
 
@@ -1513,11 +1518,13 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         //Parts with no location can stack with each other (but not themselves)
         if( part.get_id() == other_part.get_id() ||
                 (!part.location.empty() && part.location == other_part.location)) {
+            // debugmsg("mult id fail");
             return false;
         }
         // Until we have an interface for handling multiple components with CARGO space,
         // exclude them from being mounted in the same tile.
         if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
+            // debugmsg("mult CARGO fail");
             return false;
         }
 
@@ -1558,81 +1565,23 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         }
     }
 
-    //Seatbelts must be installed on a seat
-    if(part.has_flag("SEATBELT")) {
+    if(!part.location.empty() && part.location.compare(0,3,"on_") == 0) {
+        std::string flag = part.location.substr(3); // masking off the 'on_'
+        
+        // Convert flag to uppercase for comparison
+        for (auto & c: flag) {
+            c = toupper(c);
+        }
+        
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "BELTABLE" ) ) {
+            if( part_info( elem ).has_flag( flag ) ) {
                 anchor_found = true;
             }
         }
-        if(!anchor_found) {
-            return false;
-        }
-    }
 
-    //Internal must be installed into a cargo area.
-    if(part.has_flag("INTERNAL")) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "CARGO" ) ) {
-                anchor_found = true;
-            }
-        }
         if(!anchor_found) {
-            return false;
-        }
-    }
-
-    // curtains must be installed on (reinforced)windshields
-    // TODO: do this automatically using "location":"on_mountpoint"
-    if (part.has_flag("CURTAIN")) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WINDOW" ) ) {
-                anchor_found = true;
-            }
-        }
-        if (!anchor_found) {
-            return false;
-        }
-    }
-
-    // Security system must be installed on controls
-    if(part.has_flag("ON_CONTROLS")) {
-        bool anchor_found = false;
-        for( std::vector<int>::const_iterator it = parts_in_square.begin();
-             it != parts_in_square.end(); ++it ) {
-            if(part_info(*it).has_flag("CONTROLS")) {
-                anchor_found = true;
-            }
-        }
-        if(!anchor_found) {
-            return false;
-        }
-    }
-    //Swappable storage battery must be installed on a BATTERY_MOUNT
-    if(part.has_flag("NEEDS_BATTERY_MOUNT")) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "BATTERY_MOUNT" ) ) {
-                anchor_found = true;
-            }
-        }
-        if(!anchor_found) {
-            return false;
-        }
-    }
-
-    //Door motors need OPENABLE
-    if( part.has_flag( "DOOR_MOTOR" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "OPENABLE" ) ) {
-                anchor_found = true;
-            }
-        }
-        if(!anchor_found) {
+            debugmsg("location: %s flag: %s fail", part.location.c_str(), flag.c_str());
             return false;
         }
     }
@@ -1669,6 +1618,8 @@ bool vehicle::can_unmount(int const p) const
     int dy = parts[p].mount.y;
 
     std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
+
+    //TODO make this flexable for all "on_" locations
 
     // Can't remove an engine if there's still an alternator there
     if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
