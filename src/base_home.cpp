@@ -12,14 +12,7 @@ base_home::base(player &p, const tripoint &coreloc){
     gen_overlay();
     define_base_area(base_map, coreloc);
     //TODO: Remove spawn points from base
-}
-
-/**
- * Populates bmap.  (Add references to all the tiles in a submap)
-*/
-void gen_overlay(){
-    //TODO: Get help.
-}
+}]
 
 /**
  * Populates bmap.bflag based on the rest of bmap.  Finds area of base
@@ -29,23 +22,16 @@ void gen_overlay(){
  * TODO: Populate storage_open with locations of storage furnature (lockers etc.)
  * TODO: Populate bunks with locations of sleeping areas (beds, cots, etc.)
  */
-void base_home::define_base_area(const tripoint &coreloc) {
+void base_home::define_base_area(player &p, const tripoint &coreloc) {
     //First we map out the base floor by basically BFS all the "INDOORS" flags.
     //Set up.
+    tinymap bmap;
+    bmap.load(base_omap.x * 2, base_omap.y * 2, base_omap.z, false);
     std::queue q;
     std::set<tripoint> pushed; //not sure how big it needs to get before std::unordered_set is better than std::set.
     tripoint cur, temp;
     que.push(coreloc);
     pushed.insert(coreloc);
-    //Make life easier for myself;
-    auto &x = cur.x;
-    auto &y = cur.y;
-    auto &z = cur.z;
-    auto &ter = bmap.ter;
-    auto &frn = bmap.fur;
-    auto &bf = bmap.bflag[x][y];
-    auto &in = base_flag::BASE_IN;
-    auto &wall = base_flag
     //Start search.
     while (!q.empty()){//While there are connected indoor tiles
         cur = q.pop();
