@@ -15,7 +15,6 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "enums.h"
-#include "pathfinding.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -88,6 +87,7 @@ using mongroup_id = string_id<MonsterGroup>;
 class map;
 enum ter_bitflags : int;
 struct pathfinding_cache;
+struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 
