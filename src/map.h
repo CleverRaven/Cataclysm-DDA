@@ -10,7 +10,6 @@
 
 #include "game_constants.h"
 #include "cursesdef.h"
-#include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "int_id.h"
@@ -39,12 +38,17 @@ class basecamp;
 class computer;
 struct itype;
 struct mapgendata;
+class map_cursor;
+class Character;
+class item_location;
 struct trap;
 struct oter_t;
-
+enum direction : unsigned;
+using itype_id = std::string;
 using trap_id = int_id<trap>;
 using oter_id = int_id<oter_t>;
-
+template<typename T>
+class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;

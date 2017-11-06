@@ -11,6 +11,7 @@
 #include "game.h"
 #include "debug.h"
 #include "scenario.h"
+#include "item.h"
 #include "translations.h"
 #include "trap.h"
 #include <array>

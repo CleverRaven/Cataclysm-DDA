@@ -18,6 +18,7 @@
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"
+#include "item.h"
 #include "messages.h"
 #include "mapsharing.h"
 #include "ammo.h"
