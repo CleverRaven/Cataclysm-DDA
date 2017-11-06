@@ -83,7 +83,7 @@ class base_home
     //data members
     int base_level; /**Level of command core. Determins max # of aux sys and, use of certain features.*/
     int owner_id; /**Player's ID*/ 
-    base
+    tripoint base_omap; /**Base's overmap location*/
     std::set<base_area_flag> bflag[OMAPX][OMPY]; /**Additional map tile overlay for flags specific to a base. NO-Z levelsupport.*/
     
     std::list<&npc_based> freeloaders;          /**List containing references to the NPCs staying at the base.*/
