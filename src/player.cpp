@@ -1977,10 +1977,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( is_wearing( "stillsuit" ) ) {
         movecost *= 1.1f;
     }
-    if( is_wearing( "swim_fins" ) ) {
-        movecost *= 1.5f;
-    }
-    if( is_wearing( "roller_blades" ) ) {
+    if( worn_with_flag( "ROLLER_INLINE" ) ) {
         if( on_road ) {
             movecost *= 0.5f;
         } else {
@@ -1989,12 +1986,15 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    if( is_wearing( "rollerskates" ) ) {
+    else if( worn_with_flag( "ROLLER_QUAD" ) ) {
         if( on_road ) {
             movecost *= 0.7f;
         } else {
             movecost *= 1.3f;
         }
+    }
+    else if( is_wearing( "swim_fins" ) ) {
+        movecost *= 1.5f;
     }
 
     movecost +=
