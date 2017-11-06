@@ -1934,11 +1934,9 @@ int player::run_cost( int base_cost, bool diag ) const
 
     if( has_trait( trait_FLEET ) && flatground ) {
         movecost *= .85f;
-    }
-    else if( has_trait( trait_FLEET2 ) && flatground ) {
+    } else if( has_trait( trait_FLEET2 ) && flatground ) {
         movecost *= .7f;
-    }
-    else if( has_trait( trait_SLOWRUNNER ) && flatground ) {
+    } else if( has_trait( trait_SLOWRUNNER ) && flatground ) {
         movecost *= 1.15f;
     }
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
@@ -1946,8 +1944,7 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_LIGHT_BONES ) ) {
         movecost *= .9f;
-    }
-    else if( has_trait( trait_HOLLOW_BONES ) ) {
+    } else if( has_trait( trait_HOLLOW_BONES ) ) {
         movecost *= .8f;
     }
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -1964,11 +1961,9 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_PONDEROUS1 ) ) {
         movecost *= 1.1f;
-    }
-    else if( has_trait( trait_PONDEROUS2 ) ) {
+    } else if( has_trait( trait_PONDEROUS2 ) ) {
         movecost *= 1.2f;
-    }
-    else if( has_trait( trait_PONDEROUS3 ) ) {
+    } else if( has_trait( trait_PONDEROUS3 ) ) {
         movecost *= 1.3f;
     }
     if( has_trait( trait_AMORPHOUS ) ) {
@@ -1983,17 +1978,15 @@ int player::run_cost( int base_cost, bool diag ) const
         } else {
             movecost *= 1.5f;
         }
-    }
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    else if( worn_with_flag( "ROLLER_QUAD" ) ) {
+    } else if( worn_with_flag( "ROLLER_QUAD" ) ) {
         if( on_road ) {
             movecost *= 0.7f;
         } else {
             movecost *= 1.3f;
         }
-    }
-    else if( is_wearing( "swim_fins" ) ) {
+    } else if( is_wearing( "swim_fins" ) ) {
         movecost *= 1.5f;
     }
 
