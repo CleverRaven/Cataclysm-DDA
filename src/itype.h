@@ -11,7 +11,6 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
-#include "emit.h"
 #include "units.h"
 #include "damage.h"
 #include "translations.h"
@@ -27,7 +26,8 @@
 class item_category;
 class Item_factory;
 class recipe;
-
+class emit;
+using emit_id = string_id<emit>;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;

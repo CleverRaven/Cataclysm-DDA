@@ -18,12 +18,13 @@
 #include "string_id.h"
 #include "enums.h"
 #include "pathfinding.h"
-#include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+class emit;
+using emit_id = string_id<emit>;
 class player;
 class monster;
 class item;

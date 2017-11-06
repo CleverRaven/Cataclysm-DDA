@@ -14,6 +14,7 @@
 #include "npc.h"
 #include "trap.h"
 #include "itype.h"
+#include "emit.h"
 #include "vehicle.h"
 #include "submap.h"
 #include "mapdata.h"
