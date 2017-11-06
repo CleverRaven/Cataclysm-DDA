@@ -68,8 +68,13 @@
         "type" : "skill",
         "ident" : "archery",
         "name" : "archery",
-        "description" : "Your skill in using bow weapons, from hand-carved self bows to complex hunting crossbows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
-        "tags" : ["combat_skill"]
+        "description" : "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 20,
+            "base_fire_time": 220,
+            "fire_time_skill_scaling": 25
+        }
     },{
         "type" : "skill",
         "ident" : "bashing",
@@ -98,13 +103,23 @@
         "ident" : "launcher",
         "name" : "launchers",
         "description" : "Your skill in using heavy weapons like rocket, grenade or missile launchers.  These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 30,
+            "base_fire_time": 200,
+            "fire_time_skill_scaling": 20
+        }
     },{
         "type" : "skill",
         "ident" : "melee",
         "name" : "melee",
         "description" : "Your skill and finesse in personal combat, both with and without a weapon.  Higher levels can significantly increase the accuracy and effectiveness of your physical attacks.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 50,
+            "base_fire_time": 200,
+            "fire_time_skill_scaling": 20
+        }
     },{
         "type" : "skill",
         "ident" : "stabbing",
@@ -116,7 +131,12 @@
         "ident" : "throw",
         "name" : "throwing",
         "description" : "Your skill in throwing objects over a distance.  Skill increases accuracy, and at higher levels, the range of a throw.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"], 
+        "ranged_data": {
+            "min_fire_time": 50,
+            "base_fire_time": 220,
+            "fire_time_skill_scaling": 25
+        }
     },{
         "type" : "skill",
         "ident" : "unarmed",
@@ -128,25 +148,45 @@
         "ident" : "pistol",
         "name" : "handguns",
         "description" : "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns.  They are very effective at close quarters, though unsuited for long range engagement.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 10,
+            "base_fire_time": 80,
+            "fire_time_skill_scaling": 10
+        }
     },{
         "type" : "skill",
         "ident" : "rifle",
         "name" : "rifles",
         "description" : "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters.  Fully automatic rifles can fire rapidly, but are harder to handle properly.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 30,
+            "base_fire_time": 150,
+            "fire_time_skill_scaling": 15
+        }
     },{
         "type" : "skill",
         "ident" : "shotgun",
         "name" : "shotguns",
         "description" : "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range.  Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 70,
+            "base_fire_time": 150,
+            "fire_time_skill_scaling": 25
+        }
     },{
         "type" : "skill",
         "ident" : "smg",
         "name" : "submachine guns",
         "description" : "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
-        "tags" : ["combat_skill"]
+        "tags" : ["combat_skill"],
+        "ranged_data": {
+            "min_fire_time": 20,
+            "base_fire_time": 80,
+            "fire_time_skill_scaling": 10
+        }
     },
     {
         "type" : "skill",

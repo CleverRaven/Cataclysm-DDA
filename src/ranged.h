@@ -65,6 +65,19 @@ class target_handler
                                          const target_callback &on_ammo_change = target_callback() );
 };
 
+struct ranged_skill_data {
+    ranged_skill_data()
+    {}
+
+    // @todo Push those to mod settings or a null skill
+    // Absolute floor on the time taken to fire.
+    int min_fire_time = 50;
+    // The base or max time taken to fire.
+    int base_fire_time = 220;
+    // The reduction in time given per skill level.
+    int fire_time_skill_scaling = 25;
+};
+
 int range_with_even_chance_of_good_hit( int dispersion );
 
 #endif // RANGED_H

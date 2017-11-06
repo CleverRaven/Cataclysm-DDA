@@ -3,6 +3,7 @@
 #include "options.h"
 #include "debug.h"
 #include "translations.h"
+#include "ranged.h"
 
 #include <algorithm>
 #include <iterator>
@@ -43,15 +44,17 @@ bool string_id<Skill>::is_valid() const
     return Skill::get( *this ) != invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
-                            std::set<std::string> {} )
+Skill::Skill()
+    : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
+             std::set<std::string> {} )
 {
 }
 
 Skill::Skill( skill_id ident, std::string name, std::string description,
               std::set<std::string> tags )
-    : _ident( std::move( ident ) ), _name( std::move( name ) ),
-      _description( std::move( description ) ), _tags( std::move( tags ) )
+    : _ident( std::move( ident ) ), _name( std::move( name ) )
+    , _description( std::move( description ) ), _tags( std::move( tags ) )
+    , _ranged_data( new ranged_skill_data() )
 {
 }
 
@@ -96,6 +99,13 @@ void Skill::load_skill( JsonObject &jsobj )
     } else {
         skills.push_back( sk );
     }
+
+    if( jsobj.has_object( "ranged_data" ) ) {
+        JsonObject rdobj = jsobj.get_object( "ranged_data" );
+        sk._ranged_data->min_fire_time = rdobj.get_int( "min_fire_time" );
+        sk._ranged_data->base_fire_time = rdobj.get_int( "base_fire_time" );
+        sk._ranged_data->fire_time_skill_scaling = rdobj.get_int( "fire_time_skill_scaling" );
+    }
 }
 
 skill_id Skill::from_legacy_int( const int legacy_id )
@@ -136,6 +146,11 @@ bool Skill::is_combat_skill() const
 bool Skill::is_contextual_skill() const
 {
     return _tags.count( "contextual_skill" ) > 0;
+}
+
+const ranged_skill_data &Skill::get_ranged_data() const
+{
+    return *_ranged_data;
 }
 
 SkillLevel::SkillLevel( int level, int exercise, bool isTraining, int lastPracticed,

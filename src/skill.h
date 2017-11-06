@@ -11,9 +11,12 @@
 #include <vector>
 #include <set>
 #include <iosfwd>
+#include <memory>
 
 class Skill;
 using skill_id = string_id<Skill>;
+
+struct ranged_skill_data;
 
 class Skill
 {
@@ -22,6 +25,7 @@ class Skill
         std::string _name;
         std::string _description;
         std::set<std::string> _tags;
+        std::shared_ptr<ranged_skill_data> _ranged_data;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
     public:
@@ -67,6 +71,7 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        const ranged_skill_data &get_ranged_data() const;
 };
 
 class SkillLevel : public JsonSerializer, public JsonDeserializer
