@@ -552,7 +552,7 @@ ifdef TILES
   endif
 else
   ifeq ($(CROSS),)
-  # Below might be pointless but this was done to fix #22329
+  # Check to see if pkg-config is on the system. 
     ifneq ($(shell which pkg-config 2>/dev/null),)
       HAVE_PKGCONFIG = 1
     endif
@@ -564,7 +564,12 @@ else
     LDFLAGS += $(shell pkg-config --libs ncurses)
   else
     ifneq ($(TARGETSYSTEM),WINDOWS)
-      LDFLAGS += -lncurses
+  # This is here for backward comaptablity as a fallback. 
+      ifneq ($(shell which ncurses5-config 2>/dev/null),)
+          LDFLAGS += ncurses5-config
+      else
+          LDFLAGS += -lncurses
+      endif
     endif
 
     ifdef OSXCROSS
