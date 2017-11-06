@@ -482,6 +482,26 @@ int main(int argc, char *argv[])
     sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
+#ifdef LOCALIZE
+    std::string lang = "";
+#if (defined _WIN32 || defined WINDOWS)
+    lang = getLangFromLCID( GetUserDefaultLCID() );
+#else
+    const char *v = setlocale( LC_ALL, NULL );
+    if( v != NULL ) {
+        lang = v;
+
+        if( lang == "C" ) {
+            lang = "en";
+        }
+    }
+#endif
+    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() || !isValidLanguage( lang ) ) ) {
+        select_language();
+        set_language();
+    }
+#endif
+
     while( true ) {
         if( !world.empty() ) {
             if( !g->load( world ) ) {

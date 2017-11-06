@@ -1687,15 +1687,11 @@ void game::cancel_activity()
     u.cancel_activity();
 }
 
-bool game::cancel_activity_or_ignore_query(const char *reason, ...)
+bool game::cancel_activity_or_ignore_query( const std::string &text )
 {
     if( !u.activity ) {
         return false;
     }
-    va_list ap;
-    va_start(ap, reason);
-    const std::string text = vstring_format(reason, ap);
-    va_end(ap);
 
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
                                _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
@@ -1716,13 +1712,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     return false;
 }
 
-bool game::cancel_activity_query(const char *message, ...)
+bool game::cancel_activity_query( const std::string &text )
 {
-    va_list ap;
-    va_start(ap, message);
-    const std::string text = vstring_format(message, ap);
-    va_end(ap);
-
     if( !u.activity ) {
         if (u.has_destination()) {
             add_msg(m_warning, _("%s. Auto-move canceled"), text.c_str());
@@ -1780,7 +1771,7 @@ void game::update_weather()
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
+            cancel_activity_query( string_format( _( "The weather changed to %s!" ), weather_data( weather ).name.c_str() ) );
         }
 
         if (weather != old_weather && u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -1840,8 +1831,8 @@ void game::handle_key_blocking_activity()
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
-            if ( cancel_activity_query(_("You see %s approaching!"),
-                    hostile_critter->disp_name().c_str()) ) {
+            if ( cancel_activity_query( string_format( _( "You see %s approaching!" ),
+                    hostile_critter->disp_name().c_str() ) ) ) {
                 return;
             }
         }
@@ -1851,7 +1842,7 @@ void game::handle_key_blocking_activity()
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
-            cancel_activity_query(_("Confirm:"));
+            cancel_activity_query( _( "Confirm:" ) );
         } else if (action == "player_data") {
             u.disp_info();
             refresh_all();
@@ -5151,21 +5142,52 @@ void game::draw_HP()
 
     bool const is_self_aware = u.has_trait( trait_id( "SELFAWARE" ) );
 
-    for (int i = 0; i < num_hp_parts; i++) {
-        auto const &hp = get_hp_bar(u.hp_cur[i], u.hp_max[i]);
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        wmove( w_HP, i * dy + hpy, hpx );
 
-        wmove(w_HP, i * dy + hpy, hpx);
-        if (is_self_aware) {
-            wprintz(w_HP, hp.second, "%3d  ", u.hp_cur[i]);
+        static auto print_symbol_num = []( WINDOW *w, int num, const std::string &sym,
+                                           const nc_color color ) {
+            while( num-- > 0 ) {
+                wprintz( w, color, sym.c_str() );
+            }
+        };
+
+        if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
+            //Limb is broken
+            std::string limb = "~~%~~";
+            nc_color color = c_ltred;
+
+            const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
+            if( u.worn_with_flag( "SPLINT", bp ) ) {
+                static const efftype_id effect_mending( "mending" );
+                const auto &eff = u.get_effect( effect_mending, bp );
+                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
+                    ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+
+                if( is_self_aware ) {
+                    limb = string_format( "=%2d%%=", mend_perc );
+                    color = c_blue;
+                } else {
+                    const int num = static_cast<int>( mend_perc / 20 );
+                    print_symbol_num( w_HP, num, "#", c_blue );
+                    print_symbol_num( w_HP, 5 - num, "=", c_blue );
+                    continue;
+                }
+            }
+
+            wprintz( w_HP, color, "%s", limb.c_str() );
+            continue;
+        }
+
+        auto const &hp = get_hp_bar( u.hp_cur[i], u.hp_max[i] );
+
+        if( is_self_aware ) {
+            wprintz( w_HP, hp.second, "%3d  ", u.hp_cur[i] );
         } else {
-            wprintz(w_HP, hp.second, "%s", hp.first.c_str());
+            wprintz( w_HP, hp.second, "%s", hp.first.c_str() );
 
             //Add the trailing symbols for a not-quite-full health bar
-            int bar_remainder = 5;
-            while (bar_remainder > (int)hp.first.size()) {
-                --bar_remainder;
-                wprintz(w_HP, c_white, ".");
-            }
+            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
         }
     }
 
@@ -5676,7 +5698,7 @@ int game::mon_info(WINDOW *w)
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
                 monster &critter = *new_seen_mon.back();
-                cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                cancel_activity_query( string_format( _( "%s spotted!" ), critter.name().c_str() ) );
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
@@ -5690,10 +5712,10 @@ int game::mon_info(WINDOW *w)
                 }
             } else {
                 //Hostile NPC
-                cancel_activity_query(_("Hostile survivor spotted!"));
+                cancel_activity_query( _( "Hostile survivor spotted!" ) );
             }
         } else {
-            cancel_activity_query(_("Monsters spotted!"));
+            cancel_activity_query( _( "Monsters spotted!" ) );
         }
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
@@ -5949,7 +5971,7 @@ void game::monmove()
             !critter.is_hallucination()) {
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
-                cancel_activity_query(_("Your motion alarm goes off!"));
+                cancel_activity_query( _( "Your motion alarm goes off!" ) );
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }
@@ -10554,7 +10576,13 @@ void game::change_side(int pos)
 
 void game::reload( int pos, bool prompt )
 {
-    item *it = &u.i_at( pos );
+    item_location loc( u, &u.i_at( pos ) );
+    reload( loc, prompt );
+}
+
+void game::reload( item_location &loc, bool prompt )
+{
+    item *it = &u.i_at( loc.obtain( u ) );
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -10611,8 +10639,7 @@ void game::reload( int pos, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() ) {
-
+    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
         vehicle *veh = m.veh_at( u.pos() );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10625,7 +10652,17 @@ void game::reload()
             return;
         }
 
-        add_msg(m_info, _( "You're not wielding anything." ) );
+        item_location item_loc = inv_map_splice( [&]( const item &it ) {
+            return u.rate_action_reload( it ) == HINT_GOOD;
+        }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+        if( !item_loc ) {
+            add_msg( _("Never mind.") );
+            return;
+        }
+
+        reload( item_loc );
+
     } else {
         reload( -1 );
     }

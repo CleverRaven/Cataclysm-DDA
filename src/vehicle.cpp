@@ -1572,7 +1572,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for (auto & c: flag) {
             c = toupper(c);
         }
-        
+
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( flag ) ) {

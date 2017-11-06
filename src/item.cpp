@@ -1202,9 +1202,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         temp1.str( "" );
-        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const std::string &used_on ) {
-            //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
-            return string_format( "<info>%s</info>", _( used_on.c_str() ) );
+        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const gun_type_type &used_on ) {
+            return string_format( "<info>%s</info>", used_on.name().c_str() );
         } );
 
         temp2.str( "" );
@@ -3929,21 +3928,23 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
-std::string item::gun_type() const
+gun_type_type item::gun_type() const
 {
     static skill_id skill_archery( "archery" );
 
     if( !is_gun() ) {
-        return std::string();
+        return gun_type_type( std::string() );
     }
+    //@todo move to JSON and remove extraction of this from "GUN" (via skill id)
+    //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
         if( ammo_type() == ammotype( "bolt" ) || typeId() == "bullet_crossbow" ) {
-            return "crossbow";
+            return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else{
-            return "bow";
+            return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
         }
     }
-    return gun_skill().c_str();
+    return gun_type_type( gun_skill().str() );
 }
 
 skill_id item::melee_skill() const
@@ -4425,6 +4426,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<bool>::make_failure();
     }
+    static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -4445,7 +4447,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
-    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
+    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
@@ -4677,7 +4679,7 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_magazine() ) {
+    if( ammo->is_magazine() || target->has_flag( "RELOAD_ONE" )) {
         qty_ = 1L;
         return;
     }

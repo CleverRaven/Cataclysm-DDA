@@ -1142,9 +1142,9 @@ int editmap::edit_fld()
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (eg. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( "1: %s", ftype.name( 0 ).c_str() );
-                femenu.addentry( "2: %s", ftype.name( 1 ).c_str() );
-                femenu.addentry( "3: %s", ftype.name( 2 ).c_str() );
+                femenu.addentry( string_format( "1: %s", ftype.name( 0 ).c_str() ) );
+                femenu.addentry( string_format( "2: %s", ftype.name( 1 ).c_str() ) );
+                femenu.addentry( string_format( "3: %s", ftype.name( 2 ).c_str() ) );
                 femenu.entries[fdens].text_color = c_cyan;
                 femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
 

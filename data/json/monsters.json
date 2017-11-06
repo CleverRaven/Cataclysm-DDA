@@ -1162,7 +1162,7 @@
     "speed": 130,
     "material": [ "flesh" ],
     "symbol": "C",
-    "color": "brown",
+    "color": "ltgray",
     "aggression": -50,
     "morale": 60,
     "melee_skill": 6,

@@ -2010,52 +2010,32 @@ m_size monster::get_size() const {
 }
 
 
-void monster::add_msg_if_npc(const char *msg, ...) const
+void monster::add_msg_if_npc( const std::string &msg ) const
 {
-    va_list ap;
-    va_start(ap, msg);
     if (g->u.sees(*this)) {
-        std::string processed_npc_string = vstring_format(msg, ap);
-        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-        add_msg(processed_npc_string.c_str());
+        add_msg( replace_with_npc_name( msg, disp_name() ) );
     }
-    va_end(ap);
 }
 
-void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
+void monster::add_msg_player_or_npc( const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
-    va_list ap;
-    va_start(ap, npc_str);
     if (g->u.sees(*this)) {
-        std::string processed_npc_string = vstring_format(npc_str, ap);
-        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-        add_msg(processed_npc_string.c_str());
+        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
     }
-    va_end(ap);
 }
 
-void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
+void monster::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
-    va_list ap;
-    va_start(ap, msg);
     if (g->u.sees(*this)) {
-        std::string processed_npc_string = vstring_format(msg, ap);
-        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-        add_msg(type, processed_npc_string.c_str());
+        add_msg( type, replace_with_npc_name( msg, disp_name() ) );
     }
-    va_end(ap);
 }
 
-void monster::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...) const
+void monster::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
-    va_list ap;
-    va_start(ap, npc_str);
     if (g->u.sees(*this)) {
-        std::string processed_npc_string = vstring_format(npc_str, ap);
-        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-        add_msg(type, processed_npc_string.c_str());
+        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
     }
-    va_end(ap);
 }
 
 bool monster::is_dead() const

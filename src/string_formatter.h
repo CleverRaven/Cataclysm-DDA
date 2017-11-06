@@ -5,13 +5,12 @@
 //@todo replace with std::optional
 #include "optional.h"
 #include "compatibility.h"
+#include "printf_check.h"
 
 #include <string>
 #include <typeinfo>
 #include <type_traits>
-
-//@todo put into namespace
-std::string raw_string_format( const char *, ... );
+#include <utility>
 
 namespace cata
 {
@@ -19,13 +18,16 @@ namespace cata
 class string_formatter;
 
 // wrapper to allow calling string_formatter::throw_error before the definition of string_formatter
-void __attribute__( ( noreturn ) ) throw_error( const string_formatter &, const std::string & );
+[[noreturn]]
+void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
 const char *string_formatter_set_temp_buffer( const string_formatter &, std::string );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
 
 /**
+ * @defgroup string_formatter_convert Convert functions for @ref string_formatter
+ *
  * The `convert` functions here are used to convert the input value of
  * @ref string_formatter::parse into the requested type, as defined by the format specifiers.
  *
@@ -46,8 +48,6 @@ std::string handle_string_format_error();
  * overload matches.
  */
 /**@{*/
-template<typename RT>
-class converter;
 // Test for arithmetic type, *excluding* bool. printf can not handle bool, so can't we.
 template<typename T>
 using is_numeric = typename std::conditional <
@@ -76,6 +76,13 @@ inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
        RT >::type convert( RT *, const string_formatter &, T &&value, int )
 {
     return value;
+}
+template<typename RT, typename T>
+inline typename std::enable_if < is_integer<RT>::value
+&&std::is_enum<typename std::decay<T>::type>::value,
+RT >::type convert( RT *, const string_formatter &, T &&value, int )
+{
+    return static_cast<RT>( value );
 }
 template<typename RT, typename T>
 inline typename std::enable_if < std::is_floating_point<RT>::value &&is_numeric<T>::value
@@ -124,6 +131,7 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
 template<typename RT, typename T>
 inline typename std::enable_if < std::is_pointer<typename std::decay<T>::type>::value ||
 is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
+std::is_enum<typename std::decay<T>::type>::value ||
 is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&, ... )
 {
     throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
@@ -194,7 +202,8 @@ class string_formatter
         // Helper for common logic in @ref read_width and @ref read_precision.
         cata::optional<int> read_number_or_argument_index();
         /// Throws an exception containing the given message and the @ref format.
-        void __attribute__( ( noreturn ) ) throw_error( const std::string &msg ) const;
+        [[noreturn]]
+        void throw_error( const std::string &msg ) const;
         friend void throw_error( const string_formatter &sf, const std::string &msg ) {
             sf.throw_error( msg );
         }
@@ -231,6 +240,8 @@ class string_formatter
         }
         /**@}*/
 
+        void add_long_long_length_modifier();
+
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
             // Removes the prefix "ll", "l", "h" and "hh", we later add "ll" again and that
@@ -252,14 +263,14 @@ class string_formatter
                     return do_formating( get_nth_arg_as<int, 0>( format_arg_index, std::forward<Args>( args )... ) );
                 case 'd':
                 case 'i':
-                    current_format.insert( current_format.size() - 1, "ll" );
+                    add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<signed long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'o':
                 case 'u':
                 case 'x':
                 case 'X':
-                    current_format.insert( current_format.size() - 1, "ll" );
+                    add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'a':
@@ -282,6 +293,8 @@ class string_formatter
                     break;
             }
         }
+
+        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 
         template<typename T>
         void do_formating( T &&value ) {
@@ -335,8 +348,28 @@ class string_formatter
 
 } // namespace cata
 
-/// Simple wrapper over @ref string_formatter::parse. It catches any exceptions and returns
-/// some error string. Otherwise it just returns the formatted string.
+/**
+ * Simple wrapper over @ref string_formatter::parse. It catches any exceptions and returns
+ * some error string. Otherwise it just returns the formatted string.
+ *
+ * These functions perform string formatting according to the rules of the `printf` function,
+ * see `man 3 printf` or any other documentation.
+ *
+ * In short: the \p format parameter is a string with optional placeholders, which will be
+ * replaced with formatted data from the further arguments. The further arguments must have
+ * a type that matches the type expected by the placeholder.
+ * The placeholders look like this:
+ * - `%s` expects an argument of type `const char*` or `std::string` or numeric (which is
+ *   converted to a string via `to_string`), which is inserted as is.
+ * - `%d` expects an argument of an integer type (int, short, ...), which is formatted as
+ *   decimal number.
+ * - `%f` expects a numeric argument (integer / floating point), which is formatted as
+ *   decimal number.
+ *
+ * There are more placeholders and options to them (see documentation of `printf`).
+ * Note that this wrapper (via @ref string_formatter) automatically converts the arguments
+ * to match the given format specifier (if possible) - see @ref string_formatter_convert.
+ */
 /**@{*/
 template<typename ...Args>
 inline std::string string_format( std::string format, Args &&...args )

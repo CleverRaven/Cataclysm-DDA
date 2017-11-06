@@ -634,7 +634,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     bool first_line_is_category = false;
 
     if( mods.empty() ) {
-        center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
+        center_print( w, 0, c_red, text_if_empty );
     } else {
         int iCatSortNum = 0;
         std::string sLastCategoryName = "";
