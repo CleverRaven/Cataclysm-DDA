@@ -1,0 +1,152 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "bandit_tower",
+        "overmaps" :
+        [
+            { "point":[0,-1,0], "overmap": "bandit_tower_1gate_north"},
+            { "point":[1,-1,0], "overmap": "bandit_tower_1yte_north"},
+            { "point":[2,-1,0], "overmap": "bandit_tower_1yte_north"},
+            { "point":[3,-1,0], "overmap": "bandit_tower_1yte_north"},
+
+            { "point":[-1,0,0], "overmap": "bandit_tower_1yle_north"},
+            { "point":[-1,1,0], "overmap": "bandit_tower_1yle_north"},
+            { "point":[-1,2,0], "overmap": "bandit_tower_1yle_north"},
+            { "point":[-1,3,0], "overmap": "bandit_tower_1yle_north"},
+
+            { "point":[4,0,0], "overmap": "bandit_tower_1yre_north"},
+            { "point":[4,1,0], "overmap": "bandit_tower_1yre_north"},
+            { "point":[4,2,0], "overmap": "bandit_tower_1yre_north"},
+            { "point":[4,3,0], "overmap": "bandit_tower_1yre_north"},
+
+            { "point":[0,4,0], "overmap": "bandit_tower_1ybe_north"},
+            { "point":[1,4,0], "overmap": "bandit_tower_1ybe_north"},
+            { "point":[2,4,0], "overmap": "bandit_tower_1ybe_north"},
+            { "point":[3,4,0], "overmap": "bandit_tower_1ybe_north"},
+
+
+            { "point":[0,0,0], "overmap": "bandit_tower_1cytlc_north"},
+            { "point":[1,0,0], "overmap": "bandit_tower_1cytrc_north"},
+            { "point":[0,1,0], "overmap": "bandit_tower_1cyblc_north"},
+            { "point":[1,1,0], "overmap": "bandit_tower_1cybrc_north"},
+
+            { "point":[2,0,0], "overmap": "bandit_tower_1tlc_north"},
+            { "point":[3,0,0], "overmap": "bandit_tower_1trc_north"},
+            { "point":[2,1,0], "overmap": "bandit_tower_1blc_north"},
+            { "point":[3,1,0], "overmap": "bandit_tower_1brc_north"},
+
+            { "point":[0,2,0], "overmap": "bandit_tower_1tlc_north"},
+            { "point":[1,2,0], "overmap": "bandit_tower_1trc_north"},
+            { "point":[0,3,0], "overmap": "bandit_tower_1blc_north"},
+            { "point":[1,3,0], "overmap": "bandit_tower_1brc_north"},
+
+            { "point":[2,2,0], "overmap": "bandit_tower_1tlc_north"},
+            { "point":[3,2,0], "overmap": "bandit_tower_1trc_north"},
+            { "point":[2,3,0], "overmap": "bandit_tower_1blc_north"},
+            { "point":[3,3,0], "overmap": "bandit_tower_1brc_north"},
+
+
+            { "point":[2,0,1], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[3,0,1], "overmap": "bandit_tower_2trc_north"},
+            { "point":[2,1,1], "overmap": "bandit_tower_2blc_north"},
+            { "point":[3,1,1], "overmap": "bandit_tower_2brc_north"},
+
+            { "point":[0,2,1], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[1,2,1], "overmap": "bandit_tower_2trc_north"},
+            { "point":[0,3,1], "overmap": "bandit_tower_2blc_north"},
+            { "point":[1,3,1], "overmap": "bandit_tower_2brc_north"},
+
+            { "point":[2,2,1], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[3,2,1], "overmap": "bandit_tower_2trc_north"},
+            { "point":[2,3,1], "overmap": "bandit_tower_2blc_north"},
+            { "point":[3,3,1], "overmap": "bandit_tower_2brc_north"},
+
+
+            { "point":[2,0,2], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[3,0,2], "overmap": "bandit_tower_3trc_north"},
+            { "point":[2,1,2], "overmap": "bandit_tower_3blc_north"},
+            { "point":[3,1,2], "overmap": "bandit_tower_3brc_north"},
+
+            { "point":[0,2,2], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[1,2,2], "overmap": "bandit_tower_3trc_north"},
+            { "point":[0,3,2], "overmap": "bandit_tower_3blc_north"},
+            { "point":[1,3,2], "overmap": "bandit_tower_3brc_north"},
+
+            { "point":[2,2,2], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[3,2,2], "overmap": "bandit_tower_3trc_north"},
+            { "point":[2,3,2], "overmap": "bandit_tower_3blc_north"},
+            { "point":[3,3,2], "overmap": "bandit_tower_3brc_north"},
+
+
+            { "point":[2,0,3], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[3,0,3], "overmap": "bandit_tower_2trc_north"},
+            { "point":[2,1,3], "overmap": "bandit_tower_2blc_north"},
+            { "point":[3,1,3], "overmap": "bandit_tower_2brc_north"},
+
+            { "point":[0,2,3], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[1,2,3], "overmap": "bandit_tower_2trc_north"},
+            { "point":[0,3,3], "overmap": "bandit_tower_2blc_north"},
+            { "point":[1,3,3], "overmap": "bandit_tower_2brc_north"},
+
+            { "point":[2,2,3], "overmap": "bandit_tower_2tlc_north"},
+            { "point":[3,2,3], "overmap": "bandit_tower_2trc_north"},
+            { "point":[2,3,3], "overmap": "bandit_tower_2blc_north"},
+            { "point":[3,3,3], "overmap": "bandit_tower_2brc_north"},
+
+
+            { "point":[2,0,4], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[3,0,4], "overmap": "bandit_tower_3trc_north"},
+            { "point":[2,1,4], "overmap": "bandit_tower_3blc_north"},
+            { "point":[3,1,4], "overmap": "bandit_tower_3brc_north"},
+
+            { "point":[0,2,4], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[1,2,4], "overmap": "bandit_tower_3trc_north"},
+            { "point":[0,3,4], "overmap": "bandit_tower_3blc_north"},
+            { "point":[1,3,4], "overmap": "bandit_tower_3brc_north"},
+
+            { "point":[2,2,4], "overmap": "bandit_tower_3tlc_north"},
+            { "point":[3,2,4], "overmap": "bandit_tower_3trc_north"},
+            { "point":[2,3,4], "overmap": "bandit_tower_3blc_north"},
+            { "point":[3,3,4], "overmap": "bandit_tower_3brc_north"},
+
+
+            { "point":[2,0,5], "overmap": "bandit_tower_4tlc_north"},
+            { "point":[3,0,5], "overmap": "bandit_tower_4trc_north"},
+            { "point":[2,1,5], "overmap": "bandit_tower_4blc_north"},
+            { "point":[3,1,5], "overmap": "bandit_tower_4brc_north"},
+
+            { "point":[0,2,5], "overmap": "bandit_tower_4tlc_north"},
+            { "point":[1,2,5], "overmap": "bandit_tower_4trc_north"},
+            { "point":[0,3,5], "overmap": "bandit_tower_4blc_north"},
+            { "point":[1,3,5], "overmap": "bandit_tower_4brc_north"},
+
+            { "point":[2,2,5], "overmap": "bandit_tower_4tlc_north"},
+            { "point":[3,2,5], "overmap": "bandit_tower_4trc_north"},
+            { "point":[2,3,5], "overmap": "bandit_tower_4blc_north"},
+            { "point":[3,3,5], "overmap": "bandit_tower_4brc_north"},
+            
+            
+            { "point":[2,0,-1], "overmap": "bandit_tower_utlc_north"},
+            { "point":[3,0,-1], "overmap": "bandit_tower_utrc_north"},
+            { "point":[2,1,-1], "overmap": "bandit_tower_ublc_north"},
+            { "point":[3,1,-1], "overmap": "bandit_tower_ubrc_north"},
+
+            { "point":[0,2,-1], "overmap": "bandit_tower_utlc_north"},
+            { "point":[1,2,-1], "overmap": "bandit_tower_utrc_north"},
+            { "point":[0,3,-1], "overmap": "bandit_tower_ublc_north"},
+            { "point":[1,3,-1], "overmap": "bandit_tower_ubrc_north"},
+
+            { "point":[2,2,-1], "overmap": "bandit_tower_utlc_north"},
+            { "point":[3,2,-1], "overmap": "bandit_tower_utrc_north"},
+            { "point":[2,3,-1], "overmap": "bandit_tower_ublc_north"},
+            { "point":[3,3,-1], "overmap": "bandit_tower_ubrc_north"}            
+        ],
+        "connections" : [
+            { "point" : [0,-2,0], "terrain" : "road" }
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [1, -1],
+        "city_sizes" : [1, 20],
+        "occurrences" : [0, 1]
+   }
+]
