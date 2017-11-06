@@ -1687,15 +1687,11 @@ void game::cancel_activity()
     u.cancel_activity();
 }
 
-bool game::cancel_activity_or_ignore_query(const char *reason, ...)
+bool game::cancel_activity_or_ignore_query( const std::string &text )
 {
     if( !u.activity ) {
         return false;
     }
-    va_list ap;
-    va_start(ap, reason);
-    const std::string text = vstring_format(reason, ap);
-    va_end(ap);
 
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
                                _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
@@ -1716,13 +1712,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     return false;
 }
 
-bool game::cancel_activity_query(const char *message, ...)
+bool game::cancel_activity_query( const std::string &text )
 {
-    va_list ap;
-    va_start(ap, message);
-    const std::string text = vstring_format(message, ap);
-    va_end(ap);
-
     if( !u.activity ) {
         if (u.has_destination()) {
             add_msg(m_warning, _("%s. Auto-move canceled"), text.c_str());
@@ -1780,7 +1771,7 @@ void game::update_weather()
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
+            cancel_activity_query( string_format( _( "The weather changed to %s!" ), weather_data( weather ).name.c_str() ) );
         }
 
         if (weather != old_weather && u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -1840,8 +1831,8 @@ void game::handle_key_blocking_activity()
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
-            if ( cancel_activity_query(_("You see %s approaching!"),
-                    hostile_critter->disp_name().c_str()) ) {
+            if ( cancel_activity_query( string_format( _( "You see %s approaching!" ),
+                    hostile_critter->disp_name().c_str() ) ) ) {
                 return;
             }
         }
@@ -1851,7 +1842,7 @@ void game::handle_key_blocking_activity()
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
-            cancel_activity_query(_("Confirm:"));
+            cancel_activity_query( _( "Confirm:" ) );
         } else if (action == "player_data") {
             u.disp_info();
             refresh_all();
@@ -5707,7 +5698,7 @@ int game::mon_info(WINDOW *w)
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
                 monster &critter = *new_seen_mon.back();
-                cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                cancel_activity_query( string_format( _( "%s spotted!" ), critter.name().c_str() ) );
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
@@ -5721,10 +5712,10 @@ int game::mon_info(WINDOW *w)
                 }
             } else {
                 //Hostile NPC
-                cancel_activity_query(_("Hostile survivor spotted!"));
+                cancel_activity_query( _( "Hostile survivor spotted!" ) );
             }
         } else {
-            cancel_activity_query(_("Monsters spotted!"));
+            cancel_activity_query( _( "Monsters spotted!" ) );
         }
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
@@ -5980,7 +5971,7 @@ void game::monmove()
             !critter.is_hallucination()) {
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
-                cancel_activity_query(_("Your motion alarm goes off!"));
+                cancel_activity_query( _( "Your motion alarm goes off!" ) );
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }

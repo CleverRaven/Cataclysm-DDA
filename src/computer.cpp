@@ -16,6 +16,7 @@
 #include "event.h"
 #include "trap.h"
 #include "mtype.h"
+#include "string_formatter.h"
 #include "field.h"
 #include "player.h"
 #include "text_snippets.h"
@@ -1421,12 +1422,10 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
     query_any( _( "Press any key to continue..." ) );
 }
 
-bool computer::query_bool(const char *mes, ...)
+template<typename ...Args>
+bool computer::query_bool( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
@@ -1437,23 +1436,19 @@ bool computer::query_bool(const char *mes, ...)
     return (ret == 'y' || ret == 'Y');
 }
 
-bool computer::query_any(const char *mes, ...)
+template<typename ...Args>
+bool computer::query_any( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s", text.c_str());
     inp_mngr.wait_for_any_key();
     return true;
 }
 
-char computer::query_ynq(const char *mes, ...)
+template<typename ...Args>
+char computer::query_ynq( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
@@ -1464,34 +1459,28 @@ char computer::query_ynq(const char *mes, ...)
     return ret;
 }
 
-void computer::print_line(const char *mes, ...)
+template<typename ...Args>
+void computer::print_line( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     wprintz(w_terminal, c_green, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
-void computer::print_error(const char *mes, ...)
+template<typename ...Args>
+void computer::print_error( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     wprintz(w_terminal, c_red, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
-void computer::print_text(const char *mes, ...)
+template<typename ...Args>
+void computer::print_text( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     int y = getcury(w_terminal);
     int w = getmaxx(w_terminal) - 2;
     fold_and_print(w_terminal, y, 1, w, c_green, text);

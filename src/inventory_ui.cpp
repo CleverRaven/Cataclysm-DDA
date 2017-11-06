@@ -1148,7 +1148,7 @@ void inventory_selector::draw_header( WINDOW *w ) const
     if( display_stats ) {
         size_t y = border;
         for( const std::string &elem : get_stats() ) {
-            right_print( w, y++, border + 1, c_dkgray, elem.c_str() );
+            right_print( w, y++, border + 1, c_dkgray, elem );
         }
     }
 }

@@ -79,7 +79,7 @@ void string_input_popup::create_window()
     for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
         mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
     }
-    right_print( w, _starty, w_width - titlesize - 1, title_color, "%s", title_split.back().c_str() );
+    right_print( w, _starty, w_width - titlesize - 1, title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
