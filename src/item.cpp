@@ -4,6 +4,7 @@
 #include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
+#include "enums.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "output.h"

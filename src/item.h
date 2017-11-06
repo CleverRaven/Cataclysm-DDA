@@ -12,7 +12,6 @@
 #include <map>
 
 #include "visitable.h"
-#include "enums.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
@@ -48,11 +47,15 @@ struct use_function;
 class material_type;
 using material_id = string_id<material_type>;
 class item_category;
+enum art_effect_passive : int;
+enum phase_id : int;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+struct point;
+struct tripoint;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
