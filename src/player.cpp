@@ -1913,7 +1913,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost = 100;
         }
     }
-    if( has_trait( trait_BADKNEES ) && movecost > 100 ) {
+    else if( has_trait( trait_BADKNEES ) && movecost > 100 ) {
         movecost *= 1.25f;
         if( movecost < 100 ) {
             movecost = 100;
@@ -1935,10 +1935,10 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_FLEET ) && flatground ) {
         movecost *= .85f;
     }
-    if( has_trait( trait_FLEET2 ) && flatground ) {
+    else if( has_trait( trait_FLEET2 ) && flatground ) {
         movecost *= .7f;
     }
-    if( has_trait( trait_SLOWRUNNER ) && flatground ) {
+    else if( has_trait( trait_SLOWRUNNER ) && flatground ) {
         movecost *= 1.15f;
     }
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
@@ -1947,7 +1947,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_LIGHT_BONES ) ) {
         movecost *= .9f;
     }
-    if( has_trait( trait_HOLLOW_BONES ) ) {
+    else if( has_trait( trait_HOLLOW_BONES ) ) {
         movecost *= .8f;
     }
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -1965,14 +1965,14 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PONDEROUS1 ) ) {
         movecost *= 1.1f;
     }
-    if( has_trait( trait_PONDEROUS2 ) ) {
+    else if( has_trait( trait_PONDEROUS2 ) ) {
         movecost *= 1.2f;
+    }
+    else if( has_trait( trait_PONDEROUS3 ) ) {
+        movecost *= 1.3f;
     }
     if( has_trait( trait_AMORPHOUS ) ) {
         movecost *= 1.25f;
-    }
-    if( has_trait( trait_PONDEROUS3 ) ) {
-        movecost *= 1.3f;
     }
     if( is_wearing( "stillsuit" ) ) {
         movecost *= 1.1f;
