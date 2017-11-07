@@ -208,7 +208,7 @@
     "id": "762_25_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": "7.62x25 casing",
+    "name": "7.62x25mm casing",
     "description": "An empty casing from a 7.62x25mm round.",
     "weight": 4,
     "volume": "7ml"
