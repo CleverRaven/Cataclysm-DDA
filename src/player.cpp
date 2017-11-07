@@ -2812,11 +2812,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_ltred : c_red ) );
 
-        //
         // Draw the speedometer.
-        //
-
-        int speedox = sideStyle ? 0 : 33;
+        int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
         bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
@@ -2841,11 +2838,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
+
+        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
+        wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
         if( veh->velocity != 0 ) {
-            const int offset_from_screen_edge = sideStyle ? 13 : 8;
             nc_color col_indc = veh->skidding ? c_red : c_green;
             int dfm = veh->face.dir() - veh->move.dir();
-            wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - offset_from_screen_edge );
+
             if( dfm == 0 ) {
                 wprintz( w, col_indc, "^" );
             } else if( dfm < 0 ) {
@@ -2853,7 +2852,12 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
+
+            wprintz( w, c_white, " ");
         }
+
+        //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
+        wprintz( w, c_white, string_format( "%3d°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
 
         if( sideStyle ) {
             // Make sure this is left-aligned.
