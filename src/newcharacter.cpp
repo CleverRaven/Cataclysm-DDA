@@ -450,11 +450,23 @@ bool player::create(character_type type, std::string tempname)
         break;
     }
 
+    auto nameExists = [&]( const std::string &name ) {
+        const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode( name ) + ".sav";
+
+        return file_exist( playerfile ) && !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
+                "Saving will override the already existing character.\n\n"
+                "Continue anyways?" ), name ) );
+    };
+
     const bool allow_reroll = type == PLTYPE_RANDOM;
     do {
         if( w == nullptr ) {
             // assert( type == PLTYPE_NOW );
             // no window is created because "Play now"  does not require any configuration
+            if( nameExists( g->u.name ) ) {
+                return false;
+            }
+
             break;
         }
         werase( w );
@@ -499,13 +511,7 @@ bool player::create(character_type type, std::string tempname)
         }
 
         if( !( tab >= 0 && tab <= NEWCHAR_TAB_MAX ) ) {
-            const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sav";
-
-            if( tab != -1 && file_exist( playerfile ) &&
-                !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
-                    "Saving will override the already existing character.\n\n"
-                    "Continue anyways?" ), g->u.name ) ) ) {
-
+            if( tab != -1 && nameExists( g->u.name ) ) {
                 tab = NEWCHAR_TAB_MAX;
             } else {
                 break;
@@ -608,7 +614,8 @@ bool player::create(character_type type, std::string tempname)
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-    return 1;
+
+    return true;
 }
 
 void draw_tabs(WINDOW *w, std::string sTab)
