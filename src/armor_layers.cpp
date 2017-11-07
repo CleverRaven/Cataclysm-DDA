@@ -444,9 +444,9 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    worn.pop_front();
-                    worn.insert( worn.end(), tmp_item );
+                    for( int i = 0; i < tmp_worn.size() - 1; i++ ) {
+                        std::swap( *tmp_worn[i + 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -466,9 +466,9 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    worn.pop_back();
-                    worn.insert( worn.begin(), tmp_item );
+                    for( int i = tmp_worn.size() - 1; i > 0; i-- ) {
+                        std::swap( *tmp_worn[i - 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
