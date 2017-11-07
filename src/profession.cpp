@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <map>
 
 #include "debug.h"
 #include "json.h"
