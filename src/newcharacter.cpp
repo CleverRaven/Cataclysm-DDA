@@ -24,6 +24,7 @@
 #include "crafting.h"
 #include "string_input_popup.h"
 #include "worldfactory.h"
+#include "filesystem.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -496,7 +497,22 @@ bool player::create(character_type type, std::string tempname)
                 tab = -1;
                 break;
         }
-    } while( tab >= 0 && tab <= NEWCHAR_TAB_MAX );
+
+        if( !( tab >= 0 && tab <= NEWCHAR_TAB_MAX ) ) {
+            const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sav";
+
+            if( tab != -1 && file_exist( playerfile ) &&
+                !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
+                    "Saving will override the already existing character.\n\n"
+                    "Continue anyways?" ), g->u.name ) ) ) {
+
+                tab = NEWCHAR_TAB_MAX;
+            } else {
+                break;
+            }
+        }
+
+    } while( true );
     delwin(w);
 
     if( tab < 0 ) {
@@ -1930,7 +1946,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                     col = c_dkgray;
                 } else {
                     col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
-                }                 
+                }
             } else {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
