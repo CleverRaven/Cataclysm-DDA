@@ -4,16 +4,18 @@
 
 #include "string_id.h"
 #include "item_group.h"
-#include "item.h"
 
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
+#include <list>
 
 template<typename T>
 class generic_factory;
 class profession;
+class item;
+using itype_id = std::string;
 class player;
 class JsonArray;
 class JsonObject;
