@@ -10,6 +10,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "addiction.h"
+#include "item_group.h"
 #include "pldata.h"
 #include "itype.h"
 #include "generic_factory.h"

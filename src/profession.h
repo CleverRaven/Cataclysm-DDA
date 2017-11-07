@@ -3,7 +3,6 @@
 #define PROFESSION_H
 
 #include "string_id.h"
-#include "item_group.h"
 
 #include <string>
 #include <vector>
@@ -14,6 +13,7 @@
 template<typename T>
 class generic_factory;
 class profession;
+using Group_tag = std::string;
 class item;
 using itype_id = std::string;
 class player;
