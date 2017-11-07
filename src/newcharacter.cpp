@@ -24,7 +24,6 @@
 #include "crafting.h"
 #include "string_input_popup.h"
 #include "worldfactory.h"
-#include "filesystem.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -451,11 +450,10 @@ bool player::create(character_type type, std::string tempname)
     }
 
     auto nameExists = [&]( const std::string &name ) {
-        const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode( name ) + ".sav";
-
-        return file_exist( playerfile ) && !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
-                "Saving will override the already existing character.\n\n"
-                "Continue anyways?" ), name ) );
+        return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
+                    !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
+                        "Saving will override the already existing character.\n\n"
+                        "Continue anyways?" ), name ) );
     };
 
     const bool allow_reroll = type == PLTYPE_RANDOM;
