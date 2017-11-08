@@ -18,6 +18,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "emit.h"
 #include "scent_map.h"
 
 #include <queue>

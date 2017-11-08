@@ -12,6 +12,7 @@
 #include "npc.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "line.h"
 
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
