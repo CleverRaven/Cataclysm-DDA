@@ -3,7 +3,6 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
-#include "string_id.h"
 #include <vector>
 #include <string>
 
