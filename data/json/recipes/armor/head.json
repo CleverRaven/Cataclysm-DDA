@@ -1403,5 +1403,30 @@
       [ [ "neoprene", 2 ] ],
       [ [ "rag", 2 ] ]
     ]
+  },
+  {
+    "result": "chainmail_hood",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 20000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 }
+    ],
+    "tools": [
+      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
+      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "cordless_drill", 20 ] ]
+    ],
+    "components": [
+      [ [ "link_sheet", 2 ] ],
+      [ [ "link", 50 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
+    ]
   }
 ]
