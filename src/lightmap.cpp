@@ -1067,31 +1067,6 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 }
 
-void map::calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const
-{
-    double rad = (PI * angle) / 180;
-    out.z = p.z;
-    if (trigdist) {
-        out.x = p.x + range * cos(rad);
-        out.y = p.y + range * sin(rad);
-    } else {
-        int mult = 0;
-        if (angle >= 135 && angle <= 315) {
-            mult = -1;
-        } else {
-            mult = 1;
-        }
-
-        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle) {
-            out.x = p.x + range * mult;
-            out.y = p.y + range * tan(rad) * mult;
-        } else {
-            out.x = p.x + range * 1 / tan(rad) * mult;
-            out.y = p.y + range * mult;
-        }
-    }
-}
-
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                           const tripoint &s, const tripoint &e, float luminance)
 {

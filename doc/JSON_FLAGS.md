@@ -425,6 +425,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CAMERA```
 - ```CAMERA_CONTROL```
 - ```CARGO``` Cargo holding area.
+- ```CARGO_LOCKING``` This cargo area is inaccessable to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
@@ -449,6 +450,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
+- ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).

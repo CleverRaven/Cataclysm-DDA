@@ -214,14 +214,14 @@ void Messages::deserialize( JsonObject &json )
     obj.read( "curmes", player_messages.impl_->curmes );
 }
 
-void Messages::vadd_msg( const char *msg, va_list ap )
+void Messages::add_msg( std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ) );
+    player_messages.impl_->add_msg_string( std::move( msg ) );
 }
 
-void Messages::vadd_msg( game_message_type type, const char *msg, va_list ap )
+void Messages::add_msg( const game_message_type type, std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ), type );
+    player_messages.impl_->add_msg_string( std::move( msg ), type );
 }
 
 void Messages::clear_messages()
@@ -336,7 +336,8 @@ void Messages::display_messages()
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
+                right_print( w, line, 2, c_ltblue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                             unit.c_str() ) );
                 lasttime = timepassed.get_turn();
             }
 
@@ -457,18 +458,12 @@ void Messages::display_messages( WINDOW *const ipk_target, int const left, int c
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void add_msg( const char *msg, ... )
+void add_msg( std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( msg, ap );
-    va_end( ap );
+    Messages::add_msg( std::move( msg ) );
 }
 
-void add_msg( game_message_type const type, const char *msg, ... )
+void add_msg( game_message_type const type, std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( type, msg, ap );
-    va_end( ap );
+    Messages::add_msg( type, std::move( msg ) );
 }

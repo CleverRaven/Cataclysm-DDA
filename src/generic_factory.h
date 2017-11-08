@@ -315,7 +315,7 @@ class generic_factory
          */
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
+                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.to_i() );
                 return dummy_obj;
             }
             return list[id];

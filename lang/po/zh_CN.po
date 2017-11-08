@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 18:01+0800\n"
-"PO-Revision-Date: 2017-10-25 01:01+0000\n"
+"POT-Creation-Date: 2017-10-27 19:31+0800\n"
+"PO-Revision-Date: 2017-10-31 03:18+0000\n"
 "Last-Translator: cainiao <cainiaowu@hotmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1034,8 +1034,10 @@ msgid ""
 "lead to VERY slow generation!"
 msgstr "大地图在无法生成必需的特定地点时的最大重试次数。重试次数过高及奇怪的地图生成设置组合将导致地图生成\"非常\"慢。"
 
+#. ~ Mutation class name
 #. ~ allow invalid (bugged, bad) maps without asking user
-#: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
+#: lang/extra/android/options.cpp lang/json/mutation_category_from_json.py
+#: src/creature.cpp src/options.cpp
 msgid "Any"
 msgstr "任意"
 
@@ -1082,9 +1084,9 @@ msgstr "当该世界里最后一个角色死亡后删除世界。"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Size of cities"
-msgstr "城镇规模"
+msgstr "城市规模"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities and roads."
 msgstr "决定城市大小的数值。设置为0将不会生成城市和道路。"
@@ -26785,12 +26787,12 @@ msgstr "一片碎玻璃，边缘锋利。可以拿来戳人，不过还是先戴
 #: lang/json/GENERIC_from_json.py
 msgid "hand mirror"
 msgid_plural "hand mirrors"
-msgstr[0] "手镜"
+msgstr[0] "小镜子"
 
 #. ~ Description for hand mirror
 #: lang/json/GENERIC_from_json.py
 msgid "A small hand mirror."
-msgstr "一块小手镜，妹纸用来看唇彩和后面跟踪的色狼。"
+msgstr "一块手持小镜子，也可以作为反光镜安装在载具上。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sheet of glass"
@@ -58882,7 +58884,7 @@ msgstr "谢谢你，少了他们这个世界会变得清净多了。你不在那
 
 #: lang/json/mission_def_from_json.py
 msgid "Retrieve Prospectus"
-msgstr "找回计划书"
+msgstr "取回建设企划书"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -61459,6 +61461,31 @@ msgstr "呕吐过"
 #: lang/json/morale_type_from_json.py
 msgid "Filthy Gear"
 msgstr "脏衣服"
+
+#. ~ Mutation class: Any mutagen_message
+#: lang/json/mutation_category_from_json.py
+msgid "mutagen message here"
+msgstr "诱变剂相关信息"
+
+#. ~ Mutation class: Any iv_message
+#: lang/json/mutation_category_from_json.py
+msgid "You inject yoursel-arRGH!"
+msgstr "你一针扎进自己的～啊！"
+
+#. ~ Mutation class: Any iv_sleep_message
+#: lang/json/mutation_category_from_json.py
+msgid "You writhe and collapse to the ground."
+msgstr "你挣扎着倒在了地上。"
+
+#. ~ Mutation class: Any iv_sound_message
+#: lang/json/mutation_category_from_json.py
+msgid "You scream in agony!!"
+msgstr "你痛苦的大声尖叫！"
+
+#. ~ Mutation class: Any junkie_message
+#: lang/json/mutation_category_from_json.py src/iuse.cpp
+msgid "You quiver with anticipation..."
+msgstr "你颤抖着期待……"
 
 #. ~ Mutation class name
 #: lang/json/mutation_category_from_json.py lang/json/mutation_from_json.py
@@ -67080,6 +67107,18 @@ msgid "open air"
 msgstr "露天"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "city building"
+msgstr "城市建筑"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mansion"
+msgstr "别墅"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mall"
+msgstr "购物中心"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "crater"
 msgstr "弹坑"
 
@@ -67352,10 +67391,6 @@ msgid "razorclaw nest"
 msgstr "利爪怪巢穴"
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mansion"
-msgstr "别墅"
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "fema camp"
 msgstr "联邦应急管理局营地"
 
@@ -67518,10 +67553,6 @@ msgstr "购物中心（工具区）"
 #: lang/json/overmap_terrain_from_json.py
 msgid "lot"
 msgstr "空地"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mall"
-msgstr "购物中心"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mall - entrance"
@@ -100013,6 +100044,10 @@ msgid "Mutations"
 msgstr "变异"
 
 #: src/init.cpp
+msgid "Mutation Categories"
+msgstr "变异类别"
+
+#: src/init.cpp
 msgid "Overmap locations"
 msgstr "大地图地点"
 
@@ -101808,39 +101843,20 @@ msgstr "奇怪的是，尝着味道还行。"
 msgid "You chew your %s."
 msgstr "你咀嚼你的 %s。"
 
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
-#, c-format
-msgid "The %s sears your insides white-hot, and you collapse to the ground!"
-msgstr "白热的 %s 灼伤了你的内脏，你倒在了地上！"
-
-#: src/iuse.cpp
-msgid "<npcname> writhes in agony and collapses to the ground!"
-msgstr "<npcname> 在痛苦中挣扎着倒在了地上。"
-
-#: src/iuse.cpp
-#, c-format
 msgid ""
-"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
-msgstr "那是些有毒的 %s！我们下次还是专注于马洛斯莓吧，那要安全得多。"
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr "遭受了马洛斯莓/诱变剂的有害反应。"
-
-#: src/iuse.cpp
-msgctxt "memorial_female"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr "遭受了马洛斯莓/诱变剂的有害反应。"
+"After what happened that last time?  uh-uh.  You're not drinking that "
+"chemical stuff."
+msgstr "刚才发生了什么来着……？啊哦，你再也不想喝下那些化学制剂了。"
 
 #: src/iuse.cpp
 msgid "This is a contaminant.  We reject it from the Mycus."
 msgstr "这是一个污染源。我们不能让它接近马卡斯。"
 
 #: src/iuse.cpp
-#, c-format
-msgid "We empty the %s and reflexively dispense spores onto the mess."
-msgstr "我们清空了%s，并且将孢子散布到那里。"
+msgid "We decontaminate it with spores."
+msgstr "我们用孢子清除了感染。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
@@ -101856,11 +101872,14 @@ msgstr "恶意入侵者一名，已摧毁。"
 msgid "We must eliminate this contaminant at the earliest opportunity."
 msgstr "我们必须尽快排除这个污染源。"
 
-#. ~ Recall that Marloss mutations made you feel warmth spreading throughout
-#. your body.  That's gone.
 #: src/iuse.cpp
-msgid "You feel a cold burn inside, as though everything warm has left you."
-msgstr "你感到一股寒气在体内爆发，仿佛世间所有的温暖都离你而去。"
+#, c-format
+msgid "The %s sears your insides white-hot, and you collapse to the ground!"
+msgstr "白热的 %s 灼伤了你的内脏，你倒在了地上！"
+
+#: src/iuse.cpp
+msgid "<npcname> writhes in agony and collapses to the ground!"
+msgstr "<npcname> 在痛苦中挣扎着倒在了地上。"
 
 #: src/iuse.cpp
 msgid ""
@@ -101882,17 +101901,21 @@ msgctxt "memorial_female"
 msgid "Burned out a particularly nasty fungal infestation."
 msgstr "爆发了特别严重的真菌感染。"
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
+#, c-format
 msgid ""
-"After what happened that last time?  uh-uh.  You're not drinking that "
-"chemical stuff."
-msgstr "刚才发生了什么来着……？啊哦，你再也不想喝下那些化学制剂了。"
+"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
+msgstr "那是些有毒的 %s！我们下次还是专注于马洛斯莓吧，那要安全得多。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
-msgid "Consumed mutagen."
-msgstr "服用了诱变剂。"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr "遭受了马洛斯莓/诱变剂的有害反应。"
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr "遭受了马洛斯莓/诱变剂的有害反应。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101900,16 +101923,9 @@ msgid "Consumed mutagen."
 msgstr "服用了诱变剂。"
 
 #: src/iuse.cpp
-msgid "You quiver with anticipation..."
-msgstr "你颤抖着期待……"
-
-#: src/iuse.cpp
-msgid "Oops.  You must've blacked out for a minute there."
-msgstr "呃……你一定是晕过去了一会儿。"
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly collapses!"
-msgstr "<npcname> 突然倒下了！"
+msgctxt "memorial_male"
+msgid "Consumed mutagen."
+msgstr "服用了诱变剂。"
 
 #: src/iuse.cpp
 msgid "You suddenly feel dizzy, and collapse to the ground."
@@ -101927,6 +101943,8 @@ msgstr "有什么东西疯狂的拉扯了一会儿……然后……你……解
 msgid "Your appetite for blood fades."
 msgstr "你对鲜血的渴望消退了。"
 
+#. ~NOPAIN is a post-Threshold trait, so you shouldn't
+#. ~legitimately have it and get here!
 #: src/iuse.cpp
 msgid "You feel extremely Bugged."
 msgstr "你感到游戏极度出错了。（BUG）"
@@ -101936,32 +101954,12 @@ msgid "You stagger with a piercing headache!"
 msgstr "一股剧烈的头痛让你脚步蹒跚！"
 
 #: src/iuse.cpp
-msgid "You feel very Bugged."
-msgstr "你感到游戏非常出错了。（BUG）"
-
-#: src/iuse.cpp
 msgid "Your head throbs with memories of your life, before all this..."
 msgstr "你的脑海回想起往日的生活，在这一切浩劫之前……"
 
 #: src/iuse.cpp
-msgid "You feel Bugged."
-msgstr "你感到游戏出错了。（BUG）"
-
-#: src/iuse.cpp
 msgid "Images of your past life flash before you."
 msgstr "你过往的生活片段在你眼前闪过。"
-
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
-#: src/iuse.cpp
-msgid ""
-"After what happened that last time?  uh-uh.  You're not injecting that "
-"chemical stuff."
-msgstr "刚才发生了什么来着……？啊哦，你再也不想注射那些化学制剂了。"
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Injected mutagen."
-msgstr "注射了诱变剂。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101969,44 +101967,9 @@ msgid "Injected mutagen."
 msgstr "注射了诱变剂。"
 
 #: src/iuse.cpp
-msgid "Oh, yeah! That's the stuff!"
-msgstr "欧耶！就是这玩意！"
-
-#: src/iuse.cpp
-msgid "YES!  YES!  YESSS!!!"
-msgstr "爽！爽！爽！！！"
-
-#: src/iuse.cpp
-msgid "You inject yourself."
-msgstr "你给自己注射了一针。"
-
-#: src/iuse.cpp
-msgid "You inject yoursel-arRGH!"
-msgstr "你一针扎进自己的～啊！"
-
-#: src/iuse.cpp
-msgid "You scream in agony!!"
-msgstr "你痛苦的大声尖叫！"
-
-#: src/iuse.cpp
-msgid "an agonized scream!"
-msgstr "一声痛苦的尖叫！"
-
-#: src/iuse.cpp
-msgid "You writhe and collapse to the ground."
-msgstr "你挣扎着倒在了地上。"
-
-#: src/iuse.cpp
-msgid "<npcname> writhes and collapses to the ground."
-msgstr "<npcname> 挣扎着倒在了地上。"
-
-#: src/iuse.cpp
-msgid "It all goes dark..."
-msgstr "一切……都变得黑暗了……"
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly falls over!"
-msgstr "<npcname> 突然摔倒了！"
+msgctxt "memorial_male"
+msgid "Injected mutagen."
+msgstr "注射了诱变剂。"
 
 #: src/iuse.cpp
 msgid "You feel cleansed."
@@ -102017,22 +101980,22 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr "你觉得体内有些轻微的瘙痒，但它很快消失了。"
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Consumed purifier."
-msgstr "服用了净化剂。"
-
-#: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Consumed purifier."
 msgstr "服用了净化剂。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
+msgid "Consumed purifier."
+msgstr "服用了净化剂。"
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr "注射了净化剂。"
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Injected purifier."
 msgstr "注射了净化剂。"
 
@@ -111217,6 +111180,11 @@ msgid_plural "Scenario %1$s cost %2$d points"
 msgstr[0] "场景 %1$s 消耗 %2$d 点点数"
 
 #: src/newcharacter.cpp
+msgid ""
+"This scenario is not available in this world due to city size settings. "
+msgstr "该场景由于当前世界的城市规模设置而不可用。"
+
+#: src/newcharacter.cpp
 msgid "Professions:"
 msgstr "职业："
 
@@ -114213,6 +114181,12 @@ msgid ""
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
 "provides high-quality scaling."
 msgstr "设置游戏缩放时的插值方式，无（默认）将按照原始分辨率显示，最近像素使用快速但低质量的缩放，线性过滤提供了高质量的缩放。"
+
+#: src/options.cpp
+msgid ""
+"A number determining how large cities are.  0 disables cities, roads and any"
+" scenario requiring a city start."
+msgstr "决定城市大小的数值。设置为 0 时将不会生成城市和道路，同时无法使用任何需要城市建筑作为初始位置的场景。"
 
 #: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."

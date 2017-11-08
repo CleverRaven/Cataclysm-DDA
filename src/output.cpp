@@ -114,17 +114,6 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-// returns number of printed lines
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                    const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return fold_and_print( w, begin_y, begin_x, width, base_color, text );
-}
-
 void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color,
                          const std::string &text )
 {
@@ -145,13 +134,8 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base
 }
 
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... )
+                     const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -191,7 +175,7 @@ void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color ba
             }
         }
     } else {
-        sText = std::move( text );
+        sText = text;
     }
 
     print_colored_text( w, begin_y, begin_x, base_color, base_color, sText );
@@ -235,16 +219,6 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
-}
-
-int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color base_color, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, base_color, text );
 }
 
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
@@ -341,13 +315,8 @@ std::string name_and_value( std::string name, int value, int field_width )
     return name_and_value( name, string_format( "%d", value ), field_width );
 }
 
-void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... )
+void center_print( WINDOW *const w, const int y, const nc_color FG, const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     int window_width = getmaxx( w );
     int string_width = utf8_width( text );
     int x;
@@ -360,13 +329,8 @@ void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... )
 }
 
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... )
+                 const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
     trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
@@ -449,28 +413,6 @@ void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    wattron( w, FG );
-    mvwprintw( w, y, x, "%s", text.c_str() );
-    wattroff( w, FG );
-}
-
-void wprintz( WINDOW *w, nc_color FG, const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    wattron( w, FG );
-    wprintw( w, "%s", text.c_str() );
-    wattroff( w, FG );
-}
-
 void draw_custom_border( WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl,
                          chtype tr, chtype bl, chtype br, nc_color FG, int posy, int height,
                          int posx, int width )
@@ -526,7 +468,7 @@ void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color 
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff( w, border_color );
     if( !title.empty() ) {
-        center_print( w, 0, title_color, title.c_str() );
+        center_print( w, 0, title_color, title );
     }
 }
 
@@ -599,22 +541,8 @@ void draw_tabs( WINDOW *w, int active_tab, ... )
     }
 }
 
-bool query_yn( const char *mes, ... )
+bool query_yn( const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    bool ret = internal_query_yn( mes, ap );
-    va_end( ap );
-    return ret;
-}
-
-// yn to make an immediate selection
-// esc to cancel, returns false
-// enter or space to accept, any other key to toggle
-bool internal_query_yn( const char *mes, va_list ap )
-{
-    const std::string text = vstring_format( mes, ap );
-
     bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     //~ Translation of query answer letters (y mean yes, n - no)
@@ -703,13 +631,8 @@ bool internal_query_yn( const char *mes, va_list ap )
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
-bool query_int( int &result, const char *mes, ... )
+bool query_int( int &result, const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-
     string_input_popup popup;
     popup.title( text );
     popup.text( "" ).only_digits( true );
@@ -719,15 +642,6 @@ bool query_int( int &result, const char *mes, ... )
     }
     result = atoi( popup.text().c_str() );
     return true;
-}
-
-long popup_getkey( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    return popup( text, PF_GET_KEY );
 }
 
 // compatibility stub for uimenu(cancelable, mes, options)
@@ -755,15 +669,6 @@ int menu( bool const cancelable, const char *const mes, ... )
     }
     va_end( ap );
     return ( uimenu( cancelable, mes, options ) );
-}
-
-void popup_top( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_ON_TOP );
 }
 
 static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
@@ -853,25 +758,7 @@ long popup( const std::string &text, PopupFlags flags )
     return ch;
 }
 
-void popup( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_NONE );
-}
-
-void popup_nowait( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_NO_WAIT );
-}
-
-void popup_status( const char *title, const char *msg, ... )
+void popup_status( const char *const title, const std::string &fmt )
 {
     std::string text;
     if( !test_mode && title != nullptr ) {
@@ -879,21 +766,7 @@ void popup_status( const char *title, const char *msg, ... )
         text += "\n";
     }
 
-    va_list ap;
-    va_start( ap, msg );
-    const std::string fmt = vstring_format( msg, ap );
-    va_end( ap );
-
     popup( text + fmt, PF_NO_WAIT );
-}
-
-void full_screen_popup( const char *mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    const std::string text = vstring_format( mes, ap );
-    va_end( ap );
-    popup( text, PF_FULLSCREEN );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
@@ -1623,33 +1496,19 @@ std::string vstring_format( char const *format, va_list args )
 }
 #endif
 
-std::string raw_string_format( const char *pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
-}
-
-std::string vstring_format( std::string const &pattern, va_list argptr )
-{
-    return vstring_format( pattern.c_str(), argptr );
-}
-
 void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", NameGenerator::generator().getName( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", NameGenerator::generator().getName( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", NameGenerator::generator().getName( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
                            false );
     }
 }

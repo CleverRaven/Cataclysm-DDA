@@ -55,8 +55,8 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white, _( "Power: %i/%i" ),
-                                         int( p->power_level ), int( p->max_power_level ) );
+    const int pwr_str_pos = right_print( window, 0, 1, c_white, string_format( _( "Power: %i/%i" ),
+                                         p->power_level, p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );

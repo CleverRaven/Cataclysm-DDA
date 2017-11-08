@@ -23,6 +23,7 @@
 #include "units.h"
 #include "cata_utility.h"
 
+class gun_type_type;
 class gunmod_location;
 class game;
 class Character;
@@ -1587,7 +1588,7 @@ public:
         skill_id gun_skill() const;
 
         /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
-        std::string gun_type() const;
+        gun_type_type gun_type() const;
 
         /**
          * Number of mods that can still be installed into the given mod location,

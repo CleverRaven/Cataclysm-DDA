@@ -18,7 +18,6 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
-#include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
@@ -2482,19 +2481,9 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void player::add_memorial_log( const char *male_msg, const char *female_msg, ... )
+void player::add_memorial_log( const std::string &male_msg, const std::string &female_msg )
 {
-
-    va_list ap;
-
-    va_start( ap, female_msg );
-    std::string msg;
-    if( this->male ) {
-        msg = vstring_format( male_msg, ap );
-    } else {
-        msg = vstring_format( female_msg, ap );
-    }
-    va_end( ap );
+    const std::string &msg = male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
@@ -3786,7 +3775,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query( _( "You were attacked by %s!" ), source->disp_name().c_str() );
+                g->cancel_activity_query( string_format( _( "You were attacked by %s!" ), source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_query( _( "You were hurt!" ) );
             }
@@ -4783,7 +4772,7 @@ void player::update_needs( int rate_multiplier )
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
         } else {
-            g->cancel_activity_query(_("You're feeling tired."));
+            g->cancel_activity_query( _( "You're feeling tired." ) );
         }
     }
 
@@ -5710,7 +5699,7 @@ void player::suffer()
         } else {
             add_effect( effect_asthma, 50 * rng( 1, 4 ) );
             if (!is_npc()) {
-                g->cancel_activity_query(_("You have an asthma attack!"));
+                g->cancel_activity_query( _( "You have an asthma attack!" ) );
             }
         }
     }
@@ -7368,12 +7357,14 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
             const std::function<std::string( int )> draw_row;
             int last_key;
             const int default_to;
+            const bool can_partial_reload;
 
             reload_callback( std::vector<item::reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
-                             int _last_key, int _default_to ) :
+                             int _last_key, int _default_to, bool _can_partial_reload ) :
                            opts( _opts ), draw_row( _draw_row ),
-                           last_key( _last_key ), default_to( _default_to )
+                           last_key( _last_key ), default_to( _default_to ),
+                           can_partial_reload( _can_partial_reload )
             {}
 
             bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
@@ -7390,18 +7381,22 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                 auto &sel = opts[ idx ];
                 switch( cur_key ) {
                     case KEY_LEFT:
-                        sel.qty( sel.qty() - 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() - 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
 
                     case KEY_RIGHT:
-                        sel.qty( sel.qty() + 1 );
-                        menu->entries[ idx ].txt = draw_row( idx );
+                        if ( can_partial_reload ) {
+                            sel.qty( sel.qty() + 1 );
+                            menu->entries[ idx ].txt = draw_row( idx );
+                        }
                         return true;
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
     menu.callback = &cb;
 
     menu.query();
@@ -11244,49 +11239,34 @@ nc_color player::bodytemp_color(int bp) const
 }
 
 //message related stuff
-void player::add_msg_if_player(const char* msg, ...) const
+void player::add_msg_if_player( const std::string &msg ) const
 {
-    va_list ap;
-    va_start(ap, msg);
-    Messages::vadd_msg(msg, ap);
-    va_end(ap);
-}
-void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const
-{
-    va_list ap;
-    va_start(ap, npc_str);
-    Messages::vadd_msg(player_str, ap);
-    va_end(ap);
-}
-void player::add_msg_if_player(game_message_type type, const char* msg, ...) const
-{
-    va_list ap;
-    va_start(ap, msg);
-    Messages::vadd_msg(type, msg, ap);
-    va_end(ap);
-}
-void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const
-{
-    va_list ap;
-    va_start(ap, npc_str);
-    Messages::vadd_msg(type, player_str, ap);
-    va_end(ap);
+    Messages::add_msg( msg );
 }
 
-void player::add_msg_player_or_say( const char *player_str, const char *npc_str, ... ) const
+void player::add_msg_player_or_npc( const std::string &player_msg, const std::string &/*npc_msg*/ ) const
 {
-    va_list ap;
-    va_start( ap, npc_str );
-    Messages::vadd_msg( player_str, ap );
-    va_end(ap);
+    Messages::add_msg( player_msg );
 }
 
-void player::add_msg_player_or_say( game_message_type type, const char *player_str, const char *npc_str, ... ) const
+void player::add_msg_if_player( const game_message_type type, const std::string &msg ) const
 {
-    va_list ap;
-    va_start( ap, npc_str );
-    Messages::vadd_msg( type, player_str, ap );
-    va_end(ap);
+    Messages::add_msg( type, msg );
+}
+
+void player::add_msg_player_or_npc( const game_message_type type, const std::string &player_msg, const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg( type, player_msg );
+}
+
+void player::add_msg_player_or_say( const std::string &player_msg, const std::string &/*npc_speech*/ ) const
+{
+    Messages::add_msg( player_msg );
+}
+
+void player::add_msg_player_or_say( const game_message_type type, const std::string &player_msg, const std::string &/*npc_speech*/ ) const
+{
+    Messages::add_msg( type, player_msg );
 }
 
 bool player::knows_trap( const tripoint &pos ) const
@@ -11691,13 +11671,9 @@ std::vector<mission*> player::get_failed_missions() const
     return failed_missions;
 }
 
-bool player::query_yn( const char *mes, ... ) const
+bool player::query_yn( const std::string &mes ) const
 {
-    va_list ap;
-    va_start( ap, mes );
-    bool ret = internal_query_yn( mes, ap );
-    va_end( ap );
-    return ret;
+    return ::query_yn( "%s", mes.c_str() );
 }
 
 const pathfinding_settings &player::get_pathfinding_settings() const

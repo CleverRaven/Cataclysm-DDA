@@ -1179,18 +1179,6 @@ const vehicle* map::veh_at( const tripoint &p ) const
     return veh_at( p, part );
 }
 
-point map::veh_part_coordinates( const tripoint &p )
-{
-    int part_num = 0;
-    vehicle* veh = veh_at( p, part_num );
-
-    if(veh == nullptr) {
-        return point( 0,0 );
-    }
-
-    return veh->parts[part_num].mount;
-}
-
 void map::board_vehicle( const tripoint &pos, player *p )
 {
     if( p == nullptr ) {

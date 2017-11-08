@@ -693,3 +693,28 @@ rl_vec3d rl_vec3d::operator/ (const float rhs)
     ret.z = z / rhs;
     return ret;
 }
+
+void calc_ray_end( const int angle, const int range, const tripoint &p, tripoint &out )
+{
+    const double rad = DEGREES( angle );
+    out.z = p.z;
+    if( trigdist ) {
+        out.x = p.x + range * cos( rad );
+        out.y = p.y + range * sin( rad );
+    } else {
+        int mult = 0;
+        if( angle >= 135 && angle <= 315 ) {
+            mult = -1;
+        } else {
+            mult = 1;
+        }
+
+        if( angle <= 45 || ( 135 <= angle && angle <= 215 ) || 315 < angle ) {
+            out.x = p.x + range * mult;
+            out.y = p.y + range * tan( rad ) * mult;
+        } else {
+            out.x = p.x + range * 1 / tan( rad ) * mult;
+            out.y = p.y + range * mult;
+        }
+    }
+}

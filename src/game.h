@@ -468,10 +468,10 @@ class game
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query(const char *message, ...);
+        bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query(const char *reason, ...);
+        bool cancel_activity_or_ignore_query( const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -908,6 +908,7 @@ class game
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false );
         void mend( int pos = INT_MIN );
         void autoattack();
 public:

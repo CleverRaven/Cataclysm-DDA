@@ -5254,7 +5254,8 @@
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
     {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1}
+    {"id":"WRENCH","level":1},
+    {"id":"GLARE","level":2}
   ], "tools": [
     [
       [ "welder", 100 ],
