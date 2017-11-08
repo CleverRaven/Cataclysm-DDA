@@ -954,7 +954,7 @@
         "type" : "AMMO",
         "id" : "link",
         "category" : "spare_parts",
-        "price" : 500,
+        "price" : 150,
         "name" : "chain link",
         "symbol" : "=",
         "color" : "light_gray",
@@ -963,6 +963,6 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "components",
-        "count" : 500
+        "count" : 150
     }
 ]
