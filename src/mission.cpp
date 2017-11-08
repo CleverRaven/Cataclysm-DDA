@@ -456,7 +456,7 @@ std::string mission::name()
     if (type == NULL) {
         return "NULL";
     }
-    return type->name;
+    return _( type->name );
 }
 
 mission_type_id mission::mission_id()
