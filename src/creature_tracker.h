@@ -9,6 +9,8 @@
 #include <unordered_map>
 
 class monster;
+class JsonIn;
+class JsonOut;
 
 class Creature_tracker
 {
@@ -40,7 +42,6 @@ class Creature_tracker
         void remove( const monster &critter );
         void clear();
         void rebuild_cache();
-        const std::vector<monster> &list() const;
         /** Swaps the positions of two monsters */
         void swap_positions( monster &first, monster &second );
         /** Kills 0 hp monsters. Returns if it killed any. */
@@ -51,6 +52,9 @@ class Creature_tracker
         const std::vector<std::shared_ptr<monster>> &get_monsters_list() const {
             return monsters_list;
         }
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;

@@ -173,16 +173,6 @@ void Creature_tracker::rebuild_cache()
     }
 }
 
-const std::vector<monster> &Creature_tracker::list() const
-{
-    static std::vector<monster> for_now;
-    for_now.clear();
-    for( const auto monster_ptr : monsters_list ) {
-        for_now.push_back( *monster_ptr );
-    }
-    return for_now;
-}
-
 void Creature_tracker::swap_positions( monster &first, monster &second )
 {
     if( first.pos() == second.pos() ) {
