@@ -949,5 +949,20 @@
         "range" : 4,
         "count" : 100,
         "effects" : [ "TOXICGAS", "NEVER_MISFIRES" , "JET"]
+    },
+    {
+        "type" : "AMMO",
+        "id" : "link",
+        "category" : "spare_parts",
+        "price" : 500,
+        "name" : "chain link",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "description" : "Small metal rings, like what chainmail is made of.",
+        "material" : "iron",
+        "volume" : 1,
+        "weight" : 1,
+        "ammo_type" : "components",
+        "count" : 500
     }
 ]
