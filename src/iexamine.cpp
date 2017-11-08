@@ -3400,7 +3400,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
         amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
-        amenu.addentry( 0, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
+        amenu.addentry( 0, true, static_cast<long>( 'q' ), str_to_illiterate_str( _( "Cancel" ) ) );
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i + 1, true, -1,

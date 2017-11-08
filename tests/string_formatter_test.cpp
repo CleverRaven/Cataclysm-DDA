@@ -1,10 +1,21 @@
 #include "catch/catch.hpp"
 
 #include "string_formatter.h"
+#include "output.h"
 
 #include <limits>
 #include <iostream>
 #include <vector>
+#include <cstdarg>
+
+static std::string raw_string_format( const char *const pattern, ... )
+{
+    va_list ap;
+    va_start( ap, pattern );
+    std::string result = vstring_format( pattern, ap );
+    va_end( ap );
+    return result;
+}
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>
@@ -87,6 +98,16 @@ void test_typed_printf( const char *const old_pattern, const char *const new_pat
     test_new_old_pattern( old_pattern, new_pattern, std::numeric_limits<T>::max() );
 }
 
+template<typename T>
+void mingw_test( const char *const old_pattern, const char *const new_pattern, const T &value )
+{
+    CAPTURE( old_pattern );
+    CAPTURE( new_pattern );
+    std::string original_result = raw_string_format( old_pattern, value );
+    std::string new_result = throwing_string_format( new_pattern, value );
+    CHECK( original_result == new_result );
+}
+
 TEST_CASE( "string_formatter" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );
@@ -98,18 +119,34 @@ TEST_CASE( "string_formatter" )
     test_typed_printf<signed int>( "%i", nullptr );
     test_typed_printf<unsigned int>( "%u", nullptr );
 
+
+#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
+    mingw_test( "%I32i", "%i", std::numeric_limits<signed long int>::max() );
+    mingw_test( "%I32u", "%u", std::numeric_limits<unsigned long int>::max() );
+#else
     test_typed_printf<signed long int>( "%li", "%i" );
     test_typed_printf<unsigned long int>( "%lu", "%u" );
+#endif
 
+#if !defined(__USE_MINGW_ANSI_STDIO) && (!defined(__MINGW32__) && defined(__MINGW64__))
+    mingw_test( "%I64i", "%i", std::numeric_limits<signed long long int>::max() );
+    mingw_test( "%I64u", "%u", std::numeric_limits<unsigned long long int>::max() );
+#else
     test_typed_printf<signed long long int>( "%lli", "%i" );
     test_typed_printf<unsigned long long int>( "%llu", "%u" );
+#endif
 
     test_typed_printf<float>( "%f", "%f" );
     test_typed_printf<double>( "%f", "%f" );
 
     // format string with width and precision
     test_new_old_pattern( "%-*.*f", nullptr, 4, 7, 100.44 );
-    test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
+
+    // sprintf of some systems doesn't support the 'N$' syntax, if it's
+    // not supported, the result is either empty, or the input string
+    if( raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
+        test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
+    }
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4 ) );
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4, 5 ) );

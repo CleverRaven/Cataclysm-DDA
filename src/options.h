@@ -75,6 +75,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 std::string getDefaultText( const bool bTranslated = true ) const;
 
                 int getItemPos( const std::string sSearch ) const;
+                std::vector<std::pair<std::string, std::string>> getItems() const;
 
                 int getMaxLength() const;
 

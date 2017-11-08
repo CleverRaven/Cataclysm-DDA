@@ -33,9 +33,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 18:01+0800\n"
-"PO-Revision-Date: 2017-10-27 09:32+0000\n"
-"Last-Translator: fenjo <fenjo1@gmail.com>\n"
+"POT-Creation-Date: 2017-10-27 19:31+0800\n"
+"PO-Revision-Date: 2017-11-04 00:10+0000\n"
+"Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1033,8 +1033,10 @@ msgid ""
 "lead to VERY slow generation!"
 msgstr "오버맵 생성시 필수 특수 지역의 배치를 실패하는 경우의 최대 횟수를 설정합니다. 높은 수를 설정하고 맵 설정이 특이한 경우 맵 생성이 매우! 느려집니다!"
 
+#. ~ Mutation class name
 #. ~ allow invalid (bugged, bad) maps without asking user
-#: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
+#: lang/extra/android/options.cpp lang/json/mutation_category_from_json.py
+#: src/creature.cpp src/options.cpp
 msgid "Any"
 msgstr "허용"
 
@@ -1083,7 +1085,7 @@ msgstr "플레이 중인 마지막 캐릭터가 죽으면, 세계를 삭제합�
 msgid "Size of cities"
 msgstr "도시 크기"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities and roads."
 msgstr "거대 도시의 개수 설정. 0 으로 설정하면 도시와 도로를 없앱니다."
@@ -3129,13 +3131,13 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "wood ash"
 msgid_plural "wood ashes"
-msgstr[0] ""
+msgstr[0] "나무 재"
 
 #. ~ Description for wood ash
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This is almost weightless residue left after the burning of some substance."
-msgstr ""
+msgstr "이것은 물질이 불에 타고 남은 가벼운 잔류물입니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "fungal seed"
@@ -4017,7 +4019,7 @@ msgstr "소량의 폭발물과 살상력을 발휘하는 파편이 들어있는 
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
 msgid_plural "40mm incendiaries"
-msgstr[0] ""
+msgstr[0] "40mm 소이탄"
 
 #. ~ Description for 40mm incendiary
 #: lang/json/AMMO_from_json.py
@@ -7242,17 +7244,17 @@ msgstr "폭신폭신한 양모로 만든 목도리. 두툼하게 멋진 것이 �
 #: lang/json/ARMOR_from_json.py
 msgid "golden crown"
 msgid_plural "golden crowns"
-msgstr[0] ""
+msgstr[0] "황금 왕관"
 
 #. ~ Description for golden crown
 #: lang/json/ARMOR_from_json.py
 msgid "A delicate golden crown featuring flowering trees."
-msgstr ""
+msgstr "마치 꽃이 만발한 나무처럼 생긴 섬세한 황금빛 왕관."
 
 #. ~ Description for golden crown
 #: lang/json/ARMOR_from_json.py
 msgid "A golden crown for the monarch of survivors."
-msgstr ""
+msgstr "생존자들의 군주를 위한 황금 왕관. "
 
 #: lang/json/ARMOR_from_json.py
 msgid "cuirass"
@@ -17858,7 +17860,7 @@ msgstr "런천 미트의 일종으로, 인육으로 만들어졌으며 잘라진
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plant marrow"
-msgstr "긴 호박"
+msgstr "식물 알맹이"
 
 #. ~ Description for plant marrow
 #: lang/json/COMESTIBLE_from_json.py
@@ -18238,7 +18240,7 @@ msgstr "비스킷, 고기, 그리고 맛있는 버섯 수프까지 모두 가득
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked plant marrow"
-msgstr "긴 호박(요리)"
+msgstr "식물 알맹이(요리)"
 
 #. ~ Description for cooked plant marrow
 #: lang/json/COMESTIBLE_from_json.py
@@ -25060,12 +25062,12 @@ msgstr[0] "3L 유리통"
 #. ~ Description for 3L glass jar
 #: lang/json/CONTAINER_from_json.py
 msgid "A three-liter glass jar with a metal screw top lid, used for canning."
-msgstr "금속 뚜껑이 달린 3리터 용량의 유리병. 주로 통조림에 사용됩니다."
+msgstr "금속 뚜껑이 달린 3리터 용량의 유리통. 주로 통조림에 사용됩니다."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed 3L glass jar"
 msgid_plural "sealed 3L glass jars"
-msgstr[0] "밀봉 3L 유리병"
+msgstr[0] "밀봉 3L 유리통"
 
 #. ~ Description for sealed 3L glass jar
 #: lang/json/CONTAINER_from_json.py
@@ -25292,12 +25294,12 @@ msgstr "기체나 액체를 담을 수 있는 작은 금속 탱크. 제작에 �
 #: lang/json/CONTAINER_from_json.py
 msgid "hazardous waste drum"
 msgid_plural "hazardous waste drums"
-msgstr[0] ""
+msgstr[0] "유해 폐기물 보관통"
 
 #. ~ Description for hazardous waste drum
 #: lang/json/CONTAINER_from_json.py
 msgid "A yellow drum meant for the storage of hazardous substances."
-msgstr ""
+msgstr "유해 폐기물을 저장할 때 쓰이는 노란색 원형 드럼통."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel bottle"
@@ -29018,7 +29020,7 @@ msgstr[0] ""
 #. ~ Use action menu_text for sealed jar of sauerkraut.
 #: lang/json/GENERIC_from_json.py
 msgid "Open jar"
-msgstr ""
+msgstr "유리통 열기"
 
 #. ~ Use action msg for sealed jar of pickles.
 #. ~ Use action msg for sealed jar of sauerkraut.
@@ -33102,7 +33104,7 @@ msgstr "블롭이 느리게 전류를 생성하는 능력을 얻도록 진화한
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "AF2011A1 magazine"
-msgstr ""
+msgstr "AF2011A1 탄창"
 
 #. ~ Description for AF2011A1 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -33111,12 +33113,12 @@ msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M1991A1 .38 Super magazine"
-msgstr ""
+msgstr "M1991A1 .38 Super 탄창"
 
 #. ~ Description for M1991A1 .38 Super magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 9-round magazine for the M1991A1 .38 Super pistol."
-msgstr ""
+msgstr "M1991A1 .38 super 권총에 사용되는 9발들이 탄창"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Saiga-410 box magazine"
@@ -33278,12 +33280,12 @@ msgstr "기사, 군단병 등이 되고 싶은 사람을 위한 여러 가지 �
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "More Buildings"
-msgstr ""
+msgstr "더 많은 건물"
 
 #. ~ Description for More Buildings
 #: lang/json/MOD_INFO_from_json.py
 msgid "Adds more buildings to game."
-msgstr ""
+msgstr "더 많은 건물을 추가합니다."
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "More Locations"
@@ -61459,6 +61461,31 @@ msgstr "메스꺼움"
 msgid "Filthy Gear"
 msgstr "불결한 장비"
 
+#. ~ Mutation class: Any mutagen_message
+#: lang/json/mutation_category_from_json.py
+msgid "mutagen message here"
+msgstr ""
+
+#. ~ Mutation class: Any iv_message
+#: lang/json/mutation_category_from_json.py
+msgid "You inject yoursel-arRGH!"
+msgstr "스스로 주사했-아악!"
+
+#. ~ Mutation class: Any iv_sleep_message
+#: lang/json/mutation_category_from_json.py
+msgid "You writhe and collapse to the ground."
+msgstr "고통에 몸부림치며 쓰러졌다."
+
+#. ~ Mutation class: Any iv_sound_message
+#: lang/json/mutation_category_from_json.py
+msgid "You scream in agony!!"
+msgstr "고통에 찬 비명을 질렀다!!"
+
+#. ~ Mutation class: Any junkie_message
+#: lang/json/mutation_category_from_json.py src/iuse.cpp
+msgid "You quiver with anticipation..."
+msgstr "기대감으로 인해 몸이 떨린다."
+
 #. ~ Mutation class name
 #: lang/json/mutation_category_from_json.py lang/json/mutation_from_json.py
 msgid "Plant"
@@ -67079,6 +67106,18 @@ msgid "open air"
 msgstr "허공"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "city building"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mansion"
+msgstr "대저택"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mall"
+msgstr "쇼핑몰"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "crater"
 msgstr "크레이터"
 
@@ -67351,10 +67390,6 @@ msgid "razorclaw nest"
 msgstr "레이저클로 둥지"
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mansion"
-msgstr "대저택"
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "fema camp"
 msgstr "미 연방재난관리청 캠프"
 
@@ -67517,10 +67552,6 @@ msgstr "쇼핑몰-유틸리티"
 #: lang/json/overmap_terrain_from_json.py
 msgid "lot"
 msgstr "주차부지"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mall"
-msgstr "쇼핑몰"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mall - entrance"
@@ -80144,7 +80175,7 @@ msgid ""
 "Well mostly no.  Just don't go around robbing others and starting fights and"
 " you will be all set.  Also, don't go into the basement.  Outsiders are not "
 "allowed in there."
-msgstr ""
+msgstr "글쎄 거의 없어. 단지 다른 사람들의 물건을 훔치거나 먼저 싸움 걸지 마. 안 그러면 너는 벌을 받게 될 거야. 또한, 지하실에 가지 마. 외부인들은 거기에 들어갈 수 없어."
 
 #: lang/json/talk_topic_from_json.py
 msgid "Ok, thanks."
@@ -80152,7 +80183,7 @@ msgstr "좋아, 고마워."
 
 #: lang/json/talk_topic_from_json.py
 msgid "So uhhh, why not?"
-msgstr ""
+msgstr "어.... 왜?"
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -80160,7 +80191,7 @@ msgid ""
 "zombie.  We had to expel the refugees and most of our surviving group now "
 "stays to the basement to prevent it from happening again.  Unless you really"
 " prove your worth I don't foresee any exceptions to that rule."
-msgstr ""
+msgstr "요약해서, 우리는 병든 난민이 죽어 좀비가 되어버리는 상황이 발생한 적이 있었어. 우리는 난민들을 추방해야 했고, 살아남은 사람들 대부분은 만약에 대비해 지하에 가두어야만 했어. 만약에 규칙을 잘 지키지 않는다면 나는 어떤 예외라도 없이 규칙대로 처벌할 거야."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -80379,7 +80410,7 @@ msgstr "솔직히 말하자면, 우리는 아이들 교육에 적극적인 부�
 
 #: lang/json/talk_topic_from_json.py
 msgid "It's just as bad out here, if not worse."
-msgstr ""
+msgstr "바깥이라고 낫지도 않지만 말이지."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -85259,19 +85290,19 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "TEC-9 turret"
-msgstr ""
+msgstr "TEC-9 터렛"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "automated TEC-9"
-msgstr ""
+msgstr "자동화 TEC-9"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "Uzi turret"
-msgstr ""
+msgstr "Uzi 터렛"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "automated Uzi"
-msgstr ""
+msgstr "자동화 Uzi"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "V29 laser turret"
@@ -88841,7 +88872,7 @@ msgstr ""
 
 #: src/cata_utility.cpp
 msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
-msgstr ""
+msgstr "유일하게 아무나 트롤을 저질러도 용서가 되는 문장. 아무나 여기서 낙서를 할 수 있다. "
 
 #: src/catalua.cpp src/player.cpp
 #, c-format
@@ -100012,6 +100043,10 @@ msgid "Mutations"
 msgstr ""
 
 #: src/init.cpp
+msgid "Mutation Categories"
+msgstr ""
+
+#: src/init.cpp
 msgid "Overmap locations"
 msgstr ""
 
@@ -101807,38 +101842,19 @@ msgstr ""
 msgid "You chew your %s."
 msgstr "%s을(를) 씹었다."
 
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
-#, c-format
-msgid "The %s sears your insides white-hot, and you collapse to the ground!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "<npcname> writhes in agony and collapses to the ground!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
 msgid ""
-"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
-msgstr ""
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr ""
-
-#: src/iuse.cpp
-msgctxt "memorial_female"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr ""
+"After what happened that last time?  uh-uh.  You're not drinking that "
+"chemical stuff."
+msgstr "그 일이 있고 나서 뭐가 어떻게 된 거야? 안돼. 저 화학약품은 마시지 않을거야."
 
 #: src/iuse.cpp
 msgid "This is a contaminant.  We reject it from the Mycus."
 msgstr "이것은 오염물질이다."
 
 #: src/iuse.cpp
-#, c-format
-msgid "We empty the %s and reflexively dispense spores onto the mess."
+msgid "We decontaminate it with spores."
 msgstr ""
 
 #: src/iuse.cpp
@@ -101855,10 +101871,13 @@ msgstr ""
 msgid "We must eliminate this contaminant at the earliest opportunity."
 msgstr ""
 
-#. ~ Recall that Marloss mutations made you feel warmth spreading throughout
-#. your body.  That's gone.
 #: src/iuse.cpp
-msgid "You feel a cold burn inside, as though everything warm has left you."
+#, c-format
+msgid "The %s sears your insides white-hot, and you collapse to the ground!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<npcname> writhes in agony and collapses to the ground!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -101881,17 +101900,21 @@ msgctxt "memorial_female"
 msgid "Burned out a particularly nasty fungal infestation."
 msgstr ""
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
+#, c-format
 msgid ""
-"After what happened that last time?  uh-uh.  You're not drinking that "
-"chemical stuff."
-msgstr "그 일이 있고 나서 뭐가 어떻게 된 거야? 안돼. 저 화학약품은 마시지 않을거야."
+"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
+msgstr ""
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
-msgid "Consumed mutagen."
-msgstr "뮤타젠을 섭취했다."
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr ""
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101899,16 +101922,9 @@ msgid "Consumed mutagen."
 msgstr "뮤타젠을 섭취했다."
 
 #: src/iuse.cpp
-msgid "You quiver with anticipation..."
-msgstr "기대감으로 인해 몸이 떨린다."
-
-#: src/iuse.cpp
-msgid "Oops.  You must've blacked out for a minute there."
-msgstr "이런. 잠깐 정신을 잃었던 것 같다."
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly collapses!"
-msgstr "<npcname>이(가) 갑자기 쓰러졌다!"
+msgctxt "memorial_male"
+msgid "Consumed mutagen."
+msgstr "뮤타젠을 섭취했다."
 
 #: src/iuse.cpp
 msgid "You suddenly feel dizzy, and collapse to the ground."
@@ -101926,6 +101942,8 @@ msgstr "순간적으로 무언가 강력한 압박감을 느꼈지만...해방�
 msgid "Your appetite for blood fades."
 msgstr "피에 대한 욕구가 점점 희미해진다."
 
+#. ~NOPAIN is a post-Threshold trait, so you shouldn't
+#. ~legitimately have it and get here!
 #: src/iuse.cpp
 msgid "You feel extremely Bugged."
 msgstr "무언가 심각하게 잘못된것 같다."
@@ -101935,32 +101953,12 @@ msgid "You stagger with a piercing headache!"
 msgstr "머리를 꿰뚫는 두통 때문에 휘청였다!"
 
 #: src/iuse.cpp
-msgid "You feel very Bugged."
-msgstr "뭔가 크게 잘못된것 같다."
-
-#: src/iuse.cpp
 msgid "Your head throbs with memories of your life, before all this..."
 msgstr "머리가 지끈거리며 주마등이 보인다. 이 모든 것이 시작되기 전의 기억이..."
 
 #: src/iuse.cpp
-msgid "You feel Bugged."
-msgstr "무언가 잘못되었다는 것을 느꼈다."
-
-#: src/iuse.cpp
 msgid "Images of your past life flash before you."
 msgstr "자신의 과거 모습이 보였다가 순식간에 사라졌다."
-
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
-#: src/iuse.cpp
-msgid ""
-"After what happened that last time?  uh-uh.  You're not injecting that "
-"chemical stuff."
-msgstr "지난번에 무슨일이 있었지? 안돼. 저 화학약품은 주사 하지 않을거야."
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Injected mutagen."
-msgstr "뮤타젠을 주입했다."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101968,44 +101966,9 @@ msgid "Injected mutagen."
 msgstr "뮤타젠을 주입했다."
 
 #: src/iuse.cpp
-msgid "Oh, yeah! That's the stuff!"
-msgstr "오, 그래! 바로 이거야!"
-
-#: src/iuse.cpp
-msgid "YES!  YES!  YESSS!!!"
-msgstr "그래! 좋아! 좋았어어어!"
-
-#: src/iuse.cpp
-msgid "You inject yourself."
-msgstr "주사했다."
-
-#: src/iuse.cpp
-msgid "You inject yoursel-arRGH!"
-msgstr "스스로 주사했-아악!"
-
-#: src/iuse.cpp
-msgid "You scream in agony!!"
-msgstr "고통에 찬 비명을 질렀다!!"
-
-#: src/iuse.cpp
-msgid "an agonized scream!"
-msgstr "고통의 비명을 질렀다!"
-
-#: src/iuse.cpp
-msgid "You writhe and collapse to the ground."
-msgstr "고통에 몸부림치며 쓰러졌다."
-
-#: src/iuse.cpp
-msgid "<npcname> writhes and collapses to the ground."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "It all goes dark..."
-msgstr "완전히 깜깜해집니다..."
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly falls over!"
-msgstr ""
+msgctxt "memorial_male"
+msgid "Injected mutagen."
+msgstr "뮤타젠을 주입했다."
 
 #: src/iuse.cpp
 msgid "You feel cleansed."
@@ -102016,22 +101979,22 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr "조금 간질거렸지만, 금세 사라졌다."
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Consumed purifier."
-msgstr "정화제를 섭취했다."
-
-#: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Consumed purifier."
 msgstr "정화제를 섭취했다."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
+msgid "Consumed purifier."
+msgstr "정화제를 섭취했다."
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr "정화제를 주입했다."
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Injected purifier."
 msgstr "정화제를 주입했다."
 
@@ -111216,6 +111179,11 @@ msgid_plural "Scenario %1$s cost %2$d points"
 msgstr[0] "시나리오 %1$s 선택시 %2$d 포인트 소모"
 
 #: src/newcharacter.cpp
+msgid ""
+"This scenario is not available in this world due to city size settings. "
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "Professions:"
 msgstr "직업:"
 
@@ -112226,7 +112194,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Hope you're here to trade."
-msgstr ""
+msgstr "너가 거래할 목적으로 왔으면 좋겠는데."
 
 #: src/npctalk.cpp
 msgid ""
@@ -112235,7 +112203,7 @@ msgid ""
 "  I manage what we have left and do everything I can to increase our "
 "supplies.  Rot and mold are more significant in the damp basement so I "
 "prioritize non-perishable food, such as cornmeal, jerky, and fruit wine."
-msgstr ""
+msgstr "나는 식량을 관리하는 일을 맡고 있어. 우리가 여기에 처음 정착해서 어수선할 때 수많은 약탈이 일어나서 많은 음식을 빼앗겼어. 나는 남은 음식을 관리하고, 또 생필품을 얻을 수 있는 일은 모두 다 했어. 습기가 많은 곳에서는 곰팡이나 부패가 생기지 않게 해야되기 때문에 옥수수 가루, 육포, 과일주 같은 부패하지 않는 음식만 우선으로 보관하고 있어."
 
 #: src/npctalk.cpp
 msgid ""
@@ -112245,14 +112213,14 @@ msgid ""
 "always need more suppliers though.  Because this stuff is rather cheap in "
 "bulk I can pay a premium for any you have on you.  Canned food and other "
 "edibles are handled by the merchant in the front."
-msgstr ""
+msgstr "내가 말한 3가지 전부 쉽게 대량으로 생산할 수 있고 잘 상하지도 않거든. 우리한테는 영양이 풍부한 식재료를 제공하는 농부와 사냥꾼이 있어. 우리는 항상 더 많이 식재료를 공급해주는 사람이 필요해. 농부나 사냥꾼이 제공하는 식재료는 대량으로 비교적 싼 물건이기 때문에 네가 가진 물건을 좀 더 비싸게 사 줄 수도 있어. 통조림과 다른 음식들은 입구 쪽에 있는 상인이 팔고 있을 거야."
 
 #: src/npctalk.cpp
 msgid ""
 "I'm actually accepting a number of different foodstuffs: beer, sugar, flour,"
 " smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, "
 "cornmeal, and fruit wine."
-msgstr ""
+msgstr "사실 난 술, 설탕, 밀가루, 훈제 고기, 훈제 생선, 식용유를 받고 전에 말했다시피 육포,옥수수 가루, 과일주만 받고 있어."
 
 #: src/npctalk.cpp
 msgid "Pleasure doing business!"
@@ -113178,7 +113146,7 @@ msgstr "왜 옥수수 가루, 육포, 과일주가 필요한데?"
 
 #: src/npctalk.cpp
 msgid "Are you looking to buy anything else?"
-msgstr ""
+msgstr "혹시 나한테서 구매하고 싶은 것이 있니?"
 
 #: src/npctalk.cpp
 msgid "Very well..."
@@ -114211,6 +114179,12 @@ msgid ""
 "Sets the scaling mode, 'none' ( default ) displays at the game's native "
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
 "provides high-quality scaling."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"A number determining how large cities are.  0 disables cities, roads and any"
+" scenario requiring a city start."
 msgstr ""
 
 #: src/options.cpp

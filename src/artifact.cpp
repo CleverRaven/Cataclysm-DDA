@@ -1164,7 +1164,8 @@ bool save_artifacts( const std::string &path )
     return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
-        for( const itype *e : item_controller->all() ) {
+        // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)
+        for( const itype *e : item_controller->get_runtime_types() ) {
             if( !e->artifact ) {
                 continue;
             }

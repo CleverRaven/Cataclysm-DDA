@@ -642,13 +642,13 @@ public:
     // PieceType, they *can not* be of any other type.
     std::vector<PieceType> alternatives;
     jmapgen_alternativly() = default;
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
     {
         if( alternatives.empty() ) {
             return;
         }
         auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
-        chosen.apply( m, x, y, mon_density );
+        chosen.apply( dat, x, y, mon_density );
     }
 };
 
@@ -672,9 +672,9 @@ public:
             jsi.throw_error( "invalid field type", "field" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.add_field( tripoint( x.get(), y.get(), m.get_abs_sub().z ), ftype, density, age );
+        dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), ftype, density, age );
     }
 };
 /**
@@ -691,9 +691,9 @@ public:
             jsi.throw_error( "unknown npc class", "class" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.place_npc( x.get(), y.get(), npc_class );
+        dat.m.place_npc( x.get(), y.get(), npc_class );
     }
 };
 /**
@@ -712,14 +712,14 @@ public:
             jsi.throw_error("jmapgen_sign: needs either signage or snippet");
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.furn_set( rx, ry, f_null );
-        m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
+        dat.m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
 
-        tripoint abs_sub = m.get_abs_sub();
+        tripoint abs_sub = dat.m.get_abs_sub();
 
         std::string signtext;
 
@@ -740,7 +740,7 @@ public:
             }
             signtext = apply_all_tags(signtext, cityname);
         }
-        m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
+        dat.m.set_signage( tripoint( rx, ry, dat.m.get_abs_sub().z ), signtext );
     }
     std::string apply_all_tags(std::string signtext, const std::string &cityname) const
     {
@@ -765,12 +765,12 @@ public:
             jsi.throw_error( "no such item group", "item_group" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.furn_set( rx, ry, f_null );
-        m.place_vending( rx, ry, item_group_id, reinforced );
+        dat.m.furn_set( rx, ry, f_null );
+        dat.m.place_vending( rx, ry, item_group_id, reinforced );
     }
 };
 /**
@@ -784,16 +784,16 @@ public:
     , amount( jsi, "amount", 0, 0 )
     {
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
         const long charges = amount.get();
-        m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, f_null );
         if( charges == 0 ) {
-            m.place_toilet( rx, ry ); // Use the default charges supplied as default values
+            dat.m.place_toilet( rx, ry ); // Use the default charges supplied as default values
         } else {
-            m.place_toilet( rx, ry, charges );
+            dat.m.place_toilet( rx, ry, charges );
         }
     }
 };
@@ -817,19 +817,19 @@ public:
             }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
         long charges = amount.get();
-        m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, f_null );
         if( charges == 0 ) {
             charges = rng( 10000, 50000 );
         }
         if (fuel != "") {
-            m.place_gas_pump( rx, ry, charges, fuel );
+            dat.m.place_gas_pump( rx, ry, charges, fuel );
         } else {
-            m.place_gas_pump( rx, ry, charges );
+            dat.m.place_gas_pump( rx, ry, charges );
         }
     }
 };
@@ -854,14 +854,14 @@ public:
             jsi.throw_error( "no such item type", "liquid" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         if ( one_in(chance.get()) ){
             item newliquid( liquid, calendar::turn );
             if ( amount.valmax > 0 ){
                 newliquid.charges = amount.get();
             }
-            m.add_item_or_charges( tripoint(x.get(), y.get(), m.get_abs_sub().z), newliquid );
+            dat.m.add_item_or_charges( tripoint(x.get(), y.get(), dat.m.get_abs_sub().z), newliquid );
         }
     }
 };
@@ -883,9 +883,9 @@ public:
             jsi.throw_error( "no such item group", "item" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
+        dat.m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
     }
 };
 
@@ -919,12 +919,12 @@ class jmapgen_loot : public jmapgen_piece {
             }
         }
 
-        void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
                 const std::vector<item> spawn = isd->create( calendar::turn );
-                m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
+                dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), dat.m.get_abs_sub().z ), spawn );
             }
         }
 
@@ -953,9 +953,9 @@ public:
             jsi.throw_error( "no such monster group", "monster" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float mdensity ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mdensity ) const override
     {
-        m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax, density == -1.0f ? mdensity : density );
+        dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax, density == -1.0f ? mdensity : density );
     }
 };
 /**
@@ -978,9 +978,9 @@ public:
             jsi.throw_error( "no such monster", "monster" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
+        dat.m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
     }
 };
 /**
@@ -1017,12 +1017,12 @@ public:
             jsi.throw_error( "no such vehicle type or group", "vehicle" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, point(x.get(), y.get()), random_entry( rotation ), fuel, status );
+        dat.m.add_vehicle( type, point(x.get(), y.get()), random_entry( rotation ), fuel, status );
     }
 };
 /**
@@ -1045,11 +1045,11 @@ public:
             jsi.throw_error( "no such item type", "item" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int c = chance.get();
         if ( c == 1 || one_in( c ) ) {
-            m.spawn_item( x.get(), y.get(), type, amount.get() );
+            dat.m.spawn_item( x.get(), y.get(), type, amount.get() );
         }
     }
 };
@@ -1079,10 +1079,10 @@ public:
         }
         id = sid.id();
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        const tripoint actual_loc = tripoint( x.get(), y.get(), m.get_abs_sub().z );
-        m.trap_set( actual_loc, id );
+        const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
+        dat.m.trap_set( actual_loc, id );
     }
 };
 /**
@@ -1094,9 +1094,9 @@ public:
     furn_id id;
     jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
     jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.furn_set( x.get(), y.get(), id );
+        dat.m.furn_set( x.get(), y.get(), id );
     }
 };
 /**
@@ -1108,9 +1108,9 @@ public:
     ter_id id;
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
     jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.ter_set( x.get(), y.get(), id );
+        dat.m.ter_set( x.get(), y.get(), id );
     }
 };
 /**
@@ -1134,9 +1134,9 @@ public:
         }
         jsi.read( "overwrite", overwrite );
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.make_rubble( tripoint( x.get(), y.get(), m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
+        dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
     }
 };
 
@@ -1170,13 +1170,13 @@ public:
             }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.ter_set( rx, ry, t_console );
-        m.furn_set( rx, ry, f_null );
-        computer *cpu = m.add_computer( tripoint( rx, ry, m.get_abs_sub().z ), name, security );
+        dat.m.ter_set( rx, ry, t_console );
+        dat.m.furn_set( rx, ry, f_null );
+        computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name, security );
         for( const auto &opt : options ) {
             cpu->add_option( opt );
         }
@@ -1192,20 +1192,60 @@ public:
  * @param entries list of pairs [nested mapgen id, weight].
  */
 class jmapgen_nested : public jmapgen_piece {
+private:
+    class neighborhood_check {
+        private:
+            // To speed up the most common case: no checks
+            bool has_any = false;
+            std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+        public:
+            neighborhood_check( JsonObject jsi ) {
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
+                    has_any |= !neighbors[index].empty();
+                }
+            }
+
+            bool test( const mapgendata &dat ) const {
+                if( !has_any ) {
+                    return true;
+                }
+
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
+                    if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+    };
 public:
     weighted_int_list<std::string> entries;
-    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece()
+    neighborhood_check neighbors;
+    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
-        JsonArray jarr = jsi.get_array( "entries" );
+        JsonArray jarr = jsi.get_array( "chunks" );
         while( jarr.has_more() ) {
-            JsonArray inner = jarr.next_array();
-            entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            if( jarr.test_array() ) {
+                JsonArray inner = jarr.next_array();
+                entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            } else {
+                entries.add( jarr.next_string(), 100 );
+            }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
     {
         const std::string *res = entries.pick();
-        if( res == nullptr || res->empty() ) {
+        if( res == nullptr || res->empty() || *res == "null" ) {
+            return;
+        }
+
+        if( !neighbors.test( dat ) ) {
             return;
         }
 
@@ -1221,7 +1261,7 @@ public:
             return;
         }
 
-        ptr->nest( m, x.get(), y.get(), d );
+        ptr->nest( dat, x.get(), y.get(), d );
     }
 };
 
@@ -1751,7 +1791,7 @@ void mapgen_function_json_base::setup_common()
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
  * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
-bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
+bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const {
     if( chance != 1 && !one_in( chance ) ) {
         return true;
     }
@@ -1764,6 +1804,7 @@ bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
     const auto x2_get = std::bind( get, x2, offset_x );
     const auto y2_get = std::bind( get, y2, offset_y );
 
+    map &m = dat.m;
     const int trepeat = repeat.get();
     for (int i = 0; i < trepeat; i++) {
         switch(op) {
@@ -1849,20 +1890,22 @@ bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
     return true;
 }
 
-void mapgen_function_json_base::formatted_set_incredibly_simple( map * const m ) const
+void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const
 {
     for( size_t y = 0; y < mapgensize_y; y++ ) {
         for( size_t x = 0; x < mapgensize_x; x++ ) {
             const size_t index = calc_index( x, y );
             const ter_furn_id &tdata = format[index];
+            int map_x = x + offset_x;
+            int map_y = y + offset_y;
             if( tdata.furn != f_null ) {
                 if( tdata.ter != t_null ) {
-                    m->set( x, y, tdata.ter, tdata.furn );
+                    m.set( map_x, map_y, tdata.ter, tdata.furn );
                 } else {
-                    m->furn_set( x, y, tdata.furn );
+                    m.furn_set( map_x, map_y, tdata.furn );
                 }
             } else if( tdata.ter != t_null ) {
-                m->ter_set( x, y, tdata.ter );
+                m.ter_set( map_x, map_y, tdata.ter );
             }
         }
     }
@@ -1876,16 +1919,16 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         m->draw_fill_background( fill_ter );
     }
     if( do_format ) {
-        formatted_set_incredibly_simple( m );
+        formatted_set_incredibly_simple( *m, 0, 0 );
     }
     for( auto &elem : setmap_points ) {
-        elem.apply( *m, 0, 0 );
+        elem.apply( md, 0, 0 );
     }
     if ( ! luascript.empty() ) {
         lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
-    objects.apply( *m, 0, 0, d );
+    objects.apply( md, 0, 0, d );
 
     m->rotate( rotation.get() );
 
@@ -1894,37 +1937,37 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
 }
 
-void mapgen_function_json_nested::nest( map &m, int offset_x, int offset_y, float density ) const
+void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const
 {
     if( do_format ) {
-        formatted_set_incredibly_simple( &m );
+        formatted_set_incredibly_simple( dat.m, offset_x, offset_y );
     }
 
     for( auto &elem : setmap_points ) {
-        elem.apply( m, offset_x, offset_y );
+        elem.apply( dat, offset_x, offset_y );
     }
 
-    objects.apply( m, offset_x, offset_y, density );
+    objects.apply( dat, offset_x, offset_y, density );
 }
 
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void jmapgen_objects::apply( map &m, float density ) const {
+void jmapgen_objects::apply( const mapgendata &dat, float density ) const {
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( m, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density );
         }
     }
 }
 
-void jmapgen_objects::apply( map &m, int offset_x, int offset_y, float density ) const {
+void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const {
     if( offset_x == 0 && offset_y == 0 ) {
         // It's a bit faster
-        apply( m, density );
+        apply( dat, density );
         return;
     }
 
@@ -1934,7 +1977,7 @@ void jmapgen_objects::apply( map &m, int offset_x, int offset_y, float density )
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( m, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density );
         }
     }
 }
@@ -2018,7 +2061,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this );
+    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, *rsettings, *this );
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;

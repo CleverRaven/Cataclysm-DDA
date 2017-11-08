@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "visitable.h"
+#include "enums.h"
 
 class map;
 

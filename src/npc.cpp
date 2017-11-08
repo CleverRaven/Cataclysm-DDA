@@ -1339,12 +1339,9 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string line, ... ) const
+void npc::say( const std::string &line ) const
 {
-    va_list ap;
-    va_start( ap, line );
-    std::string formatted_line = vstring_format( line, ap );
-    va_end( ap );
+    std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
     if( has_trait( trait_id( "MUTE" ) ) ) {
         return;
@@ -2035,72 +2032,42 @@ void npc::setID( int i )
 //message related stuff
 
 //message related stuff
-void npc::add_msg_if_npc( const char *msg, ... ) const
+void npc::add_msg_if_npc( const std::string &msg ) const
 {
-    va_list ap;
-    va_start( ap, msg );
-    std::string processed_npc_string = vstring_format( msg, ap );
-    processed_npc_string = replace_with_npc_name( processed_npc_string, disp_name() );
-    add_msg( processed_npc_string.c_str() );
-
-    va_end( ap );
+    add_msg( replace_with_npc_name( msg, disp_name() ) );
 }
-void npc::add_msg_player_or_npc( const char *, const char *npc_str, ... ) const
+
+void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
+                                 const std::string &npc_msg ) const
 {
-    va_list ap;
-
-    va_start( ap, npc_str );
-
     if( g->u.sees( *this ) ) {
-        std::string processed_npc_string = vstring_format( npc_str, ap );
-        processed_npc_string = replace_with_npc_name( processed_npc_string, disp_name() );
-        add_msg( processed_npc_string.c_str() );
+        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
     }
-
-    va_end( ap );
 }
-void npc::add_msg_if_npc( game_message_type type, const char *msg, ... ) const
-{
-    va_list ap;
-    va_start( ap, msg );
-    std::string processed_npc_string = vstring_format( msg, ap );
-    processed_npc_string = replace_with_npc_name( processed_npc_string, disp_name() );
-    add_msg( type, processed_npc_string.c_str() );
 
-    va_end( ap );
+void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+{
+    add_msg( type, replace_with_npc_name( msg, disp_name() ) );
 }
-void npc::add_msg_player_or_npc( game_message_type type, const char *, const char *npc_str,
-                                 ... ) const
+
+void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
+                                 const std::string &npc_msg ) const
 {
-    va_list ap;
-
-    va_start( ap, npc_str );
-
     if( g->u.sees( *this ) ) {
-        std::string processed_npc_string = vstring_format( npc_str, ap );
-        processed_npc_string = replace_with_npc_name( processed_npc_string, disp_name() );
-        add_msg( type, processed_npc_string.c_str() );
+        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
     }
-
-    va_end( ap );
 }
 
-void npc::add_msg_player_or_say( const char *, const char *npc_str, ... ) const
+void npc::add_msg_player_or_say( const std::string &/*player_msg*/,
+                                 const std::string &npc_speech ) const
 {
-    va_list ap;
-    va_start( ap, npc_str );
-    const std::string text = vstring_format( npc_str, ap );
-    say( text );
-    va_end( ap );
+    say( npc_speech );
 }
 
-void npc::add_msg_player_or_say( game_message_type, const char *, const char *npc_str, ... ) const
+void npc::add_msg_player_or_say( const game_message_type /*type*/,
+                                 const std::string &/*player_msg*/, const std::string &npc_speech ) const
 {
-    va_list ap;
-    va_start( ap, npc_str );
-    const std::string text = vstring_format( npc_str, ap );
-    say( text );
-    va_end( ap );
+    say( npc_speech );
 }
 
 void npc::add_new_mission( class mission *miss )
@@ -2250,7 +2217,7 @@ void epilogue::random_by_group( std::string group, std::string name )
 
 const tripoint npc::no_goal_point( INT_MIN, INT_MIN, INT_MIN );
 
-bool npc::query_yn( const char *, ... ) const
+bool npc::query_yn( const std::string &/*msg*/ ) const
 {
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;

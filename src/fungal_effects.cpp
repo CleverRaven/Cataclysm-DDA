@@ -4,6 +4,7 @@
 #include "mapdata.h"
 #include "creature.h"
 #include "monster.h"
+#include "field.h"
 #include "mtype.h"
 #include "player.h"
 #include "messages.h"

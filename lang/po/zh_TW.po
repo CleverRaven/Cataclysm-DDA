@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 18:01+0800\n"
-"PO-Revision-Date: 2017-10-27 10:17+0000\n"
+"POT-Creation-Date: 2017-10-27 19:31+0800\n"
+"PO-Revision-Date: 2017-11-03 12:22+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -1041,8 +1041,10 @@ msgid ""
 "lead to VERY slow generation!"
 msgstr ""
 
+#. ~ Mutation class name
 #. ~ allow invalid (bugged, bad) maps without asking user
-#: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
+#: lang/extra/android/options.cpp lang/json/mutation_category_from_json.py
+#: src/creature.cpp src/options.cpp
 msgid "Any"
 msgstr "任何"
 
@@ -1091,7 +1093,7 @@ msgstr "只要最後殘存的玩家死亡後就刪除世界。"
 msgid "Size of cities"
 msgstr "城市規模"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities and roads."
 msgstr "設定城巿的大小。設定為0 則停用城巿和道路。"
@@ -7260,7 +7262,7 @@ msgstr ""
 #. ~ Description for golden crown
 #: lang/json/ARMOR_from_json.py
 msgid "A golden crown for the monarch of survivors."
-msgstr ""
+msgstr "一個代表生存者之王的黃金王冠。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "cuirass"
@@ -32763,7 +32765,7 @@ msgstr[0] "中型蓄電池"
 #. ~ Description for medium storage battery
 #: lang/json/MAGAZINE_from_json.py
 msgid "A medium storage battery containg multiple lithium ion cells."
-msgstr ""
+msgstr "一個有多個鋰離子電池的中型蓄電池。"
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
@@ -32776,7 +32778,7 @@ msgstr[0] "小型蓄電池"
 msgid ""
 "A small storage battery created with pre-Cataclysm lithium ion technology.  "
 "Useful for crafting."
-msgstr ""
+msgstr "一個有災變前的鋰離子電池技術的小型蓄電池。可以用來製作物品。"
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "storage battery"
@@ -32789,7 +32791,7 @@ msgid ""
 "A large storage battery containg many lithium ion cells.  Could be installed"
 " into a storage battery case for easy removal from a vehicle, or just welded"
 " straight in."
-msgstr ""
+msgstr "一個有大量鋰離子電池的大型蓄電池。安裝在有蓄電池殼的車輛上非常容易拆裝，也可以直接焊在車上。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "rechargeable battery"
@@ -51724,7 +51726,7 @@ msgid ""
 "The COP .38 is a small, chubby derringer pistol that bears a slight "
 "resemblance to the Mossberg Brownie.  It has four barrels arranged in a "
 "square formation."
-msgstr ""
+msgstr "COP .38是一把細小、圓胖的德林加槍，跟Mossberg Brownie有一點相似，它有四支排成四方形的槍管。"
 
 #: lang/json/gun_from_json.py
 msgid "Ruger LCR .38"
@@ -52088,7 +52090,7 @@ msgid ""
 "I, too late to see action.  Infamous during the 1920s for its use by "
 "gangsters, and was used during World War II before being mostly replaced "
 "with less-expensive alternatives."
-msgstr ""
+msgstr "一把在第一次世界大戰臨近終結時開發的美國製衝鋒槍，不過要看它的表現實在是太遲。在1920年代被黑幫所使用而惡名昭彰，在幾乎被沒那麼昂貴的代替品取代之前，它曾於第二次世界大戰中被使用。"
 
 #: lang/json/gun_from_json.py
 msgid "USP .45"
@@ -60781,7 +60783,7 @@ msgid ""
 "I was given a few bottles of bleach when I arrived but I need a number of "
 "hotplates to actually sterilize equipment.  I'm sure you can find them in "
 "any old house or appliance store.  Three should be enough for now."
-msgstr "我在來到這裡時這裡的人向我提供幾瓶漂白劑，但我需要一些電熱板去幫用具消毒。你可以在舊住宅或者用具店裡找到的。 三個應該能滿足我目前所需。"
+msgstr "我來到這裡時有人提供了幾瓶漂白水，但我需要一些電熱板去幫用具消毒。你可以在舊住宅或者用具店裡找到的。 三個應該能滿足我目前所需。"
 
 #: lang/json/mission_def_from_json.py
 msgid "It should be a fairly common item, don't know what else to say."
@@ -61466,6 +61468,31 @@ msgstr "嘔吐"
 #: lang/json/morale_type_from_json.py
 msgid "Filthy Gear"
 msgstr "骯髒的穿著"
+
+#. ~ Mutation class: Any mutagen_message
+#: lang/json/mutation_category_from_json.py
+msgid "mutagen message here"
+msgstr ""
+
+#. ~ Mutation class: Any iv_message
+#: lang/json/mutation_category_from_json.py
+msgid "You inject yoursel-arRGH!"
+msgstr "你對自己注射...唉唷！"
+
+#. ~ Mutation class: Any iv_sleep_message
+#: lang/json/mutation_category_from_json.py
+msgid "You writhe and collapse to the ground."
+msgstr "你掙扎著倒臥在地面上。"
+
+#. ~ Mutation class: Any iv_sound_message
+#: lang/json/mutation_category_from_json.py
+msgid "You scream in agony!!"
+msgstr "你痛苦的尖叫！"
+
+#. ~ Mutation class: Any junkie_message
+#: lang/json/mutation_category_from_json.py src/iuse.cpp
+msgid "You quiver with anticipation..."
+msgstr "你顫抖著期待......"
 
 #. ~ Mutation class name
 #: lang/json/mutation_category_from_json.py lang/json/mutation_from_json.py
@@ -67087,6 +67114,18 @@ msgid "open air"
 msgstr "露天的"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "city building"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mansion"
+msgstr "豪宅"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mall"
+msgstr "購物中心"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "crater"
 msgstr "彈坑"
 
@@ -67359,10 +67398,6 @@ msgid "razorclaw nest"
 msgstr "利爪怪巢穴"
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mansion"
-msgstr "豪宅"
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "fema camp"
 msgstr "急難救助營"
 
@@ -67525,10 +67560,6 @@ msgstr "購物中心-工具"
 #: lang/json/overmap_terrain_from_json.py
 msgid "lot"
 msgstr "空地"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mall"
-msgstr "購物中心"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mall - entrance"
@@ -67820,11 +67851,11 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "state park"
-msgstr ""
+msgstr "州立公園"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "state park parking"
-msgstr ""
+msgstr "州立公園停車場"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "pavilion"
@@ -76348,7 +76379,7 @@ msgstr ""
 msgid ""
 "\"Tried wearing dead zombie clothes, but they still knew I was alive!  It's "
 "like they're a hivemind, man!\""
-msgstr ""
+msgstr "「嘗試穿上死亡殭屍的衣服，但牠們仍然知道我還生存！這和牠們是一個集合意識一樣啊，老兄！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"MY PALMS ONLY GROW IN POWER!\""
@@ -76368,7 +76399,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "\"Whoops, I put my sister's insulin in my internal furnace.  Shit.\""
-msgstr ""
+msgstr "「哇呀，我把妹妹的胰島素放進內燃機。該死。」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -83123,11 +83154,11 @@ msgstr "矮梯（結尾部分）"
 
 #: lang/json/terrain_from_json.py
 msgid "milking machine"
-msgstr ""
+msgstr "擠乳機"
 
 #: lang/json/terrain_from_json.py
 msgid "bulk tank"
-msgstr ""
+msgstr "巨大貯水罐"
 
 #: lang/json/terrain_from_json.py
 msgid "painted waxed floor"
@@ -90418,7 +90449,7 @@ msgstr "<npcname>把 %s 裝填到他的反應爐中。"
 #: src/consumption.cpp
 #, c-format
 msgid "You digest your %s, but fail to acquire energy from it."
-msgstr ""
+msgstr "你消化了 %s，但無法由它獲得能量。"
 
 #: src/consumption.cpp
 #, c-format
@@ -100020,6 +100051,10 @@ msgid "Mutations"
 msgstr ""
 
 #: src/init.cpp
+msgid "Mutation Categories"
+msgstr ""
+
+#: src/init.cpp
 msgid "Overmap locations"
 msgstr ""
 
@@ -101815,39 +101850,20 @@ msgstr "奇怪的事，這嚐起來並不糟。"
 msgid "You chew your %s."
 msgstr "你咀嚼你的 %s。"
 
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
-#, c-format
-msgid "The %s sears your insides white-hot, and you collapse to the ground!"
-msgstr "%s 在你體內強烈的燃燒，而你倒在地上了！"
-
-#: src/iuse.cpp
-msgid "<npcname> writhes in agony and collapses to the ground!"
-msgstr "<npcname>在痛苦中掙扎著倒臥在地面上。"
-
-#: src/iuse.cpp
-#, c-format
 msgid ""
-"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
-msgstr "那是一些有毒的 %s ！下次我們還是跟馬洛斯一起好了，這樣比較安全。"
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr "馬洛斯莓/突變劑 中毒。"
-
-#: src/iuse.cpp
-msgctxt "memorial_female"
-msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr "馬洛斯莓/突變劑 中毒。"
+"After what happened that last time?  uh-uh.  You're not drinking that "
+"chemical stuff."
+msgstr "上次發生了什麼事？喔-喔。你該不會喝了那個化學的東西了吧。"
 
 #: src/iuse.cpp
 msgid "This is a contaminant.  We reject it from the Mycus."
 msgstr "這是一個污染物。我們拒絕馬庫斯。"
 
 #: src/iuse.cpp
-#, c-format
-msgid "We empty the %s and reflexively dispense spores onto the mess."
-msgstr "我們清空了 %s 並將孢子散播出去。"
+msgid "We decontaminate it with spores."
+msgstr ""
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
@@ -101863,11 +101879,14 @@ msgstr "摧毀了一個有害的入侵者。"
 msgid "We must eliminate this contaminant at the earliest opportunity."
 msgstr "我們必須儘早消除這些污染物。"
 
-#. ~ Recall that Marloss mutations made you feel warmth spreading throughout
-#. your body.  That's gone.
 #: src/iuse.cpp
-msgid "You feel a cold burn inside, as though everything warm has left you."
-msgstr "你覺得體內被急凍，彷彿一切都溫度都已經離開你了。"
+#, c-format
+msgid "The %s sears your insides white-hot, and you collapse to the ground!"
+msgstr "%s 在你體內強烈的燃燒，而你倒在地上了！"
+
+#: src/iuse.cpp
+msgid "<npcname> writhes in agony and collapses to the ground!"
+msgstr "<npcname>在痛苦中掙扎著倒臥在地面上。"
 
 #: src/iuse.cpp
 msgid ""
@@ -101889,17 +101908,21 @@ msgctxt "memorial_female"
 msgid "Burned out a particularly nasty fungal infestation."
 msgstr "燒掉了一個特別討厭的真菌感染。"
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
+#, c-format
 msgid ""
-"After what happened that last time?  uh-uh.  You're not drinking that "
-"chemical stuff."
-msgstr "上次發生了什麼事？喔-喔。你該不會喝了那個化學的東西了吧。"
+"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
+msgstr "那是一些有毒的 %s ！下次我們還是跟馬洛斯一起好了，這樣比較安全。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
-msgid "Consumed mutagen."
-msgstr "已服下誘變劑。"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr "馬洛斯莓/突變劑 中毒。"
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr "馬洛斯莓/突變劑 中毒。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101907,16 +101930,9 @@ msgid "Consumed mutagen."
 msgstr "已服下誘變劑。"
 
 #: src/iuse.cpp
-msgid "You quiver with anticipation..."
-msgstr "你顫抖著期待......"
-
-#: src/iuse.cpp
-msgid "Oops.  You must've blacked out for a minute there."
-msgstr "喔喔。你一定是昏迷了一陣子。"
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly collapses!"
-msgstr "<npcname> 突然倒下了！"
+msgctxt "memorial_male"
+msgid "Consumed mutagen."
+msgstr "已服下誘變劑。"
 
 #: src/iuse.cpp
 msgid "You suddenly feel dizzy, and collapse to the ground."
@@ -101934,6 +101950,8 @@ msgstr "某個東西猛力地拉扯了一會兒...然後...你...自由了！"
 msgid "Your appetite for blood fades."
 msgstr "你嗜血的慾望消失。"
 
+#. ~NOPAIN is a post-Threshold trait, so you shouldn't
+#. ~legitimately have it and get here!
 #: src/iuse.cpp
 msgid "You feel extremely Bugged."
 msgstr "你感到極度煩惱。"
@@ -101943,32 +101961,12 @@ msgid "You stagger with a piercing headache!"
 msgstr "刺痛的頭疼讓你走得東倒西歪！"
 
 #: src/iuse.cpp
-msgid "You feel very Bugged."
-msgstr "你感到很煩惱。"
-
-#: src/iuse.cpp
 msgid "Your head throbs with memories of your life, before all this..."
 msgstr "昔日的記憶在你的眼中閃現。身為人類的記憶..."
 
 #: src/iuse.cpp
-msgid "You feel Bugged."
-msgstr "你感到有點心煩。"
-
-#: src/iuse.cpp
 msgid "Images of your past life flash before you."
 msgstr "你過往的生活片段在你眼前閃過。"
-
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
-#: src/iuse.cpp
-msgid ""
-"After what happened that last time?  uh-uh.  You're not injecting that "
-"chemical stuff."
-msgstr "上次發生了什麼事？喔-喔。你該不會注射了那個化學的東西了吧。"
-
-#: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Injected mutagen."
-msgstr "注入誘變劑。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -101976,44 +101974,9 @@ msgid "Injected mutagen."
 msgstr "注入誘變劑。"
 
 #: src/iuse.cpp
-msgid "Oh, yeah! That's the stuff!"
-msgstr "喔~耶！就是這玩意兒！"
-
-#: src/iuse.cpp
-msgid "YES!  YES!  YESSS!!!"
-msgstr "好耶！好耶！好耶耶耶！！！"
-
-#: src/iuse.cpp
-msgid "You inject yourself."
-msgstr "你對自己注射。"
-
-#: src/iuse.cpp
-msgid "You inject yoursel-arRGH!"
-msgstr "你對自己注射...唉唷！"
-
-#: src/iuse.cpp
-msgid "You scream in agony!!"
-msgstr "你痛苦的尖叫！"
-
-#: src/iuse.cpp
-msgid "an agonized scream!"
-msgstr "痛苦的尖叫聲！"
-
-#: src/iuse.cpp
-msgid "You writhe and collapse to the ground."
-msgstr "你掙扎著倒臥在地面上。"
-
-#: src/iuse.cpp
-msgid "<npcname> writhes and collapses to the ground."
-msgstr "<npcname>掙扎著倒臥在地面上。"
-
-#: src/iuse.cpp
-msgid "It all goes dark..."
-msgstr "伸手不見五指..."
-
-#: src/iuse.cpp
-msgid "<npcname> suddenly falls over!"
-msgstr "<npcname> 突然倒下了！"
+msgctxt "memorial_male"
+msgid "Injected mutagen."
+msgstr "注入誘變劑。"
 
 #: src/iuse.cpp
 msgid "You feel cleansed."
@@ -102024,22 +101987,22 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr "你覺得體內有點癢，但它很快消失了。"
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
-msgid "Consumed purifier."
-msgstr "服用了淨化劑。"
-
-#: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Consumed purifier."
 msgstr "服用了淨化劑。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
+msgid "Consumed purifier."
+msgstr "服用了淨化劑。"
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr "注射了淨化劑。"
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Injected purifier."
 msgstr "注射了淨化劑。"
 
@@ -102735,7 +102698,7 @@ msgstr "你試圖撬開你的錢包"
 
 #: src/iuse.cpp
 msgid "but alas.  You are just too miserly."
-msgstr ""
+msgstr "真可惜，你因為太吝嗇而打不開你的錢包。"
 
 #: src/iuse.cpp
 msgid "You pry open the door."
@@ -111224,6 +111187,11 @@ msgid_plural "Scenario %1$s cost %2$d points"
 msgstr[0] "劇情 %1$s 花費 %2$d 點"
 
 #: src/newcharacter.cpp
+msgid ""
+"This scenario is not available in this world due to city size settings. "
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "Professions:"
 msgstr "職業:"
 
@@ -114219,6 +114187,12 @@ msgid ""
 "Sets the scaling mode, 'none' ( default ) displays at the game's native "
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
 "provides high-quality scaling."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"A number determining how large cities are.  0 disables cities, roads and any"
+" scenario requiring a city start."
 msgstr ""
 
 #: src/options.cpp
