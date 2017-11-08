@@ -563,5 +563,30 @@
     "using": [ [ "filament", 24 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "chainmail_legs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 40000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 }
+    ],
+    "tools": [
+      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
+      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "cordless_drill", 40 ] ]
+    ],
+    "components": [
+      [ [ "link_sheet", 4 ] ],
+      [ [ "link", 100 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
   }
 ]
