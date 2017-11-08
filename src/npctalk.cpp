@@ -1720,7 +1720,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
             for( auto miss_it : g->u.get_active_missions() ) {
-                if( miss_it->name() == "Locate Commo Team" && !p->has_effect( effect_gave_quest_item ) ) {
+                if( miss_it->mission_id() == mission_type_id( "MISSION_OLD_GUARD_NEC_1" ) &&
+                    !p->has_effect( effect_gave_quest_item ) ) {
                     add_response( _( "[MISSION] The captain sent me to get a frequency list from you." ),
                                   "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                 }
@@ -1794,7 +1795,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Interesting..." ), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         for( auto miss_it : g->u.get_active_missions() ) {
-            if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect( effect_gave_quest_item ) ) {
+            if( miss_it->mission_id() == mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ) &&
+                !p->has_effect( effect_gave_quest_item ) ) {
                 add_response(
                     _( "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you." ),
                     "TALK_RANCH_FOREMAN_PROSPECTUS" );
