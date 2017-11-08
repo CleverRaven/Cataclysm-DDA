@@ -253,7 +253,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );

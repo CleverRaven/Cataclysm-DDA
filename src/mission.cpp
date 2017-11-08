@@ -215,6 +215,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             // Go back and report.
             set_target_to_mission_giver();
             break;

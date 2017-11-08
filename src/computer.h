@@ -3,6 +3,7 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
+#include "string_id.h"
 #include <vector>
 #include <string>
 
@@ -33,7 +34,7 @@ enum computer_action {
     COMPACT_ELEVATOR_ON,
     COMPACT_AMIGARA_LOG,
     COMPACT_AMIGARA_START,
-    COMPACT_COMPLETE_MISSION,   //Completes the mission that has the same name as the computer action
+    COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER, // Completes "Disable External Power" mission
     COMPACT_REPEATER_MOD,       //Converts a terminal in a radio station into a 'repeater', locks terminal and completes mission
     COMPACT_DOWNLOAD_SOFTWARE,
     COMPACT_BLOOD_ANAL,
@@ -82,11 +83,8 @@ struct computer_option {
     computer_action action;
     int security;
 
-    computer_option() {
-        name = "Unknown", action = COMPACT_NULL, security = 0;
-    };
-    computer_option( std::string N, computer_action A, int S ) :
-        name( N ), action( A ), security( S ) {};
+    computer_option();
+    computer_option( std::string N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };
@@ -145,7 +143,7 @@ class computer
         static std::vector<std::string> lab_notes;
 
         // Called by use()
-        void activate_function( computer_action action, char ch );
+        void activate_function( computer_action action );
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.

@@ -67,7 +67,7 @@
         "6": {
           "name": "Evac shelter computer", "options": [
             { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_mission" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
             { "name": "Contact Us", "action": "emerg_ref_center" }
           ]
         }
