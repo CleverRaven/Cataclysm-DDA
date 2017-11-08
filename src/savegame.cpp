@@ -96,7 +96,7 @@ void game::serialize(std::ostream & fout) {
         json.member( "grscent", scent.serialize() );
 
         // Then each monster
-        json.member( "active_monsters", critter_tracker->list() );
+        json.member( "active_monsters", *critter_tracker );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
@@ -213,13 +213,7 @@ void game::unserialize(std::istream & fin)
             scent.reset();
         }
 
-        JsonArray vdata = data.get_array("active_monsters");
-        clear_zombies();
-        while (vdata.has_more()) {
-            monster montmp;
-            vdata.read_next(montmp);
-            add_zombie(montmp);
-        }
+        data.read( "active_monsters", *critter_tracker );
 
         if( tmptartyp == +1 ) {
             // Use overmap_buffer because game::active_npc is not filled yet.
@@ -229,7 +223,7 @@ void game::unserialize(std::istream & fin)
             last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
-        vdata = data.get_array("stair_monsters");
+        JsonArray vdata = data.get_array("stair_monsters");
         coming_to_stairs.clear();
         while (vdata.has_more()) {
             monster stairtmp;
@@ -1407,3 +1401,23 @@ void game::serialize_master(std::ostream &fout) {
     }
 }
 
+void Creature_tracker::deserialize( JsonIn &jsin )
+{
+    monsters_list.clear();
+    monsters_by_location.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        monster montmp;
+        jsin.read( montmp );
+        add( montmp );
+    }
+}
+
+void Creature_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    for( const auto &monster_ptr : monsters_list ) {
+        jsout.write( *monster_ptr );
+    }
+    jsout.end_array();
+}
