@@ -513,7 +513,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( last_recipe != current[line] ) {
                     last_recipe = current[line];
                     tmp = current[line]->create_result();
-                    tmp.info( true, thisItem );
+                }
+                if( batch ) {
+                    // Get the batch sized info
+                    tmp.info( true, thisItem, count );
+                } else {
+                    tmp.info( true, thisItem, count );
                 }
                 draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
                                 scroll_pos, true, true, true, false, true );
