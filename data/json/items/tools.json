@@ -8364,5 +8364,19 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "FEEDCATTLE"
+  },
+  {
+    "id": "link_sheet",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "chainmail sheet",
+    "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "weight": 1000,
+    "volume": 2,
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
