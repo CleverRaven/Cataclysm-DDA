@@ -3,7 +3,6 @@
 #define MOD_MANAGER_H
 
 #include "dependency_tree.h"
-#include "translations.h"
 
 #include "cursesdef.h"
 #include <string>
