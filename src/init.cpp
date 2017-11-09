@@ -66,6 +66,7 @@
 #include "morale_types.h"
 #include "anatomy.h"
 #include "loading_ui.h"
+#include "constants_manager.h"
 
 #include <assert.h>
 #include <string>
@@ -156,6 +157,7 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add("game_constant", &constants_manager::load);
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );

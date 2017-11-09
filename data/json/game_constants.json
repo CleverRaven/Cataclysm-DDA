@@ -1,0 +1,30 @@
+[
+    {
+        "type" : "game_constant",
+		"id" : "STRING_CONSTANT_EXAMPLE",
+        "description" : "Example of string constant.",
+        "stype": "string",
+		"value" : "String constant"
+    },
+	{
+        "type" : "game_constant",
+		"id" : "FLOAT_CONSTANT_EXAMPLE",
+        "description" : "Example of float constant.",
+        "stype": "float",
+		"value" : 1.5
+    },
+	{
+        "type" : "game_constant",
+		"id" : "INT_CONSTANT_EXAMPLE",
+        "description" : "Example of int constant.",
+        "stype": "float",
+		"value" : 1
+    },
+	{
+        "type" : "game_constant",
+		"id" : "BOOL_CONSTANT_EXAMPLE",
+        "description" : "Example of bool constant.",
+        "stype": "bool",
+		"value" : "true"
+    }
+]
