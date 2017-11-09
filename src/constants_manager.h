@@ -58,4 +58,4 @@ inline T get_constant(const std::string &name)
 }
 
 
-#endif 
+#endif
