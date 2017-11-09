@@ -575,10 +575,6 @@ int wattroff(WINDOW *win, int)
     win->BG = 0;                                //reset to black
     return 1;
 }
-int attroff(int attrs)
-{
-    return wattroff(stdscr, attrs);
-}
 int waddch(WINDOW *win, const chtype ch)
 {
     char charcode;
