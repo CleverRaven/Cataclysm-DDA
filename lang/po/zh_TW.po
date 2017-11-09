@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-27 19:31+0800\n"
-"PO-Revision-Date: 2017-11-03 12:22+0000\n"
+"PO-Revision-Date: 2017-11-09 10:06+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -7843,7 +7843,7 @@ msgstr "現代戰術眼鏡，能夠防護破片或是小投射物的傷害。對
 #: lang/json/ARMOR_from_json.py
 msgid "pair of eclipse glasses"
 msgid_plural "pairs of eclipse glasses"
-msgstr[0] ""
+msgstr[0] "日蝕眼鏡"
 
 #. ~ Description for pair of eclipse glasses
 #: lang/json/ARMOR_from_json.py
@@ -18209,7 +18209,7 @@ msgstr "咖哩香腸"
 msgid ""
 "Sausage covered in a curry ketchup sauce.  Fairly spicy and impressive at "
 "the same time!"
-msgstr "香腸澆上咖哩番茄醬。驚奇美味一起來！"
+msgstr "香腸澆上咖哩番茄沾醬。驚奇美味一起來！"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheapskate currywurst"
@@ -18220,7 +18220,7 @@ msgstr "咖哩人肉香腸"
 msgid ""
 "Mannwurst covered in a curry ketchup sauce.  Fairly spicy and impressive at "
 "the same time!"
-msgstr "人肉香腸澆上咖哩番茄醬。驚奇美味一起來！"
+msgstr "人肉香腸澆上咖哩番茄沾醬。驚奇美味一起來！"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mannwurst gravy"
@@ -19579,7 +19579,7 @@ msgstr "紅醬"
 #. ~ Description for red sauce
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tomato sauce, yum yum."
-msgstr "番茄糊，好吃。"
+msgstr "番茄沙司，好吃。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chili con carne"
@@ -20609,7 +20609,7 @@ msgstr "蔬菜披薩"
 msgid ""
 "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its "
 "smell brings back great memories."
-msgstr "一個素食的披薩，加入美味的番茄醬與蓬鬆的餅皮。它的香氣喚醒你美好的回憶。"
+msgstr "一個素食的披薩，加入美味的番茄沙司與蓬鬆的餅皮。它的香氣喚醒你美好的回憶。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheese pizza"
@@ -20938,12 +20938,12 @@ msgstr "老牌子的美乃滋，搭配三明治更美味。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "ketchup"
-msgstr "番茄醬"
+msgstr "番茄沾醬"
 
 #. ~ Description for ketchup
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Good old ketchup, tastes great on hot dogs."
-msgstr "老牌番茄醬，非常適合加在熱狗上。"
+msgstr "老牌番茄沾醬，非常適合加在熱狗上。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mustard"
@@ -21180,7 +21180,7 @@ msgstr "蕃茄辣肉醬漢堡"
 msgid ""
 "A sandwich, consisting of ground meat and tomato sauce served on a hamburger"
 " bun."
-msgstr "一個漢堡，加入了絞肉以及番茄醬。"
+msgstr "一個漢堡，加入了絞肉以及番茄沙司。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "manwich"
@@ -27208,7 +27208,7 @@ msgid ""
 "This ID card once belonged to a scientist.  The reverse side describes "
 "protocol for using it; this could grant access at one control panel, if you "
 "can find one."
-msgstr ""
+msgstr "這張識別證本來屬於某個科學家，背面印上了使用規約。如果你找到控制台的話，你可以用來存取它。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "military ID card"
@@ -27221,7 +27221,7 @@ msgid ""
 "This ID card once belonged to a military officer.  The reverse side "
 "describes protocol for using it; this could grant access at one control "
 "panel, if you can find one."
-msgstr ""
+msgstr "這張識別證本來屬於某個高階軍官，背面印上了使用規約。如果你找到控制台的話，你可以用來存取它。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "neoprene sheet"
@@ -34979,7 +34979,7 @@ msgid ""
 "A man-sized crustacean clad in an iron-like chitin, capable of emitting the "
 "most horrible of shrieks.  Often spotted near shipwrecks or other dark damp "
 "places, which it uses as nesting grounds."
-msgstr ""
+msgstr "一隻有鐵般的蟹殼，人型大小的甲殼綱動物，能夠發出最恐怖的尖叫。經常在沉船殘骸或者其他陰暗潮濕的地方被發現，那是牠們用作巢穴的地方。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "riot control bot"
@@ -46684,7 +46684,7 @@ msgstr "拆解家具"
 
 #: lang/json/construction_from_json.py
 msgid "Deconstruct Simple Furniture"
-msgstr ""
+msgstr "拆解簡單家具"
 
 #: lang/json/construction_from_json.py
 msgid "Certain terrain and furniture can be deconstructed without any tools."
@@ -46736,7 +46736,7 @@ msgstr "建設門簾"
 
 #: lang/json/construction_from_json.py
 msgid "Can be deconstructed without tools."
-msgstr ""
+msgstr "不需要工具就能拆解。"
 
 #: lang/json/construction_from_json.py
 msgid "Build Makeshift Door"
@@ -46836,7 +46836,7 @@ msgstr "建設金屬屋頂"
 
 #: lang/json/construction_from_json.py
 msgid "Must be supported on at least two sides."
-msgstr ""
+msgstr "需要最少有兩邊支撐。"
 
 #: lang/json/construction_from_json.py
 msgid "Build Concrete Roof"
@@ -52181,7 +52181,7 @@ msgid ""
 "Built in the image of the venerable Winchester Model 1886, Big Horn Armory's"
 " Model 89 rifle packs all the power of the .500 S&W Magnum cartridge in to a"
 " package less likely to break one's wrist."
-msgstr ""
+msgstr "以珍貴的Winchester Model 1886為構想，Big Horn Armory's Model 89步槍包含.500 S&W麥格農子彈的所有力量而不會弄斷使用者的手腕。"
 
 #: lang/json/gun_from_json.py
 msgid "S&W 500"
@@ -67839,7 +67839,7 @@ msgstr "小型辦公室"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "small wooded trail"
-msgstr ""
+msgstr "小型樹林小徑"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "art gallery"
@@ -67847,7 +67847,7 @@ msgstr "美術館"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "derelict property"
-msgstr ""
+msgstr "廢棄建築"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "state park"
@@ -76587,7 +76587,7 @@ msgid ""
 "\"poor guy.  watched him from afar with my binocs for months and months.  "
 "today he died fighting.  feels like i knew him even though i never "
 "approached.\""
-msgstr ""
+msgstr "「可憐的傢伙。我用望遠鏡觀察了他多個月。今天他在戰鬥中死亡。感覺好像我即使不接近他也知道他的下場。」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -83154,7 +83154,7 @@ msgstr "矮梯（結尾部分）"
 
 #: lang/json/terrain_from_json.py
 msgid "milking machine"
-msgstr "擠乳機"
+msgstr "擠奶機"
 
 #: lang/json/terrain_from_json.py
 msgid "bulk tank"
@@ -86398,7 +86398,7 @@ msgstr "你清理了腳邊的 %s。"
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You clear up the %s to your %s."
-msgstr "你將%s (%s) 清理了"
+msgstr "你將%s (%s) 清理了。"
 
 #: src/activity_handlers.cpp
 msgid "You pause to engage in spiritual contemplation."
@@ -97207,7 +97207,7 @@ msgstr "你覺得不舒服。"
 
 #: src/game.cpp
 msgid "A cloud of smoke appears."
-msgstr ""
+msgstr "一團煙霧出現了。"
 
 #: src/game.cpp
 #, c-format
@@ -118749,7 +118749,7 @@ msgstr ""
 
 #: src/turret.cpp
 msgid "None of the turrets are available to fire."
-msgstr "沒有能夠開火的槍塔"
+msgstr "沒有能夠開火的槍塔。"
 
 #: src/turret.cpp
 #, c-format

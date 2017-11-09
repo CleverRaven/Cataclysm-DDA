@@ -24,6 +24,7 @@
 # Miyu, 2015-2016
 # 오민우 <qqq30845250@gmail.com>, 2016
 # mcmilan tac <hrqa12@gmail.com>, 2015-2016
+# Sail Recycle <sailrecycle@gmail.com>, 2017
 # Soonhwan Kim <tnsghks852@naver.com>, 2016
 # T itan <un8214@naver.com>, 2016-2017
 # YM Lee <lymtwin@gmail.com>, 2016
@@ -34,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-27 19:31+0800\n"
-"PO-Revision-Date: 2017-11-04 00:10+0000\n"
-"Last-Translator: T itan <un8214@naver.com>\n"
+"PO-Revision-Date: 2017-11-09 11:14+0000\n"
+"Last-Translator: Sail Recycle <sailrecycle@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3121,12 +3122,12 @@ msgstr "아연 분말과 황 혼합물을 강력 접착제로 뭉친 덩어리�
 
 #: lang/json/AMMO_from_json.py
 msgid "detergent"
-msgstr ""
+msgstr "세제"
 
 #. ~ Description for detergent
 #: lang/json/AMMO_from_json.py
 msgid "A popular pre-cataclysm washing powder."
-msgstr ""
+msgstr "유명한 대재앙 이전의 분말 세제."
 
 #: lang/json/AMMO_from_json.py
 msgid "wood ash"
@@ -6832,14 +6833,14 @@ msgstr "일반적인 브라. 좀비가 보지 못하도록 그곳을 보호할 �
 #: lang/json/ARMOR_from_json.py
 msgid "breeches"
 msgid_plural "breeches"
-msgstr[0] ""
+msgstr[0] "브리치즈"
 
 #. ~ Description for breeches
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  "
 "Comfortable, but lacks pockets."
-msgstr ""
+msgstr "뻣뻣하지만 헐렁한 재료로 만든 옛날 바지. 편하지만, 주머니가 없습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "briefcase"
@@ -7688,12 +7689,12 @@ msgstr "밝은색의 조끼. 수면 위에 똑바로 떠 있을 수 있게 만�
 #: lang/json/ARMOR_from_json.py
 msgid "makeshift flotation vest"
 msgid_plural "makeshift flotation vests"
-msgstr[0] ""
+msgstr[0] "간이 구명 조끼"
 
 #. ~ Description for makeshift flotation vest
 #: lang/json/ARMOR_from_json.py
 msgid "A flotation vest made of inflated animal skins."
-msgstr ""
+msgstr "부풀린 동물 가죽으로 만든 구명 조끼."
 
 #: lang/json/ARMOR_from_json.py
 msgid "football armor"
@@ -7835,7 +7836,7 @@ msgstr "작은 발사체나 파편들을 막아주는 현대적 전술 보안경
 #: lang/json/ARMOR_from_json.py
 msgid "pair of eclipse glasses"
 msgid_plural "pairs of eclipse glasses"
-msgstr[0] ""
+msgstr[0] "일식 안경"
 
 #. ~ Description for pair of eclipse glasses
 #: lang/json/ARMOR_from_json.py
@@ -7843,7 +7844,7 @@ msgid ""
 "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
 "with a layer of aluminium coating. They allow safely staring at extremely "
 "bright and harmful sources of light like the sun during a solar eclipse."
-msgstr ""
+msgstr " 자외선과 가시광선 필터 기능이 있으며 겉에 알루미늄 코팅이 된 렌즈와 카드보드지 테로 된 안경. 일식 중 해처럼 아주 밝고 유해한 빛을 안전하게 바라볼 수 있게 해준다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bifocal glasses"
@@ -14968,14 +14969,14 @@ msgstr "고대 유리세공술에 대한 과학과 기술을 설명하는 교과
 #: lang/json/BOOK_from_json.py
 msgid "Antique Adornments"
 msgid_plural "Antique Adornments"
-msgstr[0] ""
+msgstr[0] "골동품 장식들"
 
 #. ~ Description for Antique Adornments
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A comprehensive and illustrated history of crown, bracelet, necklace and "
 "others."
-msgstr ""
+msgstr "왕관, 팔찌, 목걸이와 그 밖의 장식들에 대한 삽화가 있는 포괄적인 역사이다."
 
 #: lang/json/BOOK_from_json.py
 msgid "Crafty Crafter's Quarterly"
@@ -26378,13 +26379,13 @@ msgstr "빛을 확산시키거나 집중시킬 때 사용하는 고품질 렌즈
 #: lang/json/GENERIC_from_json.py
 msgid "pair of tinted glass"
 msgid_plural "pairs of tinted glass"
-msgstr[0] ""
+msgstr[0] "착색 유리 한 쌍"
 
 #. ~ Description for pair of tinted glass
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A pair of small darkened glass, like the one that sunglasses are made of."
-msgstr ""
+msgstr "선글라스의 알맹이 같은 한 쌍의 작고 검은 유리."
 
 #: lang/json/GENERIC_from_json.py
 msgid "burnt out bionic"
@@ -27860,7 +27861,7 @@ msgstr[0] "삼단봉"
 #. ~ Use action menu_text for expandable baton.
 #: lang/json/GENERIC_from_json.py
 msgid "Expand"
-msgstr ""
+msgstr "펼치기"
 
 #. ~ Use action msg for expandable baton.
 #: lang/json/GENERIC_from_json.py
@@ -27882,7 +27883,7 @@ msgstr[0] "삼단봉 (펴짐)"
 #. ~ Use action menu_text for expandable baton (extended).
 #: lang/json/GENERIC_from_json.py
 msgid "Collapse"
-msgstr ""
+msgstr "접기"
 
 #. ~ Use action msg for expandable baton (extended).
 #: lang/json/GENERIC_from_json.py
@@ -27894,7 +27895,7 @@ msgstr "삼단봉을 접었다."
 msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
 "melee weapon.  Activate to collapse."
-msgstr ""
+msgstr "길이 조절이 가능해 휴대가 간편한 삼단봉. 훌륭한 근접무기이다. 작동하면 접힌다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bee sting"
@@ -27992,14 +27993,14 @@ msgstr "크고 약간 뒤틀린 고철 침. 차량에 장착하여 어느 정도
 msgid ""
 "A fire-hardened wooden spear honed to a sharper point.  The grip area has "
 "been carved and covered for better grip."
-msgstr ""
+msgstr "날카로운 부분을 연마하고 불에 그을려 단단하게 만든 나무 창. 손잡이 부분은 잡기 좋도록 조각하고 덧대놓았습니다."
 
 #. ~ Description for iron javelin
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "An iron-tipped wooden throwing spear.  The grip area has been carved and "
 "covered for better grip."
-msgstr ""
+msgstr "쇠로 촉을 만든 목제 투창. 손잡이 부분은 잡기 좋도록 조각하고 덧대놓았습니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bionic claws"
@@ -28179,7 +28180,7 @@ msgid ""
 "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton "
 "used by law enforcement all over the world.  The PR designation is rumored "
 "to mean Public Relations.  Activate to extend."
-msgstr ""
+msgstr "Monadnock PR-24는 측면 손잡이가 달린 가볍고 접을 수 있는 경찰봉이다. 전 세계의 사법기관에서 널리 쓰였다. PR이 대민 홍보의 약자라는 소문이 있다. 작동하면 펴진다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "PR-24 baton (extended)"
@@ -28697,7 +28698,7 @@ msgstr[0] "원자력 스탠드"
 #. ~ Use action menu_text for atomic nightlight.
 #: lang/json/GENERIC_from_json.py
 msgid "Close cover"
-msgstr ""
+msgstr "덮개 닫기"
 
 #. ~ Use action msg for atomic lamp.
 #: lang/json/GENERIC_from_json.py
@@ -28722,7 +28723,7 @@ msgstr[0] "원자력 스탠드 (덮임)"
 #. ~ Use action menu_text for atomic nightlight (covered).
 #: lang/json/GENERIC_from_json.py
 msgid "Open cover"
-msgstr ""
+msgstr "덮개 열기"
 
 #. ~ Use action msg for atomic lamp (covered).
 #: lang/json/GENERIC_from_json.py
@@ -28789,7 +28790,7 @@ msgstr[0] "진공포장 과일 조각"
 #. ~ Use action menu_text for vacuum-packed veggy chunk.
 #: lang/json/GENERIC_from_json.py
 msgid "Open bag"
-msgstr ""
+msgstr "진공 포장 열기"
 
 #. ~ Use action msg for vacuum-packed fruit slice.
 #. ~ Use action msg for vacuum-packed fish slice.
@@ -44539,7 +44540,7 @@ msgstr[0] "헥사민 조리기구"
 msgid ""
 "Known as an Esbit stove, this is a lightweight, folding stove designed to "
 "use small hexamine tablets for cooking."
-msgstr ""
+msgstr "에스빗 스토브라고 알려진 이 가벼운 접이식 스토브는 헥사민 판을 연료로 사용합니다."
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift axe"
@@ -49635,7 +49636,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Happy"
-msgstr ""
+msgstr "행복함"
 
 #: lang/json/effects_from_json.py
 msgid "Joyful"
@@ -49647,7 +49648,7 @@ msgstr "마약성 고양상태"
 
 #: lang/json/effects_from_json.py
 msgid "Unhappy"
-msgstr ""
+msgstr "불행함"
 
 #: lang/json/effects_from_json.py
 msgid "Sad"
@@ -58879,7 +58880,7 @@ msgid ""
 "are still streaming in and we don't know what else to do with our limited "
 "food supply.  If you get a chance, you should see if they need your "
 "assistance in the future..."
-msgstr ""
+msgstr "고마워, 그들이 없어졌으니 이제는 좀 더 편한 세상이 되겠지. 너 없는 동안 똑똑한 사람 2명이 늙은경비 요원을 도와 전초기지를 짓고 있어. 우리는 할 수 있는 일이 많이 없고, 피난민들은 끊임없이 유입하고 있으며 얼마 없는 음식을 가지고 어떻게 해야 할지 고민하고 있어. 기회가 된다면 나중에 전초기지 짓는 사람들이 너의 도움이 필요한지 확인해 볼 필요가 있을 거야..."
 
 #: lang/json/mission_def_from_json.py
 msgid "Retrieve Prospectus"
@@ -58890,15 +58891,15 @@ msgid ""
 "The new outpost that we've started could use your assistance.  I need you to"
 " get the foreman's prospectus before we begin to send additional refugees to"
 " the farming commune.  Consult with the foreman to get more detailed tasks."
-msgstr ""
+msgstr "우리가 새 전초기지를 짓고 있는데 너가 도와줄 수가 있어. 피난민들을 농업 협동조합으로 보내는데 감독관의 안내서를 받아야 되거든. 감독관한테 가서 구체적으로 해야 할 일들이 무엇인지 알아봐."
 
 #: lang/json/mission_def_from_json.py
 msgid "I'm sure the outpost will expand quickly with your assistance."
-msgstr ""
+msgstr "너가 도와주면 전초기지가 더 빨리 확장 될 수 있을거라 생각해."
 
 #: lang/json/mission_def_from_json.py
 msgid "Just follow your map."
-msgstr ""
+msgstr "그냥 지도보고 따라가."
 
 #: lang/json/mission_def_from_json.py
 msgid "Do you have the prospectus?"
@@ -82359,7 +82360,7 @@ msgstr "열린 강화 나무 문"
 
 #: lang/json/terrain_from_json.py
 msgid "closed door curtain"
-msgstr ""
+msgstr "닫힌 커튼 달린 문"
 
 #: lang/json/terrain_from_json.py
 msgid "closed makeshift door"
@@ -82443,11 +82444,11 @@ msgstr "열린 금속 문"
 
 #: lang/json/terrain_from_json.py
 msgid "closed metal door with peephole"
-msgstr ""
+msgstr "닫힌 금속 문-외시경"
 
 #: lang/json/terrain_from_json.py
 msgid "open metal door with peephole"
-msgstr ""
+msgstr "열린 금속 문-외시경"
 
 #: lang/json/terrain_from_json.py
 msgid "closed bar door"
@@ -83691,7 +83692,7 @@ msgid ""
 "monster to you.  You can change your target with the movement keys, or cycle"
 " through monsters with '<' and '>'.  To fire, press 'f' or '.'; to cancel, "
 "hit the escape key."
-msgstr ""
+msgstr "장전된 총을 손에 들었으면 총을 쏠 수 있습니다. 'f' 키를 눌러 단발 사격을 합니다. 많은 총들은 'F'키를 눌러 점사를 할 수 있습니다. 마지막으로 쏜 몬스터나 가장 가까이에 있는 몬스터를 자동으로 조준합니다. 이동 키로 표적을 바꾸거나, '<' 키와 '>'키로 몬스터들을 전환할 수 있습니다. 'f'키와 '.'키로 사격할 수 있고 'Esc' 키로 취소할 수 있습니다."
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -83700,14 +83701,14 @@ msgid ""
 "recoil.  Recoil severely reduces your chance to hit, but you can eliminate "
 "recoil by pausing ('.') for a turn or moving normally.  High strength "
 "reduces recoil, so weak characters might want to stick to .22 or 9mm guns."
-msgstr ""
+msgstr "총을 쏜 후, 반동 경고를 우측 하단에서 보게 될 겁니다. 일반적으로, 탄환이 더욱 강력할수록 반동이 더 심해집니다. 반동은 맞출 확률을 크게 줄이지만 한 턴동안 멈추거나 ('.') 움직이면서 반동을 제거할 수 있습니다. 높은 체력은 반동을 줄이므로 약한 캐릭터들은 .22나 9mm 총을 선호할 수도 있습니다."
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
 "That yellow > next to you is a staircase leading down.  To go downstairs, "
 "step onto the staircase and press the '>' key.  Similarly, a yellow < is "
 "stairs leading up, and can be followed with the '<' key."
-msgstr ""
+msgstr "캐릭터 옆에 있는 노란 > 모양은 아래로 내려가는 계단입니다. 아래로 내려가려면 계단 위에 올라서서 '>' 키를 누르십시오. 이와 유사하게 노란 < 모양은 위로 올라가는 계단이고, '<' 키를 눌러 위로 올라갈 수 있습니다."
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -83957,7 +83958,7 @@ msgstr "화물 트레일러"
 
 #: lang/json/vehicle_from_json.py
 msgid "Heavy Duty Cargo Truck"
-msgstr ""
+msgstr "대형 화물트럭"
 
 #: lang/json/vehicle_from_json.py
 msgid "Automatic Street Sweeper"
@@ -83965,7 +83966,7 @@ msgstr "자동식 도로청소기"
 
 #: lang/json/vehicle_from_json.py
 msgid "Excavator"
-msgstr ""
+msgstr "굴착기"
 
 #: lang/json/vehicle_from_json.py
 msgid "Portable Generator"
@@ -84029,15 +84030,15 @@ msgstr "사용자 지정_없음"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Compact"
-msgstr ""
+msgstr "원자력 소형차"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic SUV"
-msgstr ""
+msgstr "원자력 SUV"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Car"
-msgstr ""
+msgstr "원자력 자동차"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Mini-Tank"
@@ -84682,7 +84683,7 @@ msgstr "American-180 터렛"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "automated American-180"
-msgstr ""
+msgstr "자동화 아메리칸-180"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "AN94 turret"
@@ -84690,11 +84691,11 @@ msgstr "AN94 터렛"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "perforator turret"
-msgstr ""
+msgstr "퍼포레이터 터렛"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "automated perforator"
-msgstr ""
+msgstr "자동화 퍼포레이터"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "needler turret"
@@ -96313,7 +96314,7 @@ msgstr "손에 들고 있는 것이 없다."
 
 #: src/game.cpp
 msgid "Unload item"
-msgstr ""
+msgstr "내용물 회수"
 
 #: src/game.cpp
 msgid "You have nothing to unload."
@@ -100868,11 +100869,11 @@ msgstr "테크닉: "
 
 #: src/item.cpp
 msgid "* This item can be used to make <stat>long reach attacks</stat>."
-msgstr ""
+msgstr "* 이 무기는 <stat>먼 거리에서 공격</stat>할 수 있다."
 
 #: src/item.cpp
 msgid "* This item can be used to make <stat>reach attacks</stat>."
-msgstr ""
+msgstr "* 이 무기는 <stat>조금 먼 거리에서 공격</stat>할 수 있다."
 
 #: src/item.cpp
 msgid "<bold>Average melee damage:</bold>"
@@ -101258,7 +101259,7 @@ msgstr " (사용됨)"
 
 #: src/item.cpp
 msgid " (active)"
-msgstr "(사용중)"
+msgstr "(작동)"
 
 #: src/item.cpp
 msgid "sawn-off "
@@ -119065,7 +119066,7 @@ msgstr "대체할 바퀴를 선택하세요:"
 
 #: src/veh_interact.cpp
 msgid "Need at least one seat and an ally to assign crew members."
-msgstr ""
+msgstr "승무원 지정을 위해서는 최소 한 좌석과 동료 한 명이 필요하다."
 
 #: src/veh_interact.cpp
 msgid "Assign crew positions:"
@@ -119553,7 +119554,7 @@ msgstr "%s 꺼짐."
 #: src/vehicle.cpp
 #, c-format
 msgid "Turned on %s"
-msgstr ""
+msgstr "%s 켜짐"
 
 #: src/vehicle.cpp
 msgid "headlights"

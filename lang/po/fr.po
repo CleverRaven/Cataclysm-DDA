@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-27 19:31+0800\n"
-"PO-Revision-Date: 2017-10-27 11:49+0000\n"
+"PO-Revision-Date: 2017-11-09 10:10+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -118800,7 +118800,7 @@ msgstr "La lumière du soleil brûle votre peau!"
 
 #: src/player.cpp
 msgid "The sunlight distracts you."
-msgstr ""
+msgstr "La lumière du soleil vous déconcentre."
 
 #: src/player.cpp
 msgid "You can't stand the sunlight!"

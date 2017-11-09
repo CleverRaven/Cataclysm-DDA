@@ -4,13 +4,14 @@
 # Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>, 2016-2017
 # Joao Pedro de Campos Magalhaes <dragon530698@gmail.com>, 2017
 # Anti-Seis Joga <arbitrium.vincit.omnia@hotmail.com>, 2016
+# Vítor da Silva <lordmallisyt@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-27 19:31+0800\n"
-"PO-Revision-Date: 2017-10-27 11:49+0000\n"
-"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
+"PO-Revision-Date: 2017-11-08 19:41+0000\n"
+"Last-Translator: Vítor da Silva <lordmallisyt@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,7 +234,7 @@ msgid ""
 "If enabled, monsters will take periodic gameplay turns.  This value is the "
 "delay between each turn, in seconds.  Works best with Safe Mode disabled.  0"
 " = disabled."
-msgstr "Se ativado, monstros periódicamente avançarão turnos de jogo. Esse valor é o intervalo entre cada turno, em segundos. Funciona melhor com o Modo Seguro desativado.  0 = desativado."
+msgstr "Se ativado, monstros periodicamente avançarão turnos de jogo. Esse valor é o intervalo entre cada turno, em segundos. Funciona melhor com o Modo Seguro desativado.  0 = desativado."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Periodically autosave"
@@ -243,7 +244,7 @@ msgstr "Autosave periódico"
 msgid ""
 "If true, game will periodically save the map.  Autosaves occur based on in-"
 "game turns or real-time minutes, whichever is larger."
-msgstr "Se verdadeiro, o jogo salvará o mapa periódicamente. Autosaves ocorrem baseados em turnos no jogo ou minutos em tempo real, qual for maior."
+msgstr "Se verdadeiro, o jogo salvará o mapa periodicamente. Autosaves ocorrem baseados em turnos no jogo ou minutos em tempo real, qual for maior."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Game turns between autosaves"
@@ -323,7 +324,7 @@ msgstr "Nunca"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "DeathCam"
-msgstr ""
+msgstr "Câmera da Morte"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
@@ -369,11 +370,11 @@ msgstr "Trocar língua."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Fahrenheit"
-msgstr ""
+msgstr "Fahrenheit"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Celsius"
-msgstr ""
+msgstr "Celsius"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Temperature units"
@@ -401,11 +402,11 @@ msgstr "Alternar entre km/h e mph."
 
 #: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
 msgid "lbs"
-msgstr ""
+msgstr "lbs"
 
 #: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Mass units"
@@ -438,7 +439,7 @@ msgstr "Alternar entre xícaras, litros ou quartos."
 #. ~ 12h time, e.g.  11:59pm
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "12h"
-msgstr ""
+msgstr "12h"
 
 #. ~ Military time, e.g.  2359
 #: lang/extra/android/options.cpp src/options.cpp
@@ -448,7 +449,7 @@ msgstr "Militar"
 #. ~ 24h time, e.g.  23:59
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "24h"
-msgstr ""
+msgstr "24h"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Time format"
@@ -470,550 +471,550 @@ msgstr "Se verdadeiro, caixas de diálogo Y/N diferenciam maiúsculas e minúscu
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Snap to target"
-msgstr ""
+msgstr "Aderir ao alvo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, automatically follow the crosshair when firing/throwing."
-msgstr ""
+msgstr "Se verdadeiro, automaticamente segue o ponteiro quando atirar/arremessar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Ask to save before sleeping"
-msgstr ""
+msgstr "Perguntar se quer salvar antes de dormir"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, game will ask to save the map before sleeping."
-msgstr ""
+msgstr "Se verdadeiro, o jogo irá perguntar se quer salvar antes de dormir."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Query on disassembly"
-msgstr ""
+msgstr "Confirmação ao desmontar"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will query before disassembling items."
-msgstr ""
+msgstr "Se verdadeiro, irá perguntar se quer mesmo desmontar itens."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Query on keybinding removal"
-msgstr ""
+msgstr "Confirmação ao redefinir teclas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will query before removing a keybinding from a hotkey."
-msgstr ""
+msgstr "Se verdadeiro, irá perguntar se quer mesmo redefinir uma tecla."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Close advanced inventory on move all"
-msgstr ""
+msgstr "Fechar inventário avançado ao mover tudo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, will close the advanced inventory when the move all items command "
 "is used."
-msgstr ""
+msgstr "Se verdadeiro, irá fechar o inventário avançado quando o comando de mover todos os itens é usado."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Display actions in Use Item menu"
-msgstr ""
+msgstr "Mostrar ações no menu de Usar Item"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
 "displayed next to the corresponding items."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar as ações ao lado dos itens correspondentes (como \"Ler\", \"Fumar\", \"Amarrar mais forte\")."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Vehicle plating changes part color"
-msgstr ""
+msgstr "Cor das partes da blindagem do veículo muda"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, vehicle parts will change color if they are armor plated"
-msgstr ""
+msgstr "Se verdadeiro, partes do veículo mudarão de cor se forem blindadas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto-shift the view while driving"
-msgstr ""
+msgstr "Deslocar a câmera enquanto dirige"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, view will automatically shift towards the driving direction"
-msgstr ""
+msgstr "Se verdadeiro, a câmera irá automaticamente ajustar para a direção do veículo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Draw vehicle facing indicator"
-msgstr ""
+msgstr "Mostrar indicador da frente do veículo"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, when controlling a vehicle, a white 'X' (in curses version) or a "
 "crosshair (in tiles version) at distance 10 from the center will display its"
 " current facing."
-msgstr ""
+msgstr "Se verdadeiro, enquanto estiver dirigindo, um 'X' branco (no modo console) ou um ponteiro (no modo gráfico) irá mostrar a direção da frente do veículo a 10 quadrados de distância do centro."
 
 #. ~ sidebar position
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Right"
-msgstr ""
+msgstr "Direita"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Sidebar position"
-msgstr ""
+msgstr "Posição do menu lateral"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Switch between sidebar on the left or on the right side.  Requires restart."
-msgstr ""
+msgstr "Mudar entre o menu lateral na esquerda ou na direita. Precisa reiniciar."
 
 #. ~ sidebar style
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Wider"
-msgstr ""
+msgstr "Mais largo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Narrow"
-msgstr ""
+msgstr "Menos largo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Sidebar style"
-msgstr ""
+msgstr "Estilo do menu lateral"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
-msgstr ""
+msgstr "Mudar entre um menu lateral mais largo ou mais estreito. Precisa reiniciar."
 
 #. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
-msgstr ""
+msgstr "No topo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Bottom"
-msgstr ""
+msgstr "Embaixo"
 
 #: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
-msgstr ""
+msgstr "Direção das mensagens do menu lateral"
 
 #: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
-msgstr ""
+msgstr "Onde as novas mensagens do menu lateral devem aparecer."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Sidebar log message display duration"
-msgstr ""
+msgstr "Duração das mensagens do menu lateral"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Number of turns after which a message will be removed from the sidebar log."
 "  '0' disables this option."
-msgstr ""
+msgstr "Número de turnos depois do qual a mensagem irá ser removida do menu lateral. '0' desabilita esta opção."
 
 #. ~ aim bar style - bars or numbers
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Numbers"
-msgstr ""
+msgstr "Números"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Bars"
-msgstr ""
+msgstr "Barras"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Aim window display style"
-msgstr ""
+msgstr "Estilo da janela de mira"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "How should confidence and steadiness be communicated to the player."
-msgstr ""
+msgstr "Como a confiança e a firmeza devem ser comunicadas ao jogador."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Move view offset"
-msgstr ""
+msgstr "Mover o offset da câmera"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Move view by how many squares per keypress."
-msgstr ""
+msgstr "Quantos quadrados a câmera deve mover por aperto de tecla."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Centered menu scrolling"
-msgstr ""
+msgstr "Rolagem de menu centralizada"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, menus will start scrolling in the center of the list, and keep the "
 "list centered."
-msgstr ""
+msgstr "Se verdadeiro, os menus rolarão no centro da lista, e deixarão a lista centralizada."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Centered"
-msgstr ""
+msgstr "Centralizado"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "To edge"
-msgstr ""
+msgstr "No canto"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Shift list item view"
-msgstr ""
+msgstr "Ajustar a câmera ao item da lista"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Centered or to edge, shift the view toward the selected item if it is "
 "outside of your current viewport."
-msgstr ""
+msgstr "Centralizado ou no canto, ajustar a câmera ao item selecionado se ele estiver fora da sua visão."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto inventory letters"
-msgstr ""
+msgstr "Letras automáticas para itens"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If false, new inventory items will only get letters assigned if they had one"
 " before."
-msgstr ""
+msgstr "Se falso, itens no inventário só ganharão letras se eles já tiverem uma antes."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Show item health bars"
-msgstr ""
+msgstr "Mostrar barra de vida dos itens"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, show item health bars instead of reinforced, scratched etc. text."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar barras de vida para os itens, ao invés de textos como \"reenforçado\", \"arranhado\", etc."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Show item symbols"
-msgstr ""
+msgstr "Mostrar símbolos dos itens"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, show item symbols in inventory and pick up menu."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar símbolos dos itens no inventário e no menu de coleta."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Enable Joystick"
-msgstr ""
+msgstr "Habilitar Joystick"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Enable input from joystick."
-msgstr ""
+msgstr "Habilita o input de um joystick"
 
 #. ~ show mouse cursor
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #. ~ hide mouse cursor
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Hide"
-msgstr ""
+msgstr "Esconder"
 
 #. ~ hide mouse cursor when keyboard is used
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "HideKB"
-msgstr ""
+msgstr "EscondeTeclado"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Hide mouse cursor"
-msgstr ""
+msgstr "Esconde o ponteiro do mouse"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is "
 "hidden on keyboard input and unhidden on mouse movement."
-msgstr ""
+msgstr "Mostrar: Ponteiro sempre visível. Esconder: Ponteiro escondido. EscondeTeclado: Ponteiro escondido quando uma tecla do teclado for pressionada e visível quando o mouse mover."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Animations"
-msgstr ""
+msgstr "Animações"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will display enabled animations."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar animações."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Rain animation"
-msgstr ""
+msgstr "Animação da chuva"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will display weather animations."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar animações de tempo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "SCT animation"
-msgstr ""
+msgstr "Animação de texto de combate"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will display scrolling combat text animations."
-msgstr ""
+msgstr "Se verdadeiro, irá mostrar as animações da rolagem dos textos de combate."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Animation delay"
-msgstr ""
+msgstr "Atraso da animação"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "The amount of time to pause between animation frames in ms."
-msgstr ""
+msgstr "Quanto tempo deve pausar entre os frames da animação em ms."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Force redraw"
-msgstr ""
+msgstr "Forçar redesenho"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, forces the game to redraw at least once per turn."
-msgstr ""
+msgstr "Se verdadeiro, irá forçar o jogo a redesenhar a tela pelo menos uma vez por turno."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Terminal width"
-msgstr ""
+msgstr "Largura do terminal"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Set the size of the terminal along the X axis.  Requires restart."
-msgstr ""
+msgstr "Ajusta o tamanho do terminal no eixo X. Precisa reiniciar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Terminal height"
-msgstr ""
+msgstr "Altura do terminal"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Set the size of the terminal along the Y axis.  Requires restart."
-msgstr ""
+msgstr "Ajusta o tamanho do terminal no eixo Y. Precisa reiniciar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Use tiles"
-msgstr ""
+msgstr "Usar gráficos"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, replaces some TTF rendered text with tiles."
-msgstr ""
+msgstr "Se verdadeiro, substitui alguns textos TTF com gráficos."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Choose tileset"
-msgstr ""
+msgstr "Escolher tileset"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Choose the tileset you want to use."
-msgstr ""
+msgstr "Escolha o tileset que você quer usar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Pixel Minimap"
-msgstr ""
+msgstr "Minimapa de Pixels"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, shows the pixel-detail minimap in game after the save is loaded.  "
 "Use the 'Toggle Pixel Minimap' action key to change its visibility during "
 "gameplay."
-msgstr ""
+msgstr "Se verdadeiro, mostra o minimapa em pixels depois de carregar um jogo salvo. Use a ação 'Alternar Minimapa de Pixels' para mudar sua visibilidade durante o jogo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Pixel Minimap height"
-msgstr ""
+msgstr "Altura do Minimapa de Pixels"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for "
 "default spacing."
-msgstr ""
+msgstr "Altura do minimapa de pixels, medido em linhas do terminal. Coloque 0 para o espaçamento padrão."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Maintain Pixel Minimap aspect ratio"
-msgstr ""
+msgstr "Manter proporção da tela do Minimapa de Pixels"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Preserves the square shape of tiles shown on the pixel minimap."
-msgstr ""
+msgstr "Mantém a forma quadrada dos elementos no minimapa de pixels."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Enemy beacon blink speed"
-msgstr ""
+msgstr "Velocidade dos avisos de inimigo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Controls how fast the enemy beacons blink on the pixel minimap.  Value is "
 "multiplied by 200 ms.  Set to 0 to disable."
-msgstr ""
+msgstr "Controla o quão rápido os avisos de inimigo piscam no minimapa de pixels. O valor é multiplicado por 200 ms. Coloque 0 para desabilitar."
 
 #: lang/extra/android/options.cpp src/options.cpp src/sdltiles.cpp
 msgid "Display"
-msgstr ""
+msgstr "Display"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Sets which video display will be used to show the game.  Requires restart."
-msgstr ""
+msgstr "Escolhe qual display de vídeo será usado para mostrar o jogo. Precisa reiniciar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tela cheia"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Windowed borderless"
-msgstr ""
+msgstr "Janela sem bordas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Starts Cataclysm in one of the fullscreen modes.  Requires restart."
-msgstr ""
+msgstr "Inicia Cataclysm em um dos modos de tela cheia. Precisa reiniciar."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Software rendering"
-msgstr ""
+msgstr "Renderização de software"
 
 #: lang/extra/android/options.cpp
 msgid "Use software renderer instead of graphics card acceleration."
-msgstr ""
+msgstr "Usar renderização de software ao invés de aceleração de hardware."
 
 #. ~ Do not scale the game image to the window size.
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "No scaling"
-msgstr ""
+msgstr "Não escalar"
 
 #. ~ An algorithm for image scaling.
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Vizinho mais próximo"
 
 #. ~ An algorithm for image scaling.
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Linear filtering"
-msgstr ""
+msgstr "Filtro linear"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Scaling mode"
-msgstr ""
+msgstr "Modo de escala"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "Sets the scaling mode, 'none' (default) displays at the game's native "
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
 "provides high-quality scaling."
-msgstr ""
+msgstr "Ajusta o modo de escala. 'None' (padrão) mostra o jogo na resolução nativa. 'Nearest' usa escala rápida de baixa qualidade, e 'linear' usa escala de alta qualidade."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Distance initial visibility"
-msgstr ""
+msgstr "Distância da visibilidade inicial"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Determines the scope, which is known in the beginning of the game."
-msgstr ""
+msgstr "Determina o escopo, conhecido desde o começo do jogo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial stat points"
-msgstr ""
+msgstr "Pontos de atributo iniciais"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial points available to spend on stats on character generation."
-msgstr ""
+msgstr "Pontos iniciais disponíveis para gastar com atributos na criação do personagem."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial trait points"
-msgstr ""
+msgstr "Pontos de característica iniciais"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial points available to spend on traits on character generation."
-msgstr ""
+msgstr "Pontos iniciais para gastar com características na criação do personagem."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial skill points"
-msgstr ""
+msgstr "Pontos de habilidade iniciais"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial points available to spend on skills on character generation."
-msgstr ""
+msgstr "Pontos iniciais disponíveis para gastar em habilidades na criação do personagem."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Maximum trait points"
-msgstr ""
+msgstr "Pontos de característica máximos"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Maximum trait points available for character generation."
-msgstr ""
+msgstr "Pontos máximos para características na criação do personagem."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Skill training speed"
-msgstr ""
+msgstr "Velocidade de treino de habilidades"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Scales experience gained from practicing skills and reading books.  0.5 is "
 "half as fast as default, 2.0 is twice as fast, 0.0 disables skill training "
 "except for NPC training."
-msgstr ""
+msgstr "Escala a experiência ganha ao praticar habilidades e ler livros. 0.5 é metade do padrão, 2.0 é o dobro, 0.0 desabilita treino de habilidades exceto por NPCs."
 
 #. ~ plain, default, normal
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Vanilla"
-msgstr ""
+msgstr "Padrão"
 
 #. ~ capped at a value
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Capped"
-msgstr ""
+msgstr "Limite"
 
 #. ~ based on intelligence
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Int"
-msgstr ""
+msgstr "Int"
 
 #. ~ based on intelligence and capped
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "IntCap"
-msgstr ""
+msgstr "LimInt"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Off"
-msgstr ""
+msgstr "Desligado"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Skill rust"
-msgstr ""
+msgstr "Degradação de habilidades"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at"
 " skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence "
 "dependent, capped - Off: None at all."
-msgstr ""
+msgstr "Ajusta o nível de degradação das habilidades. Padrão: Cataclysm padrão - Limite: Limita no nível 2 - Int: Depende da inteligência - LimInt: Depende da inteligência, limitado pelo nível. Desligado: sem degradação."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Experimental 3D Field of Vision"
-msgstr ""
+msgstr "Campo de visão experimental 3D"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If false, vision is limited to current z-level.  If true and the world is in"
 " z-level mode, the vision will extend beyond current z-level.  Currently "
 "very bugged!"
-msgstr ""
+msgstr "Se falso, a visão é limitada ao eixo z atual. Se verdadeiro e o mundo estiver em modo de eixo z, a visão irá extender além do nível atual. Está muito bugado!"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Experimental path name encoding conversion"
-msgstr ""
+msgstr "Conversão experimental do encoding do nome do diretório"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, file path names are going to be transcoded from system encoding to "
 "UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK"
 " Windows users."
-msgstr ""
+msgstr "Se verdadeiro, diretórios serão codificados do encoding do sistema para UTF-8 quando forem lidos e codificados de volta quando escritos. É mais para usuários de CJK no Windows."
 
 #: lang/extra/android/options.cpp
 msgid "Overmap generation attempt count"
-msgstr ""
+msgstr "Tentativas de geração do mapa geral"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "Maximum number of retries in overmap generation due to inability to place "
 "mandatory special locations.  High numbers and strange world settings will "
 "lead to VERY slow generation!"
-msgstr ""
+msgstr "Número máximo de tentativas da geração do mapa geral devido à inabilidade de gerar lugares especiais mandatórios. Números altos e configurações estranhas do mundo irão levar a uma geração MUITO lenta!"
 
 #. ~ Mutation class name
 #. ~ allow invalid (bugged, bad) maps without asking user
 #: lang/extra/android/options.cpp lang/json/mutation_category_from_json.py
 #: src/creature.cpp src/options.cpp
 msgid "Any"
-msgstr ""
+msgstr "Qualquer"
 
 #. ~ allow any valid map, even if it's "bad"
 #: lang/extra/android/options.cpp src/wish.cpp
@@ -1022,775 +1023,775 @@ msgstr "Válido"
 
 #: lang/extra/android/options.cpp
 msgid "Allow invalid overmaps"
-msgstr ""
+msgstr "Permitir mapas gerais inválidos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "What to do if world settings/mods prevent valid overmaps.  Invalid maps are "
 "BUGGED and while playable, may cause errors during missions.  Unlimited maps"
 " will look ugly, but are fully functional."
-msgstr ""
+msgstr "O que fazer quando configurações/mods previnem mapas gerais válidos. Mapas inválidos são BUGADOS. Dá para jogar, mas irão causar erros durante missões. Mapas ilimitados serão feios, mas totalmente funcionais."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Core version data"
-msgstr ""
+msgstr "Dados principais da versão"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Controls what migrations are applied for legacy worlds"
-msgstr ""
+msgstr "Controla quais migrações são aplicadas para mundos legados"
 
 #: lang/extra/android/options.cpp src/craft_command.cpp src/options.cpp
 #: src/veh_interact.cpp
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Query"
-msgstr ""
+msgstr "Confirmar"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Delete world"
-msgstr ""
+msgstr "Deletar mundo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Delete the world when the last active character dies."
-msgstr ""
+msgstr "Deleta o mundo quando o último personagem ativo morre."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Size of cities"
-msgstr ""
+msgstr "Tamanho das cidades"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities and roads."
-msgstr ""
+msgstr "Um número determinando o tamanho das cidades. 0 desabilita cidades e estradas."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "City spacing"
-msgstr ""
+msgstr "Espaçamento das cidades"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "A number determining how far apart cities are.  Warning, small numbers lead "
 "to very slow mapgen."
-msgstr ""
+msgstr "Um número determinando o quão longe uma cidade é da outra. Cuidado, números pequenos levam a uma criação de mapa lenta."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Spawn rate scaling factor"
-msgstr ""
+msgstr "Fator de escala do spawn"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "A scaling factor that determines density of monster spawns."
-msgstr ""
+msgstr "Um fator de escala que determina a densidade dos spawns dos monstros."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Item spawn scaling factor"
-msgstr ""
+msgstr "Fator de escala do spawn de itens"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "A scaling factor that determines density of item spawns."
-msgstr ""
+msgstr "Um fator de escala que determina a densidade do spawn de itens"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "NPC spawn rate scaling factor"
-msgstr ""
+msgstr "Fator de escala do spawn de NPCs"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "A scaling factor that determines density of dynamic NPC spawns."
-msgstr ""
+msgstr "Um fator de escala que determina a densidade do spawn de NPCs dinâmicos."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Monster evolution scaling factor"
-msgstr ""
+msgstr "Fator de escala da evolução dos monstros"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "A scaling factor that determines the time between monster upgrades.  A "
 "higher number means slower evolution.  Set to 0.00 to turn off monster "
 "upgrades."
-msgstr ""
+msgstr "Um fator de escala que determina o tempo entre upgrades dos monstros. Um número grande significa uma evolução mais lenta. 0.00 desliga upgrades."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Monster speed"
-msgstr ""
+msgstr "Velocidade dos monstros"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Determines the movement rate of monsters.  A higher value increases monster "
 "speed and a lower reduces it."
-msgstr ""
+msgstr "Determina a velocidade dos monstros. Um valor alto aumenta a velocidade e um baixo diminui."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Monster resilience"
-msgstr ""
+msgstr "Resiliência dos monstros"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Determines how much damage monsters can take.  A higher value makes monsters"
 " more resilient and a lower makes them more flimsy."
-msgstr ""
+msgstr "Determina quanto dano os monstros podem levar. Um valor alto torna os monstros mais resilientes e um baixo os torna mais frágeis."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Default region type"
-msgstr ""
+msgstr "Região padrão"
 
 #: lang/extra/android/options.cpp
 msgid "(WIP feature) Determines terrain, shops, plants, and more."
-msgstr ""
+msgstr "(Em progresso) Determina terrenos, lojas, plantas, etc."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial time"
-msgstr ""
+msgstr "Hora inicial"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial starting time of day on character generation."
-msgstr ""
+msgstr "Hora do dia inicial na criação do personagem."
 
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Spring"
-msgstr ""
+msgstr "Primavera"
 
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Summer"
-msgstr ""
+msgstr "Verão"
 
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Autumn"
-msgstr ""
+msgstr "Outono"
 
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Winter"
-msgstr ""
+msgstr "Inverno"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Initial season"
-msgstr ""
+msgstr "Estação inicial"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Season the player starts in.  Options other than the default delay spawn of "
 "the character, so food decay and monster spawns will have advanced."
-msgstr ""
+msgstr "A estação inicial do jogo. Opções que não sejam o padrão irão atrasar o spawn do personagem, então comidas terão estragado e spawns dos monstros terão avançado."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Season length"
-msgstr ""
+msgstr "Duração das estações"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Season length, in days."
-msgstr ""
+msgstr "Duração das estações, em dias."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Construction scaling"
-msgstr ""
+msgstr "Escala das construções"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Sets the time of construction in percents.  '50' is two times faster than "
 "default, '200' is two times longer.  '0' automatically scales construction "
 "time to match the world's season length."
-msgstr ""
+msgstr "Ajusta o tempo das construções em porcentagem. '50' é duas vezes mais rápido que o normal, '200' é duas vezes mais demorado. '0' automaticamente escala o tempo de construção para combinar com a duração das estações."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Eternal season"
-msgstr ""
+msgstr "Estação eterna"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Keep the initial season for ever."
-msgstr ""
+msgstr "Mantém a estação inicial para sempre"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Wander spawns"
-msgstr ""
+msgstr "Spawns de hordas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Emulation of zombie hordes.  Zombie spawn points wander around cities and "
 "may go to noise.  Must reset world directory after changing for it to take "
 "effect."
-msgstr ""
+msgstr "Emulação de hordas de zumbis. Pontos de spawn dos zumbis mudam pela cidade e podem seguir barulho. Deve resetar o diretório do mundo depois de mudar para fazer efeito."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Classic zombies"
-msgstr ""
+msgstr "Zumbis clássicos"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Only spawn classic zombies and natural wildlife.  Requires a reset of save "
 "folder to take effect.  This disables certain buildings."
-msgstr ""
+msgstr "Spawna só zumbis clássicos e vida selvagem natural. Precisa de um reset da pasta de saves para fazer efeito. Isso desabilita certas construções."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Surrounded start"
-msgstr ""
+msgstr "Início cercado"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, spawn zombies at shelters.  Makes the starting game a lot harder."
-msgstr ""
+msgstr "Se verdadeiro, irá spawnar zumbis em abrigos. O início do jogo vai ser bem mais difícil."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Static npcs"
-msgstr ""
+msgstr "NPCs estáticos"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, the game will spawn static NPC at the start of the game, requires "
 "world reset."
-msgstr ""
+msgstr "Se verdadeiro, o jogo irá spawnar NPCs estáticos no começo do jogo, precisa resetar o mundo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Random npcs"
-msgstr ""
+msgstr "NPCs aleatórios"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, the game will randomly spawn NPC during gameplay."
-msgstr ""
+msgstr "Se verdadeiro, o jogo irá aleatoriamente spawnar NPCs ao longo do tempo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Mutations by radiation"
-msgstr ""
+msgstr "Mutações por radiação"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, radiation causes the player to mutate."
-msgstr ""
+msgstr "Se verdadeiro, radiação pode causar mutações."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Experimental z-levels"
-msgstr ""
+msgstr "Eixo Z experimental"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, experimental z-level maps will be enabled.  This feature is not "
 "finished yet and turning it on will only slow the game down."
-msgstr ""
+msgstr "Se verdadeiro, mapas com diferentes níveis no eixo Z serão habilitados. Essa mecânica é experimental e não está completa. Habilitar essa opção só irá deixar o jogo mais lento."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Align up and down stairs"
-msgstr ""
+msgstr "Alinhar escadas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, downstairs will be placed directly above upstairs, even if this "
 "results in uglier maps."
-msgstr ""
+msgstr "Se verdadeiro, escadas serão alinhadas nos diferentes pisos, mesmo se isso gerar mapas mais feios."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Disables vehicle part faults."
-msgstr ""
+msgstr "Desabilita defeitos nas partes dos veículos."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, disables vehicle part faults, vehicle parts will be totally "
 "reliable unless destroyed, and can only be repaired via replacement."
-msgstr ""
+msgstr "Se verdadeiro, desabilita defeitos nas partes dos veículos. Partes de veículos serão totalmente confiáveis a não ser que sejam destruídas, e só podem ser consertadas se forem substituídas."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Morale penalty for filthy clothing."
-msgstr ""
+msgstr "Penalidade de moral ao vestir roupas sujas."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, wearing filthy clothing will cause morale penalties."
-msgstr ""
+msgstr "Se verdadeiro, vestir roupas sujas irá causar penalidades à moral."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Infected wounds from filthy clothing."
-msgstr ""
+msgstr "Machucados infectados por roupas sujas."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, getting hit in a body part covered in filthy clothing may cause "
 "infections."
-msgstr ""
+msgstr "Se verdadeiro, ao ser atingido em uma parte do corpo que esteja com uma roupa suja, você pode ser infectado."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Disables tracking vitamins in food items."
-msgstr ""
+msgstr "Desabilita vitaminas em comidas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, disables vitamin tracking and vitamin disorders."
-msgstr ""
+msgstr "Se verdadeiro, desabilita vitaminas e doenças relacionadas a vitaminas."
 
 #: lang/extra/android/options.cpp
 msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
-msgstr ""
+msgstr "Desabilita necessidade por comida, bebida e (parcialmente) stamina para os NPCs."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, NPCs won't need to eat or drink and will only get tired enough to "
 "sleep, not to get penalties."
-msgstr ""
+msgstr "Se verdadeiro, NPCs não precisarão comer ou beber e só se cansarão o suficiente para dormir, mas não receberão penalidades."
 
 #: lang/extra/android/options.cpp
 msgid "Skip welcome screen"
-msgstr ""
+msgstr "Pular tela inicial"
 
 #: lang/extra/android/options.cpp
 msgid "If true, skips the Android welcome screen on app load."
-msgstr ""
+msgstr "Se verdadeiro, pula a tela inicial de boas vindas do Android."
 
 #: lang/extra/android/options.cpp
 msgid "Quicksave on app lose focus"
-msgstr ""
+msgstr "Quicksave ao perder o foco do app"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, quicksave whenever the app loses focus (screen locked, app moved "
 "into background etc.) WARNING: Experimental. This may result in corrupt save"
 " games."
-msgstr ""
+msgstr "Se verdadeiro, irá salvar sempre que o app perde o foco (tela bloqueada, app no background, etc.). CUIDADO: Experimental. Isso pode resultar em saves corruptos."
 
 #: lang/extra/android/options.cpp
 msgid "Auto-manage virtual keyboard"
-msgstr ""
+msgstr "Auto-gerenciar teclado virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, automatically show/hide the virtual keyboard when necessary based "
 "on context. If false, virtual keyboard must be toggled manually."
-msgstr ""
+msgstr "Se verdadeiro, automaticamente mostra/esconde o teclado virtual quando necessário baseado em contexto. Se falso, o teclado virtual deverá ser ativado manualmente."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual keyboard screen scale"
-msgstr ""
+msgstr "Escalar a tela com teclado virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "When the virtual keyboard is visible, scale the screen to prevent "
 "overlapping. Useful for text entry so you can see what you're typing."
-msgstr ""
+msgstr "Quando o teclado virtual estiver visível, escala a tela para prevenir sobreposição. Útil para digitar textos, para que você consiga ver o que está digitando."
 
 #: lang/extra/android/options.cpp
 msgid "Vibration duration"
-msgstr ""
+msgstr "Duração da vibração"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If non-zero, vibrate the device for this long on input, in millisconds. "
 "Ignored if hardware keyboard connected."
-msgstr ""
+msgstr "Se não for zero, vibra o dispositivo por tantos milisegundos. Ignorado se um teclado estiver conectado."
 
 #: lang/extra/android/options.cpp
 msgid "Sensor"
-msgstr ""
+msgstr "Sensor"
 
 #: lang/extra/android/options.cpp
 msgid "Portrait"
-msgstr ""
+msgstr "Retrato"
 
 #: lang/extra/android/options.cpp
 msgid "Landscape"
-msgstr ""
+msgstr "Paisagem"
 
 #: lang/extra/android/options.cpp
 msgid "Rev Landscape"
-msgstr ""
+msgstr "Paisagem reversa"
 
 #: lang/extra/android/options.cpp
 msgid "Screen orientation"
-msgstr ""
+msgstr "Orientação de tela"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "Use the device's sensor to orient the screen automatically, or force a "
 "specific orientation."
-msgstr ""
+msgstr "Usa o sensor do dispositivo para orientar a tela automaticamente, ou força uma orientação específica."
 
 #: lang/extra/android/options.cpp
 msgid "Show virtual joystick"
-msgstr ""
+msgstr "Mostrar joystick virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, show the virtual joystick when touching and holding the screen. "
 "Gives a visual indicator of deadzone and stick deflection."
-msgstr ""
+msgstr "Se verdadeiro, mostra o joystick virtual quando tocar e segurar a tela. Mostra um indicador visual da zona morta e deflexão do analógico."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick opacity"
-msgstr ""
+msgstr "Opacidade do joystick virtual"
 
 #: lang/extra/android/options.cpp
 msgid "The opacity of the on-screen virtual joystick, as a percentage."
-msgstr ""
+msgstr "A opacidade do joystick virtual na tela, em porcentagem"
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick deadzone size"
-msgstr ""
+msgstr "Tamanho da zona morta do joystick virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "While using the virtual joystick, deflecting the stick beyond this distance "
 "will trigger directional input. Specified as a percentage of longest screen "
 "edge."
-msgstr ""
+msgstr "Enquanto usar o joystick virtual, mover o analógico além dessa distância vai ativar o input direcional. Especificado como uma porcentagem do canto da tela mais longo."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick size"
-msgstr ""
+msgstr "Tamanho do joystick virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "While using the virtual joystick, deflecting the stick by this much will "
 "repeat input at the deflected rate (see below). Specified as a percentage of"
 " longest screen edge."
-msgstr ""
+msgstr "Enquanto usar o joystick virtual, mover o analógico por esse valor irá repetir o input pela taxa de deflexão (veja abaixo). Especificado como uma porcentagem do canto da tela mais longo."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick follows finger"
-msgstr ""
+msgstr "Joystick virtual segue o dedo"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, the virtual joystick will follow when sliding beyond its range."
-msgstr ""
+msgstr "Se verdadeiro, o joystick virtual seguirá enquanto deslizar o dedo além do seu alcance."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick repeat rate (centered)"
-msgstr ""
+msgstr "Taxa de repetição do joystick virtual (centralizado)"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "When the virtual joystick is centered, how fast should input events repeat, "
 "in milliseconds."
-msgstr ""
+msgstr "Com o joystick virtual centralizado, o quão rápido os inputs devem repetir, em milisegundos."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick repeat rate (deflected)"
-msgstr ""
+msgstr "Taxa de repetição do joystick virtual (não centralizado)"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "When the virtual joystick is fully deflected, how fast should input events "
 "repeat, in milliseconds."
-msgstr ""
+msgstr "Quando o joystick virtual estiver movido completamente para uma direção, o quão rápido os inputs devem repetir, em milisegundos."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick repeat rate sensitivity"
-msgstr ""
+msgstr "Sensitividade da taxa de repetição do joystick virtual"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "As the virtual joystick moves from centered to fully deflected, this value "
 "is an exponent that controls the blend between the two repeat rates defined "
 "above. 1.0 = linear."
-msgstr ""
+msgstr "Este valor é um expoente de interpolação entre o joystick centralizado até ele ser movido completamente para uma direção. 1.0 = linear."
 
 #: lang/extra/android/options.cpp
 msgid "Input repeat delay"
-msgstr ""
+msgstr "Atraso de repetição do input"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
 "joystick and repeating input, in milliseconds. Also used to determine tap"
 "/double-tap detection, flick detection and toggling quick shortcuts."
-msgstr ""
+msgstr "Enquanto estiver tocando na tela, esperar este tempo em milisegundos antes de mostrar o joystick virtual e antes de repetir o input. Também usado para determinar a detecção de outros gestos como o toque rápido, toque duplo, arremesso, e ativação de atalhos."
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick hides shortcuts"
-msgstr ""
+msgstr "Joystick virtual esconde atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, hides on-screen keyboard shortcuts while using the virtual "
 "joystick. Helps keep the view uncluttered while travelling long distances "
 "and navigating menus."
-msgstr ""
+msgstr "Se verdadeiro, os atalhos de teclado na tela são escondidos se estiver usando o joystick virtual. Ajuda a manter a visão menos bagunçada ao viajar longas distâncias e ao navegar nos menus."
 
 #: lang/extra/android/options.cpp
 msgid "Default gameplay shortcuts"
-msgstr ""
+msgstr "Atalhos padrão de gameplay"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "The default set of gameplay shortcuts to show. Used on starting a new game "
 "and whenever all gameplay shortcuts are removed."
-msgstr ""
+msgstr "O set padrão de atalhos. Usado quando começa um novo jogo e sempre que todos os atalhos do jogo são removidos."
 
 #: lang/extra/android/options.cpp
 msgid "Add shortcuts for action menu selections"
-msgstr ""
+msgstr "Adicionar atalhos para seleções no menu"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, automatically add a shortcut for actions selected via the in-game "
 "action menu."
-msgstr ""
+msgstr "Se verdadeiro, irá automaticamente adicionar um atalho para ações selecionadas via o menu de ações."
 
 #: lang/extra/android/options.cpp
 msgid "Add shortcuts for inventory selections"
-msgstr ""
+msgstr "Adicionar atalhos para seleções no inventário"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, automatically add a shortcut for items selected via the inventory."
-msgstr ""
+msgstr "Se verdadeiro, irá automaticamente adicionar um atalho para itens selecionados via inventário."
 
 #: lang/extra/android/options.cpp
 msgid "Tap key (in-game)"
-msgstr ""
+msgstr "Tecla do toque rápido"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when tapping during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando fizer um toque rápido durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Two-finger tap key (in-game)"
-msgstr ""
+msgstr "Tecla do toque rápido de dois dedos"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when tapping with two fingers during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando fizer um toque rápido de dois dedos durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Two-finger swipe up key (in-game)"
-msgstr ""
+msgstr "Tecla do deslize para cima com dois dedos"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when swiping up with two fingers during gameplay."
-msgstr ""
+msgstr "a tecla ativada quando deslizar para cima com dois dedos durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Two-finger swipe down key (in-game)"
-msgstr ""
+msgstr "Tecla do deslize para baixo com dois dedos"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when swiping down with two fingers during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando deslizar para baixo com dois dedos durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Two-finger swipe left key (in-game)"
-msgstr ""
+msgstr "Tecla do deslize para a esquerda com dois dedos"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when swiping left with two fingers during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando deslizar para a esquerda com dois dedos durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Two-finger swipe right key (in-game)"
-msgstr ""
+msgstr "Tecla do deslize para a direita com dois dedos"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when swiping right with two fingers during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando deslizar para a direita com dois dedos durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Pinch in key (in-game)"
-msgstr ""
+msgstr "Tecla do pinçamento"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when pinching in during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando fizer um pinçamento na tela durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Pinch out key (in-game)"
-msgstr ""
+msgstr "Tecla do pinçamento para fora"
 
 #: lang/extra/android/options.cpp
 msgid "The key to press when pinching out during gameplay."
-msgstr ""
+msgstr "A tecla ativada quando fizer um pinçamento para fora na tela durante o jogo."
 
 #: lang/extra/android/options.cpp
 msgid "Auto-manage contextual gameplay shortcuts"
-msgstr ""
+msgstr "Auto-gerenciar atalhos contextuais"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, contextual in-game shortcuts are added and removed automatically as"
 " needed: examine, close, butcher, move up/down, control vehicle, pickup, "
 "toggle enemy + safe mode, sleep."
-msgstr ""
+msgstr "Se verdadeiro, atalhos serão adicionados automaticamente conforme o contexto: examinar, fechar, esfolar, subir/abaixar, controlar veículo, coletar, ativar modo seguro, dormir."
 
 #: lang/extra/android/options.cpp
 msgid "Move contextual gameplay shortcuts to front"
-msgstr ""
+msgstr "Mover atalhos contextuais para a frente"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If the above option is enabled, specifies whether contextual in-game "
 "shortcuts will be added to the front or back of the shortcuts list. True "
 "makes them easier to reach, False reduces shuffling of shortcut positions."
-msgstr ""
+msgstr "Especifica se um atalho contextual vai aparecer à frente ou atrás da lista de atalhos. Se verdadeiro, os atalhos serão mais fáceis de alcançar. Se falso, será preciso reorganizar as posições dos atalhos."
 
 #: lang/extra/android/options.cpp
 msgid "Move used shortcuts to front"
-msgstr ""
+msgstr "Mover atalhos usados para a frente"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, using an existing shortcut will always move it to the front of the "
 "shortcuts list. If false, only shortcuts typed via keyboard will move to the"
 " front."
-msgstr ""
+msgstr "Se verdadeiro, usar um atalho existente vai sempre move-lo para a frente da lista. Se falso, somente atalhos digitados via teclado serão movidos para a frente."
 
 #: lang/extra/android/options.cpp
 msgid "Separate shortcuts for No Auto Pickup zones"
-msgstr ""
+msgstr "Diferenciar atalhos para zonas Sem Coleta Automática."
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, separate gameplay shortcuts will be used within No Auto Pickup "
 "zones. Useful for keeping home base actions separate from exploring actions."
-msgstr ""
+msgstr "Se verdadeiro, atalhos diferentes serão usados em zonas Sem Coleta Automática. Útil para separar ações usadas na sua base de ações usadas enquanto explora."
 
 #: lang/extra/android/options.cpp
 msgid "Turns to remove unused gameplay shortcuts"
-msgstr ""
+msgstr "Turnos para remover atalhos não usados"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If non-zero, unused gameplay shortcuts will be removed after this many turns"
 " (as in discrete player actions, not world calendar turns)."
-msgstr ""
+msgstr "Se for diferente de zero, atalhos não usados serão removidos depois deste número de turnos (turnos de ação do jogador, não do mundo)."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcuts persistence"
-msgstr ""
+msgstr "Persistência de atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, shortcuts are saved/restored with each save game. If false, "
 "shortcuts reset between sessions."
-msgstr ""
+msgstr "Se verdadeiro, atalhos serão salvos/carregados com cada jogo salvo. Se falso, atalhos serão resetados entre as sessões."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcuts position"
-msgstr ""
+msgstr "Posição dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "Switch between shortcuts on the left or on the right side of the screen."
-msgstr ""
+msgstr "Muda a posição dos atalhos da esquerda para a direita, ou vice-versa."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcuts screen percentage"
-msgstr ""
+msgstr "Porcentagem da tela de atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "How much of the screen can shortcuts occupy, as a percentage of total screen"
 " width."
-msgstr ""
+msgstr "Quanto da tela os atalhos ocuparão. É uma porcentagem da largura total da tela."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcuts overlap screen"
-msgstr ""
+msgstr "Atalhos sobrepõem a tela"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "If true, shortcuts will be drawn transparently overlapping the game screen. "
 "If false, the game screen size will be reduced to fit the shortcuts below."
-msgstr ""
+msgstr "Se verdadeiro, atalhos serão mostrados sobre a tela, transparentes. Se falso, a tela do jogo será reduzida para encaixar os atalhos embaixo."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut opacity (background)"
-msgstr ""
+msgstr "Opacidade do fundo dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "The background opacity of on-screen keyboard shortcuts, as a percentage."
-msgstr ""
+msgstr "A opacidade dos fundos dos atalhos na tela, como uma porcentagem."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut opacity (shadow)"
-msgstr ""
+msgstr "Opacidade da sombra dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid "The shadow opacity of on-screen keyboard shortcuts, as a percentage."
-msgstr ""
+msgstr "A opacidade da sombra dos atalhos na tela, como uma porcentagem."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut opacity (text)"
-msgstr ""
+msgstr "Opacidade do texto dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "The foreground opacity of on-screen keyboard shortcuts, as a percentage."
-msgstr ""
+msgstr "A opacidade dos textos dos atalhos em si, como uma porcentagem."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut color"
-msgstr ""
+msgstr "Cor do atalho"
 
 #: lang/extra/android/options.cpp
 msgid "The color of on-screen keyboard shortcuts."
-msgstr ""
+msgstr "A cor dos atalhos de teclado mostrados na tela."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut border"
-msgstr ""
+msgstr "Borda dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid "The border of each on-screen keyboard shortcut in pixels. ."
-msgstr ""
+msgstr "A borda de cada atalho na tela em pixels."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut width (min)"
-msgstr ""
+msgstr "Largura mínima dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid ""
 "The minimum width of each on-screen keyboard shortcut in pixels. Only "
 "relevant when lots of shortcuts are visible at once."
-msgstr ""
+msgstr "A largura mínima de cada atalho na tela, em pixels. Só é relevante quando muitos atalhos aparecem ao mesmo tempo."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut width (max)"
-msgstr ""
+msgstr "Largura máxima dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid "The maximum width of each on-screen keyboard shortcut in pixels."
-msgstr ""
+msgstr "A largura máxima de cada atalho na tela, em pixels."
 
 #: lang/extra/android/options.cpp
 msgid "Shortcut height"
-msgstr ""
+msgstr "Altura dos atalhos"
 
 #: lang/extra/android/options.cpp
 msgid "The height of each on-screen keyboard shortcut in pixels."
-msgstr ""
+msgstr "A altura de cada atalho na tela, em pixels."
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Loading the tileset failed: %s"
-msgstr ""
+msgstr "Erro ao carregar o tileset: %s"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid " OPTIONS "
-msgstr ""
+msgstr "OPÇÕES"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Current world"
-msgstr ""
+msgstr "Mundo atual"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "%s #%s -- The window will be %d pixel wide with the selected value."
 msgid_plural ""
 "%s #%s -- The window will be %d pixels wide with the selected value."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s #%s -- A tela terá %d pixel de largura com o valor selecionado."
+msgstr[1] "%s #%s -- A tela terá %d pixels de largura com o valor selecionado."
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "%s #%s -- The window will be %d pixel tall with the selected value."
 msgid_plural ""
 "%s #%s -- The window will be %d pixels tall with the selected value."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s #%s -- A tela terá %d pixel de altura com o valor selecionado."
+msgstr[1] "%s #%s -- A tela terá %d pixels de altura com o valor selecionado."
 
 #: lang/extra/android/options.cpp src/item.cpp src/options.cpp
 msgid "Note: "
-msgstr ""
+msgstr "Nota: "
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Some of these options may produce unexpected results if changed."
-msgstr ""
+msgstr "Algumas dessas opções podem causar resultados inesperados se modificadas."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Invalid input: not a number"
-msgstr ""
+msgstr "Input inválido: não é um número"
 
 #: lang/extra/android/options.cpp src/auto_pickup.cpp src/color.cpp
 #: src/game.cpp src/input.cpp src/options.cpp src/safemode_ui.cpp
@@ -1799,11 +1800,11 @@ msgstr "Salvar alterações?"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "options"
-msgstr ""
+msgstr "opções"
 
 #: lang/json/AMMO_from_json.py
 msgid "battery"
-msgstr ""
+msgstr "bateria"
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py
@@ -1824,7 +1825,7 @@ msgstr "Uma folha fina de alumínio . Às vezes chamada de \" folha de estanho '
 
 #: lang/json/AMMO_from_json.py
 msgid "cent"
-msgstr ""
+msgstr "centavo"
 
 #. ~ Description for cent
 #. ~ Description for placeholder ammunition
@@ -1835,7 +1836,7 @@ msgstr "SE VOCÊ ESTIVER VENDO ISSO, É UM BUG."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "thread"
-msgstr ""
+msgstr "linha"
 
 #. ~ Description for thread
 #: lang/json/AMMO_from_json.py
@@ -1844,7 +1845,7 @@ msgstr "Uma pequena quantidade de linha que pode ser usada para reabastecer o ki
 
 #: lang/json/AMMO_from_json.py
 msgid "sinew"
-msgstr ""
+msgstr "tendão"
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
@@ -1853,7 +1854,7 @@ msgstr "Um tendão resistente cortado de um corpo, usável como linha de costura
 
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
-msgstr ""
+msgstr "fibra vegetal"
 
 #. ~ Description for plant fiber
 #: lang/json/AMMO_from_json.py
@@ -1862,7 +1863,7 @@ msgstr "Fibra fina resistente, feita de uma planta. Pode ser usada como linha de
 
 #: lang/json/AMMO_from_json.py
 msgid "yarn"
-msgstr ""
+msgstr "fio"
 
 #. ~ Description for yarn
 #: lang/json/AMMO_from_json.py
@@ -1871,7 +1872,7 @@ msgstr "Novelo de lã, pode ser usado para tricotar vestes."
 
 #: lang/json/AMMO_from_json.py
 msgid "soap bar"
-msgstr ""
+msgstr "sabonete"
 
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
@@ -1880,7 +1881,7 @@ msgstr "Um agente de limpeza pessoal feito em barras."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "duct tape"
-msgstr ""
+msgstr "fita adesiva"
 
 #. ~ Description for duct tape
 #: lang/json/AMMO_from_json.py
@@ -1889,7 +1890,7 @@ msgstr "Um rolo de fita incrivelmente forte. Há inumeráveis formas de uso."
 
 #: lang/json/AMMO_from_json.py
 msgid "rolling paper"
-msgstr ""
+msgstr "papel rolante"
 
 #. ~ Description for rolling paper
 #: lang/json/AMMO_from_json.py
@@ -1898,7 +1899,7 @@ msgstr "Algumas fitas de papel com a intenção de enrolar cigarros."
 
 #: lang/json/AMMO_from_json.py
 msgid "copper wire"
-msgstr ""
+msgstr "fio de cobre"
 
 #. ~ Description for copper wire
 #: lang/json/AMMO_from_json.py
@@ -1907,7 +1908,7 @@ msgstr "Cabo de cobre revestido em plástico, do tipo usado em eletrônicos pequ
 
 #: lang/json/AMMO_from_json.py
 msgid "plutonium cell"
-msgstr ""
+msgstr "célula de plutônio"
 
 #. ~ Description for plutonium cell
 #: lang/json/AMMO_from_json.py
@@ -1932,7 +1933,7 @@ msgstr "suspensões aquosas de plutônio"
 
 #: lang/json/AMMO_from_json.py
 msgid "pebble"
-msgstr ""
+msgstr "seixo"
 
 #. ~ Description for pebble
 #: lang/json/AMMO_from_json.py
@@ -1941,7 +1942,7 @@ msgstr "Um punhado de cascalhos, úteis como munição para fundas e estilingues
 
 #: lang/json/AMMO_from_json.py
 msgid "marble"
-msgstr ""
+msgstr "bolinha de gude"
 
 #. ~ Description for marble
 #: lang/json/AMMO_from_json.py
@@ -1960,7 +1961,7 @@ msgstr "Um punhado de rolamentos, úteis como munição para fundas."
 
 #: lang/json/AMMO_from_json.py
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #. ~ Description for BB
 #: lang/json/AMMO_from_json.py
@@ -1969,7 +1970,7 @@ msgstr "Uma caixa de pequenas bolas de ferro, elas praticamente não causam nenh
 
 #: lang/json/AMMO_from_json.py
 msgid "feather"
-msgstr ""
+msgstr "pena"
 
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
@@ -1978,7 +1979,7 @@ msgstr "Penas de um pássaro. Útil para a rabeira de flechas."
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
-msgstr ""
+msgstr "pluma"
 
 #. ~ Description for down feather
 #: lang/json/AMMO_from_json.py
@@ -1987,7 +1988,7 @@ msgstr "Penugens fofas de um pássaro. Úteis para fazer pijamas confortáveis."
 
 #: lang/json/AMMO_from_json.py
 msgid "fusion pack"
-msgstr ""
+msgstr "pacote de fusão"
 
 #. ~ Description for fusion pack
 #: lang/json/AMMO_from_json.py
@@ -1999,7 +2000,7 @@ msgstr "Em meados do século 21 , os poderes militares começaram a estudar arma
 
 #: lang/json/AMMO_from_json.py
 msgid "66mm HEAT"
-msgstr ""
+msgstr "66mm HEAT"
 
 #. ~ Description for 66mm HEAT
 #: lang/json/AMMO_from_json.py
@@ -2010,7 +2011,7 @@ msgstr "Um cartucho Anti Tanque Altamente Explosivo de 60mm. Isso pode explodir 
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm HEAT"
-msgstr ""
+msgstr "120mm HEAT"
 
 #. ~ Description for 120mm HEAT
 #: lang/json/AMMO_from_json.py
@@ -2020,7 +2021,7 @@ msgstr "Um cartucho Anti Tanque Altamente Explosivo de 120mm. Isso pode arruinar
 
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen canister"
-msgstr ""
+msgstr "lata de hidrogênio"
 
 #. ~ Description for hydrogen canister
 #: lang/json/AMMO_from_json.py
@@ -2031,7 +2032,7 @@ msgstr "Uma lata de hidrogênio tão comprimido que o tornou sólido. Com o equi
 
 #: lang/json/AMMO_from_json.py
 msgid "unused .22 casing"
-msgstr ""
+msgstr "revestimento .22 inutilizado"
 
 #. ~ Description for unused .22 casing
 #: lang/json/AMMO_from_json.py
@@ -2069,7 +2070,7 @@ msgstr "Pó de soda cáustica."
 
 #: lang/json/AMMO_from_json.py
 msgid "shotgun primer"
-msgstr ""
+msgstr "espoleta de espingarda"
 
 #. ~ Description for shotgun primer
 #: lang/json/AMMO_from_json.py
@@ -2078,7 +2079,7 @@ msgstr "Espoleta de cartucho de espingarda."
 
 #: lang/json/AMMO_from_json.py
 msgid "small pistol primer"
-msgstr ""
+msgstr "espoleta de pistola pequena"
 
 #. ~ Description for small pistol primer
 #: lang/json/AMMO_from_json.py
@@ -2087,7 +2088,7 @@ msgstr "Espoleta de cartucho de uma pistola de baixo calibre."
 
 #: lang/json/AMMO_from_json.py
 msgid "large pistol primer"
-msgstr ""
+msgstr "espoleta de pistola grande"
 
 #. ~ Description for large pistol primer
 #: lang/json/AMMO_from_json.py
@@ -2096,7 +2097,7 @@ msgstr "Espoleta de cartucho de uma pistola de alto calibre."
 
 #: lang/json/AMMO_from_json.py
 msgid "small rifle primer"
-msgstr ""
+msgstr "espoleta de rifle pequeno"
 
 #. ~ Description for small rifle primer
 #: lang/json/AMMO_from_json.py
@@ -2105,7 +2106,7 @@ msgstr "Espoleta para cartucho de um rifle de baixo calibre."
 
 #: lang/json/AMMO_from_json.py
 msgid "large rifle primer"
-msgstr ""
+msgstr "espoleta de rifle grande"
 
 #. ~ Description for large rifle primer
 #: lang/json/AMMO_from_json.py
@@ -2114,7 +2115,7 @@ msgstr "Espoleta de cartucho de um rifle de alto calibre."
 
 #: lang/json/AMMO_from_json.py
 msgid "rubber slug"
-msgstr ""
+msgstr "bala de borracha"
 
 #. ~ Description for rubber slug
 #: lang/json/AMMO_from_json.py
@@ -2155,27 +2156,27 @@ msgstr "Sucatas de alumínio e estanho. Utilizáveis na fabricação de muniçã
 
 #: lang/json/AMMO_from_json.py
 msgid "medical tape"
-msgstr ""
+msgstr "fita médica"
 
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of medical tape, similar to duct tape."
-msgstr ""
+msgstr "Um rolo de fita médica, parecido com fita adesiva."
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV441B HE rocket"
-msgstr ""
+msgstr "foguete HE FFV441B"
 
 #. ~ Description for FFV441B HE rocket
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 "
 "recoilless rifle.  Designed to be highly effective against personnel."
-msgstr ""
+msgstr "Um projétil antipessoal Alto-Explosivo de 84x246mm para o rifle sem recuo Carl Gustav M3. Projetado para ser altamente efetivo contra infantaria."
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV502 HEDP rocket"
-msgstr ""
+msgstr "foguete HEDP FFV502"
 
 #. ~ Description for FFV502 HEDP rocket
 #: lang/json/AMMO_from_json.py
@@ -2183,11 +2184,11 @@ msgid ""
 "A 84x246mm High Explosive Dual Purpose anti-materiel round for the Carl "
 "Gustav M3 recoilless rifle.  Designed to be highly effective against "
 "vehicles and structures."
-msgstr ""
+msgstr "Um projétil antipessoal Alto-Explosivo de Dupla Função de 84x246mm para o rifle sem recuo Carl Gustav M3. Projetado para ser altamente efetivo contra veículos e estruturas."
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV469 smoke rocket"
-msgstr ""
+msgstr "foguete de fumaça FFV469"
 
 #. ~ Description for FFV469 smoke rocket
 #: lang/json/AMMO_from_json.py
@@ -2195,20 +2196,20 @@ msgid ""
 "A 84x246mm smoke marker round for the Carl Gustav M3 recoilless rifle.  "
 "Commonly used for signaling, target designation, and for screening troop "
 "movements."
-msgstr ""
+msgstr "Um projétil de fumaça de 84x246mm para o rifle sem recuo Carl Gustav M3. Normalmente usado para sinalizar, designar alvos, e camuflar movimentos de tropas."
 
 #: lang/json/AMMO_from_json.py
 msgid "PG-7VL 93mm rocket"
-msgstr ""
+msgstr "foguete 93mm PG-7VL"
 
 #. ~ Description for PG-7VL 93mm rocket
 #: lang/json/AMMO_from_json.py
 msgid "93mm single-stage high-explosive ammunition for the RPG-7."
-msgstr ""
+msgstr "Uma munição Alto-Explosiva de único estágio de 93mm para o RPG-7."
 
 #: lang/json/AMMO_from_json.py
 msgid "M235 66mm TPA rocket"
-msgstr ""
+msgstr "foguete TPA 66mm M235"
 
 #. ~ Description for M235 66mm TPA rocket
 #: lang/json/AMMO_from_json.py
@@ -2216,15 +2217,15 @@ msgid ""
 "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their "
 "warheads are filled with a thickened pyrophoric agent, which burns at 2200 "
 "degrees Fahrenheit."
-msgstr ""
+msgstr "Foguetes incendiários de 66mm usados no lança-foguetes M202 FLASH. Sua ogiva é estufada com um agente pirofórico engrossado, queimando a 1204 graus Celsius."
 
 #: lang/json/AMMO_from_json.py
 msgid "placeholder ammunition"
-msgstr ""
+msgstr "munição improvisada"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "charcoal"
-msgstr ""
+msgstr "carvão vegetal"
 
 #. ~ Description for charcoal
 #: lang/json/AMMO_from_json.py
@@ -2233,22 +2234,22 @@ msgid ""
 " other volatile constituents from animal and vegetation substances.  It is "
 "produced by slowly heating wood or other substances in the absence of "
 "oxygen."
-msgstr ""
+msgstr "Carvão vegetal é um material inflamável baseado em carbono conseguido ao remover água e outros constituintes voláteis de substâncias animais e vegetais. É produzido ao lentamente aquecer madeira ou outras substâncias em um ambiente sem oxigênio."
 
 #: lang/json/AMMO_from_json.py
 msgid "coal"
-msgstr ""
+msgstr "carvão"
 
 #. ~ Description for coal
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Flammable black chunks of carbon-based material commonly used for cooking "
 "and heating."
-msgstr ""
+msgstr "Pedaços pretos inflamáveis de material baseado em carbono, normalmente utilizado para cozinhar e aquecer."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
-msgstr ""
+msgstr "mininuke modificado"
 
 #. ~ Description for modified mininuke
 #: lang/json/AMMO_from_json.py
@@ -2257,11 +2258,11 @@ msgid ""
 "specialized launcher, its case has been cut down and it has been rigged to "
 "explode on impact.  While it is now somewhat lighter than before, it can no "
 "longer be triggered manually."
-msgstr ""
+msgstr "Um dispositivo nuclear portátil pesado e modificado. Usado como munição de um lançador especializado, seu revestimento foi removido e ele foi modificado para detonar ao impacto. É mais leve que antes, mas não tem como ser ativado manualmente."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA21E medical ampoule"
-msgstr ""
+msgstr "ampola médica RA21E"
 
 #. ~ Description for RA21E medical ampoule
 #: lang/json/AMMO_from_json.py
@@ -2269,11 +2270,11 @@ msgid ""
 "A tiny glass vial filled with advanced fast-healing chemicals which can only"
 " be activated by a Rivtech jet injector device.  A label on the side warns "
 "against using more than two doses per hour."
-msgstr ""
+msgstr "Um pequeno frasco de vidro com agentes químicos de cura rápida, para serem injetados com um dispositivo injetor Rivtech. O rótulo adverte para não usar mais de duas doses por hora."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA10K stimulant module"
-msgstr ""
+msgstr "módulo estimulante RA10K"
 
 #. ~ Description for RA10K stimulant module
 #: lang/json/AMMO_from_json.py
@@ -2281,49 +2282,49 @@ msgid ""
 "A pressurized multi-chamber glass vial filled with powerful chemical "
 "stimulants which can only be activated by a Rivtech stimulant delivery "
 "system."
-msgstr ""
+msgstr "Um frasco de vidro de câmara múltipla pressurizado enchido com estimulantes químicos fortes, podendo ser ativados somente por um sistema injetor de estimulantes Rivtech."
 
 #: lang/json/AMMO_from_json.py
 msgid "rebreather filter cartridge"
-msgstr ""
+msgstr "cartucho de filtro para rebreather"
 
 #. ~ Description for rebreather filter cartridge
 #: lang/json/AMMO_from_json.py
 msgid "A replacement filter cartridge for a rebreather."
-msgstr ""
+msgstr "Um cartucho de filtro para rebreather"
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
-msgstr ""
+msgstr "nicotina líquida"
 
 #. ~ Description for nicotine liquid
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A liquid that is made up of propylene glycol, vegetable glycerine, "
 "flavorings and nicotine."
-msgstr ""
+msgstr "Um líquido feito de propileno glicol, glicerina vegetal, aromatizantes e nicotina."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "fish bait"
-msgstr ""
+msgstr "isca de peixe"
 
 #. ~ Description for fish bait
 #: lang/json/AMMO_from_json.py
 msgid "A bait used in traps to lure fish."
-msgstr ""
+msgstr "Uma isca feita para atrair peixes."
 
 #: lang/json/AMMO_from_json.py
 msgid "oxygen"
-msgstr ""
+msgstr "oxigênio"
 
 #. ~ Description for oxygen
 #: lang/json/AMMO_from_json.py
 msgid "A canister of oxygen."
-msgstr ""
+msgstr "Uma lata de oxigênio."
 
 #: lang/json/AMMO_from_json.py
 msgid "spiked home-made rocket"
-msgstr ""
+msgstr "foguete caseiro espetado"
 
 #. ~ Description for spiked home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -2331,11 +2332,11 @@ msgid ""
 "A home-built rocket, consisting of a spike welded onto a pipe that was "
 "filled with improvised rocket fuel.  Horribly inaccurate, as can be expected"
 " of this grade of weapon, but packs a fierce punch... if it hits."
-msgstr ""
+msgstr "Um foguete caseiro, feito ao soldar um espeto a um cano e encher de combustível improvisado. Terrivelmente impreciso, como esperado desse tipo de munição, mas se acertar pode causar um estrago."
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive home-made rocket"
-msgstr ""
+msgstr "foguete caseiro explosivo"
 
 #. ~ Description for explosive home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -2343,11 +2344,11 @@ msgid ""
 "A home-built rocket, consisting of a simple explosive warhead attached onto "
 "a pipe, filled with improvised rocket fuel.  Not very powerful, but can be "
 "made from scratch."
-msgstr ""
+msgstr "Um foguete caseiro, consistindo de uma ogiva explosiva simples anexada a um cano, cheio de combustível improvisado. Não é muito potente, mas pode ser feito a partir do zero."
 
 #: lang/json/AMMO_from_json.py
 msgid "incendiary home-made rocket"
-msgstr ""
+msgstr "foguete caseiro incendiário"
 
 #. ~ Description for incendiary home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -2355,95 +2356,95 @@ msgid ""
 "A home-built rocket, consisting of a container of flammable gel attached "
 "onto a pipe, filled with improvised rocket fuel.  Short-range incendiary – "
 "handle with care!"
-msgstr ""
+msgstr "Um foguete caseiro, consistindo de um contêiner de gel inflamável anexado a um cano, cheio de combustível improvisado. É um incendiário de curta distância - use com cuidado!"
 
 #: lang/json/AMMO_from_json.py
 msgid "unfinished charcoal"
-msgstr ""
+msgstr "carvão vegetal inacabado"
 
 #. ~ Description for unfinished charcoal
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The result of an interrupted charcoal making process.  Useless, except as "
 "fuel in a charcoal kiln."
-msgstr ""
+msgstr "O resultado de uma produção de carvão vegetal interrompida. Inútil, a não ser como combustível para um forno de carvão vegetal."
 
 #: lang/json/AMMO_from_json.py
 msgid "sprayable fungicide"
-msgstr ""
+msgstr "fungicida pulverizável"
 
 #. ~ Description for sprayable fungicide
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the "
 "chemical thrower.  Best be used with some kind of mask or mouth protection."
-msgstr ""
+msgstr "Fungicida melhorado com enxofre para criar um spray anti-fungos para o lançador de substâncias químicas. É melhor usar com uma máscara ou algum tipo de proteção para a boca."
 
 #: lang/json/AMMO_from_json.py
 msgid "sprayable toxic gas"
-msgstr ""
+msgstr "gás tóxico pulverizado"
 
 #. ~ Description for sprayable toxic gas
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A hazardous mixture made from household cleaners, improvised for use in a "
 "chemical thrower.  Best be used with some kind of mask or mouth protection."
-msgstr ""
+msgstr "Uma mistura perigosa feita com produtos de limpeza caseiros, improvisada para uso em um lançador de substâncias químicas. É melhor usar com uma máscara ou algum tipo de proteção para a boca."
 
 #: lang/json/AMMO_from_json.py
 msgid "arrowhead"
-msgstr ""
+msgstr "ponta de flecha"
 
 #. ~ Description for arrowhead
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Steel heads for an arrow.  Placing these on arrows will make them more "
 "damaging and piercing."
-msgstr ""
+msgstr "Pontas de aço para uma flecha. Colocar em uma flecha irá aumentar o dano e deixá-la mais afiada."
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden arrow shaft"
-msgstr ""
+msgstr "haste de madeira para flecha"
 
 #. ~ Description for wooden arrow shaft
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A crude shaft made from wood.  It needs arrowheads and fletching to become a"
 " functional arrow."
-msgstr ""
+msgstr "Uma haste feita de madeira. Precisa de uma ponta e uma pena para virar uma flecha funcional."
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy wooden arrow shaft"
-msgstr ""
+msgstr "haste de madeira pesada para flecha"
 
 #. ~ Description for heavy wooden arrow shaft
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A heavy shaft made from wood.  It needs arrowheads and fletching to become a"
 " functional arrow."
-msgstr ""
+msgstr "Uma haste pesada feita de madeira. Precisa de uma ponta e uma pena para virar uma flecha funcional."
 
 #: lang/json/AMMO_from_json.py
 msgid "metal arrow shaft"
-msgstr ""
+msgstr "haste de metal para flecha"
 
 #. ~ Description for metal arrow shaft
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A heavy shaft made from scrap metal.  It needs arrowheads and fletching to "
 "become a functional arrow."
-msgstr ""
+msgstr "Uma haste pesada feita de sucata. Precisa de uma ponta de uma pena para virar uma flecha funcional."
 
 #: lang/json/AMMO_from_json.py
 msgid "unfletched fire-hardened wooden arrow"
-msgstr ""
+msgstr "flecha de madeira endurecida desemplumada"
 
 #. ~ Description for unfletched fire-hardened wooden arrow
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A simple arrow shaft that has had a point carved into it and then fire-"
 "hardened.  It needs fletching to be worth firing from a bow."
-msgstr ""
+msgstr "Uma haste simples de madeira, que foi afiada e endurecida ao fogo. Precisa ser emplumada para que seja eficaz."
 
 #: lang/json/AMMO_from_json.py
 msgid "unfletched field point wooden arrow"
@@ -2470,14 +2471,14 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "fire-hardened wooden arrow"
-msgstr ""
+msgstr "flecha de madeira endurecida"
 
 #. ~ Description for fire-hardened wooden arrow
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This simple arrow has a fire-hardened point and fletching.  Stands a below "
 "average chance of remaining intact once fired."
-msgstr ""
+msgstr "Esta simples flecha foi endurecida ao fogo e emplumada. Tem uma chance baixa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "field point wooden arrow"
@@ -2505,7 +2506,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden arrow"
-msgstr ""
+msgstr "flecha de madeira"
 
 #. ~ Description for wooden arrow
 #: lang/json/AMMO_from_json.py
@@ -2517,7 +2518,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy fire-hardened arrow"
-msgstr ""
+msgstr "flecha pesada endurecida"
 
 #. ~ Description for heavy fire-hardened arrow
 #: lang/json/AMMO_from_json.py
@@ -2525,18 +2526,18 @@ msgid ""
 "This arrow is significantly sturdier than other wooden arrows.  It has a "
 "fire-hardened point and fletching.  Stands a good chance of remaining intact"
 " once fired."
-msgstr ""
+msgstr "Esta flecha é significativamente mais astuta que outras flechas de madeira. Foi endurecida ao fogo e emplumada. Tem uma chance boa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "unfletched heavy fire-hardened arrow"
-msgstr ""
+msgstr "flecha pesada endurecida ao fogo desemplumada"
 
 #. ~ Description for unfletched heavy fire-hardened arrow
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This arrow is significantly sturdier than other wooden arrows.  It has a "
 "fire-hardened point, but needs fletching to be worth firing."
-msgstr ""
+msgstr "Esta flecha é significativamente mais astuta que outras flechas de madeira. Foi endurecida ao fogo. Precisa ser emplumada para que seja eficaz."
 
 #: lang/json/AMMO_from_json.py
 msgid "unfletched heavy field point arrow"
@@ -2563,7 +2564,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy wooden arrow"
-msgstr ""
+msgstr "flecha pesada de madeira"
 
 #. ~ Description for heavy wooden arrow
 #: lang/json/AMMO_from_json.py
@@ -2587,18 +2588,18 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "sharpened metal arrow"
-msgstr ""
+msgstr "flecha de metal afiada"
 
 #. ~ Description for sharpened metal arrow
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This metal shaft has been carefully sharpened so that it has a crude point "
 "at the end.  Stands a very good chance of remaining intact once fired."
-msgstr ""
+msgstr "Esta haste de metal foi afiada cuidadosamente. Tem uma boa chance de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "metal arrow"
-msgstr ""
+msgstr "flecha de metal"
 
 #. ~ Description for metal arrow
 #: lang/json/AMMO_from_json.py
@@ -2609,7 +2610,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "carbon fiber arrow"
-msgstr ""
+msgstr "flecha de fibra de carbono"
 
 #. ~ Description for carbon fiber arrow
 #: lang/json/AMMO_from_json.py
@@ -2621,7 +2622,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "exploding arrow"
-msgstr ""
+msgstr "flecha explosiva"
 
 #. ~ Description for exploding arrow
 #: lang/json/AMMO_from_json.py
@@ -2634,7 +2635,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "flaming arrow"
-msgstr ""
+msgstr "flecha flamejante"
 
 #. ~ Description for flaming arrow
 #: lang/json/AMMO_from_json.py
@@ -2645,62 +2646,62 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic shaft"
-msgstr ""
+msgstr "haste de plástico"
 
 #. ~ Description for plastic shaft
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A crude shaft made from plastic.  It needs arrowheads and fletching to "
 "become a functional arrow."
-msgstr ""
+msgstr "Uma haste feita de plástico. Precisa de uma ponta e uma pena para virar uma flecha funcional."
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic arrowhead"
-msgstr ""
+msgstr "ponta de flecha de plástico"
 
 #. ~ Description for plastic arrowhead
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Plastic heads for an arrow.  Placing these on arrows will make them more "
 "damaging and piercing."
-msgstr ""
+msgstr "Pontas de plástico para uma flecha. Colocar em uma flecha irá aumentar o dano e deixá-la mais afiada."
 
 #: lang/json/AMMO_from_json.py
 msgid "throwing knife"
 msgid_plural "throwing knives"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "faca de arremesso"
+msgstr[1] "facas de arremesso"
 
 #. ~ Description for throwing knife
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A thin and flat knife made for throwing.  Its ineffective cutting edge and "
 "odd shape makes it unsuitable for use as a tool."
-msgstr ""
+msgstr "Uma faca fina e lisa feita para arremesso. Não é boa como ferramenta devido a seu gume ineficaz e forma irregular."
 
 #: lang/json/AMMO_from_json.py
 msgid "throwing axe"
-msgstr ""
+msgstr "machado de arremesso"
 
 #. ~ Description for throwing axe
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A lightweight hatchet made for throwing.  Its ineffective cutting edge and "
 "light weight makes it unsuitable for use as a tool."
-msgstr ""
+msgstr "Uma machadinha leve feita para arremesso. Não é boa como ferramenta devido a seu gume ineficaz e peso leve."
 
 #: lang/json/AMMO_from_json.py
 msgid "lawn dart"
-msgstr ""
+msgstr "dardo de gramado"
 
 #. ~ Description for lawn dart
 #: lang/json/AMMO_from_json.py
 msgid "A large plastic dart made for outdoor games."
-msgstr ""
+msgstr "Um dardo de plástico feito para jogos ao ar livre."
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden fishing spear"
-msgstr ""
+msgstr "lança de pesca de madeira"
 
 #. ~ Description for wooden fishing spear
 #: lang/json/AMMO_from_json.py
@@ -2708,22 +2709,22 @@ msgid ""
 "An underwater fishing spear made from wood tipped with steel.  It's very "
 "light, but doesn't have much range.  Stands a below average chance of "
 "remaining intact once fired."
-msgstr ""
+msgstr "Uma lança de pesca submersa feita de madeira e aço. É muito leve, mas não tem muito alcance. Tem uma chance pequena de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fishing spear"
-msgstr ""
+msgstr "lança de pesca de metal"
 
 #. ~ Description for metal fishing spear
 #: lang/json/AMMO_from_json.py
 msgid ""
 "An underwater fishing spear made from metal.  It's light, but doesn't have "
 "much range.  Stands a very good chance of remaining intact once fired."
-msgstr ""
+msgstr "Uma lança de pesca submersa feita de metal. É leve, mas não tem muito alcance. Tem uma chance muito boa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "carbon fiber fishing spear"
-msgstr ""
+msgstr "lança de pesca de fibra de carbono."
 
 #. ~ Description for carbon fiber fishing spear
 #: lang/json/AMMO_from_json.py
@@ -2731,24 +2732,24 @@ msgid ""
 "An underwater fishing spear made from carbon fiber.  It's very light, but "
 "doesn't have much range.  Stands a bad chance of remaining intact once "
 "fired."
-msgstr ""
+msgstr "Uma lança de pesca submersa feita de fibra de carbono. É muito leve, mas não tem muito alcance. Tem uma chance ruim de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic arrow"
-msgstr ""
+msgstr "flecha de plástico"
 
 #. ~ Description for plastic arrow
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This plastic arrow has a plastic arrowhead and fletching.  Stands a good "
 "chance of remaining intact once fired."
-msgstr ""
+msgstr "Esta flecha de plástico tem uma ponta de plástico e penas. Tem uma chance boa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "sulfur"
 msgid_plural "sulfur"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "enxofre"
+msgstr[1] "enxofre"
 
 #. ~ Description for sulfur
 #: lang/json/AMMO_from_json.py
@@ -2757,24 +2758,24 @@ msgid ""
 "acid, sulfur is sometimes used as fuel for explosives.  Can be burned to "
 "produce acidic smoke, that is deadly to bacteria and humans alike, or "
 "oxidized to make paper-bleaching agents."
-msgstr ""
+msgstr "Um punhado de grãos amarelos de enxofre puro. Usado principalmente para fazer ácido de bateria, o enxofre também é usado como combustível para explosivos. Pode ser queimado para produzir fumaça ácida, que mata bactérias e humanos, ou oxidado para fazer agentes branqueadores de papel."
 
 #: lang/json/AMMO_from_json.py
 msgid "chunk of sulfur"
 msgid_plural "chunks of sulfur"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pedaço de enxofre"
+msgstr[1] "pedaços de enxofre"
 
 #. ~ Description for chunk of sulfur
 #: lang/json/AMMO_from_json.py
 msgid "A large chunk of pure sulfur.  Break it up to use it."
-msgstr ""
+msgstr "Um pedaço grande de enxofre puro. Quebre para usar."
 
 #: lang/json/AMMO_from_json.py
 msgid "cement"
 msgid_plural "cement"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cimento"
+msgstr[1] "cimento"
 
 #. ~ Description for cement
 #: lang/json/AMMO_from_json.py
@@ -2782,13 +2783,13 @@ msgid ""
 "Portland is most likely long gone, but its memory persists in cement.  This "
 "ubiquitous binder can be used for all kinds of advanced masonry.  Just add "
 "water."
-msgstr ""
+msgstr "Portland provavelmente já se foi, mas sua memória persiste no cimento. Este produto universal pode ser usado para qualquer tipo de alvenaria avançada. É só adicionar água."
 
 #: lang/json/AMMO_from_json.py
 msgid "limestone"
 msgid_plural "limestone"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "calcário"
+msgstr[1] "calcário"
 
 #. ~ Description for limestone
 #: lang/json/AMMO_from_json.py
@@ -2796,13 +2797,13 @@ msgid ""
 "A handful of small chunks of limestone.  Useful for experiments at science "
 "fairs, but pretty useless as ammo.  Maybe something could be crafted from "
 "this stuff…"
-msgstr ""
+msgstr "Um punhado de pequenos pedaços de calcário. Útil para projetos em uma feira de ciências, mas inútil como munição. Talvez você possa construir algo com isso..."
 
 #: lang/json/AMMO_from_json.py
 msgid "quicklime"
 msgid_plural "quicklime"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cal viva"
+msgstr[1] "cal viva"
 
 #. ~ Description for quicklime
 #: lang/json/AMMO_from_json.py
@@ -2811,26 +2812,26 @@ msgid ""
 "in making cement.  That said, it is also extremely caustic and will cause "
 "severe burns to any tissue it comes in contact with.  This property could "
 "probably be exploited..."
-msgstr ""
+msgstr "O resultado da queima de calcário, este pó branco é um ingrediente crucial do cimento. Além disso, é extremamente cáustico e causará queimaduras severas a qualquer tecido. Essa propriedade poderia ser explorada..."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "sand"
 msgid_plural "sand"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "areia"
+msgstr[1] "areia"
 
 #. ~ Description for sand
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A handful of New England sand.  If you had a stoked furnace, you could turn "
 "it into glass.  Otherwise, it's only good for making cement."
-msgstr ""
+msgstr "Um punhado de areia da Nova Inglaterra. Se você tivesse uma fornalha acesa, talvez pudesse transformar em vidro. Fora isso, só é bom para fazer cimento."
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum powder"
 msgid_plural "aluminum powder"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pó de alumínio"
+msgstr[1] "pó de alumínio"
 
 #. ~ Description for aluminum powder
 #: lang/json/AMMO_from_json.py
@@ -2844,8 +2845,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "zinc powder"
 msgid_plural "zinc powder"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pó de zinco"
+msgstr[1] "pó de zinco"
 
 #. ~ Description for zinc powder
 #: lang/json/AMMO_from_json.py
@@ -2858,8 +2859,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "sulfuric acid"
 msgid_plural "sulfuric acid"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ácido sulfúrico"
+msgstr[1] "ácido sulfúrico"
 
 #. ~ Description for sulfuric acid
 #: lang/json/AMMO_from_json.py
@@ -2873,8 +2874,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "acetone"
 msgid_plural "acetone"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "acetona"
+msgstr[1] "acetona"
 
 #. ~ Description for acetone
 #: lang/json/AMMO_from_json.py
@@ -2887,8 +2888,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "nitric acid"
 msgid_plural "nitric acid"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ácido nítrico"
+msgstr[1] "ácido nítrico"
 
 #. ~ Description for nitric acid
 #: lang/json/AMMO_from_json.py
@@ -2903,8 +2904,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "chromium oxide"
 msgid_plural "chromium oxide"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "óxido de crômio"
+msgstr[1] "óxido de crômio"
 
 #. ~ Description for chromium oxide
 #: lang/json/AMMO_from_json.py
@@ -2935,8 +2936,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "hexamine"
 msgid_plural "hexamine"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hexamina"
+msgstr[1] "hexamina"
 
 #. ~ Description for hexamine
 #: lang/json/AMMO_from_json.py
@@ -2951,8 +2952,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen peroxide (concentrated)"
 msgid_plural "hydrogen peroxide (concentrated)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "peróxido de hidrogênio (concentrado)"
+msgstr[1] "peróxido de hidrogênio (concentrado)"
 
 #. ~ Description for hydrogen peroxide (concentrated)
 #: lang/json/AMMO_from_json.py
@@ -2966,8 +2967,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "ammonium nitrate"
 msgid_plural "ammonium nitrate"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "nitrato de amônio"
+msgstr[1] "nitrato de amônio"
 
 #. ~ Description for ammonium nitrate
 #: lang/json/AMMO_from_json.py
@@ -2981,8 +2982,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "saltpeter"
 msgid_plural "saltpeter"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "salitre"
+msgstr[1] "salitre"
 
 #. ~ Description for saltpeter
 #: lang/json/AMMO_from_json.py
@@ -2995,8 +2996,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "niter"
 msgid_plural "niter"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "nitro"
+msgstr[1] "nitro"
 
 #. ~ Description for niter
 #: lang/json/AMMO_from_json.py
@@ -3008,8 +3009,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "aluminum sulfate"
 msgid_plural "aluminum sulfate"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sulfato de alumínio"
+msgstr[1] "sulfato de alumínio"
 
 #. ~ Description for aluminum sulfate
 #: lang/json/AMMO_from_json.py
@@ -3025,8 +3026,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "acetic acid"
 msgid_plural "acetic acid"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ácido acético"
+msgstr[1] "ácido acético"
 
 #. ~ Description for acetic acid
 #: lang/json/AMMO_from_json.py
@@ -3040,8 +3041,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "thermite"
 msgid_plural "thermite"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "termite"
+msgstr[1] "termite"
 
 #. ~ Description for thermite
 #: lang/json/AMMO_from_json.py
@@ -3055,8 +3056,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "ANFO"
 msgid_plural "ANFO"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ANFO"
+msgstr[1] "ANFO"
 
 #. ~ Description for ANFO
 #: lang/json/AMMO_from_json.py
@@ -3070,8 +3071,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "black gunpowder"
 msgid_plural "black gunpowder"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pólvora negra"
+msgstr[1] "pólvora negra"
 
 #. ~ Description for black gunpowder
 #: lang/json/AMMO_from_json.py
@@ -3125,12 +3126,12 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "detergent"
-msgstr ""
+msgstr "detergente"
 
 #. ~ Description for detergent
 #: lang/json/AMMO_from_json.py
 msgid "A popular pre-cataclysm washing powder."
-msgstr ""
+msgstr "Um pó de lavagem popular no pré-cataclismo."
 
 #: lang/json/AMMO_from_json.py
 msgid "wood ash"
@@ -3146,21 +3147,21 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "fungal seed"
-msgstr ""
+msgstr "semente de fungos."
 
 #. ~ Description for fungal seed
 #: lang/json/AMMO_from_json.py
 msgid "Some fungal seeds."
-msgstr ""
+msgstr "Algumas sementes de fungos."
 
 #: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py
 msgid "fungal flower"
-msgstr ""
+msgstr "flor de fungos"
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden crossbow bolt"
-msgstr ""
+msgstr "seta de madeira para besta"
 
 #. ~ Description for wooden crossbow bolt
 #: lang/json/AMMO_from_json.py
@@ -3168,11 +3169,11 @@ msgid ""
 "A sharpened bolt carved from wood.  It's very light, but doesn't do much "
 "damage and isn't particularly accurate.  Stands a below average chance of "
 "remaining intact once fired."
-msgstr ""
+msgstr "Uma seta afiada feita de madeira. É muito leve, mas não causa muito dano e não é muito precisa. Tem uma chance baixa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "metal crossbow bolt"
-msgstr ""
+msgstr "seta de metal para besta"
 
 #. ~ Description for metal crossbow bolt
 #: lang/json/AMMO_from_json.py
@@ -3180,22 +3181,22 @@ msgid ""
 "A sharpened bolt made from metal of some kind.  It's heavy and unwieldy, "
 "providing moderate damage and accuracy.  Stands a very good chance of "
 "remaining intact once fired."
-msgstr ""
+msgstr "Uma seta afiada feita de algum metal. É pesada e difícil de manusear, mas tem dano e precisão moderados. Tem uma chance muito boa de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "steel crossbow bolt"
-msgstr ""
+msgstr "seta de aço para besta"
 
 #. ~ Description for steel crossbow bolt
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
 " chance of remaining intact once fired."
-msgstr ""
+msgstr "Uma seta afiada feita de aço. Letal nas mãos certas. Tem uma chance excelente de permanecer intacta ao ser atirada."
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive crossbow bolt"
-msgstr ""
+msgstr "seta explosiva para besta"
 
 #. ~ Description for explosive crossbow bolt
 #: lang/json/AMMO_from_json.py
@@ -3203,13 +3204,13 @@ msgid ""
 "A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
 "unwieldy and only provides moderate accuracy, due to being filled with "
 "explosives and fitted with an impact trigger."
-msgstr ""
+msgstr "Uma seta afiada e leve feita de algum metal. É bem difícil de manusear e tem precisão moderada, pois foi estufada com explosivos e equipada com um gatilho de impacto."
 
 #: lang/json/AMMO_from_json.py
 msgid "ethanol"
 msgid_plural "ethanol"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "etanol"
+msgstr[1] "etanol"
 
 #. ~ Description for ethanol
 #: lang/json/AMMO_from_json.py
@@ -3217,11 +3218,11 @@ msgid ""
 "Extremely pure alcohol suitable for use as a component in chemical "
 "reactions.  You could also water it down and drink it, or use it as fuel in "
 "alcohol-burning stoves."
-msgstr ""
+msgstr "Álcool extremamente puro usado como um componente em reações químicas. Também tem como diluir e beber, ou usar como combustível em fogões a gás."
 
 #: lang/json/AMMO_from_json.py
 msgid "denatured alcohol"
-msgstr ""
+msgstr "álcool desnaturado"
 
 #. ~ Description for denatured alcohol
 #: lang/json/AMMO_from_json.py
@@ -3229,13 +3230,13 @@ msgid ""
 "A high-strength ethanol solution mixed with methanol to make it toxic to "
 "drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for "
 "use in alcohol-burning stoves and as a solvent."
-msgstr ""
+msgstr "Uma solução de etanol muito forte misturada com metanol para torná-la tóxica, para prevenir regulamentos pré-apocalípticos ao etanol. É usada em fogões a gás ou como um solvente."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "diesel"
 msgid_plural "diesel"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "diesel"
+msgstr[1] "diesel"
 
 #. ~ Description for diesel
 #: lang/json/AMMO_from_json.py
@@ -3284,13 +3285,13 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "concrete"
 msgid_plural "concrete"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "concreto"
+msgstr[1] "concreto"
 
 #. ~ Description for concrete
 #: lang/json/AMMO_from_json.py
 msgid "Some concrete, ready to be used in a construction project."
-msgstr ""
+msgstr "Um pouco de concreto, pronto para ser usado em alguma construção."
 
 #: lang/json/AMMO_from_json.py
 msgid "mortar"
@@ -3306,104 +3307,104 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta vermelha"
+msgstr[1] "tinta vermelha"
 
 #. ~ Description for red paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of red paint."
-msgstr ""
+msgstr "Uma lata de tinta vermelha."
 
 #: lang/json/AMMO_from_json.py
 msgid "blue paint"
 msgid_plural "blue paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta azul"
+msgstr[1] "tinta azul"
 
 #. ~ Description for blue paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of blue paint."
-msgstr ""
+msgstr "Uma lata de tinta azul."
 
 #: lang/json/AMMO_from_json.py
 msgid "white paint"
 msgid_plural "white paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta branca"
+msgstr[1] "tinta branca"
 
 #. ~ Description for white paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of white paint."
-msgstr ""
+msgstr "Uma lata de tinta branca."
 
 #: lang/json/AMMO_from_json.py
 msgid "green paint"
 msgid_plural "green paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta verde"
+msgstr[1] "tinta verde"
 
 #. ~ Description for green paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of green paint."
-msgstr ""
+msgstr "Uma lata de tinta verde."
 
 #: lang/json/AMMO_from_json.py
 msgid "purple paint"
 msgid_plural "purple paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta roxa"
+msgstr[1] "tinta roxa"
 
 #. ~ Description for purple paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of purple paint."
-msgstr ""
+msgstr "Uma lata de tinta roxa."
 
 #: lang/json/AMMO_from_json.py
 msgid "yellow paint"
 msgid_plural "yellow paint"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tinta amarela"
+msgstr[1] "tinta amarela"
 
 #. ~ Description for yellow paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of yellow paint."
-msgstr ""
+msgstr "Uma lata de tinta amarela."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "red carpet"
-msgstr ""
+msgstr "tapete vermelho"
 
 #. ~ Description for red carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of red carpet."
-msgstr ""
+msgstr "Um rolo de tapete vermelho."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "green carpet"
-msgstr ""
+msgstr "tapete verde"
 
 #. ~ Description for green carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of green carpet."
-msgstr ""
+msgstr "Um rolo de tapete verde."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "yellow carpet"
-msgstr ""
+msgstr "tapete amarelo"
 
 #. ~ Description for yellow carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of yellow carpet."
-msgstr ""
+msgstr "Um rolo de tapete amarelo."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "purple carpet"
-msgstr ""
+msgstr "tapete roxo"
 
 #. ~ Description for purple carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of purple carpet."
-msgstr ""
+msgstr "Um rolo de tapete roxo."
 
 #: lang/json/AMMO_from_json.py
 msgid "shrapnel"
@@ -3979,7 +3980,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "40mm grenade"
-msgstr ""
+msgstr "granada 40mm"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm beanbag"
@@ -4782,7 +4783,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "nail"
-msgstr ""
+msgstr "prego"
 
 #. ~ Description for nail
 #: lang/json/AMMO_from_json.py
@@ -4910,8 +4911,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "gold"
 msgid_plural "gold"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ouro"
+msgstr[1] "ouro"
 
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
@@ -4923,8 +4924,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "lead"
 msgid_plural "lead"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "chumbo"
+msgstr[1] "chumbo"
 
 #. ~ Description for lead
 #: lang/json/AMMO_from_json.py
@@ -4948,7 +4949,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "scrap metal"
-msgstr ""
+msgstr "sucata"
 
 #. ~ Description for scrap metal
 #: lang/json/AMMO_from_json.py
@@ -4960,8 +4961,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "silver"
 msgid_plural "silver"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "prata"
+msgstr[1] "prata"
 
 #. ~ Description for silver
 #: lang/json/AMMO_from_json.py
@@ -4972,7 +4973,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "chunk of steel"
-msgstr ""
+msgstr "pedaço de aço"
 
 #. ~ Description for chunk of steel
 #: lang/json/AMMO_from_json.py
@@ -5056,8 +5057,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "coal pieces"
 msgid_plural "coal pieces"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pedaço de carvão"
+msgstr[1] "pedaços de carvão"
 
 #. ~ Description for coal pieces
 #: lang/json/AMMO_from_json.py
@@ -5077,7 +5078,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "dart"
-msgstr ""
+msgstr "dardo"
 
 #. ~ Description for dart
 #: lang/json/AMMO_from_json.py
@@ -5416,8 +5417,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "bronze"
 msgid_plural "bronze"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bronze"
+msgstr[1] "bronze"
 
 #. ~ Description for bronze
 #: lang/json/AMMO_from_json.py
@@ -5669,7 +5670,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "small electric primer"
-msgstr ""
+msgstr "espoleta elétrica pequena"
 
 #. ~ Description for small electric primer
 #: lang/json/AMMO_from_json.py
@@ -5678,7 +5679,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "large electric primer"
-msgstr ""
+msgstr "espoleta elétrica grande"
 
 #. ~ Description for large electric primer
 #: lang/json/AMMO_from_json.py
@@ -5866,13 +5867,13 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "pool ball"
 msgid_plural "pool balls"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bola de sinuca"
+msgstr[1] "bolas de sinuca"
 
 #. ~ Description for pool ball
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "A colorful, hard ball.  Essentially a rock."
-msgstr ""
+msgstr "Uma bola colorida e dura. Basicamente uma rocha."
 
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
@@ -5887,8 +5888,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "rock"
 msgid_plural "rocks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rocha"
+msgstr[1] "rochas"
 
 #. ~ Description for rock
 #: lang/json/AMMO_from_json.py
@@ -5897,7 +5898,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragment"
-msgstr ""
+msgstr "fragmento de metal"
 
 #. ~ Description for metal fragment
 #: lang/json/AMMO_from_json.py
@@ -6186,8 +6187,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "American flag"
 msgid_plural "American flags"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bandeira americana"
+msgstr[1] "bandeiras americanas"
 
 #. ~ Description for American flag
 #: lang/json/ARMOR_from_json.py
@@ -6369,8 +6370,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "chitinous armor"
 msgid_plural "chitinous armors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "couraça de quitina"
+msgstr[1] "couraças de quitina"
 
 #. ~ Description for chitinous armor
 #: lang/json/ARMOR_from_json.py
@@ -6452,8 +6453,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "O-yoroi"
 msgid_plural "O-yorois"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O-yoroi"
+msgstr[1] "O-yorois"
 
 #. ~ Description for O-yoroi
 #: lang/json/ARMOR_from_json.py
@@ -6512,8 +6513,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "backpack"
 msgid_plural "backpacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila"
+msgstr[1] "mochilas"
 
 #. ~ Description for backpack
 #: lang/json/ARMOR_from_json.py
@@ -6523,8 +6524,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "leather backpack"
 msgid_plural "leather backpacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila de couro"
+msgstr[1] "mochilas de couro"
 
 #. ~ Description for leather backpack
 #: lang/json/ARMOR_from_json.py
@@ -6660,8 +6661,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "bandana"
 msgid_plural "bandanas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bandana"
+msgstr[1] "bandanas"
 
 #. ~ Description for bandana
 #: lang/json/ARMOR_from_json.py
@@ -6722,8 +6723,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "beret"
 msgid_plural "berets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "boina"
+msgstr[1] "boinas"
 
 #. ~ Description for beret
 #: lang/json/ARMOR_from_json.py
@@ -6733,8 +6734,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "wool beret"
 msgid_plural "wool berets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "boina de lã"
+msgstr[1] "boinas de lã"
 
 #. ~ Description for wool beret
 #: lang/json/ARMOR_from_json.py
@@ -6811,8 +6812,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "blazer"
 msgid_plural "blazers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "blazer"
+msgstr[1] "blazers"
 
 #. ~ Description for blazer
 #: lang/json/ARMOR_from_json.py
@@ -7000,8 +7001,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "briefcase"
 msgid_plural "briefcases"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "maleta"
+msgstr[1] "maletas"
 
 #. ~ Description for briefcase
 #: lang/json/ARMOR_from_json.py
@@ -7073,8 +7074,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "camisole"
 msgid_plural "camisoles"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "camisola"
+msgstr[1] "camisolas"
 
 #. ~ Description for camisole
 #: lang/json/ARMOR_from_json.py
@@ -7288,8 +7289,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "clown suit"
 msgid_plural "clown suits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fantasia de palhaço"
+msgstr[1] "fantasias de palhaço"
 
 #. ~ Description for clown suit
 #: lang/json/ARMOR_from_json.py
@@ -7372,8 +7373,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "copper bracelet"
 msgid_plural "copper bracelets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bracelete de cobre"
+msgstr[1] "braceletes de cobre"
 
 #. ~ Description for copper bracelet
 #: lang/json/ARMOR_from_json.py
@@ -7383,8 +7384,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "copper earring"
 msgid_plural "copper earrings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "brinco de cobre"
+msgstr[1] "brincos de cobre"
 
 #. ~ Description for copper earring
 #: lang/json/ARMOR_from_json.py
@@ -7409,8 +7410,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "cowboy hat"
 msgid_plural "cowboy hats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "chapéu de cowboy"
+msgstr[1] "chapéus de cowboy"
 
 #. ~ Description for cowboy hat
 #: lang/json/ARMOR_from_json.py
@@ -82594,15 +82595,15 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"RAAAAGGGGRRRHHH!\""
-msgstr ""
+msgstr "\"RAAAAGGGGRRRHHH!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"BZZZZZTKKKKKSSSSVVVVVSSTT\""
-msgstr ""
+msgstr "\"BZZZZZTKKKKKSSSSVVVVVSSTT\""
 
 #: lang/json/speech_from_json.py
 msgid "\"WHIIIRRRCRRIIIIZZZZZZVVVT\""
-msgstr ""
+msgstr "\"WHIIIRRRCRRIIIIZZZZZZVVVT\""
 
 #: lang/json/speech_from_json.py
 msgid "\"Let's rock!\""
@@ -104462,8 +104463,8 @@ msgstr[1] ""
 msgctxt "item name"
 msgid "human blood"
 msgid_plural "human blood"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sangue humano"
+msgstr[1] "sangue humano"
 
 #: src/item.cpp
 #, c-format
