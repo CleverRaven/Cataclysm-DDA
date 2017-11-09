@@ -16,7 +16,7 @@ class constants_manager
 
 private:
     /** Load constants from JSON */
-    static void load( JsonObject &jo, const std::string &src );
+    static void load( JsonObject &jo );
 
 public:
     class game_constant
@@ -27,7 +27,7 @@ public:
             game_constant( const std::string &id = std::string() ) : id_(id) {}
             
             /** Load constant definition from JSON */
-             void load( JsonObject &jo, const std::string &src );
+             void load( JsonObject &jo );
         
         private:
             const std::string id_;

@@ -60,15 +60,15 @@ int constants_manager::game_constant::value_as<int>() const
 }
 
 
-void constants_manager::load(JsonObject &jo, const std::string &src)
+void constants_manager::load( JsonObject &jo )
 {
     auto id = jo.get_string( "id" );
     auto &f = get_constants_manager().game_constants_all.emplace( id, game_constant( id ) ).first->second;
-    f.load( jo, src );
+    f.load( jo );
 }
 
 
-void constants_manager::game_constant::load( JsonObject &jo, const std::string &src )
+void constants_manager::game_constant::load( JsonObject &jo )
 {
     jo.read( "description", description_ );
     jo.read( "stype", stype_ );
