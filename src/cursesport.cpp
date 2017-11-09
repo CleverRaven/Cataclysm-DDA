@@ -575,10 +575,6 @@ int wattroff(WINDOW *win, int)
     win->BG = 0;                                //reset to black
     return 1;
 }
-int attron(int attrs)
-{
-    return wattron(stdscr, attrs);
-}
 int attroff(int attrs)
 {
     return wattroff(stdscr, attrs);
