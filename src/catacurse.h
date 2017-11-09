@@ -134,7 +134,6 @@ int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
 int mvaddch( int y, int x, const chtype ch );
 int wattron( WINDOW *win, int attrs );
 int wattroff( WINDOW *win, int attrs );
-int attroff( int attrs );
 int waddch( WINDOW *win, const chtype ch );
 int getmaxx( WINDOW *win );
 int getmaxy( WINDOW *win );
