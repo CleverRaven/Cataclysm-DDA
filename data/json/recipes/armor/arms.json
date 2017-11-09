@@ -239,18 +239,10 @@
     "difficulty": 7,
     "time": 30000,
     "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 }
-    ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
-      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "cordless_drill", 30 ] ]
-    ],
+    "using": [ [ "chainmail_standard", 3 ] ],
     "components": [
       [ [ "link_sheet", 3 ] ],
-      [ [ "link", 75 ] ],
+      [ [ "chain_link", 75 ] ],
       [ [ "wire", 1 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
