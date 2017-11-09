@@ -48,6 +48,8 @@
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
+static const matype_id style_kicks( "style_kicks" );
+
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -465,6 +467,13 @@ void player::load(JsonObject &data)
     }
 
     data.read("ma_styles", ma_styles);
+    // Fix up old ma_styles that doesn't include fake styles
+    if( std::find( ma_styles.begin(), ma_styles.end(), style_kicks ) == ma_styles.end() && style_kicks.is_valid() ) {
+        ma_styles.insert( ma_styles.begin(), style_kicks );
+    }
+    if( std::find( ma_styles.begin(), ma_styles.end(), matype_id::NULL_ID() ) == ma_styles.end() ) {
+        ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
+    }
     data.read( "addictions", addictions );
 
     JsonArray traps = data.get_array("known_traps");
@@ -901,6 +910,7 @@ void npc_chatbin::serialize(JsonOut &json) const
         json.member( "mission_selected", mission_selected->get_id() );
     }
     json.member( "skill", skill );
+    json.member( "style", style );
     json.member( "missions", mission::to_uid_vector( missions ) );
     json.member( "missions_assigned", mission::to_uid_vector( missions_assigned ) );
     json.end_object();
@@ -920,6 +930,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     data.read( "skill", skill );
+    data.read( "style", style );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );

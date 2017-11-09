@@ -628,6 +628,10 @@ player::player() : Character()
 
     morale.reset( new player_morale() );
     last_craft.reset( new craft_command() );
+
+    ma_styles = {{
+        style_none, style_kicks
+    }};
 }
 
 player::~player() = default;
@@ -7784,11 +7788,7 @@ bool player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    std::vector<matype_id> selectable_styles = {{
-        style_none, style_kicks
-    }};
-    const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
-    selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
+    const std::vector<matype_id> &selectable_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
 
     input_context ctxt( "MELEE_STYLE_PICKER" );
     ctxt.register_action( "SHOW_DESCRIPTION" );

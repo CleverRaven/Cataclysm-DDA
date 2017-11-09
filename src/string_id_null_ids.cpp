@@ -23,6 +23,7 @@ MAKE_NULL_ID( ammunition_type, "NULL" );
 MAKE_NULL_ID( vpart_info, "null" );
 MAKE_NULL_ID( emit, "null" );
 MAKE_NULL_ID( anatomy, "null_anatomy" );
+MAKE_NULL_ID( martialart, "style_none" );
 
 
 #define MAKE_NULL_ID2( type, ... ) \
