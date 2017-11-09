@@ -11319,14 +11319,13 @@
         "name": "wasteland sausage",
         "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
         "charges": 6,
-        "stack_size": 6,
         "parasites": 0,
         "healthy": 0,
         "spoils_in": 0,
         "quench": -7,
         "fun": -3,
         "proportional": {
-          "calories": 1.9,
+          "calories": 1.6,
           "vitamins": [ [ "vitA", 0.64 ] ]
         }
     }
