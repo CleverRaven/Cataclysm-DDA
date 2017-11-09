@@ -430,17 +430,12 @@ int main(int argc, char *argv[])
         if( !init_interface() ) {
             return 1;
         }
-        noecho();  // Don't echo keypresses
-        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-        keypad(stdscr, true); // Numpad is numbers
     }
 
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
     // For tiles or windows, this is handled already in initscr().
     init_colors();
 #endif
-    // curs_set(0); // Invisible cursor
-    set_escdelay(10); // Make escape actually responsive
 
     srand(seed);
 
