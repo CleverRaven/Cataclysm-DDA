@@ -1452,6 +1452,7 @@
     "ammo": 50,
     "magazine": 100,
     "items":[
+      ["disinfectant_powdered", 45],
       ["aspirin", 85],
       ["caffeine", 25],
       ["cig", 60],
@@ -1579,6 +1580,7 @@
     "type" : "item_group",
     "id" : "softdrugs",
     "items":[
+      ["disinfectant_powdered", 45],
       ["bandages", 50],
       ["cotton_ball", 50],
       ["1st_aid", 35],

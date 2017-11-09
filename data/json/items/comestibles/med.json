@@ -561,6 +561,29 @@
         }
     },
     {
+        "id" : "disinfectant_powdered",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "powdered disinfectant",
+        "description" : "A powdered form of disinfectant. Could be used as a disinfectant, or mixed with water to become disinfectant",
+        "weight" : 0,
+        "volume" : 1,
+        "price" : 9000,
+        "charges" : 10,
+        "symbol" : "#",
+        "color" : "light_cyan",
+        "phase" : "solid",
+        "container" : "bottle_plastic_small",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 2,
+            "head_power" : 3,
+            "torso_power" : 5,
+            "bite" : 0.10,
+            "move_cost" : 100
+        }
+    },
+    {
         "id" : "diazepam",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
