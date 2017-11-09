@@ -23,7 +23,7 @@ constants_manager::game_constant &constants_manager::get_constant( const std::st
 template<>
 std::string constants_manager::game_constant::value_as<std::string>() const
 {
-    if ( stype_ != "string" ) {
+    if( stype_ != "string" ) {
         debugmsg( "%s tried to get string value from constant of type %s" , id_.c_str(), stype_.c_str() );
     }
     return  string_value_;
@@ -32,7 +32,7 @@ std::string constants_manager::game_constant::value_as<std::string>() const
 template<>
 bool constants_manager::game_constant::value_as<bool>() const
 {
-    if ( stype_ != "bool" ) {
+    if( stype_ != "bool" ) {
         debugmsg("%s tried to get bool value from constant of type %s", id_.c_str(), stype_.c_str());
     }
     
@@ -42,7 +42,7 @@ bool constants_manager::game_constant::value_as<bool>() const
 template<>
 float constants_manager::game_constant::value_as<float>() const
 {
-    if ( stype_ != "float" ) {
+    if( stype_ != "float" ) {
         debugmsg("%s tried to get float value from constant of type %s", id_.c_str(), stype_.c_str());
     }
 
@@ -52,7 +52,7 @@ float constants_manager::game_constant::value_as<float>() const
 template<>
 int constants_manager::game_constant::value_as<int>() const
 {
-    if ( stype_ != "int" ) {
+    if( stype_ != "int" ) {
         debugmsg("%s tried to get int value from constant of type %s", id_.c_str(), stype_.c_str());
     }
     
