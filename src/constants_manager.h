@@ -15,7 +15,7 @@ private:
     friend constants_manager &get_constants();
 
     /** Load constants from JSON */
-    static void load(JsonObject &jo, const std::string &src);
+    static void load( JsonObject &jo, const std::string &src );
 
 public:
     class game_constant
@@ -23,10 +23,10 @@ public:
          public:
             template<typename T>
             T value_as() const;
-            game_constant(const std::string &id = std::string()) : id_(id) {}
+            game_constant( const std::string &id = std::string() ) : id_(id) {}
             
             /** Load constant definition from JSON */
-             void load(JsonObject &jo, const std::string &src);
+             void load( JsonObject &jo, const std::string &src );
         
         private:
             const std::string id_;
@@ -40,11 +40,11 @@ public:
         
     };
     
-    game_constant &get_constant(const std::string &id);
+    game_constant &get_constant( const std::string &id );
 
 
     template<typename T>
-    inline T game_constant::get_constant(const std::string &id);
+    inline T game_constant::get_constant( const std::string &id );
 
     std::map<std::string, game_constant> game_constants_all;
 };
