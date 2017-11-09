@@ -32,7 +32,7 @@ std::string constants_manager::game_constant::value_as<std::string>() const
 template<>
 bool constants_manager::game_constant::value_as<bool>() const
 {
-    if (stype_ != "bool") {
+    if ( stype_ != "bool" ) {
         debugmsg("%s tried to get bool value from constant of type %s", id_.c_str(), stype_.c_str());
     }
     
@@ -42,7 +42,7 @@ bool constants_manager::game_constant::value_as<bool>() const
 template<>
 float constants_manager::game_constant::value_as<float>() const
 {
-    if (stype_ != "float") {
+    if ( stype_ != "float" ) {
         debugmsg("%s tried to get float value from constant of type %s", id_.c_str(), stype_.c_str());
     }
 
@@ -52,7 +52,7 @@ float constants_manager::game_constant::value_as<float>() const
 template<>
 int constants_manager::game_constant::value_as<int>() const
 {
-    if (stype_ != "int") {
+    if ( stype_ != "int" ) {
         debugmsg("%s tried to get int value from constant of type %s", id_.c_str(), stype_.c_str());
     }
     
@@ -70,16 +70,16 @@ void constants_manager::load(JsonObject &jo, const std::string &src)
 
 void constants_manager::game_constant::load(JsonObject &jo, const std::string &src)
 {
-    jo.read("description", description_);
-    jo.read("stype", stype_);
-    if (stype_ == "float")
-        jo.read("value", float_value_);
-    else if (stype_ == "int")
-        jo.read("value", int_value_);
-    else if (stype_ == "bool")
-        jo.read("value", bool_value_);
-    else if (stype_ == "string")
-        jo.read("value", string_value_);
+    jo.read( "description", description_ );
+    jo.read( "stype", stype_ );
+    if ( stype_ == "float" )
+        jo.read( "value", float_value_ );
+    else if ( stype_ == "int" )
+        jo.read( "value", int_value_ );
+    else if ( stype_ == "bool" )
+        jo.read( "value", bool_value_ );
+    else if ( stype_ == "string" )
+        jo.read( "value", string_value_ );
     else
-        debugmsg("Unknown stype for %s.", id_.c_str());
+        debugmsg( "Unknown stype for %s.", id_.c_str() );
 }
