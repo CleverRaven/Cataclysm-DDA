@@ -17,7 +17,7 @@
     "type": "game_constant",
     "id": "INT_CONSTANT_EXAMPLE",
     "description": "Example of int constant.",
-    "stype": "float",
+    "stype": "int",
     "value": 1
   },
   {
