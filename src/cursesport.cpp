@@ -41,19 +41,6 @@ extern void handle_additional_window_clear( WINDOW* win );
 //Pseudo-Curses Functions           *
 //***********************************
 
-//Basic Init, create the font, backbuffer, etc
-WINDOW *initscr(void)
-{
-    // initscr is a ncurses function, it is not supposed to throw.
-    try {
-        stdscr = curses_init();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error while initializing: %s\n", err.what() );
-        return nullptr;
-    }
-    return stdscr;
-}
-
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
     if (begin_y < 0 || begin_x < 0) {

@@ -1252,10 +1252,21 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
 #ifndef TILES
 bool init_interface()
 {
+#if (defined _WIN32 || defined WINDOWS)
+    // using our curses wrapper
+    try {
+        stdscr = curses_init();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error while initializing: %s\n", err.what() );
+        return false;
+    }
+#else
+    // using ncurses
     if( initscr() == nullptr ) {
         DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return false;
     }
+#endif
 #if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );

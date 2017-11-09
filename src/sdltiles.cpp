@@ -244,8 +244,10 @@ extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be ov
 
 bool init_interface()
 {
-    if( initscr() == nullptr ) {
-        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+    try {
+        stdscr = curses_init();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error while initializing: %s\n", err.what() );
         return false;
     }
     noecho();  // Don't echo keypresses

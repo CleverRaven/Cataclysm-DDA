@@ -143,7 +143,6 @@ int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
-WINDOW *initscr( void );
 int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
 int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
