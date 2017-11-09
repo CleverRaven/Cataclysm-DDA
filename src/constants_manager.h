@@ -6,14 +6,15 @@
 
 #include <set>
 
+/** Constansts manager. To read constant use something like:
+float val = get_constant<float>( "FLOAT_CONSTANT_EXAMPLE" );
+get_constant() avalible statically*/
 class constants_manager
 {
     friend class DynamicDataLoader;
 
 
 private:
-    friend constants_manager &get_constants();
-
     /** Load constants from JSON */
     static void load( JsonObject &jo, const std::string &src );
 
@@ -42,19 +43,15 @@ public:
     
     game_constant &get_constant( const std::string &id );
 
-
-    template<typename T>
-    inline T game_constant::get_constant( const std::string &id );
-
     std::map<std::string, game_constant> game_constants_all;
 };
 
-constants_manager &get_constants();
+constants_manager &get_constants_manager();
 
 template<typename T>
 inline T get_constant(const std::string &name)
 {
-    return get_constants().get_constant(name).value_as<T>();
+    return get_constants_manager().get_constant(name).value_as<T>();
 }
 
 

@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-constants_manager &get_constants()
+constants_manager &get_constants_manager()
 {
     static constants_manager single_instance;
     return single_instance;
@@ -63,7 +63,7 @@ int constants_manager::game_constant::value_as<int>() const
 void constants_manager::load(JsonObject &jo, const std::string &src)
 {
     auto id = jo.get_string( "id" );
-    auto &f = get_constants().game_constants_all.emplace( id, game_constant( id ) ).first->second;
+    auto &f = get_constants_manager().game_constants_all.emplace( id, game_constant( id ) ).first->second;
     f.load( jo, src );
 }
 
