@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-03 23:56-0400\n"
+"POT-Creation-Date: 2017-11-09 09:50-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4381,7 +4381,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 7.62x25"
+msgid "reloaded 7.62x25mm"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -17033,6 +17033,20 @@ msgstr[1] ""
 #. ~ Description for Visions in Solitude
 #: lang/json/BOOK_from_json.py
 msgid "A small book detailing 'visions' a prisoner had on death row."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "Hávamál"
+msgid_plural "copies of Hávamál"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Hávamál
+#: lang/json/BOOK_from_json.py
+msgid ""
+"An English translation of several Old Norse poems.  The poems contain "
+"proverbs and stories attributed to the god Odin, many transcribed from oral "
+"history."
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -31658,6 +31672,17 @@ msgid "A vehicle headlight to light up the way."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "cargo lock set"
+msgid_plural "cargo lock sets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cargo lock set
+#: lang/json/GENERIC_from_json.py
+msgid "A set of locks designed to be installed on a vehicle."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "The Spirit of Aikido"
 msgid_plural "The Spirit of Aikido"
 msgstr[0] ""
@@ -32219,14 +32244,14 @@ msgid "An empty casing from a 7.62x39mm round."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "7.62x25 casing"
-msgid_plural "7.62x25 casings"
+msgid "7.62x25mm casing"
+msgid_plural "7.62x25mm casings"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for 7.62x25 casing
+#. ~ Description for 7.62x25mm casing
 #: lang/json/GENERIC_from_json.py
-msgid "An empty casing from a 7.62x25 round."
+msgid "An empty casing from a 7.62x25mm round."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -40170,8 +40195,7 @@ msgstr[1] ""
 #. ~ Description for saxophone
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
-"A brass-plated alto saxophone with a neck strap, so you can wear it while "
-"playing."
+"A brass alto saxophone with a neck strap, so you can wear it while playing."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -45646,7 +45670,7 @@ msgstr[1] ""
 
 #. ~ Description for trumpet
 #: lang/json/TOOL_from_json.py
-msgid "A brass-plated trumpet with only a few dents here and there."
+msgid "A brass trumpet with only a few dents here and there."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -52802,8 +52826,9 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
 #: lang/json/gunmod_from_json.py
-#: lang/json/gunmod_from_json.py src/item.cpp
+#: src/item.cpp
 msgctxt "gun_type_type"
 msgid "pistol"
 msgstr ""
@@ -55064,7 +55089,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "The Pistolet Makarova was developed by the Soviet Union to replace the WWII-"
-"era TT-33 pistol.  Uses the 9x18mm cartridge, which remains in use among "
+"era TT-33 pistol.  It uses the 9x18mm cartridge, which remains in use among "
 "various former Soviet countries."
 msgstr ""
 
@@ -59551,6 +59576,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle category selection mode"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Set item filter"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -87008,6 +87037,10 @@ msgid "scoop"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "cargo lock"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "swappable storage battery"
 msgstr ""
 
@@ -103043,6 +103076,16 @@ msgstr ""
 
 #: src/inventory_ui.cpp
 msgid "There are no available choices"
+msgstr ""
+
+#: src/inventory_ui.cpp
+#, c-format
+msgid "[%s]Filter"
+msgstr ""
+
+#: src/inventory_ui.cpp
+#, c-format
+msgid "[%s]Filter: "
 msgstr ""
 
 #: src/inventory_ui.cpp
@@ -121011,6 +121054,10 @@ msgstr ""
 msgid "d: delete history"
 msgstr ""
 
+#: src/translations.cpp
+msgid "Select your language"
+msgstr ""
+
 #: src/trapfunc.cpp
 msgid "You step on some bubble wrap!"
 msgstr ""
@@ -121995,6 +122042,10 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Select crew member"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Clear assignment"
 msgstr ""
 
 #: src/veh_interact.cpp
