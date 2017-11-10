@@ -1,5 +1,5 @@
 #if (defined TILES)
-#include "catacurse.h"
+#include "cursesport.h"
 #include "options.h"
 #include "output.h"
 #include "input.h"

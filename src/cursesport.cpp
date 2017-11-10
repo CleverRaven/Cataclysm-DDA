@@ -1,5 +1,5 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "catacurse.h"
+#include "cursesport.h"
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"

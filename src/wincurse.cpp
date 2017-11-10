@@ -2,7 +2,7 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "catacurse.h"
+#include "cursesport.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
@@ -52,7 +52,7 @@ bool CursorVisible = true; // Showcursor is a somewhat weird function
 //Non-curses, Window functions      *
 //***********************************
 
-// declare this locally, because it's not generally cross-compatible in catacurse.h
+// declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam);
 
 std::wstring widen( const std::string &s )
