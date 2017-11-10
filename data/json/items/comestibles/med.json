@@ -565,8 +565,8 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "cleaning powder",
-        "name-plurarl": "cleaning powder"
-        "description" : "A powdered form of disinfectant.  Could be used for wound cleaning, or combined with water to become a more potent disinfectant.",
+        "name-plural": "cleaning powder",
+        "description": "A powdered form of disinfectant.  Could be used for wound cleaning, or combined with water to become a more potent disinfectant.",
         "weight" : 0,
         "volume" : 2,
         "price" : 9000,
