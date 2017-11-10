@@ -484,12 +484,6 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    clearok(win);
-    return 1;
-}
-
-int clearok(WINDOW *win)
-{
     if( win == nullptr ) {
         return 1;
     }
