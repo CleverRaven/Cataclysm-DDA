@@ -8,8 +8,11 @@
     "category": "rebalance",
     "dependencies": [ "dda" ]
   },
-  {
-    "type": "WORLD_OPTION",
-    "options": [ "NO_VITAMINS" ]
+ {
+    "type": "game_constant",
+    "id": "NO_VITAMINS",
+    "description": "If true, disables vitamin tracking and vitamin disorders. Was set to true via mod.",
+    "stype": "bool",
+    "value": true
   }
 ]

@@ -16,6 +16,7 @@
 #include "options.h"
 #include "translations.h"
 #include "units.h"
+#include "constants_manager.h"
 
 #include <string>
 #include <algorithm>
@@ -235,7 +236,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
-    if( get_option<bool>( "NO_VITAMINS" ) ) {
+    if( get_constant<bool>( "NO_VITAMINS" ) ) {
         return 0;
     }
 
