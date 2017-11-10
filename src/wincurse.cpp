@@ -601,7 +601,7 @@ bool input_context::get_coordinates( WINDOW *, int &, int & )
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+int endwin()
 {
     DeleteObject(font);
     WinDestroy();

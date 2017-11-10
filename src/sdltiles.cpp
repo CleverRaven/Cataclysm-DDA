@@ -1585,7 +1585,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+int endwin()
 {
     tilecontext.reset();
     font.reset();

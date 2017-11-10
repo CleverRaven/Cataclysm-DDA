@@ -524,12 +524,6 @@ int clear(void)
     return wclear(stdscr);
 }
 
-//Ends the terminal, destroy everything
-int endwin(void)
-{
-    return curses_destroy();
-}
-
 //adds a character to the window
 int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 {
