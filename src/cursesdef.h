@@ -2,19 +2,84 @@
 #ifndef CURSESDEF_H
 #define CURSESDEF_H
 
-#include <memory>
+#include "string_formatter.h"
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#elif (defined __CYGWIN__)
-#include "ncurses/curses.h"
-#else
-#include <curses.h>
-#endif
+#include <memory>
+#include <cstdint>
+#include <string>
 
 /// @throws std::exception upon any errors. The caller should display / log it
 /// and abort the program. Only continue the program when this returned normally.
+//@todo move into catacurses
 void init_interface();
+
+class nc_color;
+
+/**
+ * Contains the curses interface used by the whole game.
+ *
+ * All code (except platform/OS/build type specific code) should use functions/
+ * types from this namespace only. The @ref input_manager and @ref input_context
+ * should be used for user input.
+ *
+ * There are currently (Nov 2017) two implementations for most of this interface:
+ * - ncurses (mostly in ncurses_def.cpp). The interface originates from there,
+ *   so it's mostly just forwarding to ncurses functions of the same name.
+ * - our own curses library @ref cata_cursesport (mostly in cursesport.cpp),
+ *   cursesport.h contains the structures and some functions specific to that.
+ *
+ * A few (system specific) functions are implemented in three versions:
+ * - ncurses (ncurses_def.cpp),
+ * - Windows curses (no SDL, using @ref cata_cursesport, see wincurses.cpp), and
+ * - SDL curses (using @ref cata_cursesport, see sdltiles.cpp).
+ *
+ * As this interface is derived from ncurses, refer to documentation of that.
+ *
+ * The interface is in a separate namespace we can link with the ncurses library,
+ * which exports its functions globally.
+ */
+//Currently this namespace is automatically exported into the global namespace to
+//allow existing code (that called global ncurses functions) to remain unchanged.
+//The compiler will translate `WINDOW *win = newwin(...)` into
+//`catacurses::WINDWO *win = catacurses::newwin(...)`
+namespace catacurses
+{
+
+// it's void because than it's compatible with ncurses and with our own curses
+// library becaue void* can be converted to either
+//@todo phase this out. Store window objects everywhere instead of WINDOW pointers
+using WINDOW = void;
+
+/**
+ * A simple wrapper over `WINDOW*`.
+ * Currently it does not do anything at all. It is implicitly constructed
+ * from a pointer and implicitly converted to it.
+ * Because all curses function here receive/return a `window` (and not a
+ * pointer), it allows callers to store the `window` as pointer (like
+ * it's done all over the place), and it allows to forward a pointer to
+ * the functions.
+ * The implementation of the curses interface can cast the pointer as they need.
+ */
+class window
+{
+    private:
+        WINDOW *native_window;
+
+    public:
+        window() : native_window( nullptr ) { }
+        template<typename T>
+        window( T *const ptr ) : native_window( static_cast<WINDOW *>( ptr ) ) {
+        }
+        ~window() {
+        }
+        template<typename T = WINDOW>
+        T * get() const {
+            return static_cast<T *>( native_window );
+        }
+        operator WINDOW *() const {
+            return get();
+        }
+};
 
 struct delwin_functor {
     void operator()( WINDOW *w ) const;
@@ -46,6 +111,60 @@ enum base_color : short {
     white = 0x07,    // RGB{196, 196, 196}
 };
 
+using chtype = int;
+using attr_t = unsigned short;
+
+extern window stdscr;
+
+window newwin( int nlines, int ncols, int begin_y, int begin_x );
+void delwin( const window &win );
+void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+              chtype bl, chtype br );
+void mvwhline( const window &win, int y, int x, chtype ch, int n );
+void mvwvline( const window &win, int y, int x, chtype ch, int n );
+void wrefresh( const window &win );
+void refresh();
+void wredrawln( const window &win, int beg_line, int num_lines );
+
+void mvwprintw( const window &win, int y, int x, const std::string &text );
+template<typename ...Args>
+inline void mvwprintw( const window &win, const int y, const int x, const char *const fmt,
+                       Args &&... args )
+{
+    return mvwprintw( win, y, x, string_format( fmt, std::forward<Args>( args )... ) );
+}
+
+void wprintw( const window &win, const std::string &text );
+template<typename ...Args>
+inline void wprintw( const window &win, const char *const fmt, Args &&... args )
+{
+    return wprintw( win, string_format( fmt, std::forward<Args>( args )... ) );
+}
+
+void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
+void wmove( const window &win, int y, int x );
+void clear();
+void erase();
+void endwin();
+void mvwaddch( const window &win, int y, int x, const chtype ch );
+void wclear( const window &win );
+void curs_set( int visibility );
+void wattron( const window &win, const nc_color &attrs );
+void wattroff( const window &win, int attrs );
+void waddch( const window &win, const chtype ch );
+int getmaxy( const window &win );
+int getmaxx( const window &win );
+int getbegx( const window &win );
+int getbegy( const window &win );
+int getcurx( const window &win );
+int getcury( const window &win );
+} // namespace catacurses
+
+//@todo move "using namespace" into the cpp/header files that include this file
+//see note at start of namepace catacurses
+#ifndef CATACURSES_DONT_USE_NAMESPACE_CATACURSES
+using namespace catacurses;
+#endif
 
 #endif

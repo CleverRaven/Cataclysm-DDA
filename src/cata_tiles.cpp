@@ -30,6 +30,7 @@
 #include "submap.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
+#include "cursesport.h"
 
 #include <algorithm>
 #include <fstream>
@@ -1608,7 +1609,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = col.to_color_pair_index();
-            const pairs &colorpair = colorpairs[pairNumber];
+            const cata_cursesport::pairs &colorpair = cata_cursesport::colorpairs[pairNumber];
             // What about isBlink?
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);

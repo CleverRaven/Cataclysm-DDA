@@ -26,6 +26,10 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
+
 // Display data
 int TERMX;
 int TERMY;

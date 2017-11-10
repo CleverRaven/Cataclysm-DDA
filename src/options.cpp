@@ -20,6 +20,10 @@
 #include "cata_tiles.h"
 #endif // TILES
 
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
+
 #include <stdlib.h>
 #include <string>
 #include <locale>

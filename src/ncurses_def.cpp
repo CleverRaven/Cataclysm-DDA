@@ -1,7 +1,23 @@
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
 
+// input.h must be include *before* the ncurses header. The later has some macro
+// defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
+
+// ncurses can define some functions as macros, but we need those identifiers
+// to be unchanged by the preprocessor, as we use them as function names.
+#define NCURSES_NOMACROS
+#if (defined __CYGWIN__)
+#include "ncurses/curses.h"
+#else
+#include <curses.h>
+#endif
+
+#define CATACURSES_DONT_USE_NAMESPACE_CATACURSES
 #include "cursesdef.h"
+//Now we have included the catacurses namespace (but it's not global), and the
+//native ncurses declarations. We have now declarations of `::catacurses::newwin`
+//and `::newwin`.
 
 #include "catacharset.h"
 #include "color.h"
@@ -11,30 +27,188 @@
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
 
-// As long as these assertions hold, we can just case base_color into short and
-// forward the result to ncurses init_pair. Otherwise we would have to translate them.
-static_assert( black == COLOR_BLACK,
-               "black must have the same value as COLOR_BLACK (from ncurses)" );
-static_assert( red == COLOR_RED, "red must have the same value as COLOR_RED (from ncurses)" );
-static_assert( green == COLOR_GREEN,
-               "green must have the same value as COLOR_GREEN (from ncurses)" );
-static_assert( yellow == COLOR_YELLOW,
-               "yellow must have the same value as COLOR_YELLOW (from ncurses)" );
-static_assert( blue == COLOR_BLUE, "blue must have the same value as COLOR_BLUE (from ncurses)" );
-static_assert( magenta == COLOR_MAGENTA,
-               "magenta must have the same value as COLOR_MAGENTA (from ncurses)" );
-static_assert( cyan == COLOR_CYAN, "cyan must have the same value as COLOR_CYAN (from ncurses)" );
-static_assert( white == COLOR_WHITE,
-               "white must have the same value as COLOR_WHITE (from ncurses)" );
-
-void init_pair( const short pair, const base_color f, const base_color b )
+static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
-    ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) );
+    if( result != expected ) {
+        //@todo debug message
+    }
 }
 
+catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
+                                       const int begin_x )
+{
+    return window( ::newwin( nlines, ncols, begin_y, begin_x ) ); // @todo check for errors
+}
+
+void catacurses::delwin( const window &win )
+{
+    curses_check_result( ::delwin( win.get<::WINDOW>() ), OK, "delwin" );
+}
+
+void catacurses::wrefresh( const window &win )
+{
+    return curses_check_result( ::wrefresh( win.get<::WINDOW>() ), OK, "wrefresh" );
+}
+
+void catacurses::werase( const window &win )
+{
+    return curses_check_result( ::werase( win.get<::WINDOW>() ), OK, "werase" );
+}
+
+int catacurses::getmaxx( const window &win )
+{
+    return ::getmaxx( win.get<::WINDOW>() );
+}
+
+int catacurses::getmaxy( const window &win )
+{
+    return ::getmaxy( win.get<::WINDOW>() );
+}
+
+int catacurses::getbegx( const window &win )
+{
+    return ::getbegx( win.get<::WINDOW>() );
+}
+
+int catacurses::getbegy( const window &win )
+{
+    return ::getbegy( win.get<::WINDOW>() );
+}
+
+int catacurses::getcurx( const window &win )
+{
+    return ::getcurx( win.get<::WINDOW>() );
+}
+
+int catacurses::getcury( const window &win )
+{
+    return ::getcury( win.get<::WINDOW>() );
+}
+
+void catacurses::wattroff( const window &win, const int attrs )
+{
+    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs ), OK, "wattroff" );
+}
+
+void catacurses::wattron( const window &win, const nc_color &attrs )
+{
+    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
+}
+
+void catacurses::wmove( const window &win, const int y, const int x )
+{
+    return curses_check_result( ::wmove( win.get<::WINDOW>(), y, x ), OK, "wmove" );
+}
+
+void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
+{
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ), OK,
+                                "mvwprintw" );
+}
+
+void catacurses::wprintw( const window &win, const std::string &text )
+{
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ), OK, "wprintw" );
+}
+
+void catacurses::refresh()
+{
+    return curses_check_result( ::refresh(), OK, "refresh" );
+}
+
+void catacurses::clear()
+{
+    return curses_check_result( ::clear(), OK, "clear" );
+}
+
+void catacurses::erase()
+{
+    return curses_check_result( ::erase(), OK, "erase" );
+}
+
+void catacurses::endwin()
+{
+    return curses_check_result( ::endwin(), OK, "endwin" );
+}
+
+void catacurses::wborder( const window &win, const chtype ls, const chtype rs, const chtype ts,
+                          const chtype bs, const chtype tl, const chtype tr, const chtype bl, const chtype br )
+{
+    return curses_check_result( ::wborder( win.get<::WINDOW>(), ls, rs, ts, bs, tl, tr, bl, br ), OK,
+                                "wborder" );
+}
+
+void catacurses::mvwhline( const window &win, const int y, const int x, const chtype ch,
+                           const int n )
+{
+    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwhline" );
+}
+
+void catacurses::mvwvline( const window &win, const int y, const int x, const chtype ch,
+                           const int n )
+{
+    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwvline" );
+}
+
+void catacurses::mvwaddch( const window &win, const int y, const int x, const chtype ch )
+{
+    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), y, x, ch ), OK, "mvwaddch" );
+}
+
+void catacurses::waddch( const window &win, const chtype ch )
+{
+    return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
+}
+
+void catacurses::wredrawln( const window &win, const int beg_line, const int num_lines )
+{
+    return curses_check_result( ::wredrawln( win.get<::WINDOW>(), beg_line, num_lines ), OK,
+                                "wredrawln" );
+}
+
+void catacurses::wclear( const window &win )
+{
+    return curses_check_result( ::wclear( win.get<::WINDOW>() ), OK, "wclear" );
+}
+
+void catacurses::curs_set( const int visibility )
+{
+    return curses_check_result( ::curs_set( visibility ), OK, "curs_set" );
+}
+
+// As long as these assertions hold, we can just case base_color into short and
+// forward the result to ncurses init_pair. Otherwise we would have to translate them.
+static_assert( catacurses::black == COLOR_BLACK,
+               "black must have the same value as COLOR_BLACK (from ncurses)" );
+static_assert( catacurses::red == COLOR_RED,
+               "red must have the same value as COLOR_RED (from ncurses)" );
+static_assert( catacurses::green == COLOR_GREEN,
+               "green must have the same value as COLOR_GREEN (from ncurses)" );
+static_assert( catacurses::yellow == COLOR_YELLOW,
+               "yellow must have the same value as COLOR_YELLOW (from ncurses)" );
+static_assert( catacurses::blue == COLOR_BLUE,
+               "blue must have the same value as COLOR_BLUE (from ncurses)" );
+static_assert( catacurses::magenta == COLOR_MAGENTA,
+               "magenta must have the same value as COLOR_MAGENTA (from ncurses)" );
+static_assert( catacurses::cyan == COLOR_CYAN,
+               "cyan must have the same value as COLOR_CYAN (from ncurses)" );
+static_assert( catacurses::white == COLOR_WHITE,
+               "base_color::white must have the same value as COLOR_WHITE (from ncurses)" );
+
+void catacurses::init_pair( const short pair, const base_color f, const base_color b )
+{
+    return curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
+                                OK, "init_pair" );
+}
+
+catacurses::window catacurses::stdscr;
+
+// init_interface is defined in another cpp file, depending on build type:
+// wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void init_interface()
 {
-    if( initscr() == nullptr ) {
+    catacurses::stdscr = ::initscr();
+    if( catacurses::stdscr == nullptr ) {
         throw std::runtime_error( "initscr failed" );
     }
 #if !(defined __CYGWIN__)
@@ -45,7 +219,7 @@ void init_interface()
     // behave exactly like the wrapper, therefor:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-    keypad( stdscr, true ); // Numpad is numbers
+    keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make escape actually responsive
     start_color(); //@todo error checking
     init_colors();
