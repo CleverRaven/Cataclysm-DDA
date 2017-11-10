@@ -535,11 +535,6 @@ int curs_set(int)
     return 1;
 }
 
-int mvaddch(int y, int x, const chtype ch)
-{
-    return mvwaddch(stdscr, y, x, ch);
-}
-
 int wattron(WINDOW *win, int attrs)
 {
     if( win == nullptr ) {
