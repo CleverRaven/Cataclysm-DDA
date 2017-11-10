@@ -531,14 +531,14 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-input_event input_manager::get_input_event( WINDOW *win )
+input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh(win);
+    wrefresh( stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)

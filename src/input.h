@@ -192,7 +192,6 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event( WINDOW *win );
         input_event get_input_event();
 
         /**
