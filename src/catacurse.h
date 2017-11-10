@@ -130,7 +130,6 @@ int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
-int mvaddch( int y, int x, const chtype ch );
 int wattron( WINDOW *win, int attrs );
 int wattroff( WINDOW *win, int attrs );
 int waddch( WINDOW *win, const chtype ch );
