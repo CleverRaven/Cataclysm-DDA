@@ -1621,8 +1621,6 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-extern WINDOW *mainwin;
-
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event(WINDOW *win) {
