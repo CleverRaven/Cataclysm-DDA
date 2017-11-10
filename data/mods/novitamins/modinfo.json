@@ -8,7 +8,7 @@
     "category": "rebalance",
     "dependencies": [ "dda" ]
   },
- {
+  {
     "type": "game_constant",
     "id": "NO_VITAMINS",
     "description": "If true, disables vitamin tracking and vitamin disorders. Was set to true via mod.",
