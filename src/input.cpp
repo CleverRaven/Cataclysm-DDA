@@ -697,7 +697,7 @@ const std::string &input_context::handle_input()
 {
     next_action.type = CATA_INPUT_ERROR;
     while( 1 ) {
-        next_action = inp_mngr.get_input_event( NULL );
+        next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
             return TIMEOUT;
         }
@@ -1113,14 +1113,9 @@ void input_manager::wait_for_any_key()
     }
 }
 
-input_event input_manager::get_input_event()
-{
-    return get_input_event( nullptr );
-}
-
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
 // If we're using curses, we need to provide get_input_event() here.
-input_event input_manager::get_input_event( WINDOW * /*win*/ )
+input_event input_manager::get_input_event()
 {
     previously_pressed_key = 0;
     long key = getch();
