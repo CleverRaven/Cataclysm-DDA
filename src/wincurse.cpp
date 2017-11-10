@@ -518,9 +518,7 @@ void init_interface()
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 
-    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
-        throw std::runtime_error( "loading color settings failed" );
-    }
+    color_loader<RGBQUAD>().load( windowsPalette );
     if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
         throw std::runtime_error( "SetDIBColorTable failed" );
     }

@@ -1546,9 +1546,7 @@ void init_interface()
         use_tiles = false;
     }
 
-    if( !color_loader<SDL_Color>().load( windowsPalette ) ) {
-        throw std::runtime_error( "loading color settings failed" );
-    }
+    color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
     // initialize sound set
