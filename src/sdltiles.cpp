@@ -1561,8 +1561,7 @@ WINDOW *curses_init(void)
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    return newwin(get_terminal_height(), get_terminal_width(),0,0);
 }
 
 std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )

@@ -699,7 +699,7 @@ bool init_interface()
 {
     try {
         // curses_init is defined in wincurse.cpp and in sdltiles.cpp
-        stdscr = curses_init();
+        stdscr = mainwin = curses_init();
     } catch( const std::exception &err ) {
         fprintf( stderr, "Error while initializing: %s\n", err.what() );
         return false;

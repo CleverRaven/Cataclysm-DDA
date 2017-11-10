@@ -522,8 +522,7 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    return newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
