@@ -165,7 +165,6 @@ extern std::array<pairs, 100> colorpairs;
 WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
-void curses_delay( int delay );
 
 int projected_window_width( int column_count );
 int projected_window_height( int row_count );
