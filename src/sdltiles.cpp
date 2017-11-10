@@ -1516,9 +1516,7 @@ void init_interface()
     inputdelay = -1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        throw std::runtime_error( "loading font settings failed" );
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
