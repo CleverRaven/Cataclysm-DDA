@@ -3,6 +3,9 @@
 #include "debug.h"
 #include "json.h"
 
+#include <sstream>
+#include <algorithm>
+
 constants_manager &get_constants_manager()
 {
     static constants_manager single_instance;
