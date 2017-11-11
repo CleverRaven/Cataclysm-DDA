@@ -3,6 +3,7 @@
 #define CONSTANTS_MANAGER_H
 
 #include <map>
+#include <unordered_map>
 #include <string>
 
 class JsonObject;
