@@ -98,7 +98,7 @@ void constants_manager::load( JsonObject &jo )
 
 void constants_manager::game_constant::load( JsonObject &jo )
 {
-    jo.read( "description", description_ );
+    description_ = jo.get_string( "description" );
     auto stype = jo.get_string( "stype" );
     type_ = io::string_to_enum_look_up( game_constant_type_values, stype );
 
