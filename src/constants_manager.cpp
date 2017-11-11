@@ -13,7 +13,7 @@ constants_manager &get_constants_manager()
 }
 
 
-constants_manager::game_constant &constants_manager::get_constant( const std::string &id )
+const constants_manager::game_constant &constants_manager::get_constant( const std::string &id )
 {
     static game_constant null_constant;
     auto iter = game_constants_all.find( id );

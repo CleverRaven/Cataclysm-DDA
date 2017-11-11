@@ -41,7 +41,7 @@ class constants_manager
 
         };
 
-        game_constant &get_constant( const std::string &id );
+        const game_constant &get_constant( const std::string &id );
 
         std::map<std::string, game_constant> game_constants_all;
 };
