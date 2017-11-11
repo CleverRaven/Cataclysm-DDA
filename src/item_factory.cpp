@@ -27,6 +27,7 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "field.h"
+#include "constants_manager.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -245,7 +246,7 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.comestible ) {
         obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
 
-        if( get_option<bool>( "NO_VITAMINS" ) ) {
+        if( get_constant<bool>( "NO_VITAMINS" ) ) {
             obj.comestible->vitamins.clear();
         } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.

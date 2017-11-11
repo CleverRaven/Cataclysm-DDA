@@ -1468,13 +1468,6 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add( "NO_VITAMINS", "world_default", translate_marker( "Disables tracking vitamins in food items." ),
-        translate_marker( "If true, disables vitamin tracking and vitamin disorders." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
     add( "NO_NPC_FOOD", "world_default", translate_marker( "Disables tracking food, thirst and ( partially ) fatigue for NPCs." ),
         translate_marker( "If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties." ),
         false, COPT_ALWAYS_HIDE
