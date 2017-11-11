@@ -2943,7 +2943,7 @@
     "type": "ARMOR",
     "name": "pair of eclipse glasses",
     "name_plural": "pairs of eclipse glasses",
-    "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminium coating. They allow safely staring at extremely bright and harmful sources of light like the sun during a solar eclipse.",
+    "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminium coating.  They allow safely staring at extremely bright and harmful sources of light like the sun during a solar eclipse.",
     "weight": 27,
     "volume": 1,
     "price": 2500,
