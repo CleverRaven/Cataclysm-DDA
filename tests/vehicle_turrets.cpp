@@ -2,14 +2,16 @@
 
 #include "game.h"
 #include "itype.h"
+#include "ammo.h"
 #include "map.h"
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"
 
-static std::vector<const vpart_info *> turret_types() {
+static std::vector<const vpart_info *> turret_types()
+{
     std::vector<const vpart_info *> res;
-    
+
     for( const auto &e : vpart_info::all() ) {
         if( e.second.has_flag( "TURRET" ) ) {
             res.push_back( &e.second );
@@ -19,7 +21,8 @@ static std::vector<const vpart_info *> turret_types() {
     return res;
 }
 
-const vpart_info *biggest_tank( const ammotype ammo ) {
+const vpart_info *biggest_tank( const ammotype ammo )
+{
     std::vector<const vpart_info *> res;
 
     for( const auto &e : vpart_info::all() ) {
@@ -34,16 +37,18 @@ const vpart_info *biggest_tank( const ammotype ammo ) {
         }
     }
 
-    if( res.empty() ) { 
+    if( res.empty() ) {
         return nullptr;
     }
 
-    return * std::max_element( res.begin(), res.end(), []( const vpart_info *lhs, const vpart_info *rhs ) {
+    return * std::max_element( res.begin(), res.end(),
+    []( const vpart_info * lhs, const vpart_info * rhs ) {
         return lhs->size < rhs->size;
     } );
 }
 
-TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" ) {
+TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
+{
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
             vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );
@@ -64,10 +69,10 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" ) {
 
                 auto tank_idx = veh->install_part( 0, 0, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
-                REQUIRE( veh->parts[ tank_idx ].ammo_set( default_ammo( ammo ) ) );
+                REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
 
             } else if( ammo ) {
-                veh->parts[ idx].ammo_set( default_ammo( ammo ) );
+                veh->parts[ idx].ammo_set( ammo->default_ammotype() );
             }
 
             auto qry = veh->turret_query( veh->parts[ idx ] );

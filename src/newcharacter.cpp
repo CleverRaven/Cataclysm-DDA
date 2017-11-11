@@ -59,11 +59,6 @@
 
 const char clear_str[] = "                                                ";
 
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
-static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-
 void draw_tabs(WINDOW *w, std::string sTab);
 void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
 static int skill_increment_cost( const Character &u, const skill_id &skill );
@@ -178,7 +173,7 @@ tab_direction set_profession( WINDOW *w, player *u, points_left &points );
 tab_direction set_skills( WINDOW *w, player *u, points_left &points );
 tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_left &points);
 
-void save_template(player *u);
+void save_template( player *u, std::string name = "" );
 
 void Character::pick_name(bool bUseDefault)
 {
@@ -509,6 +504,8 @@ bool player::create(character_type type, std::string tempname)
         return false;
     }
 
+    save_template( this, _("Last Character") );
+
     recalc_hp();
     for (int i = 0; i < num_hp_parts; i++) {
         hp_cur[i] = hp_max[i];
@@ -542,7 +539,10 @@ bool player::create(character_type type, std::string tempname)
 
     for( item &it : prof_items ) {
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.is_armor() ) {
+        if( it.has_flag( "no_auto_equip" ) ) {
+            it.unset_flag( "no_auto_equip" );
+            inv.push_back( it );
+        } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
         } else if( it.has_flag( "WET" ) ) {
@@ -693,17 +693,31 @@ tab_direction set_points( WINDOW *w, player *, points_left &points )
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
 
+    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
+
     using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
-    const std::vector<point_limit_tuple> opts = {{
-        std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
+    std::vector<point_limit_tuple> opts;
+
+
+    const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
                          _( "Stats, traits and skills have separate point pools.\n\
 Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) ),
-        std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
-                         _( "Stats, traits and skills share a single point pool." ) ),
-        std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                         _( "No point limits are enforced" ) )
-    }};
+Scenarios and professions affect skill point pool" ) );
+
+    const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+                         _( "Stats, traits and skills share a single point pool." ) );
+
+    const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
+                         _( "No point limits are enforced" ) );
+
+
+    if( point_pool == "multi_pool" ) {
+        opts = {{ multi_pool }};
+    } else if( point_pool == "no_freeform" ) {
+        opts={{ multi_pool, one_pool }};
+    } else {
+        opts={{ multi_pool, one_pool, freeform }};
+    }
 
     int highlighted = 0;
 
@@ -2415,15 +2429,18 @@ trait_id Character::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-void save_template( player *u )
+void save_template( player *u, std::string name )
 {
-    std::string title = _( "Name of template:" );
-    std::string name = string_input_popup()
-                       .title( title )
-                       .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
-                       .query_string();
-    if( name.length() == 0 ) {
-        return;
+    if( name.empty() ) {
+        static const std::string title = _( "Name of template:" );
+        name = string_input_popup()
+            .title( title )
+            .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
+            .query_string();
+
+        if( name.empty() ) {
+            return;
+        }
     }
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {

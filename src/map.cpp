@@ -18,6 +18,7 @@
 #include "trap.h"
 #include "messages.h"
 #include "mapsharing.h"
+#include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -44,6 +45,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <algorithm>
+#include <cassert>
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -228,7 +230,7 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
     const auto end = ch.veh_cached_parts.end();
     while( it != end ) {
         if( it->second.first == veh ) {
-            const auto &p = it->first;
+            const tripoint p = it->first;
             if( inbounds( p.x, p.y ) ) {
                 ch.veh_exists_at[p.x][p.y] = false;
             }
@@ -411,16 +413,17 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    // Mph lost per tile when coasting, by an ideal vehicle
+    int base_slowdown = veh.skidding ? 50 : 5;
     if( should_fall ) {
         // Just air resistance
-        base_slowdown = 2;
+        base_slowdown = 1;
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
+    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
+    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
     const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -957,8 +960,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         //  and 38mph is 3800 'velocity'
         rl_vec2d velo_veh1 = veh.velo_vec();
         rl_vec2d velo_veh2 = veh2.velo_vec();
-        const float m1 = veh.total_mass();
-        const float m2 = veh2.total_mass();
+        const float m1 = to_kilogram( veh.total_mass() );
+        const float m2 = to_kilogram( veh2.total_mass() );
         //Energy of vehicle1 annd vehicle2 before collision
         float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
             0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
@@ -1021,7 +1024,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         float d_E = E - E_a;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
     } else {
-        const float m1 = veh.total_mass();
+        const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
         dmg = abs(veh.vertical_velocity / 100) * m1 / 10;
@@ -1823,6 +1826,9 @@ std::string map::features( const tripoint &p )
     if (has_flag("FLAT", p)) {
         ret += _("Flat. ");
     }
+    if (has_flag("EASY_DECONSTRUCT", p)) {
+        ret += _("Simple. ");
+    }
     return ret;
 }
 
@@ -1980,6 +1986,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
+    // Used to account for the fact that older versions of GCC can trip on the if statement here.
+    assert(to.z > std::numeric_limits<int>::min());
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
     if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
@@ -4989,7 +4997,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
-        const itype_id ammo = default_ammo( itt->tool->ammo_id );
+        const itype_id ammo = itt->tool->ammo_id->default_ammotype();
         auto stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
                                   [ammo]( const item &i ) { return i.typeId() == ammo; } );
@@ -5054,12 +5062,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
-            if (type == "water_clean") {
-                ftype = "water_clean";
-            } else if (type == "water") {
-                ftype = "water";
-            } else if (type == "hotplate") {
+            // Special case hotplates which draw battery power
+            if (type == "hotplate") {
                 ftype = "battery";
+            } else {
+                ftype = type;
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
@@ -5100,6 +5107,8 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             } else if (type == "vac_sealer") {
                 ftype = "battery";
             } else if (type == "dehydrator") {
+                ftype = "battery";
+            } else if (type == "food_processor") {
                 ftype = "battery";
             }
 
@@ -5282,7 +5291,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  t.obj().name.c_str(), ter.name.c_str() );
+                  t.obj().name().c_str(), ter.name.c_str() );
         return;
     }
 
@@ -5311,7 +5320,7 @@ void map::disarm_trap( const tripoint &p )
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
-        add_msg(_("You take down the %s."), tr.name.c_str());
+        add_msg(_("You take down the %s."), tr.name().c_str());
         tr.on_disarmed( p );
         return;
     }
@@ -6004,7 +6013,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
                 // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
             }
-            tercol = f.color[fe->getFieldDensity() - 1];
+            tercol = fe->color();
         }
     }
 
@@ -7816,12 +7825,6 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-furn_id find_furn_id( const furn_str_id id, bool complain = true )
-{
-    ( void )complain; //FIXME: complain unused
-    return id.id();
-}
-
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line( [this, type]( int x, int y ) {
@@ -8144,10 +8147,20 @@ const level_cache &map::access_cache( int zlev ) const
 
 level_cache::level_cache()
 {
+    const int map_dimensions = SEEX * MAPSIZE * SEEY * MAPSIZE;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
+    floor_cache_dirty = false;
+    std::fill_n( &lm[0][0], map_dimensions, 0.0f );
+    std::fill_n( &sm[0][0], map_dimensions, 0.0f );
+    std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
+    std::fill_n( &outside_cache[0][0], map_dimensions, false );
+    std::fill_n( &floor_cache[0][0], map_dimensions, false );
+    std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
-    std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
 }
 
 pathfinding_cache::pathfinding_cache()

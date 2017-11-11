@@ -21,6 +21,7 @@ struct dream;
 struct mutation_branch;
 class item;
 using trait_id = string_id<mutation_branch>;
+using itype_id = std::string;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -113,6 +114,12 @@ struct mutation_branch {
     float fatigue_modifier = 0.0f;
     // Modifier for the rate at which fatigue drops when resting.
     float fatigue_regen_modifier = 0.0f;
+    // Modifier for the rate at which stamina regenerates.
+    float stamina_regen_modifier = 0.0f;
+
+    /** The item, if any, spawned by the mutation */
+    itype_id spawn_item;
+    std::string spawn_item_message;
 
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;

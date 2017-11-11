@@ -190,10 +190,10 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
-    "tools": [ [ [ "spray_can", 1 ] ] ],
     "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ], [ "sunglasses", 1 ] ],
-      [ [ "duct_tape", 20 ], [ "medical_tape", 20 ] ]
+      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
+      [ [ "eclipse_glasses", 1 ], [ "sunglasses", 3 ], [ "fancy_sunglasses", 3 ], [ "fitover_sunglasses", 3 ] ],
+      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
     ]
   },
   {

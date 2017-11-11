@@ -216,6 +216,28 @@
     ]
   },
   {
+    "result": "reloaded_5x50dart",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": 8000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_caseless", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "5x50_hull", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ],
+      [ [ "combatnail", 1 ] ]
+    ]
+  },
+  {
     "result": "reloaded_50bmg",
     "type": "recipe",
     "category": "CC_AMMO",

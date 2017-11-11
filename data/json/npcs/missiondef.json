@@ -423,7 +423,7 @@
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood...",
       "offer": "I need someone to get a sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
-      "accepted": "Excellent.  Take this vacutainer; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
+      "accepted": "Excellent.  Take this blood draw kit; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
       "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
       "inquire": "Well, do you have the data yet?",
@@ -490,7 +490,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Well damn, you must be the guys here to pick me up...",
-      "offer": "I got the brief so I know what I'm getting into.  Let me be upfront, treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't stand a chance in this world.  You ready to take charge boss?",
+      "offer": "I got the brief so I know what I'm getting into.  Let me be upfront, treat me like shit and I'm going to cover my own hide.  However, you treat me well and give me something to believe in, even if it's just a shiny bit of metal, and I'll do you right.  Without a strong band a man doesn't stand a chance in this world.  You ready to take charge boss?  This world could use a Sheriff just about now.",
       "accepted": "Before we get into a major fight just make sure we have the gear we need, boss.",
       "rejected": "I don't think you're going to find many other survivors who haven't taken up a faction yet.",
       "advice": "I'm a pretty good shot with a rifle or pistol.",
@@ -1107,7 +1107,7 @@
     "followup": "MISSION_RANCH_FOREMAN_16",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect of hard labor just to eek out an existence is driving them away.  We've asked around and decided that, despite our pressing needs, building a bar ought to draw some of the less committed individuals to the outpost.  Unlike other settlements, the more hands we have to more food we can produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks before so we are going to need you to find a book called the 'Homebrewer's Bible' or something along those lines.",
+      "offer": "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect of hard labor just to eke out an existence is driving them away.  We've asked around and decided that, despite our pressing needs, building a bar ought to draw some of the less committed individuals to the outpost.  Unlike other settlements, the more hands we have to more food we can produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks before so we are going to need you to find a book called the 'Homebrewer's Bible' or something along those lines.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "I guess you should search homes or libraries?",

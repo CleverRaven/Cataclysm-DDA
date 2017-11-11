@@ -43,7 +43,7 @@ class save_t
 struct WORLD {
     std::string world_path;
     std::string world_name;
-    std::unordered_map<std::string, options_manager::cOpt> WORLD_OPTIONS;
+    options_manager::options_container WORLD_OPTIONS;
     std::vector<save_t> world_saves;
     /**
      * A (possibly empty) list of (idents of) mods that
@@ -113,17 +113,19 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
+        static void draw_worldgen_tabs( WINDOW *win, unsigned int current );
+        void show_active_world_mods( const std::vector<std::string> &world_mods );
+
     protected:
     private:
         std::map<std::string, WORLDPTR> all_worlds;
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( WINDOW *win, WORLDPTR world );
+        int show_worldgen_tab_options( WINDOW *, WORLDPTR world );
         int show_worldgen_tab_modselection( WINDOW *win, WORLDPTR world );
         int show_worldgen_tab_confirm( WINDOW *win, WORLDPTR world );
 
         void draw_modselection_borders( WINDOW *win, input_context *ctxtp );
-        void draw_worldgen_tabs( WINDOW *win, unsigned int current );
         void draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods,
                             bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
 
@@ -137,7 +139,6 @@ class worldfactory
         typedef std::function<int( WINDOW *, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
-        std::vector<std::string> tab_strings;
 };
 
 void load_world_option( JsonObject &jo );

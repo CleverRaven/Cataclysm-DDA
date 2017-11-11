@@ -436,5 +436,11 @@
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
         "default" : "gas_fungicidal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "milk",
+        "name" : "milk",
+        "default" : "milk"
     }
 ]

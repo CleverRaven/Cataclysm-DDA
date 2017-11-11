@@ -89,10 +89,8 @@
     "time": 100000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ],
-      [ [ "chitin_piece", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -429,10 +427,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": 60000,
+    "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "components": [ [ [ "rag", 26 ] ] ]
   },
   {
     "result": "h20survivor_suit",

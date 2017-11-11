@@ -138,9 +138,12 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         /**
-         * Display overview of parts
-         * @param enable used to determine if a part can be selected
-         * @param action callback when part is selected, should return true if redraw required
+         * Display overview of parts, optionally with interactive selection of one part
+         *
+         * @param enable used to determine parts of interest. If \p action also present, these
+                         parts are the ones that can be selected. Otherwise, these are the parts
+                         that will be highlighted
+         * @param action callback when part is selected, should return true if redraw required.
          * @return whether redraw is required (always false if no action was run)
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},

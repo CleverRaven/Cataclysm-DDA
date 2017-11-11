@@ -19,8 +19,8 @@ void on_load_test( npc &who, calendar from, calendar to )
 }
 
 void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                                 const numeric_interval<int> &thirst,
-                                 const numeric_interval<int> &fatigue )
+                 const numeric_interval<int> &thirst,
+                 const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -48,15 +48,15 @@ npc create_model()
     return model_npc;
 }
 
-TEST_CASE("on_load-sane-values", "[.]")
+TEST_CASE( "on_load-sane-values", "[.]" )
 {
 
     npc model_npc = create_model();
 
-    SECTION("Awake for 10 minutes, gaining hunger/thirst/fatigue") {
+    SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc test_npc = model_npc;
         const int five_min_ticks = 2;
-        on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
+        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
         const int margin = 2;
 
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
@@ -66,10 +66,10 @@ TEST_CASE("on_load-sane-values", "[.]")
         test_needs( test_npc, hunger, thirst, fatigue );
     }
 
-    SECTION("Awake for 2 days, gaining hunger/thirst/fatigue") {
+    SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
         npc test_npc = model_npc;
-        const int five_min_ticks = HOURS(2 * 24) / MINUTES(5);
-        on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
+        const int five_min_ticks = HOURS( 2 * 24 ) / MINUTES( 5 );
+        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
 
         const int margin = 20;
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
@@ -79,10 +79,10 @@ TEST_CASE("on_load-sane-values", "[.]")
         test_needs( test_npc, hunger, thirst, fatigue );
     }
 
-    SECTION("Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)") {
+    SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
         npc test_npc = model_npc;
-        test_npc.add_effect( efftype_id( "sleep" ), HOURS(6) );
-        test_npc.set_fatigue(1000);
+        test_npc.add_effect( efftype_id( "sleep" ), HOURS( 6 ) );
+        test_npc.set_fatigue( 1000 );
         const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
         /*
         // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
@@ -90,7 +90,7 @@ TEST_CASE("on_load-sane-values", "[.]")
             ((1.0f + 2.0f) / 2.0f * HOURS(2) / MINUTES(5) ) +
             (2.0f * HOURS(6 - 2) / MINUTES(5));
         */
-        on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
+        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
 
         const int margin = 10;
         const numeric_interval<int> hunger( five_min_ticks / 8, margin, margin );
@@ -101,16 +101,16 @@ TEST_CASE("on_load-sane-values", "[.]")
     }
 }
 
-TEST_CASE("on_load-similar-to-per-turn", "[.]")
+TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
     npc model_npc = create_model();
 
-    SECTION("Awake for 10 minutes, gaining hunger/thirst/fatigue") {
+    SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = model_npc;
         npc iterated_npc = model_npc;
         const int five_min_ticks = 2;
-        on_load_test( on_load_npc, 0, MINUTES(5 * five_min_ticks) );
-        for( int turn = 0; turn < MINUTES(5 * five_min_ticks); turn++ ) {
+        on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
+        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
             iterated_npc.update_body( turn, turn + 1 );
         }
 
@@ -122,12 +122,12 @@ TEST_CASE("on_load-similar-to-per-turn", "[.]")
         test_needs( on_load_npc, hunger, thirst, fatigue );
     }
 
-    SECTION("Awake for 6 hours, gaining hunger/thirst/fatigue") {
+    SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = model_npc;
         npc iterated_npc = model_npc;
-        const int five_min_ticks = HOURS(6) / MINUTES(5);
-        on_load_test( on_load_npc, 0, MINUTES(5 * five_min_ticks) );
-        for( int turn = 0; turn < MINUTES(5 * five_min_ticks); turn++ ) {
+        const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
+        on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
+        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
             iterated_npc.update_body( turn, turn + 1 );
         }
 
@@ -140,21 +140,22 @@ TEST_CASE("on_load-similar-to-per-turn", "[.]")
     }
 }
 
-TEST_CASE("snippet-tag-test")
+TEST_CASE( "snippet-tag-test" )
 {
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {{
-        "<name_b>", "<thirsty>", "<swear!>",
-        "<sad>", "<greet>", "<no>",
-        "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
-        "<wait>", "<no_faction>", "<name_g>",
-        "<keep_up>", "<yawn>", "<very>",
-        "<okay>", "<catch_up>", "<really>",
-        "<let_me_pass>", "<done_mugging>", "<happy>",
-        "<drop_weapon>", "<swear>", "<lets_talk>",
-        "<hands_up>", "<move>", "<hungry>",
-        "<fuck_you>",
-    }};
+            "<name_b>", "<thirsty>", "<swear!>",
+            "<sad>", "<greet>", "<no>",
+            "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
+            "<wait>", "<no_faction>", "<name_g>",
+            "<keep_up>", "<yawn>", "<very>",
+            "<okay>", "<catch_up>", "<really>",
+            "<let_me_pass>", "<done_mugging>", "<happy>",
+            "<drop_weapon>", "<swear>", "<lets_talk>",
+            "<hands_up>", "<move>", "<hungry>",
+            "<fuck_you>",
+        }
+    };
 
     for( const auto &tag : npc_talk_tags ) {
         const auto ids = SNIPPET.all_ids_from_category( tag );

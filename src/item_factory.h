@@ -252,7 +252,7 @@ class Item_factory
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
-        /** Checks that ammo is listed in ammo_name().
+        /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
          * If any of checks fails, prints a message to the msg stream.
          * @param msg Stream in which all error messages are printed.
@@ -329,6 +329,7 @@ class Item_factory
          */
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                            const std::string &name, const Item_group &parent );
+        bool load_string( std::vector<std::string> &vec, JsonObject &obj, const std::string &name );
         void add_entry( Item_group *sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );

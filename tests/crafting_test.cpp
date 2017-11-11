@@ -7,7 +7,8 @@
 #include "player.h"
 #include "recipe_dictionary.h"
 
-TEST_CASE( "recipe_subset" ) {
+TEST_CASE( "recipe_subset" )
+{
     recipe_subset subset;
 
     REQUIRE( subset.size() == 0 );
@@ -102,7 +103,8 @@ TEST_CASE( "recipe_subset" ) {
 }
 
 // This crashes subsequent testcases for some reason.
-TEST_CASE( "available_recipes", "[.]" ) {
+TEST_CASE( "available_recipes", "[.]" )
+{
     const recipe *r = &recipe_dict[ "brew_mead" ];
     player dummy;
 
@@ -114,7 +116,7 @@ TEST_CASE( "available_recipes", "[.]" ) {
         WHEN( "the player has lower skill" ) {
             dummy.set_skill_level( r->skill_used, r->difficulty - 1 );
 
-            THEN( "he can't brew it") {
+            THEN( "he can't brew it" ) {
                 CHECK_FALSE( dummy.knows_recipe( r ) );
             }
         }
@@ -156,7 +158,7 @@ TEST_CASE( "available_recipes", "[.]" ) {
                     CHECK( dummy.get_recipes_from_books( dummy.inv ).get_custom_difficulty( r ) == 2 );
                 }
 
-                THEN( "he still hasn't the recipe memorized") {
+                THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r ) );
                 }
             }

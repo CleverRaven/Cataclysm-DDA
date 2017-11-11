@@ -1,8 +1,10 @@
 #include "overmapbuffer.h"
 #include "coordinate_conversions.h"
+#include "overmap_connection.h"
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
@@ -27,6 +29,13 @@ overmapbuffer::overmapbuffer()
 {
 }
 
+const city_reference city_reference::invalid{ nullptr, tripoint(), -1 };
+
+int city_reference::get_distance_from_bounds() const {
+    assert( city != nullptr );
+    return distance - omt_to_sm_copy( city->s );
+}
+
 std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
     std::ostringstream filename;
@@ -49,28 +58,41 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 
 overmap &overmapbuffer::get( const int x, const int y )
 {
-    point const p {x, y};
+    point const p { x, y };
 
-    if (last_requested_overmap && last_requested_overmap->pos() == p) {
+    if( last_requested_overmap != nullptr && last_requested_overmap->pos() == p ) {
         return *last_requested_overmap;
     }
 
     auto const it = overmaps.find( p );
     if( it != overmaps.end() ) {
-        return *(last_requested_overmap = it->second.get());
+        return *( last_requested_overmap = it->second.get() );
     }
 
     // That constructor loads an existing overmap or creates a new one.
-    std::unique_ptr<overmap> new_om( new overmap( x, y ) );
-    overmap &result = *new_om;
-    overmaps[ new_om->pos() ] = std::move( new_om );
+    overmap *new_om = new overmap( x, y );
+    overmaps[ p ] = std::unique_ptr<overmap>( new_om );
+    new_om->populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-    fix_mongroups( result );
-    fix_npcs( result );
+    fix_mongroups( *new_om );
+    fix_npcs( *new_om );
 
-    last_requested_overmap = &result;
-    return result;
+    last_requested_overmap = new_om;
+    return *new_om;
+}
+
+void overmapbuffer::create_custom_overmap( int const x, int const y, overmap_special_batch &specials )
+{
+    overmap *new_om = new overmap( x, y );
+    if( last_requested_overmap != nullptr ) {
+        auto om_iter = overmaps.find( new_om->pos() );
+        if( om_iter != overmaps.end() && om_iter->second.get() == last_requested_overmap ) {
+            last_requested_overmap = nullptr;
+        }
+    }
+    overmaps[ new_om->pos() ] = std::unique_ptr<overmap>( new_om );
+    new_om->populate( specials );
 }
 
 void overmapbuffer::fix_mongroups(overmap &new_overmap)
@@ -151,7 +173,7 @@ void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
-    last_requested_overmap = NULL;
+    last_requested_overmap = nullptr;
 }
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
@@ -189,7 +211,7 @@ overmap *overmapbuffer::get_existing(int x, int y)
     if (known_non_existing.count(p) > 0) {
         // This overmap does not exist on disk (this has already been
         // checked in a previous call of this function).
-        return NULL;
+        return nullptr;
     }
     if( file_exist( terrain_filename( x, y ) ) ) {
         // File exists, load it normally (the get function
@@ -203,12 +225,12 @@ overmap *overmapbuffer::get_existing(int x, int y)
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
     known_non_existing.insert(p);
-    return NULL;
+    return nullptr;
 }
 
 bool overmapbuffer::has( int x, int y )
 {
-    return get_existing( x, y ) != NULL;
+    return get_existing( x, y ) != nullptr;
 }
 
 overmap &overmapbuffer::get_om_global( int &x, int &y )
@@ -250,13 +272,13 @@ overmap *overmapbuffer::get_existing_om_global( const tripoint& p )
 bool overmapbuffer::has_note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->has_note(x, y, z);
+    return (om != nullptr) && om->has_note(x, y, z);
 }
 
 const std::string& overmapbuffer::note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    if (om == NULL) {
+    if (om == nullptr) {
         static const std::string empty_string;
         return empty_string;
     }
@@ -266,7 +288,7 @@ const std::string& overmapbuffer::note(int x, int y, int z)
 bool overmapbuffer::is_explored(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->is_explored(x, y, z);
+    return (om != nullptr) && om->is_explored(x, y, z);
 }
 
 void overmapbuffer::toggle_explored(int x, int y, int z)
@@ -465,7 +487,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
 bool overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
+    return (om != nullptr) && const_cast<overmap*>(om)->seen(x, y, z);
 }
 
 void overmapbuffer::set_seen(int x, int y, int z, bool seen)
@@ -504,24 +526,40 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
     static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
 
+    if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+        return false;
+    }
+
     const tripoint start( OX, OY, source.z );   // Local source - center of the local area
     const tripoint base( source - start );      // To convert local coordinates to global ones
     const tripoint finish( dest - base );       // Local destination - relative to source
 
-    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &, const pf::node &cur ) {
+    const auto get_ter_at = [&]( int x, int y ) {
+        x += base.x;
+        y += base.y;
+        const overmap &om = get_om_global( x, y );
+        return om.get_ter( x, y, source.z );
+    };
+
+    const auto oter = get_ter_at( start.x, start.y ) ;
+    const auto connection = overmap_connections::guess_for( oter );
+
+    if( !connection ) {
+        return false;
+    }
+
+    const auto estimate = [&]( const pf::node &cur, const pf::node * ) {
         int res = 0;
-        int omx = base.x + cur.x;
-        int omy = base.y + cur.y;
 
-        const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
+        const auto oter = get_ter_at( cur.x, cur.y );
 
-        if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+        if( !connection->has( oter ) ) {
             if( road_only ) {
-                return -1;
+                return pf::rejected;
             }
 
             if( is_river( oter ) ) {
-                return -1; // Can't walk on water
+                return pf::rejected; // Can't walk on water
             }
             // Allow going slightly off-road to overcome small obstacles (e.g. craters),
             // but heavily penalize that to make roads preferable
@@ -536,15 +574,11 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
 
     const auto path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
 
-    if( path.empty() ) {
-        return false;
-    }
-
-    for( const auto &node : path ) {
+    for( const auto &node : path.nodes ) {
         reveal( base + tripoint( node.x, node.y, base.z ), radius );
     }
 
-    return true;
+    return !path.nodes.empty();
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
@@ -555,7 +589,23 @@ bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
 
 tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int const radius, bool must_be_seen)
 {
-    int max = (radius == 0 ? OMAPX : radius);
+    // By default search overmaps within a radius of 4,
+    // i.e. C = current overmap, X = overmaps searched:
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXCXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    //
+    // See overmap::place_specials for how we attempt to insure specials are placed within this range.
+    // The actual number is 5 becuase 1 covers the current overmap,
+    // and each additional one expends the search to the next concentric circle of overmaps.
+
+    int max = ( radius == 0 ? OMAPX * 5 : radius );
     const int z = origin.z;
     // expanding box
     for( int dist = 0; dist <= max; dist++) {
@@ -633,7 +683,7 @@ npc* overmapbuffer::find_npc(int id) {
             return p;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void overmapbuffer::remove_npc(int id)
@@ -759,7 +809,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
     // global submap coordinates, same as center is
     const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
-    return radio_tower_reference{ &om, &t, pos, strength };
+    return radio_tower_reference{ &t, pos, strength };
 }
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
@@ -773,7 +823,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
             }
         }
     }
-    return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
+    return radio_tower_reference{ nullptr, point( 0, 0 ), 0 };
 }
 
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
@@ -794,28 +844,105 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
+std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &location, int radius )
+{
+    std::vector<city_reference> result;
+
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->cities.size() );
+        std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
+        [&]( city& element ) {
+            const auto rel_pos_city = omt_to_sm_copy( element.x, element.y );
+            const auto abs_pos_city = tripoint( rel_pos_city + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_city, location );
+
+            return city_reference{ &element, abs_pos_city, distance };
+        } );
+    }
+
+    std::sort( result.begin(), result.end(), []( const city_reference& lhs, const city_reference& rhs ) {
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
+    } );
+
+    return result;
+}
+
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
-    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
-    auto const radius = OMAPX * 2;
-    // Starting with distance = INT_MAX, so the first city is already closer
-    city_reference result{ nullptr, nullptr, tripoint( 0, 0, 0 ), INT_MAX };
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        const auto abs_pos_om = om_to_sm_copy( om->pos() );
-        for( auto &city : om->cities ) {
-            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
-            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
-            const auto abs_pos_city = tripoint( abs_pos_om + rel_pos_city, 0 );
-            const auto distance = rl_dist( abs_pos_city, center );
-            const city_reference cr{ om, &city, abs_pos_city, distance };
-            if( distance < result.distance ) {
-                result = cr;
-            } else if( distance == result.distance && result.city->s < city.s ) {
-                result = cr;
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+
+    if( !cities.empty() ) {
+        return cities.front();
+    }
+
+    return city_reference::invalid;
+}
+
+city_reference overmapbuffer::closest_known_city( const tripoint &center )
+{
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+    const auto it = std::find_if( cities.begin(), cities.end(),
+    [this]( const city_reference& elem ) {
+        const tripoint p = sm_to_omt_copy( elem.abs_sm_pos );
+        return seen( p.x, p.y, p.z );
+    } );
+
+    if( it != cities.end() ) {
+        return *it;
+    }
+
+    return city_reference::invalid;
+}
+
+std::string overmapbuffer::get_description_at( const tripoint &where )
+{
+    const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
+
+    if( where.z != 0 ) {
+        return ter_name;
+    }
+
+    const auto closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
+        return ter_name;
+    }
+
+    const auto &closest_city = *closest_cref.city;
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = direction_name( dir );
+
+    const int sm_size = omt_to_sm_copy( closest_cref.city->s );
+    const int sm_dist = closest_cref.distance;
+
+    if( sm_dist <= 3 * sm_size / 4 ) {
+        if( sm_size >= 16 ) {
+            // The city is big enough to be split in districts.
+            if( sm_dist <= sm_size / 4 ) {
+                //~ First parameter is a terrain name, second parameter is a city name.
+                return string_format( _( "%1$s in central %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+            } else {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                return string_format( _( "%1$s in %2$s %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
             }
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+        }
+    } else if( sm_dist <= sm_size ) {
+        if( sm_size >= 8 ) {
+            // The city is big enough to have outskirts.
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
         }
     }
-    return result;
+
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    return string_format( _( "%1$s %2$s from %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
 }
 
 static int modulo(int v, int m) {
@@ -880,7 +1007,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
                 if (note.empty()) {
                     continue;
                 }
-                if (pattern != NULL && lcmatch( note, *pattern ) ) {
+                if (pattern != nullptr && lcmatch( note, *pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }

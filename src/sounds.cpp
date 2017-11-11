@@ -233,7 +233,8 @@ void sounds::process_sound_markers( player *p )
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
 
-        const int distance_to_sound = rl_dist( p->pos(), pos );
+        const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
+            abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -271,7 +272,7 @@ void sounds::process_sound_markers( player *p )
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
         const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 ) {
+        if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
         }
 
@@ -320,7 +321,7 @@ void sounds::process_sound_markers( player *p )
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
+                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), direction.c_str(), description.c_str() );
             }
         }
         

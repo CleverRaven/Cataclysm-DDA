@@ -255,4 +255,17 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     return true;
 }
 
+inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
+                    bool strict = false,
+                    const units::mass lo = units::mass_min,
+                    const units::mass hi = units::mass_max )
+{
+    auto tmp = val.value();
+    if( !assign( jo, name, tmp, strict, lo.value(), hi.value() ) ) {
+        return false;
+    }
+    val = units::mass{ tmp, units::mass::unit_type{} };
+    return true;
+}
+
 #endif

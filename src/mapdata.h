@@ -112,6 +112,7 @@ struct map_deconstruct_info {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * EASY_DECONSTRUCT - Player can deconstruct this without tools
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -498,7 +499,7 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
