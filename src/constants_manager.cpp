@@ -82,6 +82,6 @@ void constants_manager::game_constant::load( JsonObject &jo )
     } else if( stype_ == "string" ) {
         string_value_ = jo.get_string( "value" );
     } else {
-        debugmsg( "Unknown stype for %s.", id_.c_str() );
+        jo.throw_error( "Unknown stype", "stype" );
     }
 }
