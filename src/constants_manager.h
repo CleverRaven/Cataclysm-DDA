@@ -20,12 +20,12 @@ class constants_manager
 
     public:
 
-		enum game_constant_type {
-			FLOAT,
-			INT,
-			BOOL,
-			STRING
-		};
+        enum game_constant_type {
+            FLOAT,
+            INT,
+            BOOL,
+            STRING
+        };
         class game_constant
         {
             public:
@@ -39,7 +39,7 @@ class constants_manager
             private:
                 const std::string id_;
                 std::string description_;
-				game_constant_type type_;
+                game_constant_type type_;
                 std::string string_value_;
                 float float_value_;
                 int int_value_;
