@@ -5,6 +5,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <unordered_map>
 
 constants_manager &get_constants_manager()
 {
