@@ -1,11 +1,7 @@
 #include "constants_manager.h"
 
 #include "debug.h"
-
-#include <map>
-#include <algorithm>
-#include <unordered_map>
-
+#include "json.h"
 
 constants_manager &get_constants_manager()
 {

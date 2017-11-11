@@ -2,9 +2,10 @@
 #ifndef CONSTANTS_MANAGER_H
 #define CONSTANTS_MANAGER_H
 
-#include "json.h"
+#include <map>
+#include <string>
 
-#include <set>
+class JsonObject;
 
 /** Constansts manager. To read constant use something like:
 float val = get_constant<float>( "FLOAT_CONSTANT_EXAMPLE" );
