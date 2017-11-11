@@ -561,6 +561,30 @@
         }
     },
     {
+        "id" : "disinfectant_powdered",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "cleaning powder",
+        "name-plural": "cleaning powder",
+        "description": "A powdered form of disinfectant.  Could be used for wound cleaning, or combined with water to become a more potent disinfectant.",
+        "weight" : 0,
+        "volume" : 2,
+        "price" : 9000,
+        "charges" : 10,
+        "symbol" : "`",
+        "color" : "light_cyan",
+        "phase" : "solid",
+        "container" : "bottle_plastic_small",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 2,
+            "head_power" : 3,
+            "torso_power" : 5,
+            "bite" : 0.10,
+            "move_cost" : 100
+        }
+    },
+    {
         "id" : "diazepam",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
