@@ -110,6 +110,33 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     }
 }
 
+static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
+{
+    const int iBold = bOldMsg ? 0 : 8;
+
+    switch( type ) {
+        case m_good:
+            return iBold + COLOR_GREEN;
+        case m_bad:
+            return iBold + COLOR_RED;
+        case m_mixed:
+        case m_headshot:
+            return iBold + COLOR_MAGENTA;
+        case m_neutral:
+            return iBold + COLOR_WHITE;
+        case m_warning:
+        case m_critical:
+            return iBold + COLOR_YELLOW;
+        case m_info:
+        case m_grazing:
+            return iBold + COLOR_BLUE;
+        default:
+            break;
+    }
+
+    return -1;
+}
+
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
