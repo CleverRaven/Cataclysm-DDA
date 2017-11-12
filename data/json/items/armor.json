@@ -1063,6 +1063,26 @@
     "flags": [ "BLIND" ]
   },
   {
+    "id": "blindfold_tape",
+    "type": "ARMOR",
+    "name": "blindfold",
+    "//": "This is the duct tape version done because duct tape isn't cotton",
+    "description": "Some duct tape stuck together to form a makeshift blindfold.",
+    "weight": 72,
+    "volume": 1,
+    "price": 600,
+    "material": [ "duct tape" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "EYES" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 5,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "BLIND" ]
+  },
+  {
     "id": "bondage_mask",
     "type": "ARMOR",
     "name": "bondage mask",
