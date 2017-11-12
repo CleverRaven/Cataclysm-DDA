@@ -2,10 +2,6 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
-#   include "mmsystem.h"
-#endif
 #include <stdio.h>
 #include <map>
 #include <vector>

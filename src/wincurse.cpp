@@ -21,6 +21,8 @@
 #include "string_formatter.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "platform_win.h"
+#include "mmsystem.h"
 
 //***********************************
 //Globals                           *
