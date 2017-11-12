@@ -35,4 +35,17 @@ struct delwin_functor {
  */
 using WINDOW_PTR = std::unique_ptr<WINDOW, delwin_functor>;
 
+enum base_color : short {
+    black = 0x00,    // RGB{0, 0, 0}
+    red = 0x01,      // RGB{196, 0, 0}
+    green = 0x02,    // RGB{0, 196, 0}
+    yellow = 0x03,   // RGB{196, 180, 30}
+    blue = 0x04,     // RGB{0, 0, 196}
+    magenta = 0x05,  // RGB{196, 0, 180}
+    cyan = 0x06,     // RGB{0, 170, 200}
+    white = 0x07,    // RGB{196, 196, 196}
+};
+
+void init_pair( short pair, base_color f, base_color b );
+
 #endif

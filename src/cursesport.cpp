@@ -61,8 +61,8 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     newwindow->height = nlines;
     newwindow->inuse = true;
     newwindow->draw = false;
-    newwindow->BG = 0;
-    newwindow->FG = 8;
+    newwindow->BG = black;
+    newwindow->FG = static_cast<base_color>( 8 );
     newwindow->cursorx = 0;
     newwindow->cursory = 0;
     newwindow->line.resize(nlines);
@@ -434,11 +434,10 @@ int erase(void)
 }
 
 //pairs up a foreground and background color and puts it into the array of pairs
-int init_pair(short pair, short f, short b)
+void init_pair( const short pair, const base_color f, const base_color b )
 {
     colorpairs[pair].FG = f;
     colorpairs[pair].BG = b;
-    return 1;
 }
 
 //moves the cursor in a window
@@ -547,10 +546,10 @@ int wattron( WINDOW *win, const nc_color &attrs )
     win->FG = colorpairs[pairNumber].FG;
     win->BG = colorpairs[pairNumber].BG;
     if (isBold) {
-        win->FG += 8;
+        win->FG = static_cast<base_color>( win->FG + 8 );
     }
     if (isBlink) {
-        win->BG += 8;
+        win->BG = static_cast<base_color>( win->BG + 8 );
     }
     return 1;
 }
@@ -560,8 +559,8 @@ int wattroff(WINDOW *win, int)
         return 1;
     }
 
-    win->FG = 8;                                //reset to white
-    win->BG = 0;                                //reset to black
+    win->FG = static_cast<base_color>( 8 );                                //reset to white
+    win->BG = black;                                //reset to black
     return 1;
 }
 int waddch(WINDOW *win, const chtype ch)

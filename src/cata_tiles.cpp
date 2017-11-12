@@ -116,20 +116,20 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 
     switch( type ) {
         case m_good:
-            return iBold + COLOR_GREEN;
+            return iBold + green;
         case m_bad:
-            return iBold + COLOR_RED;
+            return iBold + red;
         case m_mixed:
         case m_headshot:
-            return iBold + COLOR_MAGENTA;
+            return iBold + magenta;
         case m_neutral:
-            return iBold + COLOR_WHITE;
+            return iBold + white;
         case m_warning:
         case m_critical:
-            return iBold + COLOR_YELLOW;
+            return iBold + yellow;
         case m_info:
         case m_grazing:
-            return iBold + COLOR_BLUE;
+            return iBold + blue;
         default:
             break;
     }
@@ -660,21 +660,21 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = COLOR_BLACK;
+        FG = black;
     } else if( scolor == "RED" ) {
-        FG = COLOR_RED;
+        FG = red;
     } else if( scolor == "GREEN" ) {
-        FG = COLOR_GREEN;
+        FG = green;
     } else if( scolor == "YELLOW" ) {
-        FG = COLOR_YELLOW;
+        FG = yellow;
     } else if( scolor == "BLUE" ) {
-        FG = COLOR_BLUE;
+        FG = blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = COLOR_MAGENTA;
+        FG = magenta;
     } else if( scolor == "CYAN" ) {
-        FG = COLOR_CYAN;
+        FG = cyan;
     } else if( scolor == "WHITE" ) {
-        FG = COLOR_WHITE;
+        FG = white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {

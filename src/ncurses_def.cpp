@@ -11,6 +11,27 @@
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
 
+// As long as these assertions hold, we can just case base_color into short and
+// forward the result to ncurses init_pair. Otherwise we would have to translate them.
+static_assert( black == COLOR_BLACK,
+               "black must have the same value as COLOR_BLACK (from ncurses)" );
+static_assert( red == COLOR_RED, "red must have the same value as COLOR_RED (from ncurses)" );
+static_assert( green == COLOR_GREEN,
+               "green must have the same value as COLOR_GREEN (from ncurses)" );
+static_assert( yellow == COLOR_YELLOW,
+               "yellow must have the same value as COLOR_YELLOW (from ncurses)" );
+static_assert( blue == COLOR_BLUE, "blue must have the same value as COLOR_BLUE (from ncurses)" );
+static_assert( magenta == COLOR_MAGENTA,
+               "magenta must have the same value as COLOR_MAGENTA (from ncurses)" );
+static_assert( cyan == COLOR_CYAN, "cyan must have the same value as COLOR_CYAN (from ncurses)" );
+static_assert( white == COLOR_WHITE,
+               "white must have the same value as COLOR_WHITE (from ncurses)" );
+
+void init_pair( const short pair, const base_color f, const base_color b )
+{
+    ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) );
+}
+
 void init_interface()
 {
     if( initscr() == nullptr ) {

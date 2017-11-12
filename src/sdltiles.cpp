@@ -821,7 +821,7 @@ void handle_additional_window_clear( WINDOW* win )
 void clear_window_area(WINDOW* win)
 {
     FillRectDIB(win->x * fontwidth, win->y * fontheight,
-                win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+                win->width * fontwidth, win->height * fontheight, black);
 }
 
 void curses_drawwindow(WINDOW *win)
@@ -852,12 +852,12 @@ void curses_drawwindow(WINDOW *win)
         if( partial_height > 0 ) {
             FillRectDIB( win->x * map_font->fontwidth,
                          ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
-                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK );
+                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
             FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
-                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK );
+                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, black );
         }
         // Special font for the terrain window
         update = map_font->draw_window(win);
@@ -878,7 +878,7 @@ void curses_drawwindow(WINDOW *win)
         int offsety = win->y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
-        FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        FillRectDIB(offsetx, offsety, wwidth, wheight, black);
         update = true;
     } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
@@ -1002,8 +1002,8 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
             const int codepoint = UTF8_getch( &utf8str, &len );
-            const int FG = cell.FG;
-            const int BG = cell.BG;
+            const base_color FG = cell.FG;
+            const base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {

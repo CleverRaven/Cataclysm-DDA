@@ -12,21 +12,22 @@
 #include "printf_check.h"
 
 class nc_color;
+enum base_color : short;
 
 typedef int chtype;
 typedef unsigned short attr_t;
 
 //a pair of colors[] indexes, foreground and background
 typedef struct {
-    int FG;
-    int BG;
+    base_color FG;
+    base_color BG;
 } pairs;
 
 //Individual lines, so that we can track changed lines
 struct cursecell {
     std::string ch;
-    char FG = 0;
-    char BG = 0;
+    base_color FG = static_cast<base_color>( 0 );
+    base_color BG = static_cast<base_color>( 0 );
 
     cursecell( std::string ch ) : ch( std::move( ch ) ) { }
     cursecell() : cursecell( std::string( 1, ' ' ) ) { }
@@ -47,23 +48,14 @@ struct WINDOW {
     int y;//top side of window
     int width;
     int height;
-    int FG;//current foreground color from attron
-    int BG;//current background color from attron
+    base_color FG;//current foreground color from attron
+    base_color BG;//current background color from attron
     bool inuse;// Does this window actually exist?
     bool draw;//Tracks if the window text has been changed
     int cursorx;
     int cursory;
     std::vector<curseline> line;
 };
-
-#define COLOR_BLACK 0x00    // RGB{0, 0, 0}
-#define COLOR_RED 0x01      // RGB{196, 0, 0}
-#define COLOR_GREEN 0x02    // RGB{0, 196, 0}
-#define COLOR_YELLOW 0x03   // RGB{196, 180, 30}
-#define COLOR_BLUE 0x04     // RGB{0, 0, 196}
-#define COLOR_MAGENTA 0x05  // RGB{196, 0, 180}
-#define COLOR_CYAN 0x06     // RGB{0, 170, 200}
-#define COLOR_WHITE 0x07    // RGB{196, 196, 196}
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
@@ -105,7 +97,6 @@ int mvgetch( int y, int x );
 int mvwgetch( WINDOW *win, int y, int x );
 int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... ) PRINTF_LIKE( 4, 5 );
 int werase( WINDOW *win );
-int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
 int clear( void );
 int erase( void );
