@@ -3990,50 +3990,62 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::blood_draw(player *p, item *it, bool, const tripoint& )
+int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 {
-    if (p->is_npc()) {
+    if( p->is_npc() ) {
         return 0;    // No NPCs for now!
     }
 
-    if (!it->contents.empty()) {
-        p->add_msg_if_player(m_info, _("That %s is full!"), it->tname().c_str());
+    if( !it->contents.empty() ) {
+        p->add_msg_if_player( m_info, _( "That %s is full!" ), it->tname().c_str() );
         return 0;
     }
 
-    item blood("blood", calendar::turn);
-    item acid("acid", calendar::turn);
+    item blood( "blood", calendar::turn );
+    item acid( "acid", calendar::turn );
     bool drew_blood = false;
-    for( auto &map_it : g->m.i_at(p->posx(), p->posy()) ) {
+    bool acid_blood = false;
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
         if( map_it.is_corpse() &&
-            query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
-            blood.set_mtype( map_it.get_mtype() );
+            query_yn( _( "Draw blood from %s?" ), map_it.tname().c_str() ) ) {
+            p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname().c_str() );
             drew_blood = true;
-        }
-    }
-
-    if (!drew_blood && query_yn(_("Draw your own blood?"))) {
-        drew_blood = true;
-        if (p->has_trait( trait_ACIDBLOOD )) {
-            it->put_in(acid);
-            auto str = it->tname();
-            if( one_in( 3 ) ) {
-                if( it->inc_damage( DT_ACID ) ) {
-                    p->add_msg_if_player( m_info, _( "Your acidic blood melts the %s, destroying it!" ), str.c_str() );
-                    p->inv.remove_item(it);
-                    return 0;
-                }
-                p->add_msg_if_player( m_info, _( "Your acidic blood damages the %s!" ), str.c_str() );
-                return it->type->charges_to_use();
+            auto bloodtype( map_it.get_mtype()->bloodType() );
+            if( bloodtype == fd_acid ) {
+                acid_blood = true;
+            } else {
+                blood.set_mtype( map_it.get_mtype() );
             }
         }
     }
 
-    if (!drew_blood) {
+    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+        p->add_msg_if_player( m_info, _( "You drew your own blood..." ) );
+        drew_blood = true;
+        if( p->has_trait( trait_ACIDBLOOD ) ) {
+            acid_blood = true;
+        }
+    }
+
+    if( acid_blood ) {
+        it->put_in( acid );
+        if( one_in( 3 ) ) {
+            if( it->inc_damage( DT_ACID ) ) {
+                p->add_msg_if_player( m_info, _( "...but acidic blood melts the %s, destroying it!" ),
+                                      it->tname().c_str() );
+                p->inv.remove_item( it );
+                return 0;
+            }
+            p->add_msg_if_player( m_info, _( "...but acidic blood damages the %s!" ), it->tname().c_str() );
+        }
         return it->type->charges_to_use();
     }
 
-    it->put_in(blood);
+    if( !drew_blood ) {
+        return it->type->charges_to_use();
+    }
+
+    it->put_in( blood );
     return it->type->charges_to_use();
 }
 
