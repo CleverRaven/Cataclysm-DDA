@@ -1063,13 +1063,6 @@
     "flags": [ "BLIND" ]
   },
   {
-<<<<<<< HEAD
-    "copy-from": "blindfold",
-    "material": [ "plastic", "cotton" ]
-  },
-  {
-=======
->>>>>>> parent of 6cc31694b9... Added blindfold_tape
     "id": "bondage_mask",
     "type": "ARMOR",
     "name": "bondage mask",
