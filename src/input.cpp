@@ -1114,13 +1114,6 @@ void input_manager::wait_for_any_key()
 }
 
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
-void input_manager::set_timeout( int delay )
-{
-    timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    input_timeout = delay;
-}
-
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {

@@ -120,4 +120,11 @@ input_event input_manager::get_input_event()
     return rval;
 }
 
+void input_manager::set_timeout( const int delay )
+{
+    timeout( delay );
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    input_timeout = delay;
+}
+
 #endif
