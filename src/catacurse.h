@@ -54,18 +54,8 @@ struct WINDOW {
     std::vector<curseline> line;
 };
 
-#define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
-#define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
-#define A_UNDERLINE 0x00000200 /* Added characters are underscored. <---------not used */
-#define A_REVERSE 0x00000400 /* Added characters are reverse        <---------not used */
 #define A_BLINK  0x00000800 /* Added characters are blinking. */
-#define A_DIM  0x00001000 /* Added characters are dim.              <---------not used */
 #define A_BOLD  0x00002000 /* Added characters are bold. */
-#define A_BLANK  0x00004000 /* Added characters are blanked.        <---------not used */
-#define A_PROTECT 0x00008000 /* Added characters are protected.     <---------not used */
-#define A_ALTCHARSET 0x00010000 /* Added characters are ACS         <---------not used */
-#define A_ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits         <---------not used */
-#define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
 #define A_COLOR  0x03fe0000 /* Color bits */
 
 #define COLOR_BLACK 0x00    // RGB{0, 0, 0}
