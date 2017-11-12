@@ -1071,7 +1071,7 @@
     "weight": 72,
     "volume": 1,
     "price": 600,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "EYES" ],
