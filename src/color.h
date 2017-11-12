@@ -347,17 +347,24 @@ class nc_color
         // color is actually an ncurses attribute.
         int attribute_value;
 
+        nc_color( const int a ) : attribute_value( a ) { }
+
     public:
         nc_color() : attribute_value( 0 ) { }
-        explicit nc_color( const int attr ) : attribute_value( attr ) { }
+
+        static nc_color from_color_pair_index( const int index );
+        int to_color_pair_index() const;
+
         operator int() const {
             return attribute_value;
         }
 
         // Returns this attribute plus A_BOLD.
         nc_color bold() const;
+        bool is_bold() const;
         // Returns this attribute plus A_BLINK.
         nc_color blink() const;
+        bool is_blink() const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

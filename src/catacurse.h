@@ -11,6 +11,8 @@
 
 #include "printf_check.h"
 
+class nc_color;
+
 typedef int chtype;
 typedef unsigned short attr_t;
 
@@ -53,10 +55,6 @@ struct WINDOW {
     int cursory;
     std::vector<curseline> line;
 };
-
-#define A_BLINK  0x00000800 /* Added characters are blinking. */
-#define A_BOLD  0x00002000 /* Added characters are bold. */
-#define A_COLOR  0x03fe0000 /* Color bits */
 
 #define COLOR_BLACK 0x00    // RGB{0, 0, 0}
 #define COLOR_RED 0x01      // RGB{196, 0, 0}
@@ -118,7 +116,7 @@ int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
-int wattron( WINDOW *win, int attrs );
+int wattron( WINDOW *win, const nc_color &attrs );
 int wattroff( WINDOW *win, int attrs );
 int waddch( WINDOW *win, const chtype ch );
 int getmaxx( WINDOW *win );

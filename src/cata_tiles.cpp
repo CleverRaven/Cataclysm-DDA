@@ -1580,10 +1580,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
-            const int pairNumber = (col & A_COLOR) >> 17;
+            const int pairNumber = col.to_color_pair_index();
             const pairs &colorpair = colorpairs[pairNumber];
             // What about isBlink?
-            const bool isBold = col & A_BOLD;
+            const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
 //            const int BG = colorpair.BG;
             // static so it does not need to be allocated every time,

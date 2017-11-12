@@ -12,14 +12,32 @@
 
 #include <iostream>
 
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
+static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
+static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
+#else
+// Otherwise it's already defined via the ncurses header.
+#endif
+
 nc_color nc_color::bold() const
 {
     return nc_color( attribute_value | A_BOLD );
 }
 
+bool nc_color::is_bold() const
+{
+    return attribute_value & A_BOLD;
+}
+
 nc_color nc_color::blink() const
 {
     return nc_color( attribute_value | A_BLINK );
+}
+
+bool nc_color::is_blink() const
+{
+    return attribute_value & A_BLINK;
 }
 
 void nc_color::serialize( JsonOut &jsout ) const
@@ -212,16 +230,30 @@ nc_color color_manager::highlight_from_names( const std::string &name, const std
     return color_array[id].color;
 }
 
-void color_manager::load_default()
+nc_color nc_color::from_color_pair_index( const int index )
 {
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    #define COLOR_PAIR(n) nc_color((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
+    return nc_color( ( index << 17 ) & A_COLOR );
 #else
     // COLOR_PAIR is defined by ncurses
-    #define OLD_COLOR_PAIR(x) COLOR_PAIR(x)
-    #undef COLOR_PAIR
-    #define COLOR_PAIR(x) nc_color(OLD_COLOR_PAIR(x))
+    return nc_color( COLOR_PAIR( index ) );
 #endif
+}
+
+int nc_color::to_color_pair_index() const
+{
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    return ( attribute_value & A_COLOR ) >> 17;
+#else
+    // PAIR_NUMBER is defined by ncurses
+    return PAIR_NUMBER( attribute_value );
+#endif
+}
+
+void color_manager::load_default()
+{
+    #undef COLOR_PAIR
+    #define COLOR_PAIR(x) nc_color::from_color_pair_index(x)
 
     //        Color         Name      Color Pair      Invert
     add_color(def_c_black, "c_black", COLOR_PAIR(30), def_i_black );
