@@ -1071,7 +1071,7 @@
     "weight": 72,
     "volume": 1,
     "price": 600,
-    "material": [ "duct tape" ],
+    "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "EYES" ],
