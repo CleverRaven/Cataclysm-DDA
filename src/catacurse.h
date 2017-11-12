@@ -67,8 +67,6 @@ struct WINDOW {
 #define COLOR_CYAN 0x06     // RGB{0, 170, 200}
 #define COLOR_WHITE 0x07    // RGB{196, 196, 196}
 
-#define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
-
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
 #define    KEY_DOWN       0x102    /* down arrow */

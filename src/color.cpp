@@ -214,9 +214,15 @@ nc_color color_manager::highlight_from_names( const std::string &name, const std
 
 void color_manager::load_default()
 {
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    #define COLOR_PAIR(n) nc_color((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
+#else
+    // COLOR_PAIR is defined by ncurses
     #define OLD_COLOR_PAIR(x) COLOR_PAIR(x)
     #undef COLOR_PAIR
     #define COLOR_PAIR(x) nc_color(OLD_COLOR_PAIR(x))
+#endif
+
     //        Color         Name      Color Pair      Invert
     add_color(def_c_black, "c_black", COLOR_PAIR(30), def_i_black );
     add_color(def_c_white, "c_white", COLOR_PAIR(1).bold(), def_i_white );
