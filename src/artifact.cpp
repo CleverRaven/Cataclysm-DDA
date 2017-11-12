@@ -1054,7 +1054,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1117,7 +1117,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess

@@ -28,7 +28,6 @@ class JsonObject;
 struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
-typedef int nc_color;
 class Character;
 
 struct requirement_data;

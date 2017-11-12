@@ -111,7 +111,7 @@ class weather_generator;
 struct weather_printable;
 class faction;
 class live_view;
-typedef int nc_color;
+class nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;

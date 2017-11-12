@@ -5,6 +5,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
+#include "color.h"
 
 #include <bitset>
 #include <vector>
@@ -13,7 +14,6 @@
 #include <array>
 
 class JsonObject;
-using nc_color = int;
 struct itype;
 struct trap;
 struct ter_t;

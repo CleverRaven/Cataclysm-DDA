@@ -7,6 +7,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 
 #define all_colors get_all_colors()
 
@@ -340,7 +341,38 @@ enum hl_enum {
     NUM_HL
 };
 
-typedef int nc_color;
+class nc_color
+{
+    private:
+        // color is actually an ncurses attribute.
+        int attribute_value;
+
+    public:
+        nc_color() : attribute_value( 0 ) { }
+        explicit nc_color( const int attr ) : attribute_value( attr ) { }
+        operator int() const {
+            return attribute_value;
+        }
+
+        // Returns this attribute plus A_BOLD.
+        nc_color bold() const;
+        // Returns this attribute plus A_BLINK.
+        nc_color blink() const;
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+};
+
+// Support hashing of nc_color by forwarding the hash of the contained int.
+namespace std
+{
+template<>
+struct hash<nc_color> {
+    std::size_t operator()( const nc_color &v ) const {
+        return hash<int>()( v.operator int() );
+    }
+};
+}
 
 class color_manager
 {
