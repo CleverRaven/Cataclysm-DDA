@@ -2198,14 +2198,6 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "blindfold_tape",
-    "type": "uncraft",
-    "skill_used": "tailor",
-    "time": 300,
-    "components": [ [ [ "duct_tape", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "television",
     "type": "uncraft",
     "skill_used": "electronics",
