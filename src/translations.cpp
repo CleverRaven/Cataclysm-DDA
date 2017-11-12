@@ -172,12 +172,12 @@ void set_language()
 #include <cstring> // strcmp
 #include <map>
 
-bool isValidLanguage( const std::string &lang )
+bool isValidLanguage( const std::string &/*lang*/ )
 {
     return true;
 }
 
-std::string getLangFromLCID( const int &lcid )
+std::string getLangFromLCID( const int &/*lcid*/ )
 {
     return "";
 }
