@@ -45,9 +45,9 @@ const std::set<trap_id> sleep_trap {//Traps that count as a bunk
 enum base_flag
 {
     BASE_IN,   /**Inside of actual base*/
-    BASE_GND,  /**On base grounds. i.e. between perimeter fence and building*/
-    BASE_WALL, /**The outer walls of the base building.  Separates BASE_IN and BASE_GND*/
-    BASE_EDGE, /**Outer edge of base area (perimeter wall/fence).  Used when base area extends beyond the building structure.*/
+    BASE_GND,  /**On base grounds. i.e. between perimeter fence and building.  FOR LATER*/
+    BASE_WALL, /**The outer walls of the base building.*/
+    BASE_EDGE, /**Outer edge of base area (perimeter wall/fence).  FOR LATER*/
     NO_NPC,    /**NPCs stay out.  Friendly NPCs won't travel through tile with this flag.*/
     COMMUNAL,  /**Designated for communal use.  NPCs take and leave items here.*/
     OWNED_P,   /**Claimed by the player.  Friendly NPCs won't take from or use anything on this tile.*/
@@ -88,10 +88,10 @@ class base_home
     
     std::list<&npc_based> freeloaders;          /**List containing references to the NPCs staying at the base.*/
 
-    std::unordered_map<tripoint, int> bunks;          /**Sleeping spots in base. <location, ownerID*/
-    std::list<tripoint> storage_open;   /**List containing locations of unclaimed/designated storage furnature.*/
+    std::unordered_map<tripoint, int> bunks;          /**Sleeping spots in base. <location, ownerID>*/
+    std::list<tripoint> storage_open;     /**List containing locations of unclaimed/designated storage furnature.*/
     std::list<tripoint> storage_player;   /**List containing locations of furnature claimed by player*/
-    std::list<tripoint> storage_comm;   /**list containing locations of communal storage.*/
+    std::list<tripoint> storage_comm;     /**list containing locations of communal storage.*/
     //note: deal with deconstruction, destruction and, death. Unclaiming can be done by overwriting and adding handling there.*/
     //storage is broken up for performance consideratons.
 
@@ -108,7 +108,7 @@ class base_home
                 //#########################//    
 
     //functions
-    void count_guns(); //update gun_count
+    void count_guns(); //count guns held by player, based npcs or in communal storage.
 
                 //########PRIVATE##########//
                 //#RULES AND STUFF FOR NPC#//
@@ -129,7 +129,8 @@ class base_home
 
     bool is_in_base(const tripoint &); //Returns true if inside defined base area.
     void change_lv(int new_level);
-    void run_design();
+    void run_designer();
+    bool make_mark(character &person, const tripoint &loc, const bool ismarker = true);
 
     int get_level(){
         return base_level;
@@ -156,6 +157,8 @@ class base_home
                 //##########PUBLIC#########//
                 //#ITEMS AND STORAGE STUFF#//
                 //#########################//
+
+    //This whole section is for later implementation.
 
                 //##########PUBLIC#########//
                 //#RULES AND STUFF FOR NPC#//

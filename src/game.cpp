@@ -94,6 +94,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "base_home.h"
 
 #include <map>
 #include <set>
@@ -14098,6 +14099,16 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     for( Creature &critter : all_creatures() ) {
         if( pred( critter ) ) {
             return &critter;
+        }
+    }
+    return nullptr;
+}
+
+base_home *game::get_base_by_owner(int id)
+{
+    for (base_home *base : bases){
+        if (base->owner_id == id){
+            return base;
         }
     }
     return nullptr;

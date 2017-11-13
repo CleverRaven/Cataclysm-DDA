@@ -117,6 +117,7 @@ struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
+class base_home;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -1081,6 +1082,10 @@ private:
 
         void move_save_to_graveyard();
         bool save_player_data();
+
+        std::list<std::unique_ptr<base_home>> bases;
+    public:
+        base_home *get_base_by_owner(int id);
 };
 
 #endif
