@@ -1913,7 +1913,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost = 100;
         }
     }
-    if( has_trait( trait_BADKNEES ) && movecost > 100 ) {
+    else if( has_trait( trait_BADKNEES ) && movecost > 100 ) {
         movecost *= 1.25f;
         if( movecost < 100 ) {
             movecost = 100;
@@ -1934,11 +1934,9 @@ int player::run_cost( int base_cost, bool diag ) const
 
     if( has_trait( trait_FLEET ) && flatground ) {
         movecost *= .85f;
-    }
-    if( has_trait( trait_FLEET2 ) && flatground ) {
+    } else if( has_trait( trait_FLEET2 ) && flatground ) {
         movecost *= .7f;
-    }
-    if( has_trait( trait_SLOWRUNNER ) && flatground ) {
+    } else if( has_trait( trait_SLOWRUNNER ) && flatground ) {
         movecost *= 1.15f;
     }
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
@@ -1946,8 +1944,7 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_LIGHT_BONES ) ) {
         movecost *= .9f;
-    }
-    if( has_trait( trait_HOLLOW_BONES ) ) {
+    } else if( has_trait( trait_HOLLOW_BONES ) ) {
         movecost *= .8f;
     }
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -1964,37 +1961,33 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_PONDEROUS1 ) ) {
         movecost *= 1.1f;
-    }
-    if( has_trait( trait_PONDEROUS2 ) ) {
+    } else if( has_trait( trait_PONDEROUS2 ) ) {
         movecost *= 1.2f;
+    } else if( has_trait( trait_PONDEROUS3 ) ) {
+        movecost *= 1.3f;
     }
     if( has_trait( trait_AMORPHOUS ) ) {
         movecost *= 1.25f;
     }
-    if( has_trait( trait_PONDEROUS3 ) ) {
-        movecost *= 1.3f;
-    }
     if( is_wearing( "stillsuit" ) ) {
         movecost *= 1.1f;
     }
-    if( is_wearing( "swim_fins" ) ) {
-        movecost *= 1.5f;
-    }
-    if( is_wearing( "roller_blades" ) ) {
+    if( worn_with_flag( "ROLLER_INLINE" ) ) {
         if( on_road ) {
             movecost *= 0.5f;
         } else {
             movecost *= 1.5f;
         }
-    }
+    } else if( worn_with_flag( "ROLLER_QUAD" ) ) {
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    if( is_wearing( "rollerskates" ) ) {
         if( on_road ) {
             movecost *= 0.7f;
         } else {
             movecost *= 1.3f;
         }
+    } else if( worn_with_flag( "FIN" ) ) {
+        movecost *= 1.5f;
     }
 
     movecost +=
@@ -2049,8 +2042,12 @@ int player::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( is_wearing( "swim_fins" ) ) {
-        ret -= ( 15 * str_cur ) / ( 3 - shoe_type_count( "swim_fins" ) );
+    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r) ) {
+        if ( worn_with_flag ( "FIN", bp_foot_l) && worn_with_flag( "FIN", bp_foot_r) ){
+            ret -= ( 15 * str_cur );
+        } else {
+            ret -= ( 15 * str_cur ) / 2;
+        }
     }
     /** @EFFECT_STR increases swim speed bonus from WEBBED */
     if( has_trait( trait_WEBBED ) ) {
