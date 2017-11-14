@@ -566,7 +566,8 @@ else
     ifneq ($(TARGETSYSTEM),WINDOWS)
   # This is here for backward comaptablity as a fallback. 
       ifneq ($(shell which ncurses5-config 2>/dev/null),)
-          LDFLAGS += ncurses5-config
+          CXXFLAGS += $(shell ncurses5-config --cflags)
+          LDFLAGS += $(shell ncurses5-config --libs)
       else
           LDFLAGS += -lncurses
       endif
