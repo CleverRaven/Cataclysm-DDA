@@ -7,6 +7,9 @@
 #include <set>
 #include <map>
 #include <memory>
+#include <array>
+#include <list>
+#include <utility>
 
 #include "game_constants.h"
 #include "cursesdef.h"
