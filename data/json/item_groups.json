@@ -8595,6 +8595,8 @@
   },{
     "type" : "item_group",
     "id" : "vault_wanderer",
+    "magazine": 100,
+    "ammo": 20,
     "items" : [
       ["jumpsuit", 90],
       ["mask_filter", 10],
