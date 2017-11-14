@@ -3,7 +3,6 @@
 #include "map_iterator.h"
 #include "game.h"
 #include "lightmap.h"
-#include "options.h"
 #include "npc.h"
 #include "monster.h"
 #include "veh_type.h"
@@ -12,7 +11,6 @@
 #include "mtype.h"
 #include "weather.h"
 #include "shadowcasting.h"
-#include "messages.h"
 
 #include <cmath>
 #include <cstring>

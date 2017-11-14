@@ -5,14 +5,24 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "mapgenformat.h"
-#include "mapdata.h"
+#include <vector>
 
+#include "int_id.h"
+
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 struct oter_t;
 using oter_id = int_id<oter_t>;
-
+struct point;
+class JsonArray;
+class JsonObject;
 struct mapgendata;
+struct tripoint;
+class map;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -50,7 +60,7 @@ struct jmapgen_int {
   short valmax;
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
-  jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */
@@ -248,7 +258,7 @@ class mapgen_function_json_base {
 
     protected:
         mapgen_function_json_base( const std::string s );
-        virtual ~mapgen_function_json_base() { }
+        virtual ~mapgen_function_json_base();
 
         void setup_common();
         void setup_setmap( JsonArray &parray );

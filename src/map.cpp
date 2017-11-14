@@ -8,17 +8,17 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "line.h"
-#include "options.h"
 #include "item_factory.h"
 #include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "iexamine.h"
 #include "string_formatter.h"
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"
+#include "item.h"
 #include "messages.h"
-#include "mapsharing.h"
 #include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
@@ -28,7 +28,6 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "artifact.h"
-#include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -37,10 +36,8 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
-#include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
-#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -3400,8 +3397,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( tent ) {
         // Get ids of possible centers
         std::set<furn_id> centers;
-        for( const auto &center : bash->tent_centers ) {
-            const furn_str_id cur_id( center );
+        for( const auto &cur_id : bash->tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
@@ -3441,8 +3437,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
                 const auto recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
-                for( const auto &center : recur_bash->tent_centers ) {
-                    const furn_str_id cur_id( center );
+                for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );

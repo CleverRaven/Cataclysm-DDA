@@ -24,6 +24,7 @@
 #include "ammo.h"
 #include "field.h"
 #include "weather.h"
+#include "trap.h"
 #include "pldata.h"
 #include "requirements.h"
 #include "recipe_dictionary.h"

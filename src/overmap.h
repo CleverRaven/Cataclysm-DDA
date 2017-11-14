@@ -4,7 +4,8 @@
 
 #include "omdata.h"
 #include "overmap_types.h"
-#include "mapdata.h"
+#include "string_id.h"
+#include "int_id.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
@@ -25,6 +26,13 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+using ter_str_id = string_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+using furn_str_id = string_id<furn_t>;
+class map;
 
 struct mongroup;
 
@@ -83,6 +91,12 @@ struct city_settings {
     void finalize();
 };
 
+struct ter_furn_id {
+    ter_id ter;
+    furn_id furn;
+    ter_furn_id();
+};
+
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
@@ -95,7 +109,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    ter_id default_ter               = t_null;
+    ter_id default_ter               = ter_str_id::NULL_ID();
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;
@@ -104,6 +118,14 @@ struct groundcover_extra {
     ter_furn_id pick( bool boosted = false ) const;
     void finalize();
     groundcover_extra() = default;
+};
+
+struct map_extras {
+    unsigned int chance;
+    weighted_int_list<std::string> values;
+
+    map_extras() : chance( 0 ), values() {}
+    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
 };
 
 struct sid_or_sid;
@@ -136,7 +158,7 @@ struct regional_settings {
 
     regional_settings() : id("null"), default_oter("field")
     {
-        default_groundcover.add( t_null, 0 );
+        default_groundcover.add( ter_str_id::NULL_ID(), 0 );
     }
     void finalize();
 };

@@ -2,6 +2,7 @@
 #include "game.h" // TODO: This is a circular dependency
 #include "map.h"
 #include "mapdata.h"
+#include "iexamine.h"
 #include "generic_factory.h"
 #include "messages.h"
 #include "json.h"

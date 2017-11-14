@@ -13,6 +13,7 @@
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "iexamine.h"
 #include "string_formatter.h"
 #include "ui.h"
 #include "debug.h"

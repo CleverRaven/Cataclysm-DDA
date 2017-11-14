@@ -5,6 +5,7 @@
 #include "profession.h"
 #include "string_formatter.h"
 #include "bionics.h"
+#include "mapdata.h"
 #include "mission.h"
 #include "game.h"
 #include "map.h"
