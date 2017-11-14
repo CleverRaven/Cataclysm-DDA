@@ -8,6 +8,8 @@
 #include "string_formatter.h"
 #include "ui.h"
 #include "translations.h"
+#include "json.h"
+
 #include <iostream>
 
 color_manager &get_all_colors()

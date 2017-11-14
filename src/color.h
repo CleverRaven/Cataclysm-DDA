@@ -2,11 +2,11 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "json.h"
 #include <array>
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <utility>
 
 #define all_colors get_all_colors()
 
@@ -323,7 +323,8 @@ enum color_id {
     num_colors
 };
 
-class JsonObject;
+class JsonOut;
+class JsonIn;
 
 void init_colors();
 

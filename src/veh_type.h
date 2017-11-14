@@ -13,6 +13,9 @@
 #include <bitset>
 #include <string>
 #include <memory>
+#include <map>
+#include <utility>
+#include <array>
 
 using itype_id = std::string;
 
