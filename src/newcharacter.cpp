@@ -449,11 +449,22 @@ bool player::create(character_type type, std::string tempname)
         break;
     }
 
+    auto nameExists = [&]( const std::string &name ) {
+        return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
+                    !query_yn( string_format( _("A character with the name '%s' already exists in this world.\n"
+                        "Saving will override the already existing character.\n\n"
+                        "Continue anyways?" ), name ) );
+    };
+
     const bool allow_reroll = type == PLTYPE_RANDOM;
     do {
         if( w == nullptr ) {
             // assert( type == PLTYPE_NOW );
             // no window is created because "Play now"  does not require any configuration
+            if( nameExists( g->u.name ) ) {
+                return false;
+            }
+
             break;
         }
         werase( w );
@@ -496,7 +507,16 @@ bool player::create(character_type type, std::string tempname)
                 tab = -1;
                 break;
         }
-    } while( tab >= 0 && tab <= NEWCHAR_TAB_MAX );
+
+        if( !( tab >= 0 && tab <= NEWCHAR_TAB_MAX ) ) {
+            if( tab != -1 && nameExists( g->u.name ) ) {
+                tab = NEWCHAR_TAB_MAX;
+            } else {
+                break;
+            }
+        }
+
+    } while( true );
     delwin(w);
 
     if( tab < 0 ) {
@@ -592,7 +612,8 @@ bool player::create(character_type type, std::string tempname)
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-    return 1;
+
+    return true;
 }
 
 void draw_tabs(WINDOW *w, std::string sTab)
@@ -1930,7 +1951,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                     col = c_dkgray;
                 } else {
                     col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
-                }                 
+                }
             } else {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
