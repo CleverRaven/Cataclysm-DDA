@@ -3597,10 +3597,10 @@ void iexamine::climb_down( player &p, const tripoint &examp )
  */
 void iexamine::base_control(player &p, const tripoint &examp)
 {
-    auto &base = p->home;
-    if (base == NULL)
+    auto *base = g->m->get_base_by_loc(p.home);
+    if (base == nullptr)//TODO:add check that p.home = current location
     {
-        add_msg("The GM prevents you from messing with other people's base settings.");
+        add_msg( _("Either destroy it or leave it but don't alter other base's rules.") );
         return;
     }
 
@@ -3651,10 +3651,10 @@ desk_menu:
                         }
                         case 2:{
                             int lv = menu(true, _("Water Rationing Level:"),
-                            _("None: Drink anything and everything whenever you want."),
-                            _("Light: Drink when your thursty.  Don't overdo the salt or liquor."),
-                            _("Moderate: Water is for drinking and vital crafts only."),
-                            _("Heavy: Drink only when very Thursty.  \"Become the camel.\""), NULL);
+                                _("None: Drink anything and everything whenever you want."),
+                                _("Light: Drink when your thursty.  Don't overdo the salt or liquor."),
+                                _("Moderate: Water is for drinking and vital crafts only."),
+                                _("Heavy: Drink only when very Thursty.  \"Become the camel.\""), NULL);
                             p.home.set_food_ration(lv - 1);
                         }
                         case 3:{ //ammo
@@ -3708,7 +3708,11 @@ desk_menu:
  * be a future goal.
  */
 void iexamine::base_view( player &p, const tripoint &examp) {
-    auto &base = p->home;
+    auto *base = g->m->get_base_by_loc(p.home);
+    if (base == nullptr){
+        p.add_msg_if_player( _("No information is displayed.") );
+        return;
+    }
     //Window size values are currently arbitrary but window shouldn't be full screen if possible
     //This function is in the source but no header refrence...
     //static WINDOW_PTR board = output::create_popup_window( 40, 40, output::PopupFlags::PF_GET_KEY);
@@ -3718,19 +3722,19 @@ void iexamine::base_view( player &p, const tripoint &examp) {
     basicInfo.push_back( string_format( _("%s's Home Sweet Base"), p.get_name() );
     //TODO add len '~'s as an underline 
     basicInfo.push_back("");//add blank line.
-    basicInfo.push_back( string_format( _("Command System Level: %d"), base.get_level() ) );
-    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base.num_personnel(), base.get_max_pop() );
-    basicInfo.push_back( string_format( _("Open Bunks: %d"), base.num_bunks() ) );
-    basicInfo.push_back( string_format( _("Open Storage: %d"), base.num_storage_open()));
-    basicInfo.push_back( string_format( _("Communal Storage Locations: %d"), base.num_comm_storage() ) );
+    basicInfo.push_back( string_format( _("Command System Level: %d"), base->get_level() ) );
+    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base->num_personnel(), base->get_max_pop() );
+    basicInfo.push_back( string_format( _("Open Bunks: %d"), base->num_bunks() ) );
+    basicInfo.push_back( string_format( _("Open Storage: %d"), base->num_storage_open()));
+    basicInfo.push_back( string_format( _("Communal Storage Locations: %d"), base->num_comm_storage() ) );
     std::list<std::string> rationInfo;
     rationInfo.push_back( _("Supply Rationing") );
-    rationInfo.push_back( string_format( _("Food: %s"), base_home::ration_levels::base.get_food_ration() );
-    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base.get_water_ration() );
-    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base.get_ammo_ration() );
-    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base.get_med_ration() );
+    rationInfo.push_back( string_format( _("Food: %s"), base_home::ration_levels::base->get_food_ration() );
+    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base->get_water_ration() );
+    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base->get_ammo_ration() );
+    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base->get_med_ration() );
     std::list<std::string> resInfo
-    auto &peeps = p->home.get_personnel();
+    auto &peeps = base->get_personnel();
     resInfo.push_back( _("Base Residents") );
     for ( int 1 = 0; i < peeps.length() ){
         resInfo.push_back( string_format( _("%d. %s: Some Information."), i, peeps[i].get_name() ) );
@@ -3742,18 +3746,11 @@ void iexamine::base_view( player &p, const tripoint &examp) {
 }
 
 /**
- * View base status/information from a monator. (lots of info)
+ * View base status/information from a monator. (iexamine::base_view with extra info)
  */
 void iexamine::base_view_ele( player &p, const tripoint &examp) {
-    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
-}
-
-/**
- * Manually disconnect random remote system(s).  With a hammer or wrench you can fix the connection.
- * LOLz joke method. 
- */
-void iexamine::base_discon( player &p, const tripoint &examp ) {
-    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+    base_view( p, examp );
+    )
 }
 
 /**
@@ -3856,7 +3853,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "base_cmd", &iexamine::base_control},
         { "base_view", &iexamine::base_view}
         { "base_view_ele", &iexamine::base_view_ele},
-        { "base_discon", &iexamine::base_discon},
         { "base_pa", &iexamine::base_pa},
         { "base_com", &iexamine::base_com},
         { "base_sec", &iexamine::base_sec},
