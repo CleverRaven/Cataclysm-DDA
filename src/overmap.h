@@ -4,8 +4,7 @@
 
 #include "omdata.h"
 #include "overmap_types.h"
-#include "string_id.h"
-#include "int_id.h"
+#include "mapdata.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
@@ -26,13 +25,6 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
-struct ter_t;
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-struct furn_t;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
-class map;
 
 struct mongroup;
 
@@ -109,7 +101,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    ter_id default_ter               = ter_str_id::NULL_ID();
+    ter_id default_ter               = t_null;
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;
@@ -158,7 +150,7 @@ struct regional_settings {
 
     regional_settings() : id("null"), default_oter("field")
     {
-        default_groundcover.add( ter_str_id::NULL_ID(), 0 );
+        default_groundcover.add( t_null, 0 );
     }
     void finalize();
 };
