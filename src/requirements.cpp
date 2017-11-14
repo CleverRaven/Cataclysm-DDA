@@ -603,9 +603,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 {
     if( available == a_insufficent ) {
         return "brown";
-    } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
-        return "green";
-    } else if( by_charges() && crafting_inv.has_charges( type, count * batch ) ) {
+    } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
@@ -627,14 +625,9 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    const int cnt = std::abs( count ) * batch;
     if( available == a_insufficent ) {
         return "brown";
-    } else if( item::count_by_charges( type ) ) {
-        if( crafting_inv.has_charges( type, cnt ) ) {
-            return "green";
-        }
-    } else if( crafting_inv.has_components( type, cnt ) ) {
+    } else if( has( crafting_inv, batch) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
