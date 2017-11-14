@@ -748,11 +748,15 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit )
 {
     long qty = 0;
 
+    bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
         if( e->is_tool() ) {
             if( e->typeId() == id ) {
                 // includes charges from any included magazine.
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
+                if( e->has_flag( "USE_UPS" ) ) {
+                    found_tool_with_UPS = true;
+                }
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
@@ -767,6 +771,10 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit )
         // recurse through any nested containers
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
+
+    if( qty < limit && found_tool_with_UPS ) {
+        qty += self.charges_of( "UPS", limit - qty );
+    }
 
     return std::min( qty, limit );
 }

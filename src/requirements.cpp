@@ -595,7 +595,30 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
-        return crafting_inv.has_charges( type, count * batch );
+        int charges_found = crafting_inv.charges_of( type, count * batch );
+        if( charges_found == count * batch ) {
+            return true;
+        }
+        const auto &binned = crafting_inv.get_binned_items();
+        const auto iter = binned.find( type );
+        if( iter == binned.end() ) {
+            return false;
+        }
+        bool has_UPS = false;
+        for( const item *it : iter->second ) {
+            it->visit_items( [&has_UPS]( const item * e ) {
+                if( e->has_flag( "USE_UPS" ) ){
+                    has_UPS = true;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+        }
+        if( has_UPS ) {
+            charges_found +=
+                crafting_inv.charges_of( "UPS_off", ( count * batch ) - charges_found );
+        }
+        return charges_found == count * batch;
     }
 }
 
