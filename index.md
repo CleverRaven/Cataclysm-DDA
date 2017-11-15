@@ -13,7 +13,7 @@ As your game begins, you awaken with hazy memories of violence and terror from w
 
 ## Community and Resources
 
-* [Forums](http://smf.cataclysmdda.com)
+* [Forums](http://discourse.cataclysmdda.org)
 * [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
 * IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](http://webchat.freenode.net/?channels=#CataclysmDDA)
 * [Discord (unnofficial)](https://discord.gg/DPxUcX7)
