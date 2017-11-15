@@ -12,7 +12,9 @@
 #include <curses.h>
 #endif
 
-bool init_interface();
+/// @throws std::exception upon any errors. The caller should display / log it
+/// and abort the program. Only continue the program when this returned normally.
+void init_interface();
 
 struct delwin_functor {
     void operator()( WINDOW *w ) const;

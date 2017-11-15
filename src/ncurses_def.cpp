@@ -2,13 +2,12 @@
 
 #include "cursesdef.h"
 
-#include "debug.h"
+#include <stdexcept>
 
-bool init_interface()
+void init_interface()
 {
     if( initscr() == nullptr ) {
-        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
-        return false;
+        throw std::runtime_error( "initscr failed" );
     }
 #if !(defined __CYGWIN__)
     // ncurses mouse registration
@@ -20,7 +19,6 @@ bool init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
     set_escdelay( 10 ); // Make escape actually responsive
-    return true;
 }
 
 #endif

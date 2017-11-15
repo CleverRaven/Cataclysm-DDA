@@ -6,6 +6,7 @@
 #include "animation.h"
 
 #include <cstring> // strlen
+#include <stdexcept>
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
@@ -694,16 +695,13 @@ int move(int y, int x)
     return wmove(stdscr, y, x);
 }
 
-bool init_interface()
+void init_interface()
 {
-    try {
-        // curses_init is defined in wincurse.cpp and in sdltiles.cpp
-        stdscr = curses_init();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error while initializing: %s\n", err.what() );
-        return false;
+    // curses_init is defined in wincurse.cpp and in sdltiles.cpp
+    stdscr = curses_init();
+    if( stdscr == nullptr ) {
+        throw std::runtime_error( "curses_init failed" );
     }
-    return true;
 }
 
 #endif
