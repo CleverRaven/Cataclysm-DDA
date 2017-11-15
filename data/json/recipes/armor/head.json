@@ -13,7 +13,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
-  {b;l
+  {
     "result": "bandana",
     "type": "recipe",
     "category": "CC_ARMOR",
