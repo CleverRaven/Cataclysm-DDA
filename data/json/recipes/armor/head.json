@@ -42,13 +42,11 @@
   {
     "result": "blindfold_tape",
     "type": "recipe",
-    "id_suffix": "from_tape",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 3000,
-    "reversible": false,
     "autolearn": true,
     "components": [ [ [ "duct_tape", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
