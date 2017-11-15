@@ -695,4 +695,16 @@ int move(int y, int x)
     return wmove(mainwin, y, x);
 }
 
+bool init_interface()
+{
+    try {
+        // curses_init is defined in wincurse.cpp and in sdltiles.cpp
+        stdscr = curses_init();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error while initializing: %s\n", err.what() );
+        return false;
+    }
+    return true;
+}
+
 #endif

@@ -239,20 +239,6 @@ static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be oversized
 
 //***********************************
-//Tile-version specific functions   *
-//***********************************
-
-bool init_interface()
-{
-    try {
-        stdscr = curses_init();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error while initializing: %s\n", err.what() );
-        return false;
-    }
-    return true;
-}
-//***********************************
 //Non-curses, Window functions      *
 //***********************************
 

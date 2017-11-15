@@ -1249,36 +1249,25 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
 }
 #endif
 
-#ifndef TILES
+// init_interface is defined in cursesport.cpp when compiling with TILES,
+// or when compiling on windows.
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
 bool init_interface()
 {
-#if (defined _WIN32 || defined WINDOWS)
-    // using our curses wrapper
-    try {
-        stdscr = curses_init();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error while initializing: %s\n", err.what() );
-        return false;
-    }
-#else
-    // using ncurses
     if( initscr() == nullptr ) {
         DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return false;
     }
-#endif
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined __CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif
-#if !(defined _WIN32 || defined WINDOWS)
-    // our curses wrapper doesn't support the features enabled/disabled here
+    // our curses wrapper does not support changing this behavior, ncurses must
+    // behave exactly like the wrapper, therefor:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
-    // curs_set(0); // Invisible cursor
     set_escdelay( 10 ); // Make escape actually responsive
-#endif
     return true;
 }
 #endif
