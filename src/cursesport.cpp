@@ -695,13 +695,4 @@ int move(int y, int x)
     return wmove(stdscr, y, x);
 }
 
-void init_interface()
-{
-    // curses_init is defined in wincurse.cpp and in sdltiles.cpp
-    stdscr = curses_init();
-    if( stdscr == nullptr ) {
-        throw std::runtime_error( "curses_init failed" );
-    }
-}
-
 #endif

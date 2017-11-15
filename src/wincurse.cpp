@@ -460,14 +460,14 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void init_interface()
 {
     lastchar=-1;
     inputdelay=-1;
 
     font_loader fl;
     if( !fl.load() ) {
-        return nullptr;
+        throw std::runtime_error( "loading font settings failed" );
     }
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
@@ -522,7 +522,8 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    return newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
+    stdscr = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)

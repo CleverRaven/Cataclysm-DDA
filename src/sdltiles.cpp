@@ -1510,20 +1510,20 @@ int projected_window_height(int)
 }
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void init_interface()
 {
     last_input = input_event();
     inputdelay = -1;
 
     font_loader fl;
     if( !fl.load() ) {
-        return nullptr;
+        throw std::runtime_error( "loading font settings failed" );
     }
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
     if(!InitSDL()) {
-        return NULL;
+        throw std::runtime_error( "InitSDL failed" );
     }
 
     find_videodisplays();
@@ -1532,7 +1532,7 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        return NULL;
+        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
@@ -1556,12 +1556,13 @@ WINDOW *curses_init(void)
     // Reset the font pointer
     font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
     if( !font ) {
-        return NULL;
+        throw std::runtime_error( "loading font data failed" );
     }
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    return newwin(get_terminal_height(), get_terminal_width(),0,0);
+    stdscr newwin(get_terminal_height(), get_terminal_width(),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )
