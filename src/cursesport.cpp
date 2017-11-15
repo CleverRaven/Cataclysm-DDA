@@ -32,7 +32,6 @@
 WINDOW *mainwin;
 WINDOW *stdscr;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
-int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 // allow extra logic for framebuffer clears
 extern void handle_additional_window_clear( WINDOW* win );
@@ -596,19 +595,6 @@ int getcury(WINDOW *win)
     return win != nullptr ? win->cursory : 0;
 }
 
-int keypad(WINDOW *, bool)
-{
-    return 1;
-}
-
-int cbreak(void)
-{
-    return 1;
-}
-int keypad(int, bool)
-{
-    return 1;
-}
 int curs_set(int)
 {
     return 1;
@@ -709,18 +695,4 @@ int move(int y, int x)
     return wmove(mainwin, y, x);
 }
 
-void set_escdelay(int) { } //PORTABILITY, DUMMY FUNCTION
-
-
-int echo()
-{
-    echoOn = 1;
-    return 0; // 0 = OK, -1 = ERR
-}
-
-int noecho()
-{
-    echoOn = 0;
-    return 0;
-}
 #endif

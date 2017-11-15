@@ -1271,11 +1271,14 @@ bool init_interface()
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif
+#if !(defined _WIN32 || defined WINDOWS)
+    // our curses wrapper doesn't support the features enabled/disabled here
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
     // curs_set(0); // Invisible cursor
     set_escdelay( 10 ); // Make escape actually responsive
+#endif
     return true;
 }
 #endif

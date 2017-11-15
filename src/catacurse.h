@@ -143,8 +143,6 @@ int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
-int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
-int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
 int mvaddch( int y, int x, const chtype ch );
 int wattron( WINDOW *win, int attrs );
@@ -160,9 +158,6 @@ int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
-void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
-int echo( void );
-int noecho( void );
 //non-curses functions, Do not call these in the main game code
 extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
