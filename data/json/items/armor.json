@@ -1065,6 +1065,7 @@
   {
     "copy-from": "blindfold",
     "id": "blindfold_tape",
+    "name": "blindfold",
     "type": "ARMOR",
     "material": [ "plastic", "cotton" ]
   },
