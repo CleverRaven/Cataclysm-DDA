@@ -515,7 +515,7 @@ void player::complete_craft()
             return;
         }
     }
-    if (!used.empty()) {
+    if( !used.empty() ) {
         reset_encumbrance();  // in case we were wearing something just consumed up.
     }
 
