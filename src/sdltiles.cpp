@@ -1629,7 +1629,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
 
-    if(win == NULL) win = mainwin;
+    if(win == NULL) win = stdscr;
 
     wrefresh(win);
 

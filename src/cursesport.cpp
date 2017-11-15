@@ -29,7 +29,6 @@
 //Globals                           *
 //***********************************
 
-WINDOW *mainwin;
 WINDOW *stdscr;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
@@ -189,32 +188,32 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 
 int hline(chtype ch, int n)
 {
-    return whline(mainwin, ch, n);
+    return whline(stdscr, ch, n);
 }
 
 int vline(chtype ch, int n)
 {
-    return wvline(mainwin, ch, n);
+    return wvline(stdscr, ch, n);
 }
 
 int whline(WINDOW *win, chtype ch, int n)
 {
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
 }
 
 int wvline(WINDOW *win, chtype ch, int n)
 {
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
 }
 
 int mvhline(int y, int x, chtype ch, int n)
 {
-    return mvwhline(mainwin, y, x, ch, n);
+    return mvwhline(stdscr, y, x, ch, n);
 }
 
 int mvvline(int y, int x, chtype ch, int n)
 {
-    return mvwvline(mainwin, y, x, ch, n);
+    return mvwvline(stdscr, y, x, ch, n);
 }
 
 int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
@@ -261,7 +260,7 @@ int wrefresh(WINDOW *win)
 //Refreshes the main window, causing it to redraw on top.
 int refresh(void)
 {
-    return wrefresh(mainwin);
+    return wrefresh(stdscr);
 }
 
 int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
@@ -448,7 +447,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
     if (move(y, x) == 0) {
         return 0;
     }
-    return printstring(mainwin, printbuf);
+    return printstring(stdscr, printbuf);
 }
 
 //Prints a formatted string to the main window at the current cursor
@@ -458,7 +457,7 @@ int printw(const char *fmt, ...)
     va_start(args, fmt);
     const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
-    return printstring(mainwin, printbuf);
+    return printstring(stdscr, printbuf);
 }
 
 //erases a window of all text and attributes
@@ -483,7 +482,7 @@ int werase(WINDOW *win)
 //erases the main window of all text and attributes
 int erase(void)
 {
-    return werase(mainwin);
+    return werase(stdscr);
 }
 
 //pairs up a foreground and background color and puts it into the array of pairs
@@ -521,7 +520,7 @@ int wmove(WINDOW *win, int y, int x)
 //Clears the main window     I'm not sure if its suppose to do this?
 int clear(void)
 {
-    return wclear(mainwin);
+    return wclear(stdscr);
 }
 
 //Ends the terminal, destroy everything
@@ -602,7 +601,7 @@ int curs_set(int)
 
 int mvaddch(int y, int x, const chtype ch)
 {
-    return mvwaddch(mainwin, y, x, ch);
+    return mvwaddch(stdscr, y, x, ch);
 }
 
 int wattron(WINDOW *win, int attrs)
@@ -636,11 +635,11 @@ int wattroff(WINDOW *win, int)
 }
 int attron(int attrs)
 {
-    return wattron(mainwin, attrs);
+    return wattron(stdscr, attrs);
 }
 int attroff(int attrs)
 {
-    return wattroff(mainwin, attrs);
+    return wattroff(stdscr, attrs);
 }
 int waddch(WINDOW *win, const chtype ch)
 {
@@ -692,14 +691,14 @@ int waddch(WINDOW *win, const chtype ch)
 //Move the cursor of the main window
 int move(int y, int x)
 {
-    return wmove(mainwin, y, x);
+    return wmove(stdscr, y, x);
 }
 
 bool init_interface()
 {
     try {
         // curses_init is defined in wincurse.cpp and in sdltiles.cpp
-        stdscr = mainwin = curses_init();
+        stdscr = curses_init();
     } catch( const std::exception &err ) {
         fprintf( stderr, "Error while initializing: %s\n", err.what() );
         return false;

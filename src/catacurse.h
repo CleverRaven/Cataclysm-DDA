@@ -155,7 +155,6 @@ int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
 //non-curses functions, Do not call these in the main game code
-extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
 // may throw std::exception
 WINDOW *curses_init();
