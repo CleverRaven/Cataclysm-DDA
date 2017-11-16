@@ -515,6 +515,9 @@ void player::complete_craft()
             return;
         }
     }
+    if( !used.empty() ) {
+        reset_encumbrance();  // in case we were wearing something just consumed up.
+    }
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results( batch_size );
