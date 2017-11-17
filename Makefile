@@ -551,10 +551,14 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
+  # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
+  # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-  # Check to see if pkg-config is on the system. 
     ifneq ($(shell which pkg-config 2>/dev/null),)
       HAVE_PKGCONFIG = 1
+    endif
+    ifneq ($(shell which ncurses5-config 2>/dev/null),)
+      HAVE_NCURSES5CONFIG = 1
     endif
   endif
 
@@ -563,22 +567,21 @@ else
     CXXFLAGS += $(shell pkg-config --cflags ncurses)
     LDFLAGS += $(shell pkg-config --libs ncurses)
   else
-    ifneq ($(TARGETSYSTEM),WINDOWS)
-  # This is here for backward comaptablity as a fallback. 
-      ifneq ($(shell which ncurses5-config 2>/dev/null),)
-          CXXFLAGS += $(shell ncurses5-config --cflags)
-          LDFLAGS += $(shell ncurses5-config --libs)
-      else
-          LDFLAGS += -lncurses
+    ifeq ($(HAVE_NCURSES5CONFIG),1)
+      CXXFLAGS += $(shell ncurses5-config --cflags)
+      LDFLAGS += $(shell ncurses5-config --libs)
+    else
+      ifneq ($(TARGETSYSTEM),WINDOWS)
+        LDFLAGS += -lncurses
       endif
-    endif
 
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-      CXXFLAGS += -I$(LIBSDIR)/ncurses/include
-    endif
-  endif
-endif
+      ifdef OSXCROSS
+        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
+        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+      endif # OSXCROSS
+    endif # HAVE_NCURSES5CONFIG
+  endif # HAVE_PKGCONFIG
+endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BACKTRACE = 0
