@@ -1065,7 +1065,7 @@
   {
     "copy-from": "blindfold",
     "id": "blindfold_tape",
-    "name": "blindfold",
+    "name": "duct-tape blindfold",
     "type": "ARMOR",
     "material": [ "plastic", "cotton" ],
     "weight": "6"
