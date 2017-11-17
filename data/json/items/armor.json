@@ -1067,7 +1067,8 @@
     "id": "blindfold_tape",
     "name": "blindfold",
     "type": "ARMOR",
-    "material": [ "plastic", "cotton" ]
+    "material": [ "plastic", "cotton" ],
+    "weight": "6"
   },
   {
     "id": "bondage_mask",
