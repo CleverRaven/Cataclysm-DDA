@@ -688,7 +688,11 @@ std::string item::info( bool showtext ) const
     return info( showtext, dummy );
 }
 
-std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const {
+    return info( showtext, iteminfo, 1 );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) const
 {
     std::stringstream temp1, temp2;
     std::string space = "  ";
@@ -706,8 +710,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( !is_null() ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
                                   -999, true, "", false ) );
-        const int price_preapoc = price( false );
-        const int price_postapoc = price( true );
+        const int price_preapoc = price( false ) * batch;
+        const int price_postapoc = price( true ) * batch;
         info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
                                   ( double )price_preapoc / 100, false, "$", true, true ) );
         if( price_preapoc != price_postapoc ) {
@@ -717,7 +721,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int converted_volume_scale = 0;
         const double converted_volume = round_up( convert_volume( volume().value(),
-                                                                  &converted_volume_scale ), 2 );
+                                                                  &converted_volume_scale ) * batch, 2 );
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
                                   converted_volume, converted_volume_scale == 0,
@@ -725,7 +729,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
-                                  convert_weight( weight() ), false, "", true, true ) );
+                                  convert_weight( weight() ) * batch, false, "", true, true ) );
 
         if( !type->rigid ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
@@ -792,6 +796,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
                                       get_var( "contained_name" ).c_str() ) ) );
         }
+        if( count_by_charges() && !is_food() ) {
+            info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", charges * batch, true, "", true, false, true ) );
+        }
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
@@ -832,7 +839,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", g->u.fun_for( *food_item ).first ) );
         }
 
-        info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
+        info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) * batch ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
                                            ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {

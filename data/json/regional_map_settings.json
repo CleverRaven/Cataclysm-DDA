@@ -169,7 +169,8 @@
               "small_office": 2,
               "art_gallery": 2,
               "small_storage_units": 3,
-              "s_butcher": 2
+              "s_butcher": 2,
+              "s_bike_shop": 1
           }
       },
       "weather": {

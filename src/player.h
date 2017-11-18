@@ -864,9 +864,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wearing an item.
          * @param it Thing to be worn
-         * @param alert display reason for any failure
          */
-        bool can_wear( const item& it, bool alert = true ) const;
+        ret_val<bool> can_wear( const item& it ) const;
+
+        /**
+         * Check player capable of takeing off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
@@ -949,6 +954,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear( int pos, bool interactive = true );
+        bool wear( item& to_wear, bool interactive = true );
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */

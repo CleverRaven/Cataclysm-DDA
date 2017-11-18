@@ -7018,5 +7018,33 @@
   "components": [
     [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "chain_link",
+  "id_suffix": "fabrication",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "book_learn": [["textbook_armwest", 1] , ["textbook_fabrication", 1] , ["recipe_melee", 1]],
+  "tools": [
+    [ [ "pliers", -1 ], [ "multitool", -1 ] ],
+    [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+    [ ["cu_pipe", -1] ]
+  ],
+  "components": [ [ [ "wire", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "link_sheet",
+  "id_suffix": "fabrication",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 60000,
+  "book_learn": [["textbook_armwest", 2] , ["textbook_fabrication", 2] , ["recipe_melee", 2]],
+  "using": [ [ "chainmail_standard", 1 ] ],
+  "components": [ [ [ "chain_link", 1000 ] ], [ [ "wire", 1 ] ] ]
 }
 ]
