@@ -40,7 +40,7 @@
     "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
-    "result": "blindfold_tape",
+    "result": "blindfold",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
