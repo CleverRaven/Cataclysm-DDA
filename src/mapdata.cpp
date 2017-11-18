@@ -11,13 +11,11 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
+#include "calendar.h"
+#include "trap.h"
+#include "iexamine.h"
 
 #include <unordered_map>
-
-const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
-"mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield",
-"mx_crater", "mx_collegekids"
-};
 
 namespace
 {
@@ -169,9 +167,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "WATER",                    TERCONN_WATER },
 } };
 
-void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
+void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers ) {
     while ( ja.has_more() ) {
-        centers.push_back( ja.next_string() );
+        centers.emplace_back( ja.next_string() );
     }
 }
 
@@ -1129,5 +1127,3 @@ void check_furniture_and_terrain()
     terrain_data.check();
     furniture_data.check();
 }
-
-ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }

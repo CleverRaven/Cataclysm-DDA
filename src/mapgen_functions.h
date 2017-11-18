@@ -2,13 +2,27 @@
 #ifndef BUILDING_GENERATION_H
 #define BUILDING_GENERATION_H
 
-#include "omdata.h"
-#include "mapdata.h"
-#include "map.h"
+#include "int_id.h"
 #include "weighted_list.h"
 
 #include <string>
 #include <map>
+
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+struct trap;
+using trap_id = int_id<trap>;
+struct regional_settings;
+class map;
+struct oter_t;
+using oter_id = int_id<oter_t>;
+enum field_id : int;
+namespace om_direction
+{
+enum class type : int;
+} // namespace om_direction
 
 struct mapgendata
 {

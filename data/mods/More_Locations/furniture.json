@@ -28,6 +28,58 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_wardrobe",
+        "name": "wardrobe",
+        "symbol": "{",
+        "color": "i_brown",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [8, 12] }
+            ]
+        },
+        "max_volume": 16000,
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "count": [4, 8] },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "splinter", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_piano",
+        "name": "wardrobe",
+        "symbol": "P",
+        "color": "i_black",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [8, 12] }
+            ]
+        },
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "a suffering piano!",
+            "sound_fail": "kerchang.",
+            "items": [
+                { "item": "2x4", "count": [4, 8] },
+                { "item": "wire", "count": [0, 1] },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "splinter", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_home_furnace",
         "name": "furnace",
         "symbol": "0",

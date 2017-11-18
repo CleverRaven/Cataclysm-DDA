@@ -1,5 +1,6 @@
-#include "mapgen.h"
 #include "mapgen_functions.h"
+
+#include "mapgen.h"
 #include "map_iterator.h"
 #include "output.h"
 #include "item_factory.h"
@@ -10,12 +11,15 @@
 #include "game.h"
 #include "debug.h"
 #include "scenario.h"
+#include "item.h"
 #include "translations.h"
 #include "trap.h"
 #include <array>
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
+#include "map.h"
+#include "omdata.h"
 #include "field.h"
 #include <algorithm>
 #include <iterator>

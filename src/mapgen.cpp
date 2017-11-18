@@ -1,4 +1,4 @@
-#include "map.h"
+#include "mapgen.h"
 
 #include "coordinate_conversions.h"
 #include "omdata.h"
@@ -19,7 +19,7 @@
 #include "enums.h"
 #include "monstergenerator.h"
 #include "mongroup.h"
-#include "mapgen.h"
+#include "map.h"
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
@@ -449,6 +449,8 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string s )
 {
 }
 
+mapgen_function_json_base::~mapgen_function_json_base() = default;
+
 mapgen_function_json::mapgen_function_json( const std::string s, const int w,
                                             const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
@@ -465,6 +467,8 @@ mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
 : mapgen_function_json_base( s )
 {
 }
+
+jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
 {

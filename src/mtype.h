@@ -21,6 +21,8 @@
 class Creature;
 class monster;
 class monfaction;
+class emit;
+using emit_id = string_id<emit>;
 struct dealt_projectile_attack;
 struct species_type;
 enum field_id : int;

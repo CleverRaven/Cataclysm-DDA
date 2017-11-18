@@ -15,6 +15,10 @@
 #include "path_info.h"
 #include "debug.h"
 #include "ui.h"
+#if (defined _WIN32 || defined WINDOWS)
+#include "platform_win.h"
+#include "mmsystem.h"
+#endif
 
 const char *pgettext( const char *context, const char *msgid )
 {
@@ -172,12 +176,12 @@ void set_language()
 #include <cstring> // strcmp
 #include <map>
 
-bool isValidLanguage( const std::string &lang )
+bool isValidLanguage( const std::string &/*lang*/ )
 {
     return true;
 }
 
-std::string getLangFromLCID( const int &lcid )
+std::string getLangFromLCID( const int &/*lcid*/ )
 {
     return "";
 }

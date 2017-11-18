@@ -26,7 +26,7 @@ void clear_creatures()
 {
     // Remove any interfering monsters.
     g->clear_zombies();
-    g->active_npc.clear();
+    g->unload_npcs();
 }
 
 void clear_map()

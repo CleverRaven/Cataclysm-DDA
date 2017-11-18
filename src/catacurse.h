@@ -2,10 +2,6 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
-#   include "mmsystem.h"
-#endif
 #include <stdio.h>
 #include <map>
 #include <vector>
@@ -143,9 +139,6 @@ int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
-WINDOW *initscr( void );
-int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
-int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
 int mvaddch( int y, int x, const chtype ch );
 int wattron( WINDOW *win, int attrs );
@@ -161,20 +154,9 @@ int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
-void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
-int echo( void );
-int noecho( void );
 //non-curses functions, Do not call these in the main game code
-extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
-// may throw std::exception
-WINDOW *curses_init();
-int curses_destroy();
 void curses_drawwindow( WINDOW *win );
-void curses_delay( int delay );
-
-// Add interface specific (SDL/ncurses/wincurses) initializations here
-void init_interface();
 
 int projected_window_width( int column_count );
 int projected_window_height( int row_count );

@@ -7,23 +7,24 @@
 #include <set>
 #include <map>
 #include <memory>
+#include <array>
+#include <list>
+#include <utility>
 
 #include "game_constants.h"
 #include "cursesdef.h"
-#include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "enums.h"
-#include "pathfinding.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
-enum direction : unsigned;
+class emit;
+using emit_id = string_id<emit>;
 class player;
 class monster;
 class item;
@@ -39,13 +40,17 @@ class basecamp;
 class computer;
 struct itype;
 struct mapgendata;
+class map_cursor;
+class Character;
+class item_location;
 struct trap;
 struct oter_t;
-
+enum direction : unsigned;
+using itype_id = std::string;
 using trap_id = int_id<trap>;
 using oter_id = int_id<oter_t>;
-class emit;
-using emit_id = string_id<emit>;
+template<typename T>
+class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
@@ -74,7 +79,6 @@ struct wrapped_vehicle {
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::vector< std::pair< item *, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
@@ -85,6 +89,7 @@ using mongroup_id = string_id<MonsterGroup>;
 class map;
 enum ter_bitflags : int;
 struct pathfinding_cache;
+struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 

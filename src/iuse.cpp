@@ -9,6 +9,7 @@
 #include "output.h"
 #include "debug.h"
 #include "options.h"
+#include "iexamine.h"
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"

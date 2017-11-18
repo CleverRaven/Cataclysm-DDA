@@ -5,6 +5,7 @@
 #include "profession.h"
 #include "string_formatter.h"
 #include "bionics.h"
+#include "mapdata.h"
 #include "mission.h"
 #include "game.h"
 #include "map.h"
@@ -628,6 +629,10 @@ player::player() : Character()
 
     morale.reset( new player_morale() );
     last_craft.reset( new craft_command() );
+
+    ma_styles = {{
+        style_none, style_kicks
+    }};
 }
 
 player::~player() = default;
@@ -1977,10 +1982,10 @@ int player::run_cost( int base_cost, bool diag ) const
     if( is_wearing( "stillsuit" ) ) {
         movecost *= 1.1f;
     }
-    if( is_wearing( "swim_fins" ) ) {
+    if( worn_with_flag( "FIN" ) ) {
         movecost *= 1.5f;
     }
-    if( is_wearing( "roller_blades" ) ) {
+    if( worn_with_flag( "ROLLER_INLINE" ) ) {
         if( on_road ) {
             movecost *= 0.5f;
         } else {
@@ -1989,7 +1994,7 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    if( is_wearing( "rollerskates" ) ) {
+    if( worn_with_flag( "ROLLER_QUAD" ) ) {
         if( on_road ) {
             movecost *= 0.7f;
         } else {
@@ -2049,8 +2054,12 @@ int player::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( is_wearing( "swim_fins" ) ) {
-        ret -= ( 15 * str_cur ) / ( 3 - shoe_type_count( "swim_fins" ) );
+    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r) ) {
+        if ( worn_with_flag ( "FIN", bp_foot_l) && worn_with_flag( "FIN", bp_foot_r) ){
+            ret -= ( 15 * str_cur );
+        } else {
+            ret -= ( 15 * str_cur ) / 2;
+        }
     }
     /** @EFFECT_STR increases swim speed bonus from WEBBED */
     if( has_trait( trait_WEBBED ) ) {
@@ -7784,11 +7793,7 @@ bool player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    std::vector<matype_id> selectable_styles = {{
-        style_none, style_kicks
-    }};
-    const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
-    selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
+    const std::vector<matype_id> &selectable_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
 
     input_context ctxt( "MELEE_STYLE_PICKER" );
     ctxt.register_action( "SHOW_DESCRIPTION" );
@@ -11684,9 +11689,9 @@ const pathfinding_settings &player::get_pathfinding_settings() const
 std::set<tripoint> player::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( const auto &np : g->active_npc ) {
-        if( sees( *np ) ) {
-            ret.insert( np->pos() );
+    for( npc &guy : g->all_npcs() ) {
+        if( sees( guy ) ) {
+            ret.insert( guy.pos() );
         }
     }
 

@@ -6,17 +6,21 @@
 #include <SDL_ttf.h>
 
 #include "animation.h"
-#include "map.h"
+#include "lightmap.h"
+#include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
 
+#include <memory>
 #include <list>
 #include <map>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
+class Creature;
+class player;
 class JsonObject;
 struct visibility_variables;
 

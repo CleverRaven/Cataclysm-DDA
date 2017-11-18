@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"

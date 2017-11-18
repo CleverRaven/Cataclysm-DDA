@@ -15,6 +15,7 @@
 #include "monster.h"
 #include "event.h"
 #include "trap.h"
+#include "mapdata.h"
 #include "mtype.h"
 #include "string_formatter.h"
 #include "field.h"
@@ -37,6 +38,16 @@ const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
 int alerts = 0;
+
+computer_option::computer_option()
+    : name( "Unknown" ), action( COMPACT_NULL ), security( 0 )
+{
+}
+
+computer_option::computer_option( std::string N, computer_action A, int S )
+    : name( N ), action( A ), security( S )
+{
+}
 
 computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
@@ -199,11 +210,11 @@ void computer::use()
                     } else {
                         // Successfully hacked function
                         options[ch].security = 0;
-                        activate_function(current.action, ch);
+                        activate_function( current.action );
                     }
                 }
             } else { // No need to hack, just activate
-                activate_function(current.action, ch);
+                activate_function( current.action );
             }
             reset_terminal();
         } // Done processing a selected option.
@@ -318,7 +329,7 @@ static item *pick_usb()
     return nullptr;
 }
 
-void computer::activate_function(computer_action action, char ch)
+void computer::activate_function( computer_action action )
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
     g->u.moves -= 30;
@@ -766,9 +777,10 @@ of pureed bone & LSD."));
         g->u.mod_pain( rng(40, 90) );
         break;
 
-    case COMPACT_COMPLETE_MISSION:
+    case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
         for( auto miss : g->u.get_active_missions() ) {
-            if (miss->name() == options[ch].name){
+            static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+            if( miss->mission_id() == commo_2 ) {
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
                 miss->step_complete( 1 );
@@ -1562,7 +1574,7 @@ computer_action computer_action_from_string( const std::string &str )
         { "elevator_on", COMPACT_ELEVATOR_ON },
         { "amigara_log", COMPACT_AMIGARA_LOG },
         { "amigara_start", COMPACT_AMIGARA_START },
-        { "complete_mission", COMPACT_COMPLETE_MISSION },
+        { "complete_disable_external_power", COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER },
         { "repeater_mod", COMPACT_REPEATER_MOD },
         { "download_software", COMPACT_DOWNLOAD_SOFTWARE },
         { "blood_anal", COMPACT_BLOOD_ANAL },

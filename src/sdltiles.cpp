@@ -23,7 +23,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "filesystem.h"
-#include "map.h"
 #include "game.h"
 #include "lightmap.h"
 #include "rng.h"
@@ -239,14 +238,6 @@ static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be oversized
 
-//***********************************
-//Tile-version specific functions   *
-//***********************************
-
-void init_interface()
-{
-    return; // dummy function, we have nothing to do here
-}
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -1519,20 +1510,18 @@ int projected_window_height(int)
 }
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void init_interface()
 {
     last_input = input_event();
     inputdelay = -1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        return nullptr;
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
     if(!InitSDL()) {
-        return NULL;
+        throw std::runtime_error( "InitSDL failed" );
     }
 
     find_videodisplays();
@@ -1541,7 +1530,7 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        return NULL;
+        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
@@ -1565,13 +1554,13 @@ WINDOW *curses_init(void)
     // Reset the font pointer
     font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
     if( !font ) {
-        return NULL;
+        throw std::runtime_error( "loading font data failed" );
     }
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr newwin(get_terminal_height(), get_terminal_width(),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )
@@ -1596,7 +1585,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+int endwin()
 {
     tilecontext.reset();
     font.reset();
@@ -1631,8 +1620,6 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-extern WINDOW *mainwin;
-
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event(WINDOW *win) {
@@ -1641,7 +1628,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
 
-    if(win == NULL) win = mainwin;
+    if(win == NULL) win = stdscr;
 
     wrefresh(win);
 
