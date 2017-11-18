@@ -1559,7 +1559,7 @@ void init_interface()
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    stdscr newwin(get_terminal_height(), get_terminal_width(),0,0);
+    stdscr = newwin(get_terminal_height(), get_terminal_width(),0,0);
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
