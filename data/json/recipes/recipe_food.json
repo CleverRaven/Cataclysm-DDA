@@ -9735,5 +9735,19 @@
     "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chili_pepper", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "sausage_wasteland",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 70000,
+    "autolearn": true,
+    "batch_time_factors": [83, 3],
+    "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
+    "tools" : [ [ [ "char_smoker", 10 ] ] ],
+    "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
   }
 ]
