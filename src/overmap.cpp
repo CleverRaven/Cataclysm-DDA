@@ -9,6 +9,7 @@
 #include "line.h"
 #include "game.h"
 #include "npc.h"
+#include "map.h"
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -63,6 +64,11 @@ const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+
+//Classic Extras is for when you have special zombies turned off.
+static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military","mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids" };
 
 #include "omdata.h"
 ////////////////

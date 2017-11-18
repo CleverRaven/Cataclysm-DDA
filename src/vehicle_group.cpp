@@ -3,6 +3,7 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "map.h"
+#include "enums.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 
@@ -21,6 +22,11 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
         return dummy;
     }
     return iter->second;
+}
+
+point VehicleLocation::pick_point() const
+{
+    return point( x.get(), y.get() );
 }
 
 /** @relates string_id */

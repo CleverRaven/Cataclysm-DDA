@@ -3,7 +3,6 @@
 #include "rng.h"
 #include "mongroup.h"
 #include "game.h"
-#include "map.h"
 #include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"

@@ -4,6 +4,10 @@
 #include "cursesdef.h"
 #include "wcwidth.h"
 #include "options.h"
+#if (defined _WIN32 || defined WINDOWS)
+#include "platform_win.h"
+#include "mmsystem.h"
+#endif
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t

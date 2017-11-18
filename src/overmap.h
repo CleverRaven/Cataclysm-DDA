@@ -83,6 +83,12 @@ struct city_settings {
     void finalize();
 };
 
+struct ter_furn_id {
+    ter_id ter;
+    furn_id furn;
+    ter_furn_id();
+};
+
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
@@ -104,6 +110,14 @@ struct groundcover_extra {
     ter_furn_id pick( bool boosted = false ) const;
     void finalize();
     groundcover_extra() = default;
+};
+
+struct map_extras {
+    unsigned int chance;
+    weighted_int_list<std::string> values;
+
+    map_extras() : chance( 0 ), values() {}
+    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
 };
 
 struct sid_or_sid;

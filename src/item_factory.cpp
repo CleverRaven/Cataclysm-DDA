@@ -30,8 +30,9 @@
 
 #include <algorithm>
 #include <assert.h>
-#include <sstream>
 #include <cassert>
+#include <cmath>
+#include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -261,7 +262,7 @@ void Item_factory::finalize_pre( itype &obj )
             for( const auto &v : vitamin::all() ) {
                 if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
                     for( const auto &m : mat ) {
-                        obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                        obj.comestible->vitamins[ v.first ] += std::ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
                     }
                 }
             }

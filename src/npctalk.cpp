@@ -130,7 +130,7 @@ struct talk_response {
      */
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID();
-    matype_id style;
+    matype_id style = matype_id::NULL_ID();
     /**
      * Defines what happens when the trial succeeds or fails. If trial is
      * TALK_TRIAL_NONE it always succeeds.
@@ -1720,7 +1720,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
             for( auto miss_it : g->u.get_active_missions() ) {
-                if( miss_it->name() == "Locate Commo Team" && !p->has_effect( effect_gave_quest_item ) ) {
+                if( miss_it->mission_id() == mission_type_id( "MISSION_OLD_GUARD_NEC_1" ) &&
+                    !p->has_effect( effect_gave_quest_item ) ) {
                     add_response( _( "[MISSION] The captain sent me to get a frequency list from you." ),
                                   "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                 }
@@ -1794,7 +1795,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Interesting..." ), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         for( auto miss_it : g->u.get_active_missions() ) {
-            if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect( effect_gave_quest_item ) ) {
+            if( miss_it->mission_id() == mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ) &&
+                !p->has_effect( effect_gave_quest_item ) ) {
                 add_response(
                     _( "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you." ),
                     "TALK_RANCH_FOREMAN_PROSPECTUS" );
@@ -2113,21 +2115,21 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        for( auto &trained : trainable ) {
-            const int cost = calc_skill_training_cost( *p, trained );
-            const int cur_level = g->u.get_skill_level( trained );
-            //~Skill name: current level -> next level (cost in cent)
-            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) : _( "%s: %d -> %d" ),
-                                              trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
-            add_response( text, "TALK_TRAIN_START", trained );
-        }
         for( auto &style_id : styles ) {
             auto &style = style_id.obj();
             const int cost = calc_ma_style_training_cost( *p, style.id );
-            //~Martial art style (cost in cent)
+            //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s (cost $%d)" ) : _( "%s" ),
                                                     style.name.c_str(), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
+        }
+        for( auto &trained : trainable ) {
+            const int cost = calc_skill_training_cost( *p, trained );
+            const int cur_level = g->u.get_skill_level( trained );
+            //~Skill name: current level -> next level (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) : _( "%s: %d -> %d" ),
+                                              trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
+            add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
 
@@ -2999,19 +3001,19 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 300 );
     give_aid( p );
     body_part bp_healed;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                bp_healed = player::hp_to_bp( hp_part( i ) );
-                elem->heal( hp_part( i ), 5 * rng( 2, 5 ) );
-                if( elem->has_effect( effect_bite, bp_healed ) ) {
-                    elem->remove_effect( effect_bite, bp_healed );
+    for( npc &guy : g->all_npcs() ) {
+        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
+            for (int i = 0; i < num_hp_parts; i++) {
+                bp_healed = player::hp_to_bp( hp_part(i) );
+                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                if( guy.has_effect( effect_bite, bp_healed ) ) {
+                    guy.remove_effect( effect_bite, bp_healed );
                 }
-                if( elem->has_effect( effect_bleed, bp_healed ) ) {
-                    elem->remove_effect( effect_bleed, bp_healed );
+                if( guy.has_effect( effect_bleed, bp_healed ) ) {
+                    guy.remove_effect( effect_bleed, bp_healed );
                 }
-                if( elem->has_effect( effect_infected, bp_healed ) ) {
-                    elem->remove_effect( effect_infected, bp_healed );
+                if( guy.has_effect( effect_infected, bp_healed ) ) {
+                    guy.remove_effect( effect_infected, bp_healed );
                 }
             }
         }
@@ -3217,23 +3219,23 @@ void talk_function::start_training( npc &p )
     int cost;
     int time;
     std::string name;
-    if( p.chatbin.skill ) {
-        auto &skill = p.chatbin.skill;
+    const skill_id &skill = p.chatbin.skill;
+    const matype_id &style = p.chatbin.style;
+    if( skill.is_valid() && g->u.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() ) {
-        auto &ma_style_id = p.chatbin.style;
-        cost = calc_ma_style_training_cost( p, ma_style_id );
-        time = calc_ma_style_training_time( p, ma_style_id );
+    } else if( p.chatbin.style.is_valid() && !g->u.has_martialart( style ) ) {
+        cost = calc_ma_style_training_cost( p, style );
+        time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
     } else {
-        debugmsg( "start_training with no skill or style set" );
+        debugmsg( "start_training with no valid skill or style set" );
         return;
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
         clear_mission( p );
     } else if( !pay_npc( p, cost ) ) {
         return;
@@ -3545,12 +3547,14 @@ talk_topic dialogue::opt( const talk_topic &topic )
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
 
+    // We can't set both skill and style or training will bug out
+    // @todo Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
-    }
-
-    if( !chosen.style.str().empty() ) {
+        beta->chatbin.style = matype_id::NULL_ID();
+    } else if( chosen.style ) {
         beta->chatbin.style = chosen.style;
+        beta->chatbin.skill = skill_id::NULL_ID();
     }
 
     const bool success = chosen.trial.roll( *this );
@@ -4561,10 +4565,10 @@ npc *pick_follower()
     std::vector<npc *> followers;
     std::vector<tripoint> locations;
 
-    for( const auto &np : g->active_npc ) {
-        if( np->is_following() && g->u.sees( *np ) ) {
-            followers.push_back( np.get() );
-            locations.push_back( np->pos() );
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_following() && g->u.sees( guy ) ) {
+            followers.push_back( &guy );
+            locations.push_back( guy.pos() );
         }
     }
 

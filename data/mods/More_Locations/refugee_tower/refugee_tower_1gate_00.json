@@ -1,0 +1,48 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "refugee_tower_1gate",
+        "comment" : "gate at the top left corner of the whole compound",
+        "weight": 0,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+             "rows": [
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "####9              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "#####              #####",
+                "##===[[[[[[[[[[[[[[===##",
+                "##=##PPPPPPPPPPPPPP%#=##",
+                "##=##PPPPPPPPPPPPPP##=##"
+            ],
+            "palettes": [
+               "tri_tower",
+               "ground_level"
+            ],
+            "terrain":{
+                "p": "t_pavement",
+                "y": "t_pavement_y",
+                "%": "t_gates_mech_control",
+                "9": "t_card_reader_broken"
+            }
+        }
+    }
+]

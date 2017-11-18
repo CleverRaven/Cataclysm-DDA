@@ -3922,6 +3922,7 @@
         "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
         "wet_protection" : [
@@ -4600,7 +4601,6 @@
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 19 },
             { "part" : "ARM_R", "neutral" : 19 },
@@ -4637,7 +4637,6 @@
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [

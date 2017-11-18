@@ -21,6 +21,8 @@
 #include "string_formatter.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "platform_win.h"
+#include "mmsystem.h"
 
 //***********************************
 //Globals                           *
@@ -458,15 +460,13 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void init_interface()
 {
     lastchar=-1;
     inputdelay=-1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        return nullptr;
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
     halfwidth=fontwidth / 2;
@@ -520,8 +520,8 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
@@ -601,7 +601,7 @@ bool input_context::get_coordinates( WINDOW *, int &, int & )
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+int endwin()
 {
     DeleteObject(font);
     WinDestroy();

@@ -304,7 +304,7 @@
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
     "components": [
       [ [ "keg", 1 ], [ "keg_steel", 1 ] ],
-      [ [ "chem_anfo", 700 ] ] ,
+      [ [ "chem_anfo", 70 ] ] ,
       [ [ "dynamite", 2 ] ]
     ]
   },
@@ -357,7 +357,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "keg", 1 ], [ "keg_steel", 1] ],
-      [ [ "chem_rdx", 575 ] ],
+      [ [ "chem_rdx", 60 ] ],
       [ [ "chem_hmtd", 200 ] ],
       [ [ "scrap", 50 ] ]
     ]

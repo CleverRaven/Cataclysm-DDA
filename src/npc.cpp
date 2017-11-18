@@ -6,6 +6,7 @@
 #include "game.h"
 #include "item_group.h"
 #include "string_formatter.h"
+#include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
@@ -1703,10 +1704,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return std::find_if( g->active_npc.begin(),
-    g->active_npc.end(), [&]( const std::shared_ptr<npc> &n ) {
-        return n->getID() == getID();
-    } ) != g->active_npc.end();
+    return g->critter_at<npc>( pos() ) == this;
 }
 
 int npc::follow_distance() const

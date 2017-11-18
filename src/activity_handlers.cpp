@@ -19,6 +19,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"
+#include "iexamine.h"
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"

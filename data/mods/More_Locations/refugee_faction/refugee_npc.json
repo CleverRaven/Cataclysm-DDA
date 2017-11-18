@@ -1,0 +1,30 @@
+[
+  {
+    "type" : "npc",
+    "id" : "refugee",
+    "class" : "NC_REFUGEE",
+    "name_suffix" : "Refugee",
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_SHELTER",
+    "faction" : "refugees"
+  },{
+    "type" : "npc",
+    "id" : "talented_refugee",
+    "class" : "NC_TALENTED_REFUGEE",
+    "name_suffix" : "Refugee",
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_SHELTER",
+    "faction" : "refugees"
+  },{
+    "type" : "npc",
+    "id" : "mutant_refugee",
+    "class" : "NC_MUTANT_REFUGEE",
+    "name_suffix" : "Refugee",
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_SHELTER",
+    "faction" : "refugees"
+  }
+]

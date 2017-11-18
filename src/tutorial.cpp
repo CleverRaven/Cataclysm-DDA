@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "profession.h"
+#include "mapdata.h"
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"

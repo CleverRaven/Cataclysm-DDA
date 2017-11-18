@@ -385,6 +385,11 @@ class game
                 monster_range( game &g );
         };
 
+        class npc_range : public non_dead_range<npc> {
+            public:
+                npc_range( game &g );
+        };
+
         class Creature_range : public non_dead_range<Creature> {
             private:
                 std::shared_ptr<player> u;
@@ -399,16 +404,20 @@ class game
          * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
          * One shall not store the returned range nor the iterators.
          * One can freely remove and add creatures to the game during the iteration. Added
-         * monsters will not be iterated over.
+         * creatures will not be iterated over.
          */
         Creature_range all_creatures();
+        /// Same as @ref all_creatures but iterators only over monsters.
         monster_range all_monsters();
+        /// Same as @ref all_creatures but iterators only over npcs.
+        npc_range all_npcs();
 
         /**
          * Returns all creatures matching a predicate. Only living ( not dead ) creatures
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<npc*> get_npcs_if( const std::function<bool( const npc & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
          * are checked. Returns `nullptr` if no creature matches the predicate.
@@ -617,7 +626,9 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
+    private:
         std::vector<std::shared_ptr<npc>> active_npc;
+    public:
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
