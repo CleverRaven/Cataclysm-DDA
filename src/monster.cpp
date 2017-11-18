@@ -1531,6 +1531,9 @@ float monster::get_melee() const
 
 float monster::dodge_roll()
 {
+    if( has_flag(IMMOBILE) ){
+        return 0;
+    }
     return get_dodge() * 5;
 }
 
