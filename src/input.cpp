@@ -1249,16 +1249,6 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
 }
 #endif
 
-#ifndef TILES
-void init_interface()
-{
-#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-    // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
-#endif
-}
-#endif
-
 const std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
