@@ -10,6 +10,7 @@
 #include "item_location.h"
 #include "cursesdef.h"
 #include "ranged.h"
+#include "npc.h"
 
 #include <vector>
 #include <map>
@@ -80,6 +81,7 @@ struct special_game;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using npc_temp_id = string_id<npc_template>;
 using itype_id = std::string;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -312,6 +314,10 @@ class game
          * Returns a `nullptr` if the monster could not be created.
          */
         monster *summon_mon( const mtype_id& id, const tripoint &p );
+        /**
+         * Summons an NPC.
+         */
+        void *summon_npc( const npc_temp_id& id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);

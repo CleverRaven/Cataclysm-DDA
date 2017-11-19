@@ -351,5 +351,16 @@
     "mission" : 7,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
+  },{
+    "type" : "npc",
+    "id" : "slime",
+    "//" : "Slime mutant split off from Slime threshold players as an upgrade to slimesprings. Infinite NPC and has all the benefits of Slime category, but all the downsides as well, on top of being very physically weak.",
+    "name_unique" : "Slimeling",
+    "class" : "NC_SLIME",
+    "gender" : "male",
+    "attitude" : 3,
+    "mission" : 0,
+    "chat" : "TALK_FRIEND",
+    "faction" : "your_followers"
   }
 ]
