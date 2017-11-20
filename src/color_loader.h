@@ -74,9 +74,10 @@ class color_loader
             } catch( const JsonError &err ) {
                 DebugLog( D_ERROR, D_SDL ) << "Failed to load color data from " << custom_path << ": " <<
                                            err.what();
+
+                // this should succeed, otherwise the installation is botched
+                load_colorfile( default_path );
             }
-            // this should succeed, otherwise the installation is botched
-            load_colorfile( default_path );
 
             for( size_t c = 0; c < main_color_names().size(); c++ ) {
                 windowsPalette[c] = ccolor( main_color_names()[c] );
