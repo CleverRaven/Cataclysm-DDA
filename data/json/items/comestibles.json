@@ -2070,6 +2070,7 @@
         "nutrition" : 32,
         "description" : "Sticky, gooey carbohydrate paste extracted from plants.  Spoils rather quickly if not prepared for storage.",
         "price" : 0,
+        "material" : "veggy",
         "volume" : 1,
         "fun" : -14
     },
@@ -6192,6 +6193,7 @@
         "nutrition" : 6,
         "description" : "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
         "price" : 0,
+        "material" : "veggy",
         "volume" : 1,
         "charges" : 2,
         "fun" : -20
@@ -6209,6 +6211,7 @@
         "nutrition" : 42,
         "description" : "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
         "price" : 90,
+        "material" : "veggy",
         "volume" : 1
     },
     {
