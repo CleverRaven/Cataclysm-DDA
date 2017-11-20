@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "units.h"
+#include "json.h"
 
 #include <vector>
 #include <array>
