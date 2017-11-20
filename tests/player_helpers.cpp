@@ -15,6 +15,8 @@ void clear_player()
     // Remove first worn item until there are none left.
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    dummy.inv.clear();
+    dummy.remove_weapon();
     for( trait_id tr : dummy.get_mutations() ) {
         dummy.unset_mutation( tr );
     }
