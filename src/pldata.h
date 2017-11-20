@@ -57,20 +57,9 @@ class addiction : public JsonSerializer, public JsonDeserializer
         addiction( add_type const t, int const i = 1 ) : type {t}, intensity {i} { }
 
         using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override {
-            json.start_object();
-            json.member( "type_enum", type );
-            json.member( "intensity", intensity );
-            json.member( "sated", sated );
-            json.end_object();
-        }
+        void serialize( JsonOut &json ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            type = ( add_type )jo.get_int( "type_enum" );
-            intensity = jo.get_int( "intensity" );
-            sated = jo.get_int( "sated" );
-        }
+        void deserialize( JsonIn &jsin ) override;
 };
 
 #endif

@@ -2370,3 +2370,20 @@ void tripoint::serialize( JsonOut &jsout ) const
     jsout.write( z );
     jsout.end_array();
 }
+
+void addiction::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "type_enum", type );
+    json.member( "intensity", intensity );
+    json.member( "sated", sated );
+    json.end_object();
+}
+
+void addiction::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    type = static_cast<add_type>( jo.get_int( "type_enum" ) );
+    intensity = jo.get_int( "intensity" );
+    sated = jo.get_int( "sated" );
+}
