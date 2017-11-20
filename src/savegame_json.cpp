@@ -2387,3 +2387,22 @@ void addiction::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     sated = jo.get_int( "sated" );
 }
+
+void stats::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "squares_walked", squares_walked );
+    json.member( "damage_taken", damage_taken );
+    json.member( "damage_healed", damage_healed );
+    json.member( "headshots", headshots );
+    json.end_object();
+}
+
+void stats::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "squares_walked", squares_walked );
+    jo.read( "damage_taken", damage_taken );
+    jo.read( "damage_healed", damage_healed );
+    jo.read( "headshots", headshots );
+}

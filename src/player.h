@@ -122,24 +122,9 @@ struct stats : public JsonSerializer, public JsonDeserializer {
     int headshots = 0;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("squares_walked", squares_walked);
-        json.member("damage_taken", damage_taken);
-        json.member("damage_healed", damage_healed);
-        json.member("headshots", headshots);
-        json.end_object();
-    }
+    void serialize( JsonOut &json ) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        jo.read("squares_walked", squares_walked);
-        jo.read("damage_taken", damage_taken);
-        jo.read("damage_healed", damage_healed);
-        jo.read("headshots", headshots);
-    }
+    void deserialize( JsonIn &jsin ) override;
 };
 
 struct stat_mod {
