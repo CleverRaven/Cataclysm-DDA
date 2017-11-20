@@ -3,7 +3,6 @@
 #define PLAYER_ACTIVITY_H
 
 #include "enums.h"
-#include "json.h"
 #include "item_location.h"
 #include "string_id.h"
 
@@ -12,12 +11,14 @@
 
 class player;
 class Character;
+class JsonIn;
+class JsonOut;
 class player_activity;
 class activity_type;
 
 using activity_id = string_id<activity_type>;
 
-class player_activity : public JsonSerializer, public JsonDeserializer
+class player_activity
 {
     private:
         void finish( player *p );
@@ -84,10 +85,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool is_suspendable() const;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
