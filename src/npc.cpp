@@ -20,7 +20,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "iuse_actor.h"
-
+#include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
