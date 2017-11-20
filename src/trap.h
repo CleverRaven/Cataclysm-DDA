@@ -3,19 +3,19 @@
 #define TRAP_H
 
 #include "color.h"
-#include "json.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "units.h"
 #include <string>
 #include <functional>
+#include <vector>
 
 class Creature;
 class item;
 class player;
 struct trap;
 struct tripoint;
-
+class JsonObject;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
