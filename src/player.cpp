@@ -2256,7 +2256,8 @@ void player::load_info( std::string data )
 std::string player::save_info() const
 {
     std::stringstream dump;
-    dump << serialize(); // saves contents
+    JsonOut jsout( dump );
+    serialize( jsout ); // saves contents
     dump << std::endl;
     dump << dump_memorial();
     return dump.str();

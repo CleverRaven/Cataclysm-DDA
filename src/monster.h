@@ -3,6 +3,7 @@
 #define MONSTER_H
 
 #include "creature.h"
+#include "json.h"
 #include "enums.h"
 #include "int_id.h"
 #include <vector>

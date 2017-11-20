@@ -21,6 +21,9 @@ static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz")
 
 enum action_id : int;
 struct bionic;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class dispersion_sources;
 class monster;
 class game;
@@ -115,16 +118,14 @@ extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
-struct stats : public JsonSerializer, public JsonDeserializer {
+struct stats {
     int squares_walked = 0;
     int damage_taken = 0;
     int damage_healed = 0;
     int headshots = 0;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &json ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 struct stat_mod {
@@ -136,7 +137,7 @@ struct stat_mod {
     int speed = 0;
 };
 
-class player : public Character, public JsonSerializer, public JsonDeserializer
+class player : public Character
 {
     public:
         player();
@@ -186,12 +187,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int print_info(WINDOW *w, int vStart, int vLines, int column) const override;
 
         // populate variables, inventory items, and misc from json object
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        virtual void deserialize( JsonIn &jsin );
 
-        using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const override;
+        virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, std::string epitaph );

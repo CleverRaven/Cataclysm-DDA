@@ -15,6 +15,9 @@
 
 using skill_id = string_id<Skill>;
 enum field_id : int;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class field;
 class field_entry;
 class vehicle;
@@ -622,7 +625,7 @@ class Character : public Creature, public visitable<Character>
         Character( Character && ) = default;
         Character &operator=( const Character & ) = default;
         Character &operator=( Character && ) = default;
-        struct trait_data : public JsonSerializer, public JsonDeserializer {
+        struct trait_data {
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
@@ -633,11 +636,8 @@ class Character : public Creature, public visitable<Character>
             int charge = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
-            // -- serialization stuff, see savegame_json.cpp
-            using JsonSerializer::serialize;
-            void serialize( JsonOut &json ) const override;
-            using JsonDeserializer::deserialize;
-            void deserialize( JsonIn &jsin ) override;
+            void serialize( JsonOut &json ) const;
+            void deserialize( JsonIn &jsin );
         };
 
         /** Bonuses to stats, calculated each turn */
