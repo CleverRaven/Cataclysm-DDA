@@ -183,24 +183,6 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::istream &stin)
-{
-    std::string type;
-    getline(stin, type);
-    this->type = vproto_id( type );
-
-    std::stringstream derp;
-    derp << type;
-    JsonIn jsin(derp);
-    try {
-        deserialize(jsin);
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-    }
-    refresh(); // part index lists are lost on save??
-    shift_if_needed();
-}
-
 /** Checks all parts to see if frames are missing (as they might be when
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()

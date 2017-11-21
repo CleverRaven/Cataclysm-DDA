@@ -574,9 +574,6 @@ public:
     // damages all parts of a vehicle by a random amount
     void smash();
 
-    // load and init vehicle data from stream. This implies valid save data!
-    void load (std::istream &stin);
-
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
