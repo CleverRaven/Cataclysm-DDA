@@ -31,6 +31,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
+#include "json.h"
 #include "map_iterator.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
