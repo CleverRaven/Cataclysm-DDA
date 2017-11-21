@@ -37,6 +37,13 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
 using trait_id = string_id<mutation_branch>;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+}
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

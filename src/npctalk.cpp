@@ -13,6 +13,7 @@
 #include "mission.h"
 #include "morale_types.h"
 #include "ammo.h"
+#include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
 #include "translations.h"

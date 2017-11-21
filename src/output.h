@@ -6,7 +6,6 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "translations.h"
-#include "units.h"
 #include "string_formatter.h"
 
 #include <cstdarg>
@@ -21,6 +20,13 @@ struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+}
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502

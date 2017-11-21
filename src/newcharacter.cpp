@@ -7,6 +7,7 @@
 #include "input.h"
 #include "output.h"
 #include "bionics.h"
+#include "units.h"
 #include "rng.h"
 #include "game.h"
 #include "name.h"
