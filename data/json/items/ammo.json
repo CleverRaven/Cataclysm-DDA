@@ -116,7 +116,12 @@
         "weight" : 90,
         "ammo_type" : "soap",
         "count" : 10,
-        "stack_size" : 10
+        "stack_size" : 10,
+        "use_action" : {
+            "type" : "heal",
+            "bite" : 65,
+            "move_cost" : 100
+        }
     },
     {   "type" : "AMMO",
         "id" : "duct_tape",
