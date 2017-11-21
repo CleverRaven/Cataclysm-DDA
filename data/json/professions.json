@@ -5158,5 +5158,13 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "naked",
+        "name": "Naked and Afraid",
+        "description": "You were out filming a reality TV show in the woods and the cast and crew all seem to have turned into zombies.  Looks like it's for real now...",
+        "points": -1,
+        "flags": ["SCEN_ONLY"]
     }
 ]
