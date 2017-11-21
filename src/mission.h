@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-#include "omdata.h"
 #include "itype.h"
 #include "npc_favor.h"
 
@@ -19,6 +18,7 @@ class JsonObject;
 class JsonIn;
 class JsonOut;
 struct mission_type;
+struct oter_type_t;
 
 enum npc_mission : int;
 
