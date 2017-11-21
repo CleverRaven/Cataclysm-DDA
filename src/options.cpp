@@ -1,5 +1,5 @@
-#include "game.h"
 #include "options.h"
+#include "game.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"

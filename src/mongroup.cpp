@@ -1,7 +1,7 @@
+#include "mongroup.h"
 #include <vector>
 
 #include "rng.h"
-#include "mongroup.h"
 #include "game.h"
 #include "debug.h"
 #include "options.h"

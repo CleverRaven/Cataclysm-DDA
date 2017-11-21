@@ -1,3 +1,4 @@
+#include "bionics.h"
 #include "player.h"
 
 #include "action.h"
@@ -10,7 +11,6 @@
 #include "rng.h"
 #include "input.h"
 #include "item.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "messages.h"
 #include "overmapbuffer.h"

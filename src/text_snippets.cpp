@@ -1,6 +1,6 @@
+#include "text_snippets.h"
 #include "json.h"
 #include "rng.h"
-#include "text_snippets.h"
 #include "translations.h"
 
 #include <string>

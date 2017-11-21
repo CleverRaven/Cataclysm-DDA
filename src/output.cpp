@@ -1,3 +1,4 @@
+#include "output.h"
 #include <string>
 #include <vector>
 #include <cstdarg>
@@ -8,8 +9,6 @@
 #include <map>
 #include <memory>
 #include <errno.h>
-
-#include "output.h"
 
 #include "color.h"
 #include "input.h"
@@ -337,13 +336,6 @@ int right_print( WINDOW *w, const int line, const int right_indent, const nc_col
     return x;
 }
 
-void mvputch( int y, int x, nc_color FG, const std::string &ch )
-{
-    attron( FG );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( FG );
-}
-
 void wputch( WINDOW *w, nc_color FG, long ch )
 {
     wattron( w, FG );
@@ -365,14 +357,6 @@ void mvwputch( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, FG );
 }
 
-void mvputch_inv( int y, int x, nc_color FG, const std::string &ch )
-{
-    nc_color HC = invert_color( FG );
-    attron( HC );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( HC );
-}
-
 void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, long ch )
 {
     nc_color HC = invert_color( FG );
@@ -387,14 +371,6 @@ void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattron( w, HC );
     mvwprintw( w, y, x, "%s", ch.c_str() );
     wattroff( w, HC );
-}
-
-void mvputch_hi( int y, int x, nc_color FG, const std::string &ch )
-{
-    nc_color HC = hilite( FG );
-    attron( HC );
-    mvprintw( y, x, "%s", ch.c_str() );
-    attroff( HC );
 }
 
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch )

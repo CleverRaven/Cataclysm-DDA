@@ -2821,11 +2821,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_ltred : c_red ) );
 
-        //
         // Draw the speedometer.
-        //
-
-        int speedox = sideStyle ? 0 : 33;
+        int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
         bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
@@ -2850,11 +2847,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
+
+        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
+        wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
         if( veh->velocity != 0 ) {
-            const int offset_from_screen_edge = sideStyle ? 13 : 8;
             nc_color col_indc = veh->skidding ? c_red : c_green;
             int dfm = veh->face.dir() - veh->move.dir();
-            wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - offset_from_screen_edge );
+
             if( dfm == 0 ) {
                 wprintz( w, col_indc, "^" );
             } else if( dfm < 0 ) {
@@ -2862,7 +2861,12 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
+
+            wprintz( w, c_white, " ");
         }
+
+        //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
+        wprintz( w, c_white, string_format( "%3d°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
 
         if( sideStyle ) {
             // Make sure this is left-aligned.
@@ -7488,22 +7492,16 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     return select_ammo( base, std::move( ammo_list ) );
 }
 
-bool player::can_wear( const item& it, bool alert ) const
+ret_val<bool> player::can_wear( const item& it  ) const
 {
     if( !it.is_armor() ) {
-        if( alert ) {
-            add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), it.tname().c_str() );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname().c_str() );
     }
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
-                if( alert ) {
-                    add_msg_if_player( m_info, _( "You can't wear power armor over other gear!" ) );
-                }
-                return false;
+                return ret_val<bool>::make_failure( _( "You can't wear power armor over other gear!" ) );
             }
         }
         if( !it.covers( bp_torso ) ) {
@@ -7517,20 +7515,13 @@ bool player::can_wear( const item& it, bool alert ) const
                 }
             }
             if( !power_armor ) {
-                if( alert ) {
-                    add_msg_if_player( m_info, _( "You can only wear power armor components with power armor!" ) );
-                }
-                return false;
+                return ret_val<bool>::make_failure( _( "You can only wear power armor components with power armor!" ) );
             }
         }
 
         for( auto &i : worn ) {
             if( i.is_power_armor() && i.typeId() == it.typeId() ) {
-                if( alert ) {
-                    add_msg_if_player( m_info, _( "You cannot wear more than one %s!" ),
-                                       it.tname().c_str() );
-                }
-                return false;
+                return ret_val<bool>::make_failure( _( "You cannot wear more than one %s!" ), it.tname().c_str() );
             }
         }
     } else {
@@ -7539,28 +7530,18 @@ bool player::can_wear( const item& it, bool alert ) const
         bool has_helmet = false;
         if( is_wearing_power_armor( &has_helmet ) &&
             ( has_helmet || !(it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
-            }
-            return false;
+            return ret_val<bool>::make_failure( _( "You can't wear %s with power armor!" ), it.tname().c_str() );
         }
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) || weapon.is_two_handed( *this ) ) ) {
-        if(alert) {
-            add_msg_if_player( m_info, _("You don't have a hand free to wear that.") );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _("You don't have a hand free to wear that.") );
     }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
-        if( alert ) {
-            //~ always plural form
-            add_msg_if_player( m_info, _( "You can't wear %i or more %s at once." ),
+        return ret_val<bool>::make_failure( _( "You can't wear %i or more %s at once." ),
                                MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ).c_str() );
-        }
-        return false;
     }
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
@@ -7568,59 +7549,41 @@ bool player::can_wear( const item& it, bool alert ) const
           ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
-        if( alert ) {
-            add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You're already wearing footwear!" ) );
     }
 
     if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
-        if(alert) {
-            add_msg_if_player( m_info, wearing_something_on( bp_head ) ?
+        return ret_val<bool>::make_failure( wearing_something_on( bp_head ) ?
                             _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
-        }
-        return false;
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
-        if( alert ) {
-            add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You can't wear that, it's made of wool!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        if( alert ) {
-            add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You can't wear that, it's filthy!" ) );
     }
 
     if( !it.has_flag( "OVERSIZE" ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                if( alert ) {
-                    add_msg( m_info, _( "Your mutation %s prevents you from wearing that %s." ),
+                return ret_val<bool>::make_failure( _( "Your mutation %s prevents you from wearing that %s." ),
                              branch.name.c_str(), it.type_name().c_str() );
-                }
-
-                return false;
             }
         }
         if( it.covers(bp_head) &&
             !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
             !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) || has_trait( trait_ANTLERS ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot wear a helmet over your %s." ),
+            return ret_val<bool>::make_failure( _( "You cannot wear a helmet over your %s." ),
                             ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
                             ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
-            }
-            return false;
         }
     }
-    return true;
+
+    return ret_val<bool>::make_success();
 }
 
 ret_val<bool> player::can_wield( const item &it ) const
@@ -7843,7 +7806,7 @@ hint_rating player::rate_action_wear( const item &it ) const
         return HINT_CANT;
     }
 
-    return can_wear( it, false ) ? HINT_GOOD : HINT_IFFY;
+    return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
 
 
@@ -7920,7 +7883,7 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and wear item" ) : _( "Wear item" ),
-        can_wear( *obj, false ), '3', item_wear_cost( *obj ),
+        can_wear( *obj ).success(), '3', item_wear_cost( *obj ),
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) ) {
                 return false;
@@ -8186,8 +8149,11 @@ int player::item_wear_cost( const item& it ) const
 
 bool player::wear( int pos, bool interactive )
 {
-    item& to_wear = i_at( pos );
+    return wear( i_at( pos ), interactive );
+}
 
+bool player::wear( item& to_wear, bool interactive )
+{
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg( m_info, _( "You are already wearing that." ) );
@@ -8226,7 +8192,9 @@ bool player::wear( int pos, bool interactive )
 
 bool player::wear_item( const item &to_wear, bool interactive )
 {
-    if( !can_wear( to_wear, interactive ) ) {
+    const auto ret = can_wear( to_wear );
+    if( !ret.success() && interactive ) {
+        add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
     }
 
@@ -8346,32 +8314,34 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+ret_val<bool> player::can_takeoff( const item& it, const std::list<item> *res ) const
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
     } );
 
     if( iter == worn.end() ) {
-        add_msg_player_or_npc( m_info,
-            _( "You are not wearing that item." ),
-            _( "<npcname> is not wearing that item." ) );
+        return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) : _( "<npcname> is not wearing that item." ) );
+    }
+
+    if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
+        return ret_val<bool>::make_failure( !is_npc() ? _( "You can't take off power armor while wearing other power armor components." ) : _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+bool player::takeoff( const item &it, std::list<item> *res )
+{
+    const auto ret = can_takeoff( it, res );
+    if ( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
         return false;
     }
 
-    const auto dependent = get_dependent_worn_items( it );
-    if( res == nullptr && !dependent.empty() ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You can't take off power armor while wearing other power armor components." ),
-                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
-        return false;
-    }
-
-    for( const auto dep_it : dependent ) {
-        if( !takeoff( *dep_it, res ) ) {
-            return false; // Failed to takeoff a dependent item
-        }
-    }
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
+        return &it == &wit;
+    } );
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {

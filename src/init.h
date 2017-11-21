@@ -155,6 +155,4 @@ class DynamicDataLoader
         }
 };
 
-void init_names();
-
 #endif

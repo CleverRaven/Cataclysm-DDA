@@ -1098,13 +1098,14 @@
         "damage_modifier": 1,
         "durability": 200,
         "bonus": 25,
-        "item": "v_curtain_item",
+        "item": "sheet",
         "location": "on_ceiling",
         "requirements": {
           "install": {
             "time": 30000,
-            "skills": [ [ "mechanics", 1 ] ],
-            "qualities": [ { "id": "SCREW", "level": 1 } ]
+            "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ],
+            "components": [ [ [ "rope_6", 1 ] ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ]
           },
           "repair": {
             "skills": [ [ "mechanics", 1 ] ],

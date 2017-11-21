@@ -5,14 +5,24 @@
 #endif
 
 #include "translations.h"
+#include "path_info.h"
+#include "name.h"
 
 #include <string>
 #include <algorithm>
 
+// Names depend on the language settings. They are loaded from different files
+// based on the currently used language. If that changes, we have to reload the
+// names.
+static void reload_names()
+{
+    Name::clear();
+    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+}
+
 #ifdef LOCALIZE
 #include <stdlib.h> // for getenv()/setenv()/putenv()
 #include "options.h"
-#include "path_info.h"
 #include "debug.h"
 #include "ui.h"
 #if (defined _WIN32 || defined WINDOWS)
@@ -169,6 +179,8 @@ void set_language()
     bindtextdomain( "cataclysm-dda", locale_dir_char );
     bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
     textdomain( "cataclysm-dda" );
+
+    reload_names();
 }
 
 #else // !LOCALIZE
@@ -193,6 +205,7 @@ void select_language()
 
 void set_language()
 {
+    reload_names();
     return;
 }
 

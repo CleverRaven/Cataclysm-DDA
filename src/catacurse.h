@@ -102,20 +102,12 @@ struct WINDOW {
 
 extern WINDOW *stdscr;
 
-#define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
-
 //Curses Functions
 WINDOW *newwin( int nlines, int ncols, int begin_y, int begin_x );
 int delwin( WINDOW *win );
 int wborder( WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
              chtype bl, chtype br );
 
-int hline( chtype ch, int n );
-int vline( chtype ch, int n );
-int whline( WINDOW *win, chtype ch, int n );
-int wvline( WINDOW *win, chtype ch, int n );
-int mvhline( int y, int x, chtype ch, int n );
-int mvvline( int y, int x, chtype ch, int n );
 int mvwhline( WINDOW *win, int y, int x, chtype ch, int n );
 int mvwvline( WINDOW *win, int y, int x, chtype ch, int n );
 
@@ -127,33 +119,26 @@ int wgetch( WINDOW *win );
 int mvgetch( int y, int x );
 int mvwgetch( WINDOW *win, int y, int x );
 int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... ) PRINTF_LIKE( 4, 5 );
-int mvprintw( int y, int x, const char *fmt, ... ) PRINTF_LIKE( 3, 4 );
 int werase( WINDOW *win );
 int start_color( void );
 int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
 int clear( void );
-int clearok( WINDOW *win );
 int erase( void );
 int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
-int mvaddch( int y, int x, const chtype ch );
 int wattron( WINDOW *win, int attrs );
 int wattroff( WINDOW *win, int attrs );
-int attron( int attrs );
-int attroff( int attrs );
 int waddch( WINDOW *win, const chtype ch );
-int printw( const char *fmt, ... ) PRINTF_LIKE( 1, 2 );
 int getmaxx( WINDOW *win );
 int getmaxy( WINDOW *win );
 int getbegx( WINDOW *win );
 int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
-int move( int y, int x );
 //non-curses functions, Do not call these in the main game code
 extern std::array<pairs, 100> colorpairs;
 void curses_drawwindow( WINDOW *win );

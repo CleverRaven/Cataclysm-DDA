@@ -446,9 +446,9 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    worn.pop_front();
-                    worn.insert( worn.end(), tmp_item );
+                    for( std::size_t i = 0; i < tmp_worn.size() - 1; i++ ) {
+                        std::swap( *tmp_worn[i + 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -468,9 +468,9 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    worn.pop_back();
-                    worn.insert( worn.begin(), tmp_item );
+                    for( std::size_t i = tmp_worn.size() - 1; i > 0; i-- ) {
+                        std::swap( *tmp_worn[i - 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -513,11 +513,12 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = game_menus::inv::wear( g->u );
+            item_location loc = game_menus::inv::wear( g->u );
+
             // only equip if something valid selected!
-            if( pos != INT_MIN ) {
+            if( loc ) {
                 // wear the item
-                if( wear( pos ) ) {
+                if( wear( g->u.i_at( loc.obtain( g->u ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
                     auto iter = worn.end();
                     item new_equip  = *( --iter );

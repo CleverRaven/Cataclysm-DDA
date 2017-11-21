@@ -630,7 +630,6 @@ class game
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
         std::vector<faction> factions;
-        int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
 
@@ -796,7 +795,6 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        const int dangerous_proximity;
         bool narrow_sidebar;
         bool right_sidebar;
         bool fullscreen;
@@ -914,8 +912,14 @@ class game
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
-        void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
-        void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void wear(); // Wear armor  'W' (or 'a')
+        void wear( int pos );
+        void wear( item_location& loc );
+
+        void takeoff(); // Remove armor  'T'
+        void takeoff( int pos );
+        void takeoff( item_location& loc );
+
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
@@ -1075,7 +1079,6 @@ private:
         std::unique_ptr<special_game> gamemode;
 
         int user_action_counter; // Times the user has input an action
-        const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;

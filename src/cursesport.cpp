@@ -187,36 +187,6 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     return 1;
 }
 
-int hline(chtype ch, int n)
-{
-    return whline(stdscr, ch, n);
-}
-
-int vline(chtype ch, int n)
-{
-    return wvline(stdscr, ch, n);
-}
-
-int whline(WINDOW *win, chtype ch, int n)
-{
-    return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
-}
-
-int wvline(WINDOW *win, chtype ch, int n)
-{
-    return mvwvline(stdscr, win->cursory, win->cursorx, ch, n);
-}
-
-int mvhline(int y, int x, chtype ch, int n)
-{
-    return mvwhline(stdscr, y, x, ch, n);
-}
-
-int mvvline(int y, int x, chtype ch, int n)
-{
-    return mvwvline(stdscr, y, x, ch, n);
-}
-
 int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
 {
     wattron(win, BORDER_COLOR);
@@ -438,29 +408,6 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     return printstring(win, printbuf);
 }
 
-//Prints a formatted string to the main window, moves the cursor
-int mvprintw(int y, int x, const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    if (move(y, x) == 0) {
-        return 0;
-    }
-    return printstring(stdscr, printbuf);
-}
-
-//Prints a formatted string to the main window at the current cursor
-int printw(const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    return printstring(stdscr, printbuf);
-}
-
 //erases a window of all text and attributes
 int werase(WINDOW *win)
 {
@@ -537,12 +484,6 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    clearok(win);
-    return 1;
-}
-
-int clearok(WINDOW *win)
-{
     if( win == nullptr ) {
         return 1;
     }
@@ -594,11 +535,6 @@ int curs_set(int)
     return 1;
 }
 
-int mvaddch(int y, int x, const chtype ch)
-{
-    return mvwaddch(stdscr, y, x, ch);
-}
-
 int wattron(WINDOW *win, int attrs)
 {
     if( win == nullptr ) {
@@ -627,14 +563,6 @@ int wattroff(WINDOW *win, int)
     win->FG = 8;                                //reset to white
     win->BG = 0;                                //reset to black
     return 1;
-}
-int attron(int attrs)
-{
-    return wattron(stdscr, attrs);
-}
-int attroff(int attrs)
-{
-    return wattroff(stdscr, attrs);
 }
 int waddch(WINDOW *win, const chtype ch)
 {
@@ -681,12 +609,6 @@ int waddch(WINDOW *win, const chtype ch)
     }
     char buffer[2] = { charcode, '\0' };
     return printstring( win, buffer );
-}
-
-//Move the cursor of the main window
-int move(int y, int x)
-{
-    return wmove(stdscr, y, x);
 }
 
 #endif

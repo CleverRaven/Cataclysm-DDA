@@ -1,3 +1,4 @@
+#include "editmap.h"
 #include "game.h"
 
 #include "coordinate_conversions.h"
@@ -9,7 +10,6 @@
 #include "options.h"
 #include "auto_pickup.h"
 #include "debug.h"
-#include "editmap.h"
 #include "map.h"
 #include "output.h"
 #include "uistate.h"
