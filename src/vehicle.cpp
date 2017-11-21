@@ -277,13 +277,6 @@ void vehicle::add_steerable_wheels()
     }
 }
 
-void vehicle::save (std::ostream &stout)
-{
-    serialize(stout);
-    stout << std::endl;
-    return;
-}
-
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
     // vehicle parts excluding engines are by default turned off

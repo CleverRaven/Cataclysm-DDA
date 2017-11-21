@@ -577,9 +577,6 @@ public:
     // load and init vehicle data from stream. This implies valid save data!
     void load (std::istream &stin);
 
-    // Save vehicle data to stream
-    void save (std::ostream &stout);
-
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
