@@ -403,4 +403,29 @@
       [ "57", [ "fn57mag" ] ]
     ]
   }
+  {
+    "id": "internal_silence_pistol",
+    "type": "GUN",
+    "name": "Maxim-9",
+    "skill": "pistol",
+    "description": "Made by Silencer Co. who before this gun made silencers. It is internally silenced.",
+    "weight": 649,
+    "volume": 3,
+    "price": 75000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -1,
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "loudness": -77,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+    ]
+  }
 ]
