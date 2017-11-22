@@ -447,7 +447,7 @@ static const trait_id trait_THIRST3( "THIRST3" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_FELINE( "THRESH_BIRD" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
