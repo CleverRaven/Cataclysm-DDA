@@ -2790,7 +2790,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
     const char *morale_str;
     if ( get_option<bool>( "THREE_CHARACTER_MORALE" ) ) {
-        if( has_trait( trait_THRESH_FELINE ) ) {
+        if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
             if( morale_cur >= 200) {
                 morale_str = "@W@";
             } else if( morale_cur >= 100 ) {
@@ -2809,6 +2809,26 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                 morale_str = "XmX";
             } else {
                 morale_str = "@m@";
+            }  
+        } else if( has_trait( trait_THRESH_BIRD ) ) {
+            if( morale_cur >= 200) {
+                morale_str = "@v@";
+            } else if( morale_cur >= 100 ) {
+                morale_str = "OvO";
+            } else if( morale_cur >= 50 ) {
+                morale_str = "ovo";
+            } else if( morale_cur >= 10 ) {
+                morale_str = "^v^";
+            } else if( morale_cur > -10 ) {
+                morale_str = "-v-";
+            } else if( morale_cur >= -50 ) {
+                morale_str = ".v.";
+            } else if( morale_cur > -100 ) {
+                morale_str = "TvT";
+            } else if( morale_cur > -200 ) {
+                morale_str = "XvX";
+            } else {
+                morale_str = "@v@";
             }  
         } else if( morale_cur >= 200) {
             morale_str = "@U@";
