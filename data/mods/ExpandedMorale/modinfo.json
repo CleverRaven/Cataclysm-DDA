@@ -3,6 +3,7 @@
     "type": "MOD_INFO",
     "ident": "expanded_morale",
     "name": "Expanded Morale",
+    "authors": [ "Astraltor" ],
     "description": "Changes emoticons to be three chracacters in width and expands emoticons for some mutation thresholds.",
     "category": "interface"
   },
