@@ -2799,13 +2799,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                 morale_str = "owo";
             } else if( morale_cur >= 10 ) {
                 morale_str = "^w^";
-            } else if( morale_cur > -10 ) {
+            } else if( morale_cur >= -10 ) {
                 morale_str = "-w-";
             } else if( morale_cur >= -50 ) {
                 morale_str = "-m-";
-            } else if( morale_cur > -100 ) {
+            } else if( morale_cur >= -100 ) {
                 morale_str = "TmT";
-            } else if( morale_cur > -200 ) {
+            } else if( morale_cur >= -200 ) {
                 morale_str = "XmX";
             } else {
                 morale_str = "@m@";
@@ -2819,13 +2819,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                 morale_str = "ovo";
             } else if( morale_cur >= 10 ) {
                 morale_str = "^v^";
-            } else if( morale_cur > -10 ) {
+            } else if( morale_cur >= -10 ) {
                 morale_str = "-v-";
             } else if( morale_cur >= -50 ) {
                 morale_str = ".v.";
-            } else if( morale_cur > -100 ) {
+            } else if( morale_cur >= -100 ) {
                 morale_str = "TvT";
-            } else if( morale_cur > -200 ) {
+            } else if( morale_cur >= -200 ) {
                 morale_str = "XvX";
             } else {
                 morale_str = "@v@";
@@ -2838,30 +2838,30 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             morale_str = "^u^";
         } else if( morale_cur >= 10 ) {
             morale_str = "n_n";
-        } else if( morale_cur > -10 ) {
+        } else if( morale_cur >= -10 ) {
             morale_str = "-_-";
         } else if( morale_cur >= -50 ) {
             morale_str = "-n-";
-        } else if( morale_cur > -100 ) {
+        } else if( morale_cur >= -100 ) {
             morale_str = "TnT";
-        } else if( morale_cur > -200 ) {
+        } else if( morale_cur >= -200 ) {
             morale_str = "XnX";
         } else {
             morale_str = "@n@";
         }
-    } else if( morale_cur >= 200 ) {
-        morale_str = "8D";
     } else if( morale_cur >= 100 ) {
+        morale_str = "8D";
+    } else if( morale_cur >= 50 ) {
         morale_str = ":D";
     } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
         morale_str = ":3";
     } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
         morale_str = ":)";
-    } else if( morale_cur > -10 ) {
+    } else if( morale_cur >= -10 ) {
         morale_str = ":|";
-    } else if( morale_cur > -100 ) {
+    } else if( morale_cur >= -50 ) {
         morale_str = "):";
-    } else if( morale_cur > -200 ) {
+    } else if( morale_cur >= -100 ) {
         morale_str = "D:";
     } else {
         morale_str = "D8";
