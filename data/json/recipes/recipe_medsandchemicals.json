@@ -2371,5 +2371,28 @@
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "ash", 50 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "calcium_tablet",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 120000,
+  "batch_time_factors":[80, 4],
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
+  "qualities":[
+    {"id":"CHEM","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 20, "LIST" ] ]
+  ],
+  "components": [
+    [
+      [ "meal_bone", 40 ], [ "meal_chitin_piece", 40 ]
+    ],
+    [
+      [ "vinegar", 10 ]
+    ]
+  ]
 }
 ]
