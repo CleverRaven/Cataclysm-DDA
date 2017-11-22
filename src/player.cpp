@@ -2874,7 +2874,6 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             morale_str = "D8";
         }
     }
-
     mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
 
     vehicle *veh = g->remoteveh();
