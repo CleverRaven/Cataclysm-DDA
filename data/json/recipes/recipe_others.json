@@ -1937,6 +1937,7 @@
   "difficulty": 6,
   "time": 180000,
   "autolearn": true,
+  "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 1 ] ], 
   "qualities":[
     { "id": "HAMMER", "level": 3 },
     { "id": "CHISEL", "level": 3 }
@@ -1953,17 +1954,10 @@
      [
       ["crucible", -1],
       ["crucible_clay", -1]
-     ],
-     [
-      ["forge", 100], [ "oxy_torch", 20]
-     ]
+     ]     
     ],
   "components":
     [
-    [
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
-    ],
     [
      [ "plastic_chunk", 1 ]
     ]
