@@ -2789,22 +2789,44 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         col_morale = c_red;
     }
     const char *morale_str;
-    if( morale_cur >= 200 ) {
-        morale_str = "8D";
+    if( has_trait( trait_THRESH_FELINE ) ) {
+        if( morale_cur >= 200) {
+            morale_str = "@W@";
+        } else if( morale_cur >= 100 ) {
+            morale_str = "OWO";
+        } else if( morale_cur >= 50 ) {
+            morale_str = "owo";
+        } else if( morale_cur >= 10 ) {
+            morale_str = "^w^";
+        } else if( morale_cur > -10 ) {
+            morale_str = "-w-";
+        } else if( morale_cur >= -50 ) {
+            morale_str = "-m-";
+        } else if( morale_cur > -100 ) {
+            morale_str = "TmT";
+        } else if( morale_cur > -200 ) {
+            morale_str = "XmX";
+        } else {
+            morale_str = "@m@";
+        }  
+    } else if( morale_cur >= 200) {
+        morale_str = "@U@";
     } else if( morale_cur >= 100 ) {
-        morale_str = ":D";
-    } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":3";
-    } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":)";
+        morale_str = "OuO";
+    } else if( morale_cur >= 50 ) {
+        morale_str = "^u^";
+    } else if( morale_cur >= 10 ) {
+        morale_str = "n_n";
     } else if( morale_cur > -10 ) {
-        morale_str = ":|";
+        morale_str = "-_-";
+    } else if( morale_cur >= -50 ) {
+        morale_str = "-n-";
     } else if( morale_cur > -100 ) {
-        morale_str = "):";
+        morale_str = "TnT";
     } else if( morale_cur > -200 ) {
-        morale_str = "D:";
+        morale_str = "XnX";
     } else {
-        morale_str = "D8";
+        morale_str = "@n@";
     }
     mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
 
