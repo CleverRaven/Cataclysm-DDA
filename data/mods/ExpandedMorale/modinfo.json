@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "expanded_morale",
+    "name": "Expanded Morale",
+    "description": "Changes emoticons to be three chracacters in width and expands emoticons for some mutation thresholds.",
+    "category": "interface"
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "THREE_CHRACTER_MORALE" ]
+  }
+]
