@@ -1,0 +1,141 @@
+[
+  {
+    "id": "internal_silence_pistol",
+    "type": "GUN",
+    "name": "Maxim-9",
+    "skill": "pistol",
+    "description": "Made by Silencer Co. who before this gun made silencers. It is internally silenced.",
+    "weight": 649,
+    "volume": 3,
+    "price": 75000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -1,
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "loudness": -77,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "glock17_17", "glock17_22", "glock17_33", "glock_drum_50rd", "glock_drum_100rd" ] ]
+    ],
+    "use_action": {
+      "menu_text": "Remove Baffel",
+      "type": "transform",
+      "target": "internal_silence_pistol_2",
+      "msg": "You remove one of the baffels."
+      }
+  },
+  {
+    "id": "internal_silence_pistol_2",
+    "type": "GUN",
+    "name": "Maxim-9",
+    "skill": "pistol",
+    "description": "Made by Silencer Co.  It has 1 of the removable baffels taken off.",
+    "weight": 649,
+    "volume": 3,
+    "price": 75000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -1,
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "loudness": -72,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "glock17_17", "glock17_22", "glock17_33", "glock_drum_50rd", "glock_drum_100rd" ] ]
+    ],
+    "use_action": [
+      {
+      "menu_text": "Remove Baffel",
+      "type": "transform",
+      "target": "internal_silence_pistol_3",
+      "msg": "You remove one of the baffels."
+      },
+      {
+        "menu_text": "Reattach Baffels",
+        "type": "transform",
+        "target": "internal_silence_pistol",
+        "msg": "You reattach the baffels."
+      }
+    ]
+  },
+  {
+    "id": "internal_silence_pistol_2",
+    "type": "GUN",
+    "name": "Maxim-9",
+    "skill": "pistol",
+    "description": "Made by Silencer Co.  This one has 2 of the removable baffels taken off.",
+    "weight": 649,
+    "volume": 3,
+    "price": 75000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -1,
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "loudness": -67,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "glock17_17", "glock17_22", "glock17_33", "glock_drum_50rd", "glock_drum_100rd" ] ]
+    ],
+    "use_action": [
+      {
+      "menu_text": "Remove Baffel",
+      "type": "transform",
+      "target": "internal_silence_pistol_4",
+      "msg": "You remove one of the baffels."
+      },
+      {
+        "menu_text": "Reattach Baffels",
+        "type": "transform",
+        "target": "internal_silence_pistol",
+        "msg": "You reattach the baffels."
+      }
+    ]
+  },
+  {
+    "id": "internal_silence_pistol_2",
+    "type": "GUN",
+    "name": "Maxim-9",
+    "skill": "pistol",
+    "description": "Made by Silencer Co.  This one all of the removable baffels taken off.  This is now an oversized regular 9mm pistol.",
+    "weight": 649,
+    "volume": 3,
+    "price": 75000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -1,
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "glock17_17", "glock17_22", "glock17_33", "glock_drum_50rd", "glock_drum_100rd" ] ]
+    ],
+    "use_action": {
+        "menu_text": "Reattach Baffels",
+        "type": "transform",
+        "target": "internal_silence_pistol",
+        "msg": "You reattach the baffels."
+      }
+  }
+]

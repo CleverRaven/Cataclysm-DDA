@@ -1,0 +1,29 @@
+[
+    {
+        "id": "glock_17",
+        "copy-from": "pistol_base",
+        "type": "GUN",
+        "name": "Glock 17",
+        "description": "Designed for professionals, the Glock 17 is aimed towards law-enforcement and experienced shooters.",
+        "weight": 595,
+        "volume": 2,
+        "price": 69000,
+        "to_hit": -2,
+        "bashing": 8,
+        "material": [ "plastic", "steel" ],
+        "symbol": "(",
+        "color": "dark_gray",
+        "ammo": "9mm",
+        "ranged_damage": -1,
+        "dispersion": 480,
+        "durability": 6,
+        "magazine_well": 1,
+        "magazines": [
+          [ "9mm", [ "glock17_17", "glock17_22", "glock17_33", "glock_drum_50rd", "glock_drum_100rd" ] ], 
+          [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+          [ "45", [ "m1911mag", "m1911bigmag" ] ],
+          [ "46", [ "hk46mag", "hk46bigmag" ] ],
+          [ "57", [ "fn57mag" ] ]
+        ]
+      }
+]

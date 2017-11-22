@@ -94,6 +94,9 @@
     "id" : "mags_pistol_common",
     "//" : "Factory specification pistol magazines commonly owned by citizens.",
     "items": [
+      ["glock17_17", 90],
+      ["glock17_22", 35],
+      ["glock17_33", 25],
       ["glockmag", 50],
       ["glock40mag", 10],
       ["m1911mag", 25],
@@ -106,6 +109,8 @@
     "id" : "mags_pistol_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
+      ["glock_drum_50rd", 35],
+      ["glock_drum_100rd", 10],
       ["deaglemag", 40],
       ["fn57mag", 80],
       ["glockbigmag", 60],

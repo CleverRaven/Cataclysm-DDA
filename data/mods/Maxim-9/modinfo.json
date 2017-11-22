@@ -1,0 +1,13 @@
+[
+    {
+      "type": "MOD_INFO",
+      "ident": "interally_suppressed_handgun",
+      "name": "Maxim-9",
+      "authors": [ "Broken \"Spaghetti\" Admin" ],
+      "maintainer": [ "Broken \"Spaghetti\" Admin" ],
+      "description": "Adds a internally supressed handgun.",
+      "category": "items",
+      "dependencies": [ "dda" ]
+    }
+  ]
+  
