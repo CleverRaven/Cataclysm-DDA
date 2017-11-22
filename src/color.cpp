@@ -911,7 +911,8 @@ bool color_manager::save_custom()
     const auto savefile = FILENAMES["custom_colors"];
 
     return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        fout << serialize();
+        JsonOut jsout( fout );
+        serialize( jsout );
     }, _( "custom colors" ) );
 }
 
@@ -919,7 +920,9 @@ void color_manager::load_custom(const std::string &sPath)
 {
     const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
-    read_from_file_optional( file, *this );
+    read_from_file_optional_json( file, [this]( JsonIn &jsonin ) {
+        deserialize( jsonin );
+    } );
     finalize(); // Need to finalize regardless of success
 }
 

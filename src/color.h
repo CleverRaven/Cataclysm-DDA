@@ -341,7 +341,7 @@ enum hl_enum {
 
 typedef int nc_color;
 
-class color_manager : public JsonSerializer, public JsonDeserializer
+class color_manager
 {
     private:
         void add_color( const color_id col, const std::string &name,
@@ -393,9 +393,8 @@ class color_manager : public JsonSerializer, public JsonDeserializer
 
         void show_gui();
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 color_manager &get_all_colors();
