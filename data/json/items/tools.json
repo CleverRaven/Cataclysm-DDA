@@ -5843,7 +5843,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "green",
-	"qualities": [ [ "PULL", 1 ] ]
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
