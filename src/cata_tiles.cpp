@@ -61,7 +61,7 @@ extern bool tile_iso;
 //the minimap texture pool which is used to reduce new texture allocation spam
 static minimap_shared_texture_pool tex_pool;
 
-SDL_Color cursesColorToSDL(int color);
+SDL_Color cursesColorToSDL( const nc_color &color );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{

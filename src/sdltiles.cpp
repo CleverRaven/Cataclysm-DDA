@@ -1918,7 +1918,7 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
-SDL_Color cursesColorToSDL( const nc_color color ) {
+SDL_Color cursesColorToSDL( const nc_color &color ) {
     const int pair_id = color.to_color_pair_index();
     const auto pair = colorpairs[pair_id];
 
