@@ -408,7 +408,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Glock 17",
-    "description": "Designed for professionals, the Glock 17 is aimed towards law-enforcement and experienced shooters.",
+    "description": "Designed for professionals, the Glock 17 is angled towards law-enforcement and experienced shooters.",
     "weight": 595,
     "volume": 2,
     "price": 69000,
