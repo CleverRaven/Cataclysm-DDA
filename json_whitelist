@@ -230,6 +230,7 @@ data/json/requirements/toolsets.json
 data/json/requirements/uncraft.json
 data/json/requirements/vehicle.json
 data/json/rotatable_symbols.json
+data/json/tool_qualities.json
 data/json/uncraft/ammo/flintlock.json
 data/json/uncraft/classes/ammo.json
 data/json/uncraft/generic.json
