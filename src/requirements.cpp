@@ -1,4 +1,5 @@
 #include "requirements.h"
+
 #include "json.h"
 #include "translations.h"
 #include "game.h"
@@ -8,11 +9,13 @@
 #include "string_formatter.h"
 #include "itype.h"
 #include "item_factory.h"
-#include <sstream>
 #include "calendar.h"
-#include <cmath>
-#include <algorithm>
 #include "generic_factory.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <sstream>
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -555,10 +558,13 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
                                   int batch )
 {
     bool retval = true;
+    int total_UPS_charges_used = 0;
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
+        int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, batch ) ) {
+            if( tool.has( crafting_inv, batch, [ &UPS_charges_used ]( int charges ) {
+                  UPS_charges_used = std::min( UPS_charges_used, charges ); } ) ) {
                 tool.available = a_true;
             } else {
                 tool.available = a_false;
@@ -566,13 +572,20 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             has_tool_in_set = has_tool_in_set || tool.available == a_true;
         }
         if( !has_tool_in_set ) {
-            retval = false;
+            return false;
         }
+        if( UPS_charges_used != std::numeric_limits<int>::max() ) {
+            total_UPS_charges_used += UPS_charges_used;
+        }
+    }
+    if( total_UPS_charges_used > 0 &&
+        total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
+        return false;
     }
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv, int ) const
+bool quality_requirement::has( const inventory &crafting_inv, int, std::function<void(int)> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -586,7 +599,7 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
     return available == a_true ? "green" : "red";
 }
 
-bool tool_comp::has( const inventory &crafting_inv, int batch ) const
+bool tool_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -615,8 +628,12 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
             } );
         }
         if( has_UPS ) {
-            charges_found +=
-                crafting_inv.charges_of( "UPS_off", ( count * batch ) - charges_found );
+            int UPS_charges_used =
+              crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
+            if( visitor && UPS_charges_used + charges_found >= ( count * batch )) {
+                visitor( UPS_charges_used );
+            }
+            charges_found += UPS_charges_used;
         }
         return charges_found == count * batch;
     }
@@ -632,7 +649,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
     return has_one ? "dkgray" : "red";
 }
 
-bool item_comp::has( const inventory &crafting_inv, int batch ) const
+bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;

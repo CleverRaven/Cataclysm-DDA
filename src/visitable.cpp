@@ -790,6 +790,12 @@ long visitable<T>::charges_of( const std::string &what, long limit ) const
 template <>
 long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
+    if( what == "UPS" ) {
+        long qty = 0;
+        qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
+        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        return std::min( qty, limit );
+    }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
