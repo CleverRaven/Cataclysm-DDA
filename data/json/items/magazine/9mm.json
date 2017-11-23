@@ -52,7 +52,7 @@
   {
     "id": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Glock 17 magazine",
+    "name": "Glock 17 magazine - 17 rd",
     "description": "Made for the Glock 17, ironically this magazine holds 17 rounds.",
     "weight": 105,
     "volume": 1,
@@ -69,7 +69,7 @@
   {
     "id": "glock17_22",
     "type": "MAGAZINE",
-    "name": "Glock 17 magazine",
+    "name": "Glock 17 magazine - 22 rd",
     "description": "Made for the Glock 17, this magazine holds 22 rounds.",
     "weight": 105,
     "volume": 2,
@@ -84,7 +84,7 @@
   {
     "id": "glock17_33",
     "type": "MAGAZINE",
-    "name": "Glock 17 magazine",
+    "name": "Glock 17 magazine - 33 rd",
     "description": "Made for the Glock 17, this magazine holds 33 rounds.",
     "weight": 105,
     "volume": 3,
@@ -100,7 +100,7 @@
   {
     "id": "glock_drum_50rd",
     "type": "MAGAZINE",
-    "name": "Glock Drum magazine",
+    "name": "Glock Drum magazine - 50 rd",
     "description": "Made to fit most Glock pistols.  This drum magazine holds 50 rounds.",
     "weight": 100,
     "volume": 2,
@@ -116,7 +116,7 @@
   {
     "id": "glock_drum_100rd",
     "type": "MAGAZINE",
-    "name": "Glock Drum magazine",
+    "name": "Glock Drum magazine - 100 rd",
     "description": "Made to fit most Glock pistols.  This drum magazine holds 100 rounds.",
     "weight": 100,
     "volume": 3,
