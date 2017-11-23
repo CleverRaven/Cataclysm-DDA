@@ -128,5 +128,10 @@
         "type" : "tool_quality",
         "id" : "KNIT",
         "name" : "knitting"
+    },
+    {
+        "type" : "tool_quality",
+		"id" : "PULL",
+		"name" : "bullet pulling"
     }
 ]
