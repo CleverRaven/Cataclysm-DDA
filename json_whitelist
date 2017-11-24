@@ -223,6 +223,7 @@ data/json/recipes/chem/other.json
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
 data/json/recipes/other/parts.json
+data/json/recipes/recipe_others.json
 data/json/requirements/cooking_components.json
 data/json/requirements/cooking_tools.json
 data/json/requirements/materials.json
