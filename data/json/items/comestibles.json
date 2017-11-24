@@ -6401,7 +6401,7 @@
         "name_plural" : "seed potatoes",
         "symbol" : ".",
         "color" : "brown",
-        "description" : "Some seed potatoes.",
+        "description" : "A raw potato, cut into pieces, separating each bud for planting.",
         "material" : "veggy",
         "comestible_type": "FOOD",
         "volume" : 1,
