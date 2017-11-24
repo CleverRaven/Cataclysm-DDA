@@ -160,7 +160,7 @@
         "subcategory": "CSC_FOOD_OTHER",
         "skill_used": "survival",
         "difficulty": 2,
-        "time": 2000,
+        "time": 5000,
         "autolearn": true,
         "qualities": [ { "id": "CUT", "level": 1 } ],
         "components": [ [ [ "potato_raw", 1 ] ] ]
