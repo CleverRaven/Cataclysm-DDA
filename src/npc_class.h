@@ -72,7 +72,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::map<trait_id, int> traits;
+        std::map<trait_id, int> traits; // TODO(sm): change int -> resource generator
 
         npc_class();
 

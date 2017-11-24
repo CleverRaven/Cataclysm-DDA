@@ -385,6 +385,7 @@ void npc::randomize( const npc_class_id &type )
     starting_inv( *this, type );
     has_new_items = true;
 
+    // TODO(sm): use trait->create() to get list of traits, then add
     for( const auto &pr : type->traits ) {
         if( rng( 1, 100 ) <= pr.second ) {
             set_mutation( pr.first );
