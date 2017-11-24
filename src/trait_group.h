@@ -1,7 +1,6 @@
-
 #pragma once
-#ifndef ITEM_GROUP_H
-#define ITEM_GROUP_H
+#ifndef TRAIT_GROUP_H
+#define TRAIT_GROUP_H
 
 #include "json.h"
 #include "mutation.h"
@@ -18,8 +17,8 @@ typedef std::vector<Trait_id> Trait_list;
 Trait_list traits_from( const Trait_group_tag &gid );
 bool group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid );
 bool group_is_defined( const Trait_group_tag &gid );
-bool load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
-Trait_group_tag load_item_group( JsonIn& stream, const std::string& default_subtype );
+void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
+Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_subtype );
 
 class Trait_creation_data
 {

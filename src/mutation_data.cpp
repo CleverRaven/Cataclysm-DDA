@@ -4,11 +4,15 @@
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "debug.h"
+#include "trait_group.h"
 #include "translations.h"
 
 #include <vector>
 #include <map>
 
+typedef std::map<trait_group::Trait_group_tag, trait_group::Trait_creation_data *> TraitGroupMap;
+
+TraitGroupMap template_groups;
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
@@ -388,6 +392,144 @@ void mutation_branch::reset_all()
     mutations_category.clear();
     mutation_data.clear();
 }
+
+void mutation_branch::load_trait_group(JsonObject &jsobj) {
+    const trait_group::Trait_group_tag group_id = jsobj.get_string("id");
+    const std::string subtype = jsobj.get_string("subtype", "old");
+    load_trait_group(jsobj, group_id, subtype);
+}
+
+trait_group::Trait_group *make_group_or_throw(const trait_group::Trait_group_tag &gid, trait_group::Trait_creation_data *&tcd, bool is_collection) {
+    trait_group::Trait_group* tg = dynamic_cast<trait_group::Trait_group *>(tcd);
+
+    // TODO(sm): not yet clear whether or not this misses anything from make_group_or_throw
+    if (tg == nullptr) {
+        if (is_collection) {
+            tg = new trait_group::Trait_group_collection(100);
+        } else {
+            tg = new trait_group::Trait_group_distribution(100);
+        }
+    } else {
+        // Evidently, making the collection/distribution separation better has made the code for this check worse.
+        if (is_collection) {
+            if (trait_group::Trait_group_distribution *tgd =
+                    dynamic_cast<trait_group::Trait_group_distribution*>(tcd)) {
+                throw std::runtime_error("item group \"" + gid + "\" already defined with type \"distribution\"" );
+            }
+        } else {
+            if (trait_group::Trait_group_collection *tgc =
+                    dynamic_cast<trait_group::Trait_group_collection*>(tcd)) {
+                throw std::runtime_error("item group \"" + gid + "\" already defined with type \"collection\"" );
+            }
+        }
+    }
+    return tg;
+}
+
+void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection) {
+    trait_group::Trait_creation_data *&tcd = template_groups[gid];
+    trait_group::Trait_group* tg = make_group_or_throw(gid, tcd, is_collection);
+
+    while(entries.has_more()) {
+        JsonObject subobj = entries.next_object();
+        add_entry(tg, subobj);
+    }
+}
+
+void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Trait_group_tag &gid, const std::string &subtype) {
+    trait_group::Trait_creation_data *&tcd = template_groups[gid];
+    trait_group::Trait_group *tg = dynamic_cast<trait_group::Trait_group *>(tcd);
+
+    if (subtype != "distribution" && subtype != "collection") {
+        jsobj.throw_error("unknown item group type", "subtype");
+    }
+    tg = make_group_or_throw(gid, tcd, (subtype == "collection"));
+
+    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    if (subtype == "old") {
+        JsonArray traits = jsobj.get_array("traits");
+        while (traits.has_more()) {
+            JsonArray pair = traits.next_array();
+            tg->add_trait_entry(trait_group::Trait_id(pair.get_string(0)), pair.get_int(1));
+        }
+        return;
+    }
+
+    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    if (jsobj.has_member("entries")) {
+        JsonArray traits = jsobj.get_array("entries");
+        while( traits.has_more() ) {
+            JsonObject subobj = traits.next_object();
+            add_entry( tg, subobj );
+        }
+    }
+    if (jsobj.has_member("traits")) {
+        JsonArray traits = jsobj.get_array("traits");
+        while (traits.has_more()) {
+            if (traits.test_string()) {
+                tg->add_trait_entry(trait_group::Trait_id(traits.next_string()), 100);
+            } else if (traits.test_array()) {
+                JsonArray subtrait = traits.next_array();
+                tg->add_trait_entry(trait_group::Trait_id(subtrait.get_string(0)), subtrait.get_int(1));
+            } else {
+                JsonObject subobj = traits.next_object();
+                add_entry(tg, subobj);
+            }
+        }
+    }
+    if (jsobj.has_member("groups")) {
+        JsonArray traits = jsobj.get_array("groups");
+        while (traits.has_more()) {
+            if (traits.test_string()) {
+                tg->add_group_entry(traits.next_string(), 100);
+            } else if (traits.test_array()) {
+                JsonArray subtrait = traits.next_array();
+                tg->add_group_entry(subtrait.get_string(0), subtrait.get_int(1));
+            } else {
+                JsonObject subobj = traits.next_object();
+                add_entry(tg, subobj);
+            }
+        }
+    }
+}
+
+void mutation_branch::add_entry(trait_group::Trait_group *tg, JsonObject &obj) {
+    std::unique_ptr<trait_group::Trait_creation_data> ptr;
+    int probability = obj.get_int("prob", 100);
+    JsonArray jarr;
+
+    if (obj.has_member("collection")) {
+        ptr.reset(new trait_group::Trait_group_collection(probability));
+        jarr = obj.get_array("collection");
+    } else if (obj.has_member("distribution")) {
+        ptr.reset(new trait_group::Trait_group_distribution(probability));
+        jarr = obj.get_array("distribution");
+    }
+
+    if (ptr) {
+        trait_group::Trait_group *tg2 = dynamic_cast<trait_group::Trait_group *>(ptr.get());
+        while (jarr.has_more()) {
+            JsonObject job2 = jarr.next_object();
+            add_entry(tg2, job2);
+        }
+        tg->add_entry(ptr);
+        return;
+    }
+
+    if (obj.has_member("trait")) {
+        trait_group::Trait_id id(obj.get_string("trait"));
+        ptr.reset(new trait_group::Single_trait_creator(id, probability));
+    } else if (obj.has_member("group")) {
+        ptr.reset(new trait_group::Trait_group_creator(obj.get_string("group"), probability));
+    }
+
+    if (!ptr) {
+        return;
+    }
+
+    tg->add_entry(ptr);
+}
+
 
 void load_dream(JsonObject &jsobj)
 {

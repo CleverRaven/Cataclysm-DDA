@@ -24,6 +24,13 @@ using trait_id = string_id<mutation_branch>;
 using itype_id = std::string;
 struct mutation_category_trait;
 
+namespace trait_group
+{
+
+class Trait_group;
+
+}
+
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
 
@@ -171,12 +178,22 @@ struct mutation_branch {
      * also get by calling @ref get.
      */
     static const MutationMap &get_all();
+
     // For init.cpp: reset (clear) the mutation data
     static void reset_all();
     // For init.cpp: load mutation data from json
     static void load( JsonObject &jsobj );
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
+
+    typedef std::string Trait_group_tag;
+
+    void load_trait_group( JsonObject &jsobj );
+    void load_trait_group( JsonArray &entries, const Trait_group_tag &gid,
+                           const bool is_collection );
+    void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+                           const std::string &subtype );;
+    void add_entry( trait_group::Trait_group *tg, JsonObject &obj );
 };
 
 struct mutation_category_trait {
