@@ -4,6 +4,78 @@
 
 using namespace trait_group;
 
+Trait_list trait_group::traits_from( const Trait_group_tag &/*gid*/ ) {
+    // TODO(sm): needs trait factory
+    Trait_creation_data *tcd = nullptr; // trait_controller->get_group(gid);
+    if (!tcd) {
+        return Trait_list();
+    }
+    return tcd->create();
+}
+
+bool trait_group::group_contains_trait( const Trait_group_tag &/*gid*/, const Trait_id &tid ) {
+    // TODO(sm): needs trait factory
+    Trait_creation_data *tcd = nullptr; // trait_controller->get_group(gid);
+    return tcd && tcd->has_trait( tid );
+}
+
+bool trait_group::group_is_defined( const Trait_group_tag &/*gid*/ ) {
+    // TODO(sm): needs trait factory
+    //return trait_controller->get_group(gid) != nullptr;
+    return false;
+}
+
+bool trait_group::load_trait_group( JsonObject &/*jsobj*/, const Trait_group_tag &/*gid*/, const std::string &/*subtype*/ ) {
+    // TODO(sm): needs trait factory
+    //trait_controller->load_trait_group( jsobj, gid, subtype );
+}
+
+// NOTE: This function is taken directly from item_group
+Trait_group_tag get_unique_group_id()
+{
+    // This is just a hint what id to use next. Overflow of it is defined and if the group
+    // name is already used, we simply go the next id.
+    static unsigned int next_id = 0;
+    // Prefixing with a character outside the ASCII range, so it is hopefully unique and
+    // (if actually printed somewhere) stands out. Theoretically those auto-generated group
+    // names should not be seen anywhere.
+    static const std::string unique_prefix = "\u01F7 ";
+    while( true ) {
+        const Trait_group_tag new_group = unique_prefix + to_string( next_id++ );
+        if( !trait_group::group_is_defined( new_group ) ) {
+            return new_group;
+        }
+    }
+}
+
+Trait_group_tag trait_group::load_item_group( JsonIn& stream, const std::string& default_subtype ) {
+    if ( stream.test_string() ) {
+        return stream.get_string();
+    } else if (stream.test_object()) {
+        const Trait_group_tag group = get_unique_group_id();
+
+        JsonObject jo = stream.get_object();
+        const std::string subtype = jo.get_string( "subtype", default_subtype );
+        // TODO(sm): needs trait factory
+        //trait_controller->load_trait_group( jo, group, subtype );
+
+        return group;
+    } else if (stream.test_array()) {
+        const Trait_group_tag group = get_unique_group_id();
+
+        JsonArray jarr = stream.get_array();
+        if( default_subtype != "collection" && default_subtype != "distribution" ) {
+            debugmsg( "invalid subtype for trait group: %s", default_subtype.c_str() );
+        }
+
+        //trait_controller->load_trait_group( jo, group, default_subtype == "collection" );
+        return group;
+    } else {
+        stream.error( "invalid trait group, must be string (group id) or object/array (the group data)" );
+        return Trait_group_tag{};
+    }
+}
+
 Trait_list Trait_creation_data::create() const
 {
     RecursionList rec;
@@ -70,7 +142,7 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
     }
     rec.push_back( id );
 
-    // TODO(sm)
+    // TODO(sm): needs trait factory
     Trait_creation_data *tcd = nullptr; // trait_controller->get_group(id);
     if( !tcd ) {
         debugmsg( "unknown trait creation list %s", id.c_str() );

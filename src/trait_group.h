@@ -15,6 +15,12 @@ typedef string_id<mutation_branch> Trait_id;
 typedef std::string Trait_group_tag;
 typedef std::vector<Trait_id> Trait_list;
 
+Trait_list traits_from( const Trait_group_tag &gid );
+bool group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid );
+bool group_is_defined( const Trait_group_tag &gid );
+bool load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
+Trait_group_tag load_item_group( JsonIn& stream, const std::string& default_subtype );
+
 class Trait_creation_data
 {
     public:
