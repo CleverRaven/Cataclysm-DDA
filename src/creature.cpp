@@ -15,6 +15,7 @@
 #include "field.h"
 #include "projectile.h"
 #include "anatomy.h"
+#include "melee.h"
 
 #include <algorithm>
 #include <numeric>
@@ -336,17 +337,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     return target;
 }
 
-void Creature::melee_attack(Creature &t, bool allow_special)
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 /*
  * Damage-related functions
  */
 
-int size_melee_penalty( m_size target_size )
+float size_melee_penalty( m_size target_size )
 {
     switch( target_size ) {
         case MS_TINY:
@@ -365,19 +360,19 @@ int size_melee_penalty( m_size target_size )
     return 0;
 }
 
-int Creature::deal_melee_attack( Creature *source, int hitroll )
+float Creature::deal_melee_attack( Creature *source, float accuracy )
 {
-    int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
+    float hit_spread = melee::melee_hit_range( accuracy ) - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && !source->is_hallucination() ) {
-        on_dodge( source, source->get_melee() );
+    if( hit_spread <= 0.0f && !source->is_hallucination() ) {
+        on_dodge( source, accuracy );
     }
 
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
+void Creature::deal_melee_hit(Creature *source, float hit_spread, bool critical_hit,
                               const damage_instance &dam, dealt_damage_instance &dealt_dam)
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
@@ -1164,10 +1159,6 @@ int Creature::get_speed() const
 float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
-}
-float Creature::get_hit() const
-{
-    return get_hit_base() + get_hit_bonus();
 }
 
 int Creature::get_speed_base() const

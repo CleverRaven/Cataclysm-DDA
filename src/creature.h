@@ -89,7 +89,6 @@ class Creature
         virtual void die(Creature *killer) = 0;
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual float hit_roll() const = 0;
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
 
@@ -168,22 +167,6 @@ class Creature
          */
         Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0);
 
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  const matec_id & technique) = 0;
-
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature with prerolled hitspread. Should always be overwritten by the appropriate
-         *  player/NPC/monster function. */
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  const matec_id & technique, int hitspread ) = 0;
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack(Creature &t, bool allow_special);
-
         /**
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
@@ -203,11 +186,11 @@ class Creature
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack(Creature *source, int hitroll);
+        virtual float deal_melee_attack( Creature *source, float accuracy );
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
-        virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
+        virtual void deal_melee_hit(Creature *source, float hit_spread, bool crit,
                                     const damage_instance &d, dealt_damage_instance &dealt_dam);
 
         // Makes a ranged projectile attack against the creature
@@ -378,7 +361,6 @@ class Creature
 
         virtual float get_dodge() const;
         virtual float get_melee() const = 0;
-        virtual float get_hit() const;
 
         virtual int get_speed() const;
         virtual m_size get_size() const = 0;

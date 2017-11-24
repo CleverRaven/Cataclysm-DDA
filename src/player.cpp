@@ -3700,7 +3700,7 @@ void player::on_dodge( Creature *source, float difficulty )
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
         matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
         if( tec != tec_none ) {
-            melee_attack( *source, false, tec );
+            melee_attack( *source, false, tec, used_weapon() );
         }
     }
 }

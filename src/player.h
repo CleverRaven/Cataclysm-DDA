@@ -483,24 +483,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param weap weapon to use.
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
-        /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t Creature to attack
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
-         * @param hitspread Used to calculate odds of successful damage
-         */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        /*@{*/
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, item &weap );
+        void melee_attack( Creature &t, bool allow_special );
+        /*@}*/
 
         /**
          * Returns a weapon's modified dispersion value.
@@ -571,10 +565,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
-        /** Returns weapon skill */
-        float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
-        float hit_roll() const override;
+        float hit_roll( const item &weap ) const;
         /** Returns the chance to crit given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
@@ -583,6 +575,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
+        float get_hit( const item &weap ) const;
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a weapon
         double gun_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a gun
@@ -608,7 +601,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
-        void perform_special_attacks(Creature &t);
+        void perform_special_attacks( Creature &t, const item &weap );
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks(Creature &t) const;

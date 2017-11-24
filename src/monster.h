@@ -254,10 +254,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
-        using Creature::melee_attack;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique,
-                           int hitspread ) override;
+        void melee_attack( Creature &p );
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
@@ -301,8 +298,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
-        float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
+        float  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+        float  get_hit() const;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
