@@ -3604,7 +3604,7 @@ void iexamine::base_control(player &p, const tripoint &examp)
         return;
     }
 
-    uimenu desktop;
+    // uimenu desktop;
     desktop.text = _("Base Command Options:");
     desktop.addentry(1, true, MENU_AUTOASSIGN, _("Ration Supplies."));
     desktop.addentry(2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences."));
@@ -3621,7 +3621,6 @@ void iexamine::base_control(player &p, const tripoint &examp)
     //desktop.addentry( , true, MENU_AUTOASSIGN,  );
 
     int topchoice = 0;
-desk_menu:
     desktop.query();
 
     //.addentry( , true, MENU_AUTOASSIGN,  );

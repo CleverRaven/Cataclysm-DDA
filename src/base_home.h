@@ -1,10 +1,10 @@
 #pragma once
-#ifndef BASE_HOME_H
-#define BASE_HOME_h
+#ifndef BASE_HOME_h
 
 #include "submap.h"
 #include "ammo.h"
 #include "string_id.h"
+#include "clzones.h"
 
 #include <unordered_map>
 #include <set>
@@ -92,6 +92,7 @@ class base_home
     std::list<tripoint> storage_open;     /**List containing locations of unclaimed/designated storage furnature.*/
     std::list<tripoint> storage_player;   /**List containing locations of furnature claimed by player*/
     std::list<tripoint> storage_comm;     /**list containing locations of communal storage.*/
+    std::map<tripoint, int> storage_npc;     /**Maps locations to owner id for easy referencing.*/
     //note: deal with deconstruction, destruction and, death. Unclaiming can be done by overwriting and adding handling there.*/
     //storage is broken up for performance consideratons.
 
@@ -115,6 +116,8 @@ class base_home
                 //#########################//
 
     //data members
+    zone_manager areas;
+
     int food_ration = 0; /**Severity of food rationing. 0 = no rationing. Max = 3.*/
     int water_ration = 0;/**Severity of water/drink rationing. 0 = no rationing. Max = 3.*/
     int ammo_ration = 0; /**Severity of ammo rationing. 0 = no rationing. Max = 3.*/
