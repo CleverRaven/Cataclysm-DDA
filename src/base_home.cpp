@@ -20,9 +20,21 @@ base_home::base(player &p, const tripoint &coreloc){
  * Populates bmap.bflag based on the rest of bmap.  Finds area of base
  * 
  * CAUTION: WILL RESET THE BASE!!! (mostly)
- * TODO: Populate baflag with flags coresponding to the structure containing the command desk.
- * TODO: Populate storage_open with locations of storage furnature (lockers etc.)
- * TODO: Populate bunks with locations of sleeping areas (beds, cots, etc.)
+ * The base "walls" are defined as:
+ *      Terrain with the "CONNECT_TO_WALL" flag that is between a "BASE_IN" and the outside.
+ *      OR, the first outside tile should their be no wall.
+ *      OR, the last tile within bounds should structure exceed allowed size.
+ *
+ *      To prevent issues from clasped roofs or unusual structures,
+ *      gaps of up to 2 tiles non "BASE_IN" are allowed to still be "in base"
+ *      
+ *      i=indoor ter, .=non-indoor ter, |=wall,     B= in base, W= base wall, O= Outside base,
+ *      iii|... -> BBBWOOO
+ *      ii..ii  -> BBBBBB
+ *      i|.ii   -> BBBBBB
+ *      i|..ii  -> BWOOWB
+ *      ii||ii  -> BBBBBB
+ *      i|.|i   -> BWOWB
  */
 void base_home::define_base_area(player &p, const tripoint &coreloc) {
     //First we map out the base floor by basically BFS all the "INDOORS" flags.
@@ -52,36 +64,64 @@ void base_home::define_base_area(player &p, const tripoint &coreloc) {
             }
         }
     }    
-    /*
-    At this point, bflag should contain a maping of base's floor space so, now we need to fill in the
-        interior walls and mark the base walls.
+    //At this point, bflag should contain a maping of base's floor space so, now we need to fill in the
+    //    interior walls and mark the base walls.
 
-    The base "walls" are defined as:
-        Terrain with the "CONNECT_TO_WALL" flag that is between a "BASE_IN" and the outside.
-        OR, the first outside tile should their be no wall.
-        OR, the last tile within bounds should structure exceed allowed size.
-
-        To prevent issues from clasped roofs or unusual structures,
-            gaps of up to 2 tiles non "BASE_IN" are allowed to still be "in base"
-
-        i=indoor ter, .=non-indoor ter, |=wall,     B= in base, W= base wall, O= Outside base,
-        iii|... -> BBBWOOO
-        ii..ii  -> BBBBBB
-        i|.ii   -> BBBBBB
-        i|..ii  -> BWOOWB
-        ii||ii  -> BBBBBB
-        i|.|i   -> BWOWB
-    */
-
-    //first the North/South walls
-    for (int col = 0; col < OMAPX; col++){
-
+    //Pass 1: Row by Row from West to East
+    bool in;
+    for (int row = 0; row < OMAPY; row++) {
+        in = false; //reset in for new row
+        for (int col = 0; col < OMAPX-2; col++) { 
+            if (!in){
+                if ( bflag[row][col].count(BASE_IN) ) in = true;
+                else if (bflag[row][col+1].count(BASE_IN) ) bflag[row][col].push_back(BASE_WALL);
+            } else if (!bflag[row][col].count(BASE_IN)) {
+                if (bflag[row][col+1].count(BASE_IN) || bflag[row][col+2].count(BASE_IN){
+                    //gap is too small so we are still in base
+                    bflag[row][col].push_back(BASE_IN);
+                } else { //in=T, tile!=inside, large gap...we are out now
+                    bflag[row][col].push_back(BASE_WALL);
+                    in = false;
+                }
+            }
+        }
+        //handle last 2 tiles of row
+        if (in){//if i = false, the last 2 tiles can't logically be in.
+            if (!bflag[row][OMAPX-2].count(BASE_IN) ) {
+                if bflag[row][OMAPX-1].count(BASE_IN) {
+                    bflag[row][OMAPX-2].push_back(BASE_IN);
+                    bflag[row][OMAPX-1].push_back(BASE_WALL);
+                } else bflag[row][OMAPX-2].push_back(BASE_WALL);
+            } else bflag[row][OMAPX-1].push_back(BASE_WALL);
+        }
     }
-    //then the East/West walls
-    for (int row = 0; row < OMAPY; row++){
-
+    //Pass 2: column by column
+    for (int col = 0; col < OMAPX; col++) {
+        in = false; //reset in for new row
+        for (int row = 0; col < OMAPY-2; row++) { 
+            if (!in){
+                if ( bflag[row][col].count(BASE_IN) ) in = true;
+                else if (bflag[row+1][col].count(BASE_IN) ) bflag[row][col].push_back(BASE_WALL);
+            } else if (!bflag[row][col].count(BASE_IN)) {
+                if (bflag[row+1][col].count(BASE_IN) || bflag[row+2][col].count(BASE_IN){
+                    //gap is too small so we are still in base
+                    bflag[row][col].push_back(BASE_IN);
+                } else { //in=T, tile!=inside, large gap...we are out now
+                    bflag[row][col].push_back(BASE_WALL);
+                    in = false;
+                }
+            }
+        }
+        //handle last 2 tiles of col
+        if (in){//if i = false, the last 2 tiles can't logically be in.
+            if (!bflag[OMAPY-2][col].count(BASE_IN) ) {
+                if bflag[OMAPY-1][col].count(BASE_IN) {
+                    bflag[OMAPY-2][col].push_back(BASE_IN);
+                    bflag[OMAPY-1][col].push_back(BASE_WALL);
+                } else bflag[OMAPY-2][col].push_back(BASE_WALL);
+            } else bflag[OMAPY-1][col].push_back(BASE_WALL);
+        }
     }
-
 }
 
 void base_home::set_food_ration(int val)
