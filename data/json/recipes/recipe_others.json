@@ -1459,29 +1459,12 @@
   "result": "cotton_ball",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
-  "id_suffix": "by hand",
-  "skill_used": "tailor",
-  "time": 54000,
-  "autolearn": true,
-  "byproducts": [ [ "seed_cotton_boll", 2 ] ],
-  "components": [
-    [
-      [ "cotton_boll", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "cotton_ball",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "tailor",
   "time": 9000,
   "autolearn": true,
   "byproducts": [ [ "seed_cotton_boll", 2 ] ],
   "tools": [
-    [
-      [ "carding_paddles", -1 ]
-    ]
+    [ [ "carding_paddles", -1 ], [ "time", 45000 ] ]
   ],
   "components": [
     [

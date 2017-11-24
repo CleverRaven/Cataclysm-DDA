@@ -473,7 +473,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
+                // Time with no penalties here - penalties are described in components
+                const int turns = g->u.time_to_craft( *current[line], count, 0 ) / MOVES( 1 );
                 const std::string text = string_format( _( "Time to complete: %s" ),
                                                         calendar::print_duration( turns ).c_str() );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );

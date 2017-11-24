@@ -8,6 +8,13 @@
         "color": "red"
     },
     {
+        "id": "time",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "time",
+        "max_charges": 2880000
+    },
+    {
         "id": "toolset",
         "copy-from": "fake_item",
         "type": "TOOL",

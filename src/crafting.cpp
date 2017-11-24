@@ -137,7 +137,7 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::time_to_craft( const recipe &rec, int batch_size )
+int player::time_to_craft( const recipe &rec, int batch_size, int penalty )
 {
     // NPCs around you should assist in batch production if they have the skills
     const auto helpers = get_crafting_helpers();
@@ -147,7 +147,7 @@ int player::time_to_craft( const recipe &rec, int batch_size )
     } );
     const float lighting_speed = lighting_craft_speed_multiplier( rec );
 
-    return rec.batch_time( batch_size, lighting_speed, assistants );
+    return rec.batch_time( batch_size, lighting_speed, assistants, penalty );
 }
 
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -294,6 +294,9 @@ const inventory &player::crafting_inventory()
         }
     }
 
+    // Inventory needs a fake time item for proper checks
+    cached_crafting_inventory += item( "time", calendar::turn, INT_MAX );
+
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
     cached_position = pos();
@@ -435,8 +438,9 @@ void player::complete_craft()
     int diff_roll  = dice( diff_dice,  diff_sides );
 
     if( making->skill_used ) {
-        // normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + time_to_craft( *making, batch_size ) / 30000.0;
+        // Note: we want base time, not penalized - penalty should never be a bonus
+        const double batch_mult = batch_size + time_to_craft( *making, batch_size, 0 ) / 30000.0;
+        //normalize experience gain to crafting time, giving a bonus for longer crafting
         practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
                   ( int )making->difficulty * 1.25 );
 
@@ -785,6 +789,9 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     }
 
     item_comp selected_comp = is.comp;
+    if( selected_comp.type == "time" ) {
+        return ret;
+    }
 
     const tripoint &loc = pos();
     const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
@@ -939,6 +946,10 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
+        return;
+    }
+
+    if( tool.comp.type == "time" ) {
         return;
     }
 

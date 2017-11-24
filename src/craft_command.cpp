@@ -80,9 +80,21 @@ void craft_command::execute()
         }
     }
 
+    int time_penalty = 0;
+    for( const comp_selection<item_comp> &sel : item_selections ) {
+        if( sel.comp.type == "time" ) {
+            time_penalty += sel.comp.count;
+        }
+    }
+    for( const comp_selection<tool_comp> &sel : tool_selections ) {
+        if( sel.comp.type == "time" ) {
+            time_penalty += sel.comp.count;
+        }
+    }
+
     auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->time_to_craft( *rec, batch_size ), -1, INT_MIN,
-                                     rec->ident() );
+    auto activity = player_activity( type, crafter->time_to_craft( *rec, batch_size, time_penalty ),
+                                     -1, INT_MIN, rec->ident() );
     activity.values.push_back( batch_size );
 
     crafter->assign_activity( activity );

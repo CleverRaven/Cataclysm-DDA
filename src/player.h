@@ -1251,7 +1251,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
-        int time_to_craft( const recipe &rec, int batch_size = 1 );
+        int time_to_craft( const recipe &rec, int batch_size, int time_penalty );
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
