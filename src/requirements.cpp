@@ -458,7 +458,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     current_line.str( "" );
 
     std::vector<std::string> folded_buffer =
-      get_folded_list( width, crafting_inv, components, batch, hilite );
+        get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
