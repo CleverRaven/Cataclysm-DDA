@@ -161,10 +161,11 @@ void Single_trait_creator::check_consistency() const
     }
 }
 
-bool Single_trait_creator::remove_trait( const Trait_id & /* tid */ )
+bool Single_trait_creator::remove_trait( const Trait_id &tid )
 {
-    // Cannot remove self... I assume my parent has removed me!
-    return true;
+    // Return true if I would be empty after removing the trait, thus letting
+    // my parent remove me.
+    return tid == id;
 }
 
 bool Single_trait_creator::has_trait( const Trait_id &tid ) const

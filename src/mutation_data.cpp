@@ -575,11 +575,10 @@ void mutation_branch::finalize_trait_blacklist() {
     }
 
     for (auto &md: mutation_data) {
-        if (!trait_is_blacklisted(md.first)) {
-            continue;
-        }
-        for (auto &grp : trait_groups) {
-            grp.second->remove_trait(md.first);
+        if (trait_is_blacklisted(md.first)) {
+            for (auto &grp : trait_groups) {
+                grp.second->remove_trait(md.first);
+            }
         }
     }
 }
