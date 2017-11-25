@@ -390,6 +390,14 @@ void npc::randomize( const npc_class_id &type )
             set_mutation( pr.first );
         }
     }
+
+    // Run mutation rounds
+    for( const auto &mr : type->mutation_rounds ) {
+        int rounds = mr.second.roll();
+        for( int i = 0; i < rounds; ++i ) {
+            mutate_category( mr.first );
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
