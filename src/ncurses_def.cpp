@@ -1,10 +1,10 @@
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
 
 #include "input.h"
-
 #include "cursesdef.h"
 
 #include "catacharset.h"
+#include "color.h"
 
 #include <stdexcept>
 
@@ -26,6 +26,8 @@ void init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
     set_escdelay( 10 ); // Make escape actually responsive
+    start_color(); //@todo error checking
+    init_colors();
 }
 
 input_event input_manager::get_input_event()
