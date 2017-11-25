@@ -101,9 +101,7 @@ units::volume map_stack::max_volume() const
     return myorigin->ter( location ).obj().max_volume;
 }
 
-// Map class methods.
-
-map::map( int mapsize, bool zlev )
+map_base::map_base( int mapsize, bool zlev )
 {
     my_MAPSIZE = mapsize;
     zlevels = zlev;
@@ -113,6 +111,18 @@ map::map( int mapsize, bool zlev )
         grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
     }
 
+    dbg( D_INFO ) << "map_base::map_base(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
+}
+
+map_base::~map_base()
+{
+}
+
+// Map class methods.
+
+map::map( int mapsize, bool zlev )
+    : map_base( mapsize, zlev )
+{
     for( auto &ptr : caches ) {
         ptr = std::unique_ptr<level_cache>( new level_cache() );
     }
@@ -121,7 +131,7 @@ map::map( int mapsize, bool zlev )
         ptr = std::unique_ptr<pathfinding_cache>( new pathfinding_cache() );
     }
 
-    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
+    dbg( D_INFO ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
 
@@ -7345,19 +7355,19 @@ const std::vector<tripoint> &map::trap_locations(trap_id t) const
     return traplocs[t];
 }
 
-bool map::inbounds(const int x, const int y) const
+bool map_base::inbounds(const int x, const int y) const
 {
     return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::inbounds(const int x, const int y, const int z) const
+bool map_base::inbounds(const int x, const int y, const int z) const
 {
     return (x >= 0 && x < SEEX * my_MAPSIZE &&
             y >= 0 && y < SEEY * my_MAPSIZE &&
             z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT);
 }
 
-bool map::inbounds( const tripoint &p ) const
+bool map_base::inbounds( const tripoint &p ) const
 {
  return (p.x >= 0 && p.x < SEEX * my_MAPSIZE &&
          p.y >= 0 && p.y < SEEY * my_MAPSIZE &&
@@ -7673,17 +7683,12 @@ tripoint map::getlocal( const tripoint &p ) const
     return tripoint( p.x - abs_sub.x * SEEX, p.y - abs_sub.y * SEEY, p.z );
 }
 
-void map::set_abs_sub(const int x, const int y, const int z)
+void map_base::set_abs_sub(const int x, const int y, const int z)
 {
     abs_sub = tripoint( x, y, z );
 }
 
-tripoint map::get_abs_sub() const
-{
-   return abs_sub;
-}
-
-submap *map::getsubmap( const size_t grididx ) const
+submap *map_base::getsubmap( const size_t grididx ) const
 {
     if( grididx >= grid.size() ) {
         debugmsg( "Tried to access invalid grid index %d. Grid size: %d", grididx, grid.size() );
@@ -7692,7 +7697,7 @@ submap *map::getsubmap( const size_t grididx ) const
     return grid[grididx];
 }
 
-void map::setsubmap( const size_t grididx, submap * const smap )
+void map_base::setsubmap( const size_t grididx, submap * const smap )
 {
     if( grididx >= grid.size() ) {
         debugmsg( "Tried to access invalid grid index %d", grididx );
@@ -7704,7 +7709,7 @@ void map::setsubmap( const size_t grididx, submap * const smap )
     grid[grididx] = smap;
 }
 
-submap *map::get_submap_at( const int x, const int y, const int z ) const
+submap *map_base::get_submap_at( const int x, const int y, const int z ) const
 {
     if( !inbounds( x, y, z ) ) {
         debugmsg( "Tried to access invalid map position (%d, %d, %d)", x, y, z );
@@ -7713,7 +7718,7 @@ submap *map::get_submap_at( const int x, const int y, const int z ) const
     return get_submap_at_grid( x / SEEX, y / SEEY, z );
 }
 
-submap *map::get_submap_at( const tripoint &p ) const
+submap *map_base::get_submap_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         debugmsg( "Tried to access invalid map position (%d, %d, %d)", p.x, p.y, p.z );
@@ -7722,51 +7727,51 @@ submap *map::get_submap_at( const tripoint &p ) const
     return get_submap_at_grid( p.x / SEEX, p.y / SEEY, p.z );
 }
 
-submap *map::get_submap_at( const int x, const int y ) const
+submap *map_base::get_submap_at( const int x, const int y ) const
 {
     return get_submap_at( x, y, abs_sub.z );
 }
 
-submap *map::get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const
+submap *map_base::get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const
 {
     return get_submap_at( x, y, abs_sub.z, offset_x, offset_y );
 }
 
-submap *map::get_submap_at( const int x, const int y, const int z, int &offset_x, int &offset_y ) const
+submap *map_base::get_submap_at( const int x, const int y, const int z, int &offset_x, int &offset_y ) const
 {
     offset_x = x % SEEX;
     offset_y = y % SEEY;
     return get_submap_at( x, y, z );
 }
 
-submap *map::get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const
+submap *map_base::get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const
 {
     offset_x = p.x % SEEX;
     offset_y = p.y % SEEY;
     return get_submap_at( p );
 }
 
-submap *map::get_submap_at_grid( const int gridx, const int gridy ) const
+submap *map_base::get_submap_at_grid( const int gridx, const int gridy ) const
 {
     return getsubmap( get_nonant( gridx, gridy ) );
 }
 
-submap *map::get_submap_at_grid( const int gridx, const int gridy, const int gridz ) const
+submap *map_base::get_submap_at_grid( const int gridx, const int gridy, const int gridz ) const
 {
     return getsubmap( get_nonant( gridx, gridy, gridz ) );
 }
 
-submap *map::get_submap_at_grid( const tripoint &p ) const
+submap *map_base::get_submap_at_grid( const tripoint &p ) const
 {
     return getsubmap( get_nonant( p.x, p.y, p.z ) );
 }
 
-size_t map::get_nonant( const int gridx, const int gridy ) const
+size_t map_base::get_nonant( const int gridx, const int gridy ) const
 {
     return get_nonant( gridx, gridy, abs_sub.z );
 }
 
-size_t map::get_nonant( const int gridx, const int gridy, const int gridz ) const
+size_t map_base::get_nonant( const int gridx, const int gridy, const int gridz ) const
 {
     if( gridx < 0 || gridx >= my_MAPSIZE ||
         gridy < 0 || gridy >= my_MAPSIZE ||
@@ -7783,7 +7788,7 @@ size_t map::get_nonant( const int gridx, const int gridy, const int gridz ) cons
     }
 }
 
-size_t map::get_nonant( const tripoint &gridp ) const
+size_t map_base::get_nonant( const tripoint &gridp ) const
 {
     return get_nonant( gridp.x, gridp.y, gridp.z );
 }
