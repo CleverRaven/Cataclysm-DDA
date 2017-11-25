@@ -81,7 +81,6 @@ struct WINDOW {
 #define    KEY_BTAB       0x161    /* back-tab = shift + tab */
 #define    KEY_END        0x168    /* End */
 
-#define ERR (-1) // Error return.
 #define OK (0)   // Success return.
 
 /* Curses external declarations. */
