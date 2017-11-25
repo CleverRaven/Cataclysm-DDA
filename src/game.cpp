@@ -4018,7 +4018,7 @@ void game::debug()
                        _( "Overmap editor" ),         // 30
                        _( "Draw benchmark (5 seconds)" ),    // 31
                        _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Test Trait Group" ),        // 33
+                       _( "Test trait group" ),        // 33
                        _( "Quit to Main Menu" ),    // 34
                        _( "Cancel" ),
                        NULL );
