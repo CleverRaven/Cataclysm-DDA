@@ -7,11 +7,14 @@
 #include "trait_group.h"
 #include "translations.h"
 
-#include <vector>
+#include <set>
 #include <map>
+#include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, trait_group::Trait_creation_data *> TraitGroupMap;
+typedef std::set<trait_group::Trait_id> TraitSet;
 
+TraitSet trait_blacklist;
 TraitGroupMap trait_groups = {
     // An empty dummy group, it will not generate any traits. However, it makes that trait group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -399,8 +402,17 @@ void mutation_branch::reset_all()
     for ( auto &trait : trait_groups ) {
         delete trait.second;
     }
+    trait_blacklist.clear();
     trait_groups.clear();
     trait_groups["EMPTY_GROUP"] = new trait_group::Trait_group_collection(100);
+}
+
+void mutation_branch::load_trait_blacklist( JsonObject &jsobj ) {
+    JsonArray jarr = jsobj.get_array( "traits" );
+    while (jarr.has_more()) {
+        trait_group::Trait_id id(jarr.next_string());
+        trait_blacklist.insert(id);
+    }
 }
 
 void mutation_branch::load_trait_group(JsonObject &jsobj) {
@@ -441,8 +453,19 @@ void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Tr
     trait_group::Trait_group* tg = make_group_or_throw(gid, tcd, is_collection);
 
     while(entries.has_more()) {
-        JsonObject subobj = entries.next_object();
-        add_entry(tg, subobj);
+        // Backwards-compatibility with old format ["TRAIT", 100]
+        if (entries.test_array()) {
+            JsonArray subarr = entries.next_array();
+
+            trait_group::Trait_id id(subarr.get_string(0));
+            std::unique_ptr<trait_group::Trait_creation_data> ptr(
+                    new trait_group::Single_trait_creator(id, subarr.get_int(1)));
+            tg->add_entry(ptr);
+        // Otherwise load new format {"trait": ... } or {"group": ...}
+        } else {
+            JsonObject subobj = entries.next_object();
+            add_entry(tg, subobj);
+        }
     }
 }
 
@@ -540,6 +563,27 @@ void mutation_branch::add_entry(trait_group::Trait_group *tg, JsonObject &obj) {
     tg->add_entry(ptr);
 }
 
+void mutation_branch::finalize() {
+    finalize_trait_blacklist();
+}
+
+void mutation_branch::finalize_trait_blacklist() {
+    for (auto &trait : trait_blacklist) {
+        if (!has_trait(trait)) {
+            debugmsg("trait on blacklist %s does not exist", trait.c_str());
+        }
+    }
+
+    for (auto &md: mutation_data) {
+        if (!trait_is_blacklisted(md.first)) {
+            continue;
+        }
+        for (auto &grp : trait_groups) {
+            grp.second->remove_trait(md.first);
+        }
+    }
+}
+
 trait_group::Trait_creation_data* mutation_branch::get_group( const trait_group::Trait_group_tag &gid ) {
     if (trait_groups.count(gid) > 0) {
         return trait_groups[gid];
@@ -553,6 +597,14 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
         rval.push_back(group.first);
     }
     return rval;
+}
+
+bool mutation_branch::trait_is_blacklisted( const trait_group::Trait_id &tid ) {
+    return trait_blacklist.count( tid );
+}
+
+bool mutation_branch::has_trait( const trait_group::Trait_id &tid ) {
+    return mutation_data.find(tid) != mutation_data.end();
 }
 
 void load_dream(JsonObject &jsobj)

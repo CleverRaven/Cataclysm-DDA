@@ -27,6 +27,7 @@ struct mutation_category_trait;
 namespace trait_group
 {
 
+typedef string_id<mutation_branch> Trait_id;
 class Trait_group;
 class Trait_creation_data;
 
@@ -190,6 +191,7 @@ struct mutation_branch {
     typedef std::string Trait_group_tag;
 
     static void init();
+    static void load_trait_blacklist( JsonObject &jsobj );
     static void load_trait_group( JsonObject &jsobj );
     static void load_trait_group( JsonArray &entries, const Trait_group_tag &gid,
                                   const bool is_collection );
@@ -197,8 +199,13 @@ struct mutation_branch {
                                   const std::string &subtype );;
     static void add_entry( trait_group::Trait_group *tg, JsonObject &obj );
 
+    static void finalize();
+    static void finalize_trait_blacklist();
+
     static trait_group::Trait_creation_data *get_group( const Trait_group_tag &gid );
     static std::vector<Trait_group_tag> get_all_group_names();
+    static bool trait_is_blacklisted( const trait_group::Trait_id &tid );
+    static bool has_trait( const trait_group::Trait_id &tid );
 };
 
 struct mutation_category_trait {

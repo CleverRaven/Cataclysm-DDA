@@ -1016,6 +1016,11 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
     std::vector<trait_id> vStartingTraits[2];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
+        // Don't list blacklisted traits
+        if (mutation_branch::trait_is_blacklisted(traits_iter.first)) {
+            continue;
+        }
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) {
             if( traits_iter.second.points >= 0 ) {

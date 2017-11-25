@@ -235,8 +235,9 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
-    if( jo.has_object( "traits" ) ) {
-        traits = trait_group::load_trait_group( *jo.get_raw( name ), "collection" );
+
+    if( jo.has_array( "traits" ) ) {
+        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
     }
 
     if( jo.has_array( "skills" ) ) {

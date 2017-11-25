@@ -317,7 +317,6 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> &
 Trait_list Trait_group_distribution::create( RecursionList &rec ) const
 {
     Trait_list result;
-    debugmsg( "sum_prob = %d", sum_prob );
     int p = rng( 0, sum_prob - 1 );
     for( const auto &creator : creators ) {
         p -= ( creator )->probability;
