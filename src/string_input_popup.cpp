@@ -345,8 +345,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }
-        } else if( ch == ERR ) {
-            // Ignore the error
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {

@@ -219,6 +219,7 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // This value is finally returned by input_manager::get_input_event.
 static input_event last_input;
 
+static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
 static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.

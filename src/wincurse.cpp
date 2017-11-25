@@ -28,6 +28,7 @@
 //Globals                           *
 //***********************************
 
+static constexpr int ERR = -1;
 const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
