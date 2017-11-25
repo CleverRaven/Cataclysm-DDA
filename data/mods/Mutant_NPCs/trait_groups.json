@@ -1,6 +1,6 @@
 [
   {
-    "//": "This group picks out everal negative and positive traits, with up to 4 rolls of decreasing likelihood.",
+    "//": "This group picks out several negative and positive traits, with up to 4 rolls of decreasing likelihood.",
     "type" : "trait_group",
     "id" : "starting_trait_n_rolls",
     "subtype": "collection",
