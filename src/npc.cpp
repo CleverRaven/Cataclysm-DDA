@@ -20,6 +20,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "iuse_actor.h"
+#include "trait_group.h"
 
 
 const skill_id skill_mechanics( "mechanics" );
@@ -385,11 +386,9 @@ void npc::randomize( const npc_class_id &type )
     starting_inv( *this, type );
     has_new_items = true;
 
-    // TODO(sm): use trait->create() to get list of traits, then add
-    for( const auto &pr : type->traits ) {
-        if( rng( 1, 100 ) <= pr.second ) {
-            set_mutation( pr.first );
-        }
+    trait_group::Trait_list tmplist = trait_group::traits_from( type->traits );
+    for( const auto &tid : tmplist ) {
+        set_mutation( tid );
     }
 }
 

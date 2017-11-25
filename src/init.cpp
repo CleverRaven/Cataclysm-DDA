@@ -168,6 +168,7 @@ void DynamicDataLoader::initialize()
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );
     add( "mutation", &mutation_branch::load );
+    add( "trait_group", []( JsonObject &jo ) { mutation_branch::load_trait_group( jo ); } );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );

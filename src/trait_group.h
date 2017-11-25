@@ -19,6 +19,7 @@ bool group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid );
 bool group_is_defined( const Trait_group_tag &gid );
 void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
 Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_subtype );
+void debug_spawn();
 
 class Trait_creation_data
 {
@@ -85,8 +86,8 @@ class Trait_group : public Trait_creation_data
         virtual bool has_trait( const Trait_id &tid ) const override;
 
     protected:
-        int sum_prob;
         CreatorList creators;
+        int sum_prob;
 };
 
 class Trait_group_collection : public Trait_group

@@ -28,6 +28,7 @@ namespace trait_group
 {
 
 class Trait_group;
+class Trait_creation_data;
 
 }
 
@@ -188,12 +189,16 @@ struct mutation_branch {
 
     typedef std::string Trait_group_tag;
 
-    void load_trait_group( JsonObject &jsobj );
-    void load_trait_group( JsonArray &entries, const Trait_group_tag &gid,
-                           const bool is_collection );
-    void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
-                           const std::string &subtype );;
-    void add_entry( trait_group::Trait_group *tg, JsonObject &obj );
+    static void init();
+    static void load_trait_group( JsonObject &jsobj );
+    static void load_trait_group( JsonArray &entries, const Trait_group_tag &gid,
+                                  const bool is_collection );
+    static void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+                                  const std::string &subtype );;
+    static void add_entry( trait_group::Trait_group *tg, JsonObject &obj );
+
+    static trait_group::Trait_creation_data *get_group( const Trait_group_tag &gid );
+    static std::vector<Trait_group_tag> get_all_group_names();
 };
 
 struct mutation_category_trait {

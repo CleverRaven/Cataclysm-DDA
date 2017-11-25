@@ -1,38 +1,37 @@
 #include "debug.h"
 #include "rng.h"
 #include "trait_group.h"
+#include "translations.h"
+#include "ui.h"
+
+#include <sstream>
 
 using namespace trait_group;
 
-Trait_list trait_group::traits_from( const Trait_group_tag &/*gid*/ )
+Trait_list trait_group::traits_from( const Trait_group_tag &gid )
 {
-    // TODO(sm): needs trait factory
-    Trait_creation_data *tcd = nullptr; // trait_controller->get_group(gid);
+    Trait_creation_data *tcd = mutation_branch::get_group( gid );
     if( !tcd ) {
         return Trait_list();
     }
     return tcd->create();
 }
 
-bool trait_group::group_contains_trait( const Trait_group_tag &/*gid*/, const Trait_id &tid )
+bool trait_group::group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid )
 {
-    // TODO(sm): needs trait factory
-    Trait_creation_data *tcd = nullptr; // trait_controller->get_group(gid);
+    Trait_creation_data *tcd = mutation_branch::get_group( gid );
     return tcd && tcd->has_trait( tid );
 }
 
-bool trait_group::group_is_defined( const Trait_group_tag &/*gid*/ )
+bool trait_group::group_is_defined( const Trait_group_tag &gid )
 {
-    // TODO(sm): needs trait factory
-    //return trait_controller->get_group(gid) != nullptr;
-    return false;
+    return mutation_branch::get_group( gid ) != nullptr;
 }
 
-void trait_group::load_trait_group( JsonObject &/*jsobj*/, const Trait_group_tag &/*gid*/,
-                                    const std::string &/*subtype*/ )
+void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+                                    const std::string &subtype )
 {
-    // TODO(sm): needs trait factory
-    //trait_controller->load_trait_group( jsobj, gid, subtype );
+    mutation_branch::load_trait_group( jsobj, gid, subtype );
 }
 
 // NOTE: This function is taken directly from item_group
@@ -62,8 +61,8 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
 
         JsonObject jo = stream.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
-        // TODO(sm): needs trait factory
-        //trait_controller->load_trait_group( jo, group, subtype );
+
+        mutation_branch::load_trait_group( jo, group, subtype );
 
         return group;
     } else if( stream.test_array() ) {
@@ -74,11 +73,54 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
             debugmsg( "invalid subtype for trait group: %s", default_subtype.c_str() );
         }
 
-        //trait_controller->load_trait_group( jo, group, default_subtype == "collection" );
+        mutation_branch::load_trait_group( jarr, group, default_subtype == "collection" );
         return group;
     } else {
         stream.error( "invalid trait group, must be string (group id) or object/array (the group data)" );
         return Trait_group_tag{};
+    }
+}
+
+// This is largely based on item_group::debug_spawn()
+void trait_group::debug_spawn()
+{
+    std::vector<std::string> groups = mutation_branch::get_all_group_names();
+    uimenu menu;
+    menu.return_invalid = true;
+    menu.text = _( "Test which group?" );
+    for( size_t i = 0; i < groups.size(); i++ ) {
+        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
+    }
+    //~ Spawn group menu: Menu entry to exit menu
+    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
+    while( true ) {
+        menu.query();
+        const int index = menu.ret;
+        if( index >= ( int )groups.size() || index < 0 ) {
+            break;
+        }
+        // Spawn traits from the group 100 times
+        std::map<std::string, int> traitnames;
+        for( size_t a = 0; a < 100; a++ ) {
+            const auto traits = traits_from( groups[index] );
+            for( auto &tr : traits ) {
+                traitnames[mutation_branch::get_name( tr )]++;
+            }
+        }
+        // Invert the map to get sorting!
+        std::multimap<int, std::string> traitnames2;
+        for( const auto &e : traitnames ) {
+            traitnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
+        }
+        uimenu menu2;
+        menu2.return_invalid = true;
+        menu2.text = _( "Result of 100 spawns:" );
+        for( const auto &e : traitnames2 ) {
+            std::ostringstream buffer;
+            buffer << e.first << " x " << e.second << "\n";
+            menu2.entries.push_back( uimenu_entry( menu2.entries.size(), true, -2, buffer.str() ) );
+        }
+        menu2.query();
     }
 }
 
@@ -90,7 +132,7 @@ Trait_list Trait_creation_data::create() const
 }
 
 Trait_group::Trait_group( int probability )
-    : Trait_creation_data( probability )
+    : Trait_creation_data( probability ), sum_prob( 0 )
 {
 }
 
@@ -109,11 +151,7 @@ Single_trait_creator::Single_trait_creator( const Trait_id &id, int probability 
 
 Trait_list Single_trait_creator::create( RecursionList & /* rec */ ) const
 {
-    Trait_list result;
-    if( rng( 0, 99 ) < probability ) {
-        result.push_back( id );
-    }
-    return result;
+    return Trait_list { id };
 }
 
 void Single_trait_creator::check_consistency() const
@@ -141,6 +179,7 @@ Trait_group_creator::Trait_group_creator( const Trait_group_tag &id, int probabi
 
 Trait_list Trait_group_creator::create( RecursionList &rec ) const
 {
+
     Trait_list result;
     if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
         debugmsg( "recursion in trait creation list %s", id.c_str() );
@@ -148,15 +187,14 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
     }
     rec.push_back( id );
 
-    // TODO(sm): needs trait factory
-    Trait_creation_data *tcd = nullptr; // trait_controller->get_group(id);
+    Trait_creation_data *tcd = mutation_branch::get_group( id );
     if( !tcd ) {
         debugmsg( "unknown trait creation list %s", id.c_str() );
         return result;
     }
 
     Trait_list tmplist = tcd->create( rec );
-    rec.pop_back(); // TODO(sm): equivalent to erase(end() - 1), right?
+    rec.pop_back();
     result.insert( result.end(), tmplist.begin(), tmplist.end() );
 
     return result;
@@ -164,16 +202,14 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
 
 void Trait_group_creator::check_consistency() const
 {
-    // TODO(sm): needs trait factory
-    if( false ) {
+    if( !trait_group::group_is_defined( id ) ) {
         debugmsg( "trait group id %s is unknown", id.c_str() );
     }
 }
 
 bool Trait_group_creator::remove_trait( const Trait_id &tid )
 {
-    // TODO(sm): needs trait factory
-    Trait_creation_data *tcd = nullptr; /* trait_controller->get_group(tid); */
+    Trait_creation_data *tcd = mutation_branch::get_group( id );
 
     if( tcd ) {
         tcd->remove_trait( tid );
@@ -183,8 +219,7 @@ bool Trait_group_creator::remove_trait( const Trait_id &tid )
 
 bool Trait_group_creator::has_trait( const Trait_id &tid ) const
 {
-    // TODO(sm): needs trait factory
-    Trait_creation_data *tcd = nullptr; /* trait_controller->get_group(tid); */
+    Trait_creation_data *tcd = mutation_branch::get_group( id );
 
     return tcd && tcd->has_trait( tid );
 }
@@ -261,7 +296,6 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &pt
     }
 
     ptr->probability = std::min( 100, ptr->probability );
-    sum_prob += ptr->probability;
 
     creators.push_back( ptr.get() );
     ptr.release();
@@ -283,6 +317,7 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> &
 Trait_list Trait_group_distribution::create( RecursionList &rec ) const
 {
     Trait_list result;
+    debugmsg( "sum_prob = %d", sum_prob );
     int p = rng( 0, sum_prob - 1 );
     for( const auto &creator : creators ) {
         p -= ( creator )->probability;

@@ -12,7 +12,12 @@
 
 typedef std::map<trait_group::Trait_group_tag, trait_group::Trait_creation_data *> TraitGroupMap;
 
-TraitGroupMap template_groups;
+TraitGroupMap trait_groups = {
+    // An empty dummy group, it will not generate any traits. However, it makes that trait group
+    // id valid, so it can be used all over the place without need to explicitly check for it.
+    {"EMPTY_GROUP", new trait_group::Trait_group_collection(100)}
+};
+
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
@@ -391,6 +396,11 @@ void mutation_branch::reset_all()
 {
     mutations_category.clear();
     mutation_data.clear();
+    for ( auto &trait : trait_groups ) {
+        delete trait.second;
+    }
+    trait_groups.clear();
+    trait_groups["EMPTY_GROUP"] = new trait_group::Trait_group_collection(100);
 }
 
 void mutation_branch::load_trait_group(JsonObject &jsobj) {
@@ -405,9 +415,9 @@ trait_group::Trait_group *make_group_or_throw(const trait_group::Trait_group_tag
     // TODO(sm): not yet clear whether or not this misses anything from make_group_or_throw
     if (tg == nullptr) {
         if (is_collection) {
-            tg = new trait_group::Trait_group_collection(100);
+            tcd = tg = new trait_group::Trait_group_collection(100);
         } else {
-            tg = new trait_group::Trait_group_distribution(100);
+            tcd = tg = new trait_group::Trait_group_distribution(100);
         }
     } else {
         // Evidently, making the collection/distribution separation better has made the code for this check worse.
@@ -427,7 +437,7 @@ trait_group::Trait_group *make_group_or_throw(const trait_group::Trait_group_tag
 }
 
 void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection) {
-    trait_group::Trait_creation_data *&tcd = template_groups[gid];
+    trait_group::Trait_creation_data *&tcd = trait_groups[gid];
     trait_group::Trait_group* tg = make_group_or_throw(gid, tcd, is_collection);
 
     while(entries.has_more()) {
@@ -437,13 +447,13 @@ void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Tr
 }
 
 void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Trait_group_tag &gid, const std::string &subtype) {
-    trait_group::Trait_creation_data *&tcd = template_groups[gid];
+    trait_group::Trait_creation_data *&tcd = trait_groups[gid];
     trait_group::Trait_group *tg = dynamic_cast<trait_group::Trait_group *>(tcd);
 
-    if (subtype != "distribution" && subtype != "collection") {
-        jsobj.throw_error("unknown item group type", "subtype");
+    if (subtype != "distribution" && subtype != "collection" && subtype != "old") {
+        jsobj.throw_error("unknown trait group type", "subtype");
     }
-    tg = make_group_or_throw(gid, tcd, (subtype == "collection"));
+    tg = make_group_or_throw(gid, tcd, (subtype == "collection" || subtype == "old"));
 
     // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if (subtype == "old") {
@@ -530,6 +540,20 @@ void mutation_branch::add_entry(trait_group::Trait_group *tg, JsonObject &obj) {
     tg->add_entry(ptr);
 }
 
+trait_group::Trait_creation_data* mutation_branch::get_group( const trait_group::Trait_group_tag &gid ) {
+    if (trait_groups.count(gid) > 0) {
+        return trait_groups[gid];
+    }
+    return nullptr;
+}
+
+std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names() {
+    std::vector<std::string> rval;
+    for (auto &group: trait_groups) {
+        rval.push_back(group.first);
+    }
+    return rval;
+}
 
 void load_dream(JsonObject &jsobj)
 {
