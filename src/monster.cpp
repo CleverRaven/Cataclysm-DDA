@@ -109,6 +109,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
+const efftype_id effect_seeking_item( "seeking_item" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
@@ -139,6 +140,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_ltgray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_SEEK, {translate_marker( "Seeking." ), def_c_yellow}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -551,7 +553,7 @@ nc_color monster::color_with_effects() const
           has_effect( effect_lightsnare) || has_effect( effect_heavysnare ) ) {
         ret = hilite(ret);
     }
-    if (has_effect( effect_pacified)) {
+    if (has_effect( effect_pacified )) {
         ret = invert_color(ret);
     }
     if (has_effect( effect_onfire)) {
@@ -721,6 +723,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
+            case MATT_SEEK:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -753,6 +756,9 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( has_effect( effect_pacified ) ) {
         return MATT_ZLAVE;
+    }
+    if( has_effect( effect_seeking_item ) ) {
+        return MATT_SEEK;
     }
 
     int effective_anger  = anger;

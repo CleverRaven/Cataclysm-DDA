@@ -43,6 +43,7 @@ enum monster_attitude {
     MATT_FOLLOW,
     MATT_ATTACK,
     MATT_ZLAVE,
+    MATT_SEEK,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -167,7 +168,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
-        float rate_food(const item& itm);
+        float rate_food( const item &itm );
 
         // Pass all factions to mon, so that hordes of same-faction mons
         // do not iterate over each other
@@ -226,6 +227,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @return True if we managed to push something and took its place, false otherwise.
          */
         bool push_to( const tripoint &p, int boost, size_t depth );
+
+        bool take_food_at( const tripoint &p );
+        bool take_items_at( const tripoint &p, std::function<bool( const item & )> should_pick_up );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
@@ -353,8 +357,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void make_ally( monster *z );
         void add_item( item it );   // Add an item to inventory
 
-        std::pair<item*, tripoint> get_most_desired_visible_item(
-                std::function<float(const item&, const tripoint&)> calc_desirability) const;
+        std::pair<item *, tripoint> get_most_desired_visible_item(
+            std::function<float( const item & )> calc_desirability ) const;
+        std::pair<item *, tripoint> get_most_desired_item_in_radius( int radius,
+                std::function<float( const item & )> calc_desirability ) const;
 
         /**
          * Makes monster react to heard sound
