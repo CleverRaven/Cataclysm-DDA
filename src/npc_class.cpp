@@ -5,6 +5,7 @@
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "trait_group.h"
 
 #include <list>
 
@@ -145,10 +146,8 @@ void npc_class::check_consistency()
             }
         }
 
-        for( const auto &pr : cl.traits ) {
-            if( !pr.first.is_valid() ) {
-                debugmsg( "Invalid trait %s", pr.first.c_str() );
-            }
+        if( !cl.traits.is_valid() ) {
+            debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
 }
@@ -236,13 +235,31 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
+
     if( jo.has_array( "traits" ) ) {
-        JsonArray jarr = jo.get_array( "traits" );
+        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
+    }
+
+    /* Mutation rounds can be specified as either a single distribution:
+     *   "mutation_rounds" : { "constant" : 1 }
+     * or a map of categories to distributions:
+     *   "mutation_rounds" : [
+     *      "MUTCAT_ANY" : { "constant" : 1 }
+     *      "MUTCAT_INSECT" : { "rng" : [ 1, 3 ] }
+     *   ]
+     */
+    if( jo.has_object( "mutation_rounds" ) ) {
+        JsonObject jo2 = jo.get_object( "mutation_rounds" );
+        mutation_rounds["MUTCAT_ANY"] = load_distribution( jo2 );
+    } else if( jo.has_array( "mutation_rounds" ) ) {
+        JsonArray jarr = jo.get_array( "mutation_rounds" );
         while( jarr.has_more() ) {
-            JsonArray jarr_in = jarr.next_array();
-            traits[ trait_id( jarr_in.get_string( 0 ) ) ] = jarr_in.get_int( 1 );
+            JsonArray jarr2 = jarr.next_array();
+            JsonObject jo2 = jarr2.get_object( 1 );
+            mutation_rounds[jarr2.get_string( 0 )] = load_distribution( jo2 );
         }
     }
+
 
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );

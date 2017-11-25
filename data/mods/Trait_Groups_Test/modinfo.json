@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "trait_groups_test",
+    "name": "Trait Groups Test",
+    "authors": [ "Spencer Michaels" ],
+    "description": "Adds trait groups (testing Spencer's PR).",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "TRAIT_BLACKLIST",
+    "traits": [
+        "BADKNEES"
+    ]
+  }
+]

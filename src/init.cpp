@@ -168,6 +168,7 @@ void DynamicDataLoader::initialize()
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );
     add( "mutation", &mutation_branch::load );
+    add( "trait_group", []( JsonObject &jo ) { mutation_branch::load_trait_group( jo ); } );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
@@ -236,6 +237,7 @@ void DynamicDataLoader::initialize()
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
+    add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
@@ -413,6 +415,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
         { _( "Body parts" ), &body_part_struct::finalize_all },
         { _( "Items" ), []() { item_controller->finalize(); } },
+        { _( "Traits/mutations" ), []() { mutation_branch::finalize(); } },
         { _( "Crafting requirements" ), []() { requirement_data::finalize(); } },
         { _( "Vehicle parts" ), &vpart_info::finalize },
         { _( "Traps" ), &trap::finalize },

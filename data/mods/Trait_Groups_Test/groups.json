@@ -1,0 +1,48 @@
+[
+  {
+    "type" : "trait_group",
+    "id" : "genetic_instability_old_format",
+    "traits":[
+        ["UNSTABLE", 100],
+        ["CHAOTIC", 50]
+    ]
+  },
+  {
+    "type" : "trait_group",
+    "id" : "genetic_instability_new_format",
+    "subtype": "collection",
+    "entries": [
+        {"trait": "CHAOTIC", "prob": 100},
+        {"trait": "UNSTABLE", "prob": 50}
+    ]
+  },
+  {
+    "type" : "trait_group",
+    "id" : "outdoorsman_distribution",
+    "subtype": "collection",
+    "entries": [
+        { "trait": "OUTDOORSMAN" },
+        { "distribution" : [
+            { "trait": "GOODCARDIO", "prob": 60 },
+            { "trait": "GOODHEARING", "prob": 30 }
+        ], "prob": 50}
+    ]
+  },
+  {
+    "type" : "trait_group",
+    "id" : "group_meta",
+    "subtype": "collection",
+    "entries": [
+        { "group": "genetic_instability_new_format", "prob": 50 },
+        { "group": "outdoorsman_distribution", "prob": 50 }
+    ]
+  },
+  {
+    "type" : "trait_group",
+    "id" : "always_bad_knees",
+    "traits":[
+        ["BADKNEES", 100],
+        ["GOODHEARING", 100]
+    ]
+  }
+]
