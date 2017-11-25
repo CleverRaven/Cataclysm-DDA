@@ -2,6 +2,8 @@
 
 #include "cursesdef.h"
 
+#include "color.h"
+
 #include <stdexcept>
 
 void init_interface()
@@ -19,6 +21,7 @@ void init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
     set_escdelay( 10 ); // Make escape actually responsive
+    init_colors();
 }
 
 #endif
