@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "stealing_monsters",
+    "name": "Item-Stealing Monsters",
+    "authors": [ "Spencer Michaels" ],
+    "description": "Adds item-stealing-monsters.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]
