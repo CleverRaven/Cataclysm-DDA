@@ -535,15 +535,15 @@ int curs_set(int)
     return 1;
 }
 
-int wattron(WINDOW *win, int attrs)
+int wattron( WINDOW *win, const nc_color &attrs )
 {
     if( win == nullptr ) {
         return 1;
     }
 
-    bool isBold = !!(attrs & A_BOLD);
-    bool isBlink = !!(attrs & A_BLINK);
-    int pairNumber = (attrs & A_COLOR) >> 17;
+    bool isBold = attrs.is_bold();
+    bool isBlink = attrs.is_blink();
+    int pairNumber = attrs.to_color_pair_index();
     win->FG = colorpairs[pairNumber].FG;
     win->BG = colorpairs[pairNumber].BG;
     if (isBold) {

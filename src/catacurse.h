@@ -11,6 +11,8 @@
 
 #include "printf_check.h"
 
+class nc_color;
+
 typedef int chtype;
 typedef unsigned short attr_t;
 
@@ -54,20 +56,6 @@ struct WINDOW {
     std::vector<curseline> line;
 };
 
-#define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
-#define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
-#define A_UNDERLINE 0x00000200 /* Added characters are underscored. <---------not used */
-#define A_REVERSE 0x00000400 /* Added characters are reverse        <---------not used */
-#define A_BLINK  0x00000800 /* Added characters are blinking. */
-#define A_DIM  0x00001000 /* Added characters are dim.              <---------not used */
-#define A_BOLD  0x00002000 /* Added characters are bold. */
-#define A_BLANK  0x00004000 /* Added characters are blanked.        <---------not used */
-#define A_PROTECT 0x00008000 /* Added characters are protected.     <---------not used */
-#define A_ALTCHARSET 0x00010000 /* Added characters are ACS         <---------not used */
-#define A_ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits         <---------not used */
-#define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
-#define A_COLOR  0x03fe0000 /* Color bits */
-
 #define COLOR_BLACK 0x00    // RGB{0, 0, 0}
 #define COLOR_RED 0x01      // RGB{196, 0, 0}
 #define COLOR_GREEN 0x02    // RGB{0, 196, 0}
@@ -76,8 +64,6 @@ struct WINDOW {
 #define COLOR_MAGENTA 0x05  // RGB{196, 0, 180}
 #define COLOR_CYAN 0x06     // RGB{0, 170, 200}
 #define COLOR_WHITE 0x07    // RGB{196, 196, 196}
-
-#define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
@@ -130,7 +116,7 @@ int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
-int wattron( WINDOW *win, int attrs );
+int wattron( WINDOW *win, const nc_color &attrs );
 int wattroff( WINDOW *win, int attrs );
 int waddch( WINDOW *win, const chtype ch );
 int getmaxx( WINDOW *win );

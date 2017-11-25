@@ -61,7 +61,7 @@ extern bool tile_iso;
 //the minimap texture pool which is used to reduce new texture allocation spam
 static minimap_shared_texture_pool tex_pool;
 
-SDL_Color cursesColorToSDL(int color);
+SDL_Color cursesColorToSDL( const nc_color &color );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -1580,10 +1580,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
-            const int pairNumber = (col & A_COLOR) >> 17;
+            const int pairNumber = col.to_color_pair_index();
             const pairs &colorpair = colorpairs[pairNumber];
             // What about isBlink?
-            const bool isBold = col & A_BOLD;
+            const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
 //            const int BG = colorpair.BG;
             // static so it does not need to be allocated every time,

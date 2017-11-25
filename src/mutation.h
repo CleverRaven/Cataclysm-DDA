@@ -5,7 +5,6 @@
 #include "json.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
-#include "color.h"
 #include "damage.h"
 #include "string_id.h"
 #include <string>
@@ -13,6 +12,7 @@
 #include <map>
 #include <unordered_map>
 
+class nc_color;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 class martialart;

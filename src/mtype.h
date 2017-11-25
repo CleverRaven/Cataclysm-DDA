@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <math.h>
 
 class Creature;
@@ -42,6 +43,7 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class material_type;
 using material_id = string_id<material_type>;
 
