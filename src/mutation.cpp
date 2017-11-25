@@ -557,7 +557,6 @@ trait_id Character::trait_by_invlet( const long ch ) const
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
     if (mutation_branch::trait_is_blacklisted(mutation)) {
-        // This mutation has been blacklisted.
         return false;
     }
     if (has_trait(mutation) || has_child_flag(mutation)) {

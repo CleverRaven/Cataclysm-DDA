@@ -146,8 +146,8 @@ void npc_class::check_consistency()
             }
         }
 
-        if( !trait_group::group_is_defined( cl.traits ) ) {
-            debugmsg( "Trait group %s is undefined", cl.traits );
+        if( !cl.traits.is_valid() ) {
+            debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
 }

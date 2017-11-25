@@ -11,22 +11,12 @@ using namespace trait_group;
 
 Trait_list trait_group::traits_from( const Trait_group_tag &gid )
 {
-    Trait_creation_data *tcd = mutation_branch::get_group( gid );
-    if( !tcd ) {
-        return Trait_list();
-    }
-    return tcd->create();
+    return mutation_branch::get_group( gid )->create();
 }
 
 bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_id &tid )
 {
-    Trait_creation_data *tcd = mutation_branch::get_group( gid );
-    return tcd && tcd->has_trait( tid );
-}
-
-bool trait_group::group_is_defined( const Trait_group_tag &gid )
-{
-    return mutation_branch::get_group( gid ) != nullptr;
+    return mutation_branch::get_group( gid )->has_trait( tid );
 }
 
 void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
@@ -46,8 +36,8 @@ Trait_group_tag get_unique_trait_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Trait_group_tag new_group = unique_prefix + to_string( next_id++ );
-        if( !trait_group::group_is_defined( new_group ) ) {
+        const Trait_group_tag new_group( unique_prefix + to_string( next_id++ ) );
+        if( !new_group.is_valid() ) {
             return new_group;
         }
     }
@@ -56,7 +46,7 @@ Trait_group_tag get_unique_trait_group_id()
 Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string &default_subtype )
 {
     if( stream.test_string() ) {
-        return stream.get_string();
+        return Trait_group_tag( stream.get_string() );
     } else if( stream.test_object() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
@@ -71,7 +61,7 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
 
         JsonArray jarr = stream.get_array();
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
-            debugmsg( "invalid subtype for trait group: %s", default_subtype.c_str() );
+            jarr.throw_error( "invalid subtype for trait group" );
         }
 
         mutation_branch::load_trait_group( jarr, group, default_subtype == "collection" );
@@ -85,12 +75,12 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
 // NOTE: This is largely based on item_group::debug_spawn()
 void trait_group::debug_spawn()
 {
-    std::vector<std::string> groups = mutation_branch::get_all_group_names();
+    std::vector<Trait_group_tag> groups = mutation_branch::get_all_group_names();
     uimenu menu;
     menu.return_invalid = true;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
+        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i].c_str() ) );
     }
     //~ Spawn group menu: Menu entry to exit menu
     menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
@@ -139,9 +129,6 @@ Trait_group::Trait_group( int probability )
 
 Trait_group::~Trait_group()
 {
-    for( auto &creator : creators ) {
-        delete creator;
-    }
     creators.clear();
 }
 
@@ -189,11 +176,11 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
     }
     rec.push_back( id );
 
-    Trait_creation_data *tcd = mutation_branch::get_group( id );
-    if( !tcd ) {
+    if( !id.is_valid() ) {
         debugmsg( "unknown trait creation list %s", id.c_str() );
         return result;
     }
+    auto tcd = mutation_branch::get_group( id );
 
     Trait_list tmplist = tcd->create( rec );
     rec.pop_back();
@@ -204,26 +191,19 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
 
 void Trait_group_creator::check_consistency() const
 {
-    if( !trait_group::group_is_defined( id ) ) {
+    if( id.is_valid() ) {
         debugmsg( "trait group id %s is unknown", id.c_str() );
     }
 }
 
 bool Trait_group_creator::remove_trait( const trait_id &tid )
 {
-    Trait_creation_data *tcd = mutation_branch::get_group( id );
-
-    if( tcd ) {
-        tcd->remove_trait( tid );
-    }
-    return false;
+    return mutation_branch::get_group( id )->remove_trait( tid );
 }
 
 bool Trait_group_creator::has_trait( const trait_id &tid ) const
 {
-    Trait_creation_data *tcd = mutation_branch::get_group( id );
-
-    return tcd && tcd->has_trait( tid );
+    return mutation_branch::get_group( id )->has_trait( tid );
 }
 
 void Trait_group::add_trait_entry( const trait_id &tid, int probability )
@@ -250,7 +230,6 @@ bool Trait_group::remove_trait( const trait_id &tid )
     for( auto it = creators.begin(); it != creators.end(); ) {
         if( ( *it )->remove_trait( tid ) ) {
             sum_prob -= ( *it )->probability;
-            delete *it;
             it = creators.erase( it );
         } else {
             ++it;
@@ -299,7 +278,7 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &pt
 
     ptr->probability = std::min( 100, ptr->probability );
 
-    creators.push_back( ptr.get() );
+    creators.push_back( std::move( ptr ) );
     ptr.release();
 }
 
@@ -312,7 +291,7 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> &
 
     sum_prob += ptr->probability;
 
-    creators.push_back( ptr.get() );
+    creators.push_back( std::move( ptr ) );
     ptr.release();
 }
 
