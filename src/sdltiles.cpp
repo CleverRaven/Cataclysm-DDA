@@ -1546,6 +1546,7 @@ void init_interface()
         use_tiles = false;
     }
 
+    start_color();
     init_colors();
 
     // initialize sound set

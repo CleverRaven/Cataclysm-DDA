@@ -21,6 +21,7 @@ void init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr, true ); // Numpad is numbers
     set_escdelay( 10 ); // Make escape actually responsive
+    start_color(); //@todo error checking
     init_colors();
 }
 
