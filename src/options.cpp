@@ -1074,7 +1074,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
         );
 
     mOptionsSort["interface"]++;
