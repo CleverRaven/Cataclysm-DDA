@@ -518,7 +518,12 @@ void init_interface()
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 
-    start_color();
+    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
+        throw std::runtime_error( "loading color settings failed" );
+    }
+    if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+        throw std::runtime_error( "SetDIBColorTable failed" );
+    }
     init_colors();
 
     stdscr = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
@@ -619,16 +624,6 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     result.rgbRed=r;    //Red
     result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
     return result;
-}
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
-        return ERR;
-    }
-    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
 }
 
 void input_manager::set_timeout( const int t )

@@ -1546,7 +1546,9 @@ void init_interface()
         use_tiles = false;
     }
 
-    start_color();
+    if( !color_loader<SDL_Color>().load( windowsPalette ) ) {
+        throw std::runtime_error( "loading color settings failed" );
+    }
     init_colors();
 
     // initialize sound set
@@ -1605,14 +1607,6 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     result.r=r;    //Red
     //result.a=0;//The Alpha, isnt used, so just set it to 0
     return result;
-}
-
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
 }
 
 void input_manager::set_timeout( const int t )
