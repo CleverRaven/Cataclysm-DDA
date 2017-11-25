@@ -2790,7 +2790,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         col_morale = c_red;
     }
     const char *morale_str;
-    if ( get_option<bool>( "THREE_CHARACTER_MORALE" ) ) {
+    if ( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
         if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
             if( morale_cur >= 200) {
                 morale_str = "@W@";
