@@ -1,0 +1,59 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_TRAIT_GROUPS_TEST_NPC_1",
+        "name" : "Trait Groups Test NPC 1",
+        "job_description" : "Trait Groups Test NPC 1",
+        "skills" : [],
+        "worn_override": "EMPTY_GROUP",
+        "carry_override": "EMPTY_GROUP",
+        "weapon_override": "EMPTY_GROUP",
+        "traits": [
+            {"group": "genetic_instability_new_format"}
+        ]
+    },
+    {
+        "type" : "npc_class",
+        "id" : "NC_TRAIT_GROUPS_TEST_NPC_2",
+        "name" : "Trait Groups Test NPC 2",
+        "job_description" : "Trait Groups Test NPC 2",
+        "skills" : [],
+        "worn_override": "EMPTY_GROUP",
+        "carry_override": "EMPTY_GROUP",
+        "weapon_override": "EMPTY_GROUP",
+        "traits": [
+            {"trait": "CHAOTIC", "prob": 100},
+            {"trait": "UNSTABLE", "prob": 50}
+        ]
+    },
+    {
+        "type" : "npc_class",
+        "id" : "NC_TRAIT_GROUPS_TEST_NPC_3",
+        "name" : "Trait Groups Test NPC 3",
+        "job_description" : "Trait Groups Test NPC 3",
+        "skills" : [],
+        "worn_override": "EMPTY_GROUP",
+        "carry_override": "EMPTY_GROUP",
+        "weapon_override": "EMPTY_GROUP",
+        "traits": [
+            { "trait": "OUTDOORSMAN" },
+            { "distribution" : [
+                { "trait": "GOODCARDIO", "prob": 60 },
+                { "trait": "GOODHEARING", "prob": 30 }
+            ], "prob": 50}
+        ]
+    },
+    {
+        "type" : "npc_class",
+        "id" : "NC_TRAIT_GROUPS_TEST_NPC_4",
+        "name" : "Trait Groups Test NPC 4",
+        "job_description" : "Trait Groups Test NPC 4",
+        "skills" : [],
+        "worn_override": "EMPTY_GROUP",
+        "carry_override": "EMPTY_GROUP",
+        "weapon_override": "EMPTY_GROUP",
+        "traits": [
+            { "group": "always_bad_knees" }
+        ]
+    }
+]
