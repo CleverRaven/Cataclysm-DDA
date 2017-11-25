@@ -20,6 +20,7 @@ using skill_id = string_id<Skill>;
 
 typedef std::string Group_tag;
 typedef std::string Trait_group_tag;
+typedef std::string Mutation_category_tag;
 
 // @todo Move to better suited file (rng.h/.cpp?)
 class distribution
@@ -70,6 +71,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
+        std::map<Mutation_category_tag, distribution> mutation_rounds;
         Trait_group_tag traits = "EMPTY_GROUP";
 
         npc_class();

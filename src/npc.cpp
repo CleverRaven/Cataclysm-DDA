@@ -388,9 +388,19 @@ void npc::randomize( const npc_class_id &type )
 
     my_mutations.clear();
     my_traits.clear();
+
+    // Add fixed traits
     Trait_list tmplist = trait_group::traits_from( type->traits );
     for( const auto &tid : tmplist ) {
         set_mutation( tid );
+    }
+
+    // Run mutation rounds
+    for( const auto &mr : type->mutation_rounds ) {
+        int rounds = mr.second.roll();
+        for( int i = 0; i < rounds; ++i ) {
+            mutate_category( mr.first );
+        }
     }
 }
 
