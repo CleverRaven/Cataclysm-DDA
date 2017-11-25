@@ -20,6 +20,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "scent_map.h"
+#include "itype.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions
@@ -193,6 +194,16 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
+
+float monster::rate_food(const item& itm) {
+    if (itm.get_category().name != "food") {
+        return -1.0;
+    }
+
+    // TODO(sm): do creatures have any nutrition-adjusting traits yet?
+    return itm.type->comestible->nutr;
+}
+
 void monster::plan( const mfactions &factions )
 {
     // Bots are more intelligent than most living stuff
@@ -209,6 +220,7 @@ void monster::plan( const mfactions &factions )
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
+    bool steals_food = has_flag( MF_STEALS_FOOD );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -328,6 +340,7 @@ void monster::plan( const mfactions &factions )
         } else if( fleeing ) {
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
+
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
@@ -342,6 +355,22 @@ void monster::plan( const mfactions &factions )
             set_dest( g->u.pos() );
         } else {
             unset_dest();
+        }
+    }
+
+    // If we have no target and we're not hostile towards anyone...
+    if (friendly >= 0 || target == nullptr) {
+        // Try to steal food if we're a food-stealer
+        std::pair<item*, tripoint> item_target;
+        if ( steals_food ) {
+            const int sight_radius = sight_range( g->m.ambient_light_at( my_pos ) );
+            item_target = get_most_desired_nearby_item([&](const item &itm) {
+                        rate_food(itm);
+                    });
+
+            if (item_target.first) {
+                set_dest( item_target.second );
+            }
         }
     }
 }
@@ -638,6 +667,7 @@ void monster::move()
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            ( !pacified && next_step == goal && take_food_at( next_step ) ) ||
             move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
 
         if( !did_something ) {
@@ -1237,6 +1267,38 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     return true;
 }
 
+bool monster::take_food_at( const tripoint &p ) {
+    item* best_food = nullptr;
+    float best_food_rating = -1.0;
+    for (auto& item : g->m.i_at(p)) {
+        float rating = rank_food(item);
+        if (rating > best_food_rating) {
+            best_food = item;
+        }
+    }
+
+    return take_items_at( p, [&](item &itm) {
+            // Just take the one best piece of food for now
+            return itm == (*item);
+        } );
+}
+
+bool monster::take_items_at( const tripoint &p, std::function<bool(item&)> should_pick_up) {
+    auto items = g->m.i_at(p);
+    std::list<item> picked_up;
+
+    // TODO(sm): no volume/weight limits right now
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        const item &itm = *iter;
+        if (should_pick_up(itm)) {
+            picked_up.push_back( it );
+            iter = items.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+}
+
 /**
  * Stumble in a random direction, but with some caveats.
  */
@@ -1441,4 +1503,27 @@ int monster::turns_to_reach( int x, int y )
     }
 
     return int( turns + .9 ); // Halve (to get turns) and round up
+}
+
+std::pair<item*, tripoint> get_most_desired_item_in_radius(int radius, std::function<float(const item&)> calc_desirability) const {
+    float max_desirability = -1;
+    tripoint desired_item_pos;
+    item* desired_item = nullptr;
+    for (auto &p : g->m.points_in_radius(pos(), range)) {
+        if (g->m.sees_some_items(p, *this)) {
+            auto items = g->m.i_at(p);
+            for (auto &item : items) {
+                float des = calc_desirability(item);
+                if (des > max_desirability) {
+                    desired_item = &item;
+                }
+            }
+        }
+    }
+    return std::make_pair(desired_item, desired_item_pos);
+}
+
+std::pair<item*, tripoint> monster::get_most_desired_visible_item(std::function<float(const item&)> calc_desirability) const {
+    int sight_radius = sight_range( g->m.ambient_light_at( my_pos ) );
+    return get_most_desired_item_in_radius( sight_radius, desirability );
 }

@@ -167,6 +167,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        float rate_food(const item& itm);
+
         // Pass all factions to mon, so that hordes of same-faction mons
         // do not iterate over each other
         void plan( const mfactions &factions );
@@ -350,6 +352,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Makes this monster an ally of the given monster. */
         void make_ally( monster *z );
         void add_item( item it );   // Add an item to inventory
+
+        std::pair<item*, tripoint> get_most_desired_visible_item(
+                std::function<float(const item&, const tripoint&)> calc_desirability) const;
 
         /**
          * Makes monster react to heard sound
