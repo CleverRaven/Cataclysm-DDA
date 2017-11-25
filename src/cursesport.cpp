@@ -610,4 +610,38 @@ int waddch(WINDOW *win, const chtype ch)
     return printstring( win, buffer );
 }
 
+static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
+static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
+static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
+
+nc_color nc_color::from_color_pair_index( const int index )
+{
+    return nc_color( ( index << 17 ) & A_COLOR );
+}
+
+int nc_color::to_color_pair_index() const
+{
+    return ( attribute_value & A_COLOR ) >> 17;
+}
+
+nc_color nc_color::bold() const
+{
+    return nc_color( attribute_value | A_BOLD );
+}
+
+bool nc_color::is_bold() const
+{
+    return attribute_value & A_BOLD;
+}
+
+nc_color nc_color::blink() const
+{
+    return nc_color( attribute_value | A_BLINK );
+}
+
+bool nc_color::is_blink() const
+{
+    return attribute_value & A_BLINK;
+}
+
 #endif

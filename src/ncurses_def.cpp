@@ -150,4 +150,34 @@ void input_manager::set_timeout( const int delay )
     input_timeout = delay;
 }
 
+nc_color nc_color::from_color_pair_index( const int index )
+{
+    return nc_color( COLOR_PAIR( index ) );
+}
+
+int nc_color::to_color_pair_index() const
+{
+    return PAIR_NUMBER( attribute_value );
+}
+
+nc_color nc_color::bold() const
+{
+    return nc_color( attribute_value | A_BOLD );
+}
+
+bool nc_color::is_bold() const
+{
+    return attribute_value & A_BOLD;
+}
+
+nc_color nc_color::blink() const
+{
+    return nc_color( attribute_value | A_BLINK );
+}
+
+bool nc_color::is_blink() const
+{
+    return attribute_value & A_BLINK;
+}
+
 #endif

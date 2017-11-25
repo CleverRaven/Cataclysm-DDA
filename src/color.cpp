@@ -12,34 +12,6 @@
 
 #include <iostream>
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
-static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
-static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
-#else
-// Otherwise it's already defined via the ncurses header.
-#endif
-
-nc_color nc_color::bold() const
-{
-    return nc_color( attribute_value | A_BOLD );
-}
-
-bool nc_color::is_bold() const
-{
-    return attribute_value & A_BOLD;
-}
-
-nc_color nc_color::blink() const
-{
-    return nc_color( attribute_value | A_BLINK );
-}
-
-bool nc_color::is_blink() const
-{
-    return attribute_value & A_BLINK;
-}
-
 void nc_color::serialize( JsonOut &jsout ) const
 {
     jsout.write( attribute_value );
@@ -228,26 +200,6 @@ nc_color color_manager::highlight_from_names( const std::string &name, const std
 
     color_id id = name_to_id( hi_name );
     return color_array[id].color;
-}
-
-nc_color nc_color::from_color_pair_index( const int index )
-{
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    return nc_color( ( index << 17 ) & A_COLOR );
-#else
-    // COLOR_PAIR is defined by ncurses
-    return nc_color( COLOR_PAIR( index ) );
-#endif
-}
-
-int nc_color::to_color_pair_index() const
-{
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    return ( attribute_value & A_COLOR ) >> 17;
-#else
-    // PAIR_NUMBER is defined by ncurses
-    return PAIR_NUMBER( attribute_value );
-#endif
 }
 
 void color_manager::load_default()
