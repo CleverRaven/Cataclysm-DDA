@@ -2070,7 +2070,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
 
-    if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
+    if( action != "TIMEOUT" ) {
         // Keyboard event, break out of animation loop
         liveview.hide();
         return false;
