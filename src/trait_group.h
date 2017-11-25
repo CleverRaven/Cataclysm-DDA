@@ -7,20 +7,65 @@
 #include "string.h"
 #include "string_id.h"
 
+typedef std::string Trait_group_tag;
+typedef std::vector<trait_id> Trait_list;
+
 namespace trait_group
 {
 
-typedef string_id<mutation_branch> Trait_id;
-typedef std::string Trait_group_tag;
-typedef std::vector<Trait_id> Trait_list;
-
+/**
+ * Returns a randomized list of traits from the given trait group.
+ */
 Trait_list traits_from( const Trait_group_tag &gid );
-bool group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid );
+
+/**
+ * Check whether a particular trait is a member of the given group.
+ */
+bool group_contains_trait( const Trait_group_tag &gid, const trait_id &tid );
+
+/**
+ * Check whether the given group ID has been defined.
+ */
 bool group_is_defined( const Trait_group_tag &gid );
+
+/**
+ * See @ref mutation_branch::load_trait_group
+ */
 void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
+
+
+/**
+ * Get a trait group ID and optionally load an inlined trait group.
+ *
+ * If the next value in the JSON stream is string, it's assumed to be a trait group id and it's
+ * returned directly.
+ *
+ * If the next value is a JSON object, it is loaded as a trait group. The group will be given a
+ * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
+ * If the JSON object does not contain a subtype, the given default is used.
+ *
+ * If the next value is a JSON array, it is loaded as a trait group: the default_subtype will be
+ * used as subtype of the new trait group and the array is loaded like the "entries" array of
+ * a trait group definition (see format of trait groups).
+ *
+ * @param stream Stream to load from
+ * @param default_subtype If an inlined trait group is loaded this is used as the default
+ * subtype. It must be either "distribution" or "collection". See @ref Trait_group.
+ * @throw std::string as usual for JSON errors, including invalid input values.
+ */
 Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_subtype );
+
+/**
+ * Show a debug menu for testing trait groups.
+ */
 void debug_spawn();
 
+}
+
+/**
+ * Base interface for trait generation.
+ * Used to generate a list of traits.
+ */
 class Trait_creation_data
 {
     public:
@@ -29,13 +74,30 @@ class Trait_creation_data
         Trait_creation_data( int _probability ) : probability( _probability ) {}
         virtual ~Trait_creation_data() {};
 
+        /**
+         * Create a list of traits. The resulting list might be empty.
+         * @param[out] rec Recursion list, output goes here
+         */
         virtual Trait_list create( RecursionList &rec ) const = 0;
         Trait_list create() const;
 
+        /**
+         * Check the trait templates for consistency (valid trait types, etc).
+         */
         virtual void check_consistency() const = 0;
-        virtual bool remove_trait( const Trait_id &tid ) = 0;
-        virtual bool has_trait( const Trait_id &tid ) const = 0;
 
+        /**
+         * Remove the given trait from this and all linked groups.
+         * Used for blacklisting.
+         */
+        virtual bool remove_trait( const trait_id &tid ) = 0;
+
+        /**
+         * Check if this group or any linked groups contain the given trait.
+         */
+        virtual bool has_trait( const trait_id &tid ) const = 0;
+
+        // Probability, used by the parent object.
         int probability;
     private:
         // not implemented
@@ -43,19 +105,27 @@ class Trait_creation_data
         Trait_creation_data &operator=( const Trait_creation_data & );
 };
 
+/**
+ * Interface for creating a single trait. This corresponds to JSON objects like
+ * { "trait": "TRAIT_NAME", prob: 100 }
+ */
 class Single_trait_creator : public Trait_creation_data
 {
     public:
-        Single_trait_creator( const Trait_id &id, int probability );
+        Single_trait_creator( const trait_id &id, int probability );
 
-        Trait_id id;
+        trait_id id;
 
         virtual Trait_list create( RecursionList &rec ) const;
         virtual void check_consistency() const;
-        virtual bool remove_trait( const Trait_id &tid );
-        virtual bool has_trait( const Trait_id &tid ) const;
+        virtual bool remove_trait( const trait_id &tid );
+        virtual bool has_trait( const trait_id &tid ) const;
 };
 
+/**
+ * Interface for creating a group of traits. This corresponds to a JSON list
+ * of traits.
+ */
 class Trait_group_creator : public Trait_creation_data
 {
     public:
@@ -65,10 +135,13 @@ class Trait_group_creator : public Trait_creation_data
 
         virtual Trait_list create( RecursionList &rec ) const;
         virtual void check_consistency() const;
-        virtual bool remove_trait( const Trait_id &tid );
-        virtual bool has_trait( const Trait_id &tid ) const;
+        virtual bool remove_trait( const trait_id &tid );
+        virtual bool has_trait( const trait_id &tid ) const;
 };
 
+/**
+ * A group of traits to generate.
+ */
 class Trait_group : public Trait_creation_data
 {
     public:
@@ -77,19 +150,31 @@ class Trait_group : public Trait_creation_data
         Trait_group( int probability );
         ~Trait_group() override;
 
-        void add_trait_entry( const Trait_id &tid, int probability );
+        void add_trait_entry( const trait_id &tid, int probability );
         void add_group_entry( const Trait_group_tag &gid, int probability );
+
+        /**
+         * Once the relevant data has been read from JSON, this function is always called (either from
+         * @ref mutation_branch::add_entry, @ref add_trait_entry or @ref add_group_entry). Its purpose
+         * is to add a Single_trait_creator or Trait_group_creator to @ref creators.
+         */
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) = 0;
 
         virtual void check_consistency() const override;
-        virtual bool remove_trait( const Trait_id &tid ) override;
-        virtual bool has_trait( const Trait_id &tid ) const override;
+        virtual bool remove_trait( const trait_id &tid ) override;
+        virtual bool has_trait( const trait_id &tid ) const override;
 
     protected:
+        // Links to all entries in this group.
         CreatorList creators;
+        // The sum of the probability of all entries contained in this group.
         int sum_prob;
 };
 
+/**
+ * A collection of traits to generate. At creation time, each trait will be
+ * included (or not) based on its own probability roll.
+ */
 class Trait_group_collection : public Trait_group
 {
     public:
@@ -99,6 +184,11 @@ class Trait_group_collection : public Trait_group
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
 };
 
+/**
+ * A distribution of traits to generate. At creation time, each trait will be
+ * included (or not) based on its own probability measured against the sum
+ * of all other traits' probabilities in the distribution.
+ */
 class Trait_group_distribution : public Trait_group
 {
     public:
@@ -108,7 +198,5 @@ class Trait_group_distribution : public Trait_group
         virtual Trait_list create( RecursionList &rec ) const override;
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
 };
-
-}
 
 #endif

@@ -11,14 +11,14 @@
 #include <map>
 #include <vector>
 
-typedef std::map<trait_group::Trait_group_tag, trait_group::Trait_creation_data *> TraitGroupMap;
-typedef std::set<trait_group::Trait_id> TraitSet;
+typedef std::map<Trait_group_tag, Trait_creation_data *> TraitGroupMap;
+typedef std::set<trait_id> TraitSet;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups = {
     // An empty dummy group, it will not generate any traits. However, it makes that trait group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    {"EMPTY_GROUP", new trait_group::Trait_group_collection(100)}
+    {"EMPTY_GROUP", new Trait_group_collection(100)}
 };
 
 std::vector<dream> dreams;
@@ -404,43 +404,43 @@ void mutation_branch::reset_all()
     }
     trait_blacklist.clear();
     trait_groups.clear();
-    trait_groups["EMPTY_GROUP"] = new trait_group::Trait_group_collection(100);
+    trait_groups["EMPTY_GROUP"] = new Trait_group_collection(100);
 }
 
 void mutation_branch::load_trait_blacklist( JsonObject &jsobj ) {
     JsonArray jarr = jsobj.get_array( "traits" );
     while (jarr.has_more()) {
-        trait_group::Trait_id id(jarr.next_string());
+        trait_id id(jarr.next_string());
         trait_blacklist.insert(id);
     }
 }
 
 void mutation_branch::load_trait_group(JsonObject &jsobj) {
-    const trait_group::Trait_group_tag group_id = jsobj.get_string("id");
+    const Trait_group_tag group_id = jsobj.get_string("id");
     const std::string subtype = jsobj.get_string("subtype", "old");
     load_trait_group(jsobj, group_id, subtype);
 }
 
-trait_group::Trait_group *make_group_or_throw(const trait_group::Trait_group_tag &gid, trait_group::Trait_creation_data *&tcd, bool is_collection) {
-    trait_group::Trait_group* tg = dynamic_cast<trait_group::Trait_group *>(tcd);
+Trait_group *make_group_or_throw(const Trait_group_tag &gid, Trait_creation_data *&tcd, bool is_collection) {
+    Trait_group* tg = dynamic_cast<Trait_group *>(tcd);
 
     // TODO(sm): not yet clear whether or not this misses anything from make_group_or_throw
     if (tg == nullptr) {
         if (is_collection) {
-            tcd = tg = new trait_group::Trait_group_collection(100);
+            tcd = tg = new Trait_group_collection(100);
         } else {
-            tcd = tg = new trait_group::Trait_group_distribution(100);
+            tcd = tg = new Trait_group_distribution(100);
         }
     } else {
         // Evidently, making the collection/distribution separation better has made the code for this check worse.
         if (is_collection) {
-            if (trait_group::Trait_group_distribution *tgd =
-                    dynamic_cast<trait_group::Trait_group_distribution*>(tcd)) {
+            if (Trait_group_distribution *tgd =
+                    dynamic_cast<Trait_group_distribution*>(tcd)) {
                 throw std::runtime_error("item group \"" + gid + "\" already defined with type \"distribution\"" );
             }
         } else {
-            if (trait_group::Trait_group_collection *tgc =
-                    dynamic_cast<trait_group::Trait_group_collection*>(tcd)) {
+            if (Trait_group_collection *tgc =
+                    dynamic_cast<Trait_group_collection*>(tcd)) {
                 throw std::runtime_error("item group \"" + gid + "\" already defined with type \"collection\"" );
             }
         }
@@ -448,18 +448,18 @@ trait_group::Trait_group *make_group_or_throw(const trait_group::Trait_group_tag
     return tg;
 }
 
-void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection) {
-    trait_group::Trait_creation_data *&tcd = trait_groups[gid];
-    trait_group::Trait_group* tg = make_group_or_throw(gid, tcd, is_collection);
+void mutation_branch::load_trait_group(JsonArray &entries, const Trait_group_tag &gid, const bool is_collection) {
+    Trait_creation_data *&tcd = trait_groups[gid];
+    Trait_group* tg = make_group_or_throw(gid, tcd, is_collection);
 
     while(entries.has_more()) {
         // Backwards-compatibility with old format ["TRAIT", 100]
         if (entries.test_array()) {
             JsonArray subarr = entries.next_array();
 
-            trait_group::Trait_id id(subarr.get_string(0));
-            std::unique_ptr<trait_group::Trait_creation_data> ptr(
-                    new trait_group::Single_trait_creator(id, subarr.get_int(1)));
+            trait_id id(subarr.get_string(0));
+            std::unique_ptr<Trait_creation_data> ptr(
+                    new Single_trait_creator(id, subarr.get_int(1)));
             tg->add_entry(ptr);
         // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
@@ -469,9 +469,9 @@ void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Tr
     }
 }
 
-void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Trait_group_tag &gid, const std::string &subtype) {
-    trait_group::Trait_creation_data *&tcd = trait_groups[gid];
-    trait_group::Trait_group *tg = dynamic_cast<trait_group::Trait_group *>(tcd);
+void mutation_branch::load_trait_group(JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype) {
+    Trait_creation_data *&tcd = trait_groups[gid];
+    Trait_group *tg = dynamic_cast<Trait_group *>(tcd);
 
     if (subtype != "distribution" && subtype != "collection" && subtype != "old") {
         jsobj.throw_error("unknown trait group type", "subtype");
@@ -483,7 +483,7 @@ void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Tra
         JsonArray traits = jsobj.get_array("traits");
         while (traits.has_more()) {
             JsonArray pair = traits.next_array();
-            tg->add_trait_entry(trait_group::Trait_id(pair.get_string(0)), pair.get_int(1));
+            tg->add_trait_entry(trait_id(pair.get_string(0)), pair.get_int(1));
         }
         return;
     }
@@ -500,10 +500,10 @@ void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Tra
         JsonArray traits = jsobj.get_array("traits");
         while (traits.has_more()) {
             if (traits.test_string()) {
-                tg->add_trait_entry(trait_group::Trait_id(traits.next_string()), 100);
+                tg->add_trait_entry(trait_id(traits.next_string()), 100);
             } else if (traits.test_array()) {
                 JsonArray subtrait = traits.next_array();
-                tg->add_trait_entry(trait_group::Trait_id(subtrait.get_string(0)), subtrait.get_int(1));
+                tg->add_trait_entry(trait_id(subtrait.get_string(0)), subtrait.get_int(1));
             } else {
                 JsonObject subobj = traits.next_object();
                 add_entry(tg, subobj);
@@ -526,21 +526,21 @@ void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Tra
     }
 }
 
-void mutation_branch::add_entry(trait_group::Trait_group *tg, JsonObject &obj) {
-    std::unique_ptr<trait_group::Trait_creation_data> ptr;
+void mutation_branch::add_entry(Trait_group *tg, JsonObject &obj) {
+    std::unique_ptr<Trait_creation_data> ptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
 
     if (obj.has_member("collection")) {
-        ptr.reset(new trait_group::Trait_group_collection(probability));
+        ptr.reset(new Trait_group_collection(probability));
         jarr = obj.get_array("collection");
     } else if (obj.has_member("distribution")) {
-        ptr.reset(new trait_group::Trait_group_distribution(probability));
+        ptr.reset(new Trait_group_distribution(probability));
         jarr = obj.get_array("distribution");
     }
 
     if (ptr) {
-        trait_group::Trait_group *tg2 = dynamic_cast<trait_group::Trait_group *>(ptr.get());
+        Trait_group *tg2 = dynamic_cast<Trait_group *>(ptr.get());
         while (jarr.has_more()) {
             JsonObject job2 = jarr.next_object();
             add_entry(tg2, job2);
@@ -550,10 +550,10 @@ void mutation_branch::add_entry(trait_group::Trait_group *tg, JsonObject &obj) {
     }
 
     if (obj.has_member("trait")) {
-        trait_group::Trait_id id(obj.get_string("trait"));
-        ptr.reset(new trait_group::Single_trait_creator(id, probability));
+        trait_id id(obj.get_string("trait"));
+        ptr.reset(new Single_trait_creator(id, probability));
     } else if (obj.has_member("group")) {
-        ptr.reset(new trait_group::Trait_group_creator(obj.get_string("group"), probability));
+        ptr.reset(new Trait_group_creator(obj.get_string("group"), probability));
     }
 
     if (!ptr) {
@@ -583,14 +583,14 @@ void mutation_branch::finalize_trait_blacklist() {
     }
 }
 
-trait_group::Trait_creation_data* mutation_branch::get_group( const trait_group::Trait_group_tag &gid ) {
+Trait_creation_data* mutation_branch::get_group( const Trait_group_tag &gid ) {
     if (trait_groups.count(gid) > 0) {
         return trait_groups[gid];
     }
     return nullptr;
 }
 
-std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names() {
+std::vector<Trait_group_tag> mutation_branch::get_all_group_names() {
     std::vector<std::string> rval;
     for (auto &group: trait_groups) {
         rval.push_back(group.first);
@@ -598,11 +598,11 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
-bool mutation_branch::trait_is_blacklisted( const trait_group::Trait_id &tid ) {
+bool mutation_branch::trait_is_blacklisted( const trait_id &tid ) {
     return trait_blacklist.count( tid );
 }
 
-bool mutation_branch::has_trait( const trait_group::Trait_id &tid ) {
+bool mutation_branch::has_trait( const trait_id &tid ) {
     return mutation_data.find(tid) != mutation_data.end();
 }
 

@@ -17,7 +17,7 @@ Trait_list trait_group::traits_from( const Trait_group_tag &gid )
     return tcd->create();
 }
 
-bool trait_group::group_contains_trait( const Trait_group_tag &gid, const Trait_id &tid )
+bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_id &tid )
 {
     Trait_creation_data *tcd = mutation_branch::get_group( gid );
     return tcd && tcd->has_trait( tid );
@@ -34,7 +34,7 @@ void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gi
     mutation_branch::load_trait_group( jsobj, gid, subtype );
 }
 
-// NOTE: This function is taken directly from item_group
+// NOTE: This function is largely based on item_group::get_unique_group_id()
 Trait_group_tag get_unique_trait_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
@@ -81,7 +81,7 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
     }
 }
 
-// This is largely based on item_group::debug_spawn()
+// NOTE: This is largely based on item_group::debug_spawn()
 void trait_group::debug_spawn()
 {
     std::vector<std::string> groups = mutation_branch::get_all_group_names();
@@ -144,7 +144,7 @@ Trait_group::~Trait_group()
     creators.clear();
 }
 
-Single_trait_creator::Single_trait_creator( const Trait_id &id, int probability )
+Single_trait_creator::Single_trait_creator( const trait_id &id, int probability )
     : Trait_creation_data( probability ), id( id )
 {
 }
@@ -161,14 +161,14 @@ void Single_trait_creator::check_consistency() const
     }
 }
 
-bool Single_trait_creator::remove_trait( const Trait_id &tid )
+bool Single_trait_creator::remove_trait( const trait_id &tid )
 {
-    // Return true if I would be empty after removing the trait, thus letting
-    // my parent remove me.
+    // Return true if I would be empty after "removing" the given trait, thus
+    // signaling to my parent that I should be removed.
     return tid == id;
 }
 
-bool Single_trait_creator::has_trait( const Trait_id &tid ) const
+bool Single_trait_creator::has_trait( const trait_id &tid ) const
 {
     return tid == id;
 }
@@ -208,7 +208,7 @@ void Trait_group_creator::check_consistency() const
     }
 }
 
-bool Trait_group_creator::remove_trait( const Trait_id &tid )
+bool Trait_group_creator::remove_trait( const trait_id &tid )
 {
     Trait_creation_data *tcd = mutation_branch::get_group( id );
 
@@ -218,14 +218,14 @@ bool Trait_group_creator::remove_trait( const Trait_id &tid )
     return false;
 }
 
-bool Trait_group_creator::has_trait( const Trait_id &tid ) const
+bool Trait_group_creator::has_trait( const trait_id &tid ) const
 {
     Trait_creation_data *tcd = mutation_branch::get_group( id );
 
     return tcd && tcd->has_trait( tid );
 }
 
-void Trait_group::add_trait_entry( const Trait_id &tid, int probability )
+void Trait_group::add_trait_entry( const trait_id &tid, int probability )
 {
     std::unique_ptr<Trait_creation_data> ptr( new Single_trait_creator( tid, probability ) );
     add_entry( ptr );
@@ -244,7 +244,7 @@ void Trait_group::check_consistency() const
     }
 }
 
-bool Trait_group::remove_trait( const Trait_id &tid )
+bool Trait_group::remove_trait( const trait_id &tid )
 {
     for( auto it = creators.begin(); it != creators.end(); ) {
         if( ( *it )->remove_trait( tid ) ) {
@@ -258,7 +258,7 @@ bool Trait_group::remove_trait( const Trait_id &tid )
     return creators.empty();
 }
 
-bool Trait_group::has_trait( const Trait_id &tid ) const
+bool Trait_group::has_trait( const trait_id &tid ) const
 {
     for( const auto &creator : creators ) {
         if( creator->has_trait( tid ) ) {

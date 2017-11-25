@@ -24,14 +24,8 @@ using trait_id = string_id<mutation_branch>;
 using itype_id = std::string;
 struct mutation_category_trait;
 
-namespace trait_group
-{
-
-typedef string_id<mutation_branch> Trait_id;
 class Trait_group;
 class Trait_creation_data;
-
-}
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -190,22 +184,96 @@ struct mutation_branch {
 
     typedef std::string Trait_group_tag;
 
-    static void init();
+    /**
+     * Load a trait blacklist specified by the given JSON object.
+     */
     static void load_trait_blacklist( JsonObject &jsobj );
+
+    /**
+     * @name Trait groups
+     *
+     * Trait groups are used to generate a randomized set of traits.
+     * You usually only need the @ref Trait_group::traits_from function to
+     * create traits from a group.
+     */
+    /*@{*/
+    /**
+     * Callback for the init system (@ref DynamicDataLoader), loads a trait
+     * group definitions.
+     * @param jsobj The json object to load from.
+     * @throw std::string if the json object contains invalid data.
+     */
     static void load_trait_group( JsonObject &jsobj );
+
+    /**
+     * Load a trait group from json. It differs from the other load_trait_group function as it
+     * uses the group ID and subtype given as parameters, and does not look them up in
+     * the json data (i.e. the given json object does not need to have them).
+     *
+     * This is intended for inline definitions of trait groups, e.g. in NPC class definitions:
+     * the trait group there is embedded into the class type definition.
+     *
+     * @param jsobj The json object to load from.
+     * @param gid The ID of the group that is to be loaded.
+     * @param subtype The type of the trait group, either "collection", "distribution" or "old"
+     * (i.e. the old list-based format, `[ ["TRAIT", 100] ]`).
+     * @throw std::string if the json object contains invalid data.
+     */
+    static void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+                                  const std::string &subtype );
+
+    /**
+     * Like the above function, except this function assumes that the given
+     * array is the "entries" member of the trait group.
+     *
+     * For each element in the array, @ref mutation_branch::add_entry is called.
+     *
+     * Assuming the input array looks like `[ x, y, z ]`, this function loads it like the
+     * above would load this object:
+     * \code
+     * {
+     *      "subtype": "depends on is_collection parameter",
+     *      "id": "ident",
+     *      "entries": [ x, y, z ]
+     * }
+     * \endcode
+     * Note that each entrie in the array has to be a JSON object. The other function above
+     * can also load data from arrays of strings, where the strings are item or group ids.
+     */
     static void load_trait_group( JsonArray &entries, const Trait_group_tag &gid,
                                   const bool is_collection );
-    static void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
-                                  const std::string &subtype );;
-    static void add_entry( trait_group::Trait_group *tg, JsonObject &obj );
 
+    /**
+     * Create a new trait group as specified by the given JSON object and register
+     * it as part of the given trait group.
+     */
+    static void add_entry( Trait_group *tg, JsonObject &obj );
+
+    /** called after all JSON has been read and performs any necessary cleanup tasks */
     static void finalize();
     static void finalize_trait_blacklist();
 
-    static trait_group::Trait_creation_data *get_group( const Trait_group_tag &gid );
+    /**
+     * Get the trait group object specified by the given ID, or null if no
+     * such group exists.
+     */
+    static Trait_creation_data *get_group( const Trait_group_tag &gid );
+
+    /**
+     * Return the idents of all trait groups that are known.
+     * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
+     */
     static std::vector<Trait_group_tag> get_all_group_names();
-    static bool trait_is_blacklisted( const trait_group::Trait_id &tid );
-    static bool has_trait( const trait_group::Trait_id &tid );
+
+    /**
+     * Check if the trait with the given ID is blacklisted.
+     */
+    static bool trait_is_blacklisted( const trait_id &tid );
+
+    /**
+     * Check if a trait with the given ID exists.
+     */
+    static bool has_trait( const trait_id &tid );
 };
 
 struct mutation_category_trait {

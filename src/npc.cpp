@@ -388,7 +388,7 @@ void npc::randomize( const npc_class_id &type )
 
     my_mutations.clear();
     my_traits.clear();
-    trait_group::Trait_list tmplist = trait_group::traits_from( type->traits );
+    Trait_list tmplist = trait_group::traits_from( type->traits );
     for( const auto &tid : tmplist ) {
         set_mutation( tid );
     }
