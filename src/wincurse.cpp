@@ -461,7 +461,7 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-void init_interface()
+void catacurses::init_interface()
 {
     lastchar=-1;
     inputdelay=-1;

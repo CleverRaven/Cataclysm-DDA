@@ -8,11 +8,6 @@
 #include <cstdint>
 #include <string>
 
-/// @throws std::exception upon any errors. The caller should display / log it
-/// and abort the program. Only continue the program when this returned normally.
-//@todo move into catacurses
-void init_interface();
-
 class nc_color;
 
 /**
@@ -44,6 +39,10 @@ class nc_color;
 //`catacurses::WINDWO *win = catacurses::newwin(...)`
 namespace catacurses
 {
+
+/// @throws std::exception upon any errors. The caller should display / log it
+/// and abort the program. Only continue the program when this returned normally.
+void init_interface();
 
 // it's void because than it's compatible with ncurses and with our own curses
 // library becaue void* can be converted to either

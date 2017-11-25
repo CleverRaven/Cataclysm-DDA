@@ -205,7 +205,7 @@ catacurses::window catacurses::stdscr;
 
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
-void init_interface()
+void catacurses::init_interface()
 {
     catacurses::stdscr = ::initscr();
     if( catacurses::stdscr == nullptr ) {
