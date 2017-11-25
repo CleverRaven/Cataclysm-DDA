@@ -4,6 +4,7 @@
 #include "translations.h"
 #include "ui.h"
 
+#include <algorithm>
 #include <sstream>
 
 using namespace trait_group;

@@ -434,13 +434,11 @@ Trait_group *make_group_or_throw(const Trait_group_tag &gid, Trait_creation_data
     } else {
         // Evidently, making the collection/distribution separation better has made the code for this check worse.
         if (is_collection) {
-            if (Trait_group_distribution *tgd =
-                    dynamic_cast<Trait_group_distribution*>(tcd)) {
+            if (dynamic_cast<Trait_group_distribution*>(tcd)) {
                 throw std::runtime_error("item group \"" + gid + "\" already defined with type \"distribution\"" );
             }
         } else {
-            if (Trait_group_collection *tgc =
-                    dynamic_cast<Trait_group_collection*>(tcd)) {
+            if (dynamic_cast<Trait_group_collection*>(tcd)) {
                 throw std::runtime_error("item group \"" + gid + "\" already defined with type \"collection\"" );
             }
         }
