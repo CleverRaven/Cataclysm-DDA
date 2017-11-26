@@ -248,8 +248,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
      *   "mutation_rounds" : { "constant" : 1 }
      * or a map of categories to distributions:
      *   "mutagen_rounds": [
-     *     [ "MUTCAT_ANY", { "constant": 1 } ],
-     *     [ "MUTCAT_INSECT", { "rng": [1, 3] } 
+     *     { "category": "MUTCAT_ANY", "rounds": { "constant": 1 } },
+     *     { "category": "MUTCAT_INSECT", "rounds": { "rng": [1, 3] } }
      *   ]
      */
     if( jo.has_object( "mutation_rounds" ) ) {
@@ -258,9 +258,9 @@ void npc_class::load( JsonObject &jo, const std::string & )
     } else if( jo.has_array( "mutation_rounds" ) ) {
         JsonArray jarr = jo.get_array( "mutation_rounds" );
         while( jarr.has_more() ) {
-            JsonArray jarr2 = jarr.next_array();
-            JsonObject jo2 = jarr2.get_object( 1 );
-            mutation_rounds[jarr2.get_string( 0 )] = load_distribution( jo2 );
+            JsonObject jo2 = jarr.next_object();
+            JsonObject distr_jo = jo2.get_object( "rounds" );
+            mutation_rounds[jo2.get_string( "category" )] = load_distribution( distr_jo );
         }
     }
 
