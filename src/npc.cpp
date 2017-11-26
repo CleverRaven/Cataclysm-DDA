@@ -249,10 +249,7 @@ npc::~npc() { }
 
 std::string npc::save_info() const
 {
-    std::ostringstream dump;
-    JsonOut jsout( dump );
-    serialize( jsout ); // also saves contents
-    return dump.str();
+    return ::serialize( *this );
 }
 
 void npc::load_info( std::string data )

@@ -7453,7 +7453,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
         monster new_monster;
         try {
-            new_monster.deserialize( it->get_var("contained_json","") );
+            deserialize( new_monster, it->get_var( "contained_json", "" ) );
         } catch( const std::exception &e ) {
             debugmsg( _( "Error restoring monster: %s" ), e.what() );
             return 0;
@@ -7497,14 +7497,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                std::string serialized_monster;
-                try {
-                    serialized_monster = f.serialize();
-                } catch( const JsonError &e ) {
-                    debugmsg( _("Error serializing monster: %s"), e.c_str() );
-                    return 0;
-                }
-                it->set_var( "contained_json", serialized_monster );
+                it->set_var( "contained_json", serialize( f ) );
                 it->set_var( "contained_name", f.type->nname() );
                 it->set_var( "name", string_format(_("%s holding %s"), it->type->nname(1).c_str(),
                                                    f.type->nname().c_str()));
