@@ -178,7 +178,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
 
-    // json/colors.json would be listed here, but it's loaded before the others (see start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );

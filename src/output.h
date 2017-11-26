@@ -86,7 +86,6 @@ enum game_message_type : int {
 };
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = false );
-int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg = false );
 
 /**
  * @anchor color_tags

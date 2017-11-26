@@ -5,6 +5,7 @@
 #include "bodypart.h"
 #include "debug.h"
 #include "translations.h"
+#include "color.h"
 
 #include <map>
 #include <set>

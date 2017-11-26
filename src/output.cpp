@@ -1931,33 +1931,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
     return bOldMsg ? it->second.second : it->second.first;
 }
 
-int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
-{
-    int iBold = ( bOldMsg ) ? 0 : 8;
-
-    switch( type ) {
-        case m_good:
-            return iBold + COLOR_GREEN;
-        case m_bad:
-            return iBold + COLOR_RED;
-        case m_mixed:
-        case m_headshot:
-            return iBold + COLOR_MAGENTA;
-        case m_neutral:
-            return iBold + COLOR_WHITE;
-        case m_warning:
-        case m_critical:
-            return iBold + COLOR_YELLOW;
-        case m_info:
-        case m_grazing:
-            return iBold + COLOR_BLUE;
-        default:
-            break;
-    }
-
-    return -1;
-}
-
 /**
  * Match text containing wildcards (*)
  * @param text_in Text to check
