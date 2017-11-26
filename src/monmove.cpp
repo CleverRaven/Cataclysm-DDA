@@ -371,14 +371,11 @@ void monster::plan( const mfactions &factions )
         // If we're a food-stealer, try to steal food, or possibly eat it if we have it
         if( steals_food && wants_to_steal ) {
             std::pair<item *, tripoint> item_target;
-            //debugmsg( "Looking for food to steal..." );
             item_target = get_most_desired_visible_item( [&]( const item & itm ) {
                 return rate_food( itm );
             } );
-            //debugmsg( item_target.first ? "got target" : "no target" );
 
             if( item_target.first ) {
-                //debugmsg( "setting dest to %d, %d", item_target.second.x, item_target.second.y );
                 add_effect( effect_seeking_item, 3 );
                 set_dest( item_target.second );
             }
@@ -1295,30 +1292,32 @@ bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::it
     auto items = g->m.i_at( p );
     auto to_pick_up = selector( items );
 
-    // TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either
-    if( to_pick_up != items.end() ) {
-        // If there is a stack of items on the ground, only pick up as many of them as would
-        // count as "one" item for spawning purposes.
-        int default_charges = to_pick_up->type->charges_default();
-        if( default_charges > 1 && to_pick_up->charges > default_charges ) {
-            to_pick_up->mod_charges( -default_charges );
-            inv.push_back( *to_pick_up );
-            inv.back().charges = default_charges;
-
-            add_msg( m_warning, _( "The %1$s grabs %2$s!" ), name().c_str(),
-                     inv.back().display_name( default_charges ) );
-        } else {
-            std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
-            items.erase( to_pick_up );
-
-            add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
-                     to_pick_up->tname( 1 ) );
-        }
-
-        return true;
+    if( to_pick_up == items.end() ) {
+        return false;
     }
 
-    return false;
+    /**
+     * If there is a stack of items on the ground, only pick up as many of them as would
+     * count as "one" item for spawning purposes.
+     * 
+     * TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either.
+     */
+    int default_charges = to_pick_up->type->charges_default();
+    if( default_charges > 1 && to_pick_up->charges > default_charges ) {
+        to_pick_up->mod_charges( -default_charges );
+        inv.push_back( *to_pick_up );
+        inv.back().charges = default_charges;
+    } else {
+        std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
+        items.erase( to_pick_up );
+    }
+
+    if( g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
+                 inv.back().display_name() );
+    }
+
+    return true;
 }
 
 bool monster::take_food_at( const tripoint &p )
@@ -1348,14 +1347,12 @@ bool monster::take_food_at( const tripoint &p )
 
 bool monster::eat_food_from_inventory()
 {
-    if( inv.empty() ) {
-        return false;
-    }
-
     // Monsters don't have nutrition, so eating doesn't actually do anything for them yet
     for( auto it = inv.begin(); it != inv.end(); ++it ) {
         if( it->is_food() ) {
-            add_msg( _( "The %1$s eats a %2$s." ), name().c_str(), it->tname().c_str() );
+            if( g->u.sees( *this ) ) {
+                add_msg( _( "The %1$s eats a %2$s." ), name().c_str(), it->tname().c_str() );
+            }
 
             // NOTE: The moves cost is taken from the default player mealtime
             moves -= 250;
@@ -1579,17 +1576,13 @@ int monster::turns_to_reach( int x, int y )
 std::pair<item *, tripoint> monster::get_most_desired_item_in_radius( int radius,
         std::function<float( const item & )> calc_desirability ) const
 {
-    //debugmsg( "Looking for items in radius %d", radius );
-
     float max_desirability = -1;
     tripoint desired_item_pos;
     item *desired_item = nullptr;
     for( auto &p : g->m.points_in_radius( pos(), radius ) ) {
         if( g->m.sees_some_items( p, *this ) ) {
             auto items = g->m.i_at( p );
-            //debugmsg( "found %d items in this tile", items.size() );
             for( auto &itm : items ) {
-                //debugmsg( "item is of category %s", itm.get_category().name );
                 float des = calc_desirability( itm );
                 if( des > max_desirability ) {
                     desired_item = &itm;

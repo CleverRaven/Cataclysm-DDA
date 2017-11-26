@@ -435,7 +435,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     if (!inv.empty()) {
         // Cut off really long item names
         std::vector<std::string> lines = foldstring( inventory_summary(), getmaxx(w) - 1 - column );
-        mvwprintz( w, vStart++, column, c_yellow, "Carrying %s.", lines.front().c_str() );
+        mvwprintz( w, vStart++, column, c_yellow, _("Carrying %s."), lines.front().c_str() );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );

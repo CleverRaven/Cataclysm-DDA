@@ -5,7 +5,6 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include "map.h"
 #include <vector>
 
 class map;
@@ -14,6 +13,7 @@ class item;
 class monfaction;
 class player;
 class Character;
+class map_stack;
 struct mtype;
 enum monster_trigger : int;
 enum field_id : int;
