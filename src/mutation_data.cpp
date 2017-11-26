@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "trait_group.h"
+#include "color.h"
 
 #include <map>
 #include <sstream>

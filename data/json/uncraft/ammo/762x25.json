@@ -4,7 +4,7 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "gunpowder", 4 ] ]
@@ -15,7 +15,7 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "gunpowder", 5 ] ]
@@ -26,7 +26,7 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "gunpowder", 5 ] ]

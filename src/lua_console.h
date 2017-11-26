@@ -9,7 +9,7 @@
 #include <vector>
 #include <utility>
 
-typedef int nc_color;
+class nc_color;
 
 class lua_console
 {

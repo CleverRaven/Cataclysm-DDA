@@ -382,6 +382,11 @@
     "replace": "UPS_off"
   },
   {
+    "id": "v_curtain_item",
+    "type": "MIGRATION",
+    "replace": "sheet"
+  },
+  {
     "id": "pistol_pepperbox",
     "type": "MIGRATION",
     "replace": "colt_navy"

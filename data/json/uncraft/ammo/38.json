@@ -3,7 +3,7 @@
     "result": "38_fmj",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "38_casing", 1 ] ],
@@ -16,7 +16,7 @@
     "result": "38_special",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "38_casing", 1 ] ],
@@ -29,7 +29,7 @@
     "result": "38_super",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "38_casing", 1 ] ],
