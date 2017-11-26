@@ -1299,7 +1299,7 @@ bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::it
     /**
      * If there is a stack of items on the ground, only pick up as many of them as would
      * count as "one" item for spawning purposes.
-     * 
+     *
      * TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either.
      */
     int default_charges = to_pick_up->type->charges_default();
