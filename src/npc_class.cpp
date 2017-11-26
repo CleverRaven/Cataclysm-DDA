@@ -244,7 +244,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
      * or a map of categories to distributions:
      *   "mutagen_rounds": [
      *     [ "MUTCAT_ANY", { "constant": 1 } ],
-     *     [ "MUTCAT_INSECT", { "rng": [1, 3] } 
+     *     [ "MUTCAT_INSECT", { "rng": [1, 3] }
      *   ]
      */
     if( jo.has_object( "mutation_rounds" ) ) {
