@@ -384,10 +384,20 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, type, male );
     starting_inv( *this, type );
     has_new_items = true;
+    my_traits.clear();
+    my_mutations.clear();
 
     for( const auto &pr : type->traits ) {
         if( rng( 1, 100 ) <= pr.second ) {
             set_mutation( pr.first );
+        }
+    }
+
+    // Run mutation rounds
+    for( const auto &mr : type->mutation_rounds ) {
+        int rounds = mr.second.roll();
+        for( int i = 0; i < rounds; ++i ) {
+            mutate_category( mr.first );
         }
     }
 }
