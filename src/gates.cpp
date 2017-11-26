@@ -10,6 +10,8 @@
 #include "vehicle.h"
 
 #include <string>
+#include <algorithm>
+#include <vector>
 
 // Gates namespace
 
