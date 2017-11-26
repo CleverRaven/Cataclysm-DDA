@@ -8,6 +8,20 @@
 
 #include <list>
 
+int get_remaining_charges( std::string tool_id )
+{
+    const inventory crafting_inv = g->u.crafting_inventory();
+    std::vector<const item *> items =
+    crafting_inv.items_with( [tool_id]( const item & i ) {
+        return i.typeId() == tool_id;
+    } );
+    int remaining_charges = 0;
+    for( const item *instance : items ) {
+        remaining_charges += instance->charges;
+    }
+    return remaining_charges;
+}
+
 void clear_player()
 {
     player &dummy = g->u;

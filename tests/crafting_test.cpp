@@ -200,7 +200,8 @@ TEST_CASE( "available_recipes", "[.]" )
     }
 }
 
-static void test_craft( std::string recipe_id, std::vector<item> tools, bool expect_craftable )
+static void test_craft( const std::string &recipe_id, const std::vector<item> tools,
+                        bool expect_craftable )
 {
     clear_player();
     clear_map();
@@ -219,6 +220,10 @@ static void test_craft( std::string recipe_id, std::vector<item> tools, bool exp
     inventory crafting_inv = g->u.crafting_inventory();
     bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
     CHECK( can_craft == expect_craftable );
+    if( expect_craftable ) {
+        g->u.consume_components_for_craft( r, 1 );
+        g->u.invalidate_crafting_inventory();
+    }
 }
 
 TEST_CASE( "charge_handling" )
@@ -237,6 +242,8 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "scrap" );
 
         test_craft( "carver_off", tools, true );
+        CHECK( get_remaining_charges( "hotplate" ) == 10 );
+        CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
     }
     SECTION( "carver_split_charges" ) {
         std::vector<item> tools;
@@ -254,6 +261,8 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "scrap" );
 
         test_craft( "carver_off", tools, true );
+        CHECK( get_remaining_charges( "hotplate" ) == 0 );
+        CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
     }
     SECTION( "UPS_modded_carver" ) {
         std::vector<item> tools;
@@ -274,6 +283,9 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "UPS_off", -1, 500 );
 
         test_craft( "carver_off", tools, true );
+        CHECK( get_remaining_charges( "hotplate" ) == 0 );
+        CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+        CHECK( get_remaining_charges( "UPS_off" ) == 480 );
     }
     SECTION( "UPS_modded_carver_missing_charges" ) {
         std::vector<item> tools;
