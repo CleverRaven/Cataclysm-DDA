@@ -225,8 +225,10 @@ void monster::plan( const mfactions &factions )
     auto mood = attitude();
     bool steals_food = has_flag( MF_STEALS_FOOD );
     // Only "want to steal" occasionally --- otherwise food stealers will always laser-focus onto
-    // the nearest food item as soon as they've eaten what they already have
-    bool wants_to_steal = steals_food && inv.empty() && one_in( 25 );
+    // the nearest food item as soon as they've eaten what they already have. Make sure to account
+    // for when we're already in the process ofr seeking an item.
+    bool wants_to_steal = has_effect( effect_seeking_item ) ||
+                          ( steals_food && inv.empty() && one_in( 25 ) );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -1293,13 +1295,25 @@ bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::it
     auto items = g->m.i_at( p );
     auto to_pick_up = selector( items );
 
+    // TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either
     if( to_pick_up != items.end() ) {
-        add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
-                 to_pick_up->tname() );
+        // If there is a stack of items on the ground, only pick up as many of them as would
+        // count as "one" item for spawning purposes.
+        int default_charges = to_pick_up->type->charges_default();
+        if( default_charges > 1 && to_pick_up->charges > default_charges ) {
+            to_pick_up->mod_charges( -default_charges );
+            inv.push_back( *to_pick_up );
+            inv.back().charges = default_charges;
 
-        // TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either
-        std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
-        items.erase( to_pick_up );
+            add_msg( m_warning, _( "The %1$s grabs %2$s!" ), name().c_str(),
+                     inv.back().display_name( default_charges ) );
+        } else {
+            std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
+            items.erase( to_pick_up );
+
+            add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
+                     to_pick_up->tname( 1 ) );
+        }
 
         return true;
     }
