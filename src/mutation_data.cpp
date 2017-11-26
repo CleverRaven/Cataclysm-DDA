@@ -6,8 +6,9 @@
 #include "debug.h"
 #include "translations.h"
 
-#include <vector>
 #include <map>
+#include <set>
+#include <vector>
 
 typedef std::set<trait_id> TraitSet;
 
