@@ -85,35 +85,32 @@ bool are_parallel( type dir1, type dir2 );
 
 };
 
-struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
+struct overmap_spawns {
+        overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
 
-    string_id<MonsterGroup> group;
-    numeric_interval<int> population;
+        string_id<MonsterGroup> group;
+        numeric_interval<int> population;
 
-    bool operator==( const overmap_spawns &rhs ) const {
-        return group == rhs.group && population == rhs.population;
-    }
+        bool operator==( const overmap_spawns &rhs ) const {
+            return group == rhs.group && population == rhs.population;
+        }
 
-    virtual void load( JsonObject &jo ) {
-        jo.read( "group", group );
-        jo.read( "population", population );
-    }
-
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
-        load( jo );
-    }
+    protected:
+        void load( JsonObject &jo ) {
+            jo.read( "group", group );
+            jo.read( "population", population );
+        }
 };
 
-struct overmap_static_spawns : public overmap_spawns {
+struct overmap_static_spawns : public overmap_spawns, public JsonDeserializer {
     int chance = 0;
 
     bool operator==( const overmap_static_spawns &rhs ) const {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    void load( JsonObject &jo ) override {
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
@@ -284,14 +281,15 @@ bool operator!=( const oter_id &lhs, const char *rhs );
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
-struct overmap_special_spawns : public overmap_spawns {
+struct overmap_special_spawns : public overmap_spawns, public JsonDeserializer {
     numeric_interval<int> radius;
 
     bool operator==( const overmap_special_spawns &rhs ) const {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    void load( JsonObject &jo ) override {
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
