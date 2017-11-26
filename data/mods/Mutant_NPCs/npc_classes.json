@@ -1,0 +1,32 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_NPC_WITH_STARTING_TRAITS",
+        "name" : "NPC with starting traits",
+        "job_description" : "I'm just wandering.",
+        "skills" : [],
+        "traits": [
+            {"group": "starting_trait_n_rolls"}
+        ]
+    },
+    {
+        "type" : "npc_class",
+        "id" : "NC_NPC_MUTANT_GENERIC",
+        "name" : "NPC with generic mutations",
+        "job_description" : "I'm just wandering.",
+        "skills" : [],
+        "traits": [
+            {"group": "starting_trait_n_rolls"}
+        ]
+    },
+    {
+        "type" : "npc_class",
+        "id" : "NC_NPC_MUTANT_INSECT",
+        "name" : "NPC with insect mutations",
+        "job_description" : "I'm just buzzing about. Bzzzzz...",
+        "skills" : [],
+        "traits": [
+            {"group": "starting_trait_n_rolls"}
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "mutant_npcs",
+    "name": "Mutant NPCs",
+    "authors": [ "Spencer Michaels" ],
+    "description": "NPCs wandering the wasteland will occasionally have mutations --- your foes included. Beware!",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "TRAIT_BLACKLIST",
+    "traits": [
+        "BADKNEES"
+    ]
+  }
+]

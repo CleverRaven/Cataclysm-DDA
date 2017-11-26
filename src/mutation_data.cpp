@@ -403,6 +403,9 @@ void mutation_branch::reset_all()
     mutations_category.clear();
     mutation_data.clear();
     trait_blacklist.clear();
+    trait_groups.clear();
+    trait_groups.emplace(trait_group::Trait_group_tag("EMPTY_GROUP"),
+            std::make_shared<Trait_group_collection>(100));
 }
 
 void load_dream(JsonObject &jsobj)
