@@ -432,6 +432,12 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
+    // TODO(sm): implement
+    if (!inv.empty()) {
+        const auto inv_desc = inventory_summary();
+        mvwprintz( w, vStart++, column, c_yellow, "Carrying %s.", inv_desc.c_str() );
+    }
+
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
@@ -524,6 +530,17 @@ std::string monster::extended_description() const
     }
 
     return replace_colors( ss.str() );
+}
+
+std::string monster::inventory_summary() const
+{
+    if (inv.empty()) {
+        return "nothing";
+    } else if (inv.size() == 1) {
+        return "a " + inv.front().tname();
+    } else {
+        return "several items";
+    }
 }
 
 const std::string &monster::symbol() const
@@ -757,9 +774,6 @@ monster_attitude monster::attitude( const Character *u ) const
     if( has_effect( effect_pacified ) ) {
         return MATT_ZLAVE;
     }
-    if( has_effect( effect_seeking_item ) ) {
-        return MATT_SEEK;
-    }
 
     int effective_anger  = anger;
     int effective_morale = morale;
@@ -819,6 +833,9 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
+        if( has_effect( effect_seeking_item ) ) {
+            return MATT_SEEK;
+        }
         return MATT_IGNORE;
     }
 

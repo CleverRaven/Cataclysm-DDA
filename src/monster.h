@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "map.h"
 #include <vector>
 
 class map;
@@ -106,6 +107,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
 
         std::string extended_description() const override;
+        std::string inventory_summary() const;
+
         // Inverts color if inv==true
         bool has_flag( const m_flag f ) const override; // Returns true if f is set (see mtype.h)
         bool can_see() const;      // MF_SEES and no ME_BLIND
@@ -229,7 +232,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool push_to( const tripoint &p, int boost, size_t depth );
 
         bool take_food_at( const tripoint &p );
-        bool take_items_at( const tripoint &p, std::function<bool( const item & )> should_pick_up );
+        bool take_item_at( const tripoint &p, std::function<std::list<item>::iterator(
+                               map_stack & )> selector );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();

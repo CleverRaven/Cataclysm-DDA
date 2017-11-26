@@ -199,12 +199,12 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 
 float monster::rate_food( const item &itm )
 {
-    if( itm.get_category().name != "FOOD" ) {
-        return -1.0;
+    // Note that is_food() is not sufficient here because it (for some reason) includes drinks
+    if( itm.is_comestible() && itm.type->comestible->comesttype == "FOOD" ) {
+        return itm.type->comestible->nutr;
     }
+    return -1.0;
 
-    // TODO(sm): do creatures have any nutrition-adjusting traits yet?
-    return itm.type->comestible->nutr;
 }
 
 void monster::plan( const mfactions &factions )
@@ -223,6 +223,7 @@ void monster::plan( const mfactions &factions )
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
+    bool wants_to_steal = inv.empty(); // TODO(sm): There may be a better way to decide this.
     bool steals_food = has_flag( MF_STEALS_FOOD );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
@@ -361,11 +362,11 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    // If we have no target and we're not hostile towards anyone...
-    if( friendly >= 0 || target == nullptr ) {
+    // If we have no target, we're not hostile towards anyone, and not fleeing...
+    if( ( friendly >= 0 || target == nullptr ) && mood != MATT_FLEE ) {
         // Try to steal food if we're a food-stealer
-        std::pair<item *, tripoint> item_target;
-        if( steals_food ) {
+        if( wants_to_steal && steals_food ) {
+            std::pair<item *, tripoint> item_target;
             //debugmsg( "Looking for food to steal..." );
             item_target = get_most_desired_visible_item( [&]( const item & itm ) {
                 return rate_food( itm );
@@ -1274,55 +1275,47 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     return true;
 }
 
-bool monster::take_items_at( const tripoint &p, std::function<bool( const item & )> should_pick_up )
+bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::iterator(
+                                map_stack & )> selector )
 {
     auto items = g->m.i_at( p );
-    std::list<item> picked_up;
+    auto to_pick_up = selector( items );
 
-    // TODO(sm): no volume/weight limits yet
-    // TODO(sm): no reduction in moves yet
-    for( auto iter = items.begin(); iter != items.end(); ) {
-        const item &itm = *iter;
-        if( should_pick_up( itm ) ) {
-            picked_up.push_back( itm );
-            iter = items.erase( iter );
-        } else {
-            ++iter;
-        }
+    if( to_pick_up != items.end() ) {
+        add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
+                 to_pick_up->tname() );
+
+        // TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either
+        std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
+        items.erase( to_pick_up );
+
+        return true;
     }
 
-    inv.insert( inv.begin(), picked_up.begin(), picked_up.end() );
-
-    bool got_items = ( picked_up.size() > 0 );
-    if( got_items ) {
-        // TODO(sm): list all items
-        add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
-                 picked_up.size() == 1 ? picked_up.front().type->nname( 1 ) : "some items" );
-    };
-
-    return got_items;
+    return false;
 }
 
 bool monster::take_food_at( const tripoint &p )
 {
-    item *best_food = nullptr;
-    float best_food_rating = -1.0;
-    for( auto &itm : g->m.i_at( p ) ) {
-        float rating = rate_food( itm );
-        if( rating > best_food_rating ) {
-            best_food = &itm;
-        }
-    }
+    bool success = take_item_at( p, [&]( map_stack & items ) {
+        auto items_on_tile = g->m.i_at( p );
+        auto best_food = items.end();
+        float best_food_rating = -1.0;
 
-    bool success = take_items_at( p, [&]( const item & itm ) {
-        // Just take the one best piece of food for now
-        // Is pointer comparison OK for finding this element()?
-        return &itm == best_food;
+        for( auto it = items_on_tile.begin(); it != items_on_tile.end(); ++it ) {
+            float rating = rate_food( *it );
+            if( rating > best_food_rating ) {
+                best_food = it;
+            }
+        }
+        return best_food;
     } );
 
     if( success ) {
+        // Flee after we've got an item
         remove_effect( effect_seeking_item );
-        add_effect( effect_run, 500 );
+        add_effect( effect_run, 50 );
+        moves -= 100;
     }
     return success;
 }
