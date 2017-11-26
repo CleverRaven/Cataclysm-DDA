@@ -9,6 +9,7 @@
 
 #include <map>
 #include <sstream>
+#include <set>
 #include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
