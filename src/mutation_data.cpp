@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "trait_group.h"
+
 #include "color.h"
 
 #include <map>
@@ -429,25 +430,29 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
     return a->name < b->name;
 }
 
-void mutation_branch::load_trait_blacklist( JsonObject &jsobj ) {
+void mutation_branch::load_trait_blacklist( JsonObject &jsobj )
+{
     JsonArray jarr = jsobj.get_array( "traits" );
-    while (jarr.has_more()) {
+    while( jarr.has_more() ) {
         trait_blacklist.insert( trait_id( jarr.next_string() ) );
     }
 }
 
-bool mutation_branch::trait_is_blacklisted( const trait_id &tid ) {
+bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
+{
     return trait_blacklist.count( tid );
 }
 
-void mutation_branch::finalize() {
+void mutation_branch::finalize()
+{
     finalize_trait_blacklist();
 }
 
-void mutation_branch::finalize_trait_blacklist() {
-    for (auto &trait : trait_blacklist) {
-        if (!trait.is_valid()) {
-            debugmsg("trait on blacklist %s does not exist", trait.c_str());
+void mutation_branch::finalize_trait_blacklist()
+{
+    for( auto &trait : trait_blacklist ) {
+        if( !trait.is_valid() ) {
+            debugmsg( "trait on blacklist %s does not exist", trait.c_str() );
         }
     }
 }
