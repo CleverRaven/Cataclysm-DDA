@@ -13,6 +13,7 @@
 #include "item.h"
 #include "ammo.h"
 #include "item_group.h"
+#include "vitamin.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "mapdata.h"

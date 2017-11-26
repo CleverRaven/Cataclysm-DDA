@@ -19,6 +19,7 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
+#include "vitamin.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"

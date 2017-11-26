@@ -9,6 +9,7 @@
 #include "dispersion.h"
 #include "output.h"
 #include "skill.h"
+#include "vitamin.h"
 #include "bionics.h"
 #include "game.h"
 #include "map.h"
