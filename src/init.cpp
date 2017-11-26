@@ -182,6 +182,7 @@ void DynamicDataLoader::initialize()
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
+    add( "trait_group", []( JsonObject &jo ) { mutation_branch::load_trait_group( jo ); } );
     add( "item_action", []( JsonObject &jo ) { item_action_generator::generator().load_item_action( jo ); } );
 
     add( "vehicle_part",  &vpart_info::load );

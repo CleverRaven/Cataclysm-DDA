@@ -21,6 +21,7 @@
 #include "map.h"
 #include "uistate.h"
 #include "item_group.h"
+#include "trait_group.h"
 #include "json.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
@@ -4017,7 +4018,8 @@ void game::debug()
                        _( "Overmap editor" ),         // 30
                        _( "Draw benchmark (5 seconds)" ),    // 31
                        _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Quit to Main Menu" ),    // 33
+                       _( "Test trait group" ),        // 33
+                       _( "Quit to Main Menu" ),    // 34
                        _( "Cancel" ),
                        NULL );
     refresh_all();
@@ -4376,6 +4378,9 @@ void game::debug()
             debug_menu::teleport_overmap();
             break;
         case 33:
+            trait_group::debug_spawn();
+            break;
+        case 34:
             if( query_yn( _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
                 uquit = QUIT_NOSAVED;

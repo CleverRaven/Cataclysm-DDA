@@ -5,6 +5,7 @@
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "trait_group.h"
 
 #include <list>
 
@@ -145,10 +146,8 @@ void npc_class::check_consistency()
             }
         }
 
-        for( const auto &pr : cl.traits ) {
-            if( !pr.first.is_valid() ) {
-                debugmsg( "Invalid trait %s", pr.first.c_str() );
-            }
+        if( !cl.traits.is_valid() ) {
+            debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
 }
@@ -237,11 +236,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
     if( jo.has_array( "traits" ) ) {
-        JsonArray jarr = jo.get_array( "traits" );
-        while( jarr.has_more() ) {
-            JsonArray jarr_in = jarr.next_array();
-            traits[ trait_id( jarr_in.get_string( 0 ) ) ] = jarr_in.get_int( 1 );
-        }
+        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
     }
 
     if( jo.has_array( "skills" ) ) {
