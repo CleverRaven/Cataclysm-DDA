@@ -2,7 +2,6 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "json.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
@@ -26,6 +25,8 @@ struct mutation_category_trait;
 
 class Trait_group;
 class Trait_creation_data;
+class JsonObject;
+class JsonArray;
 
 namespace trait_group
 {

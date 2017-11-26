@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "json.h"
 #include "rng.h"
 #include "trait_group.h"
 #include "translations.h"

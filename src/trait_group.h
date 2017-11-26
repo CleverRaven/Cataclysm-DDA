@@ -2,12 +2,16 @@
 #ifndef TRAIT_GROUP_H
 #define TRAIT_GROUP_H
 
-#include "json.h"
 #include "mutation.h"
-#include "string.h"
 #include "string_id.h"
 
 #include <memory>
+#include <string>
+#include <vector>
+
+class JsonObject;
+class JsonIn;
+class Trait_group;
 
 namespace trait_group
 {
