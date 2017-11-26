@@ -1262,6 +1262,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void long_craft();
         void make_craft( const std::string & id, int batch_size );
         void make_all_craft( const std::string & id, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
