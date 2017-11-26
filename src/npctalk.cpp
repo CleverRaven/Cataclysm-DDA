@@ -23,6 +23,7 @@
 #include "compatibility.h"
 #include "basecamp.h"
 #include "cata_utility.h"
+#include "itype.h"
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"

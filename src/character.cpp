@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "mission.h"
 #include "translations.h"
+#include "itype.h"
 #include "options.h"
 #include "map_iterator.h"
 #include "field.h"

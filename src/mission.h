@@ -4,10 +4,14 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <iosfwd>
+#include <map>
 
-#include "itype.h"
+#include "enums.h"
 #include "npc_favor.h"
 
+class player;
 class mission;
 class game;
 class npc;
