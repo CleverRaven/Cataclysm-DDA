@@ -4,7 +4,8 @@
 
 #include "player.h"
 #include "enums.h"
-#include "json.h"
+
+class JsonObject;
 
 namespace gates
 {
