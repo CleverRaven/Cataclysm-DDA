@@ -384,6 +384,8 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, type, male );
     starting_inv( *this, type );
     has_new_items = true;
+    my_traits.clear();
+    my_mutations.clear();
 
     for( const auto &pr : type->traits ) {
         if( rng( 1, 100 ) <= pr.second ) {
