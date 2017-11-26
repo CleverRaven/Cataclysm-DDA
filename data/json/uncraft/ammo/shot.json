@@ -5,7 +5,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
@@ -20,7 +20,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
@@ -35,7 +35,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
@@ -50,7 +50,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
@@ -65,7 +65,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 5000, "//": "A little more carefully...",
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
@@ -80,7 +80,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],

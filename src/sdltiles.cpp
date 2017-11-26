@@ -219,6 +219,7 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // This value is finally returned by input_manager::get_input_event.
 static input_event last_input;
 
+static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
 static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -1546,6 +1547,7 @@ void init_interface()
         use_tiles = false;
     }
 
+    color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
     // initialize sound set
@@ -1604,14 +1606,6 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     result.r=r;    //Red
     //result.a=0;//The Alpha, isnt used, so just set it to 0
     return result;
-}
-
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
 }
 
 void input_manager::set_timeout( const int t )
@@ -1918,13 +1912,13 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
-SDL_Color cursesColorToSDL(int color) {
-    const int pair_id = ( color & A_COLOR ) >> 17;
+SDL_Color cursesColorToSDL( const nc_color &color ) {
+    const int pair_id = color.to_color_pair_index();
     const auto pair = colorpairs[pair_id];
 
     int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
 
-    if( color & A_BOLD ) {
+    if( color.is_bold() ) {
         palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
     }
 

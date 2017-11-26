@@ -12,7 +12,7 @@
 #include <functional>
 
 class JsonObject;
-typedef int nc_color;
+class nc_color;
 class Skill;
 struct requirement_data;
 struct tripoint;
