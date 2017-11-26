@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "game_constants.h"
-#include "enums.h"
 #include "string_id.h"
 #include "fire.h"
 
