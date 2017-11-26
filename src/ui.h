@@ -8,6 +8,11 @@
 #include "cursesdef.h"
 #include "string_formatter.h"
 
+#include <vector>
+#include <string>
+#include <map>
+#include <utility>
+
 ////////////////////////////////////////////////////////////////////////////////////
 /**
  * uimenu constants

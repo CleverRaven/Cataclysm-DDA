@@ -1017,7 +1017,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
-        if (mutation_branch::trait_is_blacklisted(traits_iter.first)) {
+        if( mutation_branch::trait_is_blacklisted( traits_iter.first ) ) {
             continue;
         }
 

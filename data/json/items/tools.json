@@ -5842,7 +5842,8 @@
     "bashing": 5,
     "material": "plastic",
     "symbol": ";",
-    "color": "green"
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",

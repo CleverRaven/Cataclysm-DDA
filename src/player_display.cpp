@@ -73,9 +73,9 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
                              combine ? 2 : 1 ).c_str() );
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
-        int limb_color = ( orig_line == bp ) ?
-                         ( highlighted ? h_green : h_ltgray ) :
-                         ( highlighted ? c_green : c_ltgray );
+        nc_color limb_color = ( orig_line == bp ) ?
+                              ( highlighted ? h_green : h_ltgray ) :
+                              ( highlighted ? c_green : c_ltgray );
         mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.layer_penalty / 10.0 ) );

@@ -12,7 +12,6 @@
 #include "visitable.h"
 #include "enums.h"
 #include "json.h"
-#include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
@@ -22,6 +21,7 @@
 #include "units.h"
 #include "cata_utility.h"
 
+class nc_color;
 class gun_type_type;
 class gunmod_location;
 class game;

@@ -223,6 +223,7 @@ data/json/recipes/chem/other.json
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
 data/json/recipes/other/parts.json
+data/json/recipes/recipe_others.json
 data/json/requirements/cooking_components.json
 data/json/requirements/cooking_tools.json
 data/json/requirements/materials.json
@@ -230,6 +231,7 @@ data/json/requirements/toolsets.json
 data/json/requirements/uncraft.json
 data/json/requirements/vehicle.json
 data/json/rotatable_symbols.json
+data/json/tool_qualities.json
 data/json/uncraft/ammo/flintlock.json
 data/json/uncraft/classes/ammo.json
 data/json/uncraft/generic.json

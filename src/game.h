@@ -111,7 +111,7 @@ class weather_generator;
 struct weather_printable;
 class faction;
 class live_view;
-typedef int nc_color;
+class nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
@@ -286,8 +286,13 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        npc *npc_by_id(const int id) const;
+        /**
+         * @return The the living creature with the given id. Returns null if no living
+         * creature with such an id exists. Never returns a dead creature.
+         * Currently only the player character and npcs have ids.
+         */
+        template<typename T = Creature>
+        T *critter_by_id( int id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,

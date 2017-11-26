@@ -439,11 +439,6 @@ int main(int argc, char *argv[])
         }
     }
 
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
-    // For tiles or windows, this is handled already in initscr().
-    init_colors();
-#endif
-
     srand(seed);
 
     g = new game;
