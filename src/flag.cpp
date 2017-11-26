@@ -1,6 +1,7 @@
 #include "flag.h"
 
 #include "debug.h"
+#include "json.h"
 
 #include <map>
 #include <algorithm>
