@@ -231,9 +231,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         bool push_to( const tripoint &p, int boost, size_t depth );
 
-        bool take_food_at( const tripoint &p );
         bool take_item_at( const tripoint &p, std::function<std::list<item>::iterator(
                                map_stack & )> selector );
+        bool take_food_at( const tripoint &p );
+        bool eat_food_from_inventory();
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();

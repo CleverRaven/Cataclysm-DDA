@@ -223,8 +223,10 @@ void monster::plan( const mfactions &factions )
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
-    bool wants_to_steal = inv.empty(); // TODO(sm): There may be a better way to decide this.
     bool steals_food = has_flag( MF_STEALS_FOOD );
+    // Only "want to steal" occasionally --- otherwise food stealers will always laser-focus onto
+    // the nearest food item as soon as they've eaten what they already have
+    bool wants_to_steal = steals_food && inv.empty() && one_in( 25 );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -363,9 +365,9 @@ void monster::plan( const mfactions &factions )
     }
 
     // If we have no target, we're not hostile towards anyone, and not fleeing...
-    if( ( friendly >= 0 || target == nullptr ) && mood != MATT_FLEE ) {
-        // Try to steal food if we're a food-stealer
-        if( wants_to_steal && steals_food ) {
+    if( ( friendly >= 0 || target == nullptr ) && !fleeing ) {
+        // If we're a food-stealer, try to steal food, or possibly eat it if we have it
+        if( steals_food && wants_to_steal ) {
             std::pair<item *, tripoint> item_target;
             //debugmsg( "Looking for food to steal..." );
             item_target = get_most_desired_visible_item( [&]( const item & itm ) {
@@ -512,6 +514,13 @@ void monster::move()
                 }
             }
         }
+    }
+
+    // If we're a food stealer who has food and is idle, eat some of it.
+    // NOTE: Monsters currently have infinite stomach size.
+    if( current_attitude == MATT_IGNORE && has_flag( MF_STEALS_FOOD ) &&
+        one_in( 25 ) && eat_food_from_inventory() ) {
+        return;
     }
 
     if( current_attitude == MATT_IGNORE ||
@@ -667,10 +676,13 @@ void monster::move()
             }
         }
     }
+
+    // Pick up our goal item if we reach it
+    const bool can_pickup_goal_item = ( current_attitude == MATT_SEEK ) && next_step == goal;
+
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        const bool can_pickup_goal_item = current_attitude == MATT_SEEK && next_step == goal;
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
@@ -1318,6 +1330,30 @@ bool monster::take_food_at( const tripoint &p )
         moves -= 100;
     }
     return success;
+}
+
+bool monster::eat_food_from_inventory()
+{
+    if( inv.empty() ) {
+        return false;
+    }
+
+    // Monsters don't have nutrition, so eating doesn't actually do anything for them yet
+    for( auto it = inv.begin(); it != inv.end(); ++it ) {
+        if( it->is_food() ) {
+            add_msg( _( "The %1$s eats a %2$s." ), name().c_str(), it->tname().c_str() );
+
+            // NOTE: The moves cost is taken from the default player mealtime
+            moves -= 250;
+
+            it->mod_charges( -1 );
+            if( it->charges <= 0 ) {
+                inv.erase( it );
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
