@@ -385,6 +385,8 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, type, male );
     starting_inv( *this, type );
     has_new_items = true;
+    my_traits.clear();
+    my_mutations.clear();
 
     my_mutations.clear();
     my_traits.clear();
@@ -392,6 +394,14 @@ void npc::randomize( const npc_class_id &type )
     // Add fixed traits
     for( const auto &tid : trait_group::traits_from( type->traits ) ) {
         set_mutation( tid );
+    }
+
+    // Run mutation rounds
+    for( const auto &mr : type->mutation_rounds ) {
+        int rounds = mr.second.roll();
+        for( int i = 0; i < rounds; ++i ) {
+            mutate_category( mr.first );
+        }
     }
 }
 
