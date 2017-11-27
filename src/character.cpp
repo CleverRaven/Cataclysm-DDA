@@ -876,6 +876,29 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 
 template <typename T, typename Output>
 void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
+    if( obj.is_watertight_container() ) {
+        if (!obj.is_container_empty()) {
+            auto contents_id = obj.contents.front().typeId();
+
+            // Look for containers with the same type of liquid as that already in our container
+            src.visit_items( [&src, &nested, &out, &contents_id]( item *node ) {
+                if ( node->is_container() && !node->is_container_empty() &&
+                        node->contents.front().typeId() == contents_id ) {
+                    out = item_location( src, node );
+                }
+                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            } );
+        } else {
+            // Look for containers with any liquid
+            src.visit_items( [&src, &nested, &out]( item *node ) {
+                if ( node->is_container() && !node->is_container_empty() &&
+                        node->contents.front().made_of( LIQUID ) ) {
+                    out = item_location( src, node );
+                }
+                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            } );
+        }
+    }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();

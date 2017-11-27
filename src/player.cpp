@@ -7438,7 +7438,9 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
-            auto id = ammo->is_ammo_container() ? ammo->contents.front().typeId() : ammo->typeId();
+            auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
+                ? ammo->contents.front().typeId()
+                : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 ammo_match_found = true;
             }
@@ -7823,6 +7825,12 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
+    if ( it.is_watertight_container() ) {
+        if (it.is_container_empty() || ( !it.is_container_full() &&
+                    ( ammo.empty() || it.contents.front().typeId() == ammo ) ) ) {
+            return true;
+        }
+    }
 
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
@@ -8071,7 +8079,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;

@@ -10635,10 +10635,15 @@ void game::reload( item_location &loc, bool prompt )
                     return;
                 }
             }
+            if( it->is_watertight_container() && it->is_container_full() ) {
+                add_msg( m_info, _( "The %s is already full!" ), it->tname().c_str() );
+                return;
+            }
+
             // intentional fall-through
 
         case HINT_CANT:
-            add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+            add_msg( m_info, _( "You can't reload a %s!" ), it->tname().c_str() );
             return;
 
         case HINT_GOOD:
@@ -10653,10 +10658,19 @@ void game::reload( item_location &loc, bool prompt )
     }
 
     item::reload_option opt = u.select_ammo( *it, prompt );
-    if( opt ) {
-        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-        u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
-        u.activity.targets.push_back( std::move( opt.ammo ) );
+
+    if ( opt ) {
+        if ( it->is_watertight_container() && opt.ammo->is_watertight_container() ) {
+            auto &liquid = opt.ammo->contents.front();
+            if ( u.pour_into( *it, liquid ) ) {
+                u.mod_moves( -u.item_handling_cost( liquid ) );
+                it->on_contents_changed();
+            }
+        } else {
+            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+            u.activity.targets.push_back( std::move( opt.ammo ) );
+        }
     }
 
     refresh_all();

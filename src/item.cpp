@@ -4661,7 +4661,9 @@ item::reload_option::reload_option( const player *who, const item *target, const
     }
 
     // magazine, ammo or ammo container
-    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
+    item& tmp = ( this->ammo->is_ammo_container() || this->ammo->is_watertight_container() )
+        ? this->ammo->contents.front()
+        : *this->ammo;
 
     if( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) {
         qty( tmp.charges );
@@ -4691,13 +4693,24 @@ void item::reload_option::qty( long val )
         return;
     }
 
-    const item &obj = ammo->is_ammo_container() ? ammo->contents.front() : *ammo;
-    if( !obj.is_ammo() ) {
-        debugmsg( "Invalid reload option: %s", obj.tname().c_str() );
+    item* obj = nullptr;
+    bool is_ammo_container = ammo->is_ammo_container();
+    bool is_liquid_container = ammo->is_watertight_container();
+    if ( is_ammo_container || is_liquid_container ) {
+        obj = &( ammo->contents.front() );
+    } else {
+        obj = &*ammo;
+    }
+
+    if( ( is_ammo_container && !obj->is_ammo() ) ||
+            ( is_liquid_container && !obj->made_of( LIQUID ) ) ) {
+        debugmsg( "Invalid reload option: %s", obj->tname().c_str() );
         return;
     }
 
-    long limit = target->ammo_capacity() - target->ammo_remaining();
+    long limit = is_liquid_container
+            ? target->get_remaining_capacity_for_liquid( *obj, true )
+            : target->ammo_capacity() - target->ammo_remaining();
 
     if( target->ammo_type() == ammotype( "plutonium" ) ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
@@ -4705,10 +4718,11 @@ void item::reload_option::qty( long val )
 
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
-    qty_ = std::min( { val, obj.charges, limit, max_qty } );
+    qty_ = std::min( { val, obj->charges, limit, max_qty } );
 
     // always expect to reload at least one charge
     qty_ = std::max( qty_, 1L );
+
 }
 
 int item::casings_count() const
@@ -5877,6 +5891,9 @@ bool item::is_reloadable() const
         return false; // turrets ignore NO_RELOAD flag
 
     } else if( is_bandolier() ) {
+        return true;
+
+    } else if( is_container() ) {
         return true;
 
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
