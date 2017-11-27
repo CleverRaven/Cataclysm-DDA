@@ -7253,7 +7253,8 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
             }
 
-        } else if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
+        } else if( e.ammo->is_watertight_container() ||
+                ( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
 
@@ -7265,8 +7266,12 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(), std::back_inserter( where ), []( const reload_option& e ) {
-        if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
-            return e.ammo->type_name();
+        bool is_ammo_container = e.ammo->is_ammo_container();
+        if( is_ammo_container || e.ammo->is_container() ) {
+            if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
+                return e.ammo->type_name();
+            }
+            return string_format( _("%s, %s"), e.ammo->type_name(), e.ammo.describe( &g->u ) );
         }
         return e.ammo.describe( &g->u );
     } );
@@ -7825,13 +7830,6 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
-    if ( it.is_watertight_container() ) {
-        if (it.is_container_empty() || ( !it.is_container_full() &&
-                    ( ammo.empty() || it.contents.front().typeId() == ammo ) ) ) {
-            return true;
-        }
-    }
-
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }

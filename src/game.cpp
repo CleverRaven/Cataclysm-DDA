@@ -10623,7 +10623,8 @@ void game::reload( item_location &loc, bool prompt )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            if( it->ammo_remaining() > 0 && it->ammo_remaining() == it->ammo_capacity() ) {
+            if( it->is_ammo_container() && it->ammo_remaining() > 0 &&
+                    it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
                 return;
             }
@@ -10660,17 +10661,9 @@ void game::reload( item_location &loc, bool prompt )
     item::reload_option opt = u.select_ammo( *it, prompt );
 
     if ( opt ) {
-        if ( it->is_watertight_container() && opt.ammo->is_watertight_container() ) {
-            auto &liquid = opt.ammo->contents.front();
-            if ( u.pour_into( *it, liquid ) ) {
-                u.mod_moves( -u.item_handling_cost( liquid ) );
-                it->on_contents_changed();
-            }
-        } else {
-            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
-            u.activity.targets.push_back( std::move( opt.ammo ) );
-        }
+        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+        u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        u.activity.targets.push_back( std::move( opt.ammo ) );
     }
 
     refresh_all();
