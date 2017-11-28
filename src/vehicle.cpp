@@ -2816,11 +2816,7 @@ player *vehicle::get_passenger(int p) const
     p = part_with_feature (p, VPFLAG_BOARDABLE, false);
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
-     const int player_id = parts[p].passenger_id;
-     if( player_id == g->u.getID()) {
-      return &g->u;
-     }
-        return g->npc_by_id( player_id );
+        return g->critter_by_id<player>( parts[p].passenger_id );
     }
     return 0;
 }
@@ -6365,11 +6361,11 @@ npc * vehicle_part::crew() const
         return nullptr;
     }
 
-    npc *const res = g->npc_by_id( crew_id );
+    npc *const res = g->critter_by_id<npc>( crew_id );
     if( !res ) {
         return nullptr;
     }
-    return !res->is_dead_state() && res->is_friend() ? res : nullptr;
+    return res->is_friend() ? res : nullptr;
 }
 
 bool vehicle_part::set_crew( const npc &who )

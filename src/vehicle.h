@@ -4,7 +4,6 @@
 
 #include "calendar.h"
 #include "tileray.h"
-#include "color.h"
 #include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
@@ -21,6 +20,7 @@
 #include <string>
 #include <iosfwd>
 
+class nc_color;
 class map;
 class player;
 class npc;

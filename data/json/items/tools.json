@@ -5842,7 +5842,8 @@
     "bashing": 5,
     "material": "plastic",
     "symbol": ";",
-    "color": "green"
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
@@ -8369,7 +8370,7 @@
     "type": "TOOL",
     "name": "cattle fodder",
     "name_plural": "cattle fodder",
-    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "description": "What cattle eat.  Mainly made of grass, silages or legumes.  It's perfect for ruminants.",
     "weight": 300,
     "volume": 1,
     "price": 100,

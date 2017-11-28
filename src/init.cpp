@@ -178,7 +178,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
 
-    // json/colors.json would be listed here, but it's loaded before the others (see start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
@@ -236,6 +236,7 @@ void DynamicDataLoader::initialize()
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
+    add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
