@@ -314,7 +314,7 @@ visitable<T>::items_with( const std::function<bool( const item & )> &filter ) co
 template <typename T>
 VisitResponse
 visitable<T>::visit_items( const std::function<VisitResponse( const item *,
-                                                              const item * )> &func ) const
+                           const item * )> &func ) const
 {
     return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
