@@ -415,7 +415,6 @@
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
     "ranged_damage": -1,
