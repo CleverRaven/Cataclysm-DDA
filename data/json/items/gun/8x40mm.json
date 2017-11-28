@@ -198,7 +198,7 @@
     "id": "rm88_battle_rifle",
     "type": "GUN",
     "name": "RM88 battle rifle",
-    "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and and RMGD250 drum magazines.",
+    "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
     "weight": 3200,
     "volume": 10,
     "price": 900000,
