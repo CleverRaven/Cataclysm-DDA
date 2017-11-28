@@ -10623,7 +10623,7 @@ void game::reload( item_location &loc, bool prompt )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            if( it->is_ammo_container() && it->ammo_remaining() > 0 &&
+            if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
                     it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
                 return;

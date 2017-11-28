@@ -7462,7 +7462,14 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else if ( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
-            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : base.ammo_type()->name();
+            std::string name;
+            if ( base.ammo_data() ) {
+                base.ammo_data()->nname( 1 );
+            } else if ( base.is_watertight_container() ) {
+                name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+            } else {
+                name = base.ammo_type()->name();
+            }
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
         }
         return reload_option();

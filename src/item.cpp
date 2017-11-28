@@ -4668,7 +4668,7 @@ item::reload_option::reload_option( const player *who, const item *target, const
         ? this->ammo->contents.front()
         : *this->ammo;
 
-    if( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) {
+    if( this->ammo->is_watertight_container() || ( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) ) {
         qty( tmp.charges );
     } else {
         qty( 1 );

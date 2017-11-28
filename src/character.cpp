@@ -881,7 +881,12 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             auto contents_id = obj.contents.front().typeId();
 
             // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &contents_id]( item *node ) {
+            src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item *node ) {
+                if ( node == &obj ) {
+                    // This stops containers and magazines counting *themselves* as ammo sources.
+                    return VisitResponse::SKIP;
+                }
+
                 if ( node->is_container() && !node->is_container_empty() &&
                         node->contents.front().typeId() == contents_id ) {
                     out = item_location( src, node );
