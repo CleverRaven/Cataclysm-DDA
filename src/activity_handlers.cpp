@@ -1294,6 +1294,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
         }
+    } else if( reloadable->is_watertight_container() ) {
+        msg = _( "You refill the %s." );
     }
     add_msg( msg.c_str(), reloadable->tname().c_str() );
 }

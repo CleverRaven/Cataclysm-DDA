@@ -7234,7 +7234,8 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     }
 
     uimenu menu;
-    menu.text = string_format( _("Reload %s" ), base.tname().c_str() );
+    menu.text = string_format( base.is_watertight_container() ? _("Refill %s") : _("Reload %s" ),
+            base.tname().c_str() );
     menu.return_invalid = true;
     menu.w_width = -1;
     menu.w_height = -1;
