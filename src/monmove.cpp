@@ -1574,7 +1574,7 @@ item_location get_most_desired_item_in_radius( tripoint pos, int radius,
     tripoint desired_item_pos;
     item *desired_item = nullptr;
     for( auto &p : g->m.points_in_radius( pos, radius ) ) {
-        if( tile_qualifies ) {
+        if( g->m.has_items( p ) && tile_qualifies ) {
             auto items = g->m.i_at( p );
             for( auto &itm : items ) {
                 float des = calc_desirability( itm );
