@@ -13,7 +13,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
+      [ [ "soldering_standard", 10, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ],
       [ [ "surface_heat", 50, "LIST" ] ]
     ],
@@ -38,7 +38,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
+      [ [ "soldering_standard", 10, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ],
       [ [ "surface_heat", 10, "LIST" ] ]
     ],
