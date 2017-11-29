@@ -82,22 +82,6 @@
     "reliability": 8
   },
   {
-    "id": "glock17_33",
-    "type": "MAGAZINE",
-    "name": "Glock 17 magazine - 33 rd",
-    "description": "Made for the Glock 17, this magazine holds 33 rounds.",
-    "weight": 105,
-    "volume": 3,
-    "price": 6000,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "ltgray",
-    "ammo_type": "9mm",
-    "capacity": 33,
-    "reliability": 8,
-    "flags": [ "BULKY" ]
-  },
-  {
     "id": "glock_drum_50rd",
     "type": "MAGAZINE",
     "name": "Glock Drum magazine - 50 rd",
