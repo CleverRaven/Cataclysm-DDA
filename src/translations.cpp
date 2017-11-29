@@ -229,7 +229,8 @@ std::string getOSXSystemLang()
     } else if( string_starts_with( lang_code, "zh_Hant" ) ) {
         return "zh_TW";
     }
-    return lang_code;
+
+    return isValidLanguage( lang_code ) ? lang_code : "en_US";
 }
 #endif
 
