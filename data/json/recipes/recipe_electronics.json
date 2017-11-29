@@ -1365,7 +1365,7 @@
   "reversible": true,
   "decomp_learn": 3,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
-  "using": [ [ "welding_standard", 4 ] ],
+  "using": [ [ "welding_standard", 10 ] ],
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
