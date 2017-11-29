@@ -642,14 +642,10 @@
   "difficulty" : 7,
   "time" : 5000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"HAMMER","level":1},
     {"id":"SCREW","level":1}
-  ], "tools" : [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
   "components" : [
     [
