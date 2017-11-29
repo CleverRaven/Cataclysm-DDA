@@ -30,6 +30,13 @@ static void reload_names()
 #include "mmsystem.h"
 #endif
 
+#if (defined MACOSX)
+#include <CoreFoundation/CFLocale.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+std::string getOSXSystemLang();
+#endif
+
 const char *pgettext( const char *context, const char *msgid )
 {
     // need to construct the string manually,
@@ -127,12 +134,15 @@ void select_language()
 
 void set_language()
 {
-    std::string win_lang = "";
+    std::string win_or_mac_lang = "";
 #if (defined _WIN32 || defined WINDOWS)
-    win_lang = getLangFromLCID( GetUserDefaultLCID() );
+    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
+#endif
+#if (defined MACOSX)
+    win_or_mac_lang = getOSXSystemLang();
 #endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang :
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
     if( !lang_opt.empty() ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
@@ -182,6 +192,46 @@ void set_language()
 
     reload_names();
 }
+
+#if (defined MACOSX)
+bool string_starts_with( std::string s, std::string prefix )
+{
+    return s.compare( 0, prefix.length(), prefix ) == 0;
+}
+
+std::string getOSXSystemLang()
+{
+    // Get the user's language list (in order of preference)
+    CFArrayRef langs = CFLocaleCopyPreferredLanguages();
+    if( CFArrayGetCount( langs ) == 0 ) {
+        return "en_US";
+    }
+
+    const char *lang_code_raw = CFStringGetCStringPtr(
+                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    kCFStringEncodingUTF8 );
+    if( !lang_code_raw ) {
+        return "en_US";
+    }
+
+    // Convert to the underscore format expected by gettext
+    std::string lang_code( lang_code_raw );
+    std::replace( lang_code.begin(), lang_code.end(), '-', '_' );
+
+    /**
+     * Handle special case for simplified/traditional Chinese. Simp/trad
+     * is actually denoted by the region code in older iterations of the
+     * language codes, whereas now (at least on OS X) region is distinct.
+     * That is, CDDA expects 'zh_CN' but OS X might give 'zh-Hans-CN'.
+     */
+    if( string_starts_with( lang_code, "zh_Hans" ) ) {
+        return "zh_CN";
+    } else if( string_starts_with( lang_code, "zh_Hant" ) ) {
+        return "zh_TW";
+    }
+    return lang_code;
+}
+#endif
 
 #else // !LOCALIZE
 
