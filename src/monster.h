@@ -14,6 +14,7 @@ class monfaction;
 class player;
 class Character;
 class map_stack;
+class item_location;
 struct mtype;
 enum monster_trigger : int;
 enum field_id : int;
@@ -231,8 +232,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         bool push_to( const tripoint &p, int boost, size_t depth );
 
-        bool take_item_at( const tripoint &p, std::function<std::list<item>::iterator(
-                               map_stack & )> selector );
+        bool take_item_at( item_location &to_pick_up );
         bool take_food_at( const tripoint &p );
         bool eat_food_from_inventory();
 
@@ -362,10 +362,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void make_ally( monster *z );
         void add_item( item it );   // Add an item to inventory
 
-        std::pair<item *, tripoint> get_most_desired_visible_item(
+        item_location get_most_desired_visible_item(
             std::function<float( const item & )> calc_desirability ) const;
-        std::pair<item *, tripoint> get_most_desired_item_in_radius( int radius,
-                std::function<float( const item & )> calc_desirability ) const;
 
         /**
          * Makes monster react to heard sound

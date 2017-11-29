@@ -21,6 +21,7 @@
 #include "field.h"
 #include "scent_map.h"
 #include "itype.h"
+#include "item_location.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions
@@ -39,6 +40,12 @@ const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_seeking_item( "seeking_item" );
 const efftype_id effect_run( "run" ); // i.e. flee
 const efftype_id effect_stunned( "stunned" );
+
+
+item_location get_most_desired_item_in_radius( tripoint pos, int radius,
+        std::function<bool( const tripoint & ) > tile_qualifies,
+        std::function<float( const item & )> calc_desirability );
+
 
 bool monster::wander()
 {
@@ -224,11 +231,6 @@ void monster::plan( const mfactions &factions )
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
     bool steals_food = has_flag( MF_STEALS_FOOD );
-    // Only "want to steal" occasionally --- otherwise food stealers will always laser-focus onto
-    // the nearest food item as soon as they've eaten what they already have. Make sure to account
-    // for when we're already in the process ofr seeking an item.
-    bool wants_to_steal = has_effect( effect_seeking_item ) ||
-                          ( steals_food && inv.empty() && one_in( 25 ) );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -366,18 +368,21 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    // If we have no target, we're not hostile towards anyone, and not fleeing...
-    if( ( friendly >= 0 || target == nullptr ) && !fleeing ) {
-        // If we're a food-stealer, try to steal food, or possibly eat it if we have it
-        if( steals_food && wants_to_steal ) {
-            std::pair<item *, tripoint> item_target;
-            item_target = get_most_desired_visible_item( [&]( const item & itm ) {
+    // Triggers for idle food stealers (not fleeing, not attacking)
+    if( ( friendly >= 0 || target == nullptr ) && !fleeing && steals_food ) {
+        // We only "want to steal" occasionally --- otherwise food stealers
+        // will always laser-focus onto the nearest food item as soon as
+        // they've eaten what they already have. Make sure to account for when
+        // we're already in the process of seeking an item.
+        if( has_effect( effect_seeking_item ) ||
+            ( inv.empty() && one_in( 25 ) ) ) {
+            auto item_target_loc = get_most_desired_visible_item( [&]( const item & itm ) {
                 return rate_food( itm );
             } );
 
-            if( item_target.first ) {
+            if( item_target_loc ) {
                 add_effect( effect_seeking_item, 3 );
-                set_dest( item_target.second );
+                set_dest( item_target_loc.position() );
             }
         }
     }
@@ -1286,15 +1291,10 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     return true;
 }
 
-bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::iterator(
-                                map_stack & )> selector )
+bool monster::take_item_at( item_location &to_pick_up )
 {
-    auto items = g->m.i_at( p );
-    auto to_pick_up = selector( items );
 
-    if( to_pick_up == items.end() ) {
-        return false;
-    }
+    inv.push_back( *to_pick_up );
 
     /**
      * If there is a stack of items on the ground, only pick up as many of them as would
@@ -1305,11 +1305,9 @@ bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::it
     int default_charges = to_pick_up->type->charges_default();
     if( default_charges > 1 && to_pick_up->charges > default_charges ) {
         to_pick_up->mod_charges( -default_charges );
-        inv.push_back( *to_pick_up );
         inv.back().charges = default_charges;
     } else {
-        std::move( to_pick_up, std::next( to_pick_up ), std::back_inserter( inv ) );
-        items.erase( to_pick_up );
+        to_pick_up.remove_item();
     }
 
     if( g->u.sees( *this ) ) {
@@ -1322,25 +1320,20 @@ bool monster::take_item_at( const tripoint &p, std::function<std::list<item>::it
 
 bool monster::take_food_at( const tripoint &p )
 {
-    bool success = take_item_at( p, [&]( map_stack & items ) {
-        auto items_on_tile = g->m.i_at( p );
-        auto best_food = items.end();
-        float best_food_rating = -1.0;
-
-        for( auto it = items_on_tile.begin(); it != items_on_tile.end(); ++it ) {
-            float rating = rate_food( *it );
-            if( rating > best_food_rating ) {
-                best_food = it;
-            }
-        }
-        return best_food;
+    item_location loc = get_most_desired_item_in_radius( p, 0,
+    []( const tripoint & ) {
+        return true;
+    },
+    [&]( const item & itm ) {
+        return rate_food( itm );
     } );
+    bool success = take_item_at( loc );
 
     if( success ) {
         // Flee after we've got an item
         remove_effect( effect_seeking_item );
         add_effect( effect_run, 50 );
-        moves -= 100;
+        mod_moves( -100 );
     }
     return success;
 }
@@ -1355,7 +1348,7 @@ bool monster::eat_food_from_inventory()
             }
 
             // NOTE: The moves cost is taken from the default player mealtime
-            moves -= 250;
+            mod_moves( -250 );
 
             it->mod_charges( -1 );
             if( it->charges <= 0 ) {
@@ -1573,14 +1566,15 @@ int monster::turns_to_reach( int x, int y )
     return int( turns + .9 ); // Halve (to get turns) and round up
 }
 
-std::pair<item *, tripoint> monster::get_most_desired_item_in_radius( int radius,
-        std::function<float( const item & )> calc_desirability ) const
+item_location get_most_desired_item_in_radius( tripoint pos, int radius,
+        std::function<bool( const tripoint & ) > tile_qualifies,
+        std::function<float( const item & )> calc_desirability )
 {
     float max_desirability = -1;
     tripoint desired_item_pos;
     item *desired_item = nullptr;
-    for( auto &p : g->m.points_in_radius( pos(), radius ) ) {
-        if( g->m.sees_some_items( p, *this ) ) {
+    for( auto &p : g->m.points_in_radius( pos, radius ) ) {
+        if( tile_qualifies ) {
             auto items = g->m.i_at( p );
             for( auto &itm : items ) {
                 float des = calc_desirability( itm );
@@ -1591,12 +1585,16 @@ std::pair<item *, tripoint> monster::get_most_desired_item_in_radius( int radius
             }
         }
     }
-    return std::make_pair( desired_item, desired_item_pos );
+    return item_location( map_cursor( desired_item_pos ), desired_item );
 }
 
-std::pair<item *, tripoint> monster::get_most_desired_visible_item(
+item_location monster::get_most_desired_visible_item(
     std::function<float( const item & )> calc_desirability ) const
 {
     int sight_radius = sight_range( g->m.ambient_light_at( pos() ) );
-    return get_most_desired_item_in_radius( sight_radius, calc_desirability );
+    return get_most_desired_item_in_radius( pos(), sight_radius,
+    [&]( const tripoint & p ) {
+        return g->m.sees_some_items( p, *this );
+    },
+    calc_desirability );
 }
