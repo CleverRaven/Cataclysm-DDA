@@ -239,6 +239,7 @@ struct mutation_category_trait {
 
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
+bool mutation_category_is_valid( std::string &cat );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 

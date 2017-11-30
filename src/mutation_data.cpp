@@ -442,3 +442,7 @@ void mutation_branch::finalize_trait_blacklist()
         }
     }
 }
+
+bool mutation_category_is_valid( std::string &cat ) {
+    return mutation_category_traits.count( cat );
+}
