@@ -254,7 +254,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
             auto mutcat = "MUTCAT_" + mutation;
-            if( mutation_category_is_valid( mutcat ) ) {
+            if( !mutation_category_is_valid( mutcat ) ) {
                 debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
                 continue;
             }
