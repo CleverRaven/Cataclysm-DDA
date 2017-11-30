@@ -157,7 +157,7 @@
       [ [ "mold_plastic", -1 ] ],
       [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "swage", -1 ] ],
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
+      [ [ "soldering_standard", 10, "LIST" ]
     ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -185,7 +185,7 @@
     "time": 15000,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
     "//": "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
     "components": [
       [ [ "sewing_kit", 1 ] ],
@@ -222,8 +222,8 @@
     "difficulty": 2,
     "time": 25000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "flashlight", 1 ] ],
       [ [ "amplifier", 1 ] ],
@@ -351,8 +351,8 @@
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 8 ] ],
+    "using": [ [ "soldering_standard", 16 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 16 ], [ "toolset", 16 ] ] ],
     "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 3 ] ] ]
   },
   {
@@ -1667,8 +1667,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "spike", 2 ] ],
       [ [ "processor", 1 ] ],
@@ -1689,8 +1689,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "grenade", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -1711,8 +1711,8 @@
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 8 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "mininuke", 1 ] ],
       [ [ "processor", 2 ] ],
@@ -1733,8 +1733,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "gasbomb", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -1755,8 +1755,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "EMPbomb", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -1777,8 +1777,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "flashbang", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -1799,8 +1799,8 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "c4", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -2531,7 +2531,7 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_iron", 10 ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_standard", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2544,7 +2544,7 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_iron", 10 ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_standard", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 2 ] ], [ [ "spring", 1 ] ] ]
   },
   {
@@ -2694,16 +2694,13 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [
-      [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "oxy_torch", 40 ] ],
-      [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ]
     ],
     "components": [
       [ [ "steel_lump", 3 ], [ "steel_chunk", 9 ], [ "scrap", 36 ] ],
@@ -2839,8 +2836,8 @@
     "difficulty": 8,
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
     "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
   },
   {
@@ -3295,7 +3292,7 @@
     "skill_used": "fabrication",
     "time": 10000,
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_standard", 10, "LIST" ] ] ],
     "components": [ [ [ "cash_card", 4 ] ] ]
   },
   {
@@ -3379,8 +3376,8 @@
     "difficulty": 4,
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
