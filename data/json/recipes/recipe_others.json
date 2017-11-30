@@ -153,11 +153,10 @@
     "difficulty": 4,
     "time": 20000,
     "book_learn": [ [ "recipe_bullets", 6 ], [ "textbook_fabrication", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "swage", -1 ] ],
-      [ [ "soldering_standard", 10, "LIST" ]
     ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -2531,7 +2530,8 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_standard", 10, "LIST" ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2544,7 +2544,8 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ], [ "soldering_standard", 10, "LIST" ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 2 ] ], [ [ "spring", 1 ] ] ]
   },
   {
