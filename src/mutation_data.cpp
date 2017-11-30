@@ -409,3 +409,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
     return a->name < b->name;
 }
+
+bool mutation_category_is_valid( std::string &cat ) {
+    return mutation_category_traits.count( cat );
+}
