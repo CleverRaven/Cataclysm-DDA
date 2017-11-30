@@ -5,53 +5,62 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 
 ## `raw/`
 
-* bionics.json       - bionics, does NOT include bionic effects
-* dreams.json        - dream text and linked mutation categories
-* item_groups.json   - item spawn groups
-* materials.json     - material types
-* monstergroups.json - monster spawn groups
-* monster_factions.json - monster factions
-* names.json         - names used for NPC/player name generation
-* professions.json   - profession definitions
-* recipes.json       - crafting/disassembly recipes
-* road_vehicles.json - vehicle spawn information for roads
-* skills.json        - skill descriptions and ID's
-* snippets.json      - flier/poster descriptions
-* mutations.json     - traits/mutations
-* mutation_ordering.json - draw order for mutation overlays in tiles mode
-* vehicle_groups.json - vehicle spawn groups
-* vehicle_parts.json - vehicle parts, does NOT affect flag effects
+| Filename               | Description
+|---                     |---
+| bionics.json           | bionics, does NOT include bionic effects
+| dreams.json            | dream text and linked mutation categories
+| item_groups.json       | item spawn groups
+| materials.json         | material types
+| monstergroups.json     | monster spawn groups
+| monster_factions.json  | monster factions
+| names.json             | names used for NPC/player name generation
+| professions.json       | profession definitions
+| recipes.json           | crafting/disassembly recipes
+| road_vehicles.json     | vehicle spawn information for roads
+| skills.json            | skill descriptions and ID's
+| snippets.json          | flier/poster descriptions
+| mutations.json         | traits/mutations
+| mutation_ordering.json | draw order for mutation overlays in tiles mode
+| vehicle_groups.json    | vehicle spawn groups
+| vehicle_parts.json     | vehicle parts, does NOT affect flag effects
 
 ## `raw/vehicles/`
 
 Groups of vehicle definitions with self-explanatory names of files:
 
-* bikes.json
-* cars.json
-* carts.json
-* emergency.json
-* farm.json
-* military.json
-* trucks.json
-* utility.json
-* vans_busses.json
-* vehicles.json
+| Filename
+|---
+| bikes.json
+| cars.json
+| carts.json
+| emergency.json
+| farm.json
+| military.json
+| trucks.json
+| utility.json
+| vans_busses.json
+| vehicles.json
 
 ## `raw/items/`
 
-* archery.json       - bows and arrows
-* ranged.json        - guns
-* tools.json         - tools and items that can be (a)ctivated
-* ammo.json          - ammo
-* books.json         - books
-* comestibles.json   - food/drinks
-* containers.json    - containers
-* melee.json         - anything that doesn't go in the other item jsons, melee weapons
-* mods.json          - gunmods
+| Filename           | Description
+|---                 |---
+| archery.json       | bows and arrows
+| ranged.json        | guns
+| tools.json         | tools and items that can be (a)ctivated
+| ammo.json          | ammo
+| books.json         | books
+| comestibles.json   | food/drinks
+| containers.json    | containers
+| melee.json         | anything that doesn't go in the other item jsons, melee weapons
+| mods.json          | gunmods
 
 ## `json/`
-* furniture.json     - furniture, and features treated like furniture
-* terrain.json       - terrain types and definitions
+
+| Filename           | Description
+|---                 |---
+| furniture.json     | furniture, and features treated like furniture
+| terrain.json       | terrain types and definitions
 
 # Raw JS
 
