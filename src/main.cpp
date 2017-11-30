@@ -406,9 +406,15 @@ int main(int argc, char *argv[])
 
     setupDebug();
 
+/**
+ * OS X does not populate locale env vars correctly (they usually default to
+ * "C") so don't bother trying to set the locale based on them.
+ */
+#if (!defined MACOSX)
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     } else {
+#endif
         try {
             std::locale::global( std::locale( "" ) );
         } catch( const std::exception& ) {
@@ -421,7 +427,9 @@ int main(int argc, char *argv[])
                 exit_handler(-999);
             }
         }
+#if (!defined MACOSX)
     }
+#endif
 
     get_options().init();
     get_options().load();
