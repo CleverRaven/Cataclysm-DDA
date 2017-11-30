@@ -109,7 +109,7 @@
     "id" : "mags_pistol_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
-      ["glock_drum_50rd", 35],
+      ["glock_drum_50rd", 25],
       ["glock_drum_100rd", 10],
       ["deaglemag", 40],
       ["fn57mag", 80],
