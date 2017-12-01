@@ -5,14 +5,24 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "mapgenformat.h"
-#include "mapdata.h"
+#include <vector>
 
+#include "int_id.h"
+
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 struct oter_t;
 using oter_id = int_id<oter_t>;
-
+struct point;
+class JsonArray;
+class JsonObject;
 struct mapgendata;
+struct tripoint;
+class map;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -50,7 +60,7 @@ struct jmapgen_int {
   short valmax;
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
-  jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */
@@ -105,7 +115,7 @@ struct jmapgen_setmap {
     ) :
        x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) {}
-    bool apply( map * m );
+    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -133,8 +143,8 @@ class jmapgen_piece {
 protected:
     jmapgen_piece() { }
 public:
-    /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
+    /** Place something on the map from mapgendata dat, at (x,y). mon_density */
+    virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
     virtual ~jmapgen_piece() { }
 };
 
@@ -202,7 +212,7 @@ private:
 
 struct jmapgen_objects {
 
-    jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize );
+    jmapgen_objects( int offset_x, int offset_y, size_t size_x, size_t size_y );
 
     bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
@@ -223,7 +233,8 @@ struct jmapgen_objects {
     template<typename PieceType>
     void load_objects(JsonObject &jsi, const std::string &member_name);
 
-    void apply(map* m, float density) const;
+    void apply( const mapgendata &dat, float density ) const;
+    void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
 
 private:
     /**
@@ -231,42 +242,72 @@ private:
      */
     using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
     std::vector<jmapgen_obj> objects;
-    int x_offset;
-    int y_offset;
-    size_t mapgensize;
+    int offset_x;
+    int offset_y;
+    size_t mapgensize_x;
+    size_t mapgensize_y;
 };
 
-class mapgen_function_json : public virtual mapgen_function {
+class mapgen_function_json_base {
     public:
-    bool check_inbounds( const jmapgen_int &var ) const;
-    void setup_setmap( JsonArray &parray );
-    void setup() override;
-    void generate(map *, const oter_id &, const mapgendata &, int, float) override;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        size_t calc_index( size_t x, size_t y ) const;
 
-    mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
-    ~mapgen_function_json() override {
-    }
+    private:
+        std::string jdata;
 
-    size_t calc_index( size_t x, size_t y ) const;
+    protected:
+        mapgen_function_json_base( const std::string s );
+        virtual ~mapgen_function_json_base();
 
-    std::string jdata;
-    size_t mapgensize;
-    ter_id fill_ter;
-    std::vector<ter_furn_id> format;
-    std::vector<jmapgen_setmap> setmap_points;
-    int x_offset;
-    int y_offset;
+        void setup_common();
+        void setup_setmap( JsonArray &parray );
+        // Returns true if the mapgen qualifies at this point already
+        virtual bool setup_internal( JsonObject &jo ) = 0;
+        virtual void setup_setmap_internal() { };
 
-    std::string luascript;
+        void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 
-    bool do_format;
-    bool is_ready;
+        bool do_format;
+        bool is_ready;
 
-private:
-    jmapgen_objects objects;
-    jmapgen_int rotation;
+        size_t mapgensize_x;
+        size_t mapgensize_y;
+        int x_offset;
+        int y_offset;
+        std::vector<ter_furn_id> format;
+        std::vector<jmapgen_setmap> setmap_points;
 
-    void formatted_set_incredibly_simple( map *m ) const;
+        jmapgen_objects objects;
+};
+
+class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function {
+    public:
+        void generate( map *, const oter_id &, const mapgendata &, int, float ) override;
+        void setup() override;
+        mapgen_function_json( const std::string s, int w,
+                              const int x_grid_offset = 0, const int y_grid_offset = 0 );
+        ~mapgen_function_json() override { }
+
+        ter_id fill_ter;
+        std::string luascript;
+
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
+
+    private:
+        jmapgen_int rotation;
+};
+
+class mapgen_function_json_nested : public mapgen_function_json_base {
+    public:
+        void setup();
+        mapgen_function_json_nested( const std::string s );
+        ~mapgen_function_json_nested() override { }
+
+        void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////

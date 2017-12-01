@@ -1,0 +1,65 @@
+[
+ {
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_bashing",
+    "items":[
+      [ "bat", 200 ],
+      [ "bat_metal", 100 ],
+      [ "q_staff", 10 ],
+      [ "mace", 2 ]
+    ]
+  },{
+   "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_cutting",
+    "items":[
+      [ "fire_ax", 50 ],
+      [ "kukri", 50 ],
+      [ "machete", 200 ],
+      [ "halberd", 1 ],
+      [ "cutlass",1 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_stabbing",
+    "items":[
+      [ "qiang", 1 ],
+      [ "spear_steel", 100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_pistol",
+    "items":[
+      [ "glock_19", 200 ],
+      [ "needlepistol", 1 ],
+      [ "deagle_44", 10 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_rifle",
+    "items":[
+      [ "cx4", 100 ],
+      [ "ksub2000", 100 ],
+      [ "henry_big_boy", 10 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_shotgun",
+    "items":[
+      [ "mossberg_500", 100 ],
+      [ "remington_870", 100 ],
+      [ "saiga_12", 1 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_smg",
+    "items":[
+      [ "hk_mp5", 100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_TALENTED_REFUGEE_archery",
+    "items":[
+      [ "crossbow", 200 ]
+    ]
+  }
+]

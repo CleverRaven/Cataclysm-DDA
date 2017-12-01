@@ -10,6 +10,7 @@
 #include "pldata.h"
 #include "messages.h"
 #include "cursesdef.h"
+#include "trap.h"
 #include "sounds.h"
 #include "monattack.h"
 #include "monfaction.h"
@@ -220,8 +221,7 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly != 0 && !docile ) {
         // Target unfriendly monsters, only if we aren't interacting with the player.
-        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster &tmp = g->zombie( i );
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
@@ -240,8 +240,7 @@ void monster::plan( const mfactions &factions )
         return;
     }
 
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        npc &who = *g->active_npc[i];
+    for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
             continue;
@@ -271,8 +270,8 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( int i : fac.second ) { // mon indices
-                monster &mon = g->zombie( i );
+            for( monster *const mon_ptr : fac.second ) {
+                monster &mon = *mon_ptr;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -299,8 +298,8 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const int i : myfaction_iter->second ) {
-            monster &mon = g->zombie( i );
+        for( monster *const mon_ptr : myfaction_iter->second ) {
+            monster &mon = *mon_ptr;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
@@ -471,9 +470,9 @@ void monster::move()
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
-            for( auto &i : g->active_npc ) {
-                if( goal == i->pos() ) {
-                    current_attitude = attitude( i );
+            for( const npc &guy : g->all_npcs() ) {
+                if( goal == guy.pos() ) {
+                    current_attitude = attitude( &guy );
                 }
             }
         }
@@ -885,26 +884,26 @@ int monster::group_bash_skill( const tripoint &target )
         // Drawing this line backwards excludes the target and includes the candidate.
         std::vector<tripoint> path_to_target = line_to( target, candidate, 0, 0 );
         bool connected = true;
-        int mondex = -1;
+        monster *mon = nullptr;
         for( const tripoint &in_path : path_to_target ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
-            mondex = g->mon_at( in_path );
-            if( mondex == -1 ) {
+            mon = g->critter_at<monster>( in_path );
+            if( !mon ) {
                 connected = false;
                 break;
             }
-            monster &helpermon = g->zombie( mondex );
+            monster &helpermon = *mon;
             if( !helpermon.has_flag( MF_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
             }
         }
-        if( !connected || mondex == -1 ) {
+        if( !connected || !mon ) {
             continue;
         }
         // If we made it here, the last monster checked was the candidate.
-        monster &helpermon = g->zombie( mondex );
+        monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
         bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
     }
@@ -1176,7 +1175,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
             if( critter->push_to( dest, roll, depth + 1 ) ) {
                 // The tile isn't necessarily free, need to check
-                if( g->mon_at( p ) == -1 ) {
+                if( !g->critter_at( p ) ) {
                     move_to( p );
                 }
 

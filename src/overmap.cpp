@@ -9,9 +9,11 @@
 #include "line.h"
 #include "game.h"
 #include "npc.h"
+#include "map.h"
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "action.h"
@@ -62,6 +64,11 @@ const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+
+//Classic Extras is for when you have special zombies turned off.
+static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military","mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids" };
 
 #include "omdata.h"
 ////////////////
@@ -177,15 +184,17 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "LINEAR",         line_drawing   }
 };
 
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
+template<>
+const overmap_special &overmap_special_id::obj() const
+{
+    return specials.obj( *this );
+}
+
+template<>
+bool overmap_special_id::is_valid() const
+{
+    return specials.is_valid( *this );
+}
 
 city::city( int const X, int const Y, int const S)
 : x (X)
@@ -307,6 +316,12 @@ void overmap_specials::load( JsonObject &jo, const std::string &src )
     specials.load( jo, src );
 }
 
+void city_buildings::load( JsonObject &jo, const std::string &src )
+{
+    // Just an alias
+    overmap_specials::load( jo, src );
+}
+
 void overmap_specials::finalize()
 {
     for( const auto &elem : specials.get_all() ) {
@@ -376,24 +391,6 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     return oter_str.str()[compare_size] == '_';
 }
 
-oter_id overmap::random_shop() const
-{
-    return settings.city_spec.pick_shop();
-}
-
-oter_id overmap::random_park() const
-{
-    return settings.city_spec.pick_park();
-}
-
-oter_id overmap::random_house() const
-{
-    const oter_id house( "house_north" );
-    const oter_id house_base( "house_base_north" );
-
-    return one_in( settings.house_basement_chance) ? house : house_base;
-}
-
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -434,8 +431,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
-
-    optional( jo, was_loaded, "color", color, color_reader{} );
+    assign( jo, "color", color, strict );
 
     const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
@@ -607,18 +603,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_b",
         "office_tower_b_entrance",
         "outpost",
-        "prison_1",
-        "prison_2",
-        "prison_3",
-        "prison_4",
-        "prison_5",
-        "prison_6",
-        "prison_7",
-        "prison_8",
-        "prison_9",
-        "prison_b",
-        "prison_b_entrance",
-        "radio_tower",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -676,6 +660,7 @@ void overmap_terrains::check_consistency()
 
 void overmap_terrains::finalize()
 {
+    terrain_types.finalize();
 
     for( const auto &elem : terrain_types.get_all() ) {
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
@@ -687,7 +672,7 @@ void overmap_terrains::finalize()
     }
 
     for( auto &elem : region_settings_map ) {
-        elem.second.setup();
+        elem.second.finalize();
     }
 
     set_oter_ids();
@@ -714,16 +699,17 @@ void load_region_settings( JsonObject &jo )
     if ( ! jo.read("default_oter", new_region.default_oter) && strict ) {
         jo.throw_error("default_oter required for default ( though it should probably remain 'field' )");
     }
-    if ( jo.has_object("default_groundcover") ) {
-        JsonObject jio = jo.get_object("default_groundcover");
-        new_region.default_groundcover_str.reset( new sid_or_sid("t_grass", 4, "t_dirt") );
-        if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
-             ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
-             ! jio.read("ratio", new_region.default_groundcover.chance) ) {
-            jo.throw_error("'default_groundcover' missing one of:\n   { \"primary\": \"ter_id\", \"secondary\": \"ter_id\", \"ratio\": (number) }\n");
+    if( jo.has_array( "default_groundcover" ) ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( new_region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
         }
     } else if ( strict ) {
-        jo.throw_error("'default_groundcover' required for 'default'");
+        jo.throw_error("Weighted list 'default_groundcover' required for 'default'");
     }
     if ( ! jo.read("num_forests", new_region.num_forests) && strict ) {
         jo.throw_error("num_forests required for default");
@@ -733,9 +719,6 @@ void load_region_settings( JsonObject &jo )
     }
     if ( ! jo.read("forest_size_max", new_region.forest_size_max) && strict ) {
         jo.throw_error("forest_size_max required for default");
-    }
-    if ( ! jo.read("house_basement_chance", new_region.house_basement_chance) && strict ) {
-        jo.throw_error("house_basement_chance required for default");
     }
     if ( ! jo.read("swamp_maxsize", new_region.swamp_maxsize) && strict ) {
         jo.throw_error("swamp_maxsize required for default");
@@ -854,36 +837,27 @@ void load_region_settings( JsonObject &jo )
         if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
             jo.throw_error("city: park_radius required for default");
         }
-        if ( ! cjo.has_object("shops") && strict ) {
-            if ( strict ) {
-                jo.throw_error("city: \"shops\": { ... } required for default");
-            }
-        } else {
-            JsonObject wjo = cjo.get_object("shops");
-            std::set<std::string> keys = wjo.get_member_names();
-            for( const auto &key : keys ) {
-                if( key != "//" ) {
-                    if( wjo.has_int( key ) ) {
-                        new_region.city_spec.shops.add( { oter_type_str_id( key ) }, wjo.get_int( key ) );
+        const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
+                                                         building_bin &dest ) {
+            if ( !cjo.has_object( type ) && strict ) {
+                if( strict ) {
+                    jo.throw_error("city: \"" + type + "\": { ... } required for default");
+                }
+            } else {
+                JsonObject wjo = cjo.get_object( type );
+                std::set<std::string> keys = wjo.get_member_names();
+                for( const auto &key : keys ) {
+                    if( key != "//" ) {
+                        if( wjo.has_int( key ) ) {
+                            dest.add( overmap_special_id( key ), wjo.get_int( key ) );
+                        }
                     }
                 }
             }
-        }
-        if ( ! cjo.has_object("parks") && strict ) {
-            if ( strict ) {
-                jo.throw_error("city: \"parks\": { ... } required for default");
-            }
-        } else {
-            JsonObject wjo = cjo.get_object("parks");
-            std::set<std::string> keys = wjo.get_member_names();
-            for( const auto &key : keys ) {
-                if( key != "//" ) {
-                    if( wjo.has_int( key ) ) {
-                        new_region.city_spec.parks.add( { oter_type_str_id( key ) }, wjo.get_int( key ) );
-                    }
-                }
-            }
-        }
+        };
+        load_building_types( "houses", new_region.city_spec.houses );
+        load_building_types( "shops", new_region.city_spec.shops );
+        load_building_types( "parks", new_region.city_spec.parks );
     }
 
     if ( ! jo.has_object("weather") ) {
@@ -944,18 +918,20 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 {
     jo.read("default_oter", region.default_oter);
 
-    if (jo.has_object("default_groundcover")) {
-        JsonObject jio = jo.get_object("default_groundcover");
-
-        jio.read("primary", region.default_groundcover_str->primary_str);
-        jio.read("secondary", region.default_groundcover_str->secondary_str);
-        jio.read("ratio", region.default_groundcover.chance);
+    if( jo.has_array("default_groundcover") ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
+        }
     }
 
     jo.read("num_forests", region.num_forests);
     jo.read("forest_size_min", region.forest_size_min);
     jo.read("forest_size_max", region.forest_size_max);
-    jo.read("house_basement_chance", region.house_basement_chance);
     jo.read("swamp_maxsize", region.swamp_maxsize);
     jo.read("swamp_river_influence", region.swamp_river_influence);
     jo.read("swamp_spread_chance", region.swamp_spread_chance);
@@ -1041,26 +1017,18 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     cityjo.read("shop_radius", region.city_spec.shop_radius);
     cityjo.read("park_radius", region.city_spec.park_radius);
 
-    JsonObject shopsjo = cityjo.get_object("shops");
-    std::set<std::string> shopkeys = shopsjo.get_member_names();
-    for( const auto &key : shopkeys ) {
-        if( key != "//" ) {
-            if( shopsjo.has_int( key ) ) {
-                region.city_spec.shops.add_or_replace( { oter_type_str_id( key ) }, shopsjo.get_int( key ) );
+    const auto load_building_types = [&cityjo]( const std::string &type, building_bin &dest ) {
+        JsonObject typejo = cityjo.get_object( type );
+        std::set<std::string> type_keys = typejo.get_member_names();
+        for( const auto &key : type_keys ) {
+            if( key != "//" && typejo.has_int( key ) ) {
+                dest.add( overmap_special_id( key ), typejo.get_int( key ) );
             }
         }
-    }
-
-    JsonObject parksjo = cityjo.get_object("parks");
-    std::set<std::string> parkkeys = parksjo.get_member_names();
-    for( const auto &key : parkkeys ) {
-        if( key != "//" ) {
-            if( parksjo.has_int( key ) ) {
-                region.city_spec.parks.add_or_replace( { oter_type_str_id( key ) }, parksjo.get_int( key ) );
-            }
-        }
-    }
-
+    };
+    load_building_types( "houses", region.city_spec.houses );
+    load_building_types( "shops", region.city_spec.shops );
+    load_building_types( "parks", region.city_spec.parks );
 }
 
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
@@ -1102,17 +1070,22 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
 void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
+    // city_building is just an alias of overmap_special
+    const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-    mandatory( jo, was_loaded, "locations", locations );
-    mandatory( jo, was_loaded, "occurrences", occurrences );
+    if( is_special ) {
+        mandatory( jo, was_loaded, "locations", locations );
+        mandatory( jo, was_loaded, "occurrences", occurrences );
 
-    optional( jo, was_loaded, "connections", connections );
+        optional( jo, was_loaded, "connections", connections );
+
+        assign( jo, "city_sizes", city_size, strict );
+        assign( jo, "city_distance", city_distance, strict );
+    }
 
     assign( jo, "spawns", spawns, strict );
 
-    assign( jo, "city_sizes", city_size, strict );
-    assign( jo, "city_distance", city_distance, strict );
     assign( jo, "rotate", rotatable, strict );
     assign( jo, "flags", flags, strict );
 }
@@ -1191,12 +1164,7 @@ overmap::overmap( int const x, int const y ) : loc( x, y )
     init_layers();
 }
 
-overmap::~overmap()
-{
-    for( npc *npc_to_delete : npcs ) {
-        delete npc_to_delete;
-    }
-}
+overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1309,19 +1277,33 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::insert_npc( npc *who )
+void overmap::insert_npc( std::shared_ptr<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-void overmap::erase_npc( npc *who )
+std::shared_ptr<npc> overmap::erase_npc( const int id )
 {
-    const auto iter = std::find( npcs.begin(), npcs.end(), who );
-    assert( iter != npcs.end() );
+    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) { return n->getID() == id; } );
+    if( iter == npcs.end() ) {
+        return nullptr;
+    }
+    auto ptr = *iter;
     npcs.erase( iter );
-    delete who;
     g->set_npcs_dirty();
+    return ptr;
+}
+
+std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
+{
+    std::vector<std::shared_ptr<npc>> result;
+    for( const auto &g : npcs ) {
+        if( predicate( *g ) ) {
+            result.push_back( g );
+        }
+    }
+    return result;
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -1757,9 +1739,7 @@ bool overmap::generate_sub(int const z)
                 continue;
             }
 
-            if (is_ot_type("house_base", oter_above)) {
-                ter(i, j, z) = oter_id( "basement" );
-            } else if (is_ot_type("sub_station", oter_above)) {
+            if (is_ot_type("sub_station", oter_above)) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
                 subway_points.emplace_back( i, j );
             } else if (oter_above == "road_nesw_manhole") {
@@ -2108,7 +2088,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
-        for( const npc *np : npcs ) {
+        for( const auto &np : npcs ) {
             if( np->posz() != z ) {
                 continue;
             }
@@ -3396,27 +3376,81 @@ void overmap::place_cities()
     }
 }
 
-void overmap::put_building( int x, int y, om_direction::type dir, const city &town )
+building_size overmap::find_max_size( const tripoint &center, const building_size &limits ) const
 {
-    const point p = om_direction::displace( dir );
-    auto &tid = ter( x + p.x, y + p.y, 0 );
-
-    if( tid != settings.default_oter  ) {
-        return;
+    // Open air above and solid rock below is fine
+    // Default terrain at the spot is fine
+    // Nothing else is
+    const auto &tid = get_ter( center );
+    building_size ret;
+    // @todo Should be a flag or a property, not id comparison
+    if( tid != settings.default_oter ) {
+        return ret;
     }
 
-    const int town_dist = trig_dist( x, y, town.x, town.y ) / ( town.s > 0 ? town.s : 1 );
-    oter_id building_tid;
+    tripoint current = center;
+    ret.height = 0;
+    static const oter_str_id open_air( "open_air" );
+    while( ret.height < limits.height ) {
+        current.z++;
+        if( get_ter( current ) != open_air ) {
+            break;
+        }
+        ret.height++;
+    }
+    current.z = center.z;
+    ret.depth = 0;
+    static const oter_str_id empty_rock( "empty_rock" );
+    while( ret.depth < limits.depth ) {
+        current.z--;
+        if( get_ter( current ) != empty_rock ) {
+            break;
+        }
+        ret.depth++;
+    }
+    return ret;
+}
 
-    if( rng( 0, 99 ) > 80 * town_dist ) {
-        building_tid = random_shop();
-    } else if( rng( 0, 99 ) > 130 * town_dist ) {
-        building_tid = random_park();
-    } else {
-        building_tid = random_house();
+building_size find_special_size( const overmap_special &sp )
+{
+    building_size ret;
+    for( const overmap_special_terrain &ter : sp.terrains ) {
+        const tripoint &p = ter.p;
+        if( p.x != 0 || p.y != 0 ) {
+            debugmsg( "Tried to add city building %s, but it has a part with non-zero x or y coords (not supported yet)",
+                      sp.id.c_str() );
+            break;
+        }
+        ret.height = std::max( p.z, ret.height );
+        ret.depth = std::max( -p.z, ret.depth );
+    }
+    return ret;
+}
+
+void overmap::put_building( const tripoint &p, om_direction::type dir, const city &town )
+{
+    const point offset = om_direction::displace( dir );
+    const tripoint building_pos = p + offset;
+
+    const int town_dist = trig_dist( p.x, p.y, town.x, town.y ) / ( town.s > 0 ? town.s : 1 );
+    overmap_special_id building_tid = overmap_special_id::NULL_ID();
+    for( size_t retries = 10; retries > 0; retries-- ) {
+        if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
+            building_tid = settings.city_spec.pick_shop();
+        } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
+            building_tid = settings.city_spec.pick_park();
+        } else {
+            building_tid = settings.city_spec.pick_house();
+        }
+        building_size special_size = find_special_size( building_tid.obj() );
+        if( find_max_size( p, special_size ) == special_size ) {
+            break;
+        }
     }
 
-    tid = building_tid->get_rotated( om_direction::opposite( dir ) );
+    if( !building_tid.is_null() ) {
+        place_special( building_tid.obj(), building_pos, om_direction::opposite( dir ), town );
+    }
 }
 
 void overmap::build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town )
@@ -3442,11 +3476,10 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
 
     for( auto iter = from; iter != to; ++iter ) {
         if( !one_in( STREETCHANCE ) ) {
-            put_building( iter->x, iter->y, om_direction::turn_left( dir ), town );
+            put_building( { iter->x, iter->y, 0 }, om_direction::turn_left( dir ), town );
         }
-
         if( !one_in( STREETCHANCE ) ) {
-            put_building( iter->x, iter->y, om_direction::turn_right( dir ), town );
+            put_building( { iter->x, iter->y, 0 }, om_direction::turn_right( dir ), town );
         }
 
         --c;
@@ -4536,7 +4569,7 @@ void overmap::save() const
 
 //////////////////////////
 
-void groundcover_extra::setup()   // fixme return bool for failure
+void groundcover_extra::finalize()   // fixme return bool for failure
 {
     default_ter = ter_id( default_ter_str );
 
@@ -4611,16 +4644,16 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
     return weightlist.lower_bound( rng( 0, 1000000 ) )->second;
 }
 
-void regional_settings::setup()
+void regional_settings::finalize()
 {
-    if ( default_groundcover_str ) {
-        const ter_str_id primary( default_groundcover_str->primary_str );
-        const ter_str_id secondary( default_groundcover_str->secondary_str );
+    if( default_groundcover_str != nullptr ) {
+        for( const auto &pr : *default_groundcover_str ) {
+            default_groundcover.add( pr.obj.id(), pr.weight );
+        }
 
-        default_groundcover.primary = primary.id();
-        default_groundcover.secondary = secondary.id();
-        field_coverage.setup();
+        field_coverage.finalize();
         default_groundcover_str.reset();
+        city_spec.finalize();
         get_options().add_value("DEFAULT_REGION", id );
     }
 }
@@ -4707,14 +4740,106 @@ void overmap::for_each_npc( const std::function<void( const npc & )> callback ) 
     }
 }
 
-npc* overmap::find_npc( const int id )
+std::shared_ptr<npc> overmap::find_npc( const int id ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {
             return guy;
         }
     }
     return nullptr;
+}
+
+void city_settings::finalize()
+{
+    houses.finalize();
+    shops.finalize();
+    parks.finalize();
+}
+
+building_size building_size::max( const building_size &a, const building_size &b )
+{
+    return building_size{ std::max( a.height, b.height ), std::max( a.depth, b.depth ) };
+}
+
+void building_bin::add( const overmap_special_id &building, int weight )
+{
+    if( finalized ) {
+        debugmsg( "Tried to add special %s to a finalized building bin", building.c_str() );
+        return;
+    }
+
+    unfinalized_buildings[ building ] = weight;
+}
+
+overmap_special_id building_bin::pick() const
+{
+    overmap_special_id null_special( "null" );
+    if( !finalized ) {
+        debugmsg( "Tried to pick a special out of a non-finalized bin" );
+        return null_special;
+    }
+
+    return *buildings.pick();
+}
+
+void building_bin::clear()
+{
+    finalized = false;
+    buildings.clear();
+    unfinalized_buildings.clear();
+}
+
+void building_bin::finalize()
+{
+    if( finalized ) {
+        debugmsg( "Tried to finalize a finalized bin (that's a code-side error which can't be fixed with jsons)" );
+        return;
+    }
+    if( unfinalized_buildings.empty() ) {
+        debugmsg( "There must be at least one house, shop, and park for each regional map setting used." );
+        return;
+    }
+
+    for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
+        bool skip = false;
+        overmap_special_id current_id = pr.first;
+        if( !current_id.is_valid() ) {
+            // First, try to convert oter to special
+            string_id<oter_type_t> converted_id( pr.first.str() );
+            if( !converted_id.is_valid() ) {
+                debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type", pr.first.c_str() );
+                continue;
+            }
+            current_id = overmap_specials::create_building_from( converted_id );
+        }
+        const overmap_special &cur_special = current_id.obj();
+        for( const overmap_special_terrain &ter : cur_special.terrains ) {
+            const tripoint &p = ter.p;
+            if( p.x != 0 || p.y != 0 ) {
+                debugmsg( "Tried to add city building %s, but it has a part with non-zero x or y coords (not supported yet)",
+                          current_id.c_str() );
+                skip = true;
+                break;
+            }
+        }
+        if( skip ) {
+            continue;
+        }
+        buildings.add( current_id, pr.second );
+    }
+
+    finalized = true;
+}
+
+overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
+{
+    overmap_special new_special;
+    new_special.id = overmap_special_id( "FakeSpecial_" + base.str() );
+    overmap_special_terrain ter;
+    ter.terrain = base.obj().get_first().id();
+    new_special.terrains.push_back( ter );
+    return specials.insert( new_special ).id;
 }
 
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);

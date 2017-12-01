@@ -8,11 +8,7 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": {
-      "price": 3,
-      "damage": 3,
-      "pierce": 3
-    }
+    "proportional": { "price": 3, "damage": 3, "pierce": 3 }
   },
   {
     "id": "nail",

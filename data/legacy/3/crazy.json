@@ -1,10 +1,7 @@
 [
   {
     "type": "ITEM_BLACKLIST",
-    "items": [
-      "granade",
-      "granade_act"
-    ]
+    "items": [ "granade", "granade_act" ]
   },
   {
     "id": "granade",

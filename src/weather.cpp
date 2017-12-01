@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"
@@ -26,6 +27,11 @@ static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -149,7 +155,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, in
         return;
     }
 
-    it.bday = endturn; // bday == last fill check
+    it.set_birthday( endturn ); // bday == last fill check
     auto data = sum_conditions( startturn, endturn, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
@@ -296,7 +302,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
 
             if( container != items.end() ) {
                 container->add_rain_to_container(acid, 1);
-                container->bday = int(calendar::turn);
+                container->set_age( 0 );
             }
         }
     }

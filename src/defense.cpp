@@ -20,6 +20,7 @@
 #include "overmap.h"
 #include "player.h"
 #include "string_input_popup.h"
+#include "string_formatter.h"
 
 #include <string>
 #include <vector>

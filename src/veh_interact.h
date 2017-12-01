@@ -4,7 +4,6 @@
 
 #include "inventory.h"
 #include "input.h"
-#include "color.h"
 #include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
@@ -16,6 +15,7 @@
 #include <map>
 #include <sstream>
 
+class nc_color;
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
 
@@ -85,7 +85,7 @@ class veh_interact
 
         player_activity serialize_activity();
 
-        void set_title( std::string msg, ... ) const;
+        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,

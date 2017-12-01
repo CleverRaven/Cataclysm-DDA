@@ -63,7 +63,7 @@
   "type" : "recipe",
   "result": "copper_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 5000,
@@ -74,8 +74,7 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -95,7 +94,7 @@
   "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "time": 5000,
   "reversible": true,
@@ -291,8 +290,7 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -1561,8 +1559,7 @@
     {"id":"SAW_M_FINE","level":1}
   ], "tools": [
     [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ],
+      [ "soldering_standard", 10, "LIST" ],
       [ "small_repairkit", 10 ],
       [ "large_repairkit", 5 ]
     ]
@@ -1918,8 +1915,7 @@
   ],
   "tools": [
     [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ],
+      [ "soldering_standard", 10, "LIST" ],
       [ "small_repairkit", 10 ],
       [ "large_repairkit", 10 ]
     ]
@@ -1942,13 +1938,9 @@
   "difficulty": 4,
   "time": 15000,
   "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities" : [
     {"id":"SCREW_FINE","level":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
     "components": [
     [
@@ -2009,14 +2001,13 @@
   "time": 15000,
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"HAMMER_FINE","level":1},
     {"id":"SCREW_FINE","level":1}
   ],
   "tools": [
     [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ],
       [ "small_repairkit", 10 ],
       [ "large_repairkit", 10 ]
     ]
@@ -2072,13 +2063,9 @@
   "difficulty": 4,
   "time": 15000,
   "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities" : [
     {"id":"SCREW_FINE","level":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
   "components": [
     [
@@ -2156,14 +2143,9 @@
   "time": 20000,
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "using": [ [ "soldering_standard", 15 ] ],
   "qualities":[
     {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 15 ],
-      [ "toolset", 15 ]
-    ]
   ],
   "components": [
     [
@@ -2181,15 +2163,10 @@
   "time": 10000,
   "autolearn": true,
   "book_learn": [[ "manual_gun", 3 ] , [ "mag_archery", 2] , [ "manual_archery", 1]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"HAMMER_FINE","level":1},
     {"id":"SAW_M_FINE","level":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
   "components": [
     [
@@ -2210,14 +2187,9 @@
   "time": 5000,
   "autolearn": true,
   "book_learn": [[ "mag_archery", 3] , [ "manual_archery", 2]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
   "components": [
     [
@@ -2235,14 +2207,9 @@
   "time": 5000,
   "autolearn": true,
   "book_learn": [[ "mag_archery", 2] , [ "manual_archery", 1]],
+  "using": [ [ "soldering_standard", 5 ] ],
   "qualities":[
     {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
   ],
   "components": [
     [
@@ -2288,7 +2255,7 @@
   "type" : "recipe",
    "result": "sword_wood",
    "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_BASHING",
    "skill_used": "fabrication",
    "time": 25000,
    "autolearn": true,
@@ -2925,7 +2892,7 @@
   "type" : "recipe",
   "result": "knife_combat",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 360000,
@@ -2963,7 +2930,7 @@
   "type" : "recipe",
   "result": "knife_trench",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 390000,
@@ -3157,9 +3124,7 @@
     [
       ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [
@@ -3174,7 +3139,7 @@
   "type" : "recipe",
   "result": "switchblade",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 460000,
@@ -3444,8 +3409,7 @@
     {"id":"SCREW_FINE","level":1}
   ], "tools": [
     [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ],
+      [ "soldering_standard", 20, "LIST" ],
       [ "small_repairkit", 20 ],
       [ "large_repairkit", 10 ]
     ]
@@ -3480,9 +3444,7 @@
   "book_learn": [[ "recipe_melee", 4 ]],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
@@ -3515,19 +3477,11 @@
   "difficulty" : 6,
   "time" : 45000,
   "book_learn": [[ "recipe_melee", 5 ]],
+  "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
   "qualities" : [
     {"id":"SCREW","level":1}
   ], "tools" : [
-     [ ["mold_plastic", -1] ],
-     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
-     ],
-     [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-     ]
+     [ ["mold_plastic", -1] ]
   ],
   "components" : [
      [
@@ -3871,7 +3825,7 @@
   "type" : "recipe",
   "result": "rapier",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 420000,
@@ -3990,7 +3944,7 @@
   "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 490000,
@@ -4143,7 +4097,7 @@
   "type" : "recipe",
   "result": "tanto",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 380000,
@@ -4540,14 +4494,9 @@
   "time": 15000,
   "reversible": true,
   "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities": [
     {"id":"SCREW","level":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "soldering_iron", 10 ]
-    ]
   ],
   "components": [
     [
@@ -4714,7 +4663,7 @@
   "type" : "recipe",
   "result": "knife_steak",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 60000,
@@ -4747,7 +4696,7 @@
   "type" : "recipe",
   "result": "knife_rambo",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 180000,
@@ -4960,7 +4909,7 @@
   "type" : "recipe",
   "result": "spear_survivor",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "skills_required" : [ "melee", 5 ],
@@ -5008,14 +4957,10 @@
   "skills_required" : [ "melee", 5 ],
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "soldering_standard", 20 ] ],
   "qualities" : [
     {"id":"HAMMER","level":1},
     {"id":"SAW_M","level":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
   ],
   "components": [
     [
@@ -5106,6 +5051,7 @@
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "skills_required": [["mechanics", 10], ["electronics", 9], ["computer", 2]],
+  "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 50 ], [ "forging_standard", 4 ], [ "surface_heat", 30 ] ],
   "difficulty": 10,
   "time": 720000,
   "autolearn": true,
@@ -5135,26 +5081,7 @@
         ["swage", -1]
       ],
       [
-        ["forge", 400],
-        ["oxy_torch", 80]
-      ],
-      [
-        ["oxy_torch", 100],
-        ["welder", 500],
-        ["welder_crude", 750],
-        ["toolset", 750]
-      ],
-      [
         ["mold_plastic", -1]
-      ],
-      [
-        ["hotplate", 30],
-        ["toolset", 30],
-        ["fire", -1]
-      ],
-      [
-        ["soldering_iron", 20],
-        ["toolset", 20]
       ]
     ],
   "components":

@@ -42,10 +42,7 @@
         "F": "t_floor",
         "_": "t_pavement"
       },
-      "vendingmachines": {
-        "D": { "item_group": "vending_drink" },
-        "F": { "item_group": "vending_food" }
-      }
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
     }
   }
 ]

@@ -452,7 +452,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -493,7 +493,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -548,7 +548,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -642,14 +642,10 @@
   "difficulty" : 7,
   "time" : 5000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"HAMMER","level":1},
     {"id":"SCREW","level":1}
-  ], "tools" : [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
   ],
   "components" : [
     [
@@ -824,12 +820,7 @@
   "qualities":[
     {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ],
+  "using": [ [ "surface_heat", 2 ] ],
   "components": [
     [
       [ "gunpowder", 16 ],
@@ -859,14 +850,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ],"components": [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components": [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -891,14 +878,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ], "components":  [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components":  [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -1104,9 +1087,7 @@
   ],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
+      [ "surface_heat", 15, "LIST" ]
     ]
   ],
   "components" : [
@@ -1214,7 +1195,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
-  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1] ] ],
+  "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
@@ -1344,9 +1325,7 @@
     {"id":"CHEM","level":1}
   ], "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [
@@ -1370,9 +1349,7 @@
   "qualities":[ {"id":"CHEM","level":1} ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [

@@ -32,7 +32,7 @@ Cataclysm: Dark Days Ahead main site, includes links to forum, wiki, and GitHub 
 http://en.cataclysmdda.com/
 
 Forums:
-http://smf.cataclysmdda.com
+https://discourse.cataclysmdda.org
 
 Wiki:
 http://tools.cataclysmdda.com/wiki

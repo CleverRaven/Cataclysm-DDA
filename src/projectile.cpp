@@ -5,6 +5,8 @@
 #include "map_iterator.h"
 #include "explosion.h"
 #include "field.h"
+#include "rng.h"
+#include "item.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), momentum_loss( 0.125f ), drop( nullptr ), custom_explosion( nullptr )

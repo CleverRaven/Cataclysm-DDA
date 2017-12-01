@@ -29,7 +29,7 @@ void main_menu::on_move() const
 void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
                                   int iOffsetY, int iOffsetX, int spacing )
 {
-    mvwprintz( w_in, iOffsetY, iOffsetX, c_black, "" );
+    wmove( w_in, iOffsetY, iOffsetX );
     for( size_t i = 0; i < vItems.size(); ++i ) {
         nc_color text_color;
         nc_color key_color;
@@ -88,12 +88,12 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
             mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, mmenu_title[i].c_str() );
         }
     } else {
-        center_print( w_open, iLine++, cColor1, mmenu_title[0].c_str() );
+        center_print( w_open, iLine++, cColor1, mmenu_title[0] );
     }
 
     if( bShowDDA ) {
         iLine++;
-        center_print( w_open, iLine++, cColor3, _( "Version: %s" ), getVersionString() );
+        center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
     }
 
     int menu_length = 0;
@@ -618,6 +618,8 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                         g->u = player();
+                        werase( w_background );
+                        wrefresh( w_background );
                         continue;
                     }
 
@@ -701,6 +703,8 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     g->u = player();
+                    werase( w_background );
+                    wrefresh( w_background );
                     continue;
                 }
                 werase( w_background );
@@ -878,7 +882,7 @@ void main_menu::world_tab()
                     text_color = c_ltgray;
                     key_color = c_white;
                 }
-                mvwprintz( w_open, yoffset - i, xoffset, c_black, "" );
+                wmove( w_open, yoffset - i, xoffset );
                 wprintz( w_open, c_ltgray, "[" );
                 shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
                 wprintz( w_open, c_ltgray, "]" );

@@ -57,7 +57,7 @@
         "              ###.....ccccc.....###             ",
         "                w..h.........h..w               ",
         "                ##.............##               ",
-        "                 ##....ccc....##                ",
+        "                 ##..B.ccc.B..##                ",
         "                  ###wwwwwww###                 ",
         "                   ##       ##                  ",
         "################################################",
@@ -157,6 +157,7 @@
       "furniture": {
         "7": "f_rack",
         "8": "f_desk",
+        "B": "f_brazier",
         "C": "f_crate_c",
         "M": "f_makeshift_bed",
         "O": "f_oven",
@@ -175,9 +176,7 @@
         "u": "f_locker",
         "v": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {  } },
       "items": {
         "7": { "item": "cleaning", "chance": 70 },
         "8": { "item": "school", "chance": 50 },
@@ -190,12 +189,8 @@
         "u": { "item": "office", "chance": 30 },
         "v": { "item": "office", "chance": 70 }
       },
-      "place_items": [],
-      "add": [
-        { "item": "brazier", "x": 21, "y": 45 },
-        { "item": "brazier", "x": 27, "y": 45 },
-        { "item": "small_relic", "x": 24, "y": 92 }
-      ],
+      "place_items": [  ],
+      "add": [ { "item": "small_relic", "x": 24, "y": 92 } ],
       "place_monsters": [
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.2 },

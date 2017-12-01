@@ -3,7 +3,6 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
-#include "printf_check.h"
 #include <vector>
 #include <string>
 
@@ -34,7 +33,7 @@ enum computer_action {
     COMPACT_ELEVATOR_ON,
     COMPACT_AMIGARA_LOG,
     COMPACT_AMIGARA_START,
-    COMPACT_COMPLETE_MISSION,   //Completes the mission that has the same name as the computer action
+    COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER, // Completes "Disable External Power" mission
     COMPACT_REPEATER_MOD,       //Converts a terminal in a radio station into a 'repeater', locks terminal and completes mission
     COMPACT_DOWNLOAD_SOFTWARE,
     COMPACT_BLOOD_ANAL,
@@ -83,11 +82,8 @@ struct computer_option {
     computer_action action;
     int security;
 
-    computer_option() {
-        name = "Unknown", action = COMPACT_NULL, security = 0;
-    };
-    computer_option( std::string N, computer_action A, int S ) :
-        name( N ), action( A ), security( S ) {};
+    computer_option();
+    computer_option( std::string N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };
@@ -146,7 +142,7 @@ class computer
         static std::vector<std::string> lab_notes;
 
         // Called by use()
-        void activate_function( computer_action action, char ch );
+        void activate_function( computer_action action );
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.
@@ -161,19 +157,25 @@ class computer
         // Reset to a blank terminal (e.g. at start of usage loop)
         void reset_terminal();
         // Prints a line to the terminal (with printf flags)
-        void print_line( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_line( const char *text, Args &&... args );
         // For now, the same as print_line but in red (TODO: change this?)
-        void print_error( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_error( const char *text, Args &&... args );
         // Wraps and prints a block of text with a 1-space indent
-        void print_text( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_text( const char *text, Args &&... args );
         // Prints code-looking gibberish
         void print_gibberish_line();
         // Prints a line and waits for Y/N/Q
-        char query_ynq( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        char query_ynq( const char *text, Args &&... args );
         // Same as query_ynq, but returns true for y or Y
-        bool query_bool( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        bool query_bool( const char *text, Args &&... args );
         // Simply wait for any key, returns True
-        bool query_any( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        bool query_any( const char *text, Args &&... args );
         // Move the cursor to the beginning of the next line
         void print_newline();
 };

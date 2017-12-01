@@ -15,10 +15,7 @@
     "power": 64,
     "damage_modifier": 50,
     "folded_volume": 2,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 2 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "flags": [ "ENGINE", "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ]
   },
   {
@@ -37,10 +34,7 @@
     "power": 32,
     "damage_modifier": 50,
     "folded_volume": 2,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 2 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "flags": [ "ENGINE", "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ]
   }
 ]

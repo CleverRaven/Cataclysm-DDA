@@ -1082,5 +1082,22 @@
     "time": 30,
     "fun": 2,
     "flags": [ "INSPIRATIONAL" ]
+  },
+  {
+    "id": "holybook_havamal",
+    "type": "BOOK",
+    "name": "Hávamál",
+    "name_plural": "copies of Hávamál",
+    "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
+    "weight": 292,
+    "volume": 3,
+    "price": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "intelligence": 8,
+    "time": 10,
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
   }
 ]

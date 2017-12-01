@@ -6,7 +6,12 @@
 #include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
-#include "printf_check.h"
+#include "string_formatter.h"
+
+#include <vector>
+#include <string>
+#include <map>
+#include <utility>
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -20,6 +25,7 @@ const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 
 struct input_event;
+class input_context;
 
 /**
  * mvwzstr: line of text with horizontal offset and color
@@ -111,25 +117,19 @@ class ui_container
  */
 class uimenu;
 /**
-* In current master, generic uimenu::query() handles most input events first,
+* uimenu::query() handles most input events first,
 * and then passes the event to the callback if it can't handle it.
-*
-* In PR #20347, the logic is reversed. The callback gets the event first, the only condition
-* being that the callback is set at all. This allows certain menus (mostly the ones that
-* exhibited various input handling oddities) to use their callback for overriding "default"
-* handling by uimenu::query().
 *
 * The callback returninig a boolean false signifies that the callback can't "handle the
 * event completely". This is unchanged before or after the PR.
-*
-* https://github.com/CleverRaven/Cataclysm-DDA/pull/20347#issuecomment-282584492
 * @{
 */
 class uimenu_callback
 {
     public:
         virtual void select( int /*entnum*/, uimenu * ) {};
-        virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
+        virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
+                          uimenu * ) {
             return false;
         };
         virtual void refresh( uimenu * ) {};
@@ -150,6 +150,8 @@ class uimenu: public ui_container
         int keypress;
         std::string text;
         std::vector<std::string> textformatted;
+        std::string input_category;
+        std::vector< std::pair<std::string, std::string> > additional_actions;
         int textwidth;
         int textalign;
         int max_entry_len;
@@ -212,13 +214,17 @@ class uimenu: public ui_container
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
         void addentry( std::string str );
-        void addentry( const char *format, ... ) PRINTF_LIKE( 2, 3 );
         void addentry( int r, bool e, int k, std::string str );
-        void addentry( int r, bool e, int k, const char *format, ... ) PRINTF_LIKE( 5, 6 );
+        // K is templated so it matches a `char` literal and a `long` value.
+        // Using a fixed type (either `char` or `long`) will lead to ambiguity with the
+        // other overload when called with the wrong type.
+        template<typename K, typename ...Args>
+        void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {
+            return addentry( r, e, k, string_format( format, std::forward<Args>( args )... ) );
+        }
         void addentry_desc( std::string str, std::string desc );
         void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
         void settext( std::string str );
-        void settext( const char *format, ... ) PRINTF_LIKE( 2, 3 );
 
         void reset();
         ~uimenu();

@@ -18,9 +18,6 @@
   {
     "id": "book_martial",
     "type": "item_group",
-    "items": [
-      [ "manual_swordsmanship", 5 ],
-      [ "manual_pankration", 5 ]
-    ]
+    "items": [ [ "manual_swordsmanship", 5 ], [ "manual_pankration", 5 ] ]
   }
 ]

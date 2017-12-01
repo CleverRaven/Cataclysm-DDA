@@ -7,7 +7,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "units.h"
-#include "printf_check.h"
+#include "string_formatter.h"
 
 #include <cstdarg>
 #include <sstream>
@@ -86,7 +86,6 @@ enum game_message_type : int {
 };
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = false );
-int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg = false );
 
 /**
  * @anchor color_tags
@@ -180,9 +179,8 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &cur_color, nc_color 
 int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color,
                       const std::string &scroll_msg );
 /**
- * Format, fold and print text in the given window. The function handles @ref color_tags and
- * uses them while printing. It expects a printf-like format string and matching
- * arguments to that format (see @ref string_format).
+ * Fold and print text in the given window. The function handles @ref color_tags and
+ * uses them while printing.
  *
  * @param w Window we are printing in
  * @param begin_y The column index on which to start each line.
@@ -196,12 +194,17 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
  * the height of the window.
  */
 int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
-                    const char *mes, ... ) PRINTF_LIKE( 6, 7 );
+                    const std::string &mes );
 /**
- * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
+ * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
-                    const std::string &text );
+template<typename ...Args>
+inline int fold_and_print( WINDOW *const w, const int begin_y, const int begin_x, const int width,
+                           const nc_color color, const char *const mes, Args &&... args )
+{
+    return fold_and_print( w, begin_y, begin_x, width, color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
@@ -221,14 +224,20 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color col
  * value for `begin_line`.
  */
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const char *mes, ... ) PRINTF_LIKE( 7, 8 );
+                         nc_color color, const std::string &mes );
 /**
- * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
+ * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
-int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const std::string &text );
+template<typename ...Args>
+inline int fold_and_print_from( WINDOW *const w, const int begin_y, const int begin_x,
+                                const int width, const int begin_line,
+                                const nc_color color, const char *const mes, Args &&... args )
+{
+    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, color, string_format( mes,
+                                std::forward<Args>( args )... ) );
+}
 /**
- * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
+ * Prints a single line of text. The text is automatically trimmed to fit into the given
  * width. The function handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
@@ -239,10 +248,17 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
  * @param mes Actual message to print
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... ) PRINTF_LIKE( 6, 7 );
-void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... );
+                     const std::string &mes );
+template<typename ...Args>
+inline void trim_and_print( WINDOW *const w, const int begin_y, const int begin_x, const int width,
+                            const nc_color base_color, const char *const mes, Args &&... args )
+{
+    return trim_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
+void center_print( WINDOW *w, int y, nc_color FG, const std::string &mes );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... ) PRINTF_LIKE( 5, 6 );
+                 const std::string &mes );
 void display_table( WINDOW *w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = "",
@@ -250,21 +266,33 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = 
 std::string name_and_value( std::string name, int value, int field_width );
 std::string name_and_value( std::string name, std::string value, int field_width );
 
-void mvputch( int y, int x, nc_color FG, const std::string &ch );
 void wputch( WINDOW *w, nc_color FG, long ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvputch_inv( int y, int x, nc_color FG, const std::string &ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvputch_hi( int y, int x, nc_color FG, const std::string &ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 5, 6 );
-void wprintz( WINDOW *w, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 3, 4 );
+
+template<typename ...Args>
+inline void mvwprintz( WINDOW *const w, const int y, const int x, const nc_color FG,
+                       const char *const mes, Args &&... args )
+{
+    wattron( w, FG );
+    mvwprintw( w, y, x, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
+    wattroff( w, FG );
+}
+
+template<typename ...Args>
+inline void wprintz( WINDOW *const w, const nc_color FG, const char *const mes, Args &&... args )
+{
+    wattron( w, FG );
+    wprintw( w, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
+    wattroff( w, FG );
+}
 
 void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
                          chtype tl = 1, chtype tr = 1,
@@ -278,10 +306,19 @@ std::string word_rewrap( const std::string &ins, int width );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
-bool query_yn( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-bool query_int( int &result, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
+bool query_yn( const std::string &msg );
+template<typename ...Args>
+inline bool query_yn( const char *const msg, Args &&... args )
+{
+    return query_yn( string_format( msg, std::forward<Args>( args )... ) );
+}
 
-bool internal_query_yn( const char *mes, va_list ap );
+bool query_int( int &result, const std::string &msg );
+template<typename ...Args>
+inline bool query_int( int &result, const char *const msg, Args &&... args )
+{
+    return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
+}
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
@@ -325,13 +362,38 @@ typedef enum {
     PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 } PopupFlags;
 
-long popup_getkey( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_top( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_nowait( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 );
-void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+template<typename ...Args>
+inline long popup_getkey( const char *const mes, Args &&... args )
+{
+    return popup( string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
+}
+template<typename ...Args>
+inline void popup_top( const char *const mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_ON_TOP );
+}
+template<typename ...Args>
+inline void popup_nowait( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_NO_WAIT );
+}
+void popup_status( const char *const title, const std::string &mes );
+template<typename ...Args>
+inline void popup_status( const char *const title, const char *const mes, Args &&... args )
+{
+    return popup_status( title, string_format( mes, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void popup( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
+}
 long popup( const std::string &text, PopupFlags flags );
-void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+template<typename ...Args>
+inline void full_screen_popup( const char *mes, Args &&... args )
+{
+    popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
+}
 
 WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
 WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );
@@ -378,27 +440,10 @@ std::string trim_punctuation_marks( const std::string &s );
 std::string to_upper_case( const std::string &s );
 
 /**
- * @name printf-like string formatting.
- *
- * These functions perform string formatting, according to the rules of the `printf` function,
- * see `man 3 printf` or any other documentation.
- *
- * In short: the pattern parameter is a string with optional placeholders, which will be
- * replaced with formatted data from the further arguments. The further arguments must have
- * a type that matches the type expected by the placeholder.
- * The placeholders look like this:
- * - `%s` expects an argument of type `const char*`, which is inserted as is.
- * - `%d` expects an argument of type `int`, which is formatted as decimal number.
- * - `%f` expects an argument of type `float` or `double`, which is formatted as decimal number.
- *
- * There are more placeholders and options to them (see documentation of `printf`).
+ * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
+ * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
  */
-/*@{*/
-std::string string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 std::string vstring_format( const char *pattern, va_list argptr );
-std::string string_format( std::string pattern, ... );
-std::string vstring_format( std::string const &pattern, va_list argptr );
-/*@}*/
 
 // TODO: move these elsewhere
 // string manipulations.

@@ -66,9 +66,7 @@
         "q": "f_bluebell",
         "s": "f_sink"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "magazines", "x": [ 3, 20 ], "y": 20, "chance": 40, "repeat": [ 5, 10 ] },
         { "item": "novels", "x": [ 3, 9 ], "y": [ 16, 17 ], "chance": 50, "repeat": [ 4, 8 ] },

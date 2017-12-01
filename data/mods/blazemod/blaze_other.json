@@ -21,7 +21,7 @@
     "volume": 3,
     "price": 6000,
     "displacement": 60,
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "rebar_plate",

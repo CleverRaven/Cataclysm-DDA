@@ -55,14 +55,13 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 extern bool tile_iso;
 
 //the minimap texture pool which is used to reduce new texture allocation spam
 static minimap_shared_texture_pool tex_pool;
 
-SDL_Color cursesColorToSDL(int color);
+SDL_Color cursesColorToSDL( const nc_color &color );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -109,6 +108,33 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     if( ptr ) {
         SDL_FreeSurface( ptr );
     }
+}
+
+static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
+{
+    const int iBold = bOldMsg ? 0 : 8;
+
+    switch( type ) {
+        case m_good:
+            return iBold + COLOR_GREEN;
+        case m_bad:
+            return iBold + COLOR_RED;
+        case m_mixed:
+        case m_headshot:
+            return iBold + COLOR_MAGENTA;
+        case m_neutral:
+            return iBold + COLOR_WHITE;
+        case m_warning:
+        case m_critical:
+            return iBold + COLOR_YELLOW;
+        case m_info:
+        case m_grazing:
+            return iBold + COLOR_BLUE;
+        default:
+            break;
+    }
+
+    return -1;
 }
 
 cata_tiles::cata_tiles(SDL_Renderer *render)
@@ -1581,10 +1607,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
-            const int pairNumber = (col & A_COLOR) >> 17;
+            const int pairNumber = col.to_color_pair_index();
             const pairs &colorpair = colorpairs[pairNumber];
             // What about isBlink?
-            const bool isBold = col & A_BOLD;
+            const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
 //            const int BG = colorpair.BG;
             // static so it does not need to be allocated every time,
@@ -1699,9 +1725,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters, seed with index into monster list
-            // FIXME add persistent id to Creature type, instead of using monster list index
-            seed = g->mon_at( pos );
+            // FIXME add persistent id to Creature type, instead of using monster pointer address
+            seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             break;
         default:
             // player

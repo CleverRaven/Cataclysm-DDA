@@ -1,8 +1,8 @@
+#include "explosion.h"
 #include "cata_utility.h"
 #include "game.h"
 #include "map.h"
 #include "projectile.h"
-#include "explosion.h"
 #include "json.h"
 #include "creature.h"
 #include "character.h"
@@ -19,6 +19,13 @@
 #include <cmath>
 
 static const itype_id null_itype( "null" );
+
+tripoint random_perimeter( const tripoint &src, const int radius )
+{
+    tripoint dst;
+    calc_ray_end( rng( 1, 360 ), radius, src, dst );
+    return dst;
+}
 
 explosion_data load_explosion_data( JsonObject &jo )
 {
@@ -406,7 +413,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
         }
 
         // shrapnel otherwise expands randomly in all directions
-        bresenham( src, m.random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
+        bresenham( src, random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
             return func( e, kinetic );
         } );
     }

@@ -141,7 +141,7 @@
     "type": "start_location",
     "ident": "prison",
     "name": "Prison",
-    "target": "prison_b_entrance"
+    "target": "prison_1_b_2"
   },
   {
     "type" : "start_location",

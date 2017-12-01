@@ -1407,5 +1407,99 @@
       "monsters" : [
         { "monster" : "mon_blank", "freq" : 50, "cost_multiplier" : 0 }
       ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ZOMBIE_PRISON",
+      "default" : "mon_zombie",
+      "monsters" : [
+        { "monster" : "mon_zombie", "freq" : 200, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_fat", "freq" : 100, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_grabber", "freq" : 10, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_electric", "freq" : 10, "cost_multiplier": 0}
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ZOMBIE_COP",
+      "default" : "mon_zombie_cop",
+      "monsters" : [
+        { "monster" : "mon_zombie_cop", "freq" : 100, "cost_multiplier": 0}
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ROBOT_EYEBOT",
+      "default" : "mon_eyebot",
+      "monsters" : [
+        { "monster" : "mon_eyebot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ROBOT_SECUBOT",
+      "default" : "mon_secubot",
+      "monsters" : [
+        { "monster" : "mon_secubot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_PARK_ANIMAL",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_crow", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_cat", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_chipmunk", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fox_red", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_rabbit", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel_red", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_ANIMAL",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_rabbit", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel_red", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_BIRD",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_duck", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_FISH",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_duck", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_bluegill", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_carp", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_sbass", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },
+  {
+    "name": "GROUP_MANSION",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 500, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_crawler", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_PANICROOM",
+    "type": "monstergroup",
+    "default": "mon_zombie_child",
+    "monsters": [
+      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 }
+    ]
   }
 ]

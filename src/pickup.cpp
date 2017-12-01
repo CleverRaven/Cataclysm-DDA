@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "vehicle_selector.h"
 #include "veh_interact.h"
@@ -357,7 +358,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
@@ -980,20 +981,20 @@ void Pickup::pick_up( const tripoint &pos, int min )
             mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
-                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 1, c_ltgray, string_format( _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
-                         ctxt.get_desc( "RIGHT", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 1, 0, c_ltgray, string_format( _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ).c_str() ) );
 
             mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
-                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 2, c_ltgray, string_format( _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
-                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 2, 0, c_ltgray, string_format( _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() ) );
 
             if( update ) { // Update weight & volume information
                 update = false;
@@ -1118,18 +1119,12 @@ void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_pa
 void show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
-        std::string name;
-        if( entry.second.first.count_by_charges() ) {
-            name = entry.second.first.tname( entry.second.second );
-        } else {
-            name = entry.second.first.display_name( entry.second.second );
-        }
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
-                     name.c_str(), entry.second.first.invlet );
+                     entry.second.first.display_name( entry.second.second ).c_str(), entry.second.first.invlet );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
-                     name.c_str() );
+                     entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
 }

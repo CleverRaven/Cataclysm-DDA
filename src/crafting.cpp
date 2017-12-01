@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "json.h"
+#include "ammo.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -514,6 +515,9 @@ void player::complete_craft()
             return;
         }
     }
+    if( !used.empty() ) {
+        reset_encumbrance();  // in case we were wearing something just consumed up.
+    }
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results( batch_size );
@@ -586,8 +590,8 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
-    newit.bday = int( newit.bday ) + 3600 - bday_tmp;
+    int bday_tmp = newit.birthday() % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600 - bday_tmp );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
@@ -610,7 +614,7 @@ void set_item_inventory( item &newit )
     if( newit.made_of( LIQUID ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
-        g->u.inv.assign_empty_invlet( newit );
+        g->u.inv.assign_empty_invlet( newit, &( g->u ) );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
@@ -687,14 +691,27 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         uimenu cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+                                                item::nname( map_ha.type ),
+                                                ( map_ha.count * batch ),
+                                                item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
+                                                    map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            cmenu.addentry( item::nname( player_ha.type ) );
+            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+                                                item::nname( player_ha.type ),
+                                                ( player_ha.count * batch ),
+                                                item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
+                                                    player_ha.type ) );
+            cmenu.addentry( tmpStr );
         }
         for( auto &elem : mixed ) {
-            std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+                                                item::nname( elem.type ),
+                                                ( elem.count * batch ),
+                                                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
+                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             cmenu.addentry( tmpStr );
         }
 
@@ -863,11 +880,27 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            tmenu.addentry( tmpStr );
+            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                                                    item::nname( map_ha.type ),
+                                                    ( map_ha.count * batch ),
+                                                    map_inv.charges_of( map_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+                tmenu.addentry( tmpStr );
+            }
         }
         for( auto &player_ha : player_has ) {
-            tmenu.addentry( item::nname( player_ha.type ) );
+            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                                                    item::nname( player_ha.type ),
+                                                    ( player_ha.count * batch ),
+                                                    charges_of( player_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                tmenu.addentry( item::nname( player_ha.type ) );
+            }
         }
 
         if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
@@ -936,7 +969,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
     if( !r ) {
-        return ret_val<bool>::make_failure( string_format( _( "You cannot disassemble this." ) ) );
+        return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 
     // check sufficient light
@@ -956,7 +989,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         if( obj.charges < qty ) {
             auto msg = ngettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", qty );
-            return ret_val<bool>::make_failure( string_format( msg, qty, obj.tname().c_str() ) );
+            return ret_val<bool>::make_failure( msg, qty, obj.tname().c_str() );
         }
     }
 
@@ -966,7 +999,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         for( const auto &qual : opts ) {
             if( !qual.has( inv ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( string_format( _( "You need %s" ), qual.to_string().c_str() ) );
+                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
             }
         }
     }
@@ -980,13 +1013,13 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
         if( !found ) {
             if( opts.front().count <= 0 ) {
-                return ret_val<bool>::make_failure( string_format( _( "You need %s." ),
-                                                    item::nname( opts.front().type ).c_str() ) );
+                return ret_val<bool>::make_failure( _( "You need %s." ),
+                                                    item::nname( opts.front().type ).c_str() );
             } else {
-                return ret_val<bool>::make_failure( string_format( ngettext( "You need a %s with %d charge.",
+                return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
                                                     "You need a %s with %d charges.", opts.front().count ),
                                                     item::nname( opts.front().type ).c_str(),
-                                                    opts.front().count ) );
+                                                    opts.front().count );
             }
         }
     }
@@ -1313,9 +1346,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
                 learn_recipe( &recipe_dict[ dis.ident() ] );
-                add_msg( m_good, _( "You learned a recipe from disassembling it!" ) );
+                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                         dis_item.tname().c_str() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe if you disassemble another." ) );
+                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                         dis_item.tname().c_str() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
@@ -1361,7 +1396,7 @@ void remove_ammo( item *dis_item, player &p )
         dis_item->charges = 0;
     }
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
-        item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
+        item ammodrop( dis_item->ammo_type()->default_ammotype(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
@@ -1373,13 +1408,8 @@ void remove_ammo( item *dis_item, player &p )
 
 std::vector<npc *> player::get_crafting_helpers() const
 {
-    std::vector<npc *> ret;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), pos() ) < PICKUP_RANGE && elem->is_friend() &&
-            !elem->in_sleep_state() && g->m.clear_path( pos(), elem->pos(), PICKUP_RANGE, 1, 100 ) ) {
-            ret.push_back( elem );
-        }
-    }
-
-    return ret;
+    return g->get_npcs_if( [this]( const npc & guy ) {
+        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && guy.is_friend() &&
+               !guy.in_sleep_state() && g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+    } );
 }

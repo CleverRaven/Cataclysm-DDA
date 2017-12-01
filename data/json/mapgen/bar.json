@@ -182,9 +182,7 @@
         "x": "f_pool_table",
         "{": "f_rack"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 5, 8 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "pool_table", "x": [ 14, 17 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },

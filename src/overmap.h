@@ -33,27 +33,60 @@ namespace pf
     struct path;
 }
 
-struct oter_weight {
-    inline bool operator ==(const oter_weight &other) const {
-        return id == other.id;
-    }
+struct building_size {
+    int height = -1;
+    int depth = -1;
+    building_size() : building_size( -1, -1 ) {}
+    building_size( int h, int d ) : height( h ), depth( d ) {}
+    bool operator==( const building_size &other ) const {
+        return height == other.height && depth == other.depth;
+    };
+    bool operator!=( const building_size &other ) const {
+        return !( *this == other );
+    };
+    building_size &operator=( const building_size & ) = default;
+    static building_size max( const building_size &a, const building_size &b );
+};
 
-    string_id<oter_type_t> id;
+class building_bin {
+    private:
+        bool finalized = false;
+        weighted_int_list<overmap_special_id> buildings;
+        std::map<overmap_special_id, int> unfinalized_buildings;
+    public:
+        building_bin() {};
+        void add( const overmap_special_id &building, int weight );
+        overmap_special_id pick() const;
+        void clear();
+        void finalize();
 };
 
 struct city_settings {
-   int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-   int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
-   weighted_int_list<oter_weight> shops;
-   weighted_int_list<oter_weight> parks;
+    int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
+    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+    building_bin houses;
+    building_bin shops;
+    building_bin parks;
 
-    oter_id pick_shop() const {
-        return shops.pick()->id->get_first();
+    overmap_special_id pick_house() const {
+        return houses.pick()->id;
     }
 
-    oter_id pick_park() const {
-        return parks.pick()->id->get_first();
+    overmap_special_id pick_shop() const {
+        return shops.pick()->id;
     }
+
+    overmap_special_id pick_park() const {
+        return parks.pick()->id;
+    }
+
+    void finalize();
+};
+
+struct ter_furn_id {
+    ter_id ter;
+    furn_id furn;
+    ter_furn_id();
 };
 
 /*
@@ -75,8 +108,16 @@ struct groundcover_extra {
     int boosted_other_mpercent    = 1;
 
     ter_furn_id pick( bool boosted = false ) const;
-    void setup();
+    void finalize();
     groundcover_extra() = default;
+};
+
+struct map_extras {
+    unsigned int chance;
+    weighted_int_list<std::string> values;
+
+    map_extras() : chance( 0 ), values() {}
+    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
 };
 
 struct sid_or_sid;
@@ -88,8 +129,8 @@ struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
 
-    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
-    std::shared_ptr<sid_or_sid> default_groundcover_str;
+    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
+    std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
@@ -107,8 +148,11 @@ struct regional_settings {
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
-    void setup();
+    regional_settings() : id("null"), default_oter("field")
+    {
+        default_groundcover.add( t_null, 0 );
+    }
+    void finalize();
 };
 
 
@@ -353,25 +397,25 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
-        /// Adds the npc. The overmap takes ownership of the pointer.
-        void insert_npc( npc *who );
-        /// Removes the npc, and deletes the pointer.
-        void erase_npc( npc *who );
+        /// Adds the npc to the contained list of npcs ( @ref npcs ).
+        void insert_npc( std::shared_ptr<npc> who );
+        /// Removes the npc and returns it ( or returns nullptr if not found ).
+        std::shared_ptr<npc> erase_npc( const int id );
 
         void for_each_npc( std::function<void( npc & )> callback );
         void for_each_npc( std::function<void( const npc & )> callback ) const;
 
-        npc *find_npc( int id );
+        std::shared_ptr<npc> find_npc( int id ) const;
 
-        const std::vector<npc*> &get_npcs() const {
+        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
             return npcs;
         }
+        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate ) const;
 
  private:
     friend class overmapbuffer;
-        friend class npc; //@todo get rid of this.
 
-        std::vector<npc*> npcs;
+        std::vector<std::shared_ptr<npc>> npcs;
 
     bool nullbool = false;
     point loc{ 0, 0 };
@@ -451,19 +495,16 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+    building_size find_max_size( const tripoint &center, const building_size &limits ) const;
 
-  static void draw_city_labels(WINDOW *w, const tripoint &center);
-
-    oter_id random_shop() const;
-    oter_id random_park() const;
-    oter_id random_house() const;
+    static void draw_city_labels(WINDOW *w, const tripoint &center);
 
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
   // City Building
   void place_cities();
-  void put_building( int x, int y, om_direction::type dir, const city &town );
+  void put_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);

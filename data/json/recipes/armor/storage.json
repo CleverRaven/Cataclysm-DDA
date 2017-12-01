@@ -256,7 +256,7 @@
     "using": [ [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
@@ -370,7 +370,6 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
@@ -422,7 +421,7 @@
     "using": [ [ "filament", 15 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [

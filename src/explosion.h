@@ -2,6 +2,8 @@
 #ifndef EXPLOSION_H
 #define EXPLOSION_H
 
+#include <string>
+
 using itype_id = std::string;
 
 class JsonObject;

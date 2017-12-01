@@ -177,7 +177,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 15, "LIST" ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
@@ -229,5 +229,22 @@
       { "id": "SEW", "level": 1 }
     ],
     "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "result": "chainmail_arms",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 30000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 3 ] ],
+    "components": [
+      [ [ "link_sheet", 3 ] ],
+      [ [ "chain_link", 75 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
   }
 ]

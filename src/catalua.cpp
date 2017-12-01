@@ -11,6 +11,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "string_formatter.h"
 #include "path_info.h"
 #include "monstergenerator.h"
 #include "messages.h"
@@ -28,6 +29,8 @@
 #include "itype.h"
 #include "morale_types.h"
 #include "trap.h"
+#include "overmap.h"
+#include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
 #include "filesystem.h"
@@ -897,7 +900,7 @@ monster *create_monster( const mtype_id &mon_type, const tripoint &p )
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {
-        return &(g->zombie(g->mon_at( p )));
+        return g->critter_at<monster>( p );
     }
 }
 

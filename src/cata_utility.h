@@ -10,7 +10,6 @@
 
 class item;
 class Creature;
-class map_item_stack;
 struct tripoint;
 namespace units
 {
@@ -79,12 +78,6 @@ bool isBetween( int test, int down, int up );
  *         string, otherwise returns false
  */
 bool lcmatch( const std::string &str, const std::string &qry );
-
-std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
-        std::string filter );
-int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string priorities );
-int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              std::string priorities );
 
 /**
  * Basic logistic function.

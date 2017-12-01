@@ -33,10 +33,6 @@ void compare( player &p, const tripoint &offset = tripoint_min );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
-/** Todo: let them return item_location */
-int take_off( player &p );
-int wear( player &p );
-
 /**
  * Select items to drop.
  * @return A list of pairs of position, quantity.
@@ -57,6 +53,16 @@ item_location read( player &p );
 item_location steal( player &p, player &victim );
 /** Item activation menu. */
 item_location use( player &p );
+/** Item wielding/unwielding menu. */
+item_location wield( player &p );
+/** Item wielding/unwielding menu. */
+item_location holster( player &p, item &holster );
+/** Choosing a gun to saw down it's barell. */
+item_location saw_barrel( player &p, item &tool );
+/** Choose item to wear. */
+item_location wear( player &p );
+/** Choose item to take off. */
+item_location take_off( player &p );
 /*@}*/
 
 }

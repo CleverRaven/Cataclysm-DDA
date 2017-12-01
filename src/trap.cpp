@@ -1,7 +1,7 @@
+#include "trap.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "generic_factory.h"
-#include "trap.h"
 #include "debug.h"
 #include "line.h"
 #include "game.h"
@@ -93,7 +93,9 @@ void trap::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
-    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    if( !assign( jo, "color", color ) ) {
+        jo.throw_error( "missing mandatory member \"color\"" );
+    }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
@@ -211,7 +213,6 @@ trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,
@@ -278,7 +279,6 @@ void trap::finalize()
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
     tr_cot = trapfind( "tr_cot" );
-    tr_brazier = trapfind( "tr_brazier" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
     tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );

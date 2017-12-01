@@ -1,12 +1,12 @@
+#include "faction.h"
 #include <sstream>
 
-#include "faction.h"
 #include "rng.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
-#include "map.h"
 #include "debug.h"
 #include "catacharset.h"
 

@@ -1,7 +1,8 @@
-#include <sstream>
 #include "inventory.h"
+#include <sstream>
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -13,7 +14,7 @@
 #include "map_iterator.h"
 #include <algorithm>
 
-const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}");
 
 bool invlet_wrapper::valid( const long invlet ) const
 {
@@ -194,11 +195,11 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache[item_type] ) {
         // Don't overwrite user assignments.
-        if( g->u.assigned_invlet.count(invlet) ) {
+        if( assigned_invlet.count(invlet) ) {
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;
@@ -218,12 +219,20 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             if( it_ref->merge_charges( newit ) ) {
                 return *it_ref;
             }
-            newit.invlet = it_ref->invlet;
+            if ( it_ref->invlet == '\0' ) {
+                if( !keep_invlet ) {
+                    update_invlet( newit, assign_invlet );
+                }
+                update_cache_with_item( newit );
+                it_ref->invlet = newit.invlet;
+            } else {
+                newit.invlet = it_ref->invlet;
+            }
             elem.push_back( newit );
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
             // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet(*it_ref);
+            assign_empty_invlet(*it_ref, &(g->u));
         }
     }
 
@@ -270,7 +279,7 @@ void inventory::restack(player *p)
 
         const int ipos = p->invlet_to_position(topmost.invlet);
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(topmost);
+            assign_empty_invlet(topmost, p);
             for( std::list<item>::iterator stack_iter = stack.begin();
                  stack_iter != stack.end(); ++stack_iter ) {
                 stack_iter->invlet = topmost.invlet;
@@ -638,21 +647,6 @@ int inventory::position_by_type(itype_id type)
     return INT_MIN;
 }
 
-std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
-{
-    std::vector<std::pair<item *, int> > ret;
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                ret.push_back( std::make_pair( &elem_stack_iter, i ) );
-            }
-        }
-        ++i;
-    }
-    return ret;
-}
-
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now
@@ -857,16 +851,15 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it, bool force)
+void inventory::assign_empty_invlet(item &it, Character *p, bool force)
 {
     if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 
-    player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
-    for (auto iter : p->assigned_invlet) {
+    for (auto iter : assigned_invlet) {
         if (iter.second == target_type && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             return;
@@ -874,7 +867,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     }
     if (cur_inv.size() < inv_chars.size()) {
         for( const auto &inv_char : inv_chars ) {
-            if( p->assigned_invlet.count(inv_char) ) {
+            if( assigned_invlet.count(inv_char) ) {
                 // don't overwrite assigned keys
                 continue;
             }
@@ -920,8 +913,8 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 
 void inventory::update_invlet( item &newit, bool assign_invlet ) {
     // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && g->u.assigned_invlet.find( newit.invlet ) != g->u.assigned_invlet.end() &&
-            g->u.assigned_invlet[newit.invlet] != newit.typeId() ) {
+    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
+            assigned_invlet[newit.invlet] != newit.typeId() ) {
         newit.invlet = '\0';
     }
 
@@ -955,7 +948,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit );
+            assign_empty_invlet( newit, &(g->u) );
         }
     }
 }

@@ -15,7 +15,9 @@
 #include "monster.h"
 #include "event.h"
 #include "trap.h"
+#include "mapdata.h"
 #include "mtype.h"
+#include "string_formatter.h"
 #include "field.h"
 #include "player.h"
 #include "text_snippets.h"
@@ -36,6 +38,16 @@ const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
 int alerts = 0;
+
+computer_option::computer_option()
+    : name( "Unknown" ), action( COMPACT_NULL ), security( 0 )
+{
+}
+
+computer_option::computer_option( std::string N, computer_action A, int S )
+    : name( N ), action( A ), security( S )
+{
+}
 
 computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
@@ -198,11 +210,11 @@ void computer::use()
                     } else {
                         // Successfully hacked function
                         options[ch].security = 0;
-                        activate_function(current.action, ch);
+                        activate_function( current.action );
                     }
                 }
             } else { // No need to hack, just activate
-                activate_function(current.action, ch);
+                activate_function( current.action );
             }
             reset_terminal();
         } // Done processing a selected option.
@@ -308,7 +320,16 @@ void computer::load_data(std::string data)
     }
 }
 
-void computer::activate_function(computer_action action, char ch)
+static item *pick_usb()
+{
+    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
+    if( pos != INT_MIN ) {
+        return &g->u.i_at( pos );
+    }
+    return nullptr;
+}
+
+void computer::activate_function( computer_action action )
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
     g->u.moves -= 30;
@@ -403,13 +424,13 @@ void computer::activate_function(computer_action action, char ch)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 tripoint p( x, y, g->u.posz() );
-                int mondex = g->mon_at( p );
-                if (mondex != -1 &&
+                monster *const mon = g->critter_at<monster>( p );
+                if( mon &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass &&
                       g->m.ter(x, y + 1) == t_concrete_wall) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass &&
                       g->m.ter(x, y - 1) == t_concrete_wall))) {
-                    g->zombie( mondex ).die( &g->u );
+                    mon->die( &g->u );
                 }
             }
         }
@@ -439,7 +460,7 @@ void computer::activate_function(computer_action action, char ch)
                     if (g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap( tmp );
                     } else {
-                        g->m.add_trap( tmp, tr_portal );
+                        g->m.trap_set( tmp, tr_portal );
                     }
                 }
             }
@@ -521,7 +542,7 @@ void computer::activate_function(computer_action action, char ch)
         // Target Acquisition.
         tripoint target = overmap::draw_overmap(0);
         if (target == overmap::invalid_tripoint) {
-            add_msg(m_info, _("Target acquisition canceled"));
+            add_msg(m_info, _("Target acquisition canceled."));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
@@ -756,9 +777,10 @@ of pureed bone & LSD."));
         g->u.mod_pain( rng(40, 90) );
         break;
 
-    case COMPACT_COMPLETE_MISSION:
+    case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
         for( auto miss : g->u.get_active_missions() ) {
-            if (miss->name() == options[ch].name){
+            static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+            if( miss->mission_id() == commo_2 ) {
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
                 miss->step_complete( 1 );
@@ -795,9 +817,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:
-        if (!g->u.has_amount("usb_drive", 1)) {
-            print_error(_("USB drive required!"));
-        } else {
+        if( item *const usb = pick_usb() ) {
             mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
@@ -806,10 +826,11 @@ of pureed bone & LSD."));
             g->u.moves -= 30;
             item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
-            item *usb = g->u.pick_usb();
             usb->contents.clear();
             usb->put_in(software);
             print_line(_("Software downloaded."));
+        } else {
+            print_error(_("USB drive required!"));
         }
         inp_mngr.wait_for_any_key();
         break;
@@ -842,14 +863,13 @@ of pureed bone & LSD."));
                             }
                             print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
                             if (query_bool(_("Download data?"))) {
-                                if (!g->u.has_amount("usb_drive", 1)) {
-                                    print_error(_("USB drive required!"));
-                                } else {
+                                if( item *const usb = pick_usb() ) {
                                     item software("software_blood_data", 0);
-                                    item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
                                     print_line(_("Software downloaded."));
+                                } else {
+                                    print_error(_("USB drive required!"));
                                 }
                             }
                         } else {
@@ -1414,12 +1434,10 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
     query_any( _( "Press any key to continue..." ) );
 }
 
-bool computer::query_bool(const char *mes, ...)
+template<typename ...Args>
+bool computer::query_bool( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
@@ -1430,23 +1448,19 @@ bool computer::query_bool(const char *mes, ...)
     return (ret == 'y' || ret == 'Y');
 }
 
-bool computer::query_any(const char *mes, ...)
+template<typename ...Args>
+bool computer::query_any( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s", text.c_str());
     inp_mngr.wait_for_any_key();
     return true;
 }
 
-char computer::query_ynq(const char *mes, ...)
+template<typename ...Args>
+char computer::query_ynq( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
@@ -1457,34 +1471,28 @@ char computer::query_ynq(const char *mes, ...)
     return ret;
 }
 
-void computer::print_line(const char *mes, ...)
+template<typename ...Args>
+void computer::print_line( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     wprintz(w_terminal, c_green, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
-void computer::print_error(const char *mes, ...)
+template<typename ...Args>
+void computer::print_error( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     wprintz(w_terminal, c_red, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
-void computer::print_text(const char *mes, ...)
+template<typename ...Args>
+void computer::print_text( const char *const mes, Args &&... args )
 {
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
+    const std::string text = string_format( mes, std::forward<Args>( args )... );
     int y = getcury(w_terminal);
     int w = getmaxx(w_terminal) - 2;
     fold_and_print(w_terminal, y, 1, w, c_green, text);
@@ -1566,7 +1574,7 @@ computer_action computer_action_from_string( const std::string &str )
         { "elevator_on", COMPACT_ELEVATOR_ON },
         { "amigara_log", COMPACT_AMIGARA_LOG },
         { "amigara_start", COMPACT_AMIGARA_START },
-        { "complete_mission", COMPACT_COMPLETE_MISSION },
+        { "complete_disable_external_power", COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER },
         { "repeater_mod", COMPACT_REPEATER_MOD },
         { "download_software", COMPACT_DOWNLOAD_SOFTWARE },
         { "blood_anal", COMPACT_BLOOD_ANAL },

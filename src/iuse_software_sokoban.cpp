@@ -3,6 +3,7 @@
 #include "output.h"
 #include "input.h"
 #include "catacharset.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "path_info.h"
 #include "translations.h"

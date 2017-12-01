@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
@@ -465,8 +466,7 @@ void player::activate_mutation( const trait_id &mut )
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
-                monster *slime = g->monster_at( target );
+            if( monster * const slime = g->summon_mon( mtype_id( "mon_player_blob" ), target ) ) {
                 slime->friendly = -1;
             }
         }
@@ -556,6 +556,9 @@ trait_id Character::trait_by_invlet( const long ch ) const
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if (mutation_branch::trait_is_blacklisted(mutation)) {
+        return false;
+    }
     if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;
@@ -725,6 +728,13 @@ void player::mutate()
 
 void player::mutate_category( const std::string &cat )
 {
+    // Hacky ID comparison is better than separate hardcoded branch used before
+    // @todo Turn it into the null id
+    if( cat == "MUTCAT_ANY" ) {
+        mutate();
+        return;
+    }
+
     bool force_bad = one_in(3);
     bool force_good = false;
     if (has_trait( trait_ROBUST ) && force_bad) {
