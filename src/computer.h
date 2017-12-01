@@ -102,6 +102,7 @@ class computer
 {
     public:
         computer( const std::string &name, int Security );
+        computer( const computer &rhs );
         ~computer();
 
         computer &operator=( const computer &rhs );
@@ -136,9 +137,9 @@ class computer
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
         // Output window
-        catacurses::window w_terminal;
+        catacurses::WINDOW_PTR w_terminal;
         // Pretty border
-        catacurses::window w_border;
+        catacurses::WINDOW_PTR w_border;
         // Misc research notes from json
         static std::vector<std::string> lab_notes;
 

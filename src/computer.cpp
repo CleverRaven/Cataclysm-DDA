@@ -52,20 +52,15 @@ computer_option::computer_option( std::string N, computer_action A, int S )
 computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
     security = new_security;
-    w_terminal = catacurses::window();
-    w_border = catacurses::window();
     mission_id = -1;
 }
 
-computer::~computer()
+computer::computer( const computer &rhs )
 {
-    if (w_terminal != NULL) {
-        delwin(w_terminal);
-    }
-    if (w_border != NULL) {
-        delwin(w_border);
-    }
+    *this = rhs;
 }
+
+computer::~computer() = default;
 
 computer &computer::operator=(const computer &rhs)
 {
@@ -74,8 +69,8 @@ computer &computer::operator=(const computer &rhs)
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
-    w_terminal = catacurses::window();
-    w_border = catacurses::window();
+    w_terminal.reset();
+    w_border.reset();
     return *this;
 }
 
@@ -112,21 +107,19 @@ void computer::shutdown_terminal()
     // Decided to go easy on people for now.
     alerts = 0;
     werase(w_terminal);
-    delwin(w_terminal);
-    w_terminal = catacurses::window();
+    w_terminal.reset();
     werase(w_border);
-    delwin(w_border);
-    w_border = catacurses::window();
+    w_border.reset();
 }
 
 void computer::use()
 {
-    if (w_border == NULL) {
+    if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                           (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                           (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     }
-    if (w_terminal == NULL) {
+    if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
                             getbegy(w_border) + 1, getbegx(w_border) + 1);
     }
