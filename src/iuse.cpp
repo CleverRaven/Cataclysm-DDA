@@ -22,7 +22,6 @@
 #include "monstergenerator.h"
 #include "speech.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "messages.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
@@ -48,6 +47,7 @@
 
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
@@ -7454,8 +7454,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         monster new_monster;
         try {
             new_monster.deserialize( it->get_var("contained_json","") );
-        } catch( const JsonError &e ) {
-            debugmsg( _("Error restoring monster: %s"), e.c_str() );
+        } catch( const std::exception &e ) {
+            debugmsg( _( "Error restoring monster: %s" ), e.what() );
             return 0;
         }
         new_monster.spawn( target );
