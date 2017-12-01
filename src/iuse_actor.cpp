@@ -17,12 +17,14 @@
 #include "crafting.h"
 #include "ui.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "vehicle.h"
 #include "mtype.h"
 #include "mapdata.h"
 #include "ammo.h"
 #include "field.h"
 #include "weather.h"
+#include "trap.h"
 #include "pldata.h"
 #include "requirements.h"
 #include "recipe_dictionary.h"
@@ -1798,13 +1800,16 @@ void musical_instrument_actor::load( JsonObject &obj )
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
-    descriptions = obj.get_string_array( "descriptions" );
+    player_descriptions = obj.get_string_array( "player_descriptions" );
+    npc_descriptions = obj.get_string_array( "npc_descriptions" );
 }
 
 long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint& ) const
 {
     if( p.is_underwater() ) {
-        p.add_msg_if_player( m_bad, _("You can't play music underwater") );
+        p.add_msg_player_or_npc(m_bad,
+                                _("You can't play music underwater"),
+                                _("<npcname> can't play music underwater"));
         it.active = false;
         return 0;
     }
@@ -1812,13 +1817,18 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     // Stop playing a wind instrument when winded or even eventually become winded while playing it?
     // It's impossible to distinguish instruments for now anyways.
     if( p.has_effect( effect_sleep ) || p.has_effect( effect_stunned ) || p.has_effect( effect_asthma ) ) {
-        p.add_msg_if_player( m_bad, _("You stop playing your %s"), it.display_name().c_str() );
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You stop playing your %s"),
+                                 _("<npcname> stops playing their %s"),
+                                 it.display_name().c_str() );
         it.active = false;
         return 0;
     }
 
     if( !t && it.active ) {
-        p.add_msg_if_player( _("You stop playing your %s"), it.display_name().c_str() );
+        p.add_msg_player_or_npc(_("You stop playing your %s"),
+                                _("<npcname> stops playing their %s"),
+                                it.display_name().c_str());
         it.active = false;
         return 0;
     }
@@ -1827,21 +1837,30 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
     const int inv_pos = p.get_item_position( &it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
-        p.add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it.display_name().c_str() );
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You need to hold or wear %s to play it"),
+                                 _("<npcname> needs to hold or wear %s to play it"),
+                                 it.display_name().c_str());
         it.active = false;
         return 0;
     }
 
     // At speed this low you can't coordinate your actions well enough to play the instrument
     if( p.get_speed() <= 25 + speed_penalty ) {
-        p.add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it.display_name().c_str() );
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You feel too weak to play your %s"),
+                                 _("<npcname> feels too weak to play their %s"),
+                                 it.display_name().c_str());
         it.active = false;
         return 0;
     }
 
     // We can play the music now
     if( !it.active ) {
-        p.add_msg_if_player( m_good, _("You start playing your %s"), it.display_name().c_str() );
+        p.add_msg_player_or_npc(m_good,
+                                _("You start playing your %s"),
+                                _("<npcname> starts playing their %s"),
+                                it.display_name().c_str());
         it.active = true;
     }
 
@@ -1854,12 +1873,18 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
-        if( !descriptions.empty() ) {
-            desc = _( random_entry( descriptions ).c_str() );
+        if( !player_descriptions.empty() && p.is_player() ) {
+            desc = _( random_entry( player_descriptions ).c_str() );
+        } else if (!npc_descriptions.empty() && p.is_npc() ) {
+            desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( npc_descriptions ).c_str() );
         }
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
-        desc = _("You produce an annoying sound");
+        if ( p.is_player() ) {
+            desc = _("You produce an annoying sound");
+        } else {
+            desc = string_format(_("%s produces an annoying sound"), p.disp_name(false).c_str());
+        }
     }
 
     sounds::ambient_sound( p.pos(), volume, desc );
@@ -2097,7 +2122,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return item::reload_option( &p, &obj, &obj, std::move( e ) );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, opts );
+    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
     if( !sel ) {
         return false; // cancelled menu
     }

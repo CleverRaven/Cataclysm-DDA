@@ -1437,13 +1437,10 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, c
 }
 
 npc *talk_function::companion_choose(){
-    std::vector<npc *> available;
-    for( auto &elem : g->active_npc ) {
-        if( g->u.sees( elem->pos() ) && elem->is_friend() &&
-            rl_dist( g->u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem.get() );
-        }
-    }
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc &guy ) {
+        return g->u.sees( guy.pos() ) && guy.is_friend() &&
+            rl_dist( g->u.pos(), guy.pos() ) <= 24;
+    } );
 
     if (available.empty()) {
         popup(_("You don't have any companions to send out..."));

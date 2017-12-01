@@ -1,5 +1,6 @@
-#include "mapgen.h"
 #include "mapgen_functions.h"
+
+#include "mapgen.h"
 #include "map_iterator.h"
 #include "output.h"
 #include "item_factory.h"
@@ -10,12 +11,15 @@
 #include "game.h"
 #include "debug.h"
 #include "scenario.h"
+#include "item.h"
 #include "translations.h"
 #include "trap.h"
 #include <array>
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
+#include "map.h"
+#include "omdata.h"
 #include "field.h"
 #include <algorithm>
 #include <iterator>
@@ -41,30 +45,14 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings *rsettings, map *mp )
+                        oter_id up, int z, const regional_settings &rsettings, map &mp )
+    : t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
+    , t_above( up )
+    , zlevel( z )
+    , region( rsettings )
+    , m( mp )
+    , default_groundcover( region.default_groundcover )
 {
-    t_nesw[0] = north;
-    t_nesw[1] = east;
-    t_nesw[2] = south;
-    t_nesw[3] = west;
-    t_nesw[4] = northeast;
-    t_nesw[5] = southeast;
-    t_nesw[6] = southwest;
-    t_nesw[7] = northwest;
-    t_above = up;
-    zlevel = z;
-    n_fac = 0;
-    e_fac = 0;
-    s_fac = 0;
-    w_fac = 0;
-    ne_fac = 0;
-    se_fac = 0;
-    sw_fac = 0;
-    nw_fac = 0;
-    region = rsettings;
-    m = mp;
-    // making a copy so we can fudge values if desired
-    default_groundcover = region->default_groundcover;
 }
 
 tripoint rotate_point( const tripoint &p, int rotations )
@@ -375,10 +363,10 @@ ter_id clay_or_sand()
 }
 
 void mapgendata::square_groundcover(const int x1, const int y1, const int x2, const int y2) {
-    m->draw_square_ter( this->default_groundcover, x1, y1, x2, y2);
+    m.draw_square_ter( this->default_groundcover, x1, y1, x2, y2);
 }
 void mapgendata::fill_groundcover() {
-    m->draw_fill_background( this->default_groundcover );
+    m.draw_fill_background( this->default_groundcover );
 }
 bool mapgendata::is_groundcover( const ter_id iid ) const {
     for( const auto &pr : default_groundcover ) {
@@ -393,6 +381,26 @@ bool mapgendata::is_groundcover( const ter_id iid ) const {
 ter_id mapgendata::groundcover() {
     const ter_id *tid = default_groundcover.pick();
     return tid != nullptr ? *tid : t_null;
+}
+
+const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
+{
+    // @todo De-uglify, implement proper conversion somewhere
+    switch( dir ) {
+        case om_direction::type::north:
+            return north();
+        case om_direction::type::east:
+            return east();
+        case om_direction::type::south:
+            return south();
+        case om_direction::type::west:
+            return west();
+        default:
+            break;
+    }
+
+    debugmsg( "Tried to get neighbor from invalid direction %d", dir );
+    return north();
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
@@ -458,24 +466,24 @@ void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfi
 void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
 {
     // random area of increased vegetation. Or lava / toxic sludge / etc
-    const bool boosted_vegetation = ( dat.region->field_coverage.boost_chance > rng( 0, 1000000 ) );
+    const bool boosted_vegetation = ( dat.region.field_coverage.boost_chance > rng( 0, 1000000 ) );
     const int & mpercent_bush = ( boosted_vegetation ?
-       dat.region->field_coverage.boosted_mpercent_coverage :
-       dat.region->field_coverage.mpercent_coverage
+       dat.region.field_coverage.boosted_mpercent_coverage :
+       dat.region.field_coverage.mpercent_coverage
     );
 
-    ter_furn_id altbush = dat.region->field_coverage.pick( true ); // one dominant plant type ( for boosted_vegetation == true )
+    ter_furn_id altbush = dat.region.field_coverage.pick( true ); // one dominant plant type ( for boosted_vegetation == true )
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             m->ter_set(i, j, dat.groundcover() ); // default is
             if ( mpercent_bush > rng(0, 1000000) ) { // yay, a shrub ( or tombstone )
-                if ( boosted_vegetation && dat.region->field_coverage.boosted_other_mpercent > rng(0, 1000000) ) {
+                if ( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng(0, 1000000) ) {
                     // already chose the lucky terrain/furniture/plant/rock/etc
                     ter_or_furn_set(m, i, j, altbush );
                 } else {
                     // pick from weighted list
-                    ter_or_furn_set(m, i, j, dat.region->field_coverage.pick( false ) );
+                    ter_or_furn_set(m, i, j, dat.region.field_coverage.pick( false ) );
                 }
             }
         }
@@ -690,7 +698,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         for (int i = 0; i < rn; i++) {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
-            madd_trap( m, x, y, tr_sinkhole);
+            mtrap_set( m, x, y, tr_sinkhole);
             if (m->ter(x, y) != t_swater_sh && m->ter(x, y) != t_water_sh) {
                 m->ter_set(x, y, dat.groundcover());
             }
@@ -913,7 +921,7 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
             m->ter_set(x, y, t_slope_down);
         else {
             m->ter_set(x, y, dat.groundcover());
-            madd_trap( m, x, y, tr_sinkhole);
+            mtrap_set( m, x, y, tr_sinkhole);
         }
         for (int x1 = x - 3; x1 <= x + 3; x1++) {
             for (int y1 = y - 3; y1 <= y + 3; y1++) {
@@ -2855,7 +2863,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
-
 
 //////////////////////////////
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -4835,12 +4842,6 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->spawn_item(SEEX * 2 - 3, SEEY + 7, "water");
         m->ter_set(SEEX - 2, SEEY + 2, t_stairs_down);
     }
-}
-
-void madd_trap( map *m, int x, int y, trap_id t )
-{
-    tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_trap( actual_location, t );
 }
 
 void mremove_trap( map *m, int x, int y )

@@ -1777,6 +1777,20 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lye_powder",
+  "id_suffix": "from_lye",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 90000,
+  "autolearn": true,
+  "batch_time_factors": [ 80, 4 ],
+  "qualities": [ { "id": "BOIL", "level": 1 } ],
+  "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
+  "components": [ [ [ "lye", 40 ] ] ]
+},{
+  "type" : "recipe",
   "result": "heatpack",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -2349,6 +2363,7 @@
   "difficulty": 2,
   "skills_required": [ "cooking", 1 ],
   "time": 60000,
+  "batch_time_factors": [ 99, 1 ],
   "autolearn": true,
   "qualities": [ { "id": "CHEM", "level": 1 } ],
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],

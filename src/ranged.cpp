@@ -9,6 +9,7 @@
 #include "output.h"
 #include "line.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "rng.h"
 #include "item.h"
 #include "options.h"
@@ -782,7 +783,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
     // 0 is the best the player can do.
-    const double steady_score = predicted_recoil - min_dispersion;
+    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - ( steady_score / steadiness_range );
 
@@ -1558,7 +1559,7 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
-    int weapon_dispersion = std::max( obj.gun_dispersion() / 3, 45 );
+    int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
     dispersion.add_range( 3 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );

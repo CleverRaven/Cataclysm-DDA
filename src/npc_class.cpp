@@ -244,6 +244,25 @@ void npc_class::load( JsonObject &jo, const std::string & )
         }
     }
 
+    /* Mutation rounds can be specified as follows:
+     *   "mutation_rounds": {
+     *     "ANY" : { "constant": 1 },
+     *     "INSECT" : { "rng": [1, 3] }
+     *   }
+     */
+    if( jo.has_object( "mutation_rounds" ) ) {
+        auto jo2 = jo.get_object( "mutation_rounds" );
+        for( auto &mutation : jo2.get_member_names() ) {
+            auto mutcat = "MUTCAT_" + mutation;
+            if( !mutation_category_is_valid( mutcat ) ) {
+                debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
+                continue;
+            }
+            auto distrib = jo2.get_object( mutation );
+            mutation_rounds[mutcat] = load_distribution( distrib );
+        }
+    }
+
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );
         while( jarr.has_more() ) {

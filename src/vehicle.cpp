@@ -13,6 +13,8 @@
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "iexamine.h"
+#include "string_formatter.h"
 #include "ui.h"
 #include "debug.h"
 #include "sounds.h"
@@ -411,7 +413,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         if( pt.is_battery() ) {
-            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
+                pt.ammo_set( "battery", pt.ammo_capacity() );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomise battery ammo a bit
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+            } else {
+                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            }
         }
 
         if( pt.is_tank() && type->parts[p].fuel != "null" ) {
@@ -463,7 +473,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
                 (destroyAlarm && part_flag(p, "SECURITY"))) {
                 set_hp( parts[ p ], 0 );
             }
@@ -521,7 +530,16 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
         }
     }
-
+    // destroy tires until the vehicle is not drivable
+    if( destroyTires && !wheelcache.empty() ) {
+        int tries = 0;
+        while( valid_wheel_config( false ) && tries < 100 ) {
+            // wheel config is still valid, destroy the tire.
+            set_hp( parts[random_entry( wheelcache )], 0 );
+            tries++;
+        }
+    }
+    
     invalidate_mass();
 }
 /**
@@ -1228,9 +1246,20 @@ void vehicle::start_engines( const bool take_control )
     }
 
     int start_time = 0;
+    // record the first usable engine as the referenced position checked at the end of the engine starting activity
+    bool has_starting_engine_position = false;
+    tripoint starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() && parts[ engines[ e ] ].enabled ) {
+            starting_engine_position = global_part_pos3( engines[ e ] );
+            has_starting_engine_position = true;
+        }
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
+    }
+
+    if(!has_starting_engine_position){
+        starting_engine_position = global_pos3();
     }
 
     if( !has_engine ) {
@@ -1244,7 +1273,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
-    g->u.activity.placement = global_pos3() - g->u.pos();
+    g->u.activity.placement = starting_engine_position - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 
@@ -1583,6 +1612,22 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
             return false;
         }
     }
+
+    // Cargo locks must go on lockable cargo containers
+    // TODO: do this automatically using "location":"on_mountpoint"
+    if(part.has_flag("CARGO_LOCKING")) {
+        bool anchor_found = false;
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag("LOCKABLE_CARGO")) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
+
     //Swappable storage battery must be installed on a BATTERY_MOUNT
     if(part.has_flag("NEEDS_BATTERY_MOUNT")) {
         bool anchor_found = false;
@@ -2771,11 +2816,7 @@ player *vehicle::get_passenger(int p) const
     p = part_with_feature (p, VPFLAG_BOARDABLE, false);
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
-     const int player_id = parts[p].passenger_id;
-     if( player_id == g->u.getID()) {
-      return &g->u;
-     }
-        return g->npc_by_id( player_id );
+        return g->critter_by_id<player>( parts[p].passenger_id );
     }
     return 0;
 }
@@ -4720,7 +4761,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         chance = 70;
         part_damage = 300;
         if (t == tr_shotgun_2) {
-            g->m.add_trap(p, tr_shotgun_1);
+            g->m.trap_set(p, tr_shotgun_1);
         } else {
             g->m.remove_trap(p);
             g->m.spawn_item(p, "shotgun_s");
@@ -6320,11 +6361,11 @@ npc * vehicle_part::crew() const
         return nullptr;
     }
 
-    npc *const res = g->npc_by_id( crew_id );
+    npc *const res = g->critter_by_id<npc>( crew_id );
     if( !res ) {
         return nullptr;
     }
-    return !res->is_dead_state() && res->is_friend() ? res : nullptr;
+    return res->is_friend() ? res : nullptr;
 }
 
 bool vehicle_part::set_crew( const npc &who )

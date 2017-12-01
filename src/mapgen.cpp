@@ -1,4 +1,4 @@
-#include "map.h"
+#include "mapgen.h"
 
 #include "coordinate_conversions.h"
 #include "omdata.h"
@@ -12,13 +12,14 @@
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
+#include "string_formatter.h"
 #include "mapgenformat.h"
 #include "mapbuffer.h"
 #include "overmapbuffer.h"
 #include "enums.h"
 #include "monstergenerator.h"
 #include "mongroup.h"
-#include "mapgen.h"
+#include "map.h"
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
@@ -110,7 +111,6 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
-void madd_trap( map *m, int x, int y, trap_id t );
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id t );
 
@@ -416,10 +416,10 @@ void reset_mapgens()
 size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
-        debugmsg( "invalid value %d for x", x );
+        debugmsg( "invalid value %lu for x in calc_index", static_cast<unsigned long>( x ) );
     }
     if( y >= mapgensize_y ) {
-        debugmsg( "invalid value %d for y", y );
+        debugmsg( "invalid value %lu for y in calc_index", static_cast<unsigned long>( y ) );
     }
     return y * mapgensize_y + x;
 }
@@ -449,6 +449,8 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string s )
 {
 }
 
+mapgen_function_json_base::~mapgen_function_json_base() = default;
+
 mapgen_function_json::mapgen_function_json( const std::string s, const int w,
                                             const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
@@ -465,6 +467,8 @@ mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
 : mapgen_function_json_base( s )
 {
 }
+
+jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
 {
@@ -566,9 +570,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray ) {
             tmp_y2 = jmapgen_int( pjo, "y2" );
             inboundchk( tmp_x2, tmp_y2, pjo );
         }
-        if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
+        if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if (tmpop == JMAPGEN_SETMAP_BASH){
+        } else if( tmpop == JMAPGEN_SETMAP_BASH ){
             //suppress warning
         } else {
             std::string tmpid = pjo.get_string("id");
@@ -642,13 +646,13 @@ public:
     // PieceType, they *can not* be of any other type.
     std::vector<PieceType> alternatives;
     jmapgen_alternativly() = default;
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
     {
         if( alternatives.empty() ) {
             return;
         }
         auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
-        chosen.apply( m, x, y, mon_density );
+        chosen.apply( dat, x, y, mon_density );
     }
 };
 
@@ -672,9 +676,9 @@ public:
             jsi.throw_error( "invalid field type", "field" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.add_field( tripoint( x.get(), y.get(), m.get_abs_sub().z ), ftype, density, age );
+        dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), ftype, density, age );
     }
 };
 /**
@@ -691,9 +695,9 @@ public:
             jsi.throw_error( "unknown npc class", "class" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.place_npc( x.get(), y.get(), npc_class );
+        dat.m.place_npc( x.get(), y.get(), npc_class );
     }
 };
 /**
@@ -712,14 +716,14 @@ public:
             jsi.throw_error("jmapgen_sign: needs either signage or snippet");
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.furn_set( rx, ry, f_null );
-        m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
+        dat.m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
 
-        tripoint abs_sub = m.get_abs_sub();
+        tripoint abs_sub = dat.m.get_abs_sub();
 
         std::string signtext;
 
@@ -740,7 +744,7 @@ public:
             }
             signtext = apply_all_tags(signtext, cityname);
         }
-        m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
+        dat.m.set_signage( tripoint( rx, ry, dat.m.get_abs_sub().z ), signtext );
     }
     std::string apply_all_tags(std::string signtext, const std::string &cityname) const
     {
@@ -765,12 +769,12 @@ public:
             jsi.throw_error( "no such item group", "item_group" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.furn_set( rx, ry, f_null );
-        m.place_vending( rx, ry, item_group_id, reinforced );
+        dat.m.furn_set( rx, ry, f_null );
+        dat.m.place_vending( rx, ry, item_group_id, reinforced );
     }
 };
 /**
@@ -784,16 +788,16 @@ public:
     , amount( jsi, "amount", 0, 0 )
     {
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
         const long charges = amount.get();
-        m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, f_null );
         if( charges == 0 ) {
-            m.place_toilet( rx, ry ); // Use the default charges supplied as default values
+            dat.m.place_toilet( rx, ry ); // Use the default charges supplied as default values
         } else {
-            m.place_toilet( rx, ry, charges );
+            dat.m.place_toilet( rx, ry, charges );
         }
     }
 };
@@ -817,19 +821,19 @@ public:
             }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
         long charges = amount.get();
-        m.furn_set( rx, ry, f_null );
+        dat.m.furn_set( rx, ry, f_null );
         if( charges == 0 ) {
             charges = rng( 10000, 50000 );
         }
         if (fuel != "") {
-            m.place_gas_pump( rx, ry, charges, fuel );
+            dat.m.place_gas_pump( rx, ry, charges, fuel );
         } else {
-            m.place_gas_pump( rx, ry, charges );
+            dat.m.place_gas_pump( rx, ry, charges );
         }
     }
 };
@@ -854,14 +858,14 @@ public:
             jsi.throw_error( "no such item type", "liquid" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         if ( one_in(chance.get()) ){
             item newliquid( liquid, calendar::turn );
             if ( amount.valmax > 0 ){
                 newliquid.charges = amount.get();
             }
-            m.add_item_or_charges( tripoint(x.get(), y.get(), m.get_abs_sub().z), newliquid );
+            dat.m.add_item_or_charges( tripoint(x.get(), y.get(), dat.m.get_abs_sub().z), newliquid );
         }
     }
 };
@@ -883,9 +887,9 @@ public:
             jsi.throw_error( "no such item group", "item" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
+        dat.m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
     }
 };
 
@@ -919,12 +923,12 @@ class jmapgen_loot : public jmapgen_piece {
             }
         }
 
-        void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
                 const std::vector<item> spawn = isd->create( calendar::turn );
-                m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
+                dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), dat.m.get_abs_sub().z ), spawn );
             }
         }
 
@@ -953,9 +957,9 @@ public:
             jsi.throw_error( "no such monster group", "monster" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float mdensity ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mdensity ) const override
     {
-        m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax, density == -1.0f ? mdensity : density );
+        dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax, density == -1.0f ? mdensity : density );
     }
 };
 /**
@@ -978,9 +982,9 @@ public:
             jsi.throw_error( "no such monster", "monster" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
+        dat.m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
     }
 };
 /**
@@ -1017,12 +1021,12 @@ public:
             jsi.throw_error( "no such vehicle type or group", "vehicle" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, point(x.get(), y.get()), random_entry( rotation ), fuel, status );
+        dat.m.add_vehicle( type, point(x.get(), y.get()), random_entry( rotation ), fuel, status );
     }
 };
 /**
@@ -1045,11 +1049,11 @@ public:
             jsi.throw_error( "no such item type", "item" );
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int c = chance.get();
         if ( c == 1 || one_in( c ) ) {
-            m.spawn_item( x.get(), y.get(), type, amount.get() );
+            dat.m.spawn_item( x.get(), y.get(), type, amount.get() );
         }
     }
 };
@@ -1079,10 +1083,10 @@ public:
         }
         id = sid.id();
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        const tripoint actual_loc = tripoint( x.get(), y.get(), m.get_abs_sub().z );
-        m.add_trap( actual_loc, id );
+        const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
+        dat.m.trap_set( actual_loc, id );
     }
 };
 /**
@@ -1094,9 +1098,9 @@ public:
     furn_id id;
     jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
     jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.furn_set( x.get(), y.get(), id );
+        dat.m.furn_set( x.get(), y.get(), id );
     }
 };
 /**
@@ -1108,9 +1112,9 @@ public:
     ter_id id;
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
     jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        m.ter_set( x.get(), y.get(), id );
+        dat.m.ter_set( x.get(), y.get(), id );
     }
 };
 /**
@@ -1134,9 +1138,9 @@ public:
         }
         jsi.read( "overwrite", overwrite );
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
-        m.make_rubble( tripoint( x.get(), y.get(), m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
+        dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
     }
 };
 
@@ -1170,13 +1174,13 @@ public:
             }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int rx = x.get();
         const int ry = y.get();
-        m.ter_set( rx, ry, t_console );
-        m.furn_set( rx, ry, f_null );
-        computer *cpu = m.add_computer( tripoint( rx, ry, m.get_abs_sub().z ), name, security );
+        dat.m.ter_set( rx, ry, t_console );
+        dat.m.furn_set( rx, ry, f_null );
+        computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name, security );
         for( const auto &opt : options ) {
             cpu->add_option( opt );
         }
@@ -1192,20 +1196,60 @@ public:
  * @param entries list of pairs [nested mapgen id, weight].
  */
 class jmapgen_nested : public jmapgen_piece {
+private:
+    class neighborhood_check {
+        private:
+            // To speed up the most common case: no checks
+            bool has_any = false;
+            std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+        public:
+            neighborhood_check( JsonObject jsi ) {
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
+                    has_any |= !neighbors[index].empty();
+                }
+            }
+
+            bool test( const mapgendata &dat ) const {
+                if( !has_any ) {
+                    return true;
+                }
+
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
+                    if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+    };
 public:
     weighted_int_list<std::string> entries;
-    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece()
+    neighborhood_check neighbors;
+    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
-        JsonArray jarr = jsi.get_array( "entries" );
+        JsonArray jarr = jsi.get_array( "chunks" );
         while( jarr.has_more() ) {
-            JsonArray inner = jarr.next_array();
-            entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            if( jarr.test_array() ) {
+                JsonArray inner = jarr.next_array();
+                entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            } else {
+                entries.add( jarr.next_string(), 100 );
+            }
         }
     }
-    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
+    void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
     {
         const std::string *res = entries.pick();
-        if( res == nullptr || res->empty() ) {
+        if( res == nullptr || res->empty() || *res == "null" ) {
+            return;
+        }
+
+        if( !neighbors.test( dat ) ) {
             return;
         }
 
@@ -1221,7 +1265,7 @@ public:
             return;
         }
 
-        ptr->nest( m, x.get(), y.get(), d );
+        ptr->nest( dat, x.get(), y.get(), d );
     }
 };
 
@@ -1751,7 +1795,7 @@ void mapgen_function_json_base::setup_common()
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
  * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
-bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
+bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const {
     if( chance != 1 && !one_in( chance ) ) {
         return true;
     }
@@ -1764,6 +1808,7 @@ bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
     const auto x2_get = std::bind( get, x2, offset_x );
     const auto y2_get = std::bind( get, y2, offset_y );
 
+    map &m = dat.m;
     const int trepeat = repeat.get();
     for (int i = 0; i < trepeat; i++) {
         switch(op) {
@@ -1849,20 +1894,22 @@ bool jmapgen_setmap::apply( map &m, int offset_x, int offset_y ) const {
     return true;
 }
 
-void mapgen_function_json_base::formatted_set_incredibly_simple( map * const m ) const
+void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const
 {
     for( size_t y = 0; y < mapgensize_y; y++ ) {
         for( size_t x = 0; x < mapgensize_x; x++ ) {
             const size_t index = calc_index( x, y );
             const ter_furn_id &tdata = format[index];
+            int map_x = x + offset_x;
+            int map_y = y + offset_y;
             if( tdata.furn != f_null ) {
                 if( tdata.ter != t_null ) {
-                    m->set( x, y, tdata.ter, tdata.furn );
+                    m.set( map_x, map_y, tdata.ter, tdata.furn );
                 } else {
-                    m->furn_set( x, y, tdata.furn );
+                    m.furn_set( map_x, map_y, tdata.furn );
                 }
             } else if( tdata.ter != t_null ) {
-                m->ter_set( x, y, tdata.ter );
+                m.ter_set( map_x, map_y, tdata.ter );
             }
         }
     }
@@ -1876,16 +1923,16 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         m->draw_fill_background( fill_ter );
     }
     if( do_format ) {
-        formatted_set_incredibly_simple( m );
+        formatted_set_incredibly_simple( *m, 0, 0 );
     }
     for( auto &elem : setmap_points ) {
-        elem.apply( *m, 0, 0 );
+        elem.apply( md, 0, 0 );
     }
     if ( ! luascript.empty() ) {
         lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
-    objects.apply( *m, 0, 0, d );
+    objects.apply( md, 0, 0, d );
 
     m->rotate( rotation.get() );
 
@@ -1894,37 +1941,37 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
 }
 
-void mapgen_function_json_nested::nest( map &m, int offset_x, int offset_y, float density ) const
+void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const
 {
     if( do_format ) {
-        formatted_set_incredibly_simple( &m );
+        formatted_set_incredibly_simple( dat.m, offset_x, offset_y );
     }
 
     for( auto &elem : setmap_points ) {
-        elem.apply( m, offset_x, offset_y );
+        elem.apply( dat, offset_x, offset_y );
     }
 
-    objects.apply( m, offset_x, offset_y, density );
+    objects.apply( dat, offset_x, offset_y, density );
 }
 
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void jmapgen_objects::apply( map &m, float density ) const {
+void jmapgen_objects::apply( const mapgendata &dat, float density ) const {
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( m, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density );
         }
     }
 }
 
-void jmapgen_objects::apply( map &m, int offset_x, int offset_y, float density ) const {
+void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const {
     if( offset_x == 0 && offset_y == 0 ) {
         // It's a bit faster
-        apply( m, density );
+        apply( dat, density );
         return;
     }
 
@@ -1934,7 +1981,7 @@ void jmapgen_objects::apply( map &m, int offset_x, int offset_y, float density )
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( m, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density );
         }
     }
 }
@@ -2018,7 +2065,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this );
+    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, *rsettings, *this );
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
@@ -2959,7 +3006,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 4);
                     tmpcomp = add_computer( tripoint( 5,  11, abs_sub.z ), _("Containment Control"), 4);
                     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
-                    madd_trap( this, 19, 19, tr_dissector);
+                    mtrap_set( this, 19, 19, tr_dissector);
                     item body = item::make_corpse();
                     if (one_in(2)) {
                         add_item(1, 1, body);
@@ -3232,7 +3279,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                                            f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,               f_null,
                                                            f_null,       f_null,       f_null,       f_null,       f_null,         f_null ,
                                                            f_table,      f_counter,    f_sink));
-                        madd_trap( this, 19, 3, tr_dissector);
+                        mtrap_set( this, 19, 3, tr_dissector);
                         if (one_in(3)) {
                             add_spawn(mon_mi_go, 1, 12, 12);
                         } else {
@@ -3583,10 +3630,10 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
             spawn_item( SEEX - 4, SEEY - 2, "id_science" );
             if(loot_variant <= 96) {
-                madd_trap( this, SEEX - 3, SEEY - 3, tr_dissector);
-                madd_trap( this, SEEX + 2, SEEY - 3, tr_dissector);
-                madd_trap( this, SEEX - 3, SEEY + 2, tr_dissector);
-                madd_trap( this, SEEX + 2, SEEY + 2, tr_dissector);
+                mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector);
+                mtrap_set( this, SEEX + 2, SEEY - 3, tr_dissector);
+                mtrap_set( this, SEEX - 3, SEEY + 2, tr_dissector);
+                mtrap_set( this, SEEX + 2, SEEY + 2, tr_dissector);
                 line(this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1);
                 line(this, t_reinforced_glass, SEEX - 2, SEEY    , SEEX - 2, SEEY - 2);
                 line(this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2);
@@ -3619,10 +3666,10 @@ ff.......|....|WWWWWWWW|\n\
                     spawn_item(SEEX    , SEEY    , "recipe_caseless");
                 }
             } else { // 4% of the lab ends will be this weapons testing end.
-                madd_trap( this, SEEX - 4, SEEY - 3, tr_dissector);
-                madd_trap( this, SEEX + 3, SEEY - 3, tr_dissector);
-                madd_trap( this, SEEX - 4, SEEY + 2, tr_dissector);
-                madd_trap( this, SEEX + 3, SEEY + 2, tr_dissector);
+                mtrap_set( this, SEEX - 4, SEEY - 3, tr_dissector);
+                mtrap_set( this, SEEX + 3, SEEY - 3, tr_dissector);
+                mtrap_set( this, SEEX - 4, SEEY + 2, tr_dissector);
+                mtrap_set( this, SEEX + 3, SEEY + 2, tr_dissector);
 
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -3698,10 +3745,10 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY + 1, tr_dissector);
+            mtrap_set( this, SEEX - 2, SEEY - 2, tr_dissector);
+            mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector);
+            mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector);
+            mtrap_set( this, SEEX + 1, SEEY + 1, tr_dissector);
             square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
             int item_count = 0;
             while (item_count < 5) {
@@ -4051,12 +4098,12 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_rock, 0, SEEY * 2 - 2, SEEX - 1, SEEY * 2 - 1);
                 square(this, t_rock, SEEX + 2, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 1);
                 line(this, t_grate, SEEX, 1, SEEX + 1, 1); // To drain the water
-                madd_trap( this, SEEX, SEEY * 2 - 2, tr_temple_flood);
-                madd_trap( this, SEEX + 1, SEEY * 2 - 2, tr_temple_flood);
+                mtrap_set( this, SEEX, SEEY * 2 - 2, tr_temple_flood);
+                mtrap_set( this, SEEX + 1, SEEY * 2 - 2, tr_temple_flood);
                 for (int y = 2; y < SEEY * 2 - 2; y++) {
                     for (int x = 2; x < SEEX * 2 - 2; x++) {
                         if (ter(x, y) == t_rock_floor && one_in(4)) {
-                            madd_trap( this, x, y, tr_temple_flood);
+                            mtrap_set( this, x, y, tr_temple_flood);
                         }
                     }
                 }
@@ -4207,7 +4254,7 @@ ff.......|....|WWWWWWWW|\n\
                 // Finally, fill in the rest with random tiles, and place toggle traps
                 for (int i = SEEX - 3; i <= SEEX + 4; i++) {
                     for (int j = 2; j <= SEEY * 2 - 2; j++) {
-                        madd_trap( this, i, j, tr_temple_toggle);
+                        mtrap_set( this, i, j, tr_temple_toggle);
                         if (ter(i, j) == t_rock_floor) {
                             ter_set(i, j, ter_id( rng(t_rock_red, t_floor_blue) ));
                         }
@@ -8133,14 +8180,14 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         m->furn_set(int((x1 + x2) / 2) + 1, int((y1 + y2) / 2)    , f_counter);
         m->furn_set(int((x1 + x2) / 2)    , int((y1 + y2) / 2) + 1, f_counter);
         m->furn_set(int((x1 + x2) / 2) + 1, int((y1 + y2) / 2) + 1, f_counter);
-        madd_trap( m, trapx, trapy, tr_telepad);
+        mtrap_set( m, trapx, trapy, tr_telepad);
         m->place_items("teleport", 70, int((x1 + x2) / 2),
                        int((y1 + y2) / 2), int((x1 + x2) / 2) + 1,
                        int((y1 + y2) / 2) + 1, false, 0);
         break;
     case room_goo:
         do {
-            madd_trap( m, trapx, trapy, tr_goo);
+            mtrap_set( m, trapx, trapy, tr_goo);
             trapx = rng(x1 + 1, x2 - 1);
             trapy = rng(y1 + 1, y2 - 1);
         } while(!one_in(5));
@@ -8194,7 +8241,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             }
             m->place_items("dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0);
         }
-        madd_trap( m, int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+        mtrap_set( m, int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
         if (one_in(10)) {
             m->add_spawn(mon_broken_cyborg, 1, int(((x1 + x2) / 2)+1), int(((y1 + y2) / 2)+1));
         }
@@ -9624,7 +9671,7 @@ void mx_portal(map &m, const tripoint &abs_sub)
             m.make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true);
         }
     }
-    madd_trap(&m, x, y, tr_portal);
+    mtrap_set(&m, x, y, tr_portal);
     int num_monsters = rng(0, 4);
     for (int i = 0; i < num_monsters; i++) {
         const mtype_id& type = random_entry( spawncreatures );
@@ -9650,7 +9697,7 @@ void mx_minefield(map &m, const tripoint &abs_sub)
         if (!m.has_flag("DIGGABLE", x, y) || one_in(8)) {
             m.ter_set(x, y, t_dirtmound);
         }
-        madd_trap(&m, x, y, tr_landmine_buried);
+        mtrap_set(&m, x, y, tr_landmine_buried);
     }
     int x1 = 0;
     int y1 = 0;
@@ -9788,7 +9835,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(2)) {
-                    madd_trap( this, i, j, tr_glow);
+                    mtrap_set( this, i, j, tr_glow);
                 }
             }
         }
@@ -9799,7 +9846,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(2)) {
-                    madd_trap( this, i, j, tr_hum);
+                    mtrap_set( this, i, j, tr_hum);
                 }
             }
         }
@@ -9810,7 +9857,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(3)) {
-                    madd_trap( this, i, j, tr_shadow);
+                    mtrap_set( this, i, j, tr_shadow);
                 }
             }
         }
@@ -9831,7 +9878,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    madd_trap( this, i, j, tr_drain);
+                    mtrap_set( this, i, j, tr_drain);
                 }
             }
         }
@@ -9870,7 +9917,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    madd_trap( this, i, j, tr_snake);
+                    mtrap_set( this, i, j, tr_snake);
                 }
             }
         }

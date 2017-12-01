@@ -2,46 +2,61 @@
 #ifndef BUILDING_GENERATION_H
 #define BUILDING_GENERATION_H
 
-#include "omdata.h"
-#include "mapdata.h"
-#include "map.h"
+#include "int_id.h"
 #include "weighted_list.h"
 
 #include <string>
 #include <map>
 
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+struct trap;
+using trap_id = int_id<trap>;
+struct regional_settings;
+class map;
+struct oter_t;
+using oter_id = int_id<oter_t>;
+enum field_id : int;
+namespace om_direction
+{
+enum class type : int;
+} // namespace om_direction
+
 struct mapgendata
 {
 public:
   oter_id t_nesw[8];
-  int n_fac; // dir == 0
-  int e_fac; // dir == 1
-  int s_fac; // dir == 2
-  int w_fac; // dir == 3
-  int ne_fac; // dir == 4
-  int se_fac; // dir == 5
-  int sw_fac; // dir == 6
-  int nw_fac; // dir == 7
+  int n_fac = 0;  // dir == 0
+  int e_fac = 0;  // dir == 1
+  int s_fac = 0;  // dir == 2
+  int w_fac = 0;  // dir == 3
+  int ne_fac = 0; // dir == 4
+  int se_fac = 0; // dir == 5
+  int sw_fac = 0; // dir == 6
+  int nw_fac = 0; // dir == 7
   oter_id t_above;
   int zlevel;
-  const regional_settings * region;
-  map * m;
+  const regional_settings &region;
+  map &m;
   weighted_int_list<ter_id> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
              oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
-             oter_id up, int z, const regional_settings * rsettings, map * mp );
+             oter_id up, int z, const regional_settings &rsettings, map &mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
-  oter_id  north() const { return t_nesw[0]; }
-  oter_id  east()  const { return t_nesw[1]; }
-  oter_id  south() const { return t_nesw[2]; }
-  oter_id  west()  const { return t_nesw[3]; }
-  oter_id  neast() const { return t_nesw[4]; }
-  oter_id  seast() const { return t_nesw[5]; }
-  oter_id  swest() const { return t_nesw[6]; }
-  oter_id  nwest() const { return t_nesw[7]; }
-  oter_id  above() const { return t_above; }
+  const oter_id &north() const { return t_nesw[0]; }
+  const oter_id &east()  const { return t_nesw[1]; }
+  const oter_id &south() const { return t_nesw[2]; }
+  const oter_id &west()  const { return t_nesw[3]; }
+  const oter_id &neast() const { return t_nesw[4]; }
+  const oter_id &seast() const { return t_nesw[5]; }
+  const oter_id &swest() const { return t_nesw[6]; }
+  const oter_id &nwest() const { return t_nesw[7]; }
+  const oter_id &above() const { return t_above; }
+  const oter_id &neighbor_at( om_direction::type dir ) const;
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();
@@ -198,7 +213,6 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 // Temporary wrappers
-void madd_trap( map *m, int x, int y, trap_id t );
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id t );
 void madd_field( map *m, int x, int y, field_id t, int density );

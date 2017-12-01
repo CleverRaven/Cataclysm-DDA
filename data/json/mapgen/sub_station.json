@@ -52,10 +52,7 @@
         "2": "f_indoor_plant_y",
         "b": "f_bench"
       },
-      "vendingmachines": {
-        "D": { "item_group": "vending_drink" },
-        "F": { "item_group": "vending_food" }
-      }
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
     }
   },
   {

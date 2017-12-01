@@ -10,6 +10,7 @@
 #include "iuse_actor.h"
 #include "player.h"
 #include "vehicle.h"
+#include "string_formatter.h"
 #include "veh_type.h"
 #include "npc.h"
 #include "ammo.h"

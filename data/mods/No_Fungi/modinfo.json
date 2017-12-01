@@ -10,11 +10,7 @@
   },
   {
     "type": "MONSTER_BLACKLIST",
-    "categories": [
-      "GROUP_FUNGI",
-      "GROUP_FUNGI_TOWER",
-      "GROUP_FUNGI_FLOWERS"
-    ]
+    "categories": [ "GROUP_FUNGI", "GROUP_FUNGI_TOWER", "GROUP_FUNGI_FLOWERS" ]
   },
   {
     "type": "MONSTER_BLACKLIST",

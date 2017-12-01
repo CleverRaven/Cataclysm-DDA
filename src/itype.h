@@ -11,7 +11,6 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
-#include "emit.h"
 #include "units.h"
 #include "damage.h"
 #include "translations.h"
@@ -27,7 +26,8 @@
 class item_category;
 class Item_factory;
 class recipe;
-
+class emit;
+using emit_id = string_id<emit>;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
@@ -425,12 +425,30 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 };
 
+/// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
+class gun_type_type
+{
+    private:
+        std::string name_;
+
+    public:
+        /// @param name The untranslated name of the gun type. Must have been extracted
+        /// for translation with the context "gun_type_type".
+        gun_type_type( const std::string &name ) : name_( name ) {}
+        // arbitrary sorting, only here to allow usage in std::set
+        bool operator<( const gun_type_type &rhs ) const {
+            return name_ < rhs.name_;
+        }
+        /// Translated name.
+        std::string name() const;
+};
+
 struct islot_gunmod : common_ranged_data {
     /** Where is this guunmod installed (eg. "stock", "rail")? */
     gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
-    std::set<std::string> usable;
+    std::set<gun_type_type> usable;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;

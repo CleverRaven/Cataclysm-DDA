@@ -1,4 +1,6 @@
 #include "item_stack.h"
+
+#include "units.h"
 #include "item.h"
 
 #include <list>
@@ -105,4 +107,9 @@ const item *item_stack::stacks_with( const item &it ) const
         }
     }
     return nullptr;
+}
+
+units::volume item_stack::free_volume() const
+{
+    return max_volume() - stored_volume();
 }

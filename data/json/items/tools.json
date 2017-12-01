@@ -460,7 +460,7 @@
       "fun_bonus": 2,
       "speed_penalty": 18,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your banjo.",
         "You play a bluegrass tune on your banjo.",
         "You play a quick, Southern ditty on your banjo."
@@ -685,7 +685,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
@@ -866,6 +866,28 @@
     }
   },
   {
+    "id": "bot_antimateriel",
+    "type": "TOOL",
+    "name": "inactive antimateriel turret",
+    "description": "This is an inactive antimateriel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "weight": 1550,
+    "volume": 14,
+    "price": 500500,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_bmg",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_manhack",
     "type": "TOOL",
     "name": "inactive manhack",
@@ -965,7 +987,7 @@
     "id": "brazier",
     "type": "TOOL",
     "name": "brazier",
-    "description": "This is a large metal stand with slots on the side.  Use it to place it somewhere then set fires in it with no risk of spreading.",
+    "description": "This is a large metal stand with slots on the side.  You can set it somewhere through the construction menu and then set fires in it with no risk of spreading.",
     "weight": 2000,
     "volume": 6,
     "price": 9000,
@@ -974,14 +996,6 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_brazier",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You place the brazier securely."
-    },
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1697,7 +1711,7 @@
       "fun_bonus": 2,
       "speed_penalty": 13,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your clarinet.",
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
@@ -1940,7 +1954,7 @@
     "price": 700,
     "to_hit": 1,
     "bashing": 9,
-    "material": [ "iron", "wood" ],
+    "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
     "use_action": "BELL"
@@ -2066,7 +2080,7 @@
     "type": "TOOL",
     "name": "improvised lockpick",
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
-    "weight": 230,
+    "weight": 23,
     "volume": 0,
     "price": 0,
     "material": "steel",
@@ -3085,7 +3099,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
@@ -3835,6 +3849,29 @@
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB" ]
+  },
+  {
+    "id": "jar_pickles_pickled",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "sealed jar of pickles",
+    "name_plural": "sealed jars of pickles",
+    "description": "This is a sealed glass jar containing pickles.  Use to open and eat to enjoy.",
+    "weight": 1750,
+    "volume": 2,
+    "price": 650,
+    "bashing": 4,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "use_action": {
+      "target": "pickle",
+      "msg": "You open the jar, exposing it to the atmosphere.",
+      "container": "jar_glass",
+      "target_charges": 6,
+      "menu_text": "Open jar",
+      "type": "transform"
+    }
   },
   {
     "id": "jar_sauerkraut_pickled",
@@ -5360,6 +5397,29 @@
     }
   },
   {
+    "id": "pickles_ferment",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "fermenting pickle jar",
+    "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
+    "weight": 52,
+    "volume": 1,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "jar_pickles_pickled",
+      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 33600,
+      "not_ready_msg": "The pickles are not done fermenting yet.",
+      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
+    }
+  },
+  {
     "id": "pike",
     "type": "GENERIC",
     "category": "weapons",
@@ -5782,7 +5842,8 @@
     "bashing": 5,
     "material": "plastic",
     "symbol": ";",
-    "color": "green"
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
@@ -7759,13 +7820,13 @@
     "category": "tools",
     "name": "trumpet",
     "name_plural": "trumpets",
-    "description": "A brass-plated trumpet with only a few dents here and there.",
+    "description": "A brass trumpet with only a few dents here and there.",
     "weight": 1500,
     "volume": 10,
     "price": 7500,
     "to_hit": 1,
     "bashing": 7,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
     "initial_charges": 1,
@@ -7777,7 +7838,7 @@
       "fun_bonus": 4,
       "speed_penalty": 17,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your trumpet.",
         "You play a slow, mourning piece on your trumpet.",
         "You play a little ballad on your trumpet."
@@ -7808,7 +7869,7 @@
       "fun_bonus": 2,
       "speed_penalty": 20,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your ukulele.",
         "You play a cute little ditty on your ukulele.",
         "You play a small jam on your ukulele."
@@ -7911,7 +7972,7 @@
       "fun_bonus": 3,
       "speed_penalty": 25,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your violin.",
         "You play a beautiful orchestral piece on your violin.",
         "You play a quick, southern ditty on your fiddle."
@@ -7942,7 +8003,7 @@
       "fun_bonus": 4,
       "speed_penalty": 25,
       "description_frequency": 10,
-      "descriptions": [
+      "player_descriptions": [
         "You play a quick, folksy tune on your fiddle.",
         "As you pull the bow across its strings, it makes an evil hiss.",
         "You play a tune so fierce, it feels like hell's broke loose."
@@ -8075,7 +8136,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "tool_quality": 10,
         "cost_scaling": 0.1,
@@ -8108,7 +8169,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "tool_quality": 5,
         "cost_scaling": 0.1,
@@ -8309,7 +8370,7 @@
     "type": "TOOL",
     "name": "cattle fodder",
     "name_plural": "cattle fodder",
-    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "description": "What cattle eat.  Mainly made of grass, silages or legumes.  It's perfect for ruminants.",
     "weight": 300,
     "volume": 1,
     "price": 100,
@@ -8318,5 +8379,19 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "FEEDCATTLE"
+  },
+  {
+    "id": "link_sheet",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "chainmail sheet",
+    "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "weight": 1000,
+    "volume": 2,
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

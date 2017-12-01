@@ -180,9 +180,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects(effect e, bool reduced) override;
-        /** Processes human-specific effects effects before calling Creature::process_effects(). */
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects(effect &it);
@@ -287,8 +285,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
-        /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec( const trait_id &sMut );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -635,13 +631,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason(const char *reason, unsigned int weight);
+        void add_miss_reason( std::string reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**
          * Returns an explanation for why the player would miss a melee attack.
          */
-        const char *get_miss_reason();
+        std::string get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
@@ -850,7 +846,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item::reload_option select_ammo( const item& base, bool prompt = false ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
@@ -868,9 +864,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wearing an item.
          * @param it Thing to be worn
-         * @param alert display reason for any failure
          */
-        bool can_wear( const item& it, bool alert = true ) const;
+        ret_val<bool> can_wear( const item& it ) const;
+
+        /**
+         * Check player capable of takeing off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
@@ -953,6 +954,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear( int pos, bool interactive = true );
+        bool wear( item& to_wear, bool interactive = true );
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
@@ -1413,7 +1415,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
         //Log an event, to be later written to the memorial file
-        void add_memorial_log(const char *male_msg, const char *female_msg, ...) override PRINTF_LIKE( 3, 4 );
+        using Character::add_memorial_log;
+        void add_memorial_log( const std::string &male_msg, const std::string &female_msg ) override;
         //Loads the memorial log from a file
         void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
@@ -1449,13 +1452,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void burn_move_stamina( int moves );
 
         //message related stuff
-        void add_msg_if_player(const char *msg, ...) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_player(game_message_type type, const char *msg, ...) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc(game_message_type type, const char *player_str,
-                                   const char *npc_str, ...) const override PRINTF_LIKE( 4, 5 );
-        void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override PRINTF_LIKE( 4, 5 );
+        using Character::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        using Character::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg, const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg, const std::string &npc_msg ) const override;
+        using Character::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg, const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( game_message_type type, const std::string &player_msg, const std::string &npc_speech ) const override;
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
@@ -1531,7 +1536,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Prints message(s) about current health
         void print_health() const;
 
-        bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
+        using Character::query_yn;
+        bool query_yn( const std::string &mes ) const override;
 
         /**
          * Has the item enough charges to invoke its use function?
@@ -1577,6 +1583,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
 
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &e, bool is_new ) override;
+
     private:
         friend class debug_menu::mission_debug;
 
@@ -1615,6 +1624,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
+        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
+        void build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
@@ -1655,7 +1666,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         tripoint cached_position;
 
-        struct weighted_int_list<const char*> melee_miss_reasons;
+        struct weighted_int_list<std::string> melee_miss_reasons;
 
         player_morale_ptr morale;
 

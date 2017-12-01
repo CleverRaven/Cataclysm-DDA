@@ -2,6 +2,8 @@
 #ifndef WEATHER_H
 #define WEATHER_H
 
+#include "color.h"
+
 /**
  * @name BODYTEMP
  * Body temperature.
@@ -36,7 +38,6 @@ class item;
 struct point;
 struct tripoint;
 struct trap;
-typedef int nc_color;
 template<typename T>
 class int_id;
 struct oter_t;

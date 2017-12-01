@@ -19,6 +19,7 @@
 #include "veh_interact.h"
 #include "cata_utility.h"
 
+#include "string_formatter.h"
 #include <algorithm>
 #include <sstream>
 #include <numeric>
@@ -128,7 +129,7 @@ Character::Character() : Creature(), visitable<Character>()
 
     name = "";
 
-    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
+    path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
 }
 
 field_id Character::bloodType() const
@@ -195,6 +196,9 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         sight_speed_modifier = 6;
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = 0;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -707,7 +711,7 @@ item& Character::i_add(item it)
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const std::set<char> cur_inv = allocated_invlets();
-    for (auto iter : assigned_invlet) {
+    for (auto iter : inv.assigned_invlet) {
         if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -813,7 +817,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
-    inv.assign_empty_invlet( it );
+    inv.assign_empty_invlet( it , this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
@@ -1626,13 +1630,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.25, 0.0 );
+    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.25, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -2057,7 +2061,7 @@ nc_color Character::symbol_color() const
     } else if( has_effect( effect_grabbed ) ) {
         return cyan_background( basic );
     }
-    
+
     const auto &fields = g->m.field_at( pos() );
 
     bool has_fire = false;
@@ -2101,7 +2105,7 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-    
+
     if( in_sleep_state() ) {
         return hilite( basic );
     }

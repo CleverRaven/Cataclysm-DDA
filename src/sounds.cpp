@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "string_formatter.h"
 #include "mtype.h"
 #include "weather.h"
 #include "npc.h"
@@ -211,8 +212,8 @@ void sounds::process_sounds()
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
-        for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
-            monster &critter = g->zombie(i);
+        for( monster &critter : g->all_monsters() ) {
+            // @todo Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
@@ -249,7 +250,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_id( "DEADENED" ) ) ) {
+                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
@@ -305,7 +306,7 @@ void sounds::process_sound_markers( player *p )
                                           ? _( "Heard a noise!" )
                                           : string_format( _( "Heard %s!" ), description.c_str() );
 
-                if( g->cancel_activity_or_ignore_query( query.c_str() ) ) {
+                if( g->cancel_activity_or_ignore_query( query ) ) {
                     p->activity.ignore_trivial = true;
                     for( auto activity : p->backlog ) {
                         activity.ignore_trivial = true;

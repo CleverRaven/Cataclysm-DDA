@@ -8,7 +8,7 @@
 #include "line.h"
 #include "messages.h"
 #include "sounds.h"
-#include "mondeath.h"
+#include "string_formatter.h"
 #include "iuse_actor.h"
 #include "translations.h"
 #include "morale_types.h"
@@ -212,24 +212,20 @@ void mdeath::boomer_glow(monster *z)
 
 void mdeath::kill_vines(monster *z)
 {
-    std::vector<int> vines;
-    std::vector<int> hubs;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
-        if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
-            hubs.push_back(i);
-        }
-        if (g->zombie(i).type->id == mon_creeper_vine) {
-            vines.push_back(i);
-        }
-    }
+    const std::vector<Creature*> vines = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon->type->id == mon_creeper_vine;
+    } );
+    const std::vector<Creature*> hubs = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon != z && mon->type->id == mon_creeper_hub;
+    } );
 
-    for( auto &i : vines ) {
-        monster *vine = &(g->zombie(i));
+    for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
-            if (rl_dist(vine->pos(), g->zombie(j).pos()) < dist) {
+            if (rl_dist(vine->pos(), j->pos()) < dist) {
                 break;
             }
         }
@@ -451,21 +447,19 @@ void mdeath::blobsplit(monster *z)
 }
 
 void mdeath::brainblob(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+            critter.remove_effect( effect_controlled);
         }
     }
     blobsplit(z);
 }
 
 void mdeath::jackson(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->id == mon_zombie_dancer ) {
-            candidate->poly( mon_zombie_hulk );
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->id == mon_zombie_dancer ) {
+            critter.poly( mon_zombie_hulk );
+            critter.remove_effect( effect_controlled);
         }
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The music stops!"));
@@ -482,11 +476,14 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const monster &critter = g->zombie( i );
-        if( critter.type == z->type && !critter.is_dead() ) {
-            return;
+    const bool has_others = g->get_creature_if( [&]( const Creature &critter ) {
+        if( const monster *const candidate = dynamic_cast<const monster*>( &critter ) ) {
+            return candidate->type == z->type;
         }
+        return false;
+    } );
+    if( has_others ) {
+        return;
     }
 
     // We were the last!
@@ -648,10 +645,10 @@ void mdeath::gameover(monster *z)
 void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const mtype_id& monID = g->zombie(i).type->id;
+    for( monster &critter : g->all_monsters() ) {
+        const mtype_id& monID = critter.type->id;
         if (monID == mon_breather_hub || monID == mon_breather) {
-            g->zombie(i).die( nullptr );
+            critter.die( nullptr );
         }
     }
 }

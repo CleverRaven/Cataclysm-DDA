@@ -2,6 +2,7 @@
 #include "pathfinding.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "mtype.h"
 #include "item.h"
@@ -172,16 +173,6 @@ void Creature_tracker::rebuild_cache()
     }
 }
 
-const std::vector<monster> &Creature_tracker::list() const
-{
-    static std::vector<monster> for_now;
-    for_now.clear();
-    for( const auto monster_ptr : monsters_list ) {
-        for_now.push_back( *monster_ptr );
-    }
-    return for_now;
-}
-
 void Creature_tracker::swap_positions( monster &first, monster &second )
 {
     if( first.pos() == second.pos() ) {
@@ -236,4 +227,18 @@ bool Creature_tracker::kill_marked_for_death()
     }
 
     return monster_is_dead;
+}
+
+void Creature_tracker::remove_dead()
+{
+    // Can't use game::all_monsters() as it would not contain *dead* monsters.
+    for( auto iter = monsters_list.begin(); iter != monsters_list.end(); ) {
+        const monster &critter = **iter;
+        if( critter.is_dead() ) {
+            remove_from_location_map( critter );
+            iter = monsters_list.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
 }

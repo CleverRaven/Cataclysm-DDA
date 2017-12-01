@@ -3,7 +3,6 @@
 #include "options.h"
 #include "material.h"
 #include "enums.h"
-#include "item.h"
 #include "creature.h"
 #include "translations.h"
 #include "debug.h"
@@ -11,7 +10,6 @@
 #include "output.h"
 #include "json.h"
 #include "filesystem.h"
-#include "item_search.h"
 #include "rng.h"
 #include "units.h"
 
@@ -42,71 +40,6 @@ bool lcmatch( const std::string &str, const std::string &qry )
     std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
     return haystack.find( needle ) != std::string::npos;
-}
-
-std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
-        std::string filter )
-{
-    std::vector<map_item_stack> ret;
-
-    std::string sFilterTemp = filter;
-    auto z = item_filter_from_string( filter );
-    std::copy_if( stack.begin(),
-                  stack.end(),
-                  std::back_inserter( ret ),
-    [z]( const map_item_stack & a ) {
-        if( a.example != nullptr ) {
-            return z( *a.example );
-        }
-        return false;
-    }
-                );
-
-    return ret;
-}
-
-//returns the first non priority items.
-int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
-}
-
-int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
 }
 
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,

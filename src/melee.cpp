@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "line.h"
 #include "mtype.h"
 #include "field.h"
@@ -216,7 +217,7 @@ float player::hit_roll() const
     return normal_roll( hit * 5, 25.0f );
 }
 
-void player::add_miss_reason(const char *reason, unsigned int weight)
+void player::add_miss_reason( const std::string reason, const unsigned int weight )
 {
     melee_miss_reasons.add(reason, weight);
 
@@ -227,7 +228,7 @@ void player::clear_miss_reasons()
     melee_miss_reasons.clear();
 }
 
-const char *player::get_miss_reason()
+std::string player::get_miss_reason()
 {
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
@@ -243,9 +244,9 @@ const char *player::get_miss_reason()
         _("You can't hit reliably due to your farsightedness."),
         farsightedness);
 
-    const char** reason = melee_miss_reasons.pick();
+    const std::string *const reason = melee_miss_reasons.pick();
     if(reason == NULL) {
-        return NULL;
+        return std::string();
     }
     return *reason;
 }
@@ -300,9 +301,10 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in(2) ) {
-                const char* reason_for_miss = get_miss_reason();
-                if (reason_for_miss != NULL)
-                    add_msg(reason_for_miss);
+                const std::string reason_for_miss = get_miss_reason();
+                if( !reason_for_miss.empty() ) {
+                    add_msg( "%s", reason_for_miss.c_str() );
+                }
             }
 
             if( has_miss_recovery_tec( cur_weapon ) ) {

@@ -6,10 +6,10 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include "color.h"
 #include "output.h"
 #include "string_id.h"
 
+class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
@@ -216,7 +216,7 @@ struct requirement_data {
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
-                const inventory &crafting_inv, int batch = 1 ) const;
+                const inventory &crafting_inv, int batch = 1, std::string hilite = "" ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
@@ -250,7 +250,7 @@ struct requirement_data {
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::vector< std::vector<T> > &objs, int batch = 1 ) const;
+                const std::vector< std::vector<T> > &objs, int batch = 1, std::string hilite = "" ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

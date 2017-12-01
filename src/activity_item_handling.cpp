@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "pickup.h"
 

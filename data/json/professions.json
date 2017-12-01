@@ -3095,7 +3095,7 @@
         "type": "profession",
         "ident": "burglar",
         "name": "Burglar",
-        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
         "points": 3,
         "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
         "items": {
@@ -5158,5 +5158,13 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "naked",
+        "name": "Naked and Afraid",
+        "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
+        "points": -1,
+        "flags": ["SCEN_ONLY"]
     }
 ]

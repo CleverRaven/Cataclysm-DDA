@@ -6,6 +6,7 @@
 #include "animation.h"
 
 #include <cstring> // strlen
+#include <stdexcept>
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
@@ -29,10 +30,8 @@
 //Globals                           *
 //***********************************
 
-WINDOW *mainwin;
 WINDOW *stdscr;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
-int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 // allow extra logic for framebuffer clears
 extern void handle_additional_window_clear( WINDOW* win );
@@ -40,19 +39,6 @@ extern void handle_additional_window_clear( WINDOW* win );
 //***********************************
 //Pseudo-Curses Functions           *
 //***********************************
-
-//Basic Init, create the font, backbuffer, etc
-WINDOW *initscr(void)
-{
-    // initscr is a ncurses function, it is not supposed to throw.
-    try {
-        stdscr = curses_init();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error while initializing: %s\n", err.what() );
-        return nullptr;
-    }
-    return stdscr;
-}
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
@@ -201,36 +187,6 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     return 1;
 }
 
-int hline(chtype ch, int n)
-{
-    return whline(mainwin, ch, n);
-}
-
-int vline(chtype ch, int n)
-{
-    return wvline(mainwin, ch, n);
-}
-
-int whline(WINDOW *win, chtype ch, int n)
-{
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
-}
-
-int wvline(WINDOW *win, chtype ch, int n)
-{
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
-}
-
-int mvhline(int y, int x, chtype ch, int n)
-{
-    return mvwhline(mainwin, y, x, ch, n);
-}
-
-int mvvline(int y, int x, chtype ch, int n)
-{
-    return mvwvline(mainwin, y, x, ch, n);
-}
-
 int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
 {
     wattron(win, BORDER_COLOR);
@@ -275,7 +231,7 @@ int wrefresh(WINDOW *win)
 //Refreshes the main window, causing it to redraw on top.
 int refresh(void)
 {
-    return wrefresh(mainwin);
+    return wrefresh(stdscr);
 }
 
 int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
@@ -452,29 +408,6 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     return printstring(win, printbuf);
 }
 
-//Prints a formatted string to the main window, moves the cursor
-int mvprintw(int y, int x, const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    if (move(y, x) == 0) {
-        return 0;
-    }
-    return printstring(mainwin, printbuf);
-}
-
-//Prints a formatted string to the main window at the current cursor
-int printw(const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    const std::string printbuf = vstring_format(fmt, args);
-    va_end(args);
-    return printstring(mainwin, printbuf);
-}
-
 //erases a window of all text and attributes
 int werase(WINDOW *win)
 {
@@ -497,7 +430,7 @@ int werase(WINDOW *win)
 //erases the main window of all text and attributes
 int erase(void)
 {
-    return werase(mainwin);
+    return werase(stdscr);
 }
 
 //pairs up a foreground and background color and puts it into the array of pairs
@@ -535,13 +468,7 @@ int wmove(WINDOW *win, int y, int x)
 //Clears the main window     I'm not sure if its suppose to do this?
 int clear(void)
 {
-    return wclear(mainwin);
-}
-
-//Ends the terminal, destroy everything
-int endwin(void)
-{
-    return curses_destroy();
+    return wclear(stdscr);
 }
 
 //adds a character to the window
@@ -557,12 +484,6 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    clearok(win);
-    return 1;
-}
-
-int clearok(WINDOW *win)
-{
     if( win == nullptr ) {
         return 1;
     }
@@ -609,38 +530,20 @@ int getcury(WINDOW *win)
     return win != nullptr ? win->cursory : 0;
 }
 
-int keypad(WINDOW *, bool)
-{
-    return 1;
-}
-
-int cbreak(void)
-{
-    return 1;
-}
-int keypad(int, bool)
-{
-    return 1;
-}
 int curs_set(int)
 {
     return 1;
 }
 
-int mvaddch(int y, int x, const chtype ch)
-{
-    return mvwaddch(mainwin, y, x, ch);
-}
-
-int wattron(WINDOW *win, int attrs)
+int wattron( WINDOW *win, const nc_color &attrs )
 {
     if( win == nullptr ) {
         return 1;
     }
 
-    bool isBold = !!(attrs & A_BOLD);
-    bool isBlink = !!(attrs & A_BLINK);
-    int pairNumber = (attrs & A_COLOR) >> 17;
+    bool isBold = attrs.is_bold();
+    bool isBlink = attrs.is_blink();
+    int pairNumber = attrs.to_color_pair_index();
     win->FG = colorpairs[pairNumber].FG;
     win->BG = colorpairs[pairNumber].BG;
     if (isBold) {
@@ -660,14 +563,6 @@ int wattroff(WINDOW *win, int)
     win->FG = 8;                                //reset to white
     win->BG = 0;                                //reset to black
     return 1;
-}
-int attron(int attrs)
-{
-    return wattron(mainwin, attrs);
-}
-int attroff(int attrs)
-{
-    return wattroff(mainwin, attrs);
 }
 int waddch(WINDOW *win, const chtype ch)
 {
@@ -716,24 +611,4 @@ int waddch(WINDOW *win, const chtype ch)
     return printstring( win, buffer );
 }
 
-//Move the cursor of the main window
-int move(int y, int x)
-{
-    return wmove(mainwin, y, x);
-}
-
-void set_escdelay(int) { } //PORTABILITY, DUMMY FUNCTION
-
-
-int echo()
-{
-    echoOn = 1;
-    return 0; // 0 = OK, -1 = ERR
-}
-
-int noecho()
-{
-    echoOn = 0;
-    return 0;
-}
 #endif

@@ -83,7 +83,8 @@
        [ "reloaded_9mmP2", 40 ],
        [ "reloaded_9x18mm", 20 ],
        [ "reloaded_9x18mmfmj", 10 ],
-       [ "reloaded_9x18mmP2", 5 ]
+       [ "reloaded_9x18mmP2", 5 ],
+       [ "reloaded_762_25", 10 ]
     ]
   },
   {

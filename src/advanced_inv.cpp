@@ -1,3 +1,4 @@
+#include "advanced_inv.h"
 #include "game.h"
 #include "player.h"
 #include "output.h"
@@ -9,7 +10,7 @@
 #include "auto_pickup.h"
 #include "messages.h"
 #include "player_activity.h"
-#include "advanced_inv.h"
+#include "string_formatter.h"
 #include "compatibility.h"
 #include "enums.h"
 #include "input.h"
@@ -1674,7 +1675,7 @@ void advanced_inventory::display()
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
-                mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
+                mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 4, c_cyan, " >" );
                 std::string new_filter = spopup.query_string( false );
                 if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
                     // restore original filter
@@ -2007,7 +2008,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             } else {
                 added = !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
             }
-            
+
             if( !added ) {
                 msg = _("Destination area is full.  Remove some items first.");
             }
@@ -2458,8 +2459,8 @@ void advanced_inventory::draw_minimap()
         auto pt = pc + sq.off;
         // invert the color if pointing to the player's position
         auto cl = (sq.id == AIM_INVENTORY || sq.id == AIM_WORN) ?
-            invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
-        mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
+            invert_color(c_ltcyan) : c_ltcyan.blink();
+        mvwputch(minimap, pt.y, pt.x, cl, sym);
     }
 
     // Invert player's tile color if exactly one pane points to player's tile

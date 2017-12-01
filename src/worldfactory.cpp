@@ -9,6 +9,7 @@
 #include "translations.h"
 #include "input.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "calendar.h"
@@ -158,7 +159,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         }
         if (curtab < 0) {
             delete retworld;
-            return NULL;
+            return nullptr;
         }
     } else { // 'Play NOW'
 #ifndef LUA
@@ -189,7 +190,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         worldname = "DEFENSE";
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
@@ -214,7 +215,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         delete all_worlds[worldname];
         delete special_world;
         all_worlds.erase(worldname);
-        return NULL;
+        return nullptr;
     }
 
     return special_world;
@@ -249,7 +250,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     } else {
         // something horribly wrong happened
         DebugLog( D_ERROR, DC_ALL ) << "worldfactory::convert_to_world -- World Conversion Failed!";
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -423,9 +424,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     std::map<int, std::vector<std::string> > world_pages;
     unsigned int worldnum = 0;
-    for (size_t i = 0; i < num_pages; ++i) {
-        for (int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j) {
-            world_pages[i].push_back(world_names[worldnum++]);
+    for( unsigned int i = 0; i < num_pages; ++i ) {
+        for( int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j ) {
+            world_pages[i].push_back( world_names[ worldnum++ ] );
         }
     }
     unsigned int sel = 0, selpage = 0;
@@ -489,11 +490,11 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for (size_t i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz(w_worlds, i, 0, c_white, "%s", sTemp.str().c_str());
-            mvwprintz(w_worlds, i, 4, c_white, "");
+            mvwprintz( w_worlds, i, 0, c_white, "%s", sTemp.str().c_str() );
+            wmove( w_worlds, i, 4 );
 
             std::string world_name = (world_pages[selpage])[i];
-            size_t saves_num = get_world( world_name )->world_saves.size();
+            unsigned long saves_num = get_world( world_name )->world_saves.size();
 
             if (i == sel) {
                 wprintz(w_worlds, c_yellow, ">> ");
@@ -501,23 +502,23 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 wprintz(w_worlds, c_yellow, "   ");
             }
 
-            if (world_need_lua_build(world_name)) {
-                wprintz(w_worlds, c_dkgray, "%s (%i)", world_name.c_str(), saves_num);
+            if( world_need_lua_build( world_name ) ) {
+                wprintz( w_worlds, c_dkgray, "%s (%lu)", world_name.c_str(), saves_num );
             } else {
-                wprintz(w_worlds, c_white, "%s (%i)", world_name.c_str(), saves_num);
+                wprintz( w_worlds, c_white, "%s (%lu)", world_name.c_str(), saves_num );
             }
         }
 
         //Draw Tabs
-        mvwprintz(w_worlds_header, 0, 7, c_white, "");
+        wmove( w_worlds_header, 0, 7 );
 
-        for (size_t i = 0; i < num_pages; ++i) {
-            nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
-            if (!world_pages[i].empty()) { //skip empty pages
-                wprintz(w_worlds_header, c_white, "[");
-                wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
-                wprintz(w_worlds_header, c_white, "]");
-                wputch(w_worlds_header, BORDER_COLOR, LINE_OXOX);
+        for( unsigned long i = 0; i < num_pages; ++i ) {
+            nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
+            if( !world_pages[i].empty() ) { //skip empty pages
+                wprintz( w_worlds_header, c_white, "[" );
+                wprintz( w_worlds_header, tabcolor, _("Page %lu"), i + 1) ;
+                wprintz( w_worlds_header, c_white, "]" );
+                wputch( w_worlds_header, BORDER_COLOR, LINE_OXOX );
             }
         }
 
@@ -566,15 +567,12 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                       world_pages[selpage][sel].c_str());
                 continue;
             }
-            // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
-            if (query_yn(_("Do you want to start the game in world [%s]?"),
-                         world_pages[selpage][sel].c_str())) {
-                werase(w_worlds);
-                werase(w_worlds_border);
-                werase(w_worlds_header);
-                werase(w_worlds_tooltip);
-                return get_world( world_pages[selpage][sel] );//sel + selpage * iContentHeight;
-            }
+
+            werase(w_worlds);
+            werase(w_worlds_border);
+            werase(w_worlds_header);
+            werase(w_worlds_tooltip);
+            return get_world( world_pages[selpage][sel] );
         }
     }
 
@@ -583,13 +581,20 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     werase(w_worlds_header);
     werase(w_worlds_tooltip);
 
-    return NULL;
+    return nullptr;
 }
 
 void worldfactory::remove_world(std::string worldname)
 {
-    delete all_worlds[worldname];
-    all_worlds.erase(worldname);
+    auto it = all_worlds.find(worldname);
+    if( it != all_worlds.end() ) {
+        WORLDPTR wptr = it->second;
+        if( active_world == wptr ) {
+            active_world = nullptr;
+        }
+        delete wptr;
+        all_worlds.erase( it );
+    }
 }
 
 std::string worldfactory::pick_random_name()
@@ -626,7 +631,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     bool first_line_is_category = false;
 
     if( mods.empty() ) {
-        center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
+        center_print( w, 0, c_red, text_if_empty );
     } else {
         int iCatSortNum = 0;
         std::string sLastCategoryName = "";
@@ -903,22 +908,22 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         if( redraw_description ) {
             werase( w_description );
 
-            MOD_INFORMATION *selmod = NULL;
+            MOD_INFORMATION *selmod = nullptr;
             if( current_tab_mods.empty() ) {
-                // Do nothing, leave selmod == NULL
+                // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
                 selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
             } else if( !active_mod_order.empty() ) {
                 selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
             }
 
-            if( selmod != NULL ) {
+            if( selmod != nullptr ) {
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
                                c_white, mman_ui->get_information(selmod));
             }
 
             //redraw tabs
-            mvwprintz(win, 4, 2, c_white, "");
+            wmove( win, 4, 2 );
             for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
                 wprintz(win, c_white, "[");
                 wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, _((get_mod_list_tabs()[i].second).c_str()));

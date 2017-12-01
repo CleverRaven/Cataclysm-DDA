@@ -2,6 +2,7 @@
 
 #include "output.h"
 #include "game.h"
+#include "string_formatter.h"
 #include "map.h"
 #include "translations.h"
 #include "catacharset.h" // center_text_pos

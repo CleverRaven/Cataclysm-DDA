@@ -7,7 +7,9 @@
     "time": 60,
     "pre_terrain": "t_pit_corpsed",
     "post_terrain": "blob_pit",
-    "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
+    "tools": [
+      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+    ]
   },
   {
     "type": "construction",
@@ -17,7 +19,9 @@
     "time": 5,
     "pre_terrain": "t_slime",
     "post_terrain": "blob_pit_slime",
-    "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
+    "tools": [
+      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+    ]
   },
   {
     "id": "blob_pit",

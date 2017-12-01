@@ -1,9 +1,10 @@
-#include "game.h"
 #include "options.h"
+#include "game.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
 #include "filesystem.h"
+#include "string_formatter.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
@@ -522,6 +523,11 @@ int options_manager::cOpt::getItemPos(const std::string sSearch) const
     return -1;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::cOpt::getItems() const
+{
+    return vItems;
+}
+
 int options_manager::cOpt::getMaxLength() const
 {
     if (sType == "string_input") {
@@ -810,6 +816,18 @@ void options_manager::init()
     add( "AUTO_PICKUP_SAFEMODE", "general", translate_marker( "Auto pickup safe mode" ),
         translate_marker( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
         false
+        );
+
+    mOptionsSort["general"]++;
+
+    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
+         translate_marker( "If true, enables auto pulping resurrecting corpses or auto butchering any corpse.  Never pulps acidic corpses.  Disabled as long as any enemy monster is seen." ),
+         false
+    );
+
+    add( "AUTO_PULP_BUTCHER_ACTION", "general", translate_marker( "Auto pulp or butcher action" ),
+         translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
+         { { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "butcher"
         );
 
     mOptionsSort["general"]++;
@@ -1295,7 +1313,7 @@ void options_manager::init()
     mOptionsSort["world_default"]++;
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-        translate_marker( "A number determining how large cities are.  0 disables cities and roads." ),
+        translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
         0, 16, 4
         );
 

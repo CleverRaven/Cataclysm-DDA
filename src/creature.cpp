@@ -1,5 +1,5 @@
-#include "item.h"
 #include "creature.h"
+#include "item.h"
 #include "output.h"
 #include "game.h"
 #include "map.h"
@@ -259,23 +259,18 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         self_area_iff = true;
     }
 
-    std::vector<Creature*> targets;
-    targets.reserve( g->num_zombies() + g->active_npc.size() );
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &m = g->zombie(i);
-        if( m.friendly != 0 ) {
+    std::vector<Creature*> targets = g->get_creatures_if( [&]( const Creature &critter ) {
+        if( const monster *const mon_ptr = dynamic_cast<const monster*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return mon_ptr->friendly == 0;
         }
-        targets.push_back( &m );
-    }
-    for( auto &p : g->active_npc ) {
-        if( p->attitude != NPCATT_KILL ) {
+        if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return npc_ptr->attitude == NPCATT_KILL;
         }
-        targets.push_back( p.get() );
-    }
+        //@todo what about g->u?
+        return false;
+    } );
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
@@ -757,13 +752,6 @@ void Creature::set_fake(const bool fake_value)
     fake = fake_value;
 }
 
-void Creature::add_eff_effects(effect e, bool reduced)
-{
-    (void)e;
-    (void)reduced;
-    return;
-}
-
 void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
@@ -875,8 +863,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        bool reduced = resists_effect(e);
-        add_eff_effects(e, reduced);
+        process_one_effect( e, true );
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,

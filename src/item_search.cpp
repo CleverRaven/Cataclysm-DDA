@@ -1,6 +1,6 @@
+#include "item_search.h"
 #include "item.h"
 #include "material.h"
-#include "item_search.h"
 #include "cata_utility.h"
 #include "output.h"
 

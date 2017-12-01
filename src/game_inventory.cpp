@@ -6,6 +6,7 @@
 #include "player.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -133,18 +134,114 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game_menus::inv::take_off( player &p )
+class armor_inventory_preset: public inventory_selector_preset
 {
-    return g->inv_for_filter( _( "Take off item" ), [ &p ]( const item & it ) {
-        return p.is_worn( it );
-    }, _( "You don't wear anything." ) );
+    public:
+        armor_inventory_preset( const std::string &color_in ) : color( color_in ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->get_encumber() );
+            }, _( "ENCUMBRANCE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
+                        format_volume( loc->get_storage() ) ) : std::string();
+            }, _( "STORAGE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
+            }, _( "COVERAGE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->get_warmth() );
+            }, _( "WARMTH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->bash_resist() );
+            }, _( "BASH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->cut_resist() );
+            }, _( "CUT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->acid_resist() );
+            }, _( "ACID" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->fire_resist() );
+            }, _( "FIRE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->get_env_resist() );
+            }, _( "ENV" ) );
+        }
+
+    private:
+        std::string get_number_string( int number ) const {
+            return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
+        }
+
+        const std::string color;
+};
+
+class wear_inventory_preset: public armor_inventory_preset
+{
+    public:
+        wear_inventory_preset( const player &p,
+                               const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_armor() && !p.is_worn( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = p.can_wear( *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::wear( player &p )
+{
+    return inv_internal( p, wear_inventory_preset( p, "color_yellow" ), _( "Wear item" ), 1,
+                         _( "You have nothing to wear." ) );
 }
 
-int game_menus::inv::wear( player &p )
+class take_off_inventory_preset: public armor_inventory_preset
 {
-    return g->inv_for_filter( _( "Wear item" ), [ &p ]( const item & it ) {
-        return it.is_armor() && !p.is_worn( it );
-    }, _( "You don't have any items to wear." ) );
+    public:
+        take_off_inventory_preset( const player &p,
+                                   const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_armor() && p.is_worn( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = p.can_takeoff( *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::take_off( player &p )
+{
+    return inv_internal( p, take_off_inventory_preset( p, "color_red" ), _( "Take off item" ), 1,
+                         _( "You don't wear anything." ) );
 }
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
@@ -934,7 +1031,7 @@ void game_menus::inv::swap_letters( player &p )
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &p ]( const std::string::value_type & elem ) {
-            if( p.assigned_invlet.count( elem ) ) {
+            if( p.inv.assigned_invlet.count( elem ) ) {
                 return c_yellow;
             } else if( p.invlet_to_position( elem ) != INT_MIN ) {
                 return c_white;

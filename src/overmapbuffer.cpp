@@ -10,6 +10,7 @@
 #include "monster.h"
 #include "mongroup.h"
 #include "simple_pathfinding.h"
+#include "string_formatter.h"
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "npc.h"

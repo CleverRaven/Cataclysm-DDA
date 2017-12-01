@@ -1,7 +1,7 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "item_factory.h"
 #include "uistate.h"
 #include "monstergenerator.h"
@@ -563,7 +563,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() );
+            sksetmenu.settext( string_format( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() ) );
             int skcur = ( int )p->get_skill_level( Skill::skills[skill_id].ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {

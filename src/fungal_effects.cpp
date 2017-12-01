@@ -4,9 +4,11 @@
 #include "mapdata.h"
 #include "creature.h"
 #include "monster.h"
+#include "field.h"
 #include "mtype.h"
 #include "player.h"
 #include "messages.h"
+#include "field.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -57,7 +59,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
-    } else if( gm.num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
+    } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
         if( monster *const spore = gm.summon_mon( mon_spore, sporep ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {

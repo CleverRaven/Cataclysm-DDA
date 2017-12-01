@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include "flag.h"
+#include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"
@@ -687,7 +688,11 @@ std::string item::info( bool showtext ) const
     return info( showtext, dummy );
 }
 
-std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const {
+    return info( showtext, iteminfo, 1 );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) const
 {
     std::stringstream temp1, temp2;
     std::string space = "  ";
@@ -705,8 +710,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( !is_null() ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
                                   -999, true, "", false ) );
-        const int price_preapoc = price( false );
-        const int price_postapoc = price( true );
+        const int price_preapoc = price( false ) * batch;
+        const int price_postapoc = price( true ) * batch;
         info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
                                   ( double )price_preapoc / 100, false, "$", true, true ) );
         if( price_preapoc != price_postapoc ) {
@@ -716,7 +721,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int converted_volume_scale = 0;
         const double converted_volume = round_up( convert_volume( volume().value(),
-                                                                  &converted_volume_scale ), 2 );
+                                                                  &converted_volume_scale ) * batch, 2 );
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
                                   converted_volume, converted_volume_scale == 0,
@@ -724,7 +729,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
-                                  convert_weight( weight() ), false, "", true, true ) );
+                                  convert_weight( weight() ) * batch, false, "", true, true ) );
 
         if( !type->rigid ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
@@ -791,6 +796,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
                                       get_var( "contained_name" ).c_str() ) ) );
         }
+        if( count_by_charges() && !is_food() ) {
+            info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", charges * batch, true, "", true, false, true ) );
+        }
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
@@ -831,7 +839,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", g->u.fun_for( *food_item ).first ) );
         }
 
-        info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
+        info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) * batch ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
                                            ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
@@ -1201,9 +1209,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         temp1.str( "" );
-        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const std::string &used_on ) {
-            //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
-            return string_format( "<info>%s</info>", _( used_on.c_str() ) );
+        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const gun_type_type &used_on ) {
+            return string_format( "<info>%s</info>", used_on.name().c_str() );
         } );
 
         temp2.str( "" );
@@ -1570,17 +1577,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
             info.push_back( iteminfo( "DESCRIPTION",
                                       string_format( _( "%d moves per attack" ), attack_cost ) ) );
-        }
-
-        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
-            insert_separation_line();
-            if( has_flag( "REACH3" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This item can be used to make <info>long reach attacks</info>." ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This item can be used to make <info>reach attacks</info>." ) ) );
-            }
         }
 
         //lets display which martial arts styles character can use with this weapon
@@ -3939,21 +3935,23 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
-std::string item::gun_type() const
+gun_type_type item::gun_type() const
 {
     static skill_id skill_archery( "archery" );
 
     if( !is_gun() ) {
-        return std::string();
+        return gun_type_type( std::string() );
     }
+    //@todo move to JSON and remove extraction of this from "GUN" (via skill id)
+    //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
         if( ammo_type() == ammotype( "bolt" ) || typeId() == "bullet_crossbow" ) {
-            return "crossbow";
+            return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else{
-            return "bow";
+            return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
         }
     }
-    return gun_skill().c_str();
+    return gun_type_type( gun_skill().str() );
 }
 
 skill_id item::melee_skill() const
@@ -3991,11 +3989,14 @@ int item::gun_dispersion( bool with_ammo ) const
         dispersion_sum += mod->type->gunmod->dispersion;
     }
     dispersion_sum += damage() * 60;
-    dispersion_sum = std::max(dispersion_sum, 0);
+    dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-    dispersion_sum = std::max(dispersion_sum, 0);
+    // Dividing dispersion by 3 temporarally as a gross adjustment,
+    // will bake that adjustment into individual gun definitions in the future.
+    // Absolute minimum gun dispersion is 45.
+    dispersion_sum = std::max( dispersion_sum / 3, 45 );
     return dispersion_sum;
 }
 
@@ -4005,7 +4006,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? MAX_RECOIL : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? 500 : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -4269,6 +4270,14 @@ const itype * item::ammo_data() const
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
     }
 
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const auto e : mods ) {
+        if( e->type->mod->ammo_modifier &&
+            item_controller->has_template( itype_id( e->type->mod->ammo_modifier.str() ) ) ) {
+            return item_controller->find_template( itype_id( e->type->mod->ammo_modifier.str() ) );
+        }
+    }
+
     return curammo;
 }
 
@@ -4424,6 +4433,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<bool>::make_failure();
     }
+    static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -4444,7 +4454,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
-    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
+    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
@@ -4676,7 +4686,7 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_magazine() ) {
+    if( ammo->is_magazine() || target->has_flag( "RELOAD_ONE" )) {
         qty_ = 1L;
         return;
     }

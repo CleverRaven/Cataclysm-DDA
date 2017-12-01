@@ -8,16 +8,17 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "line.h"
-#include "options.h"
 #include "item_factory.h"
 #include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "iexamine.h"
+#include "string_formatter.h"
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"
+#include "item.h"
 #include "messages.h"
-#include "mapsharing.h"
 #include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
@@ -27,7 +28,6 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "artifact.h"
-#include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -36,10 +36,8 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
-#include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
-#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -1176,18 +1174,6 @@ const vehicle* map::veh_at( const tripoint &p ) const
 {
     int part = 0;
     return veh_at( p, part );
-}
-
-point map::veh_part_coordinates( const tripoint &p )
-{
-    int part_num = 0;
-    vehicle* veh = veh_at( p, part_num );
-
-    if(veh == nullptr) {
-        return point( 0,0 );
-    }
-
-    return veh->parts[part_num].mount;
 }
 
 void map::board_vehicle( const tripoint &pos, player *p )
@@ -3411,8 +3397,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( tent ) {
         // Get ids of possible centers
         std::set<furn_id> centers;
-        for( const auto &center : bash->tent_centers ) {
-            const furn_str_id cur_id( center );
+        for( const auto &cur_id : bash->tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
@@ -3452,8 +3437,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
                 const auto recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
-                for( const auto &center : recur_bash->tent_centers ) {
-                    const furn_str_id cur_id( center );
+                for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
@@ -5263,11 +5247,6 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-void map::trap_set( const tripoint &p, const trap_id id)
-{
-    add_trap( p, id );
-}
-
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p.x, p.y, p.z ) ) {
@@ -5284,7 +5263,7 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( lx, ly ).obj();
 }
 
-void map::add_trap( const tripoint &p, const trap_id t)
+void map::trap_set( const tripoint &p, const trap_id t)
 {
     if( !inbounds( p ) )
     {
@@ -5656,22 +5635,6 @@ void map::add_camp( const tripoint &p, const std::string& name )
     }
 
     get_submap_at( p )->camp = basecamp( name, p.x, p.y );
-}
-
-void map::debug()
-{
- mvprintw(0, 0, "MAP DEBUG");
- inp_mngr.wait_for_any_key();
- for (int i = 0; i <= SEEX * 2; i++) {
-  for (int j = 0; j <= SEEY * 2; j++) {
-   if (i_at(i, j).size() > 0) {
-    mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
-    mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
-    inp_mngr.wait_for_any_key();
-   }
-  }
- }
- inp_mngr.wait_for_any_key();
 }
 
 void map::update_visibility_cache( const int zlev ) {
@@ -7096,9 +7059,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
     }
 
     //Check for Merchants to restock
-    for( auto & i : g->active_npc ) {
-        if( i->restock > 0 && calendar::turn > i->restock ) {
-            i->shop_restock();
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.restock > 0 && calendar::turn > guy.restock ) {
+            guy.shop_restock();
         }
     }
 
@@ -8237,6 +8200,9 @@ void map::update_pathfinding_cache( int zlev ) const
                         cur_value |= PF_SLOW;
                     } else if( cost <= 0 ) {
                         cur_value |= PF_WALL;
+                        if( terrain.has_flag( TFLAG_CLIMBABLE ) ) {
+                            cur_value |= PF_CLIMBABLE;
+                        }
                     }
 
                     if( veh != nullptr ) {

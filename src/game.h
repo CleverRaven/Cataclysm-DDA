@@ -111,7 +111,7 @@ class weather_generator;
 struct weather_printable;
 class faction;
 class live_view;
-typedef int nc_color;
+class nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
@@ -286,8 +286,13 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        npc *npc_by_id(const int id) const;
+        /**
+         * @return The the living creature with the given id. Returns null if no living
+         * creature with such an id exists. Never returns a dead creature.
+         * Currently only the player character and npcs have ids.
+         */
+        template<typename T = Creature>
+        T *critter_by_id( int id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -315,10 +320,12 @@ class game
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
-        /** Returns the number of creatures through the creature_tracker size() function. */
-        size_t num_zombies() const;
-        /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie( const int idx ) const;
+        /**
+         * Returns the approximate number of creatures in the reality bubble.
+         * Because of performance restrictions it may return a slightly incorrect
+         * values (as it includes dead, but not yet cleaned up creatures).
+         */
+        size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie( const monster &critter );
@@ -328,6 +335,100 @@ class game
         bool spawn_hallucination();
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
+
+    private:
+        friend class monster_range;
+        friend class Creature_range;
+
+        template<typename T>
+        class non_dead_range {
+            public:
+                std::vector<std::weak_ptr<T>> items;
+
+                class iterator {
+                    private:
+                        bool valid();
+                    public:
+                        std::vector<std::weak_ptr<T>> &items;
+                        typename std::vector<std::weak_ptr<T>>::iterator iter;
+                        std::shared_ptr<T> current;
+
+                        iterator( std::vector<std::weak_ptr<T>> &i, const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                            while( iter != items.end() && !valid() ) {
+                                ++iter;
+                            }
+                        }
+                        iterator( const iterator & ) = default;
+                        iterator &operator=( const iterator & ) = default;
+
+                        bool operator==( const iterator &rhs ) const {
+                            return iter == rhs.iter;
+                        }
+                        bool operator!=( const iterator &rhs ) const {
+                            return !operator==( rhs );
+                        }
+                        iterator &operator++() {
+                            do {
+                                ++iter;
+                            } while( iter != items.end() && !valid() );
+                            return *this;
+                        }
+                        T &operator*() const {
+                            return *current;
+                        }
+                };
+                iterator begin() {
+                    return iterator( items, items.begin() );
+                }
+                iterator end() {
+                    return iterator( items, items.end() );
+                }
+        };
+
+        class monster_range : public non_dead_range<monster> {
+            public:
+                monster_range( game &g );
+        };
+
+        class npc_range : public non_dead_range<npc> {
+            public:
+                npc_range( game &g );
+        };
+
+        class Creature_range : public non_dead_range<Creature> {
+            private:
+                std::shared_ptr<player> u;
+
+            public:
+                Creature_range( game &g );
+        };
+
+    public:
+        /**
+         * Returns an anonymous range that contains all creatures. The range allows iteration
+         * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
+         * One shall not store the returned range nor the iterators.
+         * One can freely remove and add creatures to the game during the iteration. Added
+         * creatures will not be iterated over.
+         */
+        Creature_range all_creatures();
+        /// Same as @ref all_creatures but iterators only over monsters.
+        monster_range all_monsters();
+        /// Same as @ref all_creatures but iterators only over npcs.
+        npc_range all_npcs();
+
+        /**
+         * Returns all creatures matching a predicate. Only living ( not dead ) creatures
+         * are checked ( and returned ). Returned pointers are never null.
+         */
+        std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<npc*> get_npcs_if( const std::function<bool( const npc & )> &pred );
+        /**
+         * Returns a creature matching a predicate. Only living (not dead) creatures
+         * are checked. Returns `nullptr` if no creature matches the predicate.
+         * There is no guarantee which creature is returned when several creatures match.
+         */
+        Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
@@ -381,10 +482,10 @@ class game
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query(const char *message, ...);
+        bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query(const char *reason, ...);
+        bool cancel_activity_or_ignore_query( const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -530,9 +631,10 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
+    private:
         std::vector<std::shared_ptr<npc>> active_npc;
+    public:
         std::vector<faction> factions;
-        int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
 
@@ -698,7 +800,6 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        const int dangerous_proximity;
         bool narrow_sidebar;
         bool right_sidebar;
         bool fullscreen;
@@ -816,11 +917,18 @@ class game
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
-        void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
-        void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void wear(); // Wear armor  'W' (or 'a')
+        void wear( int pos );
+        void wear( item_location& loc );
+
+        void takeoff(); // Remove armor  'T'
+        void takeoff( int pos );
+        void takeoff( item_location& loc );
+
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false );
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
@@ -878,10 +986,10 @@ private:
         void shift_monsters(const int shiftx, const int shifty, const int shiftz);
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
-         * it from the creature tracker. Keep in mind that mondex points to a
-         * different monster after calling this (or to no monster at all).
+         * it from the creature tracker. Keep in mind that any monster index may
+         * point to a different monster after calling this (or to no monster at all).
          */
-        void despawn_monster(int mondex);
+        void despawn_monster( monster &critter );
 
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
         void rebuild_mon_at_cache();
@@ -976,7 +1084,6 @@ private:
         std::unique_ptr<special_game> gamemode;
 
         int user_action_counter; // Times the user has input an action
-        const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;

@@ -2,29 +2,26 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include "game_constants.h"
-#include "calendar.h"
-#include "enums.h"
-#include "iexamine.h"
 #include "int_id.h"
-#include "trap.h"
 #include "string_id.h"
-#include "weighted_list.h"
 #include "units.h"
-#include "rng.h"
+#include "color.h"
 
 #include <bitset>
 #include <vector>
-#include <list>
-#include <map>
+#include <set>
 #include <string>
 #include <array>
 
+class JsonObject;
 struct itype;
 struct trap;
 struct ter_t;
 struct furn_t;
 class harvest_list;
+class player;
+struct tripoint;
+using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
@@ -35,11 +32,6 @@ using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 using itype_id = std::string;
 using harvest_id = string_id<harvest_list>;
-
-// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -59,8 +51,8 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    // ids used for the special handling of tents (have to be ids of furniture)
-    std::vector<std::string> tent_centers;
+    // ids used for the special handling of tents
+    std::vector<furn_str_id> tent_centers;
     map_bash_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
@@ -327,21 +319,6 @@ struct furn_t : map_data_common_t {
     void check() const override;
 };
 
-/*
-Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
-*/
-//Classic Extras is for when you have special zombies turned off.
-extern const std::set<std::string> classic_extras;
-
-struct map_extras {
- unsigned int chance;
- weighted_int_list<std::string> values;
-
- map_extras() : chance(0), values() {}
- map_extras(const unsigned int embellished) : chance(embellished), values() {}
-
-};
-
 void load_furniture( JsonObject &jo, const std::string &src );
 void load_terrain( JsonObject &jo, const std::string &src );
 
@@ -486,7 +463,8 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm, f_vending_reinforced;
+    f_robotic_arm, f_vending_reinforced,
+    f_brazier;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -495,16 +473,5 @@ extern furn_id f_null,
 void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
-
-// TODO: move into mapgen headers, it's not needed during normal game play.
-/*
- * It's a terrain! No, it's a furniture! Wait it's both!
- */
-struct ter_furn_id {
-   ter_id ter;
-   furn_id furn;
-   ter_furn_id();
-};
-
 
 #endif

@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
@@ -555,6 +556,9 @@ trait_id Character::trait_by_invlet( const long ch ) const
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if (mutation_branch::trait_is_blacklisted(mutation)) {
+        return false;
+    }
     if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;
@@ -724,6 +728,13 @@ void player::mutate()
 
 void player::mutate_category( const std::string &cat )
 {
+    // Hacky ID comparison is better than separate hardcoded branch used before
+    // @todo Turn it into the null id
+    if( cat == "MUTCAT_ANY" ) {
+        mutate();
+        return;
+    }
+
     bool force_bad = one_in(3);
     bool force_good = false;
     if (has_trait( trait_ROBUST ) && force_bad) {

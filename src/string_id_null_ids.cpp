@@ -23,6 +23,7 @@ MAKE_NULL_ID( ammunition_type, "NULL" );
 MAKE_NULL_ID( vpart_info, "null" );
 MAKE_NULL_ID( emit, "null" );
 MAKE_NULL_ID( anatomy, "null_anatomy" );
+MAKE_NULL_ID( martialart, "style_none" );
 
 
 #define MAKE_NULL_ID2( type, ... ) \
@@ -39,7 +40,7 @@ MAKE_NULL_ID2( ter_t, "t_null", 0 );
 MAKE_NULL_ID2( trap, "tr_null" );
 MAKE_NULL_ID2( furn_t, "f_null", 0 );
 MAKE_NULL_ID2( MonsterGroup, "GROUP_NULL" );
-MAKE_NULL_ID2( mission_type, "mission_type" );
+MAKE_NULL_ID2( mission_type, "MISSION_NULL" );
 MAKE_NULL_ID2( species_type, "spec_null" );
 MAKE_NULL_ID2( mutation_branch );
 MAKE_NULL_ID2( requirement_data, "null" );

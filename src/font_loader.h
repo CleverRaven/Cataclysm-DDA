@@ -77,7 +77,9 @@ class font_loader
             }
         }
 
-        void load_throws() {
+    public:
+        /// @throws std::exception upon any kind of error.
+        void load() {
             const std::string fontdata = FILENAMES["fontdata"];
             const std::string legacy_fontdata = FILENAMES["legacy_fontdata"];
             if( file_exist( fontdata ) ) {
@@ -86,17 +88,6 @@ class font_loader
                 load_throws( legacy_fontdata );
                 assure_dir_exist( FILENAMES["config_dir"] );
                 save( fontdata );
-            }
-        }
-
-    public:
-        bool load() {
-            try {
-                load_throws();
-                return true;
-            } catch( const std::exception &err ) {
-                DebugLog( D_ERROR, D_SDL ) << "loading font settings failed: " << err.what();
-                return false;
             }
         }
 };
