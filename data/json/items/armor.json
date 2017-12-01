@@ -2563,7 +2563,7 @@
     "category": "armor",
     "name": "firefighter helmet",
     "description": "A distinctive helmet worn by firefighters.  More than just a piece of firefighting equipment, they serve as a badge of honor and respect.",
-    "weight": 820,
+    "weight": 1500,
     "volume": 5,
     "price": 24000,
     "to_hit": 1,
