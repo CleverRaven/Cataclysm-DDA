@@ -110,7 +110,7 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "I know you're there. I can feel you here.",
+        "sound" : "I know you're there.  I can feel you here.",
         "volume" : 10
     },
     {
@@ -122,13 +122,13 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "You shouldn't be here. This isn't safe for you.",
+        "sound" : "You shouldn't be here.  This isn't safe for you.",
         "volume" : 10
     },
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "Maybe you think you're helping yourself. But you're not. This isn't helping anyone.",
+        "sound" : "Maybe you think you're helping yourself.  But you're not.  This isn't helping anyone.",
         "volume" : 10
     },
     {
@@ -146,19 +146,19 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "Uh oh. Somebody cut the cake. I told them to wait for you, but they did it anyway.",
+        "sound" : "Uh oh. Somebody cut the cake.  I told them to wait for you, but they did it anyway.",
         "volume" : 10
     },
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "This is your fault. It didn't have to be like this.",
+        "sound" : "This is your fault.  It didn't have to be like this.",
         "volume" : 10
     },
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "You're not a good person. You know that, right?",
+        "sound" : "You're not a good person.  You know that, right?",
         "volume" : 20
     },
     {
@@ -218,7 +218,7 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "Good job on that, by the way. SARCASM SPHERE SELF-TEST COMPLETE.",
+        "sound" : "Good job on that, by the way.  SARCASM SPHERE SELF-TEST COMPLETE.",
         "volume" : 20
     },
     {
@@ -230,7 +230,7 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "Let's be honest: Neither one of us knows what that thing does. Just put it in the corner, and I'll deal with it later.",
+        "sound" : "Let's be honest: Neither one of us knows what that thing does.  Just put it in the corner, and I'll deal with it later.",
         "volume" : 10
     },
     {
@@ -242,7 +242,7 @@
     {
         "type" : "speech",
         "speaker" : "aperture_potato",
-        "sound" : "I'm checking some blueprints, and I think... Yes, right here. You're definitely going the wrong way.",
+        "sound" : "I'm checking some blueprints, and I think...  Yes, right here.  You're definitely going the wrong way.",
         "volume" : 10
     },
     {
