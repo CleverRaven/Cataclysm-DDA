@@ -2576,11 +2576,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -2775,11 +2772,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -5651,11 +5645,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -5720,11 +5711,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -5781,11 +5769,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -5859,11 +5844,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -5952,11 +5934,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -6011,11 +5990,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -6076,11 +6052,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -6111,11 +6084,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -6324,11 +6294,8 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [ [ "surface_heat", 2, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ], [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ] ]
   ],
   "components": [
     [
@@ -9737,6 +9704,921 @@
     "components": [ [ [ "chili_pepper", 1 ] ] ]
   },
   {
+  "type" : "recipe",
+  "result": "meat_canned",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "meat", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "veggy_canned",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "mushroom", 12 ],
+      [ "veggy", 12 ],
+      [ "veggy_wild", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "apple_canned",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "sweet_fruit", 12, "LIST" ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fish_canned",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "fish", 12 ]
+    ]
+  ]
+},{
+    "result": "offal_canned",
+    "type": "recipe",
+    "id_suffix": "jarred_3l",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 90000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "container": "jar_3l_glass_sealed",
+    "result_mult": 12,
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ 
+	  [ "water", 6 ], 
+		[ "water_clean", 6 ] 
+	  ],
+      [ 
+		[ "jar_3l_glass", 1 ] 
+	  ],
+      [ 
+		[ "offal", 12 ] 
+	  ]
+    ]
+  },{
+  "type" : "recipe",
+  "result": "can_tomato",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 90000,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "result_mult": 6,
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "tomato", 12 ],
+      [ "irradiated_tomato", 12]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fish_pickled",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ],
+      [ "salt_water", 6 ],
+      [ "saline", 30 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "fish", 12 ]
+    ],
+    [
+      [ "vinegar", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "human_pickled",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 90000,
+  "result_mult": 12,
+  "book_learn": [[ "cookbook_human", 6 ]],
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ],
+      [ "salt_water", 6 ],
+      [ "saline", 30 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "human_flesh", 12 ]
+    ],
+    [
+      [ "vinegar", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "meat_pickled",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ],
+      [ "salt_water", 6 ],
+      [ "saline", 30 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "meat", 12 ]
+    ],
+    [
+      [ "vinegar", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "veggy_pickled",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "//" : "Canned tomatoes aren't an option as they've already been preserved.",
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ],
+      [ "salt_water", 6 ],
+      [ "saline", 30 ]
+    ],
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      ["veggy", 12],
+      ["veggy_wild", 12],
+      ["mushroom", 12],
+      ["tomato", 12],
+      ["irradiated_tomato", 12],
+      ["broccoli", 12],
+      ["irradiated_broccoli", 12],
+      ["zucchini", 12],
+      ["irradiated_zucchini", 12],
+      ["cucumber", 12],
+      ["irradiated_cucumber", 12],
+      ["potato_raw", 12],
+      ["potato_irradiated", 12],
+      ["corn", 12],
+      ["irradiated_corn", 12],
+      ["onion", 12],
+      ["irradiated_onion", 12],
+      ["garlic", 12],
+      ["seed_garlic", 72],
+      ["irradiated_carrot", 72],
+      ["carrot", 72]
+    ],
+    [
+      [ "vinegar", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_woods",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "broth", 12 ],
+      [ "broth_bone", 12 ],
+      [ "pine_tea", 12 ]
+    ],
+    [
+      [ "meat", 12 ],
+      [ "meat_smoked", 12 ],
+      [ "dry_meat", 12 ],
+      [ "rehydrated_meat", 12 ],
+      [ "meat_canned", 12],
+      [ "can_chicken", 12 ],
+      [ "fish", 12 ],
+      [ "fish_smoked", 12 ],
+      [ "dry_fish", 12 ],
+      [ "rehydrated_fish", 12 ],
+      [ "fish_canned", 12],
+      [ "can_salmon", 12 ],
+      [ "can_tuna", 12 ],
+      [ "sausage", 24 ],
+      [ "bacon", 24 ],
+      [ "powder_eggs", 120 ],
+      [ "egg_bird", 24 ],
+      [ "egg_reptile", 24 ]
+    ],
+    [
+      [ "veggy_wild", 12 ],
+      [ "veggy", 12 ],
+      [ "rehydrated_veggy", 12 ],
+      [ "dry_veggy", 12 ],
+      [ "dry_beans", 12 ],
+      [ "can_beans", 12 ],
+      [ "raw_beans", 12 ],
+      [ "beans_cooked", 12 ],
+      [ "dandelion_cooked", 12 ],
+      [ "mushroom", 12 ],
+      [ "dry_mushroom", 12 ],
+      [ "mushroom_cooked", 12 ],
+      [ "morel_cooked", 12 ],
+      [ "acorns_cooked", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_meat",
+  "id_suffix" : "jarred",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "broth", 12 ],
+      [ "broth_bone", 12]
+    ],
+    [
+      [ "potato_irradiated", 12],
+      [ "potato_raw", 12 ],
+      [ "celery", 12 ],
+      [ "irradiated_celery", 12],
+      [ "cabbage", 12 ],
+      [ "irradiated_cabbage", 12 ],
+      [ "sauerkraut", 24 ],
+      [ "powder_eggs", 60 ],
+      [ "egg_bird", 12 ],
+      [ "egg_reptile", 12 ],
+      [ "can_beans", 12 ],
+      [ "beans_cooked", 12 ],
+      [ "spaghetti_raw", 12 ],
+      [ "macaroni_raw", 12],
+      [ "noodles_fast", 12],
+      [ "dry_beans", 12 ],
+      [ "raw_beans", 12 ],
+      [ "dry_rice", 12 ],
+      [ "dandelion_cooked", 12 ],
+      [ "acorns_cooked", 12 ]
+    ],
+    [
+      [ "meat", 24],
+      [ "rehydrated_meat", 24 ],
+      [ "dry_meat", 24 ],
+      [ "meat_canned", 24 ],
+      [ "can_chicken", 24 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_veggy",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "broth", 12 ]
+    ],
+    [
+      [ "potato_irradiated", 12 ],
+      [ "potato_raw", 12 ],
+      [ "celery", 12 ],
+      [ "irradiated_celery", 12 ],
+      [ "cabbage", 12 ],
+      [ "irradiated_cabbage", 12 ],
+      [ "sauerkraut", 24 ],
+      [ "powder_eggs", 60 ],
+      [ "egg_bird", 12 ],
+      [ "egg_reptile", 12 ],
+      [ "can_beans", 12 ],
+      [ "beans_cooked", 12 ],
+      [ "spaghetti_raw", 12 ],
+      [ "macaroni_raw", 12 ],
+      [ "noodles_fast", 12 ],
+      [ "dry_beans", 12 ],
+      [ "raw_beans", 12 ],
+      [ "dry_rice", 12 ],
+      [ "dandelion_cooked", 12 ],
+      [ "acorns_cooked", 12 ]
+    ],
+    [
+      [ "irradiated_tomato", 24 ],
+      [ "can_tomato", 24 ],
+      [ "tomato", 24 ],
+      [ "pumpkin", 24 ],
+      [ "irradiated_pumpkin", 24 ],
+      [ "irradiated_broccoli", 24 ],
+      [ "broccoli", 24 ],
+      [ "irradiated_zucchini", 24 ],
+      [ "zucchini", 24 ],
+      [ "potato_raw", 24 ],
+      [ "potato_irradiated", 24 ],
+      [ "onion", 24 ],
+      [ "irradiated_onion", 24 ],
+      [ "carrot", 144 ],
+      [ "irradiated_carrot", 144 ],
+      [ "veggy", 24 ],
+      [ "dry_veggy", 24 ],
+      [ "mushroom", 24 ],
+      [ "dry_mushroom", 24 ],
+      [ "mushroom_cooked", 24 ],
+      [ "morel_cooked", 24 ],
+      [ "rehydrated_veggy", 24 ],
+      [ "veggy_wild", 24 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_fish",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "broth", 12 ],
+      [ "broth_bone", 12 ]
+    ],
+    [
+      [ "potato_irradiated", 12 ],
+      [ "potato_raw", 12 ],
+      [ "celery", 12 ],
+      [ "irradiated_celery", 12 ],
+      [ "cabbage", 12 ],
+      [ "irradiated_cabbage", 12 ],
+      [ "sauerkraut", 74 ],
+      [ "can_corn", 12 ],
+      [ "corn", 12 ],
+      [ "irradiated_corn", 12 ],
+      [ "irradiated_onion", 12 ],
+      [ "onion", 12 ],
+      [ "irradiated_carrot", 72 ],
+      [ "carrot", 72 ],
+      [ "pumpkin", 12 ],
+      [ "irradiated_pumpkin", 12 ],
+      [ "veggy_wild", 12 ],
+      [ "veggy", 12 ],
+      [ "dry_veggy", 12 ],
+      [ "powder_eggs", 60 ],
+      [ "egg_bird", 12 ],
+      [ "egg_reptile", 12 ],
+      [ "can_beans", 12 ],
+      [ "spaghetti_raw", 12 ],
+      [ "macaroni_raw", 12 ],
+      [ "noodles_fast", 12 ],
+      [ "con_milk", 12 ],
+      [ "flatbread", 12 ],
+      [ "tortilla_corn", 12 ],
+      [ "bread", 12 ],
+      [ "cornbread", 12 ],
+      [ "biscuit", 12 ],
+      [ "hardtack", 12 ],
+      [ "wastebread", 12 ],
+      [ "flour", 12 ],
+      [ "cornmeal", 12 ],
+      [ "milk_powder", 12 ],
+      [ "crackers", 24 ],
+      [ "dry_beans", 12 ],
+      [ "raw_beans", 12 ],
+      [ "dry_rice", 12 ],
+      [ "beans_cooked", 12 ],
+      [ "dandelion_cooked", 12 ],
+      [ "mushroom", 12 ],
+      [ "dry_mushroom", 12 ],
+      [ "morel_cooked", 12 ],
+      [ "mushroom_cooked", 12 ],
+      [ "acorns_cooked", 12 ]
+    ],
+    [
+      [ "fish", 24 ],
+      [ "dry_fish", 24 ],
+      [ "salted_fish", 18 ],
+      [ "fish_smoked", 24 ],
+      [ "fish_pickled", 12 ],
+      [ "fish_vac", 24 ],
+      [ "fish_canned", 12 ],
+      [ "can_salmon", 12 ],
+      [ "can_tuna", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_human",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "broth", 12 ],
+      [ "broth_human", 12 ],
+      [ "broth_bone", 6]
+    ],
+    [
+      [ "potato_irradiated", 12 ],
+      [ "potato_raw", 12 ],
+      [ "celery", 12 ],
+      [ "irradiated_celery", 12 ],
+      [ "cabbage", 12 ],
+      [ "irradiated_cabbage", 12 ],
+      [ "sauerkraut", 24 ],
+      [ "powder_eggs", 60 ],
+      [ "egg_bird", 12 ],
+      [ "egg_reptile", 12 ],
+      [ "can_beans", 12 ],
+      [ "spaghetti_raw", 12 ],
+      [ "macaroni_raw", 12 ],
+      [ "noodles_fast", 12 ],
+      [ "dry_beans", 12 ],
+      [ "raw_beans", 12 ],
+      [ "dry_rice", 12 ],
+      [ "beans_cooked", 12 ],
+      [ "acorns_cooked", 12 ]
+    ],
+    [
+      [ "dry_hflesh", 24 ],
+      [ "rehydrated_hflesh", 24 ],
+      [ "human_flesh", 24 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broth",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 90000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
+    ],
+    [
+      [ "irradiated_broccoli", 12 ],
+      [ "broccoli", 12 ],
+      [ "irradiated_tomato", 12 ],
+      [ "can_tomato", 12 ],
+      [ "tomato", 12 ],
+      [ "pumpkin", 12 ],
+      [ "irradiated_pumpkin", 12 ],
+      [ "irradiated_zucchini", 12 ],
+      [ "zucchini", 12 ],
+      [ "veggy", 12 ],
+      [ "veggy_wild", 12 ],
+      [ "powder_eggs", 60 ],
+      [ "egg_bird", 12 ],
+      [ "egg_reptile", 12 ],
+      [ "dry_veggy", 24 ],
+      [ "dandelion_cooked", 24 ],
+      [ "mushroom_cooked", 24 ],
+      [ "morel_cooked", 24 ],
+      [ "mushroom", 24 ],
+      [ "dry_mushroom", 24 ]
+    ],
+    [
+      [ "seasoning_italian", 60 ],
+      [ "wild_herbs", 60 ],
+      [ "seasoning_salt", 60 ],
+      [ "soysauce", 8 ],
+      [ "pepper", 80 ],
+      [ "seed_garlic", 24 ],
+      [ "garlic", 4 ],
+      [ "salt_water", 4 ],
+      [ "salt", 60 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broth_bone",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 120000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ],[ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "bone", 120 ]
+    ],
+    [
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broth_human",
+  "id_suffix": "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 120000,
+  "result_mult": 12,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ]
+  ],
+  "components": [
+    [
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "bone_human", 120 ]
+    ],
+    [
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sauce_red",
+  "id_suffix" : "jarred_3l",
+  "container": "jar_3l_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 120000,
+  "result_mult": 12,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ] ],
+  "components": [
+	[
+      [ "jar_3l_glass", 1 ]
+    ],
+    [
+      [ "can_tomato", 12 ],
+      [ "tomato", 12 ],
+      [ "irradiated_tomato", 12 ]
+    ],
+    [
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
+    ]
+  ]
+}
+,{
+  "type" : "recipe",
+  "result": "sauce_red",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 40000,
+  "result_mult": 2,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "vac_sealer", 60 ],
+      [ "makeshift_sealer", 120 ] ] ],
+  "components": [
+	[
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "can_tomato", 2 ],
+      [ "tomato", 2 ],
+      [ "irradiated_tomato", 2 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sauce_red",
+  "id_suffix" : "canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 40000,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ] ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "canister_empty", 1 ],
+      [ "can_food_unsealed", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "can_tomato", 1 ],
+      [ "tomato", 1 ],
+      [ "irradiated_tomato", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+{
     "type" : "recipe",
     "result": "sausage_wasteland",
     "category": "CC_FOOD",
@@ -9749,5 +10631,5 @@
     "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
     "tools" : [ [ [ "char_smoker", 10 ] ] ],
     "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
-  }
+}
 ]
