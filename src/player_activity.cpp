@@ -10,7 +10,6 @@
 #include "activity_handlers.h"
 #include "messages.h"
 #include "mapdata.h"
-#include "generic_factory.h"
 
 #include <algorithm>
 
