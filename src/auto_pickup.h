@@ -8,10 +8,12 @@
 #include <locale>
 #include <algorithm>
 #include <iosfwd>
-#include "json.h"
 #include "enums.h"
 
-class auto_pickup : public JsonSerializer, public JsonDeserializer
+class JsonOut;
+class JsonIn;
+
+class auto_pickup
 {
     private:
         void test_pattern( const int iCurrentPage, const int iCurrentLine );
@@ -88,9 +90,8 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
 
         bool empty() const;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 auto_pickup &get_auto_pickup();
