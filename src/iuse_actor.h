@@ -279,8 +279,8 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        skill_id skill1 = skill_id( "none" );
-        skill_id skill2 = skill_id( "none" );
+        skill_id skill1 = skill_id::NULL_ID();
+        skill_id skill2 = skill_id::NULL_ID();
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override;
@@ -598,9 +598,13 @@ class musical_instrument_actor : public iuse_actor
          */
         int fun_bonus;
         /**
-         * List of sound descriptions
-         */
-        std::vector< std::string > descriptions;
+        * List of sound descriptions for players
+        */
+        std::vector< std::string > player_descriptions;
+        /**
+        * List of sound descriptions for NPCs
+        */
+        std::vector< std::string > npc_descriptions;
         /**
          * Display description once per this many turns
          */

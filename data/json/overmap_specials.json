@@ -1506,7 +1506,7 @@
         "connections" : [
             { "point" : [0,3,0], "terrain" : "road" }
         ],
-        "locations" : [ "wilderness" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 4],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 5],

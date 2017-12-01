@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"
@@ -26,6 +27,11 @@ static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 /**
  * \defgroup Weather "Weather and its implications."

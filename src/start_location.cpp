@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
+#include "mapdata.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"

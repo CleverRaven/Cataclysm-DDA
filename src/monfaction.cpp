@@ -1,5 +1,5 @@
-#include "debug.h"
 #include "monfaction.h"
+#include "debug.h"
 #include "json.h"
 #include <vector>
 #include <queue>

@@ -22,7 +22,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "545x39", [ "ak74mag", "rpk74mag" ] ],
-      [ "223", [ "stanag30", "stanag50" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -52,7 +52,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "545x39", [ "ak74mag", "rpk74mag" ] ],
-      [ "223", [ "stanag30", "stanag50" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   }
 ]

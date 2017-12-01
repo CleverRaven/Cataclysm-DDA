@@ -1,5 +1,5 @@
-#include "debug.h"
 #include "itype.h"
+#include "debug.h"
 #include "game.h"
 #include "item_factory.h"
 #include "translations.h"
@@ -71,4 +71,9 @@ long itype::invoke( player &p, item &it, const tripoint &pos, const std::string 
     }
 
     return use->call( p, it, false, pos );
+}
+
+std::string gun_type_type::name() const
+{
+    return pgettext( "gun_type_type", name_.c_str() );
 }

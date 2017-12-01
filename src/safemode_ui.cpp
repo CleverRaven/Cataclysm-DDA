@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "filesystem.h"

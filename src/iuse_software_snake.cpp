@@ -5,6 +5,7 @@
 #include "output.h"
 #include "catacharset.h"  // utf8_width()
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <algorithm>
 #include <string>
@@ -79,8 +80,8 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
         mvwprintz(w_snake, i + 3, 17, c_ltred, game_over_text[i].c_str());
     }
 
-    center_print(w_snake, 17, c_yellow, _("TOTAL SCORE: %d"), iScore);
-    center_print(w_snake, 21, c_white, _("Press 'q' or ESC to exit."));
+    center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
+    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) ); //@todo print actual bound keys
     wrefresh(w_snake);
 }
 

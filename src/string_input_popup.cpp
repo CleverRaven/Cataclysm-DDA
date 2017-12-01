@@ -79,7 +79,7 @@ void string_input_popup::create_window()
     for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
         mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
     }
-    right_print( w, _starty, w_width - titlesize - 1, title_color, "%s", title_split.back().c_str() );
+    right_print( w, _starty, w_width - titlesize - 1, title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
@@ -345,8 +345,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }
-        } else if( ch == ERR ) {
-            // Ignore the error
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {

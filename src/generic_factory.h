@@ -315,7 +315,7 @@ class generic_factory
          */
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
+                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.to_i() );
                 return dummy_obj;
             }
             return list[id];
@@ -421,7 +421,6 @@ class Dummy2 {
     nc_color c;
     void load(JsonObject &jo) {
         mandatory(jo, was_loaded, "b", b); // uses JsonIn::read(int&)
-        mandatory(jo, was_loaded, "c", c, color_reader);
     }
 };
 \endcode
@@ -749,18 +748,6 @@ class generic_typed_reader
             }
             member = derived.get_next( *jo.get_raw( member_name ) );
             return true;
-        }
-};
-
-/**
- * Converts the input string into a `nc_color`.
- */
-class color_reader : public generic_typed_reader<color_reader>
-{
-    public:
-        nc_color get_next( JsonIn &jin ) const {
-            // TODO: check for valid color name
-            return color_from_string( jin.get_string() );
         }
 };
 

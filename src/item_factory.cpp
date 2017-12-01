@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "assign.h"
+#include "string_formatter.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"
@@ -29,8 +30,9 @@
 
 #include <algorithm>
 #include <assert.h>
-#include <sstream>
 #include <cassert>
+#include <cmath>
+#include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -93,6 +95,252 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
     }
 }
 
+void Item_factory::finalize_pre( itype &obj )
+{
+    // @todo separate repairing from reinforcing/enhancement
+    if( obj.damage_max == obj.damage_min ) {
+        obj.item_tags.insert( "NO_REPAIR" );
+    }
+
+    if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+        std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
+    }
+
+    // add usage methods (with default values) based upon qualities
+    // if a method was already set the specific values remain unchanged
+    for( const auto &q : obj.qualities ) {
+        for( const auto &u : q.first.obj().usages ) {
+            if( q.second >= u.first ) {
+                obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
+            }
+        }
+    }
+
+    if( obj.mod ) {
+        std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+        obj.use_methods.emplace( func, usage_from_string( func ) );
+    } else if( obj.gun ) {
+        const std::string func = "GUN_DETACH_GUNMODS";
+        obj.use_methods.emplace( func, usage_from_string( func ) );
+    }
+
+    if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
+        obj.engine->faults.clear();
+    }
+
+    // If no category was forced via JSON automatically calculate one now
+    if( obj.category_force.empty() ) {
+        obj.category_force = calc_category( obj );
+    }
+
+    // If category exists assign now otherwise throw error later in @see check_definitions()
+    auto cat = categories.find( obj.category_force );
+    if( cat != categories.end() ) {
+        obj.category = &cat->second;
+    }
+
+    // use pre-cataclysm price as default if post-cataclysm price unspecified
+    if( obj.price_post < 0 ) {
+        obj.price_post = obj.price;
+    }
+    // use base volume if integral volume unspecified
+    if( obj.integral_volume < 0 ) {
+        obj.integral_volume = obj.volume;
+    }
+    // for ammo and comestibles stack size defaults to count of initial charges
+    if( obj.stackable && obj.stack_size == 0 ) {
+        obj.stack_size = obj.charges_default();
+    }
+    // JSON contains volume per complete stack, convert it to volume per single item
+    if( obj.count_by_charges() ) {
+        obj.volume = obj.volume / obj.stack_size;
+        obj.integral_volume = obj.integral_volume / obj.stack_size;
+    }
+    // Items always should have some volume.
+    // TODO: handle possible exception software?
+    // TODO: make items with 0 volume an error during loading?
+    if( obj.volume <= 0 ) {
+        obj.volume = units::from_milliliter( 1 );
+    }
+    for( const auto &tag : obj.item_tags ) {
+        if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
+            obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
+        }
+    }
+    // for ammo not specifying loudness (or an explicit zero) derive value from other properties
+    if( obj.ammo ) {
+        if( obj.ammo->loudness < 0 ) {
+            obj.ammo->loudness = ( obj.ammo->damage + obj.ammo->pierce + obj.ammo->range ) * 2;
+        }
+
+        const auto &mats = obj.materials;
+        if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
+            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+            const auto &ammo_effects = obj.ammo->ammo_effects;
+            obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
+                                ammo_effects.count( "COOKOFF" ) > 0;
+            static const std::set<std::string> special_cookoff_tags = {{
+                "NAPALM", "NAPALM_BIG",
+                "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
+                "TOXICGAS", "TEARGAS", "SMOKE", "SMOKE_BIG",
+                "FRAG", "FLASHBANG"
+            }};
+            obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
+            []( const std::string &s ) {
+                return special_cookoff_tags.count( s ) > 0;
+            } );
+        } else {
+            obj.ammo->cookoff = false;
+            obj.ammo->special_cookoff = false;
+        }
+    }
+    // for magazines ensure default_ammo is set
+    if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
+           obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
+    }
+    if( obj.gun ) {
+        // @todo add explicit action field to gun definitions
+        std::string defmode = _( "semi-auto" );
+        if( obj.gun->clip == 1 ) {
+            defmode = _( "manual" ); // break-type actions
+        } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+            defmode = _( "revolver" );
+        }
+
+        // if the gun doesn't have a DEFAULT mode then add one now
+        obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
+                                std::set<std::string>() ) );
+
+        if( obj.gun->burst > 1 ) {
+            // handle legacy JSON format
+            obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
+                                    std::set<std::string>() ) );
+        }
+
+        if( obj.gun->handling < 0 ) {
+            // @todo specify in JSON via classes
+            if( obj.gun->skill_used == skill_id( "rifle" ) ||
+                obj.gun->skill_used == skill_id( "smg" ) ||
+                obj.gun->skill_used == skill_id( "shotgun" ) ){
+                obj.gun->handling = 20;
+            } else {
+                obj.gun->handling = 10;
+            }
+        }
+
+        obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
+
+        // @todo Move to jsons?
+        if( obj.gun->skill_used == skill_id( "archery" ) ||
+            obj.gun->skill_used == skill_id( "throw" ) ) {
+            obj.item_tags.insert( "WATERPROOF_GUN" );
+            obj.item_tags.insert( "NEVER_JAMS" );
+            obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
+        }
+    }
+
+    set_allergy_flags( obj );
+    hflesh_to_flesh( obj );
+    npc_implied_flags( obj );
+
+    if( obj.comestible ) {
+        obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
+
+        if( get_option<bool>( "NO_VITAMINS" ) ) {
+            obj.comestible->vitamins.clear();
+        } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+            // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
+            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+            auto mat = obj.materials;
+
+            // @todo migrate inedible comestibles to appropriate alternative types.
+            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                return !m.obj().edible();
+            } ), mat.end() );
+
+            // For comestibles composed of multiple edible materials we calculate the average.
+            for( const auto &v : vitamin::all() ) {
+                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                    for( const auto &m : mat ) {
+                        obj.comestible->vitamins[ v.first ] += std::ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                    }
+                }
+            }
+        }
+    }
+
+    if( obj.tool ) {
+        if( !obj.tool->subtype.empty() && has_template( obj.tool->subtype ) ) {
+            tool_subtypes[ obj.tool->subtype ].insert( obj.id );
+        }
+    }
+
+    for( auto &e : obj.use_methods ) {
+        e.second.get_actor_ptr()->finalize( obj.id );
+    }
+
+    if( obj.drop_action.get_actor_ptr() != nullptr ) {
+        obj.drop_action.get_actor_ptr()->finalize( obj.id );
+    }
+}
+
+void Item_factory::register_cached_uses( const itype &obj )
+{
+    for( auto &e : obj.use_methods ) {
+        // can this item function as a repair tool?
+        if( repair_actions.count( e.first ) ) {
+            repair_tools.insert( obj.id );
+        }
+
+        // can this item be used to repair complex firearms?
+        if( e.first == "GUN_REPAIR" ) {
+            gun_tools.insert( obj.id );
+        }
+
+        // can this item be used to repair wood/paper/bone/chitin items?
+        if( e.first == "MISC_REPAIR" ) {
+            misc_tools.insert( obj.id );
+        }
+    }
+}
+
+void Item_factory::finalize_post( itype &obj )
+{
+    // handle complex firearms as a special case
+    if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
+        return;
+    }
+
+    // handle wood/paper/bone/chitin items as a special case
+    if( !obj.gun && !obj.count_by_charges() && std::any_of( obj.materials.begin(), obj.materials.end(),
+        []( const material_id &m ) { return m == material_id( "wood" ) || m == material_id( "paper" ) ||
+            m == material_id( "bone" ) || m == material_id( "chitin" ); } ) ) {
+        std::copy( misc_tools.begin(), misc_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
+        return;
+    }
+
+    // for each item iterate through potential repair tools
+    for( const auto &tool : repair_tools ) {
+
+        // check if item can be repaired with any of the actions?
+        for( const auto &act : repair_actions ) {
+            const use_function *func = m_templates[tool].get_use( act );
+            if( func == nullptr ) {
+                continue;
+            }
+
+            // tool has a possible repair action, check if the materials are compatible
+            const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
+            if( std::any_of( obj.materials.begin(), obj.materials.end(), [&opts]( const material_id &m ) {
+                return opts.count( m ) > 0;
+            } ) ) {
+                obj.repair.insert( tool );
+            }
+        }
+    }
+}
+
 void Item_factory::finalize() {
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
@@ -101,240 +349,20 @@ void Item_factory::finalize() {
     // we can no longer add or adjust static item templates
     frozen = true;
 
-    // tools that have at least one repair action
-    std::set<itype_id> repair_tools;
-
-    // tools that can be used to repair complex firearms
-    std::set<itype_id> gun_tools;
-
-    for( auto& e : m_templates ) {
-        itype& obj = e.second;
-
-        // @todo separate repairing from reinforcing/enhancement
-        if( obj.damage_max == obj.damage_min ) {
-            obj.item_tags.insert( "NO_REPAIR" );
-        }
-
-        if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
-            std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
-        }
-
-        // add usage methods (with default values) based upon qualities
-        // if a method was already set the specific values remain unchanged
-        for( const auto &q : obj.qualities ) {
-            for( const auto &u : q.first.obj().usages ) {
-                if( q.second >= u.first ) {
-                    obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
-                }
-            }
-        }
-
-        if( obj.mod ) {
-            std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
-            obj.use_methods.emplace( func, usage_from_string( func ) );
-        } else if( obj.gun ) {
-            const std::string func = "GUN_DETACH_GUNMODS";
-            obj.use_methods.emplace( func, usage_from_string( func ) );
-        }
-
-        if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
-            obj.engine->faults.clear();
-        }
-
-        // If no category was forced via JSON automatically calculate one now
-        if( obj.category_force.empty() ) {
-            obj.category_force = calc_category( obj );
-        }
-
-        // If category exists assign now otherwise throw error later in @see check_definitions()
-        auto cat = categories.find( obj.category_force );
-        if( cat != categories.end() ) {
-            obj.category = &cat->second;
-        }
-
-        // use pre-cataclysm price as default if post-cataclysm price unspecified
-        if( obj.price_post < 0 ) {
-            obj.price_post = obj.price;
-        }
-        // use base volume if integral volume unspecified
-        if( obj.integral_volume < 0 ) {
-            obj.integral_volume = obj.volume;
-        }
-        // for ammo and comestibles stack size defaults to count of initial charges
-        if( obj.stackable && obj.stack_size == 0 ) {
-            obj.stack_size = obj.charges_default();
-        }
-        // JSON contains volume per complete stack, convert it to volume per single item
-        if( obj.count_by_charges() ) {
-            obj.volume = obj.volume / obj.stack_size;
-            obj.integral_volume = obj.integral_volume / obj.stack_size;
-        }
-        // Items always should have some volume.
-        // TODO: handle possible exception software?
-        // TODO: make items with 0 volume an error during loading?
-        if( obj.volume <= 0 ) {
-            obj.volume = units::from_milliliter( 1 );
-        }
-        for( const auto &tag : obj.item_tags ) {
-            if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
-                obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
-            }
-        }
-        // for ammo not specifying loudness (or an explicit zero) derive value from other properties
-        if( obj.ammo ) {
-            if( obj.ammo->loudness < 0 ) {
-                obj.ammo->loudness = ( obj.ammo->damage + obj.ammo->pierce + obj.ammo->range ) * 2;
-            }
-
-            const auto &mats = obj.materials;
-            if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
-                std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
-                const auto &ammo_effects = obj.ammo->ammo_effects;
-                obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
-                                    ammo_effects.count( "COOKOFF" ) > 0;
-                static const std::set<std::string> special_cookoff_tags = {{
-                    "NAPALM", "NAPALM_BIG",
-                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "TEARGAS", "SMOKE", "SMOKE_BIG",
-                    "FRAG", "FLASHBANG"
-                }};
-                obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
-                    []( const std::string &s ) {
-                        return special_cookoff_tags.count( s ) > 0;
-                    } );
-            } else {
-                obj.ammo->cookoff = false;
-                obj.ammo->special_cookoff = false;
-            }
-        }
-        // for magazines ensure default_ammo is set
-        if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-               obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
-        }
-        if( obj.gun ) {
-            // @todo add explicit action field to gun definitions
-            std::string defmode = _( "semi-auto" );
-            if( obj.gun->clip == 1 ) {
-                defmode = _( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-                defmode = _( "revolver" );
-            }
-
-            // if the gun doesn't have a DEFAULT mode then add one now
-            obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
-                                    std::set<std::string>() ) );
-
-            if( obj.gun->burst > 1 ) {
-                // handle legacy JSON format
-                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
-                                        std::set<std::string>() ) );
-            }
-
-            if( obj.gun->handling < 0 ) {
-                // @todo specify in JSON via classes
-                if( obj.gun->skill_used == skill_id( "rifle" ) ||
-                    obj.gun->skill_used == skill_id( "smg" ) ||
-                    obj.gun->skill_used == skill_id( "shotgun" ) ){
-                    obj.gun->handling = 20;
-                } else {
-                    obj.gun->handling = 10;
-                }
-            }
-
-            obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
-
-            // @todo Move to jsons?
-            if( obj.gun->skill_used == skill_id( "archery" ) ||
-                obj.gun->skill_used == skill_id( "throw" ) ) {
-                obj.item_tags.insert( "WATERPROOF_GUN" );
-                obj.item_tags.insert( "NEVER_JAMS" );
-                obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
-            }
-        }
-
-        set_allergy_flags( e.second );
-        hflesh_to_flesh( e.second );
-        npc_implied_flags( e.second );
-
-        if( obj.comestible ) {
-            obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
-
-            if( get_option<bool>( "NO_VITAMINS" ) ) {
-                obj.comestible->vitamins.clear();
-            } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
-                // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
-                auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
-                auto mat = obj.materials;
-
-                // @todo migrate inedible comestibles to appropriate alternative types.
-                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                            return !m.obj().edible();
-                        } ), mat.end() );
-
-                // For comestibles composed of multiple edible materials we calculate the average.
-                for( const auto &v : vitamin::all() ) {
-                    if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
-                        for( const auto &m : mat ) {
-                            obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
-                        }
-                    }
-                }
-            }
-        }
-
-        if( obj.tool ) {
-            if( !obj.tool->subtype.empty() && has_template( obj.tool->subtype ) ) {
-                tool_subtypes[ obj.tool->subtype ].insert( obj.id );
-            }
-        }
-
-        for( auto &e : obj.use_methods ) {
-            e.second.get_actor_ptr()->finalize( obj.id );
-
-            // can this item function as a repair tool?
-            if( repair_actions.count( e.first ) ) {
-                repair_tools.insert( obj.id );
-            }
-
-            // can this item be used to repair complex firearms?
-            if( e.first == "GUN_REPAIR" ) {
-                gun_tools.insert( obj.id );
-            }
-        }
+    for( auto &e : m_templates ) {
+        finalize_pre( e.second );
+        register_cached_uses( e.second );
     }
 
     for( auto &e : m_templates ) {
-        itype &obj = e.second;
+        finalize_post( e.second );
+    }
 
-        // handle complex firearms as a special case
-        if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
-            std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
-            continue;
-        }
-
-        // for each item iterate through potential repair tools
-        for( const auto &tool : repair_tools ) {
-
-            // check if item can be repaired with any of the actions?
-            for( const auto &act : repair_actions ) {
-                const use_function *func = m_templates[tool].get_use( act );
-                if( !func ) {
-                    continue;
-                }
-
-                // tool has a possible repair action, check if the materials are compatible
-                const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
-
-                if( std::any_of( obj.materials.begin(), obj.materials.end(),
-                                 [&opts]( const material_id &m ) { return opts.count( m ); } ) ) {
-                    obj.repair.insert( tool );
-                }
-            }
-        }
-
-        if( obj.drop_action.get_actor_ptr() != nullptr ) {
-            obj.drop_action.get_actor_ptr()->finalize( obj.id );
-        }
+    // We may actually have some runtimes here - ones loaded from saved game
+    // @todo support for runtimes that repair
+    for( auto &e : m_runtimes ) {
+        finalize_pre( *e.second );
+        finalize_post( *e.second );
     }
 }
 
@@ -429,6 +457,21 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
 
 void Item_factory::add_actor( iuse_actor *ptr ) {
     iuse_function_list[ ptr->type ] = use_function( ptr );
+}
+
+void Item_factory::add_item_type( const itype &def ) {
+    if( m_runtimes.count( def.id ) > 0 ) {
+        // Do NOT allow overwriting it, it's undefined behavior
+        debugmsg( "Tried to add runtime type %s, but it exists already", def.id.c_str() );
+        return;
+    }
+
+    auto &new_item_ptr = m_runtimes[ def.id ];
+    new_item_ptr.reset( new itype( def ) );
+    if( frozen ) {
+        finalize_pre( *new_item_ptr );
+        finalize_post( *new_item_ptr );
+    }
 }
 
 void Item_factory::init()
@@ -1463,7 +1506,10 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "install_time", slot.install_time );
 
     if( jo.has_member( "mod_targets" ) ) {
-        slot.usable = jo.get_tags( "mod_targets");
+        slot.usable.clear();
+        for( const auto t : jo.get_tags( "mod_targets" ) ) {
+            slot.usable.insert( gun_type_type( t ) );
+        }
     }
 
     if( jo.has_array( "mode_modifier" ) ) {
@@ -1917,17 +1963,32 @@ void Item_factory::clear()
 
     tool_subtypes.clear();
 
+    repair_tools.clear();
+    gun_tools.clear();
+
     frozen = false;
 }
 
-Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
+std::string to_string( Item_group::Type t )
 {
+    switch( t ) {
+        case Item_group::Type::G_COLLECTION:
+            return "collection";
+        case Item_group::Type::G_DISTRIBUTION:
+            return "distribution";
+    }
 
-    Item_group *ig = dynamic_cast<Item_group *>(isd);
-    if (ig == NULL) {
+    return "BUGGED";
+}
+
+Item_group *make_group_or_throw( const Group_tag &group_id, Item_spawn_data *&isd, Item_group::Type t,
+                                 int ammo_chance, int magazine_chance )
+{
+    Item_group *ig = dynamic_cast<Item_group *>( isd );
+    if( ig == nullptr ) {
         isd = ig = new Item_group( t, 100, ammo_chance, magazine_chance );
-    } else if (ig->type != t) {
-        throw std::runtime_error("item group already defined with different type");
+    } else if( ig->type != t ) {
+        throw std::runtime_error("item group \"" + group_id + "\" already defined with type \"" + to_string( ig->type ) + "\"" );
     }
     return ig;
 }
@@ -2090,7 +2151,7 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     Item_spawn_data *&isd = m_template_groups[group_id];
-    Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
+    Item_group* const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
     while( entries.has_more() ) {
         JsonObject subobj = entries.next_object();
@@ -2110,7 +2171,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     } else if( subtype != "collection" ) {
         jsobj.throw_error("unknown item group type", "subtype");
     }
-    ig = make_group_or_throw( isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
+    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
@@ -2249,6 +2310,9 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 
 const std::string calc_category( const itype &obj )
 {
+    if( obj.artifact ) {
+        return "artifacts";
+    }
     if( obj.gun && !obj.gunmod ) {
         return "guns";
     }
@@ -2376,6 +2440,17 @@ std::vector<const itype *> Item_factory::all() const {
     return res;
 }
 
+std::vector<const itype *> Item_factory::get_runtime_types() const
+{
+    std::vector<const itype *> res;
+    res.reserve( m_runtimes.size() );
+    for( const auto &e : m_runtimes ) {
+        res.push_back( e.second.get() );
+    }
+
+    return res;
+}
+
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
     std::vector<const itype *> res;
@@ -2391,7 +2466,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
 Item_tag Item_factory::create_artifact_id() const
 {
     Item_tag id;
-    int i = m_templates.size();
+    int i = m_runtimes.size();
     do {
         id = string_format( "artifact_%d", i );
         i++;

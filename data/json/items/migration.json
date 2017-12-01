@@ -1,5 +1,65 @@
 [
   {
+    "id": "arrowhead",
+    "type": "MIGRATION",
+    "replace": "steel_chunk"
+  },
+  {
+    "id": "arrowhead_plastic",
+    "type": "MIGRATION",
+    "replace": "plastic_chunk"
+  },
+  {
+    "id": "shaft_wood",
+    "type": "MIGRATION",
+    "replace": "arrow_wood"
+  },
+  {
+    "id": "shaft_wood_heavy",
+    "type": "MIGRATION",
+    "replace": "arrow_wood_heavy"
+  },
+  {
+    "id": "shaft_metal",
+    "type": "MIGRATION",
+    "replace": "arrow_metal"
+  },
+  {
+    "id": "arrow_fire_hardened",
+    "type": "MIGRATION",
+    "replace": "arrow_fire_hardened_fletched"
+  },
+  {
+    "id": "arrow_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_field_point_fletched"
+  },
+  {
+    "id": "arrow_small_game",
+    "type": "MIGRATION",
+    "replace": "arrow_small_game_fletched"
+  },
+  {
+    "id": "arrow_heavy_fire_hardened",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_fire_hardened_fletched"
+  },
+  {
+    "id": "arrow_heavy_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_field_point_fletched"
+  },
+  {
+    "id": "arrow_metal_sharpened",
+    "type": "MIGRATION",
+    "replace": "arrow_metal_sharpened_fletched"
+  },
+  {
+    "id": "shaft_plastic",
+    "type": "MIGRATION",
+    "replace": "arrow_plastic"
+  },
+  {
     "id": "40mm_acidbomb",
     "type": "MIGRATION",
     "replace": "40mm_teargas"
@@ -320,6 +380,11 @@
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"
+  },
+  {
+    "id": "v_curtain_item",
+    "type": "MIGRATION",
+    "replace": "sheet"
   },
   {
     "id": "pistol_pepperbox",

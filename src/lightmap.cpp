@@ -1,9 +1,8 @@
+#include "lightmap.h"
 #include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "game.h"
-#include "lightmap.h"
-#include "options.h"
 #include "npc.h"
 #include "monster.h"
 #include "veh_type.h"
@@ -12,7 +11,6 @@
 #include "mtype.h"
 #include "weather.h"
 #include "shadowcasting.h"
-#include "messages.h"
 
 #include <cmath>
 #include <cstring>
@@ -191,8 +189,8 @@ void map::generate_lightmap( const int zlev )
     }
 
     apply_character_light( g->u );
-    for( auto &n : g->active_npc ) {
-        apply_character_light( *n );
+    for( npc &guy : g->all_npcs() ) {
+        apply_character_light( guy );
     }
 
     // Traverse the submaps in order
@@ -1063,31 +1061,6 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
             apply_light_ray( lit, p, end, luminance );
             calc_ray_end( nangle - ao, range, p, end );
             apply_light_ray( lit, p, end, luminance );
-        }
-    }
-}
-
-void map::calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const
-{
-    double rad = (PI * angle) / 180;
-    out.z = p.z;
-    if (trigdist) {
-        out.x = p.x + range * cos(rad);
-        out.y = p.y + range * sin(rad);
-    } else {
-        int mult = 0;
-        if (angle >= 135 && angle <= 315) {
-            mult = -1;
-        } else {
-            mult = 1;
-        }
-
-        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle) {
-            out.x = p.x + range * mult;
-            out.y = p.y + range * tan(rad) * mult;
-        } else {
-            out.x = p.x + range * 1 / tan(rad) * mult;
-            out.y = p.y + range * mult;
         }
     }
 }

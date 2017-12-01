@@ -8,11 +8,13 @@
 #include "catacurse.h"
 #elif (defined __CYGWIN__)
 #include "ncurses/curses.h"
-void init_interface();
 #else
 #include <curses.h>
-void init_interface();
 #endif
+
+/// @throws std::exception upon any errors. The caller should display / log it
+/// and abort the program. Only continue the program when this returned normally.
+void init_interface();
 
 struct delwin_functor {
     void operator()( WINDOW *w ) const;

@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "player.h"
 #include "options.h"
 #include "messages.h"
@@ -284,6 +285,8 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+            return "toggle_auto_pulp_butcher";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -362,6 +365,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return false;
         default:
             return true;
@@ -743,6 +747,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );

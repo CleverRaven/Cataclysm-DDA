@@ -2,10 +2,6 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
-#   include "mmsystem.h"
-#endif
 #include <stdio.h>
 #include <map>
 #include <vector>
@@ -14,6 +10,8 @@
 #include <cstdint>
 
 #include "printf_check.h"
+
+class nc_color;
 
 typedef int chtype;
 typedef unsigned short attr_t;
@@ -58,20 +56,6 @@ struct WINDOW {
     std::vector<curseline> line;
 };
 
-#define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
-#define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
-#define A_UNDERLINE 0x00000200 /* Added characters are underscored. <---------not used */
-#define A_REVERSE 0x00000400 /* Added characters are reverse        <---------not used */
-#define A_BLINK  0x00000800 /* Added characters are blinking. */
-#define A_DIM  0x00001000 /* Added characters are dim.              <---------not used */
-#define A_BOLD  0x00002000 /* Added characters are bold. */
-#define A_BLANK  0x00004000 /* Added characters are blanked.        <---------not used */
-#define A_PROTECT 0x00008000 /* Added characters are protected.     <---------not used */
-#define A_ALTCHARSET 0x00010000 /* Added characters are ACS         <---------not used */
-#define A_ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits         <---------not used */
-#define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
-#define A_COLOR  0x03fe0000 /* Color bits */
-
 #define COLOR_BLACK 0x00    // RGB{0, 0, 0}
 #define COLOR_RED 0x01      // RGB{196, 0, 0}
 #define COLOR_GREEN 0x02    // RGB{0, 196, 0}
@@ -80,8 +64,6 @@ struct WINDOW {
 #define COLOR_MAGENTA 0x05  // RGB{196, 0, 180}
 #define COLOR_CYAN 0x06     // RGB{0, 170, 200}
 #define COLOR_WHITE 0x07    // RGB{196, 196, 196}
-
-#define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
@@ -99,14 +81,11 @@ struct WINDOW {
 #define    KEY_BTAB       0x161    /* back-tab = shift + tab */
 #define    KEY_END        0x168    /* End */
 
-#define ERR (-1) // Error return.
 #define OK (0)   // Success return.
 
 /* Curses external declarations. */
 
 extern WINDOW *stdscr;
-
-#define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
 //Curses Functions
 WINDOW *newwin( int nlines, int ncols, int begin_y, int begin_x );
@@ -114,12 +93,6 @@ int delwin( WINDOW *win );
 int wborder( WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
              chtype bl, chtype br );
 
-int hline( chtype ch, int n );
-int vline( chtype ch, int n );
-int whline( WINDOW *win, chtype ch, int n );
-int wvline( WINDOW *win, chtype ch, int n );
-int mvhline( int y, int x, chtype ch, int n );
-int mvvline( int y, int x, chtype ch, int n );
 int mvwhline( WINDOW *win, int y, int x, chtype ch, int n );
 int mvwvline( WINDOW *win, int y, int x, chtype ch, int n );
 
@@ -131,50 +104,28 @@ int wgetch( WINDOW *win );
 int mvgetch( int y, int x );
 int mvwgetch( WINDOW *win, int y, int x );
 int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... ) PRINTF_LIKE( 4, 5 );
-int mvprintw( int y, int x, const char *fmt, ... ) PRINTF_LIKE( 3, 4 );
 int werase( WINDOW *win );
-int start_color( void );
 int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
 int clear( void );
-int clearok( WINDOW *win );
 int erase( void );
 int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
 int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
-WINDOW *initscr( void );
-int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
-int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
 int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
-int mvaddch( int y, int x, const chtype ch );
-int wattron( WINDOW *win, int attrs );
+int wattron( WINDOW *win, const nc_color &attrs );
 int wattroff( WINDOW *win, int attrs );
-int attron( int attrs );
-int attroff( int attrs );
 int waddch( WINDOW *win, const chtype ch );
-int printw( const char *fmt, ... ) PRINTF_LIKE( 1, 2 );
 int getmaxx( WINDOW *win );
 int getmaxy( WINDOW *win );
 int getbegx( WINDOW *win );
 int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
-int move( int y, int x );
-void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
-int echo( void );
-int noecho( void );
 //non-curses functions, Do not call these in the main game code
-extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
-// may throw std::exception
-WINDOW *curses_init();
-int curses_destroy();
 void curses_drawwindow( WINDOW *win );
-void curses_delay( int delay );
-
-// Add interface specific (SDL/ncurses/wincurses) initializations here
-void init_interface();
 
 int projected_window_width( int column_count );
 int projected_window_height( int row_count );

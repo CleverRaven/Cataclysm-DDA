@@ -19,6 +19,7 @@
 #include "veh_interact.h"
 #include "cata_utility.h"
 
+#include "string_formatter.h"
 #include <algorithm>
 #include <sstream>
 #include <numeric>
@@ -195,6 +196,9 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         sight_speed_modifier = 6;
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = 0;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -813,7 +817,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
-    inv.assign_empty_invlet( it );
+    inv.assign_empty_invlet( it , this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {

@@ -18,6 +18,7 @@
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "vehicle_group.h"
+#include "string_formatter.h"
 #include "crafting.h"
 #include "crafting_gui.h"
 #include "mapdata.h"
@@ -34,7 +35,6 @@
 #include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
-#include "name.h"
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
@@ -178,7 +178,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
 
-    // json/colors.json would be listed here, but it's loaded before the others (see start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
@@ -231,10 +231,12 @@ void DynamicDataLoader::initialize()
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add( "city_building", &city_buildings::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
+    add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
@@ -333,13 +335,6 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
     }
 }
 
-void init_names()
-{
-    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
-                                 ".json", "names" );
-    load_names_from_file(filename);
-}
-
 void DynamicDataLoader::unload_data()
 {
     finalized = false;
@@ -361,7 +356,7 @@ void DynamicDataLoader::unload_data()
     mission_type::reset();
     item_controller->reset();
     mutations_category.clear();
-    mutation_category_traits.clear();
+    mutation_category_trait::reset();
     mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
@@ -397,7 +392,7 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
 
     // TODO:
-    //    NameGenerator::generator().clear_names();
+    //    Name::clear();
 }
 
 extern void calculate_mapgen_weights();
@@ -477,6 +472,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         { _( "Scenarios" ), &scenario::check_definitions },
         { _( "Martial arts" ), &check_martialarts },
         { _( "Mutations" ), &mutation_branch::check_consistency },
+        { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
         { _( "Overmap connections" ), &overmap_connections::check_consistency },
         { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
         { _( "Overmap locations" ), &overmap_locations::check_consistency },

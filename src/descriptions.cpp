@@ -6,6 +6,7 @@
 #include "monster.h"
 #include "map.h"
 #include "mapdata.h"
+#include "string_formatter.h"
 #include "input.h"
 #include "ui.h"
 #include "harvest.h"

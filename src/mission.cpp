@@ -4,6 +4,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "requirements.h"
+#include "string_formatter.h"
 #include "overmap.h"
 #include "line.h"
 #include "npc.h"
@@ -214,6 +215,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             // Go back and report.
             set_target_to_mission_giver();
             break;
@@ -454,7 +456,7 @@ std::string mission::name()
     if (type == NULL) {
         return "NULL";
     }
-    return type->name;
+    return _( type->name.c_str() );
 }
 
 mission_type_id mission::mission_id()

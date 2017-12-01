@@ -1,5 +1,5 @@
-#include "item_factory.h"
 #include "item_group.h"
+#include "item_factory.h"
 #include "rng.h"
 #include "item.h"
 #include "debug.h"

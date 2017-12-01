@@ -5,9 +5,11 @@
 #include "input.h"
 #include "output.h"
 #include "item.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "npc.h"
 #include "cata_utility.h"
+#include "line.h"
 
 #include <vector>
 #include <string>
@@ -309,10 +311,10 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        right_print( w_sort_cat, 0, 0, c_white,
-                     _( "Press %s for help. Press %s to change keybindings." ),
-                     ctxt.get_desc( "USAGE_HELP" ).c_str(),
-                     ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
+        right_print( w_sort_cat, 0, 0, c_white, string_format(
+                         _( "Press %s for help. Press %s to change keybindings." ),
+                         ctxt.get_desc( "USAGE_HELP" ).c_str(),
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
         // Create ptr list of items to display
         tmp_worn.clear();
@@ -331,7 +333,8 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (%s)" ), volume_units_abbr() );
+        right_print( w_sort_left, 0, 0, c_ltgray, string_format( _( "Storage (%s)" ),
+                     volume_units_abbr() ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -344,8 +347,8 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%s",
-                         format_volume( tmp_worn[itemindex]->get_storage() ).c_str() );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray,
+                         format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
@@ -443,9 +446,9 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
-                    worn.insert( worn.end(), tmp_item );
+                    for( std::size_t i = 0; i < tmp_worn.size() - 1; i++ ) {
+                        std::swap( *tmp_worn[i + 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -465,9 +468,9 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
-                    worn.insert( worn.begin(), tmp_item );
+                    for( std::size_t i = tmp_worn.size() - 1; i > 0; i-- ) {
+                        std::swap( *tmp_worn[i - 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -510,11 +513,12 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = game_menus::inv::wear( g->u );
+            item_location loc = game_menus::inv::wear( g->u );
+
             // only equip if something valid selected!
-            if( pos != INT_MIN ) {
+            if( loc ) {
                 // wear the item
-                if( wear( pos ) ) {
+                if( wear( g->u.i_at( loc.obtain( g->u ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
                     auto iter = worn.end();
                     item new_equip  = *( --iter );

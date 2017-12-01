@@ -4,6 +4,7 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "rng.h"
 #include "translations.h"
@@ -1053,7 +1054,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1116,7 +1117,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1163,7 +1164,8 @@ bool save_artifacts( const std::string &path )
     return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
-        for( const itype *e : item_controller->all() ) {
+        // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)
+        for( const itype *e : item_controller->get_runtime_types() ) {
             if( !e->artifact ) {
                 continue;
             }

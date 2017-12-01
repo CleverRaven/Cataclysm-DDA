@@ -111,7 +111,7 @@ class weather_generator;
 struct weather_printable;
 class faction;
 class live_view;
-typedef int nc_color;
+class nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
@@ -286,8 +286,13 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        npc *npc_by_id(const int id) const;
+        /**
+         * @return The the living creature with the given id. Returns null if no living
+         * creature with such an id exists. Never returns a dead creature.
+         * Currently only the player character and npcs have ids.
+         */
+        template<typename T = Creature>
+        T *critter_by_id( int id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -385,6 +390,11 @@ class game
                 monster_range( game &g );
         };
 
+        class npc_range : public non_dead_range<npc> {
+            public:
+                npc_range( game &g );
+        };
+
         class Creature_range : public non_dead_range<Creature> {
             private:
                 std::shared_ptr<player> u;
@@ -399,16 +409,20 @@ class game
          * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
          * One shall not store the returned range nor the iterators.
          * One can freely remove and add creatures to the game during the iteration. Added
-         * monsters will not be iterated over.
+         * creatures will not be iterated over.
          */
         Creature_range all_creatures();
+        /// Same as @ref all_creatures but iterators only over monsters.
         monster_range all_monsters();
+        /// Same as @ref all_creatures but iterators only over npcs.
+        npc_range all_npcs();
 
         /**
          * Returns all creatures matching a predicate. Only living ( not dead ) creatures
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<npc*> get_npcs_if( const std::function<bool( const npc & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
          * are checked. Returns `nullptr` if no creature matches the predicate.
@@ -468,10 +482,10 @@ class game
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query(const char *message, ...);
+        bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query(const char *reason, ...);
+        bool cancel_activity_or_ignore_query( const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -617,9 +631,10 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
+    private:
         std::vector<std::shared_ptr<npc>> active_npc;
+    public:
         std::vector<faction> factions;
-        int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
 
@@ -785,7 +800,6 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        const int dangerous_proximity;
         bool narrow_sidebar;
         bool right_sidebar;
         bool fullscreen;
@@ -903,11 +917,18 @@ class game
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
-        void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
-        void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void wear(); // Wear armor  'W' (or 'a')
+        void wear( int pos );
+        void wear( item_location& loc );
+
+        void takeoff(); // Remove armor  'T'
+        void takeoff( int pos );
+        void takeoff( item_location& loc );
+
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false );
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
@@ -1063,7 +1084,6 @@ private:
         std::unique_ptr<special_game> gamemode;
 
         int user_action_counter; // Times the user has input an action
-        const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;

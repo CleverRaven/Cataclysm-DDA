@@ -4,9 +4,11 @@
 #include "mapdata.h"
 #include "creature.h"
 #include "monster.h"
+#include "field.h"
 #include "mtype.h"
 #include "player.h"
 #include "messages.h"
+#include "field.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );

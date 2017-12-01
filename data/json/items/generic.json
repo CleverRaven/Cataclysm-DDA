@@ -1642,7 +1642,6 @@
         "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-        "material": "wood",
         "weight": 90,
         "volume": 1,
         "to_hit": -2,

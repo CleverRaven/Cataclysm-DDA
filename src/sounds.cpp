@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "string_formatter.h"
 #include "mtype.h"
 #include "weather.h"
 #include "npc.h"
@@ -305,7 +306,7 @@ void sounds::process_sound_markers( player *p )
                                           ? _( "Heard a noise!" )
                                           : string_format( _( "Heard %s!" ), description.c_str() );
 
-                if( g->cancel_activity_or_ignore_query( query.c_str() ) ) {
+                if( g->cancel_activity_or_ignore_query( query ) ) {
                     p->activity.ignore_trivial = true;
                     for( auto activity : p->backlog ) {
                         activity.ignore_trivial = true;

@@ -90,5 +90,25 @@
       [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
     ]
+  },
+  {
+    "result": "cargo_lock",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 1,
+    "time": 4000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ],
+      [ [ "clockworks", 2 ] ]
+    ]
   }
 ]

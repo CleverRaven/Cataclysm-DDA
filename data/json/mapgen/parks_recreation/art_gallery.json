@@ -80,12 +80,8 @@
         "t": "f_trashcan",
         "w": "f_wreckage"
       },
-      "toilets": {
-        "&": {}
-      },
-      "add": [
-        { "item": "jar_glass", "x": 5, "y": 3 }
-      ],
+      "toilets": { "&": {  } },
+      "add": [ { "item": "jar_glass", "x": 5, "y": 3 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 4, "y": 16, "chance": 2 },
         { "monster": "GROUP_ZOMBIE", "x": 19, "y": 14, "chance": 2 }

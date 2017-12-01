@@ -8,11 +8,6 @@
 #include <utility>
 #include "cursesdef.h"
 
-// Compiling with SDL enables gamepad support.
-#ifdef TILES
-#define GAMEPAD_ENABLED
-#endif
-
 #define KEY_ESCAPE 27
 
 bool is_mouse_enabled();
@@ -197,7 +192,6 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event( WINDOW *win );
         input_event get_input_event();
 
         /**

@@ -18,13 +18,17 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "platform_win.h"
+#include "mmsystem.h"
 
 //***********************************
 //Globals                           *
 //***********************************
 
+static constexpr int ERR = -1;
 const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
@@ -457,15 +461,13 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void init_interface()
 {
     lastchar=-1;
     inputdelay=-1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        return nullptr;
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
     halfwidth=fontwidth / 2;
@@ -517,10 +519,14 @@ WINDOW *curses_init(void)
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 
+    color_loader<RGBQUAD>().load( windowsPalette );
+    if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+        throw std::runtime_error( "SetDIBColorTable failed" );
+    }
     init_colors();
 
-    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
@@ -530,14 +536,14 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-input_event input_manager::get_input_event( WINDOW *win )
+input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh(win);
+    wrefresh( stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)
@@ -600,7 +606,7 @@ bool input_context::get_coordinates( WINDOW *, int &, int & )
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+int endwin()
 {
     DeleteObject(font);
     WinDestroy();
@@ -617,16 +623,6 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     result.rgbRed=r;    //Red
     result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
     return result;
-}
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
-        return ERR;
-    }
-    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
 }
 
 void input_manager::set_timeout( const int t )

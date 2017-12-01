@@ -8,7 +8,7 @@
 #include "line.h"
 #include "messages.h"
 #include "sounds.h"
-#include "mondeath.h"
+#include "string_formatter.h"
 #include "iuse_actor.h"
 #include "translations.h"
 #include "morale_types.h"

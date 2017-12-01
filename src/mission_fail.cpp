@@ -5,7 +5,7 @@
 
 void mission_fail::kill_npc( mission *miss )
 {
-    if( npc *const elem = g->npc_by_id( miss->get_npc_id() ) ) {
+    if( npc *const elem = g->critter_by_id<npc>( miss->get_npc_id() ) ) {
         elem->die( nullptr );
         // Actuall removoal of the npc is done in game::cleanup_dead
     }

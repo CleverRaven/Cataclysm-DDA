@@ -3,10 +3,9 @@
 #include "translations.h"
 #include "game.h"
 #include "player.h"
-#include "map.h"
 #include "debug.h"
 #include "inventory.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "itype.h"
 #include "item_factory.h"
 #include <sstream>
@@ -459,7 +458,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     current_line.str( "" );
 
     std::vector<std::string> folded_buffer =
-      get_folded_list( width, crafting_inv, components, batch, hilite );
+        get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;

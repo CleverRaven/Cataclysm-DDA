@@ -282,8 +282,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects( effect e, bool reduced ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                          bool permanent = false,
@@ -367,13 +365,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         field_id bloodType() const override;
         field_id gibType() const override;
 
-        void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_npc( game_message_type type, const char *msg,
-                             ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( const char *, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( game_message_type type, const char *, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 4, 5 );
+        using Creature::add_msg_if_npc;
+        void add_msg_if_npc( const std::string &msg ) const override;
+        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
 
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
@@ -458,6 +457,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     protected:
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
+
+        /** Processes monster-specific effects of an effect. */
+        void process_one_effect( effect &e, bool is_new ) override;
 };
 
 #endif

@@ -321,7 +321,7 @@ ifeq ($(NATIVE), osx)
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -551,27 +551,37 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
+  # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
+  # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell which ncursesw5-config 2>/dev/null),)
-      HAVE_NCURSESW5CONFIG = 1
+    ifneq ($(shell which pkg-config 2>/dev/null),)
+      HAVE_PKGCONFIG = 1
+    endif
+    ifneq ($(shell which ncurses5-config 2>/dev/null),)
+      HAVE_NCURSES5CONFIG = 1
     endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
-  ifeq ($(HAVE_NCURSESW5CONFIG),1)
-    CXXFLAGS += $(shell ncursesw5-config --cflags)
-    LDFLAGS += $(shell ncursesw5-config --libs)
+  ifeq ($(HAVE_PKGCONFIG),1)
+    CXXFLAGS += $(shell pkg-config --cflags ncurses)
+    LDFLAGS += $(shell pkg-config --libs ncurses)
   else
-    ifneq ($(TARGETSYSTEM),WINDOWS)
-      LDFLAGS += -lncurses
-    endif
+    ifeq ($(HAVE_NCURSES5CONFIG),1)
+      CXXFLAGS += $(shell ncurses5-config --cflags)
+      LDFLAGS += $(shell ncurses5-config --libs)
+    else
+      ifneq ($(TARGETSYSTEM),WINDOWS)
+        LDFLAGS += -lncurses
+      endif
 
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-      CXXFLAGS += -I$(LIBSDIR)/ncurses/include
-    endif
-  endif
-endif
+      ifdef OSXCROSS
+        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
+        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+      endif # OSXCROSS
+    endif # HAVE_NCURSES5CONFIG
+  endif # HAVE_PKGCONFIG
+endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BACKTRACE = 0
@@ -960,9 +970,13 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: json_whitelist json_formatter
+JSON_WHITELIST = $(shell cat json_whitelist)
+
+style-json: $(JSON_WHITELIST)
+
+$(JSON_WHITELIST): json_whitelist json_formatter
 ifndef CROSS
-	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
+	@tools/format/json_formatter.cgi $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif

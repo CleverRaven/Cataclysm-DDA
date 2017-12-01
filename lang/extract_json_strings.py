@@ -36,6 +36,7 @@ git_files_list = {
 
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {
+    "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
@@ -62,6 +63,7 @@ ignore_files = {
 # these objects have no translatable strings
 ignorable = {
     "BULLET_PULLING",
+    "city_building",
     "colordef",
     "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
@@ -328,6 +330,13 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "skill" in item:
+        # legacy code: the "gun type" is calculated in `item::gun_type` and
+        # it's basically the skill id, except for archery (which is either
+        # bow or crossbow). Once "gun type" is loaded from JSON, it should
+        # be extracted directly.
+        if not item.get("skill") == "archery":
+            writestr(outfile, item.get("skill"), context="gun_type_type")
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
@@ -355,6 +364,9 @@ def extract_gunmod(item):
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, context="gun_type_type")
 
 
 def extract_professions(item):
@@ -837,10 +849,6 @@ def extract(item, infilename):
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
-            wrote = True
-    if "mod_targets" in item:
-        for target in item["mod_targets"]:
-            writestr(outfile, target, **kwargs)
             wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:

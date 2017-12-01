@@ -577,7 +577,11 @@ class npc : public player
         bool emergency() const;
         bool emergency( float danger ) const;
         bool is_active() const;
-        void say( const std::string line, ... ) const;
+        template<typename ...Args>
+        void say( const char *const line, Args &&... args ) const {
+            return say( string_format( line, std::forward<Args>( args )... ) );
+        }
+        void say( const std::string &line ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -693,25 +697,29 @@ class npc : public player
         void guard_current_pos();
 
         //message related stuff
-        void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_player_or_npc( const char *player_str,
-                                    const char *npc_str, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_if_npc( game_message_type type,
-                             const char *msg, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( game_message_type type, const char *player_str,
-                                    const char *npc_str, ... ) const override PRINTF_LIKE( 4, 5 );
-        void add_msg_if_player( const char *, ... ) const override PRINTF_LIKE( 2, 3 ) {};
-        void add_msg_if_player( game_message_type,
-                                const char *, ... ) const override PRINTF_LIKE( 3, 4 ) {};
-        void add_memorial_log( const char *, const char *, ... ) override  PRINTF_LIKE( 3, 4 ) {};
-        virtual void add_miss_reason( const char *, unsigned int ) {};
-        void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_say( game_message_type, const char *,
-                                    const char *, ... ) const override PRINTF_LIKE( 4, 5 );
+        using player::add_msg_if_npc;
+        void add_msg_if_npc( const std::string &msg ) const override;
+        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        using player::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        using player::add_msg_if_player;
+        void add_msg_if_player( const std::string &/*msg*/ ) const override {}
+        void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
+        using player::add_memorial_log;
+        void add_memorial_log( const std::string &/*male_msg*/,
+                               const std::string &/*female_msg*/ ) override {}
+        using player::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
 
         // The preceding are in npcmove.cpp
 
-        bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
+        bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
 

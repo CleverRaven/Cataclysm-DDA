@@ -4,9 +4,14 @@
 
 #include "cursesdef.h" // WINDOW
 #include "enums.h"
+#include "units.h"
 
 #include <string>
 #include <array>
+#include <list>
+#include <vector>
+#include <map>
+#include <functional>
 
 class uimenu;
 class vehicle;

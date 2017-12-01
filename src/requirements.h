@@ -6,10 +6,10 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include "color.h"
 #include "output.h"
 #include "string_id.h"
 
+class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;

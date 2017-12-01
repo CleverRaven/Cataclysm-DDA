@@ -1,7 +1,7 @@
+#include "martialarts.h"
 #include "player.h"
 #include "game.h"
 #include "debug.h"
-#include "martialarts.h"
 #include "json.h"
 #include "translations.h"
 #include "itype.h"
@@ -10,6 +10,7 @@
 #include <string>
 #include <algorithm>
 #include "generic_factory.h"
+#include "string_formatter.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );

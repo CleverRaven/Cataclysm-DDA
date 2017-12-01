@@ -3,6 +3,7 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include <algorithm>
 
 mod_ui::mod_ui( mod_manager *mman )

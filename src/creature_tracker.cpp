@@ -2,6 +2,7 @@
 #include "pathfinding.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "mtype.h"
 #include "item.h"
@@ -170,16 +171,6 @@ void Creature_tracker::rebuild_cache()
     for( const std::shared_ptr<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->pos()] = mon_ptr;
     }
-}
-
-const std::vector<monster> &Creature_tracker::list() const
-{
-    static std::vector<monster> for_now;
-    for_now.clear();
-    for( const auto monster_ptr : monsters_list ) {
-        for_now.push_back( *monster_ptr );
-    }
-    return for_now;
 }
 
 void Creature_tracker::swap_positions( monster &first, monster &second )
