@@ -185,10 +185,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     allocate_windows();
 }
 
-veh_interact::~veh_interact()
-{
-    deallocate_windows();
-}
+veh_interact::~veh_interact() = default;
 
 void veh_interact::allocate_windows()
 {
@@ -340,18 +337,6 @@ void veh_interact::do_main_loop()
         }
 
     }
-}
-
-void veh_interact::deallocate_windows()
-{
-    delwin(w_grid);
-    delwin(w_mode);
-    delwin(w_msg);
-    delwin(w_disp);
-    delwin(w_parts);
-    delwin(w_stats);
-    delwin(w_list);
-    delwin(w_name);
 }
 
 void veh_interact::cache_tool_availability()

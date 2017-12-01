@@ -63,15 +63,15 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
-        catacurses::window w_grid;
-        catacurses::window w_mode;
-        catacurses::window w_msg;
-        catacurses::window w_disp;
-        catacurses::window w_parts;
-        catacurses::window w_stats;
-        catacurses::window w_list;
-        catacurses::window w_details;
-        catacurses::window w_name;
+        catacurses::WINDOW_PTR w_grid;
+        catacurses::WINDOW_PTR w_mode;
+        catacurses::WINDOW_PTR w_msg;
+        catacurses::WINDOW_PTR w_disp;
+        catacurses::WINDOW_PTR w_parts;
+        catacurses::WINDOW_PTR w_stats;
+        catacurses::WINDOW_PTR w_list;
+        catacurses::WINDOW_PTR w_details;
+        catacurses::WINDOW_PTR w_name;
 
         vehicle *veh;
         bool has_wrench;
@@ -202,7 +202,6 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
-        void deallocate_windows();
 };
 
 #endif
