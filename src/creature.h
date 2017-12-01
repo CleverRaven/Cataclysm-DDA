@@ -612,12 +612,12 @@ class Creature
         body_part select_body_part(Creature *source, int hit_roll) const;
  protected:
         /**
-         * This function replaces the "<npcname>" substring with the provided NPC name.
+         * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        std::string replace_with_npc_name( std::string input, std::string name ) const;
+        std::string replace_with_npc_name( std::string input ) const;
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

@@ -2044,27 +2044,27 @@ void npc::setID( int i )
 //message related stuff
 void npc::add_msg_if_npc( const std::string &msg ) const
 {
-    add_msg( replace_with_npc_name( msg, disp_name() ) );
+    add_msg( replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg, disp_name() ) );
+    add_msg( type, replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
