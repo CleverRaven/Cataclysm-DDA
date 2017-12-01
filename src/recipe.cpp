@@ -12,7 +12,7 @@
 #include <numeric>
 #include <math.h>
 
-recipe::recipe() : skill_used( "none" ) {}
+recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
