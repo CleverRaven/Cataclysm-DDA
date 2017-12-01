@@ -108,11 +108,6 @@ advanced_inventory::~advanced_inventory()
         werase( left_window );
         werase( right_window );
     }
-    delwin( head );
-    delwin( minimap );
-    delwin( mm_border );
-    delwin( left_window );
-    delwin( right_window );
     if( exit ) {
         g->refresh_all();
     }
@@ -223,7 +218,7 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
-    catacurses::window window = pane.window;
+    const catacurses::window &window = pane.window;
     const auto index = pane.index;
     const int page = index / itemsPerPage;
     bool compact = ( TERMX <= 100 );
@@ -552,7 +547,7 @@ char advanced_inventory::get_direction_key( aim_location area )
 
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
 {
-    catacurses::window window = pane.window;
+    const catacurses::window &window = pane.window;
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
