@@ -2812,7 +2812,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             pmenu.query();
 
             if( pmenu.ret >= 0 ) {
-                catacurses::window w_editor = catacurses::newwin( 15, 27, 3, TERMX - 27 );
+                catacurses::WINDOW_PTR w_editor = catacurses::newwin( 15, 27, 3, TERMX - 27 );
                 input_context ctxt( "OVERMAP_EDITOR" );
                 ctxt.register_directions();
                 ctxt.register_action( "CONFIRM" );
@@ -2904,7 +2904,6 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                 uistate.place_terrain = nullptr;
                 uistate.place_special = nullptr;
-                delwin( w_editor );
                 action = "";
             }
         } else if (action == "TIMEOUT") {

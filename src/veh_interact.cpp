@@ -1633,7 +1633,7 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_grid()
 {
     // border window
-    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    catacurses::WINDOW_PTR w_border = catacurses::newwin( TERMY, TERMX, 0, 0 );
     draw_border( w_border );
 
     // match grid lines
@@ -1644,7 +1644,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    delwin( w_border );
+    w_border.reset(); //@todo move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
