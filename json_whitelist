@@ -270,8 +270,10 @@ data/mods/BrightNights/overmap_specials.json
 data/mods/BrightNights/vehicle_parts.json
 data/mods/Craft_Gunpowder/cgp_magazine.json
 data/mods/Craft_Gunpowder/modinfo.json
+data/mods/CrazyCataclysm/aperturepotato.json
 data/mods/CrazyCataclysm/items.json
 data/mods/CrazyCataclysm/modinfo.json
+data/mods/CrazyCataclysm/speech.json
 data/mods/dda/modinfo.json
 data/mods/DeoxyMod/modinfo.json
 data/mods/DinoMod/modinfo.json
