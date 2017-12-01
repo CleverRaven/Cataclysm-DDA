@@ -617,12 +617,7 @@ class Creature
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        inline std::string replace_with_npc_name(std::string input, std::string name) const
-        {
-            replace_substring(input, "<npcname>", name, true);
-            return input;
-        }
-
+        std::string replace_with_npc_name( std::string input, std::string name ) const;
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.
