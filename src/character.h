@@ -5,7 +5,7 @@
 #include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
-#include "bionics.h"
+#include "copyable_unique_ptr.h"
 #include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
@@ -20,6 +20,9 @@ class field_entry;
 class vehicle;
 struct resistances;
 struct mutation_branch;
+class bionic_collection;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -71,7 +74,7 @@ struct aim_type {
 class Character : public Creature, public visitable<Character>
 {
     public:
-        ~Character() override { };
+        ~Character() override;
 
         field_id bloodType() const override;
         field_id gibType() const override;
@@ -602,7 +605,7 @@ class Character : public Creature, public visitable<Character>
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
-        std::vector<bionic> my_bionics;
+        copyable_unique_ptr<bionic_collection> my_bionics;
 
     protected:
         void on_stat_change( const std::string &, int ) override {};

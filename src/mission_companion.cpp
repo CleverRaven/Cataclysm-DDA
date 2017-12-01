@@ -5,6 +5,7 @@
 #include "dialogue.h"
 #include "rng.h"
 #include "line.h"
+#include "bionics.h"
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
@@ -101,7 +102,7 @@ void talk_function::bionic_install(npc &p)
 
 void talk_function::bionic_remove(npc &p)
 {
-    std::vector <bionic> all_bio = g->u.my_bionics;
+    bionic_collection all_bio = *g->u.my_bionics;
     if (all_bio.size() == 0){
         popup(_("You don't have any bionics installed..."));
         return;

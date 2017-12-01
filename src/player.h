@@ -20,7 +20,7 @@
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
 enum action_id : int;
-
+struct bionic;
 class dispersion_sources;
 class monster;
 class game;
