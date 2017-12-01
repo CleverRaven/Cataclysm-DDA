@@ -1634,7 +1634,6 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_warm", rval = "bool", args = { } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
-            { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "make_ally", rval = nil, args = { "monster" } },

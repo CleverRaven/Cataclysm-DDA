@@ -121,8 +121,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        void load_info( std::string data );
-
         using JsonSerializer::serialize;
         void serialize( JsonOut &jsout ) const override;
         using JsonDeserializer::deserialize;
