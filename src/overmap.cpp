@@ -578,8 +578,6 @@ bool oter_t::is_hardcoded() const
         "haz_sar_b1",
         "haz_sar_entrance",
         "haz_sar_entrance_b1",
-        "hospital",
-        "hospital_entrance",
         "ice_lab",
         "ice_lab_stairs",
         "ice_lab_core",

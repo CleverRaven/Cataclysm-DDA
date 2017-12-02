@@ -318,6 +318,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "prison_4", "prison_5", "prison_6",
         "prison_7", "prison_8", "prison_9",
         "prison_b_entrance", "prison_b",
+        "hospital_entrance", "hospital",
         "cathedral_1_entrance", "cathedral_1",
         "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
@@ -520,6 +521,21 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, prison + "6", -1, prison + "8", prison_1 + "9_west" } );
             }
 
+        } else if( old.compare( 0, 8, "hospital" ) == 0 ) {
+            const std::string hospital = "hospital";
+            const std::string hospital_entrance = "hospital_entrance";
+            if( old == hospital_entrance ) {
+                new_id = oter_id( hospital + "_2_north" );
+            } else if( old == hospital ) {
+                nearby.push_back( { -1, hospital_entrance,  1, hospital,          hospital + "_1_north" } );
+                nearby.push_back( {  1, hospital_entrance,  1, hospital,          hospital + "_3_north" } );
+                nearby.push_back( { -2, hospital,           1, hospital,          hospital + "_4_north" } );
+                nearby.push_back( {  0, hospital,          -1, hospital_entrance, hospital + "_5_north" } );
+                nearby.push_back( {  2, hospital,           1, hospital,          hospital + "_6_north" } );
+                nearby.push_back( { -2, hospital,          -2, hospital,          hospital + "_7_north" } );
+                nearby.push_back( {  0, hospital,          -2, hospital_entrance, hospital + "_8_north" } );
+                nearby.push_back( {  2, hospital,          -2, hospital,          hospital + "_9_north" } );
+            }
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";

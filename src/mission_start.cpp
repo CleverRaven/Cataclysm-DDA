@@ -551,7 +551,7 @@ void mission_start::reveal_hospital( mission *miss )
         g->u.i_add( item( "vacutainer", 0 ) );
         add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
     }
-    target_om_ter( "hospital", 3, miss, false );
+    target_om_ter( "hospital_2", 3, miss, false );
 }
 
 void mission_start::find_safety( mission *miss )
@@ -1713,7 +1713,7 @@ void mission_start::reveal_office_tower( mission *miss )
 
 void mission_start::reveal_doctors_office( mission *miss )
 {
-    reveal_any_target( miss, { "office_doctor", "hospital" } );
+    reveal_any_target( miss, { "office_doctor", "hospital_2" } );
 }
 
 void mission_start::reveal_cathedral( mission *miss )

@@ -186,8 +186,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
     { "megastore_entrance", &mapgen_megastore_entrance },
     { "megastore", &mapgen_megastore },
-    { "hospital_entrance", &mapgen_hospital_entrance },
-    { "hospital", &mapgen_hospital },
     { "public_works_entrance", &mapgen_public_works_entrance },
     { "public_works", &mapgen_public_works },
     { "prison_1", &mapgen_prison_1 },
@@ -3408,24 +3406,6 @@ void mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int
 
 
 void mapgen_megastore(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
