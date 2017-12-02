@@ -11,6 +11,7 @@
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "bionics.h"
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "map_item_stack.h"
@@ -114,6 +115,10 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>

@@ -103,6 +103,12 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     void deserialize( JsonIn &jsin ) override;
 };
 
+// A simpler wrapper to allow forward declarations of it. std::vector can not
+// be forward declared without a *definition* of bionic, but this wrapper can.
+class bionic_collection : public std::vector<bionic>
+{
+};
+
 void check_bionics();
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON

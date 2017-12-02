@@ -7,6 +7,7 @@
 #include "character.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "bionics.h"
 #include "map.h"
 #include "submap.h"
 #include "vehicle.h"
@@ -184,7 +185,7 @@ bool visitable<Character>::has_quality( const quality_id &qual, int level, int q
 {
     auto self = static_cast<const Character *>( this );
 
-    for( const auto &bio : self->my_bionics ) {
+    for( const auto &bio : *self->my_bionics ) {
         if( bio.get_quality( qual ) >= level ) {
             if( qty <= 1 ) {
                 return true;
@@ -243,7 +244,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     auto self = static_cast<const Character *>( this );
 
-    for( const auto &bio : self->my_bionics ) {
+    for( const auto &bio : *self->my_bionics ) {
         res = std::max( res, bio.get_quality( qual ) );
     }
 

@@ -315,7 +315,7 @@ void Character::load(JsonObject &data)
         }
     }
 
-    data.read( "my_bionics", my_bionics );
+    data.read( "my_bionics", *my_bionics );
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -406,7 +406,7 @@ void Character::store(JsonOut &json) const
     json.member( "mutations", my_mutations );
 
     // "Fracking Toasters" - Saul Tigh, toaster
-    json.member( "my_bionics", my_bionics );
+    json.member( "my_bionics", *my_bionics );
 
     // skills
     json.member( "skills" );
