@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-18 23:58-0500\n"
-"PO-Revision-Date: 2017-11-24 10:09+0000\n"
+"POT-Creation-Date: 2017-11-24 08:01-0500\n"
+"PO-Revision-Date: 2017-11-30 10:28+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -7149,8 +7149,8 @@ msgstr[0] "胸甲"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A steel breastplate, and a vital part of plate armor.  Even as full armor "
-"went into decline, curiasses remained in use among cavalry in Europe."
-msgstr "一塊鐵製的護胸甲，而且是整副甲冑中最重要的一塊。即使全套甲冑後來不再是主流，胸甲仍然在歐洲的騎兵隊廣為使用。"
+"went into decline, cuirasses remained in use among cavalry in Europe."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "salvaged power armor"
@@ -20005,8 +20005,8 @@ msgstr "骨粉"
 
 #. ~ Description for bone meal
 #: lang/json/COMESTIBLE_from_json.py
-msgid "This bone meal is useful for fertilizing plants."
-msgstr "這骨粉很適合用來當肥料。"
+msgid "This bone meal can be used to craft fertilizer and some other things."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted bone meal"
@@ -20024,8 +20024,9 @@ msgstr[0] "甲殼粉"
 
 #. ~ Description for chitin powder
 #: lang/json/COMESTIBLE_from_json.py
-msgid "This chitin powder is useful for fertilizing plants."
-msgstr "這個甲殼粉很適合拿來當肥料。"
+msgid ""
+"This chitin powder can be used to craft fertilizer and some other things."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wild herbs"
@@ -29863,18 +29864,6 @@ msgid ""
 msgstr "一套微型控制伺服器，能夠安裝到車輛上進行無人駕駛。雖然人工智慧模式沒有作用，但是仍然還有維護模式可用。"
 
 #: lang/json/GENERIC_from_json.py
-msgid "vehicle curtain"
-msgid_plural "vehicle curtains"
-msgstr[0] "車用窗簾"
-
-#. ~ Description for vehicle curtain
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A rod, a few metal rings, and a large piece of cloth with some strings "
-"attached for securely fastening the edges."
-msgstr "一根桿子，有一些金屬環，和一大片布，布上連接著一些用來固定邊緣的線。"
-
-#: lang/json/GENERIC_from_json.py
 msgid "vehicle scoop"
 msgid_plural "vehicle scoops"
 msgstr[0] "車輛鏟勺"
@@ -30966,6 +30955,18 @@ msgstr[0] "竹串"
 #: lang/json/GENERIC_from_json.py
 msgid "A thin wooden skewer.  Squirrel on a stick, anyone?"
 msgstr "一根木製烤肉串。有人想來份松鼠烤肉串嗎？"
+
+#: lang/json/GENERIC_from_json.py
+msgid "vehicle curtain"
+msgid_plural "vehicle curtains"
+msgstr[0] "車用窗簾"
+
+#. ~ Description for vehicle curtain
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A rod, a few metal rings, and a large piece of cloth with some strings "
+"attached for securely fastening the edges."
+msgstr "一根桿子，有一些金屬環，和一大片布，布上連接著一些用來固定邊緣的線。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "old broken animatronic fox"
@@ -35582,9 +35583,9 @@ msgstr "惡魔"
 #. ~ Description for fiend
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Charred zombie with bony plates, spikes and protursions.  Moves stiffly, but"
+"Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but"
 " swiftly."
-msgstr "身上佈滿骨板、尖刺和突起的燒焦殭屍。動作僵硬但迅速。"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "firefighter zombie"
@@ -35710,9 +35711,9 @@ msgstr "啃咬殭屍"
 #. ~ Description for zombie snapper
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"With a crocodile-like snout and rows of protuding teeth, this swimwear-clad "
-"zombie lurks in the water."
-msgstr "有著鱷魚般的嘴與成排外突的尖牙，這種穿泳衣的殭屍潛伏在水中。"
+"With a crocodile-like snout and rows of protruding teeth, this swimwear-clad"
+" zombie lurks in the water."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie master"
@@ -41119,7 +41120,7 @@ msgstr "這把刀發源於尼泊爾的傳統武器，並經過現代的重新設
 #: lang/json/TOOL_from_json.py
 msgid "L-stick (off)"
 msgid_plural "L-sticks (off)"
-msgstr[0] ""
+msgstr[0] "發光棍（關閉）"
 
 #. ~ Use action msg for L-stick (off).
 #: lang/json/TOOL_from_json.py
@@ -41139,7 +41140,7 @@ msgid ""
 "materials it is made of.  Due to proprietary efficiency improvements over "
 "standard light sources, the L-stick or light stick as it is commonly called,"
 " batteries last longer than other light sources."
-msgstr ""
+msgstr "由 Light corporation 製造，因為是以超合金素材製造，這支時髦的棍棒不止能作為光源，同時也能作為輕量武器。由於它有對傳統光源的專利效能改善，它通常被稱為 L-stick或者發光棍，電池比其他光源持續得更長久。"
 
 #: lang/json/TOOL_from_json.py
 msgid "L-stick (on)"
@@ -41160,7 +41161,7 @@ msgid ""
 "standard light sources, the L-stick or light stick as it is commonly called,"
 " batteries last longer than other light sources.  The staff is glowing "
 "brightly, which is slowly draining the batteries."
-msgstr ""
+msgstr "由 Light corporation 製造，因為是以超合金素材製造，這支時髦的棍棒不止能作為光源，同時也能作為輕量武器。由於它有對傳統光源的專利效能改善，它通常被稱為 L-stick或者發光棍，電池比其他光源持續得更長久。這根棍棒正發出亮光，緩慢地消耗電池。"
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "land mine"
@@ -52242,7 +52243,7 @@ msgstr[0] "SKS 半自動步槍"
 msgid ""
 "Developed by the Soviets in 1945, this rifle was quickly replaced by the "
 "full-auto AK47.  However, due to its superb accuracy, low recoil and "
-"deployable intergrated bayonet, this gun maintains immense popularity."
+"deployable integrated bayonet, this gun maintains immense popularity."
 msgstr "於 1945 年由蘇聯開發，這把步槍很快就被全自動的 AK47 所取代。但因為其桌越的精準度、低後座力以及可伸展的內置刺刀，使這把槍仍然有著高人氣。"
 
 #: lang/json/gun_from_json.py
@@ -71587,6 +71588,32 @@ msgstr "你來到這裡打算品味新英格蘭；現在你只希望新英格蘭
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
+msgid "Naked and Afraid"
+msgstr ""
+
+#. ~ Profession (male Naked and Afraid) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were out filming a reality TV show in the woods and the cast and crew "
+"all seemed to have turned into zombies.  Looks like it's for real now..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Naked and Afraid"
+msgstr ""
+
+#. ~ Profession (female Naked and Afraid) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were out filming a reality TV show in the woods and the cast and crew "
+"all seemed to have turned into zombies.  Looks like it's for real now..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Brave of the King"
 msgstr "國王的勇士"
 
@@ -83599,6 +83626,10 @@ msgstr "裁縫"
 msgid "knitting"
 msgstr "編織"
 
+#: lang/json/tool_quality_from_json.py
+msgid "bullet pulling"
+msgstr ""
+
 #: lang/json/trap_from_json.py
 msgid "roll mat"
 msgstr "睡墊"
@@ -90923,12 +90954,12 @@ msgstr "你未能將 %1$s 從 %2$s 回收。"
 #: src/crafting.cpp
 #, c-format
 msgid "You learned a recipe for %s from disassembling it!"
-msgstr ""
+msgstr "你從這次拆解中學到了製作 %s 配方！"
 
 #: src/crafting.cpp
 #, c-format
 msgid "You might be able to learn a recipe for %s if you disassemble another."
-msgstr ""
+msgstr "如果你再拆解另一個，你也許能學到 %s 的製作配方。"
 
 #: src/crafting.cpp
 msgid "If you had better skills, you might learn a recipe next time."
@@ -105388,11 +105419,11 @@ msgstr "使用 %s"
 
 #: src/iuse_actor.cpp
 msgid "Can contain items from "
-msgstr ""
+msgstr "可容納物品體積 最少"
 
 #: src/iuse_actor.cpp
 msgid "Up to "
-msgstr ""
+msgstr "最大"
 
 #: src/iuse_actor.cpp
 #, c-format

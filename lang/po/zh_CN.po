@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-18 23:58-0500\n"
-"PO-Revision-Date: 2017-11-20 02:11+0000\n"
-"Last-Translator: cainiao <cainiaowu@hotmail.com>\n"
+"POT-Creation-Date: 2017-11-24 08:01-0500\n"
+"PO-Revision-Date: 2017-11-24 23:47+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7142,8 +7142,8 @@ msgstr[0] "钢制胸甲"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A steel breastplate, and a vital part of plate armor.  Even as full armor "
-"went into decline, curiasses remained in use among cavalry in Europe."
-msgstr "一件钢制的胸腹部护甲，一套盔甲的核心部位。就算在全身覆甲的潮流被时代所淘汰之后，钢制胸甲仍然在欧洲的骑兵部队中有被装备。"
+"went into decline, cuirasses remained in use among cavalry in Europe."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "salvaged power armor"
@@ -19998,8 +19998,8 @@ msgstr "骨粉"
 
 #. ~ Description for bone meal
 #: lang/json/COMESTIBLE_from_json.py
-msgid "This bone meal is useful for fertilizing plants."
-msgstr "这些骨粉是很好的植物肥料。"
+msgid "This bone meal can be used to craft fertilizer and some other things."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted bone meal"
@@ -20017,8 +20017,9 @@ msgstr[0] "甲壳粉"
 
 #. ~ Description for chitin powder
 #: lang/json/COMESTIBLE_from_json.py
-msgid "This chitin powder is useful for fertilizing plants."
-msgstr "这些甲壳粉，若是用来做植物的肥料，想来必是极好的。"
+msgid ""
+"This chitin powder can be used to craft fertilizer and some other things."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wild herbs"
@@ -29856,18 +29857,6 @@ msgid ""
 msgstr "一套伺服系统、微控制器和其它设备连接在一起可用于驾驶无人载具。里面的AI已经罢工了，但它应该还有一些维护功能。"
 
 #: lang/json/GENERIC_from_json.py
-msgid "vehicle curtain"
-msgid_plural "vehicle curtains"
-msgstr[0] "载具用窗帘"
-
-#. ~ Description for vehicle curtain
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A rod, a few metal rings, and a large piece of cloth with some strings "
-"attached for securely fastening the edges."
-msgstr "一根杆子，几个金属环，和一大块用线固定住边缘的布。"
-
-#: lang/json/GENERIC_from_json.py
 msgid "vehicle scoop"
 msgid_plural "vehicle scoops"
 msgstr[0] "车铲"
@@ -30959,6 +30948,18 @@ msgstr[0] "木刺"
 #: lang/json/GENERIC_from_json.py
 msgid "A thin wooden skewer.  Squirrel on a stick, anyone?"
 msgstr "一根纤细的木制烤肉串。\n\"现烤松鼠肉，有人要吗？\""
+
+#: lang/json/GENERIC_from_json.py
+msgid "vehicle curtain"
+msgid_plural "vehicle curtains"
+msgstr[0] "载具用窗帘"
+
+#. ~ Description for vehicle curtain
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A rod, a few metal rings, and a large piece of cloth with some strings "
+"attached for securely fastening the edges."
+msgstr "一根杆子，几个金属环，和一大块用线固定住边缘的布。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "old broken animatronic fox"
@@ -35575,9 +35576,9 @@ msgstr "恶魔丧尸"
 #. ~ Description for fiend
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Charred zombie with bony plates, spikes and protursions.  Moves stiffly, but"
+"Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but"
 " swiftly."
-msgstr "烧焦的丧尸，但是有着骨质的甲壳，尖刺和凸起。移动的虽然僵硬，但是很敏捷。"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "firefighter zombie"
@@ -35703,9 +35704,9 @@ msgstr "类鱼丧尸"
 #. ~ Description for zombie snapper
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"With a crocodile-like snout and rows of protuding teeth, this swimwear-clad "
-"zombie lurks in the water."
-msgstr "首先入眼的是一张鳄鱼般的大嘴和外突的牙齿，这种穿着泳衣的丧尸潜伏在水里。"
+"With a crocodile-like snout and rows of protruding teeth, this swimwear-clad"
+" zombie lurks in the water."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie master"
@@ -52235,8 +52236,8 @@ msgstr[0] "SKS 卡宾枪"
 msgid ""
 "Developed by the Soviets in 1945, this rifle was quickly replaced by the "
 "full-auto AK47.  However, due to its superb accuracy, low recoil and "
-"deployable intergrated bayonet, this gun maintains immense popularity."
-msgstr "1945年苏联开发，随后很快被全自动的AK-47所取代……好吧，尽管如此，这把步枪仍有不错的精确度和较小的后坐力，值得一用。自带刺刀模组。"
+"deployable integrated bayonet, this gun maintains immense popularity."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant M44"
@@ -71580,6 +71581,32 @@ msgstr "你本来来着是为了体验下新英格兰的风味，现在你只希
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
+msgid "Naked and Afraid"
+msgstr ""
+
+#. ~ Profession (male Naked and Afraid) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were out filming a reality TV show in the woods and the cast and crew "
+"all seemed to have turned into zombies.  Looks like it's for real now..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Naked and Afraid"
+msgstr ""
+
+#. ~ Profession (female Naked and Afraid) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were out filming a reality TV show in the woods and the cast and crew "
+"all seemed to have turned into zombies.  Looks like it's for real now..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Brave of the King"
 msgstr "王的勇士"
 
@@ -83591,6 +83618,10 @@ msgstr "缝纫"
 #: lang/json/tool_quality_from_json.py
 msgid "knitting"
 msgstr "编织"
+
+#: lang/json/tool_quality_from_json.py
+msgid "bullet pulling"
+msgstr ""
 
 #: lang/json/trap_from_json.py
 msgid "roll mat"
