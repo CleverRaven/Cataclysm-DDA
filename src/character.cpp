@@ -1,6 +1,7 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "bionics.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
 #include "debug.h"
@@ -131,6 +132,8 @@ Character::Character() : Creature(), visitable<Character>()
 
     path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
 }
+
+Character::~Character() = default;
 
 field_id Character::bloodType() const
 {
@@ -614,7 +617,7 @@ float Character::get_vision_threshold( float light_level ) const {
 
 bool Character::has_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return true;
         }
@@ -624,7 +627,7 @@ bool Character::has_bionic(const bionic_id &b) const
 
 bool Character::has_active_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return (i.powered);
         }

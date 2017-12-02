@@ -2416,8 +2416,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Bionics
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << my_bionics[i].id->name << eol;
+    for( size_t i = 0; i < my_bionics->size(); ++i ) {
+        memorial_file << indent << ( i + 1 ) << ": " << (*my_bionics)[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -5390,8 +5390,8 @@ void player::suffer()
         }
     }
 
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (my_bionics[i].powered) {
+    for (size_t i = 0; i < my_bionics->size(); i++) {
+        if ((*my_bionics)[i].powered) {
             process_bionic(i);
         }
     }
@@ -6755,7 +6755,7 @@ int player::invlet_to_position( const long linvlet ) const
 }
 
 bool player::can_interface_armor() const {
-    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(),
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
         []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
@@ -11371,7 +11371,7 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto & bio : my_bionics ) {
+    for( auto & bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ) );
         }
