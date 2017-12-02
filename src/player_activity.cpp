@@ -87,11 +87,6 @@ int player_activity::get_value( size_t index, int def ) const
     return ( index < values.size() ) ? values[index] : def;
 }
 
-bool player_activity::is_abortable() const
-{
-    return type->abortable();
-}
-
 bool player_activity::is_suspendable() const
 {
     return type->suspendable();
