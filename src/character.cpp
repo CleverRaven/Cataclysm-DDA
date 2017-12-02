@@ -131,6 +131,8 @@ Character::Character() : Creature(), visitable<Character>()
     name = "";
 
     path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+
+    my_bionics.reset( new bionic_collection() );
 }
 
 Character::~Character() = default;
