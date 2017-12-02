@@ -2784,8 +2784,11 @@ int item::get_quality( const quality_id &id ) const
     if ( id == quality_id( "BOIL" ) && !( contents.empty() || 
         ( is_tool() && std::all_of( contents.begin(), contents.end(),
         [this]( const item & itm ) {
-            auto ammo_types = itm.type->ammo->type;
-            return itm.is_ammo() && ammo_types.find( ammo_type() ) != ammo_types.end();
+            if ( !itm.is_ammo() ) {
+                return false;
+            }
+            auto& ammo_types = itm.type->ammo->type;
+            return ammo_types.find( ammo_type() ) != ammo_types.end();
         } ) ) ) )
     {
         return INT_MIN;
