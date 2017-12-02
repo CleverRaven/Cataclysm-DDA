@@ -102,7 +102,6 @@
         "id": "cop_evidence",
         "items": [
           [ "654", 10 ],
-          [ "autofire", 10 ],
           [ "cw-24hack", 5 ],
           [ "cw-24m_hack", 10 ],
           ["recipe_igm", 10]
