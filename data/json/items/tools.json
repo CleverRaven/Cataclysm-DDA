@@ -43,7 +43,7 @@
     "use_action": {
       "type": "explosion",
       "draw_explosion_radius": 4,
-      "draw_explosion_color": "ltblue",
+      "draw_explosion_color": "light_blue",
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
@@ -1238,7 +1238,7 @@
     "bashing": 8,
     "material": "aluminum",
     "symbol": ";",
-    "color": "ltgray"
+    "color": "light_gray"
   },
   {
     "id": "candle",
