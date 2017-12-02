@@ -2791,7 +2791,6 @@ int item::get_quality( const quality_id &id ) const
         return INT_MIN;
     }
 
-
     for( const auto &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;
