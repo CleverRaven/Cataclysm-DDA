@@ -74,11 +74,6 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
-        /**
-         * If this returns true, the activity can be aborted with
-         * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
-         */
-        bool is_abortable() const;
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string def = "" ) const;
         /**
