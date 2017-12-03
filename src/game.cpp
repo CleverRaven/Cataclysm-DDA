@@ -439,7 +439,7 @@ void game::init_ui()
     static bool first_init = true;
 
     if (first_init) {
-        clear();
+        catacurses::clear();
 
         // set minimum FULL_SCREEN sizes
         FULL_SCREEN_WIDTH = 80;
@@ -812,7 +812,7 @@ bool game::start_game(std::string worldname)
 
     init_autosave();
 
-    clear();
+    catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
     // Init some factions.
