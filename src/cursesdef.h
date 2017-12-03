@@ -44,6 +44,8 @@ namespace catacurses
 /// and abort the program. Only continue the program when this returned normally.
 void init_interface();
 
+class WINDOW_PTR;
+
 /**
  * A simple wrapper over `void*`.
  * Currently it does not do anything at all. It is implicitly constructed
@@ -85,11 +87,11 @@ struct delwin_functor {
     void operator()( void *w ) const;
 };
 /**
- * A Wrapper around the window pointer, it automatically deletes the
+ * A Wrapper around the void pointer, it automatically deletes the
  * window (see delwin_functor) when the variable gets out of scope.
  * This includes calling werase, wrefresh and delwin.
  * Usage:
- * 1. Acquire a window pointer via @ref newwin like normal, store it in a pointer variable.
+ * 1. Acquire a void pointer via @ref newwin like normal, store it in a pointer variable.
  * 2. Create a variable of type WINDOW_PTR *on the stack*, initialize it with the pointer from 1.
  * 3. Do the usual stuff with window, print, update, etc. but do *not* call delwin on it.
  * 4. When the function is left, the WINDOW_PTR variable is destroyed, and its destructor is called,
@@ -98,13 +100,13 @@ struct delwin_functor {
  * To prevent the delwin call when the function is left (because the window is already deleted or, it should
  * not be deleted), call some_window_ptr.release().
  */
-class WINDOW_PTR : public std::unique_ptr<WINDOW, delwin_functor>
+class WINDOW_PTR : public std::unique_ptr<void, delwin_functor>
 {
     public:
         WINDOW_PTR() = default;
-        WINDOW_PTR( const window &w ) : WINDOW_PTR( w.get<WINDOW>() ) {
+        WINDOW_PTR( const window &w ) : WINDOW_PTR( w.get<void>() ) {
         }
-        WINDOW_PTR( WINDOW *const ptr ) : unique_ptr( ptr ) {
+        WINDOW_PTR( void *const ptr ) : unique_ptr( ptr ) {
         }
 
         explicit operator bool() const {
@@ -142,12 +144,6 @@ void delwin( const window &win );
 // Explicitly deleted because calling it is nearly always wrong.
 // Just let the WINDOW_PTR go out of scope, or reset it.
 void delwin( const WINDOW_PTR & ) = delete;
-// Explicitly defined because it would be ambiguous as WINDOW*
-// can be converted to window *and* to WINDOW_PTR.
-inline void delwin( WINDOW *const w )
-{
-    return delwin( window( w ) );
-}
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
 void mvwhline( const window &win, int y, int x, chtype ch, int n );
