@@ -102,6 +102,7 @@ class texture
     public:
         texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect rect ) : sdl_texture_ptr( ptr ),
             srcrect( rect ) { }
+        texture() = default;
 
         /// Returns the width (first) and height (second) of the stored texture.
         std::pair<int, int> dimension() const {
@@ -354,10 +355,13 @@ class tileset_loader
             int B;
         };
 
+        int tile_atlas_width;
+
         void ensure_default_item_highlight();
 
-        int copy_surface_to_texture( const SDL_Surface_Ptr &surf, std::vector<texture> &target );
-        int create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas );
+        void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+                                      std::vector<texture> &target );
+        void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
