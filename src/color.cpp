@@ -387,6 +387,7 @@ void color_manager::load_default()
 
 void init_colors()
 {
+    using namespace catacurses; // to get the base_color enumeration
     init_pair( 1, white,      black );
     init_pair( 2, red,        black );
     init_pair( 3, green,      black );
