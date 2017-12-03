@@ -34,7 +34,7 @@
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
 
-static bool wmove_internal( const window &win_, const int y, const int x )
+static bool wmove_internal( const catacurses::window &win_, const int y, const int x )
 {
     if( !win_ ) {
         return false;

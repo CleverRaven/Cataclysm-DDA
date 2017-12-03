@@ -144,20 +144,20 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 
     switch( type ) {
         case m_good:
-            return iBold + green;
+            return iBold + catacurses::green;
         case m_bad:
-            return iBold + red;
+            return iBold + catacurses::red;
         case m_mixed:
         case m_headshot:
-            return iBold + magenta;
+            return iBold + catacurses::magenta;
         case m_neutral:
-            return iBold + white;
+            return iBold + catacurses::white;
         case m_warning:
         case m_critical:
-            return iBold + yellow;
+            return iBold + catacurses::yellow;
         case m_info:
         case m_grazing:
-            return iBold + blue;
+            return iBold + catacurses::blue;
         default:
             break;
     }
@@ -700,21 +700,21 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = black;
+        FG = catacurses::black;
     } else if( scolor == "RED" ) {
-        FG = red;
+        FG = catacurses::red;
     } else if( scolor == "GREEN" ) {
-        FG = green;
+        FG = catacurses::green;
     } else if( scolor == "YELLOW" ) {
-        FG = yellow;
+        FG = catacurses::yellow;
     } else if( scolor == "BLUE" ) {
-        FG = blue;
+        FG = catacurses::blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = magenta;
+        FG = catacurses::magenta;
     } else if( scolor == "CYAN" ) {
-        FG = cyan;
+        FG = catacurses::cyan;
     } else if( scolor == "WHITE" ) {
-        FG = white;
+        FG = catacurses::white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {

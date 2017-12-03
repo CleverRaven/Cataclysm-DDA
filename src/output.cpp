@@ -389,11 +389,11 @@ void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const 
     wattroff( w, HC );
 }
 
-void draw_custom_border( const catacurses::window &w, chtype ls, chtype rs,
-                         chtype ts, chtype bs, chtype tl,
-                         chtype tr, chtype bl, chtype br, nc_color FG, int posy,
-                         int height,
-                         int posx, int width )
+void draw_custom_border( const catacurses::window &w, const catacurses::chtype ls,
+                         const catacurses::chtype rs, const catacurses::chtype ts, const catacurses::chtype bs,
+                         const catacurses::chtype tl, const catacurses::chtype tr, const catacurses::chtype bl,
+                         const catacurses::chtype br, const nc_color FG, const int posy, int height, const int posx,
+                         int width )
 {
     wattron( w, FG );
 
@@ -647,30 +647,30 @@ int menu( bool const cancelable, const char *const mes, ... )
     return ( uimenu( cancelable, mes, options ) );
 }
 
-static window create_popup_window( int width, int height, PopupFlags flags )
+static catacurses::window create_popup_window( int width, int height, PopupFlags flags )
 {
     if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        return window( catacurses::newwin(
-                           FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
-                           std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
-                       ) );
+        return catacurses::newwin(
+                   FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                   std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+                   std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+               );
     } else if( ( flags & PF_ON_TOP ) != 0 ) {
-        return window( catacurses::newwin(
-                           height, width,
-                           0,
-                           std::max( ( TERMX - width ) / 2, 0 )
-                       ) );
+        return catacurses::newwin(
+                   height, width,
+                   0,
+                   std::max( ( TERMX - width ) / 2, 0 )
+               );
     } else {
-        return window( catacurses::newwin(
-                           height, width,
-                           std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
-                           std::max( ( TERMX - width ) / 2, 0 )
-                       ) );
+        return catacurses::newwin(
+                   height, width,
+                   std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+                   std::max( ( TERMX - width ) / 2, 0 )
+               );
     }
 }
 
-window create_popup_window( const std::string &text, PopupFlags flags )
+catacurses::window create_popup_window( const std::string &text, PopupFlags flags )
 {
     const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
 
@@ -682,7 +682,7 @@ window create_popup_window( const std::string &text, PopupFlags flags )
     const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
     const int width = text_width + 2;
 
-    window result = create_popup_window( width, height, flags );
+    catacurses::window result = create_popup_window( width, height, flags );
 
     draw_border( result );
 
@@ -693,7 +693,7 @@ window create_popup_window( const std::string &text, PopupFlags flags )
     return result;
 }
 
-window create_wait_popup_window( const std::string &text, nc_color bar_color )
+catacurses::window create_wait_popup_window( const std::string &text, nc_color bar_color )
 {
     static size_t phase = 0;
 
@@ -716,7 +716,7 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    window w = create_popup_window( text, flags );
+    catacurses::window w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {

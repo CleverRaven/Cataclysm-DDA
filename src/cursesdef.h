@@ -33,10 +33,6 @@ class nc_color;
  * The interface is in a separate namespace we can link with the ncurses library,
  * which exports its functions globally.
  */
-//Currently this namespace is automatically exported into the global namespace to
-//allow existing code (that called global ncurses functions) to remain unchanged.
-//The compiler will translate `window win = newwin(...)` into
-//`catacurses::window win = catacurses::newwin(...)`
 namespace catacurses
 {
 
@@ -134,11 +130,5 @@ int getbegy( const window &win );
 int getcurx( const window &win );
 int getcury( const window &win );
 } // namespace catacurses
-
-//@todo move "using namespace" into the cpp/header files that include this file
-//see note at start of namepace catacurses
-#ifndef CATACURSES_DONT_USE_NAMESPACE_CATACURSES
-using namespace catacurses;
-#endif
 
 #endif

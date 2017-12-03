@@ -30,7 +30,6 @@ using volume = quantity<int, volume_in_milliliter_tag>;
 namespace catacurses
 {
 class window;
-using window = window;
 using chtype = int;
 } // namespace catacurses
 
@@ -307,11 +306,11 @@ inline void wprintz( const catacurses::window &w, const nc_color FG, const char 
     wattroff( w, FG );
 }
 
-void draw_custom_border( const catacurses::window &w, chtype ls = 1, chtype rs = 1, chtype ts = 1,
-                         chtype bs = 1,
-                         chtype tl = 1, chtype tr = 1,
-                         chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0,
-                         int posx = 0, int width = 0 );
+void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
+                         catacurses::chtype rs = 1, catacurses::chtype ts = 1, catacurses::chtype bs = 1,
+                         catacurses::chtype tl = 1, catacurses::chtype tr = 1, catacurses::chtype bl = 1,
+                         catacurses::chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0,
+                         int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   std::string title = "", nc_color title_color = c_light_red );
 void draw_tabs( const catacurses::window &w, int active_tab, ... );
@@ -409,8 +408,9 @@ inline void full_screen_popup( const char *mes, Args &&... args )
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
 }
 
-window create_popup_window( const std::string &text, PopupFlags flags );
-window create_wait_popup_window( const std::string &text, nc_color bar_color = c_light_green );
+catacurses::window create_popup_window( const std::string &text, PopupFlags flags );
+catacurses::window create_wait_popup_window( const std::string &text,
+        nc_color bar_color = c_light_green );
 
 /*@}*/
 

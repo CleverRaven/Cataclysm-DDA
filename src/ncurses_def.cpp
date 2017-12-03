@@ -13,11 +13,7 @@
 #include <curses.h>
 #endif
 
-#define CATACURSES_DONT_USE_NAMESPACE_CATACURSES
 #include "cursesdef.h"
-//Now we have included the catacurses namespace (but it's not global), and the
-//native ncurses declarations. We have now declarations of `::catacurses::newwin`
-//and `::newwin`.
 
 #include "catacharset.h"
 #include "color.h"
