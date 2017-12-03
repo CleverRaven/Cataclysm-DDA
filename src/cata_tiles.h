@@ -398,10 +398,6 @@ class cata_tiles
 
         bool draw_item_highlight( const tripoint &pos );
 
-    private:
-        //surface manipulation
-        SDL_Surface_Ptr create_tile_surface( int w, int h );
-
     public:
         // Animation layers
         bool draw_hit( const tripoint &p );

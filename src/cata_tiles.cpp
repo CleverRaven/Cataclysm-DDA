@@ -63,6 +63,7 @@ extern bool tile_iso;
 static minimap_shared_texture_pool tex_pool;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
+static SDL_Surface_Ptr create_tile_surface( int w, int h );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -361,9 +362,9 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
                                   IMG_GetError() );
     }
 
-    SDL_Surface_Ptr shadow_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr nightvision_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr overexposed_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
+    SDL_Surface_Ptr shadow_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
+    SDL_Surface_Ptr nightvision_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
+    SDL_Surface_Ptr overexposed_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
 
     if(!shadow_tile_atlas || !nightvision_tile_atlas || !overexposed_tile_atlas) {
         throw std::runtime_error( std::string("Unable to create alternate colored tilesets.") );
@@ -406,7 +407,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
             source_rect.x = x;
             source_rect.y = y;
 
-            SDL_Surface_Ptr tile_surf = create_tile_surface(sprite_width, sprite_height);
+            SDL_Surface_Ptr tile_surf = ::create_tile_surface(sprite_width, sprite_height);
             if( !tile_surf ) {
                 continue;
             }
@@ -2286,7 +2287,7 @@ bool cata_tiles::draw_item_highlight( const tripoint &pos )
     return draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
 }
 
-SDL_Surface_Ptr cata_tiles::create_tile_surface(int w, int h)
+SDL_Surface_Ptr create_tile_surface( const int w, const int h )
 {
     SDL_Surface_Ptr surface;
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -2302,7 +2303,7 @@ SDL_Surface_Ptr cata_tiles::create_tile_surface(int w, int h)
 
 SDL_Surface_Ptr cata_tiles::create_tile_surface()
 {
-    return create_tile_surface(tile_width, tile_height);
+    return ::create_tile_surface(tile_width, tile_height);
 }
 
 void cata_tiles::create_default_item_highlight()
