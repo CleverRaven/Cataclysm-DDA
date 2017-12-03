@@ -54,7 +54,7 @@ void loading_ui::show()
 {
     if( menu != nullptr ) {
         menu->show();
-        refresh();
+        catacurses::refresh();
         refresh_display();
 #ifdef TILES
         SDL_PumpEvents();

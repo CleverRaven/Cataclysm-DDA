@@ -97,7 +97,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     werase( stdscr );
-    refresh();
+    catacurses::refresh();
 }
 
 // Normal functions                                                 {{{1

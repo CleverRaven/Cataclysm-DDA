@@ -943,7 +943,7 @@ void input_context::display_help()
         }
 
         // spopup.query_string() will call wrefresh( w_help )
-        refresh();
+        catacurses::refresh();
 
         spopup.text( filter_phrase );
         if( status == s_show ) {
