@@ -478,9 +478,9 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
-    WINDOW_PTR const w_item_info_ptr {
-        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+    catacurses::WINDOW_PTR const w_ptr {catacurses::newwin( window_h, w_items_w, padding_y, padding_x )};
+    catacurses::WINDOW_PTR const w_item_info_ptr {
+        catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
 
     WINDOW *w           = w_ptr.get();
     WINDOW *w_item_info = w_item_info_ptr.get();

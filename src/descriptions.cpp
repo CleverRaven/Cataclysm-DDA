@@ -37,8 +37,8 @@ void game::extended_description( const tripoint &p )
     const int bottom = TERMY;
     const int width = right - left;
     const int height = bottom - top;
-    WINDOW *w_head = newwin( top, TERMX, 0, 0 );
-    WINDOW *w_main = newwin( height, width, top, left );
+    catacurses::window w_head = catacurses::newwin( top, TERMX, 0, 0 );
+    catacurses::window w_main = catacurses::newwin( height, width, top, left );
     // @todo De-hardcode
     std::string header_message = _( "\
 c to describe creatures, f to describe furniture, t to describe terrain, esc/enter to close." );

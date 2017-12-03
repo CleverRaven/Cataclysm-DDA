@@ -380,8 +380,8 @@ tripoint editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 14;
 
-    w_info = newwin( infoHeight, width, TERMY - infoHeight, offsetX );
-    w_help = newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
+    w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
+    w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
         mvwaddch( w_help, 2, i, LINE_OXOX );
     }
@@ -756,7 +756,7 @@ int editmap::edit_ter()
     int ret = 0;
     int pwh = TERMY - 4;
 
-    WINDOW *w_pickter = newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_pickter = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
     draw_border( w_pickter );
     wrefresh( w_pickter );
 
@@ -1216,7 +1216,7 @@ int editmap::edit_trp()
     int ret = 0;
     int pwh = TERMY - infoHeight;
 
-    WINDOW *w_picktrap = newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_picktrap = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
     draw_border( w_picktrap );
     int tmax = pwh - 3;
     int tshift = 0;
@@ -1678,7 +1678,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
 
     tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
-    WINDOW *w_preview = newwin( 24, 24, pofs.y, pofs.x );
+    catacurses::window w_preview = catacurses::newwin( 24, 24, pofs.y, pofs.x );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;

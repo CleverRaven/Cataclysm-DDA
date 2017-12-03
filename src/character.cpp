@@ -1888,7 +1888,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                 int normal_bonus, int head_bonus, int torso_bonus,
                                 bool bleed, bool bite, bool infect ) const
 {
-    WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
+    catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
     draw_border(hp_window);
 
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );

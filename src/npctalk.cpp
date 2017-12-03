@@ -565,7 +565,7 @@ void npc::talk_to_u()
 
     decide_needs();
 
-    d.win = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                     ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
@@ -3671,10 +3671,10 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
 bool trade( npc &p, int cost, const std::string &deal )
 {
-    WINDOW *w_head = newwin( 4, TERMX, 0, 0 );
+    catacurses::window w_head = catacurses::newwin( 4, TERMX, 0, 0 );
     const int win_they_w = TERMX / 2;
-    WINDOW *w_them = newwin( TERMY - 4, win_they_w, 4, 0 );
-    WINDOW *w_you = newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
+    catacurses::window w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
+    catacurses::window w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
     WINDOW *w_tmp;
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
@@ -3869,7 +3869,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 break;
             case '?':
                 update = true;
-                w_tmp = newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
+                w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
                                 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
                 mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
                 draw_border( w_tmp );

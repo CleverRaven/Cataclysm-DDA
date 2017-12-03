@@ -44,16 +44,16 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     const int iTotalCols = 2;
 
-    WINDOW *w_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
     WINDOW_PTR w_helpptr( w_help );
 
-    WINDOW *w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
     WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+    catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
     WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
+    catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
@@ -397,9 +397,9 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
     std::ostringstream sTemp;
 
-    WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
+    catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
     WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
+    catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
     WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border(w_test_rule_border);

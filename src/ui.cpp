@@ -479,7 +479,7 @@ void uimenu::setup()
     if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
-    window = newwin(w_height, w_width, w_y, w_x);
+    window = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     werase(window);
     draw_border(window, border_color);

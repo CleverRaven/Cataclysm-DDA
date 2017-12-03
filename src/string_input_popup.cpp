@@ -68,7 +68,7 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w_ptr.reset( newwin( w_height, w_width, w_y, w_x ) );
+    w_ptr.reset( catacurses::newwin( w_height, w_width, w_y, w_x ) );
     w = w_ptr.get();
 
     draw_border( w );
