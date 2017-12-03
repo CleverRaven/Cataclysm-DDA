@@ -366,8 +366,16 @@ static void color_pixel_overexposed(pixel& pix)
     pix.b = result / 7;
 }
 
-static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pixel &))
+static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
+        void ( &pixel_converter )( pixel & ) )
 {
+    SDL_Surface_Ptr surf = create_tile_surface( original->w, original->h );
+    if( !surf ) {
+        throw std::runtime_error( std::string( "Unable to create alternate colored tilesets." ) );
+    }
+    if( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0 ) {
+        throw std::runtime_error( std::string( "SDL_BlitSurface failed: " ) + SDL_GetError() );
+    }
     for (int y = 0; y < surf->h; y++) {
         for (int x = 0; x < surf->w; x++) {
             pixel pix = get_pixel_color(surf, x, y, surf->w);
@@ -375,6 +383,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
             set_pixel_color(surf, x, y, surf->w, pix);
         }
     }
+    return surf;
 }
 
 void tileset_loader::load_tileset( std::string img_path )
@@ -393,29 +402,10 @@ void tileset_loader::load_tileset( std::string img_path )
         SDL_SetSurfaceRLE(tile_atlas.get(), true);
     }
 
-    SDL_Surface_Ptr shadow_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr nightvision_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr overexposed_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
-
-    if(!shadow_tile_atlas || !nightvision_tile_atlas || !overexposed_tile_atlas) {
-        throw std::runtime_error( std::string("Unable to create alternate colored tilesets.") );
-    }
-
-    /** copy tile atlas into alternate atlas sets */
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, shadow_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, nightvision_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, overexposed_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-
     /** perform color filter conversion here */
-    apply_color_filter(shadow_tile_atlas, color_pixel_grayscale);
-    apply_color_filter(nightvision_tile_atlas, color_pixel_nightvision);
-    apply_color_filter(overexposed_tile_atlas, color_pixel_overexposed);
+    const SDL_Surface_Ptr shadow_tile_atlas = apply_color_filter( tile_atlas, color_pixel_grayscale );
+    const SDL_Surface_Ptr nightvision_tile_atlas = apply_color_filter( tile_atlas, color_pixel_nightvision );
+    const SDL_Surface_Ptr overexposed_tile_atlas = apply_color_filter( tile_atlas, color_pixel_overexposed );
 
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, tile_atlas->w / sprite_width, tile_atlas->h / sprite_height );
 
