@@ -463,8 +463,8 @@ void game::init_ui()
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 #else
-    TERMY = getmaxy( stdscr );
-    TERMX = getmaxx( stdscr );
+    TERMY = getmaxy( catacurses::stdscr );
+    TERMX = getmaxx( catacurses::stdscr );
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if (TERMY % 2) {
@@ -13571,8 +13571,8 @@ void game::autosave()
 
 void intro()
 {
-    int maxy = getmaxy( stdscr );
-    int maxx = getmaxx( stdscr );
+    int maxy = getmaxy( catacurses::stdscr );
+    int maxx = getmaxx( catacurses::stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     catacurses::window tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
@@ -13596,8 +13596,8 @@ void intro()
         }
         wrefresh(tmp);
         inp_mngr.wait_for_any_key();
-        maxy = getmaxy( stdscr );
-        maxx = getmaxx( stdscr );
+        maxy = getmaxy( catacurses::stdscr );
+        maxx = getmaxx( catacurses::stdscr );
     }
     werase(tmp);
 

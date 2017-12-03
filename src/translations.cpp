@@ -119,7 +119,7 @@ void select_language()
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
-    wrefresh( stdscr );
+    wrefresh( catacurses::stdscr );
 
     uimenu sm;
     sm.selected = 0;

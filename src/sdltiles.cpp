@@ -1639,7 +1639,7 @@ input_event input_manager::get_input_event() {
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
 
-    wrefresh( stdscr );
+    wrefresh( catacurses::stdscr );
 
     if (inputdelay < 0)
     {
