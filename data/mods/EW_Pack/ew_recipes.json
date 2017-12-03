@@ -73,37 +73,5 @@
     [ "solder_wire", 200]
   ]
 ]
-},{
-        "type" : "recipe",
-  "result": "autofire_654",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3],
-  "difficulty": 5,
-  "time": 13000,
-  "book_learn": [["recipe_igm", 1]],
-  "qualities" : [
-    {"id":"SCREW","level":1},
-    {"id":"SAW_M","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ],
-  "tools": [
-    [
-      [ "welder", 30 ],
-      [ "toolset", 45 ],
-      [ "welder_crude", 45 ],
-      [ "oxy_torch", 6 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 1]
-    ],
-    [
-      [ "sheet_metal", 1],
-      [ "scrap", 2]
-    ]
-   ]
 }
 ]
