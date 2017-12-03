@@ -54,7 +54,7 @@ class string_input_popup
         int _endx = 0;
         int _position = -1;
 
-        WINDOW_PTR w_ptr;
+        catacurses::WINDOW_PTR w_ptr;
         catacurses::window w;
 
         std::unique_ptr<input_context> ctxt_ptr;
