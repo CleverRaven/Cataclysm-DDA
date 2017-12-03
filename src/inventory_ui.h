@@ -182,9 +182,7 @@ class inventory_selector_preset
                     func( func ) {}
 
 
-                std::string get_text( const inventory_entry &entry ) const {
-                    return replace_colors( func( entry ) );
-                }
+                std::string get_text( const inventory_entry &entry ) const;
 
                 std::string title;
                 std::string stub;
