@@ -3729,7 +3729,7 @@ void game::load(std::string worldname, const save_t &name)
 
 void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 {
-    erase();
+    catacurses::erase();
     catacurses::refresh();
 
     if( world ) {
@@ -3765,7 +3765,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
         load_data_from_dir( world->world_path + "/mods", "custom", ui );
     }
 
-    erase();
+    catacurses::erase();
     catacurses::refresh();
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
@@ -4362,7 +4362,7 @@ void game::debug()
             }
             break;
     }
-    erase();
+    catacurses::erase();
     refresh_all();
 }
 
@@ -13616,7 +13616,7 @@ void intro()
 #endif
 
     wrefresh(tmp);
-    erase();
+    catacurses::erase();
 }
 
 void game::process_artifact(item *it, player *p)
