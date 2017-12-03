@@ -1295,7 +1295,7 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
     }
 }
 
-WINDOW *w_hit_animation = NULL;
+catacurses::window w_hit_animation;
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 {
     /*
