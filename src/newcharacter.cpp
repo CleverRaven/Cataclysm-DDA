@@ -460,7 +460,7 @@ bool player::create(character_type type, std::string tempname)
 
     const bool allow_reroll = type == PLTYPE_RANDOM;
     do {
-        if( w == nullptr ) {
+        if( !w ) {
             // assert( type == PLTYPE_NOW );
             // no window is created because "Play now"  does not require any configuration
             if( nameExists( g->u.name ) ) {

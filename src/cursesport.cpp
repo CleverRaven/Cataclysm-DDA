@@ -36,7 +36,7 @@ std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage
 
 static bool wmove_internal( const window &win_, const int y, const int x )
 {
-    if( win_.get() == nullptr ) {
+    if( !win_ ) {
         return false;
     }
     cata_cursesport::WINDOW &win = *win_.get<cata_cursesport::WINDOW>();
@@ -98,7 +98,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, int begin_y, int b
 //Deletes the window and marks it as free. Clears it just in case.
 void catacurses::delwin( const window &win )
 {
-    if (win == NULL) {
+    if( !win ) {
         //@todo log this
         return;
     }
@@ -400,7 +400,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
 //Prints a formatted string to a window at the current cursor, base function
 void catacurses::wprintw(const window &win, const std::string &printbuf )
 {
-    if( win == nullptr ) {
+    if( !win ) {
         //@todo log this
         return;
     }
@@ -493,37 +493,37 @@ void catacurses::wclear( const window &win_)
 //gets the max x of a window (the width)
 int catacurses::getmaxx(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->width : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->width : 0;
 }
 
 //gets the max y of a window (the height)
 int catacurses::getmaxy(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->height : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->height : 0;
 }
 
 //gets the beginning x of a window (the x pos)
 int catacurses::getbegx(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->x : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->x : 0;
 }
 
 //gets the beginning y of a window (the y pos)
 int catacurses::getbegy(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->y : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->y : 0;
 }
 
 //gets the current cursor x position in a window
 int catacurses::getcurx(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->cursorx : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->cursorx : 0;
 }
 
 //gets the current cursor y position in a window
 int catacurses::getcury(const window &win)
 {
-    return win != nullptr ? win.get<cata_cursesport::WINDOW>()->cursory : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->cursory : 0;
 }
 
 void catacurses::curs_set(int)

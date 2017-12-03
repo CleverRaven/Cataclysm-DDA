@@ -1314,10 +1314,10 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     */
 
     catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
-    if( w_hit == NULL ) {
+    if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
-    if( w_hit_animation != nullptr ) {
+    if( w_hit_animation ) {
         delwin( w_hit_animation );
     }
     w_hit_animation = w_hit;

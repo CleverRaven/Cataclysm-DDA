@@ -74,6 +74,10 @@ class window
         operator void *() const {
             return get();
         }
+
+        explicit operator bool() const {
+            return native_window != nullptr;
+        }
         operator WINDOW_PTR() const;
 };
 
@@ -101,6 +105,10 @@ class WINDOW_PTR : public std::unique_ptr<WINDOW, delwin_functor>
         WINDOW_PTR( const window &w ) : WINDOW_PTR( w.get<WINDOW>() ) {
         }
         WINDOW_PTR( WINDOW *const ptr ) : unique_ptr( ptr ) {
+        }
+
+        explicit operator bool() const {
+            return unique_ptr::operator bool();
         }
 };
 

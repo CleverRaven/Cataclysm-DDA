@@ -8471,7 +8471,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     get_lookaround_dimensions(lookWidth, lookY, lookX);
 
     bool bNewWindow = false;
-    if (w_info == nullptr) {
+    if( !w_info ) {
         w_info = catacurses::newwin( LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX );
         bNewWindow = true;
     }
