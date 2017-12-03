@@ -258,17 +258,17 @@ game::game() :
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
     weather_precise( new w_point() ),
-    w_terrain(nullptr),
-    w_overmap(nullptr),
-    w_omlegend(nullptr),
-    w_minimap(nullptr),
-    w_pixel_minimap(nullptr),
-    w_HP(nullptr),
-    w_messages(nullptr),
-    w_location(nullptr),
-    w_status(nullptr),
-    w_status2(nullptr),
-    w_blackspace(nullptr),
+    w_terrain(),
+    w_overmap(),
+    w_omlegend(),
+    w_minimap(),
+    w_pixel_minimap(),
+    w_HP(),
+    w_messages(),
+    w_location(),
+    w_status(),
+    w_status2(),
+    w_blackspace(),
     pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
@@ -4806,7 +4806,7 @@ faction *game::list_factions(std::string title)
 }
 
 // A little helper to draw footstep glyphs.
-static void draw_footsteps( WINDOW *window, const tripoint &offset )
+static void draw_footsteps( const catacurses::window &window, const tripoint &offset )
 {
     for( const auto &footstep : sounds::get_footstep_markers() ) {
         char glyph = '?';
@@ -4868,7 +4868,7 @@ void game::draw_sidebar()
     }
     u.disp_status(w_status, w_status2);
 
-    WINDOW *time_window = sideStyle ? w_status2 : w_status;
+    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
         wprintz(time_window, c_white, "%s", calendar::turn.print_time().c_str());
@@ -4952,7 +4952,7 @@ void game::draw_sidebar()
     wrefresh(w_location);
 
     //Safemode coloring
-    WINDOW *day_window = sideStyle ? w_status2 : w_status;
+    catacurses::window day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
@@ -5155,7 +5155,7 @@ void game::draw_HP()
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
 
-        static auto print_symbol_num = []( WINDOW *w, int num, const std::string &sym,
+        static auto print_symbol_num = []( const catacurses::window &w, int num, const std::string &sym,
                                            const nc_color color ) {
             while( num-- > 0 ) {
                 wprintz( w, color, sym.c_str() );
@@ -5571,7 +5571,7 @@ std::vector<monster*> game::get_fishable(int distance)
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.
-int game::mon_info(WINDOW *w)
+int game::mon_info( const catacurses::window &w )
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
@@ -7744,7 +7744,7 @@ tripoint game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
@@ -7806,7 +7806,7 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
     }
 }
 
-void game::print_visibility_info( WINDOW *w_look, int column, int &line,
+void game::print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                   visibility_type visibility )
 {
     const char* visibility_message = nullptr;
@@ -7835,7 +7835,7 @@ void game::print_visibility_info( WINDOW *w_look, int column, int &line,
     line += 2;
 }
 
-void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line)
+void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
     int ending_line = line + 3;
     std::string tile = m.tername( lp );
@@ -7881,7 +7881,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     }
 }
 
-void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line)
+void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
@@ -7892,7 +7892,7 @@ void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, in
     }
 }
 
-void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line)
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line )
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
@@ -7900,7 +7900,7 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
     }
 }
 
-void game::print_creature_info( const Creature *creature, WINDOW *w_look,
+void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
                                 const int column, int &line )
 {
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
@@ -7908,7 +7908,7 @@ void game::print_creature_info( const Creature *creature, WINDOW *w_look,
     }
 }
 
-void game::print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                const int column, int &line, const int last_line )
 {
     if (veh) {
@@ -7947,7 +7947,7 @@ void game::print_visibility_indicator( visibility_type visibility )
     mvwputch(w_terrain, POSY, POSX, visibility_indicator_color, visibility_indicator);
 }
 
-void game::print_items_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line,
                              const int last_line )
 {
     if( !m.sees_some_items( lp, u ) ) {
@@ -7982,7 +7982,7 @@ void game::print_items_info( const tripoint &lp, WINDOW *w_look, const int colum
     }
 }
 
-void game::print_graffiti_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line,
                              const int last_line )
 {
     if (line > last_line) {
@@ -8008,7 +8008,7 @@ bool game::check_zone( const std::string &type, const tripoint &where ) const
     return zone_manager::get_manager().has( type, m.getabs( where ) );
 }
 
-void game::zones_manager_shortcuts(WINDOW *w_info)
+void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
 
@@ -8028,7 +8028,7 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
     wrefresh(w_info);
 }
 
-void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border,
+void game::zones_manager_draw_borders( const catacurses::window &w_border, const catacurses::window &w_info_border,
                                       const int iInfoHeight, const int width)
 {
     for (int i = 1; i < TERMX; ++i) {
@@ -8424,10 +8424,10 @@ void game::zones_manager()
 
 tripoint game::look_around()
 {
-    return look_around( nullptr, u.pos() + u.view_offset, false, false );
+    return look_around( catacurses::window(), u.pos() + u.view_offset, false, false );
 }
 
-tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
+tripoint game::look_around( catacurses::window w_info, const tripoint &start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
@@ -8783,7 +8783,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 }
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
+void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
     const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++) {

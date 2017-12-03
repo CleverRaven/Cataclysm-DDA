@@ -2003,9 +2003,9 @@ static bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter
     return false;
 }
 
-void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
-                   const tripoint &orig, bool blink, bool show_explored,
-                   input_context *inp_ctxt, const draw_data_t &data)
+void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
+                    const tripoint &center, const tripoint &orig, bool blink, bool show_explored,
+                    input_context *inp_ctxt, const draw_data_t &data )
 {
     const int z     = center.z;
     const int cursx = center.x;
@@ -2463,7 +2463,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 }
 
 
-void overmap::draw_city_labels( WINDOW *w, const tripoint &center )
+void overmap::draw_city_labels( const catacurses::window &w, const tripoint &center )
 {
     const int win_x_max = getmaxx( w );
     const int win_y_max = getmaxy( w );

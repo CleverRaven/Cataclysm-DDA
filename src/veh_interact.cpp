@@ -227,7 +227,7 @@ void veh_interact::allocate_windows()
     w_stats = catacurses::newwin( stats_h,   grid_w, stats_y, 1 );
     w_name  = catacurses::newwin( name_h,    grid_w, name_y,  1 );
 
-    w_details = NULL; // only pops up when in install menu
+    w_details = catacurses::window(); // only pops up when in install menu
 
     display_grid();
     display_name();
@@ -832,7 +832,7 @@ bool veh_interact::do_install( std::string &msg )
     //destroy w_details
     werase(w_details);
     delwin(w_details);
-    w_details = NULL;
+    w_details = catacurses::window();
 
     //restore windows that had been covered by w_details
     display_stats();
@@ -1014,11 +1014,11 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 {
     struct part_option {
         part_option( const std::string &key, vehicle_part *part, char hotkey,
-                     std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details ) :
+                     std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
             key( key ), part( part ), hotkey( hotkey ), details( details ) {}
 
         part_option( const std::string &key, vehicle_part *part, char hotkey,
-                     std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details,
+                     std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                      std::function<void( const vehicle_part &pt )> message ) :
             key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
 
@@ -1029,7 +1029,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         char hotkey;
 
         /** Writes any extra details for this entry */
-        std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details;
+        std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
 
         /** Writes to message window when part is selected */
         std::function<void( const vehicle_part &pt )> message;
@@ -1037,29 +1037,29 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     std::vector<part_option> opts;
 
-    std::map<std::string, std::function<void(WINDOW *, int)>> headers;
+    std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
-    headers["ENGINE"] = []( WINDOW *w, int y ) {
+    headers["ENGINE"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Engines" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
-    headers["TANK"] = []( WINDOW *w, int y ) {
+    headers["TANK"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = []( WINDOW *w, int y ) {
+    headers["BATTERY"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Batteries" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    headers["REACTOR"] = []( WINDOW *w, int y ) {
+    headers["REACTOR"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Reactors" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["TURRET"] = []( WINDOW *w, int y ) {
+    headers["TURRET"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Turrets" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Ammo     Qty" ) );
     };
-    headers["SEAT"] = []( WINDOW *w, int y ) {
+    headers["SEAT"] = []( const catacurses::window &w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print   ( w, y, 1, c_light_gray, _( "Who" ) );
     };
@@ -1069,7 +1069,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     for( auto &pt : veh->parts ) {
         if( pt.is_engine() && !pt.is_broken() ) {
             // if tank contains something then display the contents in milliliters
-            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
                              pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
@@ -1094,7 +1094,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_tank() && !pt.is_broken() ) {
-            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
                     right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
@@ -1109,7 +1109,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     for( auto &pt : veh->parts ) {
         if( pt.is_battery() && !pt.is_broken() ) {
             // always display total battery capacity and percentage charge
-            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
@@ -1118,7 +1118,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         }
     }
 
-    auto details_ammo = []( const vehicle_part &pt, WINDOW *w, int y ) {
+    auto details_ammo = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
         if( pt.ammo_remaining() ) {
             right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                          string_format( "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() ) );
@@ -1138,7 +1138,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     }
 
     for( auto &pt : veh->parts ) {
-        auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+        auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
             const npc *who = pt.crew();
             if( who ) {
                 right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
@@ -1963,7 +1963,7 @@ void veh_interact::display_mode()
     wrefresh (w_mode);
 }
 
-size_t veh_interact::display_esc(WINDOW *win)
+size_t veh_interact::display_esc( const catacurses::window &win )
 {
     std::string backstr = _("<ESC>-back");
     size_t pos = getmaxx(win) - utf8_width(backstr) + 2;    // right text align
@@ -2002,7 +2002,7 @@ void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list,
 void veh_interact::display_details( const vpart_info *part )
 {
 
-    if (w_details == NULL) { // create details window first if required
+    if( !w_details ) { // create details window first if required
 
         // covers right part of w_name and w_stats in vertical/hybrid
         const int details_y = getbegy(w_name);

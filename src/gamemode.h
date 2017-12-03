@@ -5,12 +5,15 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "cursesdef.h" // WINDOW
 #include "enums.h"
 #include "string_id.h"
 
 enum action_id : int;
 using itype_id = std::string;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -139,7 +142,7 @@ struct defense_game : public special_game {
         void load_style( std::string style_name );
 
         void setup();
-        void refresh_setup( WINDOW *w, int selection );
+        void refresh_setup( const catacurses::window &w, int selection );
         void init_mtypes();
         void init_constructions();
         void init_map();

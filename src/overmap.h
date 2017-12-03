@@ -25,7 +25,10 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 struct mongroup;
 
 namespace pf
@@ -491,13 +494,13 @@ public:
    * @param inp_ctxt Input context in this screen
    * @param data Various other drawing flags, largely regarding debug information
    */
-  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
-            const tripoint &orig, bool blink, bool showExplored,
-            input_context* inp_ctxt, const draw_data_t &data);
+        static void draw( const catacurses::window &w, const catacurses::window &wbar,
+                          const tripoint &center, const tripoint &orig, bool blink, bool showExplored,
+                          input_context *inp_ctxt, const draw_data_t &data );
 
     building_size find_max_size( const tripoint &center, const building_size &limits ) const;
 
-    static void draw_city_labels(WINDOW *w, const tripoint &center);
+        static void draw_city_labels( const catacurses::window &w, const tripoint &center );
 
   // Overall terrain
   void place_river(point pa, point pb);

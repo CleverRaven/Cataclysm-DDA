@@ -75,9 +75,9 @@ advanced_inventory::advanced_inventory()
         { AIM_WORN,      25, 3, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
     }
 } )
-, head( nullptr )
-, left_window( nullptr )
-, right_window( nullptr )
+, head()
+, left_window()
+, right_window()
 {
     // initialise screen coordinates for small overview 3x3 grid, depending on control scheme
     if( tile_iso && use_tiles ) {
@@ -223,7 +223,7 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
-    WINDOW *window = pane.window;
+    catacurses::window window = pane.window;
     const auto index = pane.index;
     const int page = index / itemsPerPage;
     bool compact = ( TERMX <= 100 );
@@ -552,7 +552,7 @@ char advanced_inventory::get_direction_key( aim_location area )
 
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
 {
-    WINDOW *window = pane.window;
+    catacurses::window window = pane.window;
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;

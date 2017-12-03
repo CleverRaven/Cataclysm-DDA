@@ -2,7 +2,7 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "cursesdef.h" // WINDOW
+#include "cursesdef.h"
 #include <vector>
 #include <string>
 
@@ -135,9 +135,9 @@ class computer
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
         // Output window
-        WINDOW *w_terminal;
+        catacurses::window w_terminal;
         // Pretty border
-        WINDOW *w_border;
+        catacurses::window w_border;
         // Misc research notes from json
         static std::vector<std::string> lab_notes;
 

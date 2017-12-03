@@ -4,12 +4,15 @@
 
 #include "enums.h"
 #include "game_constants.h"
-#include "cursesdef.h"
 
 #include <array>
 
 class map;
 class game;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class scent_map
 {
@@ -29,7 +32,7 @@ class scent_map
         void deserialize( const std::string &data );
         std::string serialize() const;
 
-        void draw( WINDOW *w, int div, const tripoint &center ) const;
+        void draw( const catacurses::window &w, int div, const tripoint &center ) const;
 
         void update( const tripoint &center, map &m );
         void reset();

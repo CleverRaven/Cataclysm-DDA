@@ -29,7 +29,8 @@ bool should_combine_bps( const player &p, size_t l, size_t r )
            temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
 }
 
-void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
+void player::print_encumbrance( const catacurses::window &win, int line,
+                                item *selected_clothing ) const
 {
     const int height = getmaxy( win );
     int orig_line = line;

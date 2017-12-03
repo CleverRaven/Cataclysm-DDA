@@ -118,8 +118,8 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color,
-                         const std::string &text )
+void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
+                         nc_color base_color, const std::string &text )
 {
     wmove( w, y, x );
     const auto color_segments = split_by_color( text );
@@ -137,8 +137,8 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base
     }
 }
 
-void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const std::string &text )
+void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
+                     nc_color base_color, const std::string &text )
 {
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
@@ -185,8 +185,8 @@ void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color ba
     print_colored_text( w, begin_y, begin_x, base_color, base_color, sText );
 }
 
-int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color,
-                      const std::string &scroll_msg )
+int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
+                      nc_color base_color, const std::string &scroll_msg )
 {
     const size_t wwidth = getmaxx( w );
     const auto text_lines = foldstring( text, wwidth );
@@ -213,8 +213,8 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
 }
 
 // returns number of printed lines
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                    const std::string &text )
+int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
+                    nc_color base_color, const std::string &text )
 {
     nc_color color = base_color;
     std::vector<std::string> textformatted;
@@ -225,8 +225,8 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
     return textformatted.size();
 }
 
-int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color base_color, const std::string &text )
+int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, int width,
+                         int begin_line, nc_color base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
     nc_color color = base_color;
@@ -262,7 +262,8 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
     return textformatted.size();
 }
 
-void multipage( WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y )
+void multipage( const catacurses::window &w, std::vector<std::string> text, std::string caption,
+                int begin_y )
 {
     int height = getmaxy( w );
     int width = getmaxx( w );
@@ -319,7 +320,8 @@ std::string name_and_value( std::string name, int value, int field_width )
     return name_and_value( name, string_format( "%d", value ), field_width );
 }
 
-void center_print( WINDOW *const w, const int y, const nc_color FG, const std::string &text )
+void center_print( const catacurses::window &w, const int y, const nc_color FG,
+                   const std::string &text )
 {
     int window_width = getmaxx( w );
     int string_width = utf8_width( text );
@@ -332,8 +334,8 @@ void center_print( WINDOW *const w, const int y, const nc_color FG, const std::s
     mvwprintz( w, y, x, FG, "%s", text.c_str() );
 }
 
-int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const std::string &text )
+int right_print( const catacurses::window &w, const int line, const int right_indent,
+                 const nc_color FG, const std::string &text )
 {
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
@@ -341,28 +343,28 @@ int right_print( WINDOW *w, const int line, const int right_indent, const nc_col
     return x;
 }
 
-void wputch( WINDOW *w, nc_color FG, long ch )
+void wputch( const catacurses::window &w, nc_color FG, long ch )
 {
     wattron( w, FG );
     waddch( w, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( WINDOW *w, int y, int x, nc_color FG, long ch )
+void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, long ch )
 {
     wattron( w, FG );
     mvwaddch( w, y, x, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
     mvwprintw( w, y, x, "%s", ch.c_str() );
     wattroff( w, FG );
 }
 
-void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, long ch )
+void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, long ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
@@ -370,7 +372,7 @@ void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, long ch )
     wattroff( w, HC );
 }
 
-void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
@@ -378,7 +380,7 @@ void mvwputch_inv( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch )
+void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
@@ -386,7 +388,7 @@ void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch )
     wattroff( w, HC );
 }
 
-void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
@@ -394,8 +396,10 @@ void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch )
     wattroff( w, HC );
 }
 
-void draw_custom_border( WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl,
-                         chtype tr, chtype bl, chtype br, nc_color FG, int posy, int height,
+void draw_custom_border( const catacurses::window &w, chtype ls, chtype rs,
+                         chtype ts, chtype bs, chtype tl,
+                         chtype tr, chtype bl, chtype br, nc_color FG, int posy,
+                         int height,
                          int posx, int width )
 {
     wattron( w, FG );
@@ -442,7 +446,8 @@ void draw_custom_border( WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, 
     wattroff( w, FG );
 }
 
-void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color title_color )
+void draw_border( const catacurses::window &w, nc_color border_color, std::string title,
+                  nc_color title_color )
 {
     wattron( w, border_color );
     wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -453,7 +458,7 @@ void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color 
     }
 }
 
-void draw_tabs( WINDOW *w, int active_tab, ... )
+void draw_tabs( const catacurses::window &w, int active_tab, ... )
 {
     int win_width;
     win_width = getmaxx( w );
@@ -547,7 +552,7 @@ bool query_yn( const std::string &text )
     }
     int win_width = 0;
 
-    WINDOW *w = NULL;
+    catacurses::window w;
 
     std::string color_on = "<color_white>";
     std::string color_off = "</color>";
@@ -816,7 +821,8 @@ std::string replace_colors( std::string text )
     return text;
 }
 
-void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type )
+void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
+                             item_filter_type type )
 {
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
@@ -934,7 +940,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( const catacurses::window &win, const std::string sItemName,
+                            const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
@@ -1175,7 +1182,7 @@ std::string word_rewrap( const std::string &in, int width )
     return o.str();
 }
 
-void draw_tab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected )
+void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1207,7 +1214,8 @@ void draw_tab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected )
     }
 }
 
-void draw_subtab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate )
+void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
+                  bool bDecorate )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1236,8 +1244,8 @@ void draw_subtab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bo
  *   If false, iCurrentLine can be from 0 to iNumLines - 1.
  *   If true, iCurrentLine can be at most iNumLines - iContentHeight.
  **/
-void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                     const int iNumLines, const int iOffsetY, const int iOffsetX,
+void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
+                     const int iContentHeight, const int iNumLines, const int iOffsetY, const int iOffsetX,
                      nc_color bar_color, const bool bDoNotScrollToEnd )
 {
     if( iContentHeight >= iNumLines ) {
@@ -1543,7 +1551,7 @@ std::string rm_prefix( std::string str, char c1, char c2 )
 // draw a menu-item-like string with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color,
+size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt )
 {
     wmove( w, y, x );
@@ -1551,7 +1559,7 @@ size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color,
 }
 
 //same as above, from current position
-size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
+size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt )
 {
     size_t pos = fmt.find_first_of( '<' );
@@ -1649,7 +1657,7 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
  * @param w The window to draw this in, the whole widow is used.
  * @param data Text data to fill.
  */
-void display_table( WINDOW *w, const std::string &title, int columns,
+void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data )
 {
     const int width = getmaxx( w ) - 2; // -2 for border
@@ -2123,4 +2131,3 @@ void refresh_display()
 {
 }
 #endif
-

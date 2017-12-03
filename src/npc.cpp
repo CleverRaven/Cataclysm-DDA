@@ -1747,7 +1747,7 @@ nc_color npc::basic_symbol_color() const
     return c_pink;
 }
 
-int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
+int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
     const unsigned int iWidth = getmaxx( w ) - 2;

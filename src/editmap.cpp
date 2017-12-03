@@ -191,8 +191,8 @@ editmap::editmap()
     fset = undefined_furn_id;
     trsel = undefined_trap_id;
     trset = undefined_trap_id;
-    w_info = 0;
-    w_help = 0;
+    w_info = catacurses::window();
+    w_help = catacurses::window();
     padding = std::string( width - 2, ' ' );
     blink = false;
     altblink = false;
@@ -450,7 +450,7 @@ enum edit_drawmode {
  * This is a map editor after all.
  */
 
-void editmap::uber_draw_ter( WINDOW *w, map *m )
+void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );

@@ -4,7 +4,6 @@
 
 #include "calendar.h"
 #include "tileray.h"
-#include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
 #include "line.h"
@@ -30,7 +29,10 @@ enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
@@ -506,8 +508,7 @@ private:
     units::volume total_folded_volume() const;
 
     // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -749,14 +750,13 @@ public:
     nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
-    int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
+    int print_part_desc ( const catacurses::window &win, int y1, int max_y, int width, int p, int hl = -1 ) const;
 
     // Get all printable fuel types
     std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
-                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+    void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0, bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
