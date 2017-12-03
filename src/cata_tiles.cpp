@@ -386,6 +386,24 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     return surf;
 }
 
+int tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, std::vector<texture> &target )
+{
+    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, surf->w / sprite_width,
+                                            surf->h / sprite_height );
+
+    const std::shared_ptr<SDL_Texture> texture_ptr( SDL_CreateTextureFromSurface( renderer, surf.get() ), &SDL_DestroyTexture );
+    if( !texture_ptr ) {
+        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
+    }
+
+    int tilecount = 0;
+    for( const SDL_Rect rect : input_range ) {
+        target.emplace_back( texture_ptr, rect );
+        tilecount++;
+    }
+    return tilecount;
+}
+
 void tileset_loader::load_tileset( std::string img_path )
 {
     /** reinit tile_atlas */
@@ -402,17 +420,14 @@ void tileset_loader::load_tileset( std::string img_path )
         SDL_SetSurfaceRLE(tile_atlas.get(), true);
     }
 
+    const int tilecount = copy_surface_to_texture( tile_atlas, ts.tile_values );
+
     /** perform color filter conversion here */
     const SDL_Surface_Ptr shadow_tile_atlas = apply_color_filter( tile_atlas, color_pixel_grayscale );
     const SDL_Surface_Ptr nightvision_tile_atlas = apply_color_filter( tile_atlas, color_pixel_nightvision );
     const SDL_Surface_Ptr overexposed_tile_atlas = apply_color_filter( tile_atlas, color_pixel_overexposed );
 
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, tile_atlas->w / sprite_width, tile_atlas->h / sprite_height );
-
-    std::shared_ptr<SDL_Texture> tile_tex( SDL_CreateTextureFromSurface( renderer, tile_atlas.get() ), &SDL_DestroyTexture );
-    if( !tile_tex ) {
-        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-    }
 
     std::shared_ptr<SDL_Texture> shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, shadow_tile_atlas.get() ), &SDL_DestroyTexture );
     if( !shadow_tile_tex ) {
@@ -430,10 +445,7 @@ void tileset_loader::load_tileset( std::string img_path )
     }
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
-    int tilecount = 0;
     for( const SDL_Rect rect : input_range ) {
-        ts.tile_values.emplace_back( tile_tex, rect );
-        tilecount++;
         ts.shadow_tile_values.emplace_back( shadow_tile_tex, rect );
         ts.night_tile_values.emplace_back( night_tile_tex, rect );
         ts.overexposed_tile_values.emplace_back( overexposed_tile_tex, rect );

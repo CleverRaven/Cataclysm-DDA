@@ -356,6 +356,8 @@ class tileset_loader
 
         void ensure_default_item_highlight();
 
+        int copy_surface_to_texture( const SDL_Surface_Ptr &surf, std::vector<texture> &target );
+
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
