@@ -12,13 +12,7 @@ lua_console::lua_console() : cWin( catacurses::newwin( lines, width, 0, 0 ) ),
 {
 }
 
-lua_console::~lua_console()
-{
-    werase( cWin );
-    werase( iWin );
-    delwin( cWin );
-    delwin( iWin );
-}
+lua_console::~lua_console() = default;
 
 std::string lua_console::get_input()
 {
