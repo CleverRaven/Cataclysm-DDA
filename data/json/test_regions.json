@@ -99,7 +99,7 @@
                        "   dd                   "
                    ],
                    "terrain":{
-                       " ": "t_null",
+                       " ": "t_sand",
                        "d": "t_floor",
                        "5": "t_wall_glass",
                        "%": "t_wall_glass",
