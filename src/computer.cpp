@@ -69,8 +69,8 @@ computer &computer::operator=(const computer &rhs)
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
-    w_terminal.reset();
-    w_border.reset();
+    w_terminal = catacurses::window();
+    w_border = catacurses::window();
     return *this;
 }
 
@@ -107,9 +107,9 @@ void computer::shutdown_terminal()
     // Decided to go easy on people for now.
     alerts = 0;
     werase(w_terminal);
-    w_terminal.reset();
+    w_terminal = catacurses::window();
     werase(w_border);
-    w_border.reset();
+    w_border = catacurses::window();
 }
 
 void computer::use()

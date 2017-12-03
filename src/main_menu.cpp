@@ -534,8 +534,8 @@ bool main_menu::opening_screen()
             }
         }
     }
-    w_openptr.reset();
-    w_backgroundptr.reset();
+    w_openptr = catacurses::window();
+    w_backgroundptr = catacurses::window();
     if( start ) {
         g->refresh_all();
         g->draw();

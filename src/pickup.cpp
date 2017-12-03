@@ -1045,8 +1045,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
         }
         if( action != "CONFIRM" || !item_selected ) {
-            w_pickup.reset();
-            w_item_info.reset();
+            w_pickup = catacurses::window();
+            w_item_info = catacurses::window();
             add_msg( _( "Never mind." ) );
             g->reenter_fullscreen();
             g->refresh_all();

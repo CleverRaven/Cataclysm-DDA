@@ -631,8 +631,8 @@ void construction_menu()
         }
     } while( !exit );
 
-    w_list.reset();
-    w_con.reset();
+    w_list = catacurses::window();
+    w_con = catacurses::window();
     g->refresh_all();
 }
 

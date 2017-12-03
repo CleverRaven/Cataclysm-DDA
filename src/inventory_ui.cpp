@@ -1218,10 +1218,10 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    if( !w_inv || width != getmaxx( w_inv.get() ) || height != getmaxy( w_inv.get() ) ) {
-        w_inv.reset( catacurses::newwin( height, width,
+    if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
+        w_inv = catacurses::newwin( height, width,
                              VIEW_OFFSET_Y + ( TERMY - height ) / 2,
-                             VIEW_OFFSET_X + ( TERMX - width ) / 2 ) );
+                             VIEW_OFFSET_X + ( TERMX - width ) / 2 );
     }
 }
 

@@ -814,7 +814,7 @@ bool veh_interact::do_install( std::string &msg )
 
     //destroy w_details
     werase(w_details);
-    w_details.reset();
+    w_details = catacurses::window();
 
     //restore windows that had been covered by w_details
     display_stats();
@@ -1629,7 +1629,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border.reset(); //@todo move code using w_border into a separate scope
+    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
