@@ -409,13 +409,9 @@ int tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile
     const int tilecount = copy_surface_to_texture( tile_atlas, ts.tile_values );
 
     /** perform color filter conversion here */
-    const SDL_Surface_Ptr shadow_tile_atlas = apply_color_filter( tile_atlas, color_pixel_grayscale );
-    const SDL_Surface_Ptr nightvision_tile_atlas = apply_color_filter( tile_atlas, color_pixel_nightvision );
-    const SDL_Surface_Ptr overexposed_tile_atlas = apply_color_filter( tile_atlas, color_pixel_overexposed );
-
-    copy_surface_to_texture( shadow_tile_atlas, ts.shadow_tile_values );
-    copy_surface_to_texture( nightvision_tile_atlas, ts.night_tile_values );
-    copy_surface_to_texture( overexposed_tile_atlas, ts.overexposed_tile_values );
+    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_grayscale ), ts.shadow_tile_values );
+    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_nightvision ), ts.night_tile_values );
+    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_overexposed ), ts.overexposed_tile_values );
 
     return tilecount;
 }
