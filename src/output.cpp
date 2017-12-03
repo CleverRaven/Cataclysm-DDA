@@ -280,7 +280,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
             i--;
             center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
             wrefresh( w );
-            refresh();
+            catacurses::refresh();
             inp_mngr.wait_for_any_key();
             werase( w );
             begin_y = 0;
@@ -289,7 +289,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         }
     }
     wrefresh( w );
-    refresh();
+    catacurses::refresh();
     inp_mngr.wait_for_any_key();
 }
 
@@ -603,7 +603,7 @@ bool query_yn( const std::string &text )
         ch = inp_mngr.get_input_event().get_first_input();
     };
 
-    refresh();
+    catacurses::refresh();
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
@@ -729,7 +729,7 @@ long popup( const std::string &text, PopupFlags flags )
         }
     }
     wrefresh( w );
-    refresh();
+    catacurses::refresh();
     refresh_display();
     return ch;
 }

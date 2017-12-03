@@ -856,7 +856,7 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
         column += pair_width;
     }
     wrefresh( win );
-    refresh();
+    catacurses::refresh();
     inp_mngr.wait_for_any_key();
 }
 
@@ -1048,7 +1048,7 @@ void display_help()
             draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
             wrefresh( w_help_border );
             help_main( w_help );
-            refresh();
+            catacurses::refresh();
             needs_refresh = false;
         };
         // TODO: use input context

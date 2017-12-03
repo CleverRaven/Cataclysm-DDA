@@ -2035,7 +2035,7 @@ hp_part Character::body_window( const std::string &menu_header,
             break;
         }
     } while (ch < '1' || ch > '7');
-    refresh();
+    catacurses::refresh();
 
     return healed_part;
 }

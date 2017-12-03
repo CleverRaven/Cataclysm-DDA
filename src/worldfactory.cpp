@@ -934,7 +934,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_active ) {
             draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
         }
-        refresh();
+        catacurses::refresh();
 
         last_active_header = active_header;
         const int next_header = (active_header == 1) ? 0 : 1;
@@ -1129,7 +1129,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 
         wrefresh(win);
         wrefresh(w_confirmation);
-        refresh();
+        catacurses::refresh();
 
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
@@ -1257,7 +1257,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
                    ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
                   );
     wrefresh(win);
-    refresh();
+    catacurses::refresh();
 }
 
 void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int current )

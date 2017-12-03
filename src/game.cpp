@@ -813,7 +813,7 @@ bool game::start_game(std::string worldname)
     init_autosave();
 
     clear();
-    refresh();
+    catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
     // Init some factions.
     if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
@@ -1565,7 +1565,7 @@ bool game::do_turn()
 
             wrefresh( popup );
 
-            refresh();
+            catacurses::refresh();
             refresh_display();
         }
     }
@@ -3730,7 +3730,7 @@ void game::load(std::string worldname, const save_t &name)
 void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 {
     erase();
-    refresh();
+    catacurses::refresh();
 
     if( world ) {
         auto &mods = world->active_mod_order;
@@ -3766,7 +3766,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
     }
 
     erase();
-    refresh();
+    catacurses::refresh();
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
@@ -5090,7 +5090,7 @@ void game::refresh_all()
     }
 
     draw();
-    refresh();
+    catacurses::refresh();
 }
 
 void game::draw_HP()
@@ -9276,7 +9276,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true);
         wrefresh(w_items);
         wrefresh(w_item_info);
-        refresh();
+        catacurses::refresh();
         action = ctxt.handle_input();
     } while (action != "QUIT");
 
@@ -9552,7 +9552,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         wrefresh(w_monster_info_border);
         wrefresh(w_monster_info);
 
-        refresh();
+        catacurses::refresh();
 
         action = ctxt.handle_input();
     } while (action != "QUIT");

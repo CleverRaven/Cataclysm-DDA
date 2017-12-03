@@ -650,7 +650,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                "%d", newmoves );
     wrefresh( w_speed );
 
-    refresh();
+    catacurses::refresh();
 
     int curtab = 1;
     size_t min, max;

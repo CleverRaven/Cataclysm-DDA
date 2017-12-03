@@ -1148,7 +1148,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         wrefresh(w_target);
         wrefresh(g->w_terrain);
-        refresh();
+        catacurses::refresh();
 
         std::string action;
         if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
