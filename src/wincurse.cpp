@@ -543,7 +543,7 @@ input_event input_manager::get_input_event()
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh( stdscr );
+    wrefresh( catacurses::stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)
