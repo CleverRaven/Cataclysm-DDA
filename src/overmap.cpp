@@ -2744,8 +2744,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             int i = 0;
             //Navigate through results
             tripoint tmp = curs;
-            catacurses::window w_search = catacurses::newwin( 13, 27, 3, TERMX - 27 );
-            WINDOW_PTR w_searchptr( w_search );
+            catacurses::WINDOW_PTR w_search = catacurses::newwin(13, 27, 3, TERMX - 27);
 
             input_context ctxt("OVERMAP_SEARCH");
             ctxt.register_leftright();

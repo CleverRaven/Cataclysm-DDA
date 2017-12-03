@@ -64,6 +64,7 @@ class window
         template<typename T>
         window( T *const ptr ) : native_window( static_cast<void *>( ptr ) ) {
         }
+        window( const WINDOW_PTR &ptr );
         ~window() {
         }
         template<typename T = void>
@@ -73,6 +74,7 @@ class window
         operator void *() const {
             return get();
         }
+        operator WINDOW_PTR() const;
 };
 
 struct delwin_functor {
@@ -92,7 +94,24 @@ struct delwin_functor {
  * To prevent the delwin call when the function is left (because the window is already deleted or, it should
  * not be deleted), call some_window_ptr.release().
  */
-using WINDOW_PTR = std::unique_ptr<void, delwin_functor>;
+class WINDOW_PTR : public std::unique_ptr<WINDOW, delwin_functor>
+{
+    public:
+        WINDOW_PTR() = default;
+        WINDOW_PTR( const window &w ) : WINDOW_PTR( w.get<WINDOW>() ) {
+        }
+        WINDOW_PTR( WINDOW *const ptr ) : unique_ptr( ptr ) {
+        }
+};
+
+inline window::window( const WINDOW_PTR &ptr ) : window( ptr.get() )
+{
+}
+
+inline window::operator WINDOW_PTR() const
+{
+    return WINDOW_PTR( get() );
+}
 
 enum base_color : short {
     black = 0x00,    // RGB{0, 0, 0}
@@ -112,6 +131,15 @@ extern window stdscr;
 
 window newwin( int nlines, int ncols, int begin_y, int begin_x );
 void delwin( const window &win );
+// Explicitly deleted because calling it is nearly always wrong.
+// Just let the WINDOW_PTR go out of scope, or reset it.
+void delwin( const WINDOW_PTR & ) = delete;
+// Explicitly defined because it would be ambiguous as WINDOW*
+// can be converted to window *and* to WINDOW_PTR.
+inline void delwin( WINDOW *const w )
+{
+    return delwin( window( w ) );
+}
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
 void mvwhline( const window &win, int y, int x, chtype ch, int n );

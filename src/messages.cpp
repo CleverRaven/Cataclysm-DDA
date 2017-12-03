@@ -241,12 +241,10 @@ bool Messages::has_undisplayed_messages()
 
 void Messages::display_messages()
 {
-    catacurses::WINDOW_PTR w_ptr {catacurses::newwin(
-                                      FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                      ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                      ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
-
-    const catacurses::window w = w_ptr.get();
+    catacurses::WINDOW_PTR w = catacurses::newwin(
+                                   FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                   ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                   ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );

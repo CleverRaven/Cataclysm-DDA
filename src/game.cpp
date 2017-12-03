@@ -1566,9 +1566,9 @@ bool game::do_turn()
         }
 
         if( calendar::once_every( MINUTES( 1 ) ) ) {
-            WINDOW_PTR popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
+            catacurses::WINDOW_PTR popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
 
-            wrefresh( popup.get() );
+            wrefresh( popup );
 
             refresh();
             refresh_display();
@@ -2389,13 +2389,13 @@ input_context game::get_player_input(std::string &action)
             if( uquit == QUIT_WATCH ) {
                 draw_sidebar();
 
-                WINDOW_PTR popup = create_wait_popup_window(
+                catacurses::WINDOW_PTR popup = create_wait_popup_window(
                     string_format( _( "Press %s to accept your fate..." ),
                     ctxt.get_desc( "QUIT" ).c_str() ),
                     c_red
                 );
 
-                wrefresh( popup.get() );
+                wrefresh( popup );
 
                 break;
             }
@@ -8993,14 +8993,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width : VIEW_OFFSET_X;
 
-    catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1 );
-    WINDOW_PTR w_itemsptr( w_items );
-
-    catacurses::window w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX );
-    WINDOW_PTR w_items_borderptr( w_items_border );
-
-    catacurses::window w_item_info = catacurses::newwin( iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
-    WINDOW_PTR w_item_infoptr( w_item_info );
+    catacurses::WINDOW_PTR w_items = catacurses::newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1);
+    catacurses::WINDOW_PTR w_items_border = catacurses::newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX);
+    catacurses::WINDOW_PTR w_item_info = catacurses::newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
 
     // use previously selected sorting method
     bool sort_radius = uistate.list_item_sort != 2;
@@ -9360,18 +9355,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
 
-    catacurses::window w_monsters = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
-                                VIEW_OFFSET_Y + 1, offsetX + 1);
-    WINDOW_PTR w_monstersptr( w_monsters );
-    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
-                                       VIEW_OFFSET_Y, offsetX);
-    WINDOW_PTR w_monsters_borderptr( w_monsters_border );
-    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
-                                    TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
-    WINDOW_PTR w_monster_infoptr( w_monster_info );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width,
-                                           TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
-    WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
+    catacurses::WINDOW_PTR w_monsters = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
+    catacurses::WINDOW_PTR w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::WINDOW_PTR w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1 );
+    catacurses::WINDOW_PTR w_monster_info_border = catacurses::newwin( iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
 
     const int max_gun_range = u.weapon.gun_range( &u );
 
@@ -13652,8 +13639,7 @@ void intro()
     int maxx = getmaxx( stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
-    WINDOW_PTR w_tmpptr( tmp );
+    catacurses::WINDOW_PTR tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
 
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);

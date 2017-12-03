@@ -694,10 +694,10 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
 
     WINDOW_PTR result = create_popup_window( width, height, flags );
 
-    draw_border( result.get() );
+    draw_border( result );
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+        fold_and_print( result, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
     }
 
     return result;
@@ -730,15 +730,15 @@ long popup( const std::string &text, PopupFlags flags )
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w.get() );
+        wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
-            werase( w.get() );
+            werase( w );
             break; // return the first key that got pressed.
         }
     }
-    wrefresh( w.get() );
+    wrefresh( w );
     refresh();
     refresh_display();
     return ch;

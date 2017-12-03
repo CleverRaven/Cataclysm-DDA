@@ -33,7 +33,7 @@ public:
         auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
 
         wrefresh( g->w_terrain );
-        wrefresh( window.get() );
+        wrefresh( window );
 
         refresh_display();
     }

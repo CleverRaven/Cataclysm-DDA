@@ -1618,20 +1618,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX );
-    WINDOW_PTR w_options_borderptr( w_options_border );
-
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
-                                       1 + iOffsetX);
-    WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
-
-    catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
-                                      1 + iOffsetX);
-    WINDOW_PTR w_options_headerptr( w_options_header );
-
-    catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                               iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_optionsptr( w_options );
+    catacurses::WINDOW_PTR w_options_border = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX);
+    catacurses::WINDOW_PTR w_options_tooltip = catacurses::newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
+    catacurses::WINDOW_PTR w_options_header = catacurses::newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
+    catacurses::WINDOW_PTR w_options = catacurses::newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs(w_options_border, 1);

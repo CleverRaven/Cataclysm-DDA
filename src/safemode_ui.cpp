@@ -66,19 +66,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
-    WINDOW_PTR w_helpptr( w_help );
-
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y,
-                                  offset_x );
-    WINDOW_PTR w_borderptr( w_border );
-    catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                  1 + offset_y, 1 + offset_x );
-    WINDOW_PTR w_headerptr( w_header );
-    catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                           header_height + 1 + offset_y, 1 + offset_x );
-    WINDOW_PTR wptr( w );
+    catacurses::WINDOW_PTR w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
+                                    FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
+    catacurses::WINDOW_PTR w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                      offset_y, offset_x );
+    catacurses::WINDOW_PTR w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                                      1 + offset_y, 1 + offset_x );
+    catacurses::WINDOW_PTR w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                               header_height + 1 + offset_y, 1 + offset_x );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
@@ -436,12 +431,10 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     const int content_height = FULL_SCREEN_HEIGHT - 8;
     const int content_width = FULL_SCREEN_WIDTH - 30;
 
-    catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-                                            offset_y, offset_x );
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+    catacurses::WINDOW_PTR w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+            offset_y, offset_x );
+    catacurses::WINDOW_PTR w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
             1 + offset_y, 1 + offset_x );
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border( w_test_rule_border );
 

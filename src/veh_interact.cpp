@@ -227,8 +227,6 @@ void veh_interact::allocate_windows()
     w_stats = catacurses::newwin( stats_h,   grid_w, stats_y, 1 );
     w_name  = catacurses::newwin( name_h,    grid_w, name_y,  1 );
 
-    w_details = catacurses::window(); // only pops up when in install menu
-
     display_grid();
     display_name();
     display_stats();
@@ -831,8 +829,7 @@ bool veh_interact::do_install( std::string &msg )
 
     //destroy w_details
     werase(w_details);
-    delwin(w_details);
-    w_details = catacurses::window();
+    w_details.reset();
 
     //restore windows that had been covered by w_details
     display_stats();

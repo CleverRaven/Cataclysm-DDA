@@ -544,7 +544,7 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW_PTR w_inv;
+        catacurses::WINDOW_PTR w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
