@@ -2,9 +2,57 @@
 <html>
   <head>
     <title>Cataclysm web linting tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <style>
-      * { font-family: 'monospace'; }
-      input { display: block; }
+      *,
+      *::before,
+      *::after {
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: Helvetica, Arial, sans-serif;
+          padding: 15px;
+          background-color: #f0f0f0;
+      }
+
+      form {
+          max-width: 100%;
+      }
+
+      textarea {
+          font-family: monospace;
+          font-size: 1.2em;
+          border: solid 1px #ccc;
+          padding: 15px;
+          transition: border-color .1s ease;
+          width: 100%;
+          max-width: 100%;
+      }
+
+      textarea:focus {
+          border-color: #444;
+          outline: none;
+      }
+
+      input[type=submit] {
+          border: solid 1px #ccc;
+          background-color: transparent;
+          -webkit-appearance: none;
+          border-radius: 3px;
+          padding: 10px 35px;
+          font-size: 1.4em;
+          font-weight: 100;
+          background: #333;
+          color: white;
+          transition: background-color .1s ease, transform .1s ease-in;
+      }
+
+      input[type=submit]:hover {
+          background-color: #555;
+          transform: translateY(-1px);
+          box-shadow: 0 1px 3px rgba(0,0,0,.2);
+      }
     </style>
     <script>
       function lint(form) {
@@ -60,7 +108,7 @@
   <body>
     <h1>Cataclysm web linting tool</h1>
     <form onsubmit="return lint(this);">
-      <textarea name="data" cols="120" rows="30"></textarea>
+      <textarea name="data" rows="30"></textarea>
       <input type="submit"/>
     </form>
   </body>
