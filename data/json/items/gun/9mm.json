@@ -179,7 +179,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "9mm", [ "glockmag", "glockbigmag" , "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ], 
+      [ "9mm", [ "glockmag", "glockbigmag" , "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
