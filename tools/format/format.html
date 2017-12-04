@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cataclysm web linting tool</title>
+    <title>Cataclysm: DDA Web JSON Linting Tool</title>
+    <meta name="description" content="Cataclysm DDA's web JSON linter for modders and editors">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <style>
       *,
@@ -27,7 +28,7 @@
           padding: 15px;
           transition: border-color .1s ease;
           width: 100%;
-          max-width: 100%;
+          max-width: 1400px;
       }
 
       textarea:focus {
@@ -36,6 +37,7 @@
       }
 
       input[type=submit] {
+          display: block;
           border: solid 1px #ccc;
           background-color: transparent;
           -webkit-appearance: none;
@@ -106,10 +108,12 @@
     </script>
   </head>
   <body>
-    <h1>Cataclysm web linting tool</h1>
+    <h1>Cataclysm: Dark Days Ahead JSON Web Linting Tool</h1>
+    <p>This is a tool to help modders and editors of the open source game <a href="https://github.com/CleverRaven/Cataclysm-DDA">Cataclysm: Dark Days Ahead</a> write JSON in the game's expected format.</p>
+    <p>Paste some JSON into the field below and click "Lint" to run an autoformatter against it.</p>
     <form onsubmit="return lint(this);">
-      <textarea name="data" rows="30"></textarea>
-      <input type="submit"/>
+      <textarea name="data" rows="30" placeholder="Paste JSON here"></textarea>
+      <input type="submit" value="Lint"/>
     </form>
   </body>
 </html>
