@@ -6142,6 +6142,65 @@ void player::suffer()
     if (has_artifact_with(AEP_ATTENTION)) {
         add_effect( effect_attention, 3 );
     }
+
+    // Stim +250 kills
+    if ( stim > 210 ) {
+        if (one_in(5) && !(has_effect( effect_hallu ))) {
+            add_msg_if_player(m_bad, _("It seems as if the world is shifting around you."));
+            add_effect( effect_hallu, 50 );
+        }
+    }
+    if ( stim > 170 ) {
+        if (one_in(10) && !(has_effect( effect_visuals ))) {
+            add_msg_if_player(m_bad, _("Your vision is becoming less and less clear..."));
+            add_effect( effect_visuals, 50 );
+        }
+    }
+    if ( stim > 110 ) {
+        if ( !has_effect( effect_shakes) && calendar::once_every( MINUTES(5) ) ) {
+            add_msg( "You start to shake uncontrollably." );
+            add_effect( effect_shakes, MINUTES(5) + 1 );
+        }
+    }
+    if ( stim > 75 ) {
+        if ( !one_in( 20 ) && !has_effect( effect_cold ) ) {
+            add_msg( "You feel cold..." );
+            add_effect( effect_cold, 50 );
+        }
+    }
+
+    // Stim -200 or painkillers 240 kills
+    if ( stim < -160 || pkill > 200 ) {
+        if ( one_in(30) && !in_sleep_state() ) {
+            add_msg_if_player(m_bad, _("You black out!") );
+            int dur = rng(300, 600);
+            add_effect( effect_downed, dur );
+            add_effect( effect_blind, dur );
+            fall_asleep( dur );
+        }
+    }
+    if ( stim < -120 || pkill > 160 ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(5) ) ) {
+            add_msg(m_bad, _("Your breathing slows down.") );
+            add_effect( effect_winded, MINUTES(5) + 1 );
+        }
+    }
+    if ( stim < -85 || pkill > 145 ) {
+        if ( one_in( 15 ) ) {
+            add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
+            moves -= rng(10, 30);
+            if ( one_in(3) && !has_effect( effect_downed ) ) {
+                add_msg_if_player(m_bad, _("You stumble and fall over!"));
+                add_effect( effect_downed, rng(3, 10) );
+            }
+        }
+    }
+    if ( stim < -60 || pkill > 130 ) {
+        if( calendar::once_every( MINUTES( 10 ) ) ) {
+            add_msg(m_warning, _("You feel tired...") );
+            mod_fatigue( stim / (-10) );
+        }
+    }
 }
 
 // At minimum level, return at_min, at maximum at_max
