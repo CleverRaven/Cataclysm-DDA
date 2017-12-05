@@ -6151,15 +6151,15 @@ void player::suffer()
         }
     }
     if ( stim > 170 ) {
-        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(5) ) ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
             add_msg(m_bad, _("You feel short of breath.") );
-            add_effect( effect_winded, MINUTES(5) + 1 );
+            add_effect( effect_winded, MINUTES(10) + 1 );
         }
     }
     if ( stim > 110 ) {
-        if ( !has_effect( effect_shakes ) && calendar::once_every( MINUTES(5) ) ) {
-            add_msg( _("You start to shake uncontrollably.") );
-            add_effect( effect_shakes, MINUTES(5) + 1 );
+        if ( !has_effect( effect_shakes ) && calendar::once_every( MINUTES(10) ) ) {
+            add_msg( _("You shake uncontrollably.") );
+            add_effect( effect_shakes, MINUTES(15) + 1 );
         }
     }
     if ( stim > 75 ) {
@@ -6180,15 +6180,15 @@ void player::suffer()
         }
     }
     if ( stim < -120 || pkill > 160 ) {
-        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(5) ) ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
             add_msg(m_bad, _("Your breathing slows down.") );
-            add_effect( effect_winded, MINUTES(5) + 1 );
+            add_effect( effect_winded, MINUTES(10) + 1 );
         }
     }
     if ( stim < -85 || pkill > 145 ) {
         if ( one_in( 15 ) ) {
             add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
-            moves -= rng(10, 30);
+            mod_moves( -rng(10, 30) );
             if ( one_in(3) && !has_effect( effect_downed ) ) {
                 add_msg_if_player(m_bad, _("You stumble and fall over!"));
                 add_effect( effect_downed, rng(3, 10) );
@@ -6198,7 +6198,9 @@ void player::suffer()
     if ( stim < -60 || pkill > 130 ) {
         if( calendar::once_every( MINUTES( 10 ) ) ) {
             add_msg(m_warning, _("You feel tired...") );
-            mod_fatigue( stim / (-10) );
+            // Proportional "distance" to deadly levels, whichever is greater
+            auto prop = std::max((-stim - 60)/140.0, (pkill - 130)/110.0);
+            mod_fatigue( 10 * prop + rng(5, 10) );
         }
     }
 }
