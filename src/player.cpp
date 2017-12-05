@@ -6145,27 +6145,27 @@ void player::suffer()
 
     // Stim +250 kills
     if ( stim > 210 ) {
-        if (one_in(5) && !(has_effect( effect_hallu ))) {
-            add_msg_if_player(m_bad, _("It seems as if the world is shifting around you."));
-            add_effect( effect_hallu, 50 );
+        if ( one_in( 20 ) && !has_effect( effect_downed ) ) {
+            add_msg_if_player(m_bad, _("Your muscles spasm, and you fall to the ground!"));
+            add_effect( effect_downed, rng(6, 20) );
         }
     }
     if ( stim > 170 ) {
-        if (one_in(10) && !(has_effect( effect_visuals ))) {
-            add_msg_if_player(m_bad, _("Your vision is becoming less and less clear..."));
-            add_effect( effect_visuals, 50 );
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(5) ) ) {
+            add_msg(m_bad, _("You feel short of breath.") );
+            add_effect( effect_winded, MINUTES(5) + 1 );
         }
     }
     if ( stim > 110 ) {
-        if ( !has_effect( effect_shakes) && calendar::once_every( MINUTES(5) ) ) {
-            add_msg( "You start to shake uncontrollably." );
+        if ( !has_effect( effect_shakes ) && calendar::once_every( MINUTES(5) ) ) {
+            add_msg( _("You start to shake uncontrollably.") );
             add_effect( effect_shakes, MINUTES(5) + 1 );
         }
     }
     if ( stim > 75 ) {
-        if ( !one_in( 20 ) && !has_effect( effect_cold ) ) {
-            add_msg( "You feel cold..." );
-            add_effect( effect_cold, 50 );
+        if ( !one_in( 20 ) && !has_effect( effect_nausea ) ) {
+            add_msg( _("You feel nauseous...") );
+            add_effect( effect_nausea, 50 );
         }
     }
 
