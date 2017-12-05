@@ -353,6 +353,31 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+{
+    std::list<item> used;
+    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        return used;
+    }
+    if( last_craft->has_cached_selections() ) {
+        used = last_craft->consume_components();
+    } else {
+        // This should fail and return, but currently crafting_command isn't saved
+        // Meaning there are still cases where has_cached_selections will be false
+        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        const auto &req = making->requirements();
+        for( const auto &it : req.get_components() ) {
+            std::list<item> tmp = consume_items( it, batch_size );
+            used.splice( used.end(), tmp );
+        }
+        for( const auto &it : req.get_tools() ) {
+            consume_tools( it, batch_size );
+        }
+    }
+    return used;
+}
+
+
 void player::complete_craft()
 {
     const recipe *making = &recipe_dict[ activity.name ]; // Which recipe is it?
@@ -468,18 +493,7 @@ void player::complete_craft()
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
                  item::nname( making->result ).c_str() );
-        if( last_craft->has_cached_selections() ) {
-            last_craft->consume_components();
-        } else {
-            // @todo Guarantee that selections are cached
-            const auto &req = making->requirements();
-            for( const auto &it : req.get_components() ) {
-                consume_items( it, batch_size );
-            }
-            for( const auto &it : req.get_tools() ) {
-                consume_tools( it, batch_size );
-            }
-        }
+        consume_components_for_craft( making, batch_size );
         activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
@@ -494,26 +508,10 @@ void player::complete_craft()
 
     // If we're here, the craft was a success!
     // Use up the components and tools
-    std::list<item> used;
-    if( !last_craft->has_cached_selections() ) {
-        // This should fail and return, but currently crafting_command isn't saved
-        // Meaning there are still cases where has_cached_selections will be false
-        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
-        if( !has_trait( trait_id( "DEBUG_HS" ) ) ) {
-            const auto &req = making->requirements();
-            for( const auto &it : req.get_components() ) {
-                std::list<item> tmp = consume_items( it, batch_size );
-                used.splice( used.end(), tmp );
-            }
-            for( const auto &it : req.get_tools() ) {
-                consume_tools( it, batch_size );
-            }
-        }
-    } else if( !has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        used = last_craft->consume_components();
-        if( used.empty() ) {
-            return;
-        }
+    std::list<item> used = consume_components_for_craft( making, batch_size );
+    if( last_craft->has_cached_selections() && used.empty() ) {
+        // This signals failure, even though there seem to be several paths where it shouldn't...
+        return;
     }
     if( !used.empty() ) {
         reset_encumbrance();  // in case we were wearing something just consumed up.

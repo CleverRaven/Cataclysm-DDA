@@ -749,11 +749,15 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit )
 {
     long qty = 0;
 
+    bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
         if( e->is_tool() ) {
             if( e->typeId() == id ) {
                 // includes charges from any included magazine.
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
+                if( e->has_flag( "USE_UPS" ) ) {
+                    found_tool_with_UPS = true;
+                }
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
@@ -769,6 +773,10 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit )
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
+    if( qty < limit && found_tool_with_UPS ) {
+        qty += self.charges_of( "UPS", limit - qty );
+    }
+
     return std::min( qty, limit );
 }
 
@@ -783,6 +791,12 @@ long visitable<T>::charges_of( const std::string &what, long limit ) const
 template <>
 long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
+    if( what == "UPS" ) {
+        long qty = 0;
+        qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
+        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        return std::min( qty, limit );
+    }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {

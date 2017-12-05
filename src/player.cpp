@@ -6975,15 +6975,23 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     std::vector<item *> del;
 
-    visit_items( [this, &what, &qty, &res, &del]( item *e ) {
+    bool has_tool_with_UPS = false;
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
         if( e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
+        }
+        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+            has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 
     for( auto e : del ) {
         remove_item( *e );
+    }
+
+    if( has_tool_with_UPS ) {
+        use_charges( "UPS", qty );
     }
 
     return res;
