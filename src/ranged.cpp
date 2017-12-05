@@ -307,10 +307,10 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     moves -= time_to_fire( *this, *gun.type );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, hits + 1 );
+    practice( skill_gun, ( hits + 1 ) * 5 );
     // launchers train weapon skill for both hits and misses.
     int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 10 );
+    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
