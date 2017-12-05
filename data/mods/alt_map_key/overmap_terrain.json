@@ -778,7 +778,7 @@
         "id" : "cabin_strange_b",
         "name" : "cabin basement",
         "sym" : 98,
-        "color" : "dk_gray",
+        "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "build",
         "flags" : [ "NO_ROTATE" ]
@@ -1956,7 +1956,7 @@
         "id" : "triffid_finale",
         "name" : "triffid heart",
         "sym" : 84,
-        "color" : "white_pink",
+        "color" : "i_pink",
         "see_cost" : 5,
         "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
     },{
@@ -7002,7 +7002,7 @@
     "type": "overmap_terrain",
     "name": "derelict property",
     "sym": 100,
-    "color": "grey",
+    "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "field"
