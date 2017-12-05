@@ -3,7 +3,6 @@
 #define CREATURE_H
 
 #include "pldata.h"
-#include "json.h"
 #include "effect.h"
 #include "bodypart.h"
 #include "output.h"

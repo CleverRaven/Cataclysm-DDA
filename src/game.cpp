@@ -3643,7 +3643,10 @@ void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional( savefile, []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 }
 
 bool game::load( const std::string &world ) {
@@ -3851,7 +3854,8 @@ bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        fout << uistate.serialize();
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
     }, _( "uistate data" ) );
 }
 

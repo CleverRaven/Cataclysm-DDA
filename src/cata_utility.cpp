@@ -460,3 +460,18 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
     }
     return result;
 }
+
+std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback )
+{
+    std::ostringstream buffer;
+    JsonOut jsout( buffer );
+    callback( jsout );
+    return buffer.str();
+}
+
+void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const std::string &data )
+{
+    std::istringstream buffer( data );
+    JsonIn jsin( buffer );
+    callback( jsin );
+}

@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "overmap.h"
+#include "json.h"
 #include "itype.h"
 #include "vehicle.h"
 #include "field.h"

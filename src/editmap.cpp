@@ -104,7 +104,7 @@ template<class SAVEOBJ>
 void edit_json( SAVEOBJ *it )
 {
     int tmret = -1;
-    std::string save1 = it->serialize();
+    std::string save1 = serialize( *it );
     std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     std::string save2;
@@ -116,15 +116,14 @@ void edit_json( SAVEOBJ *it )
             tm.addentry( -1, true, -2, "%s", elem.c_str() );
         }
         if( tmret == 0 ) {
-            std::istringstream dump( save1 );
             try {
                 SAVEOBJ tmp;
-                tmp.deserialize( dump );
+                deserialize( tmp, save1 );
                 *it = std::move( tmp );
-            } catch( const JsonError &err ) {
-                popup( "Error on deserialization: %s", err.c_str() );
+            } catch( const std::exception &err ) {
+                popup( "Error on deserialization: %s", err.what() );
             }
-            save2 = it->serialize();
+            save2 = serialize( *it );
             fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
@@ -152,7 +151,7 @@ void edit_json( SAVEOBJ *it )
             fout.close();
 
             fout.open( "save/jtest-2j.txt" );
-            fout << it->serialize();
+            fout << serialize( *it );
             fout.close();
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );

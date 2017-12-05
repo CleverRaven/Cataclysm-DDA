@@ -10,6 +10,7 @@
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
+#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"

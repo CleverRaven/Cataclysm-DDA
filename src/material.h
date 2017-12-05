@@ -8,7 +8,6 @@
 #include "game_constants.h"
 #include "damage.h" // damage_type
 #include "enums.h"
-#include "json.h"
 #include "string_id.h"
 #include "vitamin.h"
 #include "fire.h"
@@ -16,6 +15,7 @@
 class material_type;
 using material_id = string_id<material_type>;
 using itype_id = std::string;
+class JsonObject;
 
 class material_type
 {

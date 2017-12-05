@@ -10,6 +10,7 @@
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "trap.h"
 #include "vehicle.h"

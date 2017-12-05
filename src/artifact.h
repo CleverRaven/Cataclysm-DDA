@@ -3,11 +3,13 @@
 #define ARTIFACT_H
 
 #include "itype.h"
-#include "json.h"
 #include "enums.h"
 
 #include <string>
 #include <vector>
+
+class JsonObject;
+class JsonOut;
 
 enum art_effect_active : int {
     AEA_NULL = 0,
@@ -59,17 +61,11 @@ enum art_charge : int {
 
 /* CLASSES */
 
-class it_artifact_tool : public itype, public JsonSerializer, public JsonDeserializer
+class it_artifact_tool : public itype
 {
     public:
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonObject &jo );
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            deserialize( jo );
-        }
 
         it_artifact_tool();
         it_artifact_tool( JsonObject &jo );
@@ -79,17 +75,11 @@ class it_artifact_tool : public itype, public JsonSerializer, public JsonDeseria
         void create_name( const std::string &property_name, const std::string &shape_name );
 };
 
-class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
+class it_artifact_armor : public itype
 {
     public:
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonObject &jo );
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            deserialize( jo );
-        }
 
         it_artifact_armor();
         it_artifact_armor( JsonObject &jo );

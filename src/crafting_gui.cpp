@@ -12,7 +12,7 @@
 #include "string_formatter.h"
 #include "catacharset.h"
 #include "output.h"
-#include "cata_utility.h"
+#include "json.h"
 #include "string_input_popup.h"
 
 #include "debug.h"

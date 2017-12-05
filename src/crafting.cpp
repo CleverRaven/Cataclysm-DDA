@@ -9,7 +9,6 @@
 #include "bionics.h"
 #include "inventory.h"
 #include "itype.h"
-#include "json.h"
 #include "ammo.h"
 #include "map.h"
 #include "messages.h"

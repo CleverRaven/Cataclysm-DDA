@@ -4,7 +4,6 @@
 
 #include "player.h"
 #include "faction.h"
-#include "json.h"
 #include "copyable_unique_ptr.h"
 
 #include <vector>
@@ -12,6 +11,9 @@
 #include <map>
 #include <memory>
 
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class item;
 class overmap;
 class player;
@@ -96,7 +98,7 @@ enum npc_personality_type : int {
     NUM_NPE
 };
 
-struct npc_personality : public JsonSerializer, public JsonDeserializer {
+struct npc_personality {
     // All values should be in the -10 to 10 range.
     signed char aggression;
     signed char bravery;
@@ -109,13 +111,11 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer {
         altruism   = 0;
     };
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
-struct npc_opinion : public JsonSerializer, public JsonDeserializer {
+struct npc_opinion {
     int trust;
     int fear;
     int value;
@@ -147,10 +147,8 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer {
         return ( npc_opinion( *this ) += rhs );
     }
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 enum combat_engagement {
@@ -174,7 +172,7 @@ enum aim_rule {
 };
 
 
-struct npc_follower_rules : public JsonSerializer, public JsonDeserializer {
+struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
     bool use_guns;
@@ -194,10 +192,8 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer {
     npc_follower_rules();
     ~npc_follower_rules();
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 // Data relevant only for this action
@@ -376,7 +372,7 @@ enum talk_topic_enum {
     NUM_TALK_TOPICS
 };
 
-struct npc_chatbin : public JsonSerializer, public JsonDeserializer {
+struct npc_chatbin {
     /**
      * Add a new mission to the available missions (@ref missions). For compatibility it silently
      * ignores null pointers passed to it.
@@ -413,10 +409,8 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer {
 
     npc_chatbin() = default;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 class npc;
@@ -479,9 +473,7 @@ class npc : public player
         void load_info( std::string data ) override; // Overloaded from player
         virtual std::string save_info() const override;
 
-        using player::deserialize;
         void deserialize( JsonIn &jsin ) override;
-        using player::serialize;
         void serialize( JsonOut &jsout ) const override;
 
         // Display

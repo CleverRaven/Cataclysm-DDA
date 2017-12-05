@@ -4,7 +4,6 @@
 
 #include "color.h"
 #include "common_types.h"
-#include "json.h"
 #include "enums.h"
 #include "int_id.h"
 #include "mongroup.h"
@@ -21,7 +20,7 @@ struct city;
 struct oter_t;
 struct oter_type_t;
 struct overmap_location;
-
+class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
@@ -85,25 +84,22 @@ bool are_parallel( type dir1, type dir2 );
 
 };
 
-struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
+struct overmap_spawns {
+        overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
 
-    string_id<MonsterGroup> group;
-    numeric_interval<int> population;
+        string_id<MonsterGroup> group;
+        numeric_interval<int> population;
 
-    bool operator==( const overmap_spawns &rhs ) const {
-        return group == rhs.group && population == rhs.population;
-    }
+        bool operator==( const overmap_spawns &rhs ) const {
+            return group == rhs.group && population == rhs.population;
+        }
 
-    virtual void load( JsonObject &jo ) {
-        jo.read( "group", group );
-        jo.read( "population", population );
-    }
-
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
-        load( jo );
-    }
+    protected:
+        template<typename JsonObjectType>
+        void load( JsonObjectType &jo ) {
+            jo.read( "group", group );
+            jo.read( "population", population );
+        }
 };
 
 struct overmap_static_spawns : public overmap_spawns {
@@ -113,7 +109,9 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    void load( JsonObject &jo ) override {
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
@@ -291,34 +289,38 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    void load( JsonObject &jo ) override {
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
 };
 
-struct overmap_special_terrain : public JsonDeserializer {
+struct overmap_special_terrain {
     overmap_special_terrain() { };
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject om = jsin.get_object();
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto om = jsin.get_object();
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
     }
 };
 
-struct overmap_special_connection : public JsonDeserializer {
+struct overmap_special_connection {
     tripoint p;
     string_id<oter_type_t> terrain; // TODO: Remove it.
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );

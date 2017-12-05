@@ -7,13 +7,14 @@
 #include <set>
 #include <string>
 #include "enums.h"
-#include "json.h"
 #include "string_id.h"
 #include "monster.h"
 
 // from overmap.h
 class overmap;
-
+class JsonObject;
+class JsonIn;
+class JsonOut;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 
@@ -80,7 +81,7 @@ struct MonsterGroup {
     bool is_safe; /// Used for @ref mongroup::is_safe()
 };
 
-struct mongroup : public JsonSerializer, public JsonDeserializer {
+struct mongroup {
     mongroup_id type;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
@@ -156,12 +157,9 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void deserialize( JsonIn &jsin );
     void deserialize_legacy( JsonIn &jsin );
-
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
+    void serialize( JsonOut &jsout ) const;
 };
 
 class MonsterGroupManager

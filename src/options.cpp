@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "json.h"
 #include "sounds.h"
 #include "cata_utility.h"
 #include "input.h"
@@ -1993,8 +1994,9 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = FILENAMES["options"];
-
-    if( !read_from_file_optional( file, *this ) ) {
+    if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    deserialize( jsin );
+    } ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);

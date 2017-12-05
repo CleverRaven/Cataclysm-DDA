@@ -12,7 +12,6 @@
 #include "mission.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"

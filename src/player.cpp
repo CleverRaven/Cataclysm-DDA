@@ -2242,24 +2242,16 @@ nc_color player::basic_symbol_color() const
 
 void player::load_info( std::string data )
 {
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
     try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad player json\n%s", jsonerr.c_str() );
+        ::deserialize( *this, data );
+    } catch( const std::exception &jsonerr ) {
+        debugmsg( "Bad player json\n%s", jsonerr.what() );
     }
 }
 
 std::string player::save_info() const
 {
-    std::stringstream dump;
-    dump << serialize(); // saves contents
-    dump << std::endl;
-    dump << dump_memorial();
-    return dump.str();
+    return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
 void player::memorial( std::ostream &memorial_file, std::string epitaph )

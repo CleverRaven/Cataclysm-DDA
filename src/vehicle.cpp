@@ -31,6 +31,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
+#include "json.h"
 #include "map_iterator.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
@@ -183,24 +184,6 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::istream &stin)
-{
-    std::string type;
-    getline(stin, type);
-    this->type = vproto_id( type );
-
-    std::stringstream derp;
-    derp << type;
-    JsonIn jsin(derp);
-    try {
-        deserialize(jsin);
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-    }
-    refresh(); // part index lists are lost on save??
-    shift_if_needed();
-}
-
 /** Checks all parts to see if frames are missing (as they might be when
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
@@ -275,13 +258,6 @@ void vehicle::add_steerable_wheels()
     for (auto &wheel : wheels) {
         parts[ wheel.first ].id = wheel.second;
     }
-}
-
-void vehicle::save (std::ostream &stout)
-{
-    serialize(stout);
-    stout << std::endl;
-    return;
 }
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
