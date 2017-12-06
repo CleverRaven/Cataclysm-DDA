@@ -1935,6 +1935,16 @@ bool vehicle::remove_part( int p )
         }
     }
 
+    //...and batteries
+    if( part_flag( p, "BATTERY_MOUNT" ) ) {
+        int battery = part_with_feature( p, "NEEDS_BATTERY_MOUNT", false );
+        if( battery >= 0 ) {
+            item it = parts[battery].properties_to_item();
+            g->m.add_item_or_charges( part_loc, it );
+            remove_part( battery );
+        }
+    }
+
     // Unboard any entities standing on removed boardable parts
     if( part_flag( p, "BOARDABLE" ) ) {
         std::vector<int> bp = boarded_parts();
