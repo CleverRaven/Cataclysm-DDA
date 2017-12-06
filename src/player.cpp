@@ -6146,8 +6146,11 @@ void player::suffer()
     // Stim +250 kills
     if ( stim > 210 ) {
         if ( one_in( 20 ) && !has_effect( effect_downed ) ) {
-            add_msg_if_player(m_bad, _("Your muscles spasm, and you fall to the ground!"));
-            add_effect( effect_downed, rng(6, 20) );
+            add_msg_if_player(m_bad, _("Your muscles spasm!"));
+            if( !has_effect( effect_downed ) ) {
+                add_msg_if_player(m_bad, _("You fall to the ground!"));
+                add_effect( effect_downed, rng(6, 20) );
+            }
         }
     }
     if ( stim > 170 ) {
