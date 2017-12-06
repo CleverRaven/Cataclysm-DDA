@@ -1909,41 +1909,34 @@ bool vehicle::remove_part( int p )
     int y = parts[p].precalc[0].y;
     tripoint part_loc( global_x() + x, global_y() + y, smz );
 
+    // If `p` has flag `parent_flag`, remove child with flag `child_flag`
+    // Returns true if removal occurs
+    const auto remove_dependent_part = [&]( const std::string& parent_flag,
+            const std::string& child_flag ) {
+        if( part_flag( p, parent_flag ) ) {
+            int dep = part_with_feature( p, child_flag, false );
+            if( dep >= 0 ) {
+                item it = parts[dep].properties_to_item();
+                g->m.add_item_or_charges( part_loc, it );
+                remove_part( dep );
+                return true;
+            }
+        }
+        return false;
+    };
+
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
-    if( part_flag( p, "WINDOW" ) ) {
-        int curtain = part_with_feature( p, "CURTAIN", false );
-        if( curtain >= 0 ) {
-            item it = parts[curtain].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it );
-            remove_part( curtain );
-            g->m.set_transparency_cache_dirty( smz );
-        }
+    if( remove_dependent_part( "WINDOW", "CURTAIN" ) ) {
+        g->m.set_transparency_cache_dirty( smz );
     }
 
     if( part_flag( p, VPFLAG_OPAQUE ) ) {
         g->m.set_transparency_cache_dirty( smz );
     }
 
-    //Ditto for seatbelts
-    if( part_flag( p, "SEAT" ) ) {
-        int seatbelt = part_with_feature( p, "SEATBELT", false );
-        if( seatbelt >= 0 ) {
-            item it = parts[seatbelt].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it );
-            remove_part( seatbelt );
-        }
-    }
-
-    //...and batteries
-    if( part_flag( p, "BATTERY_MOUNT" ) ) {
-        int battery = part_with_feature( p, "NEEDS_BATTERY_MOUNT", false );
-        if( battery >= 0 ) {
-            item it = parts[battery].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it );
-            remove_part( battery );
-        }
-    }
+    remove_dependent_part( "SEAT", "SEATBELT" );
+    remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
 
     // Unboard any entities standing on removed boardable parts
     if( part_flag( p, "BOARDABLE" ) ) {
