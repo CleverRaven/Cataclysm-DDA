@@ -118,20 +118,23 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
 }
 
 static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
-        mission *miss, bool must_see, int range, const std::string &replace_type )
+        mission *miss, bool must_see, int range, const std::string &replace_omter )
 {
     tripoint site = target_om_ter_random(omter, reveal_rad, miss, must_see, range);
 
-    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_type`
+    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_omter`
     if (site == g->u.global_omt_location()) {
-        for ( int tries = range * range; tries > 0; --tries ) {
-            site = target_om_ter_random( replace_type, 1, miss, false, range  );
+        for ( int tries = 10 * range; tries > 0; --tries ) {
+            site = target_om_ter_random( replace_omter, 1, miss, false, range  );
             if ( !overmap_buffer.is_explored( site.x, site.y, site.z ) ) {
                 overmap_buffer.ter( site ) = oter_id( omter );
                 miss->set_target( site );
-                break;
+                return site;
             }
         }
+        debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
+                  "of type %s that could be replaced with one. (Search radius: %d)",
+                  omter, replace_omter, range );
     }
 
     return site;
