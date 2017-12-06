@@ -2362,5 +2362,44 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
+    },
+    {
+        "type":"GENERIC",
+        "category": "other",
+        "id": "broken_target",
+        "name": "broken shooting target",
+        "symbol": ",",
+        "color": "dark_gray",
+        "description": "It's most of a shooting target, now all broken and shot up.",
+        "price": 10,
+        "weight": 1500,
+        "volume": 4,
+        "material": [ "wood", "cotton" ],
+        "bashing": 1,
+        "flags": [ "TRADER_AVOID" ]
+    },
+    {
+        "type": "TOOL",
+        "category": "tools",
+        "id": "unplaced_target",
+        "name": "shooting target",
+        "symbol": "o",
+        "color": "dark_red",
+        "description": "A simple target for shooting practice. Use it to place it down somewhere so you can shoot at it.",
+        "price": 1500,
+        "weight": 2800,
+        "volume": 8,
+        "material": [ "wood", "cotton" ],
+        "bashing": 1,
+        "use_action": {
+            "type": "place_monster",
+            "monster_id": "mon_target",
+            "friendly_msg": "You set the target up completely wrong.",
+            "hostile_msg": "You set the target up on the ground.",
+            "difficulty": 99,
+            "moves": 100,
+            "place_randomly": false
+        },
+        "flags": [ "TRADER_AVOID" ]
     }
 ]

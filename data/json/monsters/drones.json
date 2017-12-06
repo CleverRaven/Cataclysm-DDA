@@ -130,5 +130,27 @@
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+  },
+  {
+    "id": "mon_target",
+    "type": "MONSTER",
+    "name": "active practice target",
+    "description": "A placed target for shooting practice.  It looks like a zombie scarecrow.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 1000,
+    "speed": 1,
+    "material": [ "wood", "cotton" ],
+    "symbol": "@",
+    "color": "dkred",
+    "aggression": 1,
+    "morale": 1,
+    "armor_bash": 1,
+    "armor_cut": 1,
+    "vision_day": 1,
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "IMMOBILE" ]
   }
 ]
