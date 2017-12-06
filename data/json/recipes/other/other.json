@@ -32,12 +32,12 @@
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": [ "gun", 2 ],
     "time": 20000,
     "book_learn": [
-        [ "mag_guns", 2 ],
-        [ "mag_pistol", 2 ],
-        [ "mag_rifle", 2 ]
+        [ "mag_guns", 1 ],
+        [ "mag_pistol", 1 ],
+        [ "mag_rifle", 1 ]
     ],
     "components": [
         [ [ "rag", 10 ] ],
