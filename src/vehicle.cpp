@@ -1927,11 +1927,7 @@ bool vehicle::remove_part( int p )
 
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
-    if( remove_dependent_part( "WINDOW", "CURTAIN" ) ) {
-        g->m.set_transparency_cache_dirty( smz );
-    }
-
-    if( part_flag( p, VPFLAG_OPAQUE ) ) {
+    if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
         g->m.set_transparency_cache_dirty( smz );
     }
 
