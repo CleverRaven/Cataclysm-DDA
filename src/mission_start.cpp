@@ -117,6 +117,13 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     return place;
 }
 
+/**
+ * Wraps target_om_ter_random() and takes an extra argument specifying the
+ * type of tile it is permitted to replace. If it doesn't find an extant tile
+ * of the specified type (e.g. bandit_camp_1) it will find a random unexplored
+ * tile of the fallback type and replace it with the original type. If even
+ * that fails, it will print a debug message.
+ */
 static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
         mission *miss, bool must_see, int range, const std::string &replace_omter )
 {
