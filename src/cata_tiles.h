@@ -326,6 +326,12 @@ class tileset_loader
         int offset = 0;
         int size = 0;
 
+        struct {
+            int R;
+            int G;
+            int B;
+        };
+
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
@@ -348,7 +354,7 @@ class tileset_loader
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( std::string path, int R, int G, int B );
+        void load_tileset( std::string path );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that

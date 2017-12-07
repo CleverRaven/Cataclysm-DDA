@@ -375,7 +375,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-void tileset_loader::load_tileset( std::string img_path, int R, int G, int B )
+void tileset_loader::load_tileset( std::string img_path )
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
@@ -556,9 +556,9 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
             const std::string tileset_image_path = tileset_dir + '/' + tile_part_def.get_string("file");
-            int R = -1;
-            int G = -1;
-            int B = -1;
+            R = -1;
+            G = -1;
+            B = -1;
             if (tile_part_def.has_object("transparency")) {
                 JsonObject tra = tile_part_def.get_object("transparency");
                 R = tra.get_int("R");
@@ -572,7 +572,7 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
             sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            load_tileset( tileset_image_path, R, G, B );
+            load_tileset( tileset_image_path );
             load_tilejson_from_file( tile_part_def );
             if (tile_part_def.has_member("ascii")) {
                 load_ascii( tile_part_def );
@@ -586,9 +586,12 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
         sprite_height = ts.tile_height;
         sprite_offset_x = 0;
         sprite_offset_y = 0;
+        R = -1;
+        G = -1;
+        B = -1;
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        load_tileset( image_path, -1, -1, -1 );
+        load_tileset( image_path );
         load_tilejson_from_file(config);
         offset = size;
     }
