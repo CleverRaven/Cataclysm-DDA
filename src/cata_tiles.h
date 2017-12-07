@@ -270,6 +270,8 @@ class tileset
         std::vector<SDL_Texture_Ptr> night_tile_values;
         std::vector<SDL_Texture_Ptr> overexposed_tile_values;
 
+        std::unordered_map<std::string, tile_type> tile_ids;
+
         static SDL_Texture *get_if_available( const size_t index,
                                               const decltype( shadow_tile_values ) &tiles ) {
             return index < tiles.size() ? tiles[index].get() : nullptr;
@@ -297,6 +299,9 @@ class tileset
         SDL_Texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
         }
+
+        tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
+        const tile_type *find_tile_type( const std::string &id ) const;
 };
 
 class cata_tiles
@@ -532,8 +537,6 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        std::unordered_map<std::string, tile_type> tile_ids;
-        const tile_type *find_tile_type( const std::string &id ) const;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0, tile_width = 0;

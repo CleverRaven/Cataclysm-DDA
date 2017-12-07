@@ -183,17 +183,22 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::clear()
 {
-    // release maps
-    tile_ids.clear();
     // release minimap
     minimap_cache.clear();
     tex_pool.texture_pool.clear();
 }
 
-const tile_type *cata_tiles::find_tile_type( const std::string &id ) const
+const tile_type *tileset::find_tile_type( const std::string &id ) const
 {
     const auto iter = tile_ids.find( id );
     return iter != tile_ids.end() ? &iter->second : nullptr;
+}
+
+tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
+{
+    tile_type &result = tile_ids[id];
+    result = std::move( new_tile_type );
+    return result;
 }
 
 void clear_texture_pool()
@@ -515,7 +520,7 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
     }
 
     load_tilejson_from_file(tileset_root, config_file, img_path);
-    if( !find_tile_type( "unknown" ) ) {
+    if( !tileset_ptr->find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
 }
@@ -595,14 +600,14 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // also eliminate negative sprite references
 
     // loop through all tile ids and eliminate empty/invalid things
-    for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
+    for( auto it = tileset_ptr->tile_ids.begin(); it != tileset_ptr->tile_ids.end(); ) {
         auto &td = it->second;        // second is the tile_type describing that id
         process_variations_after_loading(td.fg, offset);
         process_variations_after_loading(td.bg, offset);
         // All tiles need at least foreground or background data, otherwise they are useless.
         if( td.bg.empty() && td.fg.empty() ) {
             dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
-            tile_ids.erase( it++ );
+            tileset_ptr->tile_ids.erase( it++ );
         } else {
             ++it;
         }
@@ -648,7 +653,7 @@ void cata_tiles::add_ascii_subtile( tile_type &curr_tile, const std::string &t_i
     curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back( s_id );
-    tile_ids[m_id] = curr_subtile;
+    tileset_ptr->create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
 void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
@@ -709,7 +714,7 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
             continue;
         }
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
-        tile_type &curr_tile = tile_ids[id];
+        tile_type curr_tile;
         curr_tile.offset.x = sprite_offset_x;
         curr_tile.offset.y = sprite_offset_y;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
@@ -758,6 +763,7 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
             add_ascii_subtile( curr_tile, id, 208 + base_offset, "end_piece" );
             add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
         }
+        tileset_ptr->create_tile_type( id, std::move( curr_tile ) );
     }
 }
 
@@ -806,21 +812,21 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
         }
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
-                  " Tile Definitions: " << tile_ids.size();
+                  " Tile Definitions: " << tileset_ptr->tile_ids.size();
 }
 
 /**
- * Load a tile definition and add it to the @ref tile_ids map.
+ * Load a tile definition and add it to the @ref tileset::tile_ids map.
  * All loaded tiles go into one vector (@ref tileset::tile_values), their index in it is their id.
  * The JSON data (loaded here) contains tile ids relative to the associated image.
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
- * @param id The id of the new tile definition (which is the key in @ref tile_ids). Any existing
+ * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
  * definition of the same id is overriden.
  * @param size The number of tiles loaded from the current tileset file. This defines the
  * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
  * that range.
- * @return A reference to the loaded tile inside the @ref tile_ids map.
+ * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
 tile_type &cata_tiles::load_tile( JsonObject &entry, const std::string &id, int offset, int size )
 {
@@ -829,9 +835,7 @@ tile_type &cata_tiles::load_tile( JsonObject &entry, const std::string &id, int 
     load_tile_spritelists( entry, curr_subtile.fg, offset, size, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, offset, size, "bg" );
 
-    auto &result = tile_ids[id];
-    result = curr_subtile;
-    return result;
+    return tileset_ptr->create_tile_type( id, std::move( curr_subtile ) );
 }
 
 void cata_tiles::load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
@@ -1536,11 +1540,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
 
-    const tile_type *tt = find_tile_type( seasonal_id );
+    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
     if( tt ) {
         id = std::move(seasonal_id);
     } else {
-        tt = find_tile_type( id );
+        tt = tileset_ptr->find_tile_type( id );
     }
 
     if( !tt ) {
@@ -1621,13 +1625,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
             std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
-            if( find_tile_type( generic_id ) ) {
+            if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
             }
             // Try again without color this time (using default color).
             generic_id = get_ascii_tile_id( sym, -1, -1 );
-            if( find_tile_type( generic_id ) ) {
+            if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
             }
@@ -1638,7 +1642,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     if( !tt ) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty() && !subcategory.empty()) {
-            tt = find_tile_type( "unknown_" + category_id + "_" + subcategory );
+            tt = tileset_ptr->find_tile_type( "unknown_" + category_id + "_" + subcategory );
         }
     }
 
@@ -1646,13 +1650,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     if( !tt ) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty()) {
-            tt = find_tile_type( "unknown_" + category_id );
+            tt = tileset_ptr->find_tile_type( "unknown_" + category_id );
         }
     }
 
     // if we still have no tile, we're out of luck, fall back to unknown
     if( !tt ) {
-        tt = find_tile_type( "unknown" );
+        tt = tileset_ptr->find_tile_type( "unknown" );
     }
 
     //  this really shouldn't happen, but the tileset creator might have forgotten to define an unknown tile
@@ -2256,9 +2260,9 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     for( const std::string &overlay : overlays ) {
         bool exists = true;
         std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
-        if( !find_tile_type( draw_id ) ) {
+        if( !tileset_ptr->find_tile_type( draw_id ) ) {
             draw_id = "overlay_" + overlay;
-            if( !find_tile_type( draw_id ) ) {
+            if( !tileset_ptr->find_tile_type( draw_id ) ) {
                 exists = false;
             }
         }
@@ -2275,7 +2279,7 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
 {
-    bool item_highlight_available = find_tile_type( ITEM_HIGHLIGHT );
+    bool item_highlight_available = tileset_ptr->find_tile_type( ITEM_HIGHLIGHT );
 
     if (!item_highlight_available) {
         create_default_item_highlight();
@@ -2322,7 +2326,7 @@ void cata_tiles::create_default_item_highlight()
 
     if( texture ) {
         tileset_ptr->tile_values.push_back( std::move( texture ) );
-        tile_ids[key].fg.add(std::vector<int>({index}),1);
+        tileset_ptr->tile_ids[key].fg.add(std::vector<int>({index}),1);
     }
 }
 
@@ -2594,7 +2598,7 @@ void cata_tiles::draw_sct_frame()
             for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
                 const std::string generic_id = get_ascii_tile_id( *it, FG, -1 );
 
-                if( find_tile_type( generic_id ) ) {
+                if( tileset_ptr->find_tile_type( generic_id ) ) {
                     draw_from_id_string( generic_id, C_NONE, empty_string,
                                          { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
                 }
@@ -2609,7 +2613,7 @@ void cata_tiles::draw_sct_frame()
 }
 void cata_tiles::draw_zones_frame()
 {
-    bool item_highlight_available = find_tile_type( ITEM_HIGHLIGHT );
+    bool item_highlight_available = tileset_ptr->find_tile_type( ITEM_HIGHLIGHT );
 
     if( !item_highlight_available ) {
         create_default_item_highlight();
@@ -2822,7 +2826,7 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::stri
     std::string missing_list;
     for( ; begin != end; ++begin ) {
         const std::string id_string = id_func( begin );
-        if( !find_tile_type( prefix + id_string ) ) {
+        if( !tileset_ptr->find_tile_type( prefix + id_string ) ) {
             missing++;
             missing_list.append( id_string + " " );
         } else {
