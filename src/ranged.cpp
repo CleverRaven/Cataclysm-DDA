@@ -216,7 +216,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     tripoint aim = target;
     int curshot = 0;
-    int xp = 0; // experience gain for marksmanship skill
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
@@ -259,7 +258,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         if( shot.hit_critter ) {
             hits++;
-            xp++;
         }
 
         if( gun.gun_skill() == skill_launcher ) {
@@ -308,13 +306,11 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
-    practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
-    if( hits && !xp && one_in( 10 ) ) {
-        add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
-    }
-
-    // launchers train weapon skill for both hits and misses
-    practice( gun.gun_skill(), ( gun.gun_skill() == skill_launcher ? curshot : hits ) * 10 );
+    // Practice the base gun skill proportionally to number of hits, but always by one.
+    practice( skill_gun, ( hits + 1 ) * 5 );
+    // launchers train weapon skill for both hits and misses.
+    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
+    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
