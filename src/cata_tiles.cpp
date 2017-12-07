@@ -189,6 +189,12 @@ void cata_tiles::clear()
     tex_pool.texture_pool.clear();
 }
 
+const tile_type *cata_tiles::find_tile_type( const std::string &id ) const
+{
+    const auto iter = tile_ids.find( id );
+    return iter != tile_ids.end() ? &iter->second : nullptr;
+}
+
 void clear_texture_pool()
 {
     tex_pool.texture_pool.clear();
@@ -507,7 +513,7 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
     }
 
     load_tilejson_from_file(tileset_root, config_file, img_path);
-    if (tile_ids.count("unknown") == 0) {
+    if( !find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
 }
@@ -1535,14 +1541,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
 
-    auto it = tile_ids.find(seasonal_id);
-    if (it == tile_ids.end()) {
-        it = tile_ids.find(id);
-    } else {
+    const tile_type *tt = find_tile_type( seasonal_id );
+    if( tt ) {
         id = std::move(seasonal_id);
+    } else {
+        tt = find_tile_type( id );
     }
 
-    if (it == tile_ids.end()) {
+    if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
@@ -1626,14 +1632,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             generic_id[6] = static_cast<char>( sym );
             generic_id[7] = static_cast<char>( FG );
             generic_id[8] = static_cast<char>( -1 );
-            if( tile_ids.count(generic_id) > 0 ) {
+            if( find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
             }
             // Try again without color this time (using default color).
             generic_id[7] = static_cast<char>( -1 );
             generic_id[8] = static_cast<char>( -1 );
-            if(tile_ids.count(generic_id) > 0 ) {
+            if( find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
             }
@@ -1641,32 +1647,32 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // if id is not found, try to find a tile for the category+subcategory combination
-    if (it == tile_ids.end()) {
+    if( !tt ) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty() && !subcategory.empty()) {
-            it = tile_ids.find("unknown_" + category_id + "_" + subcategory);
+            tt = find_tile_type( "unknown_" + category_id + "_" + subcategory );
         }
     }
 
     // if at this point we have no tile, try just the category
-    if (it == tile_ids.end()) {
+    if( !tt ) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty()) {
-            it = tile_ids.find("unknown_" + category_id);
+            tt = find_tile_type( "unknown_" + category_id );
         }
     }
 
     // if we still have no tile, we're out of luck, fall back to unknown
-    if (it == tile_ids.end()) {
-        it = tile_ids.find("unknown");
+    if( !tt ) {
+        tt = find_tile_type( "unknown" );
     }
 
     //  this really shouldn't happen, but the tileset creator might have forgotten to define an unknown tile
-    if (it == tile_ids.end()) {
+    if( !tt ) {
         return false;
     }
 
-    tile_type &display_tile = it->second;
+    const tile_type &display_tile = *tt;
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile.multitile) {
         auto const &display_subtiles = display_tile.available_subtiles;
@@ -2258,9 +2264,9 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     for( const std::string &overlay : overlays ) {
         bool exists = true;
         std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
-        if( tile_ids.find( draw_id ) == tile_ids.end() ) {
+        if( !find_tile_type( draw_id ) ) {
             draw_id = "overlay_" + overlay;
-            if( tile_ids.find( draw_id ) == tile_ids.end() ) {
+            if( !find_tile_type( draw_id ) ) {
                 exists = false;
             }
         }
@@ -2277,7 +2283,7 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
 {
-    bool item_highlight_available = tile_ids.find( ITEM_HIGHLIGHT ) != tile_ids.end();
+    bool item_highlight_available = find_tile_type( ITEM_HIGHLIGHT );
 
     if (!item_highlight_available) {
         create_default_item_highlight();
@@ -2599,7 +2605,7 @@ void cata_tiles::draw_sct_frame()
                 generic_id[7] = static_cast<char>( FG );
                 generic_id[8] = static_cast<char>( -1 );
 
-                if( tile_ids.count( generic_id ) > 0 ) {
+                if( find_tile_type( generic_id ) ) {
                     draw_from_id_string( generic_id, C_NONE, empty_string,
                                          { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
                 }
@@ -2614,7 +2620,7 @@ void cata_tiles::draw_sct_frame()
 }
 void cata_tiles::draw_zones_frame()
 {
-    bool item_highlight_available = tile_ids.find( ITEM_HIGHLIGHT ) != tile_ids.end();
+    bool item_highlight_available = find_tile_type( ITEM_HIGHLIGHT );
 
     if( !item_highlight_available ) {
         create_default_item_highlight();
@@ -2827,7 +2833,7 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::stri
     std::string missing_list;
     for( ; begin != end; ++begin ) {
         const std::string id_string = id_func( begin );
-        if( tile_ids.count( prefix + id_string ) == 0 ) {
+        if( !find_tile_type( prefix + id_string ) ) {
             missing++;
             missing_list.append( id_string + " " );
         } else {

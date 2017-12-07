@@ -494,6 +494,7 @@ class cata_tiles
         SDL_Renderer *renderer;
         std::vector<SDL_Texture_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
+        const tile_type *find_tile_type( const std::string &id ) const;
 
         int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
