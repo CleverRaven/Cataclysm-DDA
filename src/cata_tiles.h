@@ -316,16 +316,18 @@ class tileset_loader
     private:
         tileset &ts;
 
+        int sprite_offset_x;
+        int sprite_offset_y;
+
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
                                 const std::string &s_id );
-        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
-                             int sprite_offset_y = 0 );
+        void load_ascii_set( JsonObject &entry, int offset, int size );
 
     public:
-        tileset_loader( tileset &ts ) : ts( ts ) {
+        tileset_loader( tileset &ts, const int sox, const int soy ) : ts( ts ), sprite_offset_x( sox ),
+            sprite_offset_y( soy ) {
         }
-        void load_ascii( JsonObject &config, int offset, int size,
-                         int sprite_offset_x = 0, int sprite_offset_y = 0 );
+        void load_ascii( JsonObject &config, int offset, int size );
 };
 
 class cata_tiles
