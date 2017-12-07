@@ -93,8 +93,12 @@ namespace
 
         return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
     }
-}
 
+int divide_rounded_up( const int v, const int div )
+{
+    return ( v / div ) + ( v % div == 0 ? 0 : 1 );
+}
+} // namespace
 
 // Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
@@ -934,8 +938,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     op_x = destx;
     op_y = desty;
     // Rounding up to include incomplete tiles at the bottom/right edges
-    screentile_width = (width + tile_width - 1) / tile_width;
-    screentile_height = (height + tile_height - 1) / tile_height;
+    screentile_width = divide_rounded_up( width, tile_width );
+    screentile_height = divide_rounded_up( height, tile_height );
 
     const int min_col = 0;
     const int max_col = sx;
