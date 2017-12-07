@@ -284,6 +284,7 @@ class tileset
                                 const std::string &s_id );
 
         friend class cata_tiles;
+        friend class tileset_loader;
 
     public:
         int get_tile_width() const {
@@ -311,6 +312,18 @@ class tileset
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
+};
+
+class tileset_loader
+{
+    private:
+        tileset &ts;
+
+    public:
+        tileset_loader( tileset &ts ) : ts( ts ) {
+        }
+        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
+                             int sprite_offset_y = 0 );
 };
 
 class cata_tiles
@@ -385,8 +398,6 @@ class cata_tiles
                                     int size, const std::string &objname );
         void load_ascii_tilejson_from_file( JsonObject &config, int offset, int size,
                                             int sprite_offset_x = 0, int sprite_offset_y = 0 );
-        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
-                             int sprite_offset_y = 0 );
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
     public:
         /** Draw to screen */
