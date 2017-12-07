@@ -321,7 +321,9 @@ class tileset_loader
         int sprite_offset_y;
 
         int offset = 0;
-        int size;
+        int size = 0;
+
+        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
                                 const std::string &s_id );
@@ -338,17 +340,12 @@ class tileset_loader
         void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
                                     const std::string &objname );
 
-    public:
-        tileset_loader( tileset &ts, SDL_Renderer *const r, const int sox, const int soy,
-                        const int o ) : ts( ts ), renderer( r ), sprite_offset_x( sox ), sprite_offset_y( soy ),
-            offset( o ) {
-        }
         void load_ascii( JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
+        void load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -361,6 +358,19 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
+    public:
+        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        }
+        /**
+         * Try to load json tileset config. If json valid it lookup
+         * it parses it and load tileset.
+         * @throw std::exception On errors in the tileset definition.
+         * @param tileset_dir Path to tileset root directory.
+         * @param f File stream to read from.
+         * @param image_path
+         */
+        void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
+                                      const std::string &image_path );
 };
 
 class cata_tiles
@@ -391,18 +401,6 @@ class cata_tiles
         void load_tilejson( std::string tileset_root, std::string json_conf,
                             const std::string &image_path );
 
-        /**
-         * Try to load json tileset config. If json valid it lookup
-         * it parses it and load tileset.
-         * @throw std::exception On errors in the tileset definition.
-         * @param tileset_dir Path to tileset root directory.
-         * @param f File stream to read from.
-         * @param image_path
-         */
-        void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
-                                      const std::string &image_path );
-
-        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
     public:
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height );

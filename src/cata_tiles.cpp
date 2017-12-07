@@ -242,6 +242,9 @@ void cata_tiles::init()
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 
+    tile_width = tileset_ptr->get_tile_width();
+    tile_height = tileset_ptr->get_tile_height();
+
     set_draw_scale(16);
 }
 
@@ -375,7 +378,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-int tileset_loader::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
+void tileset_loader::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
@@ -497,7 +500,6 @@ int tileset_loader::load_tileset(std::string img_path, int R, int G, int B, int 
 
     dbg( D_INFO ) << "Tiles Created: " << tilecount;
     size = tilecount;
-    return tilecount;
 }
 
 void cata_tiles::set_draw_scale(int scale) {
@@ -520,14 +522,15 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
         throw std::runtime_error( std::string("Failed to open tile info json: ") + json_path );
     }
 
-    load_tilejson_from_file(tileset_root, config_file, img_path);
+    tileset_loader loader( *tileset_ptr, renderer );
+    loader.load_tilejson_from_file( tileset_root, config_file, img_path );
     if( !tileset_ptr->find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
     ensure_default_item_highlight();
 }
 
-void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
+void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
 {
     JsonIn config_json(f);
     JsonObject config = config_json.get_object();
@@ -540,17 +543,14 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     JsonArray info = config.get_array("tile_info");
     while (info.has_more()) {
         JsonObject curr_info = info.next_object();
-        tile_height = curr_info.get_int("height");
-        tile_width = curr_info.get_int("width");
+        ts.tile_height = curr_info.get_int("height");
+        ts.tile_width = curr_info.get_int("width");
         tile_iso = curr_info.get_bool("iso", false);
-        tileset_ptr->tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
-
-        tileset_ptr->tile_width = tile_width;
-        tileset_ptr->tile_height = tile_height;
+        ts.tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
     }
 
     // Load tile information if available.
-    int offset = 0;
+    offset = 0;
     if (config.has_array("tiles-new")) {
         // new system, several entries
         // When loading multiple tileset images this defines where
@@ -568,30 +568,30 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
                 G = tra.get_int("G");
                 B = tra.get_int("B");
             }
-            int sprite_width = tile_part_def.get_int("sprite_width",tile_width);
-            int sprite_height = tile_part_def.get_int("sprite_height",tile_height);
+            int sprite_width = tile_part_def.get_int("sprite_width",ts.tile_width);
+            int sprite_height = tile_part_def.get_int("sprite_height",ts.tile_height);
             // Now load the tile definitions for the loaded tileset image.
-            int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
-            int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
-            tileset_loader loader( *tileset_ptr, renderer, sprite_offset_x, sprite_offset_y, offset );
+            sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
+            sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            const int newsize = loader.load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
-            loader.load_tilejson_from_file( tile_part_def );
+            load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
+            load_tilejson_from_file( tile_part_def );
             if (tile_part_def.has_member("ascii")) {
-                loader.load_ascii( tile_part_def );
+                load_ascii( tile_part_def );
             }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
-            offset += newsize;
+            offset += size;
         }
     } else {
+        sprite_offset_x = 0;
+        sprite_offset_y = 0;
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        tileset_loader loader( *tileset_ptr, renderer, 0, 0, offset );
-        const int newsize = loader.load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
-        loader.load_tilejson_from_file(config);
-        offset = newsize;
+        load_tileset(image_path, -1, -1, -1, ts.tile_width, ts.tile_height);
+        load_tilejson_from_file(config);
+        offset = size;
     }
 
     // allows a tileset to override the order of mutation images being applied to a character
@@ -604,22 +604,21 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // also eliminate negative sprite references
 
     // loop through all tile ids and eliminate empty/invalid things
-    for( auto it = tileset_ptr->tile_ids.begin(); it != tileset_ptr->tile_ids.end(); ) {
+    for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
         auto &td = it->second;        // second is the tile_type describing that id
-        process_variations_after_loading(td.fg, offset);
-        process_variations_after_loading(td.bg, offset);
+        process_variations_after_loading( td.fg );
+        process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
         if( td.bg.empty() && td.fg.empty() ) {
             dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
-            tileset_ptr->tile_ids.erase( it++ );
+            ts.tile_ids.erase( it++ );
         } else {
             ++it;
         }
     }
 }
 
-void cata_tiles::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs,
-        int offset )
+void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )
 {
     // loop through all of the variations
     for( auto &v : vs ) {
