@@ -575,10 +575,10 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             // Now load the tile definitions for the loaded tileset image.
             int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
             int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
-            tileset_loader loader( *tileset_ptr, sprite_offset_x, sprite_offset_y );
-            loader.load_tilejson_from_file( tile_part_def, offset, newsize );
+            tileset_loader loader( *tileset_ptr, sprite_offset_x, sprite_offset_y, offset );
+            loader.load_tilejson_from_file( tile_part_def, newsize );
             if (tile_part_def.has_member("ascii")) {
-                loader.load_ascii( tile_part_def, offset, newsize );
+                loader.load_ascii( tile_part_def, newsize );
             }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
@@ -588,8 +588,8 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
-        tileset_loader loader( *tileset_ptr, 0, 0 );
-        loader.load_tilejson_from_file(config, 0, newsize);
+        tileset_loader loader( *tileset_ptr, 0, 0, offset );
+        loader.load_tilejson_from_file(config, newsize);
         offset = newsize;
     }
 
@@ -659,7 +659,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_ascii( JsonObject &config, int offset, int size )
+void tileset_loader::load_ascii( JsonObject &config, int size )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -667,11 +667,11 @@ void tileset_loader::load_ascii( JsonObject &config, int offset, int size )
     JsonArray ascii = config.get_array( "ascii" );
     while( ascii.has_more() ) {
         JsonObject entry = ascii.next_object();
-        load_ascii_set( entry, offset, size );
+        load_ascii_set( entry, size );
     }
 }
 
-void tileset_loader::load_ascii_set( JsonObject &entry, int offset, int size )
+void tileset_loader::load_ascii_set( JsonObject &entry, int size )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -770,7 +770,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry, int offset, int size )
     }
 }
 
-void tileset_loader::load_tilejson_from_file( JsonObject &config, int offset, int size )
+void tileset_loader::load_tilejson_from_file( JsonObject &config, int size )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -787,7 +787,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config, int offset, in
             ids = entry.get_string_array( "id" );
         }
         for( auto t_id : ids ) {
-            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            tile_type &curr_tile = load_tile( entry, t_id, size );
             curr_tile.offset.x = sprite_offset_x;
             curr_tile.offset.y = sprite_offset_y;
             bool t_multi = entry.get_bool( "multitile", false );
@@ -800,7 +800,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config, int offset, in
                     JsonObject subentry = subentries.next_object();
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
-                    tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    tile_type &curr_subtile = load_tile( subentry, m_id, size );
                     curr_subtile.offset.x = sprite_offset_x;
                     curr_subtile.offset.y = sprite_offset_y;
                     curr_subtile.rotates = true;
@@ -831,18 +831,18 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config, int offset, in
  * that range.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id, int offset, int size )
+tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id, int size )
 {
     tile_type curr_subtile;
 
-    load_tile_spritelists( entry, curr_subtile.fg, offset, size, "fg" );
-    load_tile_spritelists( entry, curr_subtile.bg, offset, size, "bg" );
+    load_tile_spritelists( entry, curr_subtile.fg, size, "fg" );
+    load_tile_spritelists( entry, curr_subtile.bg, size, "bg" );
 
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
 void tileset_loader::load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                        int offset, int size, const std::string &objname )
+                                        int size, const std::string &objname )
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {
