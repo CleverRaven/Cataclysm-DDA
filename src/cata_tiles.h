@@ -322,12 +322,35 @@ class tileset_loader
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
                                 const std::string &s_id );
         void load_ascii_set( JsonObject &entry, int offset, int size );
+        /**
+         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
+         * Set the fg and bg properties of it (loaded from the json object).
+         * Makes sure each is either -1, or in the interval [0,size).
+         * If it's in that interval, adds offset to it, if it's not in the
+         * interval (and not -1), throw an std::string error.
+         */
+        tile_type &load_tile( JsonObject &entry, const std::string &id, int offset, int size );
+
+        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset,
+                                    int size, const std::string &objname );
 
     public:
         tileset_loader( tileset &ts, const int sox, const int soy ) : ts( ts ), sprite_offset_x( sox ),
             sprite_offset_y( soy ) {
         }
         void load_ascii( JsonObject &config, int offset, int size );
+        /**
+         * Load tiles from json data.This expects a "tiles" array in
+         * <B>config</B>. That array should contain all the tile definition that
+         * should be taken from an tileset image.
+         * Because the function only loads tile definitions for a single tileset
+         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * [0,size].
+         * The <B>offset</B> is automatically added to the tile index.
+         * sprite offset dictates where each sprite should render in its tile
+         * @throw std::exception On any error.
+         */
+        void load_tilejson_from_file( JsonObject &config, int offset, int size );
 };
 
 class cata_tiles
@@ -375,31 +398,6 @@ class cata_tiles
         void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
                                       const std::string &image_path );
 
-        /**
-         * Load tiles from json data.This expects a "tiles" array in
-         * <B>config</B>. That array should contain all the tile definition that
-         * should be taken from an tileset image.
-         * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
-         * [0,size].
-         * The <B>offset</B> is automatically added to the tile index.
-         * sprite offset dictates where each sprite should render in its tile
-         * @throw std::exception On any error.
-         */
-        void load_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x = 0,
-                                      int sprite_offset_y = 0 );
-
-        /**
-         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
-         * Set the fg and bg properties of it (loaded from the json object).
-         * Makes sure each is either -1, or in the interval [0,size).
-         * If it's in that interval, adds offset to it, if it's not in the
-         * interval (and not -1), throw an std::string error.
-         */
-        tile_type &load_tile( JsonObject &entry, const std::string &id, int offset, int size );
-
-        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset,
-                                    int size, const std::string &objname );
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
     public:
         /** Draw to screen */

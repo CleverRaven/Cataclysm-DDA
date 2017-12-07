@@ -575,9 +575,9 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             // Now load the tile definitions for the loaded tileset image.
             int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
             int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
-            load_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
+            tileset_loader loader( *tileset_ptr, sprite_offset_x, sprite_offset_y );
+            loader.load_tilejson_from_file( tile_part_def, offset, newsize );
             if (tile_part_def.has_member("ascii")) {
-                tileset_loader loader( *tileset_ptr, sprite_offset_x, sprite_offset_y );
                 loader.load_ascii( tile_part_def, offset, newsize );
             }
             // Make sure the tile definitions of the next tileset image don't
@@ -588,7 +588,8 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
-        load_tilejson_from_file(config, 0, newsize);
+        tileset_loader loader( *tileset_ptr, 0, 0 );
+        loader.load_tilejson_from_file(config, 0, newsize);
         offset = newsize;
     }
 
@@ -769,7 +770,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry, int offset, int size )
     }
 }
 
-void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
+void tileset_loader::load_tilejson_from_file( JsonObject &config, int offset, int size )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -813,8 +814,8 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
             curr_tile.height_3d = t_h3d;
         }
     }
-    dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
-                  " Tile Definitions: " << tileset_ptr->tile_ids.size();
+    dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
+                  " Tile Definitions: " << ts.tile_ids.size();
 }
 
 /**
@@ -830,17 +831,17 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
  * that range.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type &cata_tiles::load_tile( JsonObject &entry, const std::string &id, int offset, int size )
+tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id, int offset, int size )
 {
     tile_type curr_subtile;
 
     load_tile_spritelists( entry, curr_subtile.fg, offset, size, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, offset, size, "bg" );
 
-    return tileset_ptr->create_tile_type( id, std::move( curr_subtile ) );
+    return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
-void cata_tiles::load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
+void tileset_loader::load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
                                         int offset, int size, const std::string &objname )
 {
     // json array indicates rotations or variations
