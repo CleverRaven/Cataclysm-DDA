@@ -587,7 +587,7 @@ class cata_tiles
         int op_x, op_y;
 
     private:
-        void create_default_item_highlight();
+        void ensure_default_item_highlight();
         int last_pos_x, last_pos_y;
         /**
          * Tracks active night vision goggle status for each draw call.

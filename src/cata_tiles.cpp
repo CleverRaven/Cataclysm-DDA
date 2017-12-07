@@ -2279,12 +2279,7 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
 {
-    bool item_highlight_available = tileset_ptr->find_tile_type( ITEM_HIGHLIGHT );
-
-    if (!item_highlight_available) {
-        create_default_item_highlight();
-        item_highlight_available = true;
-    }
+    ensure_default_item_highlight();
     return draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
 }
 
@@ -2307,8 +2302,11 @@ SDL_Surface_Ptr cata_tiles::create_tile_surface()
     return ::create_tile_surface(tile_width, tile_height);
 }
 
-void cata_tiles::create_default_item_highlight()
+void cata_tiles::ensure_default_item_highlight()
 {
+    if( tileset_ptr->find_tile_type( ITEM_HIGHLIGHT ) ) {
+        return;
+    }
     const Uint8 highlight_alpha = 127;
 
     std::string key = ITEM_HIGHLIGHT;
@@ -2613,13 +2611,7 @@ void cata_tiles::draw_sct_frame()
 }
 void cata_tiles::draw_zones_frame()
 {
-    bool item_highlight_available = tileset_ptr->find_tile_type( ITEM_HIGHLIGHT );
-
-    if( !item_highlight_available ) {
-        create_default_item_highlight();
-        item_highlight_available = true;
-    }
-
+    ensure_default_item_highlight();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string,
