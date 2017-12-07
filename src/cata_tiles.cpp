@@ -375,7 +375,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-void tileset_loader::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
+void tileset_loader::load_tileset( std::string img_path, int R, int G, int B )
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
@@ -565,14 +565,14 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
                 G = tra.get_int("G");
                 B = tra.get_int("B");
             }
-            int sprite_width = tile_part_def.get_int("sprite_width",ts.tile_width);
-            int sprite_height = tile_part_def.get_int("sprite_height",ts.tile_height);
+            sprite_width = tile_part_def.get_int( "sprite_width", ts.tile_width );
+            sprite_height = tile_part_def.get_int( "sprite_height", ts.tile_height );
             // Now load the tile definitions for the loaded tileset image.
             sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
             sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
+            load_tileset( tileset_image_path, R, G, B );
             load_tilejson_from_file( tile_part_def );
             if (tile_part_def.has_member("ascii")) {
                 load_ascii( tile_part_def );
@@ -582,11 +582,13 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
             offset += size;
         }
     } else {
+        sprite_width = ts.tile_width;
+        sprite_height = ts.tile_height;
         sprite_offset_x = 0;
         sprite_offset_y = 0;
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        load_tileset(image_path, -1, -1, -1, ts.tile_width, ts.tile_height);
+        load_tileset( image_path, -1, -1, -1 );
         load_tilejson_from_file(config);
         offset = size;
     }
