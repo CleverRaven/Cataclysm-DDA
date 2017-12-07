@@ -523,6 +523,7 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
     if( !tileset_ptr->find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
+    ensure_default_item_highlight();
 }
 
 void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
@@ -2279,7 +2280,6 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
 {
-    ensure_default_item_highlight();
     return draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
 }
 
@@ -2611,7 +2611,6 @@ void cata_tiles::draw_sct_frame()
 }
 void cata_tiles::draw_zones_frame()
 {
-    ensure_default_item_highlight();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string,
