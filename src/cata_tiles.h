@@ -320,10 +320,11 @@ class tileset_loader
         int sprite_offset_y;
 
         int offset = 0;
+        int size;
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
                                 const std::string &s_id );
-        void load_ascii_set( JsonObject &entry, int size );
+        void load_ascii_set( JsonObject &entry );
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
          * Set the fg and bg properties of it (loaded from the json object).
@@ -331,16 +332,16 @@ class tileset_loader
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type &load_tile( JsonObject &entry, const std::string &id, int size );
+        tile_type &load_tile( JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    int size, const std::string &objname );
+                                    const std::string &objname );
 
     public:
-        tileset_loader( tileset &ts, const int sox, const int soy, const int o ) : ts( ts ),
-            sprite_offset_x( sox ), sprite_offset_y( soy ), offset( o ) {
+        tileset_loader( tileset &ts, const int sox, const int soy, const int o, const int s ) : ts( ts ),
+            sprite_offset_x( sox ), sprite_offset_y( soy ), offset( o ), size( s ) {
         }
-        void load_ascii( JsonObject &config, int size );
+        void load_ascii( JsonObject &config );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -352,7 +353,7 @@ class tileset_loader
          * sprite offset dictates where each sprite should render in its tile
          * @throw std::exception On any error.
          */
-        void load_tilejson_from_file( JsonObject &config, int size );
+        void load_tilejson_from_file( JsonObject &config );
 };
 
 class cata_tiles
