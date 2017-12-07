@@ -34,15 +34,7 @@
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
     "time": 20000,
-    "book_learn": [
-        [ "mag_guns", 2 ],
-        [ "mag_pistol", 2 ],
-        [ "mag_rifle", 2 ]
-    ],
-    "components": [
-        [ [ "rag", 10 ] ],
-        [ [ "2x4", 3 ] ],
-        [ [ "straw_pile", 1 ] ]
-    ]
+    "book_learn": [ [ "mag_guns", 2 ], [ "mag_pistol", 2 ], [ "mag_rifle", 2 ] ],
+    "components": [ [ [ "rag", 10 ] ], [ [ "2x4", 3 ] ], [ [ "straw_pile", 1 ] ] ]
   }
 ]
