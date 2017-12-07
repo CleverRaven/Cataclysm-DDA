@@ -646,7 +646,7 @@ void cata_tiles::process_variations_after_loading( weighted_int_list<std::vector
     vs.precalc();
 }
 
-void tileset::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
+void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                  const std::string &s_id )
 {
     const std::string m_id = t_id + "_" + s_id;
@@ -654,7 +654,7 @@ void tileset::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, 
     curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back( s_id );
-    create_tile_type( m_id, std::move( curr_subtile ) );
+    ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
 void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
@@ -758,12 +758,12 @@ void tileset_loader::load_ascii_set( JsonObject &entry, int offset, int size, in
         if( ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C ) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
-            ts.add_ascii_subtile( curr_tile, id, 206 + base_offset, "center" );
-            ts.add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
-            ts.add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
-            ts.add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            ts.add_ascii_subtile( curr_tile, id, 208 + base_offset, "end_piece" );
-            ts.add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
+            add_ascii_subtile( curr_tile, id, 206 + base_offset, "center" );
+            add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
+            add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
+            add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
+            add_ascii_subtile( curr_tile, id, 208 + base_offset, "end_piece" );
+            add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
         }
         ts.create_tile_type( id, std::move( curr_tile ) );
     }

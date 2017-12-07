@@ -280,9 +280,6 @@ class tileset
             return index < tiles.size() ? tiles[index].get() : nullptr;
         }
 
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
-                                const std::string &s_id );
-
         friend class cata_tiles;
         friend class tileset_loader;
 
@@ -318,6 +315,9 @@ class tileset_loader
 {
     private:
         tileset &ts;
+
+        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
+                                const std::string &s_id );
 
     public:
         tileset_loader( tileset &ts ) : ts( ts ) {
