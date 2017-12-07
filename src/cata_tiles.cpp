@@ -931,7 +931,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     g->m.update_visibility_cache( center.z );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
-    const bool iso_mode = tile_iso && use_tiles;
+    const bool iso_mode = tile_iso;
 
     o_x = iso_mode ? posx : posx - POSX;
     o_y = iso_mode ? posy : posy - POSY;
@@ -1481,8 +1481,8 @@ void cata_tiles::clear_buffer()
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
 {
-    columns = ( tile_iso && use_tiles ) ? ceil((double) width / tile_width ) * 2 + 4 : ceil((double) width / tile_width );
-    rows = ( tile_iso && use_tiles ) ? ceil((double) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil((double) height / tile_height);
+    columns = tile_iso ? ceil((double) width / tile_width ) * 2 + 4 : ceil((double) width / tile_width );
+    rows = tile_iso ? ceil((double) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil((double) height / tile_height);
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
@@ -1522,7 +1522,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    if( !( tile_iso && use_tiles ) &&
+    if( !tile_iso &&
         ( pos.x - o_x < 0 || pos.x - o_x >= screentile_width ||
           pos.y - o_y < 0 || pos.y - o_y >= screentile_height ) ) {
         return false;
@@ -1686,7 +1686,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
-    if ( tile_iso && use_tiles ) {
+    if( tile_iso ) {
         screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
         op_x;
         // y uses tile_width because width is definitive for iso tiles
@@ -1804,7 +1804,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         sprite_num = 0;
     } else if( spritelist.size() == 1 ) {
         // just one tile, apply SDL sprite rotation if not in isometric mode
-        rotate_sprite = !( tile_iso && use_tiles );
+        rotate_sprite = !tile_iso;
         sprite_num = 0;
     } else {
         // multiple rotated tiles defined, don't apply sprite rotation after picking one
@@ -1956,13 +1956,13 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     SDL_Rect belowRect;
     belowRect.h = tile_width / sizefactor;
     belowRect.w = tile_height / sizefactor;
-    if( tile_iso && use_tiles ) {
+    if( tile_iso ) {
         belowRect.h = ( belowRect.h * 2 ) / 3;
         belowRect.w = ( belowRect.w * 3 ) / 4;
     }
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
-    if( tile_iso && use_tiles ) {
+    if( tile_iso ) {
         screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op_x;
         // y uses tile_width because width is definitive for iso tiles
@@ -1976,7 +1976,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     }
     belowRect.x = screen_x + ( tile_width - belowRect.w ) / 2;
     belowRect.y = screen_y + ( tile_height - belowRect.h ) / 2;
-    if( tile_iso && use_tiles ) {
+    if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
     SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
@@ -2566,7 +2566,7 @@ void cata_tiles::draw_weather_frame()
          weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
         int x, y;
-        if( tile_iso && use_tiles ) {
+        if( tile_iso ) {
             x = weather_iterator->first;
             y = weather_iterator->second;
         } else {
@@ -2604,7 +2604,7 @@ void cata_tiles::draw_sct_frame()
                                          { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
                 }
 
-                if (tile_iso && use_tiles) {
+                if( tile_iso ) {
                     iOffsetY++;
                 }
                 iOffsetX++;
