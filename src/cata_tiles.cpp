@@ -500,8 +500,8 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
 }
 
 void cata_tiles::set_draw_scale(int scale) {
-    tile_width = tileset_ptr->get_tile_width() * tile_pixelscale * scale / 16;
-    tile_height = tileset_ptr->get_tile_height() * tile_pixelscale * scale / 16;
+    tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
+    tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
     tile_ratiox = ((float)tile_width/(float)fontwidth);
     tile_ratioy = ((float)tile_height/(float)fontheight);
@@ -542,7 +542,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
         tile_iso = curr_info.get_bool("iso", false);
-        tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
+        tileset_ptr->tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
 
         tileset_ptr->tile_width = tile_width;
         tileset_ptr->tile_height = tile_height;

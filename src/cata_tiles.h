@@ -265,6 +265,9 @@ class tileset
         int tile_width;
         int tile_height;
 
+        // multiplier for pixel-doubling tilesets
+        float tile_pixelscale;
+
         std::vector<SDL_Texture_Ptr> tile_values;
         std::vector<SDL_Texture_Ptr> shadow_tile_values;
         std::vector<SDL_Texture_Ptr> night_tile_values;
@@ -288,6 +291,9 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
+        }
+        float get_tile_pixelscale() const {
+            return tile_pixelscale;
         }
 
         SDL_Texture *get_tile( const size_t index ) const {
@@ -545,8 +551,6 @@ class cata_tiles
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
         float tile_ratiox, tile_ratioy;
-        // multiplier for pixel-doubling tilesets
-        float tile_pixelscale;
 
         bool in_animation;
 
