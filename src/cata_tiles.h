@@ -280,7 +280,6 @@ class tileset
             return index < tiles.size() ? tiles[index].get() : nullptr;
         }
 
-        friend class cata_tiles;
         friend class tileset_loader;
 
     public:
