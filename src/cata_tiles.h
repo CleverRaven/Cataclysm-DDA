@@ -265,6 +265,16 @@ class tileset
         int tile_width;
         int tile_height;
 
+        std::vector<SDL_Texture_Ptr> tile_values;
+        std::vector<SDL_Texture_Ptr> shadow_tile_values;
+        std::vector<SDL_Texture_Ptr> night_tile_values;
+        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
+
+        static SDL_Texture *get_if_available( const size_t index,
+                                              const decltype( shadow_tile_values ) &tiles ) {
+            return index < tiles.size() ? tiles[index].get() : nullptr;
+        }
+
         friend class cata_tiles;
 
     public:
@@ -273,6 +283,19 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
+        }
+
+        SDL_Texture *get_tile( const size_t index ) const {
+            return get_if_available( index, tile_values );
+        }
+        SDL_Texture *get_night_tile( const size_t index ) const {
+            return get_if_available( index, night_tile_values );
+        }
+        SDL_Texture *get_shadow_tile( const size_t index ) const {
+            return get_if_available( index, shadow_tile_values );
+        }
+        SDL_Texture *get_overexposed_tile( const size_t index ) const {
+            return get_if_available( index, overexposed_tile_values );
         }
 };
 
@@ -509,7 +532,6 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        std::vector<SDL_Texture_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
         const tile_type *find_tile_type( const std::string &id ) const;
         std::unique_ptr<tileset> tileset_ptr;
@@ -564,9 +586,6 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.

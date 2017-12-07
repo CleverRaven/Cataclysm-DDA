@@ -184,10 +184,6 @@ cata_tiles::~cata_tiles()
 void cata_tiles::clear()
 {
     // release maps
-    tile_values.clear();
-    shadow_tile_values.clear();
-    night_tile_values.clear();
-    overexposed_tile_values.clear();
     tile_ids.clear();
     // release minimap
     minimap_cache.clear();
@@ -479,17 +475,17 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
             }
 
             if( tile_tex ) {
-                tile_values.push_back( std::move( tile_tex ) );
+                tileset_ptr->tile_values.push_back( std::move( tile_tex ) );
                 tilecount++;
             }
             if( shadow_tile_tex ) {
-                shadow_tile_values.push_back( std::move( shadow_tile_tex ) );
+                tileset_ptr->shadow_tile_values.push_back( std::move( shadow_tile_tex ) );
             }
             if( night_tile_tex ) {
-                night_tile_values.push_back( std::move( night_tile_tex ) );
+                tileset_ptr->night_tile_values.push_back( std::move( night_tile_tex ) );
             }
             if( overexposed_tile_tex ) {
-                overexposed_tile_values.push_back( std::move( overexposed_tile_tex ) );
+                tileset_ptr->overexposed_tile_values.push_back( std::move( overexposed_tile_tex ) );
             }
         }
     }
@@ -815,7 +811,7 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
 
 /**
  * Load a tile definition and add it to the @ref tile_ids map.
- * All loaded tiles go into one vector (@ref tile_values), their index in it is their id.
+ * All loaded tiles go into one vector (@ref tileset::tile_values), their index in it is their id.
  * The JSON data (loaded here) contains tile ids relative to the associated image.
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
@@ -1813,20 +1809,24 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         sprite_num = rota % spritelist.size();
     }
 
-    SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+    SDL_Texture *sprite_tex = tileset_ptr->get_tile( spritelist[sprite_num] );
 
     //use night vision colors when in use
     //then use low light tile if available
-    if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
+    if( apply_night_vision_goggles ) {
         if(ll != LL_LOW){
-            //overexposed tile count should be the same size as night_tile_values.size
-            sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
+            if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
+                sprite_tex = ptr;
+            }
         } else {
-            sprite_tex = night_tile_values[spritelist[sprite_num]].get();
+            if( const auto ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
+                sprite_tex = ptr;
+            }
         }
-    }
-    else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
-        sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
+    } else if( ll == LL_LOW  ) {
+        if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
+            sprite_tex = ptr;
+        }
     }
 
     Uint32 format;
@@ -2308,7 +2308,7 @@ void cata_tiles::create_default_item_highlight()
     const Uint8 highlight_alpha = 127;
 
     std::string key = ITEM_HIGHLIGHT;
-    int index = tile_values.size();
+    int index = tileset_ptr->tile_values.size();
 
     SDL_Surface_Ptr surface = create_tile_surface();
     if( !surface ) {
@@ -2321,7 +2321,7 @@ void cata_tiles::create_default_item_highlight()
     }
 
     if( texture ) {
-        tile_values.push_back( std::move( texture ) );
+        tileset_ptr->tile_values.push_back( std::move( texture ) );
         tile_ids[key].fg.add(std::vector<int>({index}),1);
     }
 }
