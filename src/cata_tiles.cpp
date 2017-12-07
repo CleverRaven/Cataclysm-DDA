@@ -222,6 +222,10 @@ void cata_tiles::init()
                              json_path, tileset_path);
     }
 
+    //@todo move into clear or somewhere else.
+    // reset the overlay ordering from the previous loaded tileset
+    tileset_mutation_overlay_ordering.clear();
+
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 
@@ -510,9 +514,6 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
 
 void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
 {
-    // reset the overlay ordering from the previous loaded tileset
-    tileset_mutation_overlay_ordering.clear();
-
     JsonIn config_json(f);
     JsonObject config = config_json.get_object();
 
