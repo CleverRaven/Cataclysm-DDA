@@ -1028,7 +1028,7 @@ or injured can also make you feel the cold more, so try to avoid these effects b
 
     text.push_back( _( "\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode." ) );
+A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode." ) );
 
     return text;
 }
