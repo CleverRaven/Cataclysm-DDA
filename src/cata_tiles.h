@@ -318,12 +318,14 @@ class tileset_loader
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
                                 const std::string &s_id );
+        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
+                             int sprite_offset_y = 0 );
 
     public:
         tileset_loader( tileset &ts ) : ts( ts ) {
         }
-        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
-                             int sprite_offset_y = 0 );
+        void load_ascii( JsonObject &config, int offset, int size,
+                         int sprite_offset_x = 0, int sprite_offset_y = 0 );
 };
 
 class cata_tiles
@@ -396,8 +398,6 @@ class cata_tiles
 
         void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset,
                                     int size, const std::string &objname );
-        void load_ascii_tilejson_from_file( JsonObject &config, int offset, int size,
-                                            int sprite_offset_x = 0, int sprite_offset_y = 0 );
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
     public:
         /** Draw to screen */

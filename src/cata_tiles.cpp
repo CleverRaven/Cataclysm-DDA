@@ -577,7 +577,8 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
             load_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             if (tile_part_def.has_member("ascii")) {
-                load_ascii_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
+                tileset_loader loader( *tileset_ptr );
+                loader.load_ascii( tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y );
             }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
@@ -657,7 +658,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
-void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
+void tileset_loader::load_ascii( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -665,8 +666,7 @@ void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, 
     JsonArray ascii = config.get_array( "ascii" );
     while( ascii.has_more() ) {
         JsonObject entry = ascii.next_object();
-        tileset_loader loader( *tileset_ptr );
-        loader.load_ascii_set( entry, offset, size, sprite_offset_x, sprite_offset_y );
+        load_ascii_set( entry, offset, size, sprite_offset_x, sprite_offset_y );
     }
 }
 
