@@ -277,6 +277,9 @@ class tileset
             return index < tiles.size() ? tiles[index].get() : nullptr;
         }
 
+        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
+                                const std::string &s_id );
+
         friend class cata_tiles;
 
     public:
@@ -378,8 +381,6 @@ class cata_tiles
                                             int sprite_offset_x = 0, int sprite_offset_y = 0 );
         void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
                              int sprite_offset_y = 0 );
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
-                                const std::string &s_id );
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
     public:
         /** Draw to screen */
