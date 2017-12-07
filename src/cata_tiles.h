@@ -359,10 +359,10 @@ class cata_tiles
                                   const std::string &subcategory, tripoint pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                              bool apply_night_vision_goggles );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                              bool apply_night_vision_goggles, int &height_3d );
         bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );

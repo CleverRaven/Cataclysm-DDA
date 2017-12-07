@@ -1774,7 +1774,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 }
 
 bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                                 int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                                 int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                                  bool apply_night_vision_goggles )
 {
     int nullint = 0;
@@ -1783,7 +1783,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
 }
 
 bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                                 int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                                 int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                                  bool apply_night_vision_goggles, int &height_3d )
 {
     auto picked = svlist.pick( loc_rand );
@@ -1798,7 +1798,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if( ( ! rota_fg ) && spritelist.size() == 1 ) {
+    if( !rota_fg && spritelist.size() == 1 ) {
         // don't rotate, a background tile without manual rotations
         rotate_sprite = false;
         sprite_num = 0;
@@ -1885,8 +1885,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
 bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
                                lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    draw_sprite_at( tile, tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles );
-    draw_sprite_at( tile, tile.fg, x, y, loc_rand, 1, rota, ll, apply_night_vision_goggles, height_3d );
+    draw_sprite_at( tile, tile.bg, x, y, loc_rand, false, rota, ll, apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.fg, x, y, loc_rand, true, rota, ll, apply_night_vision_goggles, height_3d );
     return true;
 }
 
