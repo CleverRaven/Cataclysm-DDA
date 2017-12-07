@@ -367,9 +367,6 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
-    public:
-        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
-        }
         /**
          * Try to load json tileset config. If json valid it lookup
          * it parses it and load tileset.
@@ -380,6 +377,22 @@ class tileset_loader
          */
         void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
                                       const std::string &image_path );
+    public:
+        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        }
+        /**
+         * Load tileset config file (json format).
+         * If the tileset uses the old system (one image per tileset) the image
+         * path <B>image_path</B> is used to load the tileset image.
+         * Otherwise (the tileset uses the new system) the image pathes
+         * are loaded from the json entries.
+         * @throw std::exception On any error.
+         * @param tileset_root Path to tileset root directory.
+         * @param json_conf Path to json config inside tileset_root.
+         * @param image_path Path to tiles image inside tileset_root.
+         */
+        void load_tilejson( std::string tileset_root, std::string json_conf,
+                            const std::string &image_path );
 };
 
 class cata_tiles
@@ -395,20 +408,6 @@ class cata_tiles
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale( int scale );
-    protected:
-        /**
-         * Load tileset config file (json format).
-         * If the tileset uses the old system (one image per tileset) the image
-         * path <B>image_path</B> is used to load the tileset image.
-         * Otherwise (the tileset uses the new system) the image pathes
-         * are loaded from the json entries.
-         * @throw std::exception On any error.
-         * @param tileset_root Path to tileset root directory.
-         * @param json_conf Path to json config inside tileset_root.
-         * @param image_path Path to tiles image inside tileset_root.
-         */
-        void load_tilejson( std::string tileset_root, std::string json_conf,
-                            const std::string &image_path );
 
     public:
         /** Draw to screen */

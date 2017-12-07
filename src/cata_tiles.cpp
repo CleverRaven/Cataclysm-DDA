@@ -240,7 +240,9 @@ void cata_tiles::init()
 
     tileset_ptr.reset( new tileset() );
     // Try to load tileset
-    load_tilejson(config_path, json_path, tileset_path);
+    tileset_loader loader( *tileset_ptr, renderer );
+    loader.load_tilejson(config_path, json_path, tileset_path);
+    ensure_default_item_highlight();
 
     set_draw_scale(16);
 }
@@ -507,7 +509,7 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path)
+void tileset_loader::load_tilejson( std::string tileset_root, std::string json_conf, const std::string &image_path )
 {
     std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + image_path;
@@ -519,12 +521,10 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
         throw std::runtime_error( std::string("Failed to open tile info json: ") + json_path );
     }
 
-    tileset_loader loader( *tileset_ptr, renderer );
-    loader.load_tilejson_from_file( tileset_root, config_file, img_path );
-    if( !tileset_ptr->find_tile_type( "unknown" ) ) {
+    load_tilejson_from_file( tileset_root, config_file, img_path );
+    if( !ts.find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
-    ensure_default_item_highlight();
 }
 
 void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
