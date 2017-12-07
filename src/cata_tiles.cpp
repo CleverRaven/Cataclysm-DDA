@@ -98,6 +98,11 @@ int divide_rounded_up( const int v, const int div )
 {
     return ( v / div ) + ( v % div == 0 ? 0 : 1 );
 }
+
+std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
+{
+    return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ), static_cast<char>( FG ), static_cast<char>( BG ) } );
+}
 } // namespace
 
 // Operator overload required to leverage unique_ptr API.
@@ -699,11 +704,6 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
         FG += 8;
     }
     const int base_offset = offset + in_image_offset;
-    // template for the id of the ascii chars:
-    // X is replaced by ascii code (converted to char)
-    // F is replaced by foreground (converted to char)
-    // B is replaced by background (converted to char)
-    std::string id( "ASCII_XFB" );
     // Finally load all 256 ascii chars (actually extended ascii)
     for( int ascii_char = 0; ascii_char < 256; ascii_char++ ) {
         const int index_in_image = ascii_char + in_image_offset;
@@ -711,9 +711,7 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
             // Out of range is ignored for now.
             continue;
         }
-        id[6] = static_cast<char>( ascii_char );
-        id[7] = static_cast<char>( FG );
-        id[8] = static_cast<char>( -1 );
+        const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type &curr_tile = tile_ids[id];
         curr_tile.offset.x = sprite_offset_x;
         curr_tile.offset.y = sprite_offset_y;
@@ -1625,20 +1623,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // What about isBlink?
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
-//            const int BG = colorpair.BG;
-            // static so it does not need to be allocated every time,
-            // see load_ascii_set for the meaning
-            static std::string generic_id( "ASCII_XFG" );
-            generic_id[6] = static_cast<char>( sym );
-            generic_id[7] = static_cast<char>( FG );
-            generic_id[8] = static_cast<char>( -1 );
+            std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
             if( find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
             }
             // Try again without color this time (using default color).
-            generic_id[7] = static_cast<char>( -1 );
-            generic_id[8] = static_cast<char>( -1 );
+            generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
@@ -2600,10 +2591,7 @@ void cata_tiles::draw_sct_frame()
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
-                std::string generic_id( "ASCII_XFB" );
-                generic_id[6] = static_cast<char>( *it );
-                generic_id[7] = static_cast<char>( FG );
-                generic_id[8] = static_cast<char>( -1 );
+                const std::string generic_id = get_ascii_tile_id( *it, FG, -1 );
 
                 if( find_tile_type( generic_id ) ) {
                     draw_from_id_string( generic_id, C_NONE, empty_string,
