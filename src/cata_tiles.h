@@ -315,6 +315,7 @@ class tileset_loader
 {
     private:
         tileset &ts;
+        SDL_Renderer *const renderer;
 
         int sprite_offset_x;
         int sprite_offset_y;
@@ -338,10 +339,16 @@ class tileset_loader
                                     const std::string &objname );
 
     public:
-        tileset_loader( tileset &ts, const int sox, const int soy, const int o, const int s ) : ts( ts ),
-            sprite_offset_x( sox ), sprite_offset_y( soy ), offset( o ), size( s ) {
+        tileset_loader( tileset &ts, SDL_Renderer *const r, const int sox, const int soy,
+                        const int o ) : ts( ts ), renderer( r ), sprite_offset_x( sox ), sprite_offset_y( soy ),
+            offset( o ) {
         }
         void load_ascii( JsonObject &config );
+        /** Load tileset, R,G,B, are the color components of the transparent color
+         * Returns the number of tiles that have been loaded from this tileset image
+         * @throw std::exception If the image can not be loaded.
+         */
+        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -370,12 +377,6 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale( int scale );
     protected:
-        /** Load tileset, R,G,B, are the color components of the transparent color
-         * Returns the number of tiles that have been loaded from this tileset image
-         * @throw std::exception If the image can not be loaded.
-         */
-        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
-
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
