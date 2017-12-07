@@ -224,6 +224,8 @@ void cata_tiles::init()
 
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
+
+    set_draw_scale(16);
 }
 
 void cata_tiles::reinit()
@@ -582,8 +584,6 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
-
-    set_draw_scale(16);
 
     // loop through all tile ids and eliminate empty/invalid things
     for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
