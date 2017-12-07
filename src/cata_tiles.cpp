@@ -1791,95 +1791,94 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         return false;
     }
     auto &spritelist = *picked;
+    if( spritelist.empty() ) {
+        return true;
+    }
 
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if( spritelist.empty() ) {
-        // render nothing
+    if( ( ! rota_fg ) && spritelist.size() == 1 ) {
+        // don't rotate, a background tile without manual rotations
+        rotate_sprite = false;
+        sprite_num = 0;
+    } else if( spritelist.size() == 1 ) {
+        // just one tile, apply SDL sprite rotation if not in isometric mode
+        rotate_sprite = !( tile_iso && use_tiles );
+        sprite_num = 0;
     } else {
-        if( ( ! rota_fg ) && spritelist.size() == 1 ) {
-            // don't rotate, a background tile without manual rotations
-            rotate_sprite = false;
-            sprite_num = 0;
-        } else if( spritelist.size() == 1 ) {
-            // just one tile, apply SDL sprite rotation if not in isometric mode
-            rotate_sprite = !( tile_iso && use_tiles );
-            sprite_num = 0;
-        } else {
-            // multiple rotated tiles defined, don't apply sprite rotation after picking one
-            rotate_sprite = false;
-            // two tiles, tile 0 is N/S, tile 1 is E/W
-            // four tiles, 0=N, 1=E, 2=S, 3=W
-            // extending this to more than 4 rotated tiles will require changing rota to degrees
-            sprite_num = rota % spritelist.size();
-        }
-
-        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
-
-        //use night vision colors when in use
-        //then use low light tile if available
-        if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
-            if(ll != LL_LOW){
-                //overexposed tile count should be the same size as night_tile_values.size
-                sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
-            } else {
-                sprite_tex = night_tile_values[spritelist[sprite_num]].get();
-            }
-        }
-        else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
-            sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
-        }
-
-        Uint32 format;
-        int access, width, height;
-        SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
-
-        SDL_Rect destination;
-        destination.x = x + tile.offset.x * tile_width / default_tile_width;
-        destination.y = y + ( tile.offset.y - height_3d ) * tile_width / default_tile_width;
-        destination.w = width * tile_width / default_tile_width;
-        destination.h = height * tile_height / default_tile_height;
-
-        if ( rotate_sprite ) {
-            switch ( rota ) {
-                default:
-                case 0: // unrotated (and 180, with just two sprites)
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
-                        0, NULL, SDL_FLIP_NONE );
-                    break;
-                case 1: // 90 degrees (and 270, with just two sprites)
-#if (defined _WIN32 || defined WINDOWS)
-                    destination.y -= 1;
-#endif
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
-                        -90, NULL, SDL_FLIP_NONE );
-                    break;
-                case 2: // 180 degrees, implemented with flips instead of rotation
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
-                        0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
-                    break;
-                case 3: // 270 degrees
-#if (defined _WIN32 || defined WINDOWS)
-                    destination.x -= 1;
-#endif
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
-                        90, NULL, SDL_FLIP_NONE );
-                    break;
-            }
-        } else { // don't rotate, same as case 0 above
-            ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
-                0, NULL, SDL_FLIP_NONE );
-        }
-
-        if( ret != 0 ) {
-            dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
-        }
-        // this reference passes all the way back up the call chain back to
-        // cata_tiles::draw() std::vector<tile_render_info> draw_points[].height_3d
-        // where we are accumulating the height of every sprite stacked up in a tile
-        height_3d += tile.height_3d;
+        // multiple rotated tiles defined, don't apply sprite rotation after picking one
+        rotate_sprite = false;
+        // two tiles, tile 0 is N/S, tile 1 is E/W
+        // four tiles, 0=N, 1=E, 2=S, 3=W
+        // extending this to more than 4 rotated tiles will require changing rota to degrees
+        sprite_num = rota % spritelist.size();
     }
+
+    SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+
+    //use night vision colors when in use
+    //then use low light tile if available
+    if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
+        if(ll != LL_LOW){
+            //overexposed tile count should be the same size as night_tile_values.size
+            sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
+        } else {
+            sprite_tex = night_tile_values[spritelist[sprite_num]].get();
+        }
+    }
+    else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
+        sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
+    }
+
+    Uint32 format;
+    int access, width, height;
+    SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
+
+    SDL_Rect destination;
+    destination.x = x + tile.offset.x * tile_width / default_tile_width;
+    destination.y = y + ( tile.offset.y - height_3d ) * tile_width / default_tile_width;
+    destination.w = width * tile_width / default_tile_width;
+    destination.h = height * tile_height / default_tile_height;
+
+    if ( rotate_sprite ) {
+        switch ( rota ) {
+            default:
+            case 0: // unrotated (and 180, with just two sprites)
+                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    0, NULL, SDL_FLIP_NONE );
+                break;
+            case 1: // 90 degrees (and 270, with just two sprites)
+#if (defined _WIN32 || defined WINDOWS)
+                destination.y -= 1;
+#endif
+                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    -90, NULL, SDL_FLIP_NONE );
+                break;
+            case 2: // 180 degrees, implemented with flips instead of rotation
+                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                break;
+            case 3: // 270 degrees
+#if (defined _WIN32 || defined WINDOWS)
+                destination.x -= 1;
+#endif
+                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    90, NULL, SDL_FLIP_NONE );
+                break;
+        }
+    } else { // don't rotate, same as case 0 above
+        ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+            0, NULL, SDL_FLIP_NONE );
+    }
+
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
+    }
+    // this reference passes all the way back up the call chain back to
+    // cata_tiles::draw() std::vector<tile_render_info> draw_points[].height_3d
+    // where we are accumulating the height of every sprite stacked up in a tile
+    height_3d += tile.height_3d;
     return true;
 }
 
