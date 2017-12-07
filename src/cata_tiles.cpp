@@ -242,7 +242,6 @@ void cata_tiles::init()
     // Try to load tileset
     tileset_loader loader( *tileset_ptr, renderer );
     loader.load_tilejson(config_path, json_path, tileset_path);
-    ensure_default_item_highlight();
 
     set_draw_scale(16);
 }
@@ -525,6 +524,7 @@ void tileset_loader::load_tilejson( std::string tileset_root, std::string json_c
     if( !ts.find_tile_type( "unknown" ) ) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
+    ensure_default_item_highlight();
 }
 
 void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
@@ -2306,17 +2306,17 @@ SDL_Surface_Ptr cata_tiles::create_tile_surface()
     return ::create_tile_surface(tile_width, tile_height);
 }
 
-void cata_tiles::ensure_default_item_highlight()
+void tileset_loader::ensure_default_item_highlight()
 {
-    if( tileset_ptr->find_tile_type( ITEM_HIGHLIGHT ) ) {
+    if( ts.find_tile_type( ITEM_HIGHLIGHT ) ) {
         return;
     }
     const Uint8 highlight_alpha = 127;
 
     std::string key = ITEM_HIGHLIGHT;
-    int index = tileset_ptr->tile_values.size();
+    int index = ts.tile_values.size();
 
-    SDL_Surface_Ptr surface = create_tile_surface();
+    SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
     if( !surface ) {
         throw std::runtime_error( std::string( "Failed to create surface for default item highlight: " ) + SDL_GetError() );
     }
@@ -2326,8 +2326,8 @@ void cata_tiles::ensure_default_item_highlight()
     if( !texture ) {
         throw std::runtime_error( std::string( "Failed to create textire for default item highlight: " ) + SDL_GetError() );
     }
-    tileset_ptr->tile_values.push_back( std::move( texture ) );
-    tileset_ptr->tile_ids[key].fg.add(std::vector<int>({index}),1);
+    ts.tile_values.push_back( std::move( texture ) );
+    ts.tile_ids[key].fg.add(std::vector<int>({index}),1);
 }
 
 /* Animation Functions */

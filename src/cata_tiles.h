@@ -332,6 +332,8 @@ class tileset_loader
             int B;
         };
 
+        void ensure_default_item_highlight();
+
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
@@ -613,7 +615,6 @@ class cata_tiles
         int op_x, op_y;
 
     private:
-        void ensure_default_item_highlight();
         int last_pos_x, last_pos_y;
         /**
          * Tracks active night vision goggle status for each draw call.
