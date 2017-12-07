@@ -2314,18 +2314,16 @@ void cata_tiles::ensure_default_item_highlight()
 
     SDL_Surface_Ptr surface = create_tile_surface();
     if( !surface ) {
-        return;
+        throw std::runtime_error( std::string( "Failed to create surface for default item highlight: " ) + SDL_GetError() );
     }
+    //@todo check for errors.
     SDL_FillRect(surface.get(), NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
     SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
     if( !texture ) {
-        dbg( D_ERROR ) << "Failed to create texture: " << SDL_GetError();
+        throw std::runtime_error( std::string( "Failed to create textire for default item highlight: " ) + SDL_GetError() );
     }
-
-    if( texture ) {
-        tileset_ptr->tile_values.push_back( std::move( texture ) );
-        tileset_ptr->tile_ids[key].fg.add(std::vector<int>({index}),1);
-    }
+    tileset_ptr->tile_values.push_back( std::move( texture ) );
+    tileset_ptr->tile_ids[key].fg.add(std::vector<int>({index}),1);
 }
 
 /* Animation Functions */
