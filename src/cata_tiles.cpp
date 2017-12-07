@@ -1781,14 +1781,9 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
                                  int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                                  bool apply_night_vision_goggles, int &height_3d )
 {
-    if( svlist.empty() ) {
-        // render nothing
-        return true;
-    }
-
     auto picked = svlist.pick( loc_rand );
     if( !picked ) {
-        return false;
+        return true;
     }
     auto &spritelist = *picked;
     if( spritelist.empty() ) {
