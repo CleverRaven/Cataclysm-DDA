@@ -530,15 +530,6 @@ nc_color color_from_string(const std::string &color)
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = {{"light_"}, {"dark_"}};
-    for (int i=0; i < 2; ++i) {
-        size_t pos = 0;
-        while ((pos = new_color.find(pSearch[i].first, pos)) != std::string::npos) {
-            new_color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
-            pos += pSearch[i].second.length();
-        }
-    }
-
     const nc_color col = all_colors.name_to_color(new_color);
     if ( col > 0 ) {
         return col;
@@ -572,15 +563,6 @@ std::string string_from_color(const nc_color color)
 nc_color bgcolor_from_string(std::string color)
 {
     color = "i_" + color;
-
-    const std::pair<std::string, std::string> pSearch[2] = {{"light_"}, {"dark_"}};
-    for (int i=0; i < 2; ++i) {
-        size_t pos = 0;
-        while ((pos = color.find(pSearch[i].first, pos)) != std::string::npos) {
-            color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
-            pos += pSearch[i].second.length();
-        }
-    }
 
     const nc_color col = all_colors.name_to_color(color);
     if ( col > 0 ) {
