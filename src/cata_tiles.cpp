@@ -237,6 +237,7 @@ void cata_tiles::init()
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
+    tileset_ptr.reset( new tileset() );
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 
@@ -498,8 +499,8 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
 }
 
 void cata_tiles::set_draw_scale(int scale) {
-    tile_width = default_tile_width * tile_pixelscale * scale / 16;
-    tile_height = default_tile_height * tile_pixelscale * scale / 16;
+    tile_width = tileset_ptr->get_tile_width() * tile_pixelscale * scale / 16;
+    tile_height = tileset_ptr->get_tile_height() * tile_pixelscale * scale / 16;
 
     tile_ratiox = ((float)tile_width/(float)fontwidth);
     tile_ratioy = ((float)tile_height/(float)fontheight);
@@ -541,8 +542,8 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         tile_iso = curr_info.get_bool("iso", false);
         tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
 
-        default_tile_width = tile_width;
-        default_tile_height = tile_height;
+        tileset_ptr->tile_width = tile_width;
+        tileset_ptr->tile_height = tile_height;
     }
 
     // Load tile information if available.
@@ -1833,10 +1834,10 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
     SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
 
     SDL_Rect destination;
-    destination.x = x + tile.offset.x * tile_width / default_tile_width;
-    destination.y = y + ( tile.offset.y - height_3d ) * tile_width / default_tile_width;
-    destination.w = width * tile_width / default_tile_width;
-    destination.h = height * tile_height / default_tile_height;
+    destination.x = x + tile.offset.x * tile_width / tileset_ptr->get_tile_width();
+    destination.y = y + ( tile.offset.y - height_3d ) * tile_width / tileset_ptr->get_tile_width();
+    destination.w = width * tile_width / tileset_ptr->get_tile_width();
+    destination.h = height * tile_height / tileset_ptr->get_tile_height();
 
     if ( rotate_sprite ) {
         switch ( rota ) {

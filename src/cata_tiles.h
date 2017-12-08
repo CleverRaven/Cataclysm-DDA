@@ -259,6 +259,23 @@ struct minimap_submap_cache {
 
 using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
+class tileset
+{
+    private:
+        int tile_width;
+        int tile_height;
+
+        friend class cata_tiles;
+
+    public:
+        int get_tile_width() const {
+            return tile_width;
+        }
+        int get_tile_height() const {
+            return tile_height;
+        }
+};
+
 class cata_tiles
 {
     public:
@@ -495,8 +512,9 @@ class cata_tiles
         std::vector<SDL_Texture_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
         const tile_type *find_tile_type( const std::string &id ) const;
+        std::unique_ptr<tileset> tileset_ptr;
 
-        int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
+        int tile_height = 0, tile_width = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
