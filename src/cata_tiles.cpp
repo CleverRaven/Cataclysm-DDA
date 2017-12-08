@@ -210,32 +210,6 @@ void clear_texture_pool()
 
 void cata_tiles::init()
 {
-    const std::string default_json = FILENAMES["defaulttilejson"];
-    const std::string default_tileset = FILENAMES["defaulttilepng"];
-    const std::string current_tileset = get_option<std::string>( "TILES" );
-    std::string json_path, tileset_path, config_path;
-
-    // Get curent tileset and it's directory path.
-    if (current_tileset.empty()) {
-        dbg( D_ERROR ) << "Tileset not set in options or empty.";
-        json_path = default_json;
-        tileset_path = default_tileset;
-    } else {
-        dbg( D_INFO ) << "Current tileset is: " << current_tileset;
-    }
-
-    // Build tileset config path
-    config_path = TILESETS[current_tileset];
-    if (config_path.empty()) {
-        dbg( D_ERROR ) << "Tileset with name " << current_tileset << " can't be found or empty string";
-        json_path = default_json;
-        tileset_path = default_tileset;
-    } else {
-        dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
-        get_tile_information(config_path + '/' + FILENAMES["tileset-conf"],
-                             json_path, tileset_path);
-    }
-
     //@todo move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
@@ -243,7 +217,7 @@ void cata_tiles::init()
     tileset_ptr.reset( new tileset() );
     // Try to load tileset
     tileset_loader loader( *tileset_ptr, renderer );
-    loader.load( config_path, json_path, tileset_path );
+    loader.load( get_option<std::string>( "TILES" ) );
 
     set_draw_scale(16);
 }
@@ -262,7 +236,7 @@ void cata_tiles::reinit_minimap()
     minimap_reinit_flag = true;
 }
 
-void cata_tiles::get_tile_information(std::string config_path, std::string &json_path, std::string &tileset_path)
+static void get_tile_information(std::string config_path, std::string &json_path, std::string &tileset_path)
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
     const std::string default_tileset = FILENAMES["defaulttilepng"];
@@ -523,10 +497,27 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void tileset_loader::load( const std::string &tileset_root, const std::string &json_conf, const std::string &image_path )
+void tileset_loader::load( const std::string &tileset_id )
 {
+    std::string json_conf;
+    std::string tileset_path;
+    std::string tileset_root;
+
+    const auto tset_iter = TILESETS.find( tileset_id );
+    if( tset_iter != TILESETS.end() ) {
+        tileset_root = tset_iter->second;
+        dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
+        get_tile_information( tileset_root + '/' + FILENAMES["tileset-conf"],
+                             json_conf, tileset_path);
+        dbg( D_INFO ) << "Current tileset is: " << tileset_id;
+    } else {
+        dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
+        json_conf = FILENAMES["defaulttilejson"];
+        tileset_path = FILENAMES["defaulttilepng"];
+    }
+
     std::string json_path = tileset_root + '/' + json_conf;
-    std::string img_path = tileset_root + '/' + image_path;
+    std::string img_path = tileset_root + '/' + tileset_path;
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
     std::ifstream config_file(json_path.c_str(), std::ifstream::in | std::ifstream::binary);

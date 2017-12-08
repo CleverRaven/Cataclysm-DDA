@@ -403,13 +403,9 @@ class tileset_loader
         }
         /**
          * @throw std::exception On any error.
-         * @param tileset_root Path to tileset root directory.
-         * @param json_conf Path to json configuration file inside @p tileset_root.
-         * @param image_path Path to tiles image inside @p tileset_root (used only for
-         * old style tileset definitions).
+         * @param tileset_name Ident of the tileset, as it appears in the options.
          */
-        void load( const std::string &tileset_root, const std::string &json_conf,
-                   const std::string &image_path );
+        void load( const std::string &tileset_id );
 };
 
 class cata_tiles
@@ -560,8 +556,6 @@ class cata_tiles
         }
         void do_tile_loading_report();
     protected:
-        void get_tile_information( std::string dir_path, std::string &json_path,
-                                   std::string &tileset_path );
         template <typename maptype>
         void tile_loading_report( maptype const &tiletypemap, std::string const &label,
                                   std::string const &prefix = "" );
