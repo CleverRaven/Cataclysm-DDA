@@ -513,7 +513,7 @@ void player::power_bionics()
                 auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
                 tmp = bio_list[cursor];
             } else {
-            tmp = bionic_by_invlet( ch );
+                tmp = bionic_by_invlet( ch );
             }
 
             if( tmp == nullptr ) {
