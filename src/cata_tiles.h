@@ -382,18 +382,14 @@ class tileset_loader
         tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
         }
         /**
-         * Load tileset config file (json format).
-         * If the tileset uses the old system (one image per tileset) the image
-         * path <B>image_path</B> is used to load the tileset image.
-         * Otherwise (the tileset uses the new system) the image pathes
-         * are loaded from the json entries.
          * @throw std::exception On any error.
          * @param tileset_root Path to tileset root directory.
-         * @param json_conf Path to json config inside tileset_root.
-         * @param image_path Path to tiles image inside tileset_root.
+         * @param json_conf Path to json configuration file inside @p tileset_root.
+         * @param image_path Path to tiles image inside @p tileset_root (used only for
+         * old style tileset definitions).
          */
-        void load_tilejson( std::string tileset_root, std::string json_conf,
-                            const std::string &image_path );
+        void load( const std::string &tileset_root, const std::string &json_conf,
+                   const std::string &image_path );
 };
 
 class cata_tiles

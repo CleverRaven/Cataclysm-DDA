@@ -241,7 +241,7 @@ void cata_tiles::init()
     tileset_ptr.reset( new tileset() );
     // Try to load tileset
     tileset_loader loader( *tileset_ptr, renderer );
-    loader.load_tilejson(config_path, json_path, tileset_path);
+    loader.load( config_path, json_path, tileset_path );
 
     set_draw_scale(16);
 }
@@ -508,7 +508,7 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void tileset_loader::load_tilejson( std::string tileset_root, std::string json_conf, const std::string &image_path )
+void tileset_loader::load( const std::string &tileset_root, const std::string &json_conf, const std::string &image_path )
 {
     std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + image_path;
