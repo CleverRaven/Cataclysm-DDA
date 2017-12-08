@@ -907,7 +907,7 @@ bool veh_interact::do_repair( std::string &msg )
                 ok = format_reqs( msg, vp.repair_requirements() * pt.base.damage(), vp.repair_skills,
                                   vp.repair_time( g->u ) * double( pt.base.damage() ) / pt.base.max_damage() );
             } else {
-                msg << "<color_ltred>" << _( "This part cannot be repaired" ) << "</color>";
+                msg << "<color_light_red>" << _( "This part cannot be repaired" ) << "</color>";
                 ok = false;
             }
         }
@@ -1071,7 +1071,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%s     <color_ltgray>%3s</color>",
+                             string_format( "%s     <color_light_gray>%3s</color>",
                              pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
                              pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
@@ -1187,7 +1187,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             nc_color col = opts[idx].hotkey ? c_white : c_dkgray;
             trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
                             highlighted ? hilite( col ) : col,
-                            "<color_dkgray>%c </color>%s",
+                            "<color_dark_gray>%c </color>%s",
                             opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name().c_str() );
 
             // print extra columns (if any)
@@ -1747,26 +1747,26 @@ static std::string wheel_state_description( const vehicle &veh )
 
     std::string wheel_status;
     if( !suf_land && is_boat ) {
-        wheel_status = _( "<color_ltred>disabled</color>" );
+        wheel_status = _( "<color_light_red>disabled</color>" );
     } else if( !suf_land ) {
-        wheel_status = _( "<color_ltred>lack</color>" );
+        wheel_status = _( "<color_light_red>lack</color>" );
     } else if( !bal_land ) {
-        wheel_status = _( "<color_ltred>unbalanced</color>" );
+        wheel_status = _( "<color_light_red>unbalanced</color>" );
     } else if( steer < 0 ) {
-        wheel_status = _( "<color_ltred>no steering</color>" );
+        wheel_status = _( "<color_light_red>no steering</color>" );
     } else if( steer < 0.033 ) {
-        wheel_status = _( "<color_ltred>broken steering</color>" );
+        wheel_status = _( "<color_light_red>broken steering</color>" );
     } else if( steer < 0.5 ) {
-        wheel_status = _( "<color_ltred>poor steering</color>" );
+        wheel_status = _( "<color_light_red>poor steering</color>" );
     } else {
-        wheel_status = _( "<color_ltgreen>enough</color>" );
+        wheel_status = _( "<color_light_green>enough</color>" );
     }
 
     std::string boat_status;
     if( !suf_boat ) {
-        boat_status = _( "<color_ltred>leaks</color>" );
+        boat_status = _( "<color_light_red>leaks</color>" );
     } else if( !bal_boat ) {
-        boat_status = _( "<color_ltred>unbalanced</color>" );
+        boat_status = _( "<color_light_red>unbalanced</color>" );
     } else {
         boat_status = _( "<color_blue>swims</color>" );
     }
@@ -1819,7 +1819,7 @@ void veh_interact::display_stats()
     }
 
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
-                    _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
+                    _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                     int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
                     int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
@@ -1827,14 +1827,14 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[1], x[1], w[1], c_ltgray,
                     //~ /t means per turn
-                    _( "Acceleration: <color_ltblue>%3d</color> %s/t" ),
+                    _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
                     int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
-                    _( "Mass: <color_ltblue>%5.0f</color> %s" ),
+                    _( "Mass: <color_light_blue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
-                    _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
+                    _( "Cargo Volume: <color_light_gray>%s/%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ).c_str(),
                     format_volume( total_cargo ).c_str(),
                     volume_units_abbr() );
@@ -1883,16 +1883,16 @@ void veh_interact::display_stats()
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
 
     fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
-                   _("K aerodynamics: <color_ltblue>%3d</color>%%"),
+                   _("K aerodynamics: <color_light_blue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
     fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
-                   _("K friction:     <color_ltblue>%3d</color>%%"),
+                   _("K friction:     <color_light_blue>%3d</color>%%"),
                    int(veh->k_friction() * 100));
     fold_and_print(w_stats, y[10], x[10], w[10], c_ltgray,
-                   _("K mass:         <color_ltblue>%3d</color>%%"),
+                   _("K mass:         <color_light_blue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
     fold_and_print( w_stats, y[11], x[11], w[11], c_ltgray,
-                    _("Offroad:        <color_ltblue>%3d</color>%%"),
+                    _("Offroad:        <color_light_blue>%3d</color>%%"),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
@@ -2045,23 +2045,23 @@ void veh_interact::display_details( const vpart_info *part )
 
     // line 1: (column 1) durability   (column 2) damage mod
     fold_and_print(w_details, line+1, col_1, column_width, c_white,
-                   "%s: <color_ltgray>%d</color>",
+                   "%s: <color_light_gray>%d</color>",
                    small_mode ? _("Dur") : _("Durability"),
                    part->durability);
     fold_and_print(w_details, line+1, col_2, column_width, c_white,
-                   "%s: <color_ltgray>%d%%</color>",
+                   "%s: <color_light_gray>%d%%</color>",
                    small_mode ? _("Dmg") : _("Damage"),
                    part->dmg_mod);
 
     // line 2: (column 1) weight   (column 2) folded volume (if applicable)
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
-                   "%s: <color_ltgray>%.1f%s</color>",
+                   "%s: <color_light_gray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
                    convert_weight( item::find_type( part->item )->weight ),
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
-                       "%s: <color_ltgray>%s %s</color>",
+                       "%s: <color_light_gray>%s %s</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
                        format_volume( part->folded_volume ).c_str(),
                        volume_units_abbr() );
@@ -2090,12 +2090,12 @@ void veh_interact::display_details( const vpart_info *part )
         }
 
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_ltgray>%d</color>", label.c_str(),
+                       "%s: <color_light_gray>%d</color>", label.c_str(),
                        to_milliliter( part->size ) );
     }
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
-                       "%s: %c<color_ltgray>%d</color>",
+                       "%s: %c<color_light_gray>%d</color>",
                        small_mode ? _("Bat") : _("Battery"),
                        part->epower < 0 ? '-' : '+',
                        abs(part->epower));
@@ -2106,11 +2106,11 @@ void veh_interact::display_details( const vpart_info *part )
     // line 5 [horizontal]: power (if applicable)
     if ( part->fuel_type != "null" ) {
         fold_and_print( w_details, line+4, col_1, column_width,
-                        c_white, _("Charge: <color_ltgray>%s</color>"),
+                        c_white, _("Charge: <color_light_gray>%s</color>"),
                         item::nname( part->fuel_type ).c_str() );
     }
     if ( part->power != 0 ) {
-        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_ltgray>%d</color>" ), part->power );
+        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part->power );
     }
 
     // line 5 [vertical/hybrid] 6 [horizontal]: flags

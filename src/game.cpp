@@ -8506,12 +8506,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (!select_zone) {
                 nc_color clr = c_white;
-                std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                std::string colored_key = string_format( "<color_light_green>%s</color>",
                                                          ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
                 print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr,
                                     string_format( _( "Press %s to view extended description" ),
                                                    colored_key.c_str() ) );
-                colored_key = string_format( "<color_ltgreen>%s</color>",
+                colored_key = string_format( "<color_light_green>%s</color>",
                                              ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
                 print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),

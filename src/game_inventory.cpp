@@ -95,7 +95,7 @@ void game_menus::inv::common( player &p )
     int res;
     do {
         inv_s.set_hint( string_format(
-                            _( "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>" ),
+                            _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
                             p.allocated_invlets().size(), inv_chars.size() - p.allocated_invlets().size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
@@ -489,7 +489,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
-                    return string_format( "<color_ltgreen>%s</color>", get_action_name( *loc ).c_str() );
+                    return string_format( "<color_light_green>%s</color>", get_action_name( *loc ).c_str() );
                 }, _( "ACTION" ) );
             }
         }
@@ -553,10 +553,10 @@ class gunmod_inventory_preset : public inventory_selector_preset
                 const auto odds = get_odds( loc );
 
                 if( odds.first >= 100 ) {
-                    return string_format( "<color_ltgreen>%s</color>", _( "always" ) );
+                    return string_format( "<color_light_green>%s</color>", _( "always" ) );
                 }
 
-                return string_format( "<color_ltgreen>%d%%</color>", odds.first );
+                return string_format( "<color_light_green>%d%%</color>", odds.first );
             }, _( "SUCCESS CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -620,7 +620,7 @@ class read_inventory_preset: public pickup_inventory_preset
 {
     public:
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
-            static const std::string unknown( _( "<color_dkgray>?</color>" ) );
+            static const std::string unknown( _( "<color_dark_gray>?</color>" ) );
             static const std::string martial_arts( _( "martial arts" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -670,7 +670,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const std::string duration = calendar::print_approx_duration( actual_turns, false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
-                    return string_format( "<color_ltred>%s</color>", duration.c_str() );
+                    return string_format( "<color_light_red>%s</color>", duration.c_str() );
                 }
 
                 return duration; // Normal speed.
@@ -754,7 +754,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                     const int basic_damage = loc->gun_damage( false );
                     const int ammo_damage = loc->ammo_data()->ammo->damage;
 
-                    return string_format( "%s<color_ltgray>+</color>%s <color_ltgray>=</color> %s",
+                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ).c_str(),
                                           get_damage_string( ammo_damage, true ).c_str(),
                                           get_damage_string( total_damage, true ).c_str()

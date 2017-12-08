@@ -864,7 +864,7 @@ std::vector<std::string> text_guns()
 {
     std::vector<std::string> text;
 
-    text.push_back( _( "<color_ltgray>( Handguns</color>\n\
+    text.push_back( _( "<color_light_gray>( Handguns</color>\n\
 Handguns are small weapons held in one or both hands. They are much more difficult \
 to aim and control than larger firearms, and this is reflected in their poor accuracy. \
 However, their small size makes them appropriate for short-range combat, where larger guns \
@@ -927,7 +927,7 @@ Assault rifles are an excellent choice for medium or long range combat, or \
 even close-range bursts again a large number of enemies. They are difficult \
 to use, and are best saved for skilled riflemen." ) );
 
-    text.push_back( _( "<color_ltred>( Machine Guns</color>\n\
+    text.push_back( _( "<color_light_red>( Machine Guns</color>\n\
 Machine guns are one of the most powerful firearms available. They are even \
 larger than assault rifles, and make poor melee weapons; however, they are \
 capable of holding 100 or more rounds of highly-damaging ammunition. They \

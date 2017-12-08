@@ -145,12 +145,12 @@ struct points_left {
     {
         if( limit == MULTI_POOL ) {
             return string_format( _("Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>"),
-                stat_points_left() >= 0 ? "ltgray" : "red", stat_points,
+                stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
                 trait_points >= 0 ? '+' : '-',
-                trait_points_left() >= 0 ? "ltgray" : "red", abs(trait_points),
+                trait_points_left() >= 0 ? "light_gray" : "red", abs(trait_points),
                 skill_points >= 0 ? '+' : '-',
-                skill_points_left() >= 0 ? "ltgray" : "red", abs(skill_points),
-                is_valid() ? "ltgray" : "red", stat_points + trait_points + skill_points );
+                skill_points_left() >= 0 ? "light_gray" : "red", abs(skill_points),
+                is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
         } else if( limit == ONE_POOL ) {
             return string_format( _("Points left: %4d"), skill_points_left() );
         } else {
@@ -1413,7 +1413,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
-            buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
+            buffer << "<color_light_blue>" << _( "Addictions:" ) << "</color>\n";
             for( const auto &a : prof_addictions ) {
                 const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
                 buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
@@ -1422,7 +1422,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 
         // Profession traits
         const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-        buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        buffer << "<color_light_blue>" << _( "Profession traits:" ) << "</color>\n";
         if( prof_traits.empty() ) {
             buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         } else {
@@ -1433,7 +1433,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 
         // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
-        buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
+        buffer << "<color_light_blue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
             buffer << pgettext( "set_profession_skill", "None" ) << "\n";
         } else {
@@ -1448,7 +1448,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {
-            buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+            buffer << "<color_light_blue>" << _( "Profession items:" ) << "</color>\n";
             for( const auto &i : prof_items ) {
                 // TODO: If the item group is randomized *at all*, these'll be different each time
                 // and it won't match what you actually start with
@@ -1463,7 +1463,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         std::sort(begin(prof_CBMs), end(prof_CBMs), [](bionic_id const &a, bionic_id const &b) {
             return a->activated && !b->activated;
         });
-        buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
+        buffer << "<color_light_blue>" << _( "Profession bionics:" ) << "</color>\n";
         if( prof_CBMs.empty() ) {
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {

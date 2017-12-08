@@ -65,7 +65,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     } else if( mode == REMOVING ) {
         desc = _( "<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
     fold_and_print( window, 0, 1, pwr_str_pos, c_white, desc );
 

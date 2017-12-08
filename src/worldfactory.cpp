@@ -708,13 +708,13 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                         if( mman_ui->can_shift_up(iPos, mods) ) {
                             shift_display += "<color_blue>+</color> ";
                         } else {
-                            shift_display += "<color_dkgray>+</color> ";
+                            shift_display += "<color_dark_gray>+</color> ";
                         }
 
                         if( mman_ui->can_shift_down(iPos, mods) ) {
                             shift_display += "<color_blue>-</color>";
                         } else {
-                            shift_display += "<color_dkgray>-</color>";
+                            shift_display += "<color_dark_gray>-</color>";
                         }
 
                         trim_and_print( w_shift, 2 + iNum - start, 1, 3, c_white, shift_display.c_str() );

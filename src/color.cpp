@@ -210,157 +210,157 @@ void color_manager::load_default()
     //        Color         Name      Color Pair      Invert
     add_color( def_c_black, "c_black", color_pair( 30 ), def_i_black );
     add_color( def_c_white, "c_white", color_pair( 1 ).bold(), def_i_white );
-    add_color( def_c_ltgray, "c_ltgray", color_pair( 1 ), def_i_ltgray );
-    add_color( def_c_dkgray, "c_dkgray", color_pair( 30 ).bold(), def_i_dkgray );
+    add_color( def_c_ltgray, "c_light_gray", color_pair( 1 ), def_i_ltgray );
+    add_color( def_c_dkgray, "c_dark_gray", color_pair( 30 ).bold(), def_i_dkgray );
     add_color( def_c_red, "c_red", color_pair( 2 ), def_i_red );
     add_color( def_c_green, "c_green", color_pair( 3 ), def_i_green );
     add_color( def_c_blue, "c_blue", color_pair( 4 ), def_i_blue );
     add_color( def_c_cyan, "c_cyan", color_pair( 5 ), def_i_cyan );
     add_color( def_c_magenta, "c_magenta", color_pair( 6 ), def_i_magenta );
     add_color( def_c_brown, "c_brown", color_pair( 7 ), def_i_brown );
-    add_color( def_c_ltred, "c_ltred", color_pair( 2 ).bold(), def_i_ltred );
-    add_color( def_c_ltgreen, "c_ltgreen", color_pair( 3 ).bold(), def_i_ltgreen );
-    add_color( def_c_ltblue, "c_ltblue", color_pair( 4 ).bold(), def_i_ltblue );
-    add_color( def_c_ltcyan, "c_ltcyan", color_pair( 5 ).bold(), def_i_ltcyan );
+    add_color( def_c_ltred, "c_light_red", color_pair( 2 ).bold(), def_i_ltred );
+    add_color( def_c_ltgreen, "c_light_green", color_pair( 3 ).bold(), def_i_ltgreen );
+    add_color( def_c_ltblue, "c_light_blue", color_pair( 4 ).bold(), def_i_ltblue );
+    add_color( def_c_ltcyan, "c_light_cyan", color_pair( 5 ).bold(), def_i_ltcyan );
     add_color( def_c_pink, "c_pink", color_pair( 6 ).bold(), def_i_pink );
     add_color( def_c_yellow, "c_yellow", color_pair( 7 ).bold(), def_i_yellow );
 
     add_color( def_h_black, "h_black", color_pair( 20 ), def_c_blue );
     add_color( def_h_white, "h_white", color_pair( 15 ).bold(), def_c_ltblue_white );
-    add_color( def_h_ltgray, "h_ltgray", color_pair( 15 ), def_c_blue_white );
-    add_color( def_h_dkgray, "h_dkgray", color_pair( 20 ).bold(), def_c_ltblue );
+    add_color( def_h_ltgray, "h_light_gray", color_pair( 15 ), def_c_blue_white );
+    add_color( def_h_dkgray, "h_dark_gray", color_pair( 20 ).bold(), def_c_ltblue );
     add_color( def_h_red, "h_red", color_pair( 16 ), def_c_blue_red );
     add_color( def_h_green, "h_green", color_pair( 17 ), def_c_blue_green );
     add_color( def_h_blue, "h_blue", color_pair( 20 ), def_h_blue );
     add_color( def_h_cyan, "h_cyan", color_pair( 19 ), def_c_blue_cyan );
     add_color( def_h_magenta, "h_magenta", color_pair( 21 ), def_c_blue_magenta );
     add_color( def_h_brown, "h_brown", color_pair( 22 ), def_c_blue_yellow );
-    add_color( def_h_ltred, "h_ltred", color_pair( 16 ).bold(), def_c_ltblue_red );
-    add_color( def_h_ltgreen, "h_ltgreen", color_pair( 17 ).bold(), def_c_ltblue_green );
-    add_color( def_h_ltblue, "h_ltblue", color_pair( 18 ).bold(), def_h_ltblue );
-    add_color( def_h_ltcyan, "h_ltcyan", color_pair( 19 ).bold(), def_c_ltblue_cyan );
+    add_color( def_h_ltred, "h_light_red", color_pair( 16 ).bold(), def_c_ltblue_red );
+    add_color( def_h_ltgreen, "h_light_green", color_pair( 17 ).bold(), def_c_ltblue_green );
+    add_color( def_h_ltblue, "h_light_blue", color_pair( 18 ).bold(), def_h_ltblue );
+    add_color( def_h_ltcyan, "h_light_cyan", color_pair( 19 ).bold(), def_c_ltblue_cyan );
     add_color( def_h_pink, "h_pink", color_pair( 21 ).bold(), def_c_ltblue_magenta );
     add_color( def_h_yellow, "h_yellow", color_pair( 22 ).bold(), def_c_ltblue_yellow );
 
     add_color( def_i_black, "i_black", color_pair( 32 ), def_c_black );
     add_color( def_i_white, "i_white", color_pair( 8 ).blink(), def_c_white );
-    add_color( def_i_ltgray, "i_ltgray", color_pair( 8 ), def_c_ltgray );
-    add_color( def_i_dkgray, "i_dkgray", color_pair( 32 ).blink(), def_c_dkgray );
+    add_color( def_i_ltgray, "i_light_gray", color_pair( 8 ), def_c_ltgray );
+    add_color( def_i_dkgray, "i_dark_gray", color_pair( 32 ).blink(), def_c_dkgray );
     add_color( def_i_red, "i_red", color_pair( 9 ), def_c_red );
     add_color( def_i_green, "i_green", color_pair( 10 ), def_c_green );
     add_color( def_i_blue, "i_blue", color_pair( 11 ), def_c_blue );
     add_color( def_i_cyan, "i_cyan", color_pair( 12 ), def_c_cyan );
     add_color( def_i_magenta, "i_magenta", color_pair( 13 ), def_c_magenta );
     add_color( def_i_brown, "i_brown", color_pair( 14 ), def_c_brown );
-    add_color( def_i_ltred, "i_ltred", color_pair( 9 ).blink(), def_c_ltred );
-    add_color( def_i_ltgreen, "i_ltgreen", color_pair( 10 ).blink(), def_c_ltgreen );
-    add_color( def_i_ltblue, "i_ltblue", color_pair( 11 ).blink(), def_c_ltblue );
-    add_color( def_i_ltcyan, "i_ltcyan", color_pair( 12 ).blink(), def_c_ltcyan );
+    add_color( def_i_ltred, "i_light_red", color_pair( 9 ).blink(), def_c_ltred );
+    add_color( def_i_ltgreen, "i_light_green", color_pair( 10 ).blink(), def_c_ltgreen );
+    add_color( def_i_ltblue, "i_light_blue", color_pair( 11 ).blink(), def_c_ltblue );
+    add_color( def_i_ltcyan, "i_light_cyan", color_pair( 12 ).blink(), def_c_ltcyan );
     add_color( def_i_pink, "i_pink", color_pair( 13 ).blink(), def_c_pink );
     add_color( def_i_yellow, "i_yellow", color_pair( 14 ).blink(), def_c_yellow );
 
     add_color( def_c_white_red, "c_white_red", color_pair( 23 ).bold(), def_c_red_white );
-    add_color( def_c_ltgray_red, "c_ltgray_red", color_pair( 23 ), def_c_ltred_white );
-    add_color( def_c_dkgray_red, "c_dkgray_red", color_pair( 9 ), def_c_dkgray_red );
+    add_color( def_c_ltgray_red, "c_light_gray_red", color_pair( 23 ), def_c_ltred_white );
+    add_color( def_c_dkgray_red, "c_dark_gray_red", color_pair( 9 ), def_c_dkgray_red );
     add_color( def_c_red_red, "c_red_red", color_pair( 9 ), def_c_red_red );
     add_color( def_c_green_red, "c_green_red", color_pair( 25 ), def_c_red_green );
     add_color( def_c_blue_red, "c_blue_red", color_pair( 26 ), def_h_red );
     add_color( def_c_cyan_red, "c_cyan_red", color_pair( 27 ), def_c_red_cyan );
     add_color( def_c_magenta_red, "c_magenta_red", color_pair( 28 ), def_c_red_magenta );
     add_color( def_c_brown_red, "c_brown_red", color_pair( 29 ), def_c_red_yellow );
-    add_color( def_c_ltred_red, "c_ltred_red", color_pair( 24 ).bold(), def_c_red_red );
-    add_color( def_c_ltgreen_red, "c_ltgreen_red", color_pair( 25 ).bold(), def_c_ltred_green );
-    add_color( def_c_ltblue_red, "c_ltblue_red", color_pair( 26 ).bold(), def_h_ltred );
-    add_color( def_c_ltcyan_red, "c_ltcyan_red", color_pair( 27 ).bold(), def_c_ltred_cyan );
+    add_color( def_c_ltred_red, "c_light_red_red", color_pair( 24 ).bold(), def_c_red_red );
+    add_color( def_c_ltgreen_red, "c_light_green_red", color_pair( 25 ).bold(), def_c_ltred_green );
+    add_color( def_c_ltblue_red, "c_light_blue_red", color_pair( 26 ).bold(), def_h_ltred );
+    add_color( def_c_ltcyan_red, "c_light_cyan_red", color_pair( 27 ).bold(), def_c_ltred_cyan );
     add_color( def_c_pink_red, "c_pink_red", color_pair( 28 ).bold(), def_c_ltred_magenta );
     add_color( def_c_yellow_red, "c_yellow_red", color_pair( 29 ).bold(), def_c_red_yellow );
 
     add_color( def_c_unset, "c_unset", color_pair( 31 ), def_c_unset );
 
     add_color( def_c_black_white, "c_black_white", color_pair( 32 ), def_c_ltgray );
-    add_color( def_c_dkgray_white, "c_dkgray_white", color_pair( 32 ).bold(), def_c_white );
-    add_color( def_c_ltgray_white, "c_ltgray_white", color_pair( 33 ), def_c_ltgray_white );
+    add_color( def_c_dkgray_white, "c_dark_gray_white", color_pair( 32 ).bold(), def_c_white );
+    add_color( def_c_ltgray_white, "c_light_gray_white", color_pair( 33 ), def_c_ltgray_white );
     add_color( def_c_white_white, "c_white_white", color_pair( 33 ).bold(), def_c_white_white );
     add_color( def_c_red_white, "c_red_white", color_pair( 34 ), def_c_white_red );
-    add_color( def_c_ltred_white, "c_ltred_white", color_pair( 34 ).bold(), def_c_ltgray_red );
+    add_color( def_c_ltred_white, "c_light_red_white", color_pair( 34 ).bold(), def_c_ltgray_red );
     add_color( def_c_green_white, "c_green_white", color_pair( 35 ), def_c_ltgray_green );
-    add_color( def_c_ltgreen_white, "c_ltgreen_white", color_pair( 35 ).bold(), def_c_white_green );
+    add_color( def_c_ltgreen_white, "c_light_green_white", color_pair( 35 ).bold(), def_c_white_green );
     add_color( def_c_brown_white, "c_brown_white", color_pair( 36 ), def_c_ltgray_yellow );
     add_color( def_c_yellow_white, "c_yellow_white", color_pair( 36 ).bold(), def_c_white_yellow );
     add_color( def_c_blue_white, "c_blue_white", color_pair( 37 ), def_h_ltgray );
-    add_color( def_c_ltblue_white, "c_ltblue_white", color_pair( 37 ).bold(), def_h_white );
+    add_color( def_c_ltblue_white, "c_light_blue_white", color_pair( 37 ).bold(), def_h_white );
     add_color( def_c_magenta_white, "c_magenta_white", color_pair( 38 ), def_c_ltgray_magenta );
     add_color( def_c_pink_white, "c_pink_white", color_pair( 38 ).bold(), def_c_white_magenta );
     add_color( def_c_cyan_white, "c_cyan_white", color_pair( 39 ), def_c_ltgray_cyan );
-    add_color( def_c_ltcyan_white, "c_ltcyan_white", color_pair( 39 ).bold(), def_c_white_cyan );
+    add_color( def_c_ltcyan_white, "c_light_cyan_white", color_pair( 39 ).bold(), def_c_white_cyan );
 
     add_color( def_c_black_green, "c_black_green", color_pair( 40 ), def_c_green );
-    add_color( def_c_dkgray_green, "c_dkgray_green", color_pair( 40 ).bold(), def_c_ltgreen );
-    add_color( def_c_ltgray_green, "c_ltgray_green", color_pair( 41 ), def_c_green_white );
+    add_color( def_c_dkgray_green, "c_dark_gray_green", color_pair( 40 ).bold(), def_c_ltgreen );
+    add_color( def_c_ltgray_green, "c_light_gray_green", color_pair( 41 ), def_c_green_white );
     add_color( def_c_white_green, "c_white_green", color_pair( 41 ).bold(), def_c_ltgreen_white );
     add_color( def_c_red_green, "c_red_green", color_pair( 42 ), def_c_green_red );
-    add_color( def_c_ltred_green, "c_ltred_green", color_pair( 42 ).bold(), def_c_ltgreen_red );
+    add_color( def_c_ltred_green, "c_light_red_green", color_pair( 42 ).bold(), def_c_ltgreen_red );
     add_color( def_c_green_green, "c_green_green", color_pair( 43 ), def_c_green_green );
-    add_color( def_c_ltgreen_green, "c_ltgreen_green", color_pair( 43 ).bold(), def_c_ltgreen_green );
+    add_color( def_c_ltgreen_green, "c_light_green_green", color_pair( 43 ).bold(), def_c_ltgreen_green );
     add_color( def_c_brown_green, "c_brown_green", color_pair( 44 ), def_c_green_yellow );
     add_color( def_c_yellow_green, "c_yellow_green", color_pair( 44 ).bold(), def_c_ltgreen_yellow );
     add_color( def_c_blue_green, "c_blue_green", color_pair( 45 ), def_h_green );
-    add_color( def_c_ltblue_green, "c_ltblue_green", color_pair( 45 ).bold(), def_h_ltgreen );
+    add_color( def_c_ltblue_green, "c_light_blue_green", color_pair( 45 ).bold(), def_h_ltgreen );
     add_color( def_c_magenta_green, "c_magenta_green", color_pair( 46 ), def_c_green_magenta );
     add_color( def_c_pink_green, "c_pink_green", color_pair( 46 ).bold(), def_c_ltgreen_magenta );
     add_color( def_c_cyan_green, "c_cyan_green", color_pair( 47 ), def_c_green_cyan );
-    add_color( def_c_ltcyan_green, "c_ltcyan_green", color_pair( 47 ).bold(), def_c_ltgreen_cyan );
+    add_color( def_c_ltcyan_green, "c_light_cyan_green", color_pair( 47 ).bold(), def_c_ltgreen_cyan );
 
     add_color( def_c_black_yellow, "c_black_yellow", color_pair( 48 ), def_c_brown );
-    add_color( def_c_dkgray_yellow, "c_dkgray_yellow", color_pair( 48 ).bold(), def_c_yellow );
-    add_color( def_c_ltgray_yellow, "c_ltgray_yellow", color_pair( 49 ), def_c_brown_white );
+    add_color( def_c_dkgray_yellow, "c_dark_gray_yellow", color_pair( 48 ).bold(), def_c_yellow );
+    add_color( def_c_ltgray_yellow, "c_light_gray_yellow", color_pair( 49 ), def_c_brown_white );
     add_color( def_c_white_yellow, "c_white_yellow", color_pair( 49 ).bold(), def_c_yellow_white );
     add_color( def_c_red_yellow, "c_red_yellow", color_pair( 50 ), def_c_yellow_red );
-    add_color( def_c_ltred_yellow, "c_ltred_yellow", color_pair( 50 ).bold(), def_c_yellow_red );
+    add_color( def_c_ltred_yellow, "c_light_red_yellow", color_pair( 50 ).bold(), def_c_yellow_red );
     add_color( def_c_green_yellow, "c_green_yellow", color_pair( 51 ), def_c_brown_green );
-    add_color( def_c_ltgreen_yellow, "c_ltgreen_yellow", color_pair( 51 ).bold(), def_c_yellow_green );
+    add_color( def_c_ltgreen_yellow, "c_light_green_yellow", color_pair( 51 ).bold(), def_c_yellow_green );
     add_color( def_c_brown_yellow, "c_brown_yellow", color_pair( 52 ), def_c_brown_yellow );
     add_color( def_c_yellow_yellow, "c_yellow_yellow", color_pair( 52 ).bold(), def_c_yellow_yellow );
     add_color( def_c_blue_yellow, "c_blue_yellow", color_pair( 53 ), def_h_brown );
-    add_color( def_c_ltblue_yellow, "c_ltblue_yellow", color_pair( 53 ).bold(), def_h_yellow );
+    add_color( def_c_ltblue_yellow, "c_light_blue_yellow", color_pair( 53 ).bold(), def_h_yellow );
     add_color( def_c_magenta_yellow, "c_magenta_yellow", color_pair( 54 ), def_c_brown_magenta );
     add_color( def_c_pink_yellow, "c_pink_yellow", color_pair( 54 ).bold(), def_c_yellow_magenta );
     add_color( def_c_cyan_yellow, "c_cyan_yellow", color_pair( 55 ), def_c_brown_cyan );
-    add_color( def_c_ltcyan_yellow, "c_ltcyan_yellow", color_pair( 55 ).bold(), def_c_yellow_cyan );
+    add_color( def_c_ltcyan_yellow, "c_light_cyan_yellow", color_pair( 55 ).bold(), def_c_yellow_cyan );
 
     add_color( def_c_black_magenta, "c_black_magenta", color_pair( 56 ), def_c_magenta );
-    add_color( def_c_dkgray_magenta, "c_dkgray_magenta", color_pair( 56 ).bold(), def_c_pink );
-    add_color( def_c_ltgray_magenta, "c_ltgray_magenta", color_pair( 57 ), def_c_magenta_white );
+    add_color( def_c_dkgray_magenta, "c_dark_gray_magenta", color_pair( 56 ).bold(), def_c_pink );
+    add_color( def_c_ltgray_magenta, "c_light_gray_magenta", color_pair( 57 ), def_c_magenta_white );
     add_color( def_c_white_magenta, "c_white_magenta", color_pair( 57 ).bold(), def_c_pink_white );
     add_color( def_c_red_magenta, "c_red_magenta", color_pair( 58 ), def_c_magenta_red );
-    add_color( def_c_ltred_magenta, "c_ltred_magenta", color_pair( 58 ).bold(), def_c_pink_red );
+    add_color( def_c_ltred_magenta, "c_light_red_magenta", color_pair( 58 ).bold(), def_c_pink_red );
     add_color( def_c_green_magenta, "c_green_magenta", color_pair( 59 ), def_c_magenta_green );
-    add_color( def_c_ltgreen_magenta, "c_ltgreen_magenta", color_pair( 59 ).bold(), def_c_pink_green );
+    add_color( def_c_ltgreen_magenta, "c_light_green_magenta", color_pair( 59 ).bold(), def_c_pink_green );
     add_color( def_c_brown_magenta, "c_brown_magenta", color_pair( 60 ), def_c_magenta_yellow );
     add_color( def_c_yellow_magenta, "c_yellow_magenta", color_pair( 60 ).bold(), def_c_pink_yellow );
     add_color( def_c_blue_magenta, "c_blue_magenta", color_pair( 61 ), def_h_magenta );
-    add_color( def_c_ltblue_magenta, "c_ltblue_magenta", color_pair( 61 ).bold(), def_h_pink );
+    add_color( def_c_ltblue_magenta, "c_light_blue_magenta", color_pair( 61 ).bold(), def_h_pink );
     add_color( def_c_magenta_magenta, "c_magenta_magenta", color_pair( 62 ), def_c_magenta_magenta );
     add_color( def_c_pink_magenta, "c_pink_magenta", color_pair( 62 ).bold(), def_c_pink_magenta );
     add_color( def_c_cyan_magenta, "c_cyan_magenta", color_pair( 63 ), def_c_magenta_cyan );
-    add_color( def_c_ltcyan_magenta, "c_ltcyan_magenta", color_pair( 63 ).bold(), def_c_pink_cyan );
+    add_color( def_c_ltcyan_magenta, "c_light_cyan_magenta", color_pair( 63 ).bold(), def_c_pink_cyan );
 
     add_color( def_c_black_cyan, "c_black_cyan", color_pair( 64 ), def_c_cyan );
-    add_color( def_c_dkgray_cyan, "c_dkgray_cyan", color_pair( 64 ).bold(), def_c_ltcyan );
-    add_color( def_c_ltgray_cyan, "c_ltgray_cyan", color_pair( 65 ), def_c_cyan_white );
+    add_color( def_c_dkgray_cyan, "c_dark_gray_cyan", color_pair( 64 ).bold(), def_c_ltcyan );
+    add_color( def_c_ltgray_cyan, "c_light_gray_cyan", color_pair( 65 ), def_c_cyan_white );
     add_color( def_c_white_cyan, "c_white_cyan", color_pair( 65 ).bold(), def_c_ltcyan_white );
     add_color( def_c_red_cyan, "c_red_cyan", color_pair( 66 ), def_c_cyan_red );
-    add_color( def_c_ltred_cyan, "c_ltred_cyan", color_pair( 66 ).bold(), def_c_ltcyan_red );
+    add_color( def_c_ltred_cyan, "c_light_red_cyan", color_pair( 66 ).bold(), def_c_ltcyan_red );
     add_color( def_c_green_cyan, "c_green_cyan", color_pair( 67 ), def_c_cyan_green );
-    add_color( def_c_ltgreen_cyan, "c_ltgreen_cyan", color_pair( 67 ).bold(), def_c_ltcyan_green );
+    add_color( def_c_ltgreen_cyan, "c_light_green_cyan", color_pair( 67 ).bold(), def_c_ltcyan_green );
     add_color( def_c_brown_cyan, "c_brown_cyan", color_pair( 68 ), def_c_cyan_yellow );
     add_color( def_c_yellow_cyan, "c_yellow_cyan", color_pair( 68 ).bold(), def_c_ltcyan_yellow );
     add_color( def_c_blue_cyan, "c_blue_cyan", color_pair( 69 ), def_h_cyan );
-    add_color( def_c_ltblue_cyan, "c_ltblue_cyan", color_pair( 69 ).bold(), def_h_ltcyan );
+    add_color( def_c_ltblue_cyan, "c_light_blue_cyan", color_pair( 69 ).bold(), def_h_ltcyan );
     add_color( def_c_magenta_cyan, "c_magenta_cyan", color_pair( 70 ), def_c_cyan_magenta );
     add_color( def_c_pink_cyan, "c_pink_cyan", color_pair( 70 ).bold(), def_c_ltcyan_magenta );
     add_color( def_c_cyan_cyan, "c_cyan_cyan", color_pair( 71 ), def_c_cyan_cyan );
-    add_color( def_c_ltcyan_cyan, "c_ltcyan_cyan", color_pair( 71 ).bold(), def_c_ltcyan_cyan );
+    add_color( def_c_ltcyan_cyan, "c_light_cyan_cyan", color_pair( 71 ).bold(), def_c_ltcyan_cyan );
 }
 
 void init_colors()
@@ -454,12 +454,12 @@ void init_colors()
 
     // The color codes are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("lt gray")}},
-        {"dg", {c_dkgray, _("dk gray")}}, {"r", {c_ltred, _("lt red")}},
-        {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("lt green")}},
-        {"G", {c_green, _("green")}}, {"b", {c_ltblue, _("lt blue")}},
+        {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("light_gray")}},
+        {"dg", {c_dkgray, _("dark gray")}}, {"r", {c_ltred, _("light_red")}},
+        {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("light_green")}},
+        {"G", {c_green, _("green")}}, {"b", {c_ltblue, _("light_blue")}},
         {"B", {c_blue, _("blue")}}, {"W", {c_white, _("white")}},
-        {"C", {c_cyan, _("cyan")}}, {"c", {c_ltcyan, _("lt cyan")}},
+        {"C", {c_cyan, _("cyan")}}, {"c", {c_ltcyan, _("light_cyan")}},
         {"P", {c_pink, _("pink")}}, {"m", {c_magenta, _("magenta")}}
     };
 }
@@ -518,8 +518,8 @@ nc_color cyan_background(nc_color c)
  * Special cases:
  * {"black"           , c_black}, // missing default prefix c_
  * {"<c|h|i>_black"   , h_black}, // has prefix c_ or h_ or i_
- * {"dark_gray_red"   , c_dkgray_red}, // dark_ instead of dk
- * {"light_blue_red"  , c_ltblue_red}, // light_ instead of lt
+ * {"dark_gray_red"   , c_dkgray_red}, // dark_ instead of dk as the latter is deprecated
+ * {"light_blue_red"  , c_ltblue_red}, // light_ instead of lt as the latter is deprecated
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
@@ -530,7 +530,7 @@ nc_color color_from_string(const std::string &color)
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
+    const std::pair<std::string, std::string> pSearch[2] = {{"light_"}, {"dark_"}};
     for (int i=0; i < 2; ++i) {
         size_t pos = 0;
         while ((pos = new_color.find(pSearch[i].first, pos)) != std::string::npos) {
@@ -573,7 +573,7 @@ nc_color bgcolor_from_string(std::string color)
 {
     color = "i_" + color;
 
-    const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
+    const std::pair<std::string, std::string> pSearch[2] = {{"light_"}, {"dark_"}};
     for (int i=0; i < 2; ++i) {
         size_t pos = 0;
         while ((pos = color.find(pSearch[i].first, pos)) != std::string::npos) {
