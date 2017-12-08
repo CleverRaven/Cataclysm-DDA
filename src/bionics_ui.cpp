@@ -32,6 +32,10 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const long ch )
 {
+    if( ch == ' ' ) {  // space is a special case for unassigned
+        return nullptr;
+    }
+
     for( auto &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
@@ -471,18 +475,60 @@ void player::power_bionics()
         const long ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = NULL;
         bool confirmCheck = false;
-        if( menu_mode == REASSIGNING ) {
+
+        if( action == "DOWN" ) {
+            redraw = true;
+            if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
+                cursor++;
+            } else {
+                cursor = 0;
+            }
+            if( scroll_position < max_scroll_position &&
+                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
+                scroll_position++;
+            }
+            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
+                scroll_position = std::max( cursor - half_list_view_location, 0 );
+            }
+        } else if( action == "UP" ) {
+            redraw = true;
+            if( cursor > 0 ) {
+                cursor--;
+            } else {
+                cursor = current_bionic_list->size() - 1;
+            }
+            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
+                scroll_position--;
+            }
+            if( scroll_position < max_scroll_position &&
+                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
+                scroll_position =
+                    std::max( std::min<int>( current_bionic_list->size() - LIST_HEIGHT,
+                                             cursor - half_list_view_location ), 0 );
+            }
+        } else if( menu_mode == REASSIGNING ) {
             menu_mode = ACTIVATING;
+
+            if( action == "CONFIRM" && !current_bionic_list->empty() ) {
+                auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+                tmp = bio_list[cursor];
+            } else {
             tmp = bionic_by_invlet( ch );
+            }
+
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic (or escape, or ...)
                 continue;
             }
             redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter." ),
+            const long newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
                                              tmp->id->name.c_str() );
             wrefresh( wBio );
-            if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
+            if( newch == ch || newch == KEY_ESCAPE ) {
+                continue;
+            }
+            if( newch == ' ' ) {
+                tmp->invlet = ' ';
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
@@ -514,23 +560,6 @@ void player::power_bionics()
                 tab_mode = TAB_ACTIVE;
             } else {
                 tab_mode = TAB_PASSIVE;
-            }
-        } else if( action == "DOWN" ) {
-            redraw = true;
-            if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
-                cursor++;
-            }
-            if( scroll_position < max_scroll_position &&
-                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
-                scroll_position++;
-            }
-        } else if( action == "UP" ) {
-            redraw = true;
-            if( cursor > 0 ) {
-                cursor--;
-            }
-            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
-                scroll_position--;
             }
         } else if( action == "REASSIGN" ) {
             menu_mode = REASSIGNING;
