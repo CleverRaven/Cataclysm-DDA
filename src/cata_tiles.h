@@ -368,16 +368,6 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
-        /**
-         * Try to load json tileset config. If json valid it lookup
-         * it parses it and load tileset.
-         * @throw std::exception On errors in the tileset definition.
-         * @param tileset_dir Path to tileset root directory.
-         * @param f File stream to read from.
-         * @param image_path
-         */
-        void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
-                                      const std::string &image_path );
     public:
         tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
         }

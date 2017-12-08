@@ -520,16 +520,7 @@ void tileset_loader::load( const std::string &tileset_root, const std::string &j
         throw std::runtime_error( std::string("Failed to open tile info json: ") + json_path );
     }
 
-    load_tilejson_from_file( tileset_root, config_file, img_path );
-    if( !ts.find_tile_type( "unknown" ) ) {
-        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
-    }
-    ensure_default_item_highlight();
-}
-
-void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
-{
-    JsonIn config_json(f);
+    JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
 
     // "tile_info" section must exis.
@@ -555,7 +546,7 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
         JsonArray tiles_new = config.get_array("tiles-new");
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
-            const std::string tileset_image_path = tileset_dir + '/' + tile_part_def.get_string("file");
+            const std::string tileset_image_path = tileset_root + '/' + tile_part_def.get_string("file");
             R = -1;
             G = -1;
             B = -1;
@@ -590,8 +581,8 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
         G = -1;
         B = -1;
         // old system, no tile file path entry, only one array of tiles
-        dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        load_tileset( image_path );
+        dbg( D_INFO ) << "Attempting to Load Tileset file " << img_path;
+        load_tileset( img_path );
         load_tilejson_from_file(config);
         offset = size;
     }
@@ -618,6 +609,11 @@ void tileset_loader::load_tilejson_from_file(const std::string &tileset_dir, std
             ++it;
         }
     }
+
+    if( !ts.find_tile_type( "unknown" ) ) {
+        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    }
+    ensure_default_item_highlight();
 }
 
 void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )
