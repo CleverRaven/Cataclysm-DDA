@@ -4,7 +4,7 @@
         "id" : "f_file_cabinet",
         "name": "filing cabinet",
         "symbol": "}",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],

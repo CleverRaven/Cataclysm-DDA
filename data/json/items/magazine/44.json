@@ -9,7 +9,7 @@
     "price": 6750,
     "material": "steel",
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo_type": "44",
     "capacity": 8,
     "reliability": 8,

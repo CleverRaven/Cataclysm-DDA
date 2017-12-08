@@ -36,7 +36,7 @@
     "type": "overmap_terrain",
     "name": "fitness gym",
     "sym": 94,
-    "color": "i_ltcyan",
+    "color": "i_light_cyan",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",
