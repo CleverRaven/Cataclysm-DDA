@@ -29,9 +29,9 @@ void help_draw_dir( WINDOW *win, int line_y )
         for( int actx = 0; actx < 3; actx++ ) {
             std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
             if( !keys.empty() ) {
-                mvwputch( win, acty * 3 + line_y, actx * 3 + 1, c_ltblue, keys[0] );
+                mvwputch( win, acty * 3 + line_y, actx * 3 + 1, c_light_blue, keys[0] );
                 if( keys.size() > 1 ) {
-                    mvwputch( win, acty * 3 + line_y, actx * 3 + 11, c_ltblue, keys[1] );
+                    mvwputch( win, acty * 3 + line_y, actx * 3 + 11, c_light_blue, keys[1] );
                 }
             }
         }
@@ -787,44 +787,44 @@ contain useful crafting recipes." ),
 void help_map( WINDOW *win )
 {
     werase( win );
-    mvwprintz( win, 0, 0, c_ltgray,  _( "MAP SYMBOLS:" ) );
+    mvwprintz( win, 0, 0, c_light_gray,  _( "MAP SYMBOLS:" ) );
     mvwprintz( win, 1, 0, c_brown,   _( "\
 .           Field - Empty grassland, occasional wild fruit." ) );
     mvwprintz( win, 2, 0, c_green,   _( "\
 F           Forest - May be dense or sparse. Slow moving; foragable food." ) );
-    mvwputch( win,  3,  0, c_dkgray, LINE_XOXO );
-    mvwputch( win,  3,  1, c_dkgray, LINE_OXOX );
-    mvwputch( win,  3,  2, c_dkgray, LINE_XXOO );
-    mvwputch( win,  3,  3, c_dkgray, LINE_OXXO );
-    mvwputch( win,  3,  4, c_dkgray, LINE_OOXX );
-    mvwputch( win,  3,  5, c_dkgray, LINE_XOOX );
-    mvwputch( win,  3,  6, c_dkgray, LINE_XXXO );
-    mvwputch( win,  3,  7, c_dkgray, LINE_XXOX );
-    mvwputch( win,  3,  8, c_dkgray, LINE_XOXX );
-    mvwputch( win,  3,  9, c_dkgray, LINE_OXXX );
-    mvwputch( win,  3, 10, c_dkgray, LINE_XXXX );
+    mvwputch( win,  3,  0, c_dark_gray, LINE_XOXO );
+    mvwputch( win,  3,  1, c_dark_gray, LINE_OXOX );
+    mvwputch( win,  3,  2, c_dark_gray, LINE_XXOO );
+    mvwputch( win,  3,  3, c_dark_gray, LINE_OXXO );
+    mvwputch( win,  3,  4, c_dark_gray, LINE_OOXX );
+    mvwputch( win,  3,  5, c_dark_gray, LINE_XOOX );
+    mvwputch( win,  3,  6, c_dark_gray, LINE_XXXO );
+    mvwputch( win,  3,  7, c_dark_gray, LINE_XXOX );
+    mvwputch( win,  3,  8, c_dark_gray, LINE_XOXX );
+    mvwputch( win,  3,  9, c_dark_gray, LINE_OXXX );
+    mvwputch( win,  3, 10, c_dark_gray, LINE_XXXX );
 
-    mvwprintz( win,  3, 12, c_dkgray,  _( "\
+    mvwprintz( win,  3, 12, c_dark_gray,  _( "\
 Road - Safe from burrowing animals." ) );
-    mvwprintz( win,  4, 0, c_dkgray,  _( "\
+    mvwprintz( win,  4, 0, c_dark_gray,  _( "\
 H=          Highway - Like roads, but lined with guard rails." ) );
-    mvwprintz( win,  5, 0, c_dkgray,  _( "\
+    mvwprintz( win,  5, 0, c_dark_gray,  _( "\
 |-          Bridge - Helps you cross rivers." ) );
     mvwprintz( win,  6, 0, c_blue,    _( "\
 R           River - Most creatures can not swim across them, but you may." ) );
-    mvwprintz( win,  7, 0, c_dkgray,  _( "\
+    mvwprintz( win,  7, 0, c_dark_gray,  _( "\
 O           Parking lot - Empty lot, few items. Mostly useless." ) );
-    mvwprintz( win,  8, 0, c_ltgreen, _( "\
+    mvwprintz( win,  8, 0, c_light_green, _( "\
 ^>v<        House - Filled with a variety of items. Good place to sleep." ) );
-    mvwprintz( win,  9, 0, c_ltblue,  _( "\
+    mvwprintz( win,  9, 0, c_light_blue,  _( "\
 ^>v<        Gas station - A good place to collect gasoline. Risk of explosion." ) );
-    mvwprintz( win, 10, 0, c_ltred,   _( "\
+    mvwprintz( win, 10, 0, c_light_red,   _( "\
 ^>v<        Pharmacy - The best source for vital medications." ) );
     mvwprintz( win, 11, 0, c_green,   _( "\
 ^>v<        Grocery store - A good source of canned food and other supplies." ) );
     mvwprintz( win, 12, 0, c_cyan,    _( "\
 ^>v<        Hardware store - Home to tools, melee weapons and crafting goods." ) );
-    mvwprintz( win, 13, 0, c_ltcyan,  _( "\
+    mvwprintz( win, 13, 0, c_light_cyan,  _( "\
 ^>v<        Sporting Goods store - Several survival tools and melee weapons." ) );
     mvwprintz( win, 14, 0, c_magenta, _( "\
 ^>v<        Liquor store - Alcohol is good for crafting Molotov cocktails." ) );
@@ -836,9 +836,9 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
 ^>v<        Library - Home to books, both entertaining and informative." ) );
     mvwprintz( win, 18, 0, c_white, _( "\
 ^>v<        Man-made buildings - The pointed side indicates the front door." ) );
-    mvwprintz( win, 19, 0, c_ltgray, _( "\
+    mvwprintz( win, 19, 0, c_light_gray, _( "\
             There are many others out there... search for them!" ) );
-    mvwprintz( win, 20, 0,  c_ltgray,  _( "Note colors: " ) );
+    mvwprintz( win, 20, 0,  c_light_gray,  _( "Note colors: " ) );
     int row = 20;
     int column = utf8_width( _( "Note colors: " ) );
     for( auto color_pair : get_note_color_names() ) {

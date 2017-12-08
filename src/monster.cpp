@@ -135,7 +135,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FPASSIVE, {translate_marker( "Passive." ), def_h_white}},
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
-    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_ltgray}},
+    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
@@ -394,7 +394,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_green;
     } else if( cur_hp >= max_hp * 0.8 ) {
         damage_info = _("It is lightly injured.");
-        col = c_ltgreen;
+        col = c_light_green;
     } else if( cur_hp >= max_hp * 0.6 ) {
         damage_info = _("It is moderately injured.");
         col = c_yellow;
@@ -403,7 +403,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.1 ) {
         damage_info = _("It is severely injured.");
-        col = c_ltred;
+        col = c_light_red;
     } else {
         damage_info = _("it is nearly dead!");
         col = c_red;

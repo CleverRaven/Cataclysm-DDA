@@ -337,12 +337,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, i - recmin, 2, c_dkgray, "" ); // Clear the line
+                    mvwprintz( w_data, i - recmin, 2, c_dark_gray, "" ); // Clear the line
                     if( i == line ) {
-                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dkgray ),
+                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
-                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dkgray ),
+                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
@@ -352,14 +352,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, dataLines + i - recmax, 2, c_ltgray, "" ); // Clear the line
+                    mvwprintz( w_data, dataLines + i - recmax, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
-                                   ( available[i] ? h_white : h_dkgray ),
+                                   ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
-                                   ( available[i] ? c_white : c_dkgray ),
+                                   ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
@@ -369,14 +369,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, dataHalfLines + i - line, 2, c_ltgray, "" ); // Clear the line
+                    mvwprintz( w_data, dataHalfLines + i - line, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
-                                   ( available[i] ? h_white : h_dkgray ),
+                                   ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
-                                   ( available[i] ? c_white : c_dkgray ),
+                                   ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
@@ -388,10 +388,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                     tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
                 }
                 if( ( int )i == line ) {
-                    mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dkgray ),
+                    mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
-                    mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dkgray ),
+                    mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 }
             }
@@ -400,7 +400,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
             int count = batch ? line + 1 : 1; // batch size
-            nc_color col = available[ line ] ? c_white : c_ltgray;
+            nc_color col = available[ line ] ? c_white : c_light_gray;
 
             const auto &req = current[ line ]->requirements();
 
@@ -636,7 +636,7 @@ static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recip
     // @fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
-    right_print( w, margin_y, 1, c_ltgray, _( "can craft:" ) );
+    right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
     if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         right_print( w, margin_y + 1, 1, i_red, _( "too dark" ) );
     } else if( !g->u.has_morale_to_craft() ) {

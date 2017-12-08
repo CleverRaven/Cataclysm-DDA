@@ -70,7 +70,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         }
 
         // color for old messages
-        return c_dkgray;
+        return c_dark_gray;
     }
 
     void deserialize( JsonIn &jsin ) override {
@@ -336,7 +336,7 @@ void Messages::display_messages()
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                right_print( w, line, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
                              unit.c_str() ) );
                 lasttime = timepassed.get_turn();
             }
@@ -353,12 +353,12 @@ void Messages::display_messages()
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
                 // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
                 if( ( line + offset % 4 ) % 4 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "-" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "-" );
+                    mvwprintz( w, line, 1, c_dark_gray, "-" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
                     // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
                 } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "=" );
+                    mvwprintz( w, line, 1, c_dark_gray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "=" );
                 }
 
                 // Only now are we done with this line:

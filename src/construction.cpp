@@ -130,22 +130,22 @@ void load_available_constructions( std::vector<std::string> &available,
 void draw_grid( WINDOW *w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
+    mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
     mvwhline( w, 2, 1, LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
-    mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
+    mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
+    mvwputch( w, 2, 0, c_light_gray, LINE_XXXO );
+    mvwputch( w, 2, list_width, c_light_gray, LINE_XOXX );
 
     wrefresh( w );
 }
 
 nc_color construction_color( std::string &con_name, bool highlight )
 {
-    nc_color col = c_dkgray;
+    nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
@@ -165,7 +165,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
                 if( s_lvl < pr.second ) {
                     col = c_red;
                 } else if( s_lvl < pr.second * 1.25 ) {
-                    col = c_ltblue;
+                    col = c_light_blue;
                 }
             }
         }
@@ -438,7 +438,7 @@ void construction_menu()
                                 if( s_lvl < skill.second ) {
                                     col = c_red;
                                 } else if( s_lvl < skill.second * 1.25 ) {
-                                    col = c_ltblue;
+                                    col = c_light_blue;
                                 } else {
                                     col = c_white;
                                 }

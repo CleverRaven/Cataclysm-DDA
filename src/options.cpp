@@ -1682,7 +1682,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 (int)mPageItems[iCurrentPage].size() : iContentHeight); i++) {
 
             int line_pos; // Current line position in window.
-            nc_color cLineColor = c_ltgreen;
+            nc_color cLineColor = c_light_green;
             cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
 
             line_pos = i - iStartPos;
@@ -1700,7 +1700,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
 
             if (current_opt->getValue() == "false") {
-                cLineColor = c_ltred;
+                cLineColor = c_light_red;
             }
 
             const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
@@ -1722,10 +1722,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
                     wprintz(w_options_header,
-                            (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
+                            (iCurrentPage == i) ? hilite(c_light_green) : c_light_green, _("Current world"));
                 } else {
                     wprintz(w_options_header, (iCurrentPage == i) ?
-                            hilite( c_ltgreen ) : c_ltgreen, "%s", _( vPages[i].second.c_str() ) );
+                            hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second.c_str() ) );
                 }
                 wprintz(w_options_header, c_white, "]");
                 wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
@@ -1774,7 +1774,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
         if ( iCurrentPage != iLastPage ) {
             iLastPage = iCurrentPage;
             if ( ingame && iCurrentPage == iWorldOptPage ) {
-                mvwprintz( w_options_tooltip, 3, 3, c_ltred, "%s", _("Note: ") );
+                mvwprintz( w_options_tooltip, 3, 3, c_light_red, "%s", _("Note: ") );
                 wprintz(  w_options_tooltip, c_white, "%s",
                           _("Some of these options may produce unexpected results if changed."));
             }

@@ -1036,7 +1036,7 @@ void game_menus::inv::swap_letters( player &p )
             } else if( p.invlet_to_position( elem ) != INT_MIN ) {
                 return c_white;
             } else {
-                return c_dkgray;
+                return c_dark_gray;
             }
         } );
 

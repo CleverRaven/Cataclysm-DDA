@@ -1144,7 +1144,7 @@ bool game::cleanup_at_end()
             for (unsigned int iX = 0; iX < vRip[iY].length(); ++iX) {
                 char cTemp = vRip[iY][iX];
                 if (cTemp != ' ') {
-                    nc_color ncColor = c_ltgray;
+                    nc_color ncColor = c_light_gray;
 
                     if (cTemp == '%') {
                         ncColor = c_green;
@@ -1178,7 +1178,7 @@ bool game::cleanup_at_end()
             }
 
             sTemp = lifespan ? _("Adventured:") : _("Survived:");
-            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, (sTemp + " ").c_str());
+            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
 
             int iDays = lifespan ? days_adventured : days_survived;
             ssTemp << iDays;
@@ -1200,11 +1200,11 @@ bool game::cleanup_at_end()
         ssTemp << iTotalKills;
 
         sTemp = _("Kills:");
-        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, (sTemp + " ").c_str());
+        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
         wprintz(w_rip, c_magenta, ssTemp.str().c_str());
 
         sTemp = _("In memory of:");
-        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_light_gray,
                   sTemp.c_str());
 
         sTemp = u.name;
@@ -1212,7 +1212,7 @@ bool game::cleanup_at_end()
                   sTemp.c_str());
 
         sTemp = _("Last Words:");
-        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_light_gray,
                   sTemp.c_str());
 
         int iStartX = (FULL_SCREEN_WIDTH / 2) - ((iMaxWidth - 4) / 2);
@@ -1889,13 +1889,13 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
             auto &entry = action_menu.entries.back();
             switch( hint ) {
                 case HINT_CANT:
-                    entry.text_color = c_ltgray;
+                    entry.text_color = c_light_gray;
                     break;
                 case HINT_IFFY:
-                    entry.text_color = c_ltred;
+                    entry.text_color = c_light_red;
                     break;
                 case HINT_GOOD:
-                    entry.text_color = c_ltgreen;
+                    entry.text_color = c_light_green;
                     break;
             }
             max_text_length = std::max( max_text_length, utf8_width( text ) );
@@ -4877,11 +4877,11 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('.', c_brown));
         vGlyphs.push_back(std::make_pair(',', c_blue));
         vGlyphs.push_back(std::make_pair('+', c_yellow));
-        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('c', c_light_blue));
         vGlyphs.push_back(std::make_pair('*', c_yellow));
         vGlyphs.push_back(std::make_pair('C', c_white));
         vGlyphs.push_back(std::make_pair('+', c_yellow));
-        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('c', c_light_blue));
         vGlyphs.push_back(std::make_pair('.', c_brown));
         vGlyphs.push_back(std::make_pair(',', c_blue));
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4921,7 +4921,7 @@ void game::draw_sidebar()
     mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
 
     if (get_levz() < 0) {
-        mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
+        mvwprintz(w_location, 0, 18, c_light_gray, _("Underground"));
     } else {
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
@@ -4944,7 +4944,7 @@ void game::draw_sidebar()
     trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
+    mvwprintz(w_location, 1, 15, c_light_gray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
@@ -5120,7 +5120,7 @@ void game::draw_veh_dir_indicator( bool next )
 {
     tripoint indicator_offset = get_veh_dir_indicator_location( next );
     if( indicator_offset != tripoint_min ) {
-        auto col = next ? c_white : c_dkgray;
+        auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
                   POSX + indicator_offset.x - u.view_offset.x, col, 'X' );
     }
@@ -5163,7 +5163,7 @@ void game::draw_HP()
         if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
             //Limb is broken
             std::string limb = "~~%~~";
-            nc_color color = c_ltred;
+            nc_color color = c_light_red;
 
             const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
             if( u.worn_with_flag( "SPLINT", bp ) ) {
@@ -5221,17 +5221,17 @@ void game::draw_HP()
         wmove(w_HP, powy, powx);
         if (wide)
             for (int i = 0; i < 2; i++) {
-                wputch(w_HP, c_ltgray, LINE_OXOX);
+                wputch(w_HP, c_light_gray, LINE_OXOX);
             }
         else {
-            wprintz(w_HP, c_ltgray, " --   ");
+            wprintz(w_HP, c_light_gray, " --   ");
         }
     } else {
         nc_color color = c_red;
         if (u.power_level == u.max_power_level) {
             color = c_blue;
         } else if (u.power_level >= u.max_power_level * .5) {
-            color = c_ltblue;
+            color = c_light_blue;
         } else if (u.power_level > 0) {
             color = c_yellow;
         }
@@ -5322,22 +5322,22 @@ void game::draw_minimap()
                         if (sym == "br") {
                             ter_color = c_brown;
                         } else if (sym == "lg") {
-                            ter_color = c_ltgray;
+                            ter_color = c_light_gray;
                         } else if (sym == "dg") {
-                            ter_color = c_dkgray;
+                            ter_color = c_dark_gray;
                         }
                     } else {
                         char colorID = sym.c_str()[0];
                         if (colorID == 'r') {
-                            ter_color = c_ltred;
+                            ter_color = c_light_red;
                         } else if (colorID == 'R') {
                             ter_color = c_red;
                         } else if (colorID == 'g') {
-                            ter_color = c_ltgreen;
+                            ter_color = c_light_green;
                         } else if (colorID == 'G') {
                             ter_color = c_green;
                         } else if (colorID == 'b') {
-                            ter_color = c_ltblue;
+                            ter_color = c_light_blue;
                         } else if (colorID == 'B') {
                             ter_color = c_blue;
                         } else if (colorID == 'W') {
@@ -5345,7 +5345,7 @@ void game::draw_minimap()
                         } else if (colorID == 'C') {
                             ter_color = c_cyan;
                         } else if (colorID == 'c') {
-                            ter_color = c_ltcyan;
+                            ter_color = c_light_cyan;
                         } else if (colorID == 'P') {
                             ter_color = c_pink;
                         } else if (colorID == 'm') {
@@ -5363,7 +5363,7 @@ void game::draw_minimap()
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
                 ter_sym = cur_ter->get_sym();
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
-                    ter_color = c_dkgray;
+                    ter_color = c_dark_gray;
                 } else {
                     ter_color = cur_ter->get_color();
                 }
@@ -5764,8 +5764,8 @@ int game::mon_info(WINDOW *w)
     //for the alignment of the 1,2,3 rows on the right edge
     xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));
     for (int i = 0; i < 8; i++) {
-        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
-                     : (dangerous[i] ? c_ltred : c_ltgray);
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
+                     : (dangerous[i] ? c_light_red : c_light_gray);
         mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i].c_str());
     }
 
@@ -5792,7 +5792,7 @@ int game::mon_info(WINDOW *w)
                     c = c_red;
                     break;
                 case NPCATT_FOLLOW:
-                    c = c_ltgreen;
+                    c = c_light_green;
                     break;
                 default:
                     c = c_pink;
@@ -5848,15 +5848,15 @@ int game::mon_info(WINDOW *w)
                 lastrowprinted = pr.y;
                 mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
                 pr.x += 2; // symbol and space
-                nc_color danger = c_dkgray;
+                nc_color danger = c_dark_gray;
                 if (mt.difficulty >= 30) {
                     danger = c_red;
                 } else if (mt.difficulty >= 16) {
-                    danger = c_ltred;
+                    danger = c_light_red;
                 } else if (mt.difficulty >= 8) {
                     danger = c_white;
                 } else if (mt.agro > 0) {
-                    danger = c_ltgray;
+                    danger = c_light_gray;
                 }
                 mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
                 pr.x += utf8_width(name) + namesep;
@@ -7932,11 +7932,11 @@ void game::print_visibility_indicator( visibility_type visibility )
             break;
         case VIS_DARK:
             visibility_indicator = '#';
-            visibility_indicator_color = c_dkgray;
+            visibility_indicator_color = c_dark_gray;
             break;
         case VIS_LIT:
             visibility_indicator = '#';
-            visibility_indicator_color = c_ltgray;
+            visibility_indicator_color = c_light_gray;
             break;
         case VIS_HIDDEN:
             visibility_indicator = 'x';
@@ -8013,17 +8013,17 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
     werase(w_info);
 
     int tmpx = 1;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<A>dd")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<R>emove")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<E>nable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<D>isable")) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
-    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_light_green, _("<+-> Move up/down")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_light_green, _("<Enter>-Edit")) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_ltgreen, _("Show on <M>ap")) + 2;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_light_green, _("Show on <M>ap")) + 2;
 
     wrefresh(w_info);
 }
@@ -8033,37 +8033,37 @@ void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border,
 {
     for (int i = 1; i < TERMX; ++i) {
         if (i < width) {
-            mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_border, 0, i, c_light_gray, LINE_OXOX); // -
+            mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX); // -
         }
 
         if (i < TERMY - iInfoHeight - VIEW_OFFSET_Y * 2) {
-            mvwputch(w_border, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(w_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_border, i, 0, c_light_gray, LINE_XOXO); // |
+            mvwputch(w_border, i, width - 1, c_light_gray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(w_border, 0, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w_border, 0, 0, c_light_gray, LINE_OXXO); // |^
+    mvwputch(w_border, 0, width - 1, c_light_gray, LINE_OOXX); // ^|
 
-    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray,
+    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO); // |-
+    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray,
              LINE_XOXX); // -|
 
     mvwprintz(w_border, 0, 2, c_white, _("Zones manager"));
     wrefresh(w_border);
 
     for (int j = 0; j < iInfoHeight - 1; ++j) {
-        mvwputch(w_info_border, j, 0, c_ltgray, LINE_XOXO);
-        mvwputch(w_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+        mvwputch(w_info_border, j, 0, c_light_gray, LINE_XOXO);
+        mvwputch(w_info_border, j, width - 1, c_light_gray, LINE_XOXO);
     }
 
     for (int j = 0; j < width - 1; ++j) {
-        mvwputch(w_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
+        mvwputch(w_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX);
     }
 
-    mvwputch(w_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-    mvwputch(w_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+    mvwputch(w_info_border, iInfoHeight - 1, 0, c_light_gray, LINE_XXOO);
+    mvwputch(w_info_border, iInfoHeight - 1, width - 1, c_light_gray, LINE_XOOX);
     wrefresh(w_info_border);
 }
 
@@ -8308,11 +8308,11 @@ void game::zones_manager()
             //Display saved zones
             for (auto &i : zones.zones) {
                 if (iNum >= start_index && iNum < start_index + ((max_rows > zone_num) ? zone_num : max_rows)) {
-                    nc_color colorLine = (i.get_enabled()) ? c_white : c_ltgray;
+                    nc_color colorLine = (i.get_enabled()) ? c_white : c_light_gray;
 
                     if (iNum == active_index) {
                         mvwprintz(w_zones, iNum - start_index, 0, c_yellow, "%s", ">>");
-                        colorLine = (i.get_enabled()) ? c_ltgreen : c_green;
+                        colorLine = (i.get_enabled()) ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -8568,11 +8568,11 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 }
 
                 //Draw first point
-                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'X');
+                mvwputch_inv(w_terrain, dy, dx, c_light_green, 'X');
             }
 
             //Draw select cursor
-            mvwputch_inv(w_terrain, POSY, POSX, c_ltgreen, 'X');
+            mvwputch_inv(w_terrain, POSY, POSX, c_light_green, 'X');
 
         } else {
             //Look around
@@ -8582,7 +8582,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (fast_scroll) {
                 //~ "Fast Scroll" mark below the top right corner of the info window
-                right_print( w_info, 1, 0, c_ltgreen, _( "F" ) );
+                right_print( w_info, 1, 0, c_light_green, _( "F" ) );
             }
 
             wrefresh(w_info);
@@ -8788,23 +8788,23 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++) {
         if (i < width) {
-            mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(window, 0, i, c_light_gray, LINE_OXOX); // -
+            mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX); // -
         }
 
         if (i < TERMY - height - VIEW_OFFSET_Y * 2) {
-            mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(window, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(window, i, 0, c_light_gray, LINE_XOXO); // |
+            mvwputch(window, i, width - 1, c_light_gray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(window, 0, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(window, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(window, 0, 0, c_light_gray, LINE_OXXO); // |^
+    mvwputch(window, 0, width - 1, c_light_gray, LINE_OOXX); // ^|
 
-    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray, LINE_XOXX); // -|
+    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO); // |-
+    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray, LINE_XOXX); // -|
 
-    mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
+    mvwprintz(window, 0, 2, c_light_green, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
     std::string sSort;
@@ -8818,7 +8818,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 
     int letters = utf8_width(sSort);
 
-    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort);
+    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_light_green, sSort);
 
     std::vector<std::string> tokens;
     if (!sFilter.empty()) {
@@ -8844,7 +8844,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for (int i = 0; i < n; i++) {
-        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i]) + gap_spaces;
+        xpos += shortcut_print(window, ypos, xpos, c_white, c_light_green, tokens[i]) + gap_spaces;
     }
 
     refresh_all();
@@ -9285,7 +9285,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
-                        nc_color col = c_ltgreen;
+                        nc_color col = c_light_green;
                         if( iNum != iActive ) {
                             if( high ) {
                                 col = c_yellow;
@@ -9299,7 +9299,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
-                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_ltgreen : c_ltgray,
+                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_light_green : c_light_gray,
                                    "%*d %s", numw, rl_dist( 0, 0, x, y ),
                                    direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
                         ++iter;
@@ -9316,7 +9316,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
             }
             mvwprintz( w_items_border, 0, ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ),
-                       c_ltgreen, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
+                       c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
             wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
             werase(w_item_info);
 
@@ -9400,7 +9400,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
              LINE_XOXX); // -|
 
-    mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
+    mvwprintz(w_monsters_border, 0, 2, c_light_green, "<Tab> ");
     wprintz(w_monsters_border, c_white, _("Monsters"));
 
     std::string action;
@@ -9526,9 +9526,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 const npc*     p = dynamic_cast<npc*>( critter );
 
                 if ( m != nullptr ) {
-                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
+                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", m->name().c_str());
                 } else {
-                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
+                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", critter->disp_name().c_str());
                     is_npc = true;
                 }
 
@@ -9547,7 +9547,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
-                                   c_white, c_ltgreen, sSafemode);
+                                   c_white, c_light_green, sSafemode);
                 }
 
                 nc_color color = c_white;
@@ -9571,12 +9571,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
                 mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
-                mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_light_green : c_light_gray), "%*d %s",
                            numw, rl_dist( u.pos(), critter->pos() ),
                            direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
-            mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_ltgreen, " %*d", numw, iActive + 1 );
+            mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_light_green, " %*d", numw, iActive + 1 );
             wprintz( w_monsters_border, c_white, " / %*d ", numw, int( monster_list.size() ) );
 
             cCurMon = monster_list[iActive];
@@ -9585,13 +9585,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon->print_info(w_monster_info, 1, 11, 1);
 
             if (bVMonsterLookFire) {
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
+                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_light_green, "%s", ctxt.press_x( "look" ).c_str());
+                wprintz(w_monsters, c_light_gray, " %s", _("to look around"));
 
                 if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                    wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                    wprintz(w_monsters, c_light_gray, "%s", " ");
+                    wprintz(w_monsters, c_light_green, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz(w_monsters, c_light_gray, " %s", _("to shoot"));
                 }
             }
 
@@ -9608,16 +9608,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         for (int j = 0; j < iInfoHeight - 1; j++) {
-            mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+            mvwputch(w_monster_info_border, j, 0, c_light_gray, LINE_XOXO);
+            mvwputch(w_monster_info_border, j, width - 1, c_light_gray, LINE_XOXO);
         }
 
         for (int j = 0; j < width - 1; j++) {
-            mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
+            mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX);
         }
 
-        mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-        mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+        mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_light_gray, LINE_XXOO);
+        mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_light_gray, LINE_XOOX);
 
         wrefresh(w_monsters);
         wrefresh(w_monster_info_border);

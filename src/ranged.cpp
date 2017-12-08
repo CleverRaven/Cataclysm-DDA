@@ -520,11 +520,11 @@ static std::string print_recoil( const player &p)
         const int val = p.recoil_total();
         const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
         const int recoil_range = MAX_RECOIL - min_recoil;
-        const char *color_name = "c_ltgray";
+        const char *color_name = "c_light_gray";
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
             color_name = "c_red";
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            color_name = "c_ltred";
+            color_name = "c_light_red";
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
             color_name = "c_yellow";
         }
@@ -1108,7 +1108,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                           cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
                                           m->ammo_remaining(), m->ammo_capacity() );
 
-                nc_color col = c_ltgray;
+                nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
             // Skip blank lines if we're short on space.

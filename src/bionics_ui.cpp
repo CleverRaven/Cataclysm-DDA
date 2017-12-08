@@ -137,15 +137,15 @@ void draw_description( WINDOW *win, bionic const &bio )
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
     int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string.c_str() );
     }
-    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bio.id->description );
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
     // @todo Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
     }
@@ -241,33 +241,33 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
             if( bio.powered && !bio.id->power_source ) {
                 type = h_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = h_ltgreen;
+                type = h_light_green;
             } else {
-                type = h_ltred;
+                type = h_light_red;
             }
         } else {
             if( bio.powered && !bio.id->power_source ) {
                 type = c_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = c_ltgreen;
+                type = c_light_green;
             } else {
-                type = c_ltred;
+                type = c_light_red;
             }
         }
     } else {
         if( isHighlightedBionic ) {
             if( bio.id->power_source ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else {
                 type = h_cyan;
             }
         } else {
             if( bio.id->power_source ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else {
                 type = c_cyan;
             }
@@ -415,7 +415,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                 for( int i = 0; i < num_bp; ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, "%s", bps[i].c_str() );
                 }
             }
 
@@ -429,7 +429,7 @@ void player::power_bionics()
                         msg = _( "No passive bionics installed." );
                         break;
                 }
-                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_ltgray, msg );
+                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_light_gray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {

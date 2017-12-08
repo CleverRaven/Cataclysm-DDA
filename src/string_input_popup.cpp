@@ -15,7 +15,7 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    nc_color title_color = c_ltred;
+    nc_color title_color = c_light_red;
     nc_color desc_color = c_green;
 
     int titlesize = utf8_width( _title ); // Occupied horizontal space
@@ -146,8 +146,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
-    const nc_color cursor_color = h_ltgray;
-    const nc_color underscore_color = c_ltgray;
+    const nc_color cursor_color = h_light_gray;
+    const nc_color underscore_color = c_light_gray;
 
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string

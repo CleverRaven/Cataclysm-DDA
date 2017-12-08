@@ -48,7 +48,7 @@ class input_context;
 #define LINE_XXXX_C 0xaa
 
 // a consistent border colour
-#define BORDER_COLOR c_ltgray
+#define BORDER_COLOR c_light_gray
 
 // Display data
 extern int TERMX; // width available for display
@@ -299,7 +299,7 @@ void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1,
                          chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0,
                          int posx = 0, int width = 0 );
 void draw_border( WINDOW *w, nc_color border_color = BORDER_COLOR,
-                  std::string title = "", nc_color title_color = c_ltred );
+                  std::string title = "", nc_color title_color = c_light_red );
 void draw_tabs( WINDOW *w, int active_tab, ... );
 
 std::string word_rewrap( const std::string &ins, int width );
@@ -396,7 +396,7 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 }
 
 WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_light_green );
 
 /*@}*/
 

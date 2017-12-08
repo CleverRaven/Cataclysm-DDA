@@ -503,7 +503,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
 
             if( world_need_lua_build( world_name ) ) {
-                wprintz( w_worlds, c_dkgray, "%s (%lu)", world_name.c_str(), saves_num );
+                wprintz( w_worlds, c_dark_gray, "%s (%lu)", world_name.c_str(), saves_num );
             } else {
                 wprintz( w_worlds, c_white, "%s (%lu)", world_name.c_str(), saves_num );
             }
@@ -692,7 +692,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                     auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod.name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, "%s", mod.name.c_str() );
                     } else {
                         trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
                     }
@@ -926,7 +926,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             wmove( win, 4, 2 );
             for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
                 wprintz(win, c_white, "[");
-                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, _((get_mod_list_tabs()[i].second).c_str()));
+                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_light_green) : c_light_green, _((get_mod_list_tabs()[i].second).c_str()));
                 wprintz(win, c_white, "]");
                 wputch(win, BORDER_COLOR, LINE_OXOX);
             }
@@ -1133,20 +1133,20 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     std::string worldname = world->world_name;
     do {
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
-        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
-        fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
+        mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
+        fold_and_print(w_confirmation, 3, 2, 76, c_light_gray,
                        _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
-        fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
+        fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_light_gray, _("\
 Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
 to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
             if (line == 1) {
-                wprintz(w_confirmation, h_ltgray, "_");
+                wprintz(w_confirmation, h_light_gray, "_");
             }
         }
         if (noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
             noname = false;
         }
 
@@ -1166,7 +1166,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             }
 #endif
             if (worldname.empty()) {
-                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("_______NO NAME ENTERED!!!!______"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_light_gray, _("_______NO NAME ENTERED!!!!______"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
@@ -1188,7 +1188,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             world->world_name = worldname;
             return -1;
         } else if (action == "PICK_RANDOM_WORLDNAME") {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
             world->world_name = worldname = pick_random_name();
         } else if (action == "QUIT") {
             // Cache the current name just in case they say No to the exit query.
@@ -1217,9 +1217,9 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     wrap.append( newtext );
                     worldname = wrap.str();
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
-                wprintz(w_confirmation, h_ltgray, "_");
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
+                wprintz(w_confirmation, h_light_gray, "_");
             }
             break;
             }

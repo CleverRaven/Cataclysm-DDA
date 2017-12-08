@@ -2542,7 +2542,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
         if (parts[displayed_part].blood > 200) {
             col = c_red;
         } else if (parts[displayed_part].blood > 0) {
-            col = c_ltred;
+            col = c_light_red;
         } else if (parts[displayed_part].is_broken()) {
             col = part_info(displayed_part).color_broken;
         } else {
@@ -2597,7 +2597,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         }
 
         const vehicle_part& vp = parts[ pl [ i ] ];
-        nc_color col_cond = vp.is_broken() ? c_dkgray : vp.base.damage_color();
+        nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
 
@@ -2622,7 +2622,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         } else {
             left_sym = "-"; right_sym = "-";
         }
-        nc_color sym_color = ( int )i == hl ? hilite( c_ltgray ) : c_ltgray;
+        nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, "%s", left_sym.c_str() );
         trim_and_print( win, y, 2, getmaxx( win ) - 4,
                         ( int )i == hl ? hilite( col_cond ) : col_cond, "%s", partname.c_str() );
@@ -2630,10 +2630,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_ltgray, _("Interior"));
+            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_light_gray, _("Interior"));
         } else if (i == 0) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_ltgray, _("Exterior"));
+            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_light_gray, _("Exterior"));
         }
         y++;
     }
@@ -2641,7 +2641,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
     // print the label for this location
     const std::string label = get_label(parts[p].mount.x, parts[p].mount.y);
     if (label != "" && y <= max_y) {
-        mvwprintz(win, y++, 1, c_ltred, _("Label: %s"), label.c_str());
+        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label.c_str());
     }
 
     return y;
@@ -2705,8 +2705,8 @@ void vehicle::print_fuel_indicators ( WINDOW *win, int y, int x, int start_index
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
-        mvwprintz( win, y + yofs, x, c_ltgreen, ">" );
-        wprintz( win, c_ltgray, " for more" );
+        mvwprintz( win, y + yofs, x, c_light_green, ">" );
+        wprintz( win, c_light_gray, " for more" );
     }
 }
 
@@ -2723,7 +2723,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     WINDOW *win = (WINDOW *) w;
-    nc_color col_indf1 = c_ltgray;
+    nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
@@ -2736,11 +2736,11 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
             mvwprintz( win, y, x + 6, f_color, "%d/%d", f_left, cap );
         } else {
             mvwprintz( win, y, x + 6, f_color, "%d", (f_left * 100) / cap );
-            wprintz( win, c_ltgray, "%c", 045 );
+            wprintz( win, c_light_gray, "%c", 045 );
         }
     }
     if (desc) {
-        wprintz(win, c_ltgray, " - %s", item::nname( fuel_type ).c_str() );
+        wprintz(win, c_light_gray, " - %s", item::nname( fuel_type ).c_str() );
     }
 }
 

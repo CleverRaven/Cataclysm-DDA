@@ -1927,7 +1927,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     }
 
     tripoint pbelow = tripoint( p.x, p.y, p.z - 1 );
-    SDL_Color tercol = cursesColorToSDL( c_dkgray );
+    SDL_Color tercol = cursesColorToSDL( c_dark_gray );
 
     const ter_t &curr_ter = g->m.ter( pbelow ).obj();
     const furn_t &curr_furn = g->m.furn( pbelow ).obj();
@@ -1942,7 +1942,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
         tercol = cursesColorToSDL( ( roof >= 0 ||
-                                     veh->obstacle_at_part( part_below ) ) ? c_ltgray : c_magenta );
+                                     veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_magenta );
         sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
         tercol = cursesColorToSDL( curr_ter.color() );

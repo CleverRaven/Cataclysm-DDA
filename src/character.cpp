@@ -1891,7 +1891,7 @@ hp_part Character::body_window( const std::string &menu_header,
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
 
-    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
     /* This struct estabiles some kind of connection between the hp_part (which can be healed and
@@ -1922,13 +1922,13 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
-        // This will c_ltgray if the part does not have any effects cured by the item
+        // This will c_light_gray if the part does not have any effects cured by the item
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed, bite, infect );
-        const bool has_curable_effect = state_col != c_ltgray;
+        const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        const bool has_any_effect = all_state_col != c_ltgray;
+        const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
         // This considers only the effects that can *not* be removed.
@@ -1967,7 +1967,7 @@ hp_part Character::body_window( const std::string &menu_header,
             print_hp( 15, color, current_hp );
         } else {
             // But still could be infected or bleeding
-            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
+            const nc_color color = has_any_effect ? all_state_col : c_dark_gray;
             print_hp( 15, color, 0 );
         }
 
@@ -1979,17 +1979,17 @@ hp_part Character::body_window( const std::string &menu_header,
                 continue;
             }
 
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
 
             const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
-            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            const nc_color color = has_any_effect ? new_state_col : c_dark_gray;
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
             print_hp( 24, color, 0 );
         }
     }
-    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
 
     wrefresh(hp_window);
     char ch;
@@ -2017,11 +2017,11 @@ hp_part Character::body_window( const std::string &menu_header,
 nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
 {
     if( bp == num_bp ) {
-        return c_ltgray;
+        return c_light_gray;
     }
 
     int color_bit = 0;
-    nc_color i_color = c_ltgray;
+    nc_color i_color = c_light_gray;
     if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }
