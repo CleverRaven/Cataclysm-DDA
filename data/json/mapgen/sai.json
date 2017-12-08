@@ -39,8 +39,7 @@
         ".": "t_grass",
         "x": "t_chainfence_posts",
         "|": "t_chainfence_v"
-      },
-      "furniture": { " ": "f_null", "#": "f_null", "+": "f_null", ".": "f_null", "_": "f_null", "|": "f_null" }
+      }
     }
   }
 ]

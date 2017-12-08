@@ -12,7 +12,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "mtype.h"
-#include "generic_factory.h"
+#include "json.h"
 #include "worldfactory.h"
 #include "monstergenerator.h"
 #include "string_input_popup.h"

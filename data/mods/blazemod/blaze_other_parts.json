@@ -504,7 +504,7 @@
     "symbol": "X",
     "broken_symbol": "*",
     "color": "dark_gray",
-    "broken_color": "ltgray",
+    "broken_color": "light_gray",
     "difficulty": 2,
     "durability": 150,
     "folded_volume": 4,

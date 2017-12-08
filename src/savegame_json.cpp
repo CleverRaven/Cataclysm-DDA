@@ -315,7 +315,7 @@ void Character::load(JsonObject &data)
         }
     }
 
-    data.read( "my_bionics", my_bionics );
+    data.read( "my_bionics", *my_bionics );
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -406,7 +406,7 @@ void Character::store(JsonOut &json) const
     json.member( "mutations", my_mutations );
 
     // "Fracking Toasters" - Saul Tigh, toaster
-    json.member( "my_bionics", my_bionics );
+    json.member( "my_bionics", *my_bionics );
 
     // skills
     json.member( "skills" );
@@ -1287,14 +1287,11 @@ void inventory::json_save_items(JsonOut &json) const
 
 void inventory::json_load_items(JsonIn &jsin)
 {
-    try {
-        JsonArray ja = jsin.get_array();
-        while ( ja.has_more() ) {
-            JsonObject jo = ja.next_object();
-            add_item(item( jo ), true, false);
-        }
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        item tmp;
+        tmp.deserialize( jsin );
+        add_item( tmp );
     }
 }
 
@@ -1657,8 +1654,9 @@ static void migrate_toolmod( item &it )
     }
 }
 
-void item::deserialize(JsonObject &data)
+void item::deserialize( JsonIn &jsin )
 {
+    JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
 }
@@ -2372,4 +2370,40 @@ void tripoint::serialize( JsonOut &jsout ) const
     jsout.write( y );
     jsout.write( z );
     jsout.end_array();
+}
+
+void addiction::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "type_enum", type );
+    json.member( "intensity", intensity );
+    json.member( "sated", sated );
+    json.end_object();
+}
+
+void addiction::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    type = static_cast<add_type>( jo.get_int( "type_enum" ) );
+    intensity = jo.get_int( "intensity" );
+    sated = jo.get_int( "sated" );
+}
+
+void stats::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "squares_walked", squares_walked );
+    json.member( "damage_taken", damage_taken );
+    json.member( "damage_healed", damage_healed );
+    json.member( "headshots", headshots );
+    json.end_object();
+}
+
+void stats::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "squares_walked", squares_walked );
+    jo.read( "damage_taken", damage_taken );
+    jo.read( "damage_healed", damage_healed );
+    jo.read( "headshots", headshots );
 }

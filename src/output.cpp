@@ -26,6 +26,10 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
+
 // Display data
 int TERMX;
 int TERMY;
@@ -1291,7 +1295,7 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
     }
 }
 
-WINDOW *w_hit_animation = NULL;
+catacurses::window w_hit_animation;
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 {
     /*

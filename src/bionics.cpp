@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "overmap.h"
+#include "json.h"
 #include "itype.h"
 #include "vehicle.h"
 #include "field.h"
@@ -132,7 +133,7 @@ void force_comedown( effect &eff )
 // share functions....
 bool player::activate_bionic( int b, bool eff_only )
 {
-    bionic &bio = my_bionics[b];
+    bionic &bio = ( *my_bionics )[b];
 
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
@@ -191,14 +192,14 @@ bool player::activate_bionic( int b, bool eff_only )
         weapon = item( bionics[bio.id].fake_item );
         weapon.invlet = '#';
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        for( auto &i : my_bionics ) {
+        for( auto &i : *my_bionics ) {
             if( i.id == "bio_earplugs" ) {
                 i.powered = false;
                 add_msg( m_info, _( "Your %s automatically turn off." ), bionics[i.id].name.c_str() );
             }
         }
     } else if( bio.id == "bio_earplugs" && has_active_bionic( bionic_id( "bio_ears" ) ) ) {
-        for( auto &i : my_bionics ) {
+        for( auto &i : *my_bionics ) {
             if( i.id == "bio_ears" ) {
                 i.powered = false;
                 add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name.c_str() );
@@ -554,7 +555,7 @@ bool player::activate_bionic( int b, bool eff_only )
 
 bool player::deactivate_bionic( int b, bool eff_only )
 {
-    bionic &bio = my_bionics[b];
+    bionic &bio = ( *my_bionics )[b];
 
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
@@ -659,7 +660,7 @@ bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int 
 
 void player::process_bionic( int b )
 {
-    bionic &bio = my_bionics[b];
+    bionic &bio = ( *my_bionics )[b];
     // Only powered bionics should be processed
     if( !bio.powered ) {
         return;
@@ -895,8 +896,8 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
     // Surgery is imminent, retract claws or blade if active
     if( skill_level == -1 ) {
-        for( size_t i = 0; i < my_bionics.size(); i++ ) {
-            const auto &bio = my_bionics[ i ];
+        for( size_t i = 0; i < my_bionics->size(); i++ ) {
+            const auto &bio = ( *my_bionics )[ i ];
             if( bio.powered && bio.info().weapon_bionic ) {
                 deactivate_bionic( i );
             }
@@ -1243,7 +1244,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int player::get_used_bionics_slots( const body_part bp ) const
 {
     int used_slots = 0;
-    for( auto &bio : my_bionics ) {
+    for( auto &bio : *my_bionics ) {
         auto search = bionics[bio.id].occupied_bodyparts.find( bp );
         if( search != bionics[bio.id].occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -1326,9 +1327,9 @@ void player::add_bionic( bionic_id const &b )
         return;
     }
 
-    my_bionics.push_back( bionic( b, get_free_invlet( *this ) ) );
+    my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
     if( b == "bio_tools" || b == "bio_ears" ) {
-        activate_bionic( my_bionics.size() - 1 );
+        activate_bionic( my_bionics->size() - 1 );
     }
 
     for( const auto &inc_bid : bionics[b].included_bionics ) {
@@ -1340,8 +1341,8 @@ void player::add_bionic( bionic_id const &b )
 
 void player::remove_bionic( bionic_id const &b )
 {
-    std::vector<bionic> new_my_bionics;
-    for( auto &i : my_bionics ) {
+    bionic_collection new_my_bionics;
+    for( auto &i : *my_bionics ) {
         if( b == i.id ) {
             continue;
         }
@@ -1353,13 +1354,13 @@ void player::remove_bionic( bionic_id const &b )
 
         new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
-    my_bionics = new_my_bionics;
+    *my_bionics = new_my_bionics;
     recalc_sight_limits();
 }
 
 int player::num_bionics() const
 {
-    return my_bionics.size();
+    return my_bionics->size();
 }
 
 std::pair<int, int> player::amount_of_storage_bionics() const
@@ -1367,7 +1368,7 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     int lvl = max_power_level;
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( auto it : my_bionics ) {
+    for( auto it : *my_bionics ) {
         lvl -= bionics[it.id].capacity;
     }
 
@@ -1397,7 +1398,7 @@ std::pair<int, int> player::amount_of_storage_bionics() const
 
 bionic &player::bionic_at_index( int i )
 {
-    return my_bionics[i];
+    return ( *my_bionics )[i];
 }
 
 
@@ -1408,7 +1409,7 @@ bool player::remove_random_bionic()
     const int numb = num_bionics();
     if( numb ) {
         int rem = rng( 0, num_bionics() - 1 );
-        const auto bionic = my_bionics[rem];
+        const auto bionic = ( *my_bionics )[rem];
         remove_bionic( bionic.id );
         add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();

@@ -9,9 +9,10 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include <map>
+
 #include "visitable.h"
 #include "enums.h"
-#include "json.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
@@ -22,6 +23,9 @@
 #include "cata_utility.h"
 
 class nc_color;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class gun_type_type;
 class gunmod_location;
 class game;
@@ -186,7 +190,7 @@ class item_category
         /*@}*/
 };
 
-class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
+class item : public visitable<item>
 {
     public:
         item();
@@ -195,7 +199,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        ~item() override = default;
 
         explicit item( const itype_id& id, int turn = -1, long qty = -1 );
         explicit item( const itype *type, int turn = -1, long qty = -1 );
@@ -209,8 +212,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         struct solitary_tag {};
         item( const itype_id& id, int turn, solitary_tag );
         item( const itype *type, int turn, solitary_tag );
-
-        item( JsonObject &jo );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -413,15 +414,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    // easy deserialization from JsonObject
-    virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) override {
-        JsonObject jo = jsin.get_object();
-        deserialize(jo);
-    }
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     // Legacy function, don't use.
     void load_info( const std::string &data );

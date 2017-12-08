@@ -64,7 +64,6 @@
           "furniture": {
             "#": "f_counter",
             "&": "f_counter",
-            ".": "f_null",
             ":": "f_dresser",
             "@": "f_bed",
             "F": "f_arcade_machine",

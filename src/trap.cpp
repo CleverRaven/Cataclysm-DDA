@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "debug.h"
 #include "line.h"
+#include "json.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"

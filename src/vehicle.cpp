@@ -31,6 +31,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
+#include "json.h"
 #include "map_iterator.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
@@ -183,24 +184,6 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::istream &stin)
-{
-    std::string type;
-    getline(stin, type);
-    this->type = vproto_id( type );
-
-    std::stringstream derp;
-    derp << type;
-    JsonIn jsin(derp);
-    try {
-        deserialize(jsin);
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-    }
-    refresh(); // part index lists are lost on save??
-    shift_if_needed();
-}
-
 /** Checks all parts to see if frames are missing (as they might be when
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
@@ -275,13 +258,6 @@ void vehicle::add_steerable_wheels()
     for (auto &wheel : wheels) {
         parts[ wheel.first ].id = wheel.second;
     }
-}
-
-void vehicle::save (std::ostream &stout)
-{
-    serialize(stout);
-    stout << std::endl;
-    return;
 }
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
@@ -1933,31 +1909,30 @@ bool vehicle::remove_part( int p )
     int y = parts[p].precalc[0].y;
     tripoint part_loc( global_x() + x, global_y() + y, smz );
 
+    // If `p` has flag `parent_flag`, remove child with flag `child_flag`
+    // Returns true if removal occurs
+    const auto remove_dependent_part = [&]( const std::string& parent_flag,
+            const std::string& child_flag ) {
+        if( part_flag( p, parent_flag ) ) {
+            int dep = part_with_feature( p, child_flag, false );
+            if( dep >= 0 ) {
+                item it = parts[dep].properties_to_item();
+                g->m.add_item_or_charges( part_loc, it );
+                remove_part( dep );
+                return true;
+            }
+        }
+        return false;
+    };
+
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
-    if( part_flag( p, "WINDOW" ) ) {
-        int curtain = part_with_feature( p, "CURTAIN", false );
-        if( curtain >= 0 ) {
-            item it = parts[curtain].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it );
-            remove_part( curtain );
-            g->m.set_transparency_cache_dirty( smz );
-        }
-    }
-
-    if( part_flag( p, VPFLAG_OPAQUE ) ) {
+    if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
         g->m.set_transparency_cache_dirty( smz );
     }
 
-    //Ditto for seatbelts
-    if( part_flag( p, "SEAT" ) ) {
-        int seatbelt = part_with_feature( p, "SEATBELT", false );
-        if( seatbelt >= 0 ) {
-            item it = parts[seatbelt].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it );
-            remove_part( seatbelt );
-        }
-    }
+    remove_dependent_part( "SEAT", "SEATBELT" );
+    remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
 
     // Unboard any entities standing on removed boardable parts
     if( part_flag( p, "BOARDABLE" ) ) {

@@ -99,7 +99,6 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
 {
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
     if( places.size() == 0 ) {
-        debugmsg( "Couldn't find %s", omter.c_str() );
         return g->u.global_omt_location();
     }
     const auto &cur_om = g->get_cur_om();
@@ -116,6 +115,36 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     }
     miss->set_target( place );
     return place;
+}
+
+/**
+ * Wraps target_om_ter_random() and takes an extra argument specifying the
+ * type of tile it is permitted to replace. If it doesn't find an extant tile
+ * of the specified type (e.g. bandit_camp_1) it will find a random unexplored
+ * tile of the fallback type and replace it with the original type. If even
+ * that fails, it will print a debug message.
+ */
+static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
+        mission *miss, bool must_see, int range, const std::string &replace_omter )
+{
+    tripoint site = target_om_ter_random(omter, reveal_rad, miss, must_see, range);
+
+    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_omter`
+    if (site == g->u.global_omt_location()) {
+        for ( int tries = 10 * range; tries > 0; --tries ) {
+            site = target_om_ter_random( replace_omter, 1, miss, false, range  );
+            if ( !overmap_buffer.is_explored( site.x, site.y, site.z ) ) {
+                overmap_buffer.ter( site ) = oter_id( omter );
+                miss->set_target( site );
+                return site;
+            }
+        }
+        debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
+                  "of type %s that could be replaced with one. (Search radius: %d)",
+                  omter, replace_omter, range );
+    }
+
+    return site;
 }
 
 void mission_start::standard( mission * )
@@ -257,7 +286,8 @@ void mission_start::place_caravan_ambush( mission *miss )
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random( "bandit_cabin", 1, miss, false, 50 );
+    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "forest" );
+
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
     cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
@@ -307,7 +337,8 @@ void mission_start::place_bandit_camp( mission *miss )
     // but better to get it working.
     g->u.set_mutation( trait_id( "PROF_FED" ) );
 
-    tripoint site = target_om_ter_random( "bandit_camp_1", 1, miss, false, 50 );
+    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "forest" );
+
     tinymap bay1;
     bay1.load( site.x * 2, site.y * 2, site.z, false );
     miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );

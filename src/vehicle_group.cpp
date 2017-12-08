@@ -4,6 +4,7 @@
 #include "vehicle.h"
 #include "map.h"
 #include "enums.h"
+#include "json.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 

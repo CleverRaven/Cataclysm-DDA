@@ -5,7 +5,7 @@
 #include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
-#include "bionics.h"
+#include "copyable_unique_ptr.h"
 #include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
@@ -15,11 +15,17 @@
 
 using skill_id = string_id<Skill>;
 enum field_id : int;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class field;
 class field_entry;
 class vehicle;
 struct resistances;
 struct mutation_branch;
+class bionic_collection;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -71,7 +77,7 @@ struct aim_type {
 class Character : public Creature, public visitable<Character>
 {
     public:
-        ~Character() override { };
+        ~Character() override;
 
         field_id bloodType() const override;
         field_id gibType() const override;
@@ -602,7 +608,7 @@ class Character : public Creature, public visitable<Character>
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
-        std::vector<bionic> my_bionics;
+        copyable_unique_ptr<bionic_collection> my_bionics;
 
     protected:
         void on_stat_change( const std::string &, int ) override {};
@@ -619,7 +625,7 @@ class Character : public Creature, public visitable<Character>
         Character( Character && ) = default;
         Character &operator=( const Character & ) = default;
         Character &operator=( Character && ) = default;
-        struct trait_data : public JsonSerializer, public JsonDeserializer {
+        struct trait_data {
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
@@ -630,11 +636,8 @@ class Character : public Creature, public visitable<Character>
             int charge = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
-            // -- serialization stuff, see savegame_json.cpp
-            using JsonSerializer::serialize;
-            void serialize( JsonOut &json ) const override;
-            using JsonDeserializer::deserialize;
-            void deserialize( JsonIn &jsin ) override;
+            void serialize( JsonOut &json ) const;
+            void deserialize( JsonIn &jsin );
         };
 
         /** Bonuses to stats, calculated each turn */
