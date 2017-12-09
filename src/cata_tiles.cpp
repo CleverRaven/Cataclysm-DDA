@@ -175,10 +175,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     last_pos_y = 0;
 }
 
-cata_tiles::~cata_tiles()
-{
-    clear();
-}
+cata_tiles::~cata_tiles() = default;
 
 void cata_tiles::clear()
 {
