@@ -242,9 +242,6 @@ void cata_tiles::init()
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 
-    tile_width = tileset_ptr->get_tile_width();
-    tile_height = tileset_ptr->get_tile_height();
-
     set_draw_scale(16);
 }
 
