@@ -199,10 +199,12 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    tileset_ptr.reset( new tileset() );
-    // Try to load tileset
-    tileset_loader loader( *tileset_ptr, renderer );
+    // Load the tileset into a separate instance and only set this->tileset_ptr
+    // when the loading has succeeded.
+    std::unique_ptr<tileset> new_tileset_ptr( new tileset() );
+    tileset_loader loader( *new_tileset_ptr, renderer );
     loader.load( tileset_id, precheck );
+    tileset_ptr = std::move( new_tileset_ptr );
 
     set_draw_scale(16);
 }
