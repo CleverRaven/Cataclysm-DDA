@@ -453,11 +453,6 @@ class cata_tiles
         bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
-        /**
-         * Redraws all the tiles that have changed since the last frame.
-         */
-        void clear_buffer();
-
         /** Surface/Sprite rotation specifics */
         SDL_Surface_Ptr create_tile_surface();
 

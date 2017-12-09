@@ -225,7 +225,7 @@ void cata_tiles::init()
 void cata_tiles::reinit()
 {
     set_draw_scale(16);
-    clear_buffer();
+    SDL_RenderClear( renderer );
     clear();
     init();
     reinit_minimap();
@@ -1483,12 +1483,6 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             }
         }
     }
-}
-
-void cata_tiles::clear_buffer()
-{
-    //TODO convert this to use sdltiles ClearScreen() function
-    SDL_RenderClear(renderer);
 }
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
