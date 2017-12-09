@@ -190,7 +190,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     return result;
 }
 
-void cata_tiles::load_tileset( const std::string &tileset_id )
+void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck )
 {
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id ) {
         return;
@@ -202,7 +202,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id )
     tileset_ptr.reset( new tileset() );
     // Try to load tileset
     tileset_loader loader( *tileset_ptr, renderer );
-    loader.load( tileset_id );
+    loader.load( tileset_id, precheck );
 
     set_draw_scale(16);
 }
@@ -482,7 +482,7 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void tileset_loader::load( const std::string &tileset_id )
+void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 {
     std::string json_conf;
     std::string tileset_path;
@@ -526,6 +526,10 @@ void tileset_loader::load( const std::string &tileset_id )
         ts.tile_width = curr_info.get_int("width");
         tile_iso = curr_info.get_bool("iso", false);
         ts.tile_pixelscale = curr_info.get_float("pixelscale", 1.0f);
+    }
+
+    if( precheck ) {
+        return;
     }
 
     // Load tile information if available.

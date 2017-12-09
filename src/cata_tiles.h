@@ -409,7 +409,7 @@ class tileset_loader
          * @throw std::exception On any error.
          * @param tileset_name Ident of the tileset, as it appears in the options.
          */
-        void load( const std::string &tileset_id );
+        void load( const std::string &tileset_id, bool precheck );
 };
 
 class cata_tiles
@@ -528,9 +528,10 @@ class cata_tiles
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
+         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id );
+        void load_tileset( const std::string &tileset_id, bool precheck = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.

@@ -1539,6 +1539,15 @@ void catacurses::init_interface()
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext.reset( new cata_tiles( renderer.get() ) );
+    try {
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
 
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
