@@ -27,8 +27,6 @@ struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
 
-void clear_texture_pool();
-
 /** Structures */
 struct tile_type {
     // fg and bg are both a weighted list of lists of sprite IDs
@@ -274,9 +272,10 @@ struct minimap_submap_cache {
     bool drawn;
     //flag used to indicate that the texture needs to be cleared before first use
     bool ready;
+    minimap_shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
-    minimap_submap_cache();
+    minimap_submap_cache( minimap_shared_texture_pool &pool );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
@@ -633,6 +632,8 @@ class cata_tiles
         void prepare_minimap_cache_for_updates();
         void clear_unused_minimap_cache();
 
+        //the minimap texture pool which is used to reduce new texture allocation spam
+        minimap_shared_texture_pool tex_pool;
         std::map< tripoint, minimap_cache_ptr> minimap_cache;
 
         //persistent tiled minimap values

@@ -467,7 +467,7 @@ void WinDestroy()
     cleanup_sound();
     Mix_CloseAudio();
 #endif
-    clear_texture_pool();
+    tilecontext.reset();
 
     if(joystick) {
         SDL_JoystickClose(joystick);

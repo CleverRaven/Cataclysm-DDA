@@ -61,9 +61,6 @@ static const std::array<std::string, 8> multitile_keys = {{
 extern int fontwidth, fontheight;
 extern bool tile_iso;
 
-//the minimap texture pool which is used to reduce new texture allocation spam
-static minimap_shared_texture_pool tex_pool;
-
 SDL_Color cursesColorToSDL( const nc_color &color );
 static SDL_Surface_Ptr create_tile_surface( int w, int h );
 
@@ -201,11 +198,6 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     tile_type &result = tile_ids[id];
     result = std::move( new_tile_type );
     return result;
-}
-
-void clear_texture_pool()
-{
-    tex_pool.texture_pool.clear();
 }
 
 void cata_tiles::init()
@@ -1215,7 +1207,7 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     auto it = minimap_cache.find( current_submap_loc );
     if( it == minimap_cache.end() ) {
         minimap_cache.insert( std::pair<tripoint, minimap_cache_ptr>( current_submap_loc,
-                              minimap_cache_ptr( new minimap_submap_cache() ) ) );
+                              minimap_cache_ptr( new minimap_submap_cache( tex_pool ) ) ) );
         it = minimap_cache.find( current_submap_loc );
     }
 
@@ -1231,16 +1223,16 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     }
 }
 
-minimap_submap_cache::minimap_submap_cache() : ready( false )
+minimap_submap_cache::minimap_submap_cache( minimap_shared_texture_pool &pool ) : ready( false ), pool( pool )
 {
     //set color to force updates on a new submap texture
     minimap_colors.resize( SEEY * SEEX, pixel( -1, -1, -1, -1 ) );
-    minimap_tex = tex_pool.request_tex( texture_index );
+    minimap_tex = pool.request_tex( texture_index );
 }
 
 minimap_submap_cache::~minimap_submap_cache()
 {
-    tex_pool.release_tex( texture_index, std::move( minimap_tex ) );
+    pool.release_tex( texture_index, std::move( minimap_tex ) );
 }
 
 //store the known persistent values used in drawing the minimap
