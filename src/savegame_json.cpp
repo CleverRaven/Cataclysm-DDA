@@ -1291,7 +1291,7 @@ void inventory::json_load_items(JsonIn &jsin)
     while( !jsin.end_array() ) {
         item tmp;
         tmp.deserialize( jsin );
-        add_item( tmp );
+        add_item( tmp, true, false );
     }
 }
 
