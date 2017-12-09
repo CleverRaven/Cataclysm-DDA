@@ -1533,6 +1533,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {

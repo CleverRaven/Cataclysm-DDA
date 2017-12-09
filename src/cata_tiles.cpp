@@ -190,8 +190,11 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     return result;
 }
 
-void cata_tiles::init()
+void cata_tiles::load_tileset( const std::string &tileset_id )
 {
+    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id ) {
+        return;
+    }
     //@todo move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
@@ -199,7 +202,7 @@ void cata_tiles::init()
     tileset_ptr.reset( new tileset() );
     // Try to load tileset
     tileset_loader loader( *tileset_ptr, renderer );
-    loader.load( get_option<std::string>( "TILES" ) );
+    loader.load( tileset_id );
 
     set_draw_scale(16);
 }
@@ -210,7 +213,6 @@ void cata_tiles::reinit()
     SDL_RenderClear( renderer );
     minimap_cache.clear();
     tex_pool.texture_pool.clear();
-    init();
     reinit_minimap();
 }
 
@@ -603,6 +605,8 @@ void tileset_loader::load( const std::string &tileset_id )
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
     ensure_default_item_highlight();
+
+    ts.tileset_id = tileset_id;
 }
 
 void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )

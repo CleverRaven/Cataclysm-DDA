@@ -285,6 +285,8 @@ using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 class tileset
 {
     private:
+        std::string tileset_id;
+
         int tile_width;
         int tile_height;
 
@@ -314,6 +316,9 @@ class tileset
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
+        }
+        const std::string &get_tileset_id() const {
+            return tileset_id;
         }
 
         const texture *get_tile( const size_t index ) const {
@@ -525,7 +530,7 @@ class cata_tiles
          * tileset as it is set in the options.
          * @throw std::exception On any error.
          */
-        void init();
+        void load_tileset( const std::string &tileset_id );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
