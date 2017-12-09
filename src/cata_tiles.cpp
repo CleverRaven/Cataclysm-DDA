@@ -177,13 +177,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 
 cata_tiles::~cata_tiles() = default;
 
-void cata_tiles::clear()
-{
-    // release minimap
-    minimap_cache.clear();
-    tex_pool.texture_pool.clear();
-}
-
 const tile_type *tileset::find_tile_type( const std::string &id ) const
 {
     const auto iter = tile_ids.find( id );
@@ -215,7 +208,8 @@ void cata_tiles::reinit()
 {
     set_draw_scale(16);
     SDL_RenderClear( renderer );
-    clear();
+    minimap_cache.clear();
+    tex_pool.texture_pool.clear();
     init();
     reinit_minimap();
 }

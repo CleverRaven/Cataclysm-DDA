@@ -414,8 +414,6 @@ class cata_tiles
         cata_tiles( SDL_Renderer *render );
         /** Default destructor */
         ~cata_tiles();
-    protected:
-        void clear();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
