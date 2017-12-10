@@ -1290,6 +1290,7 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    bool is_furniture               = false; // Wether the vehicle acts as powered furniture or not.
 
 private:
     void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
