@@ -6,6 +6,7 @@
 #include "start_location.h"
 #include "input.h"
 #include "output.h"
+#include "bionics.h"
 #include "rng.h"
 #include "game.h"
 #include "name.h"

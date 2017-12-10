@@ -352,7 +352,7 @@
         "id" : "office_doctor",
         "name" : "doctor's office",
         "copy-from" : "generic_city_building",
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "office_cubical",
@@ -405,7 +405,7 @@
         "id" : "office_tower_1_entrance",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
@@ -414,7 +414,7 @@
         "id" : "office_tower_1",
         "name" : "office tower",
         "sym" : 116,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
@@ -423,7 +423,7 @@
         "id" : "office_tower_b_entrance",
         "name" : "tower parking",
         "sym" : 112,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
@@ -432,7 +432,7 @@
         "id" : "office_tower_b",
         "name" : "tower parking",
         "sym" : 112,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
@@ -441,7 +441,7 @@
         "id" : "office_tower_2_a1",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -450,7 +450,7 @@
         "id" : "office_tower_2_a2",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -459,7 +459,7 @@
         "id" : "office_tower_2_a3",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -468,7 +468,7 @@
         "id" : "office_tower_2_b1",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -477,7 +477,7 @@
         "id" : "office_tower_2_b2",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -486,7 +486,7 @@
         "id" : "office_tower_2_b3",
         "name" : "office tower",
         "sym" : 84,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -505,7 +505,7 @@
         "id" : "cathedral_1_NW",
         "name" : "cathedral",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -514,7 +514,7 @@
         "id" : "cathedral_1_NE",
         "name" : "cathedral",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -523,7 +523,7 @@
         "id" : "cathedral_1_SW",
         "name" : "cathedral",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -532,7 +532,7 @@
         "id" : "cathedral_1_SE",
         "name" : "cathedral",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -541,7 +541,7 @@
         "id" : "cathedral_b_NW",
         "name" : "cathedral basement",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -550,7 +550,7 @@
         "id" : "cathedral_b_NE",
         "name" : "cathedral basement",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -559,7 +559,7 @@
         "id" : "cathedral_b_SW",
         "name" : "cathedral basement",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -568,7 +568,7 @@
         "id" : "cathedral_b_SE",
         "name" : "cathedral basement",
         "sym" : 67,
-        "color" : "i_ltred",
+        "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -847,7 +847,7 @@
         "id" : "mil_surplus",
         "name" : "mil. surplus",
         "copy-from" : "generic_city_building",
-        "color" : "i_ltgray"
+        "color" : "i_light_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "furniture",
@@ -859,7 +859,7 @@
         "id" : "abstorefront",
         "name" : "abandoned storefront",
         "copy-from" : "generic_city_building",
-        "color" : "h_dkgray"
+        "color" : "h_dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "s_music",
@@ -1032,7 +1032,7 @@
         "id" : "prison_1_1",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1040,7 +1040,7 @@
         "id" : "prison_1_2",
         "name" : "prison",
         "sym" : 80,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1048,7 +1048,7 @@
         "id" : "prison_1_3",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1056,7 +1056,7 @@
         "id" : "prison_1_4",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1064,7 +1064,7 @@
         "id" : "prison_1_5",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1072,7 +1072,7 @@
         "id" : "prison_1_6",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1080,7 +1080,7 @@
         "id" : "prison_1_7",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1088,7 +1088,7 @@
         "id" : "prison_1_8",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1096,7 +1096,7 @@
         "id" : "prison_1_9",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5,
         "flags" : [ "SIDEWALK" ]
     },{
@@ -1104,63 +1104,63 @@
         "id" : "prison_1_b_1",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_2",
         "name" : "prison",
         "sym" : 80,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_3",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_4",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_5",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_6",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_7",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_8",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_9",
         "name" : "prison",
         "sym" : 112,
-        "color" : "i_ltblue",
+        "color" : "i_light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1440,7 +1440,7 @@
         "id" : "station_radio",
         "name" : "radio station",
         "sym" : 88,
-        "color" : "i_ltgray",
+        "color" : "i_light_gray",
         "see_cost" : 5,
         "extras" : "build",
         "flags" : [ "SIDEWALK" ]
@@ -2005,7 +2005,7 @@
         "name" : "mall - loading bay",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_4",
@@ -2079,7 +2079,7 @@
         "name" : "mall - entrance",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_15",
@@ -2121,7 +2121,7 @@
         "name" : "mall - food court",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_21",
@@ -2178,7 +2178,7 @@
         "name" : "mall - food court",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_30",
@@ -2291,7 +2291,7 @@
         "name" : "mall - entrance",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_48",
@@ -2328,7 +2328,7 @@
         "name" : "mall - entrance",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_54",
@@ -2423,7 +2423,7 @@
         "name" : "mall - entrance",
         "copy-from" : "generic_mall",
         "sym" : 77,
-        "color" : "i_ltred"
+        "color" : "i_light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_69",
@@ -2553,7 +2553,7 @@
         "id" : "necropolis_a_5",
         "name" : "abandoned store",
         "sym" : 62,
-        "color" : "h_dkgray",
+        "color" : "h_dark_gray",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -2615,7 +2615,7 @@
         "id" : "necropolis_a_12",
         "name" : "gardening store",
         "sym" : 60,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -5478,7 +5478,7 @@
         "id" : "hdwr_large_entrance",
         "name" : "home improvement superstore entrance",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -5487,7 +5487,7 @@
         "id" : "hdwr_large_SW",
         "name" : "home improvement superstore",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -5496,7 +5496,7 @@
         "id" : "hdwr_large_NW",
         "name" : "home improvement superstore",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -5505,7 +5505,7 @@
         "id" : "hdwr_large_NE",
         "name" : "home improvement superstore",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -5514,7 +5514,7 @@
         "id" : "hdwr_large_backroom",
         "name" : "home improvement superstore",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -5523,7 +5523,7 @@
         "id" : "hdwr_large_loadingbay",
         "name" : "home improvement superstore",
         "sym" : 72,
-        "color" : "ltgreen_yellow",
+        "color" : "light_green_yellow",
         "see_cost" : 5,
         "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
@@ -6510,7 +6510,7 @@
         "id" : "4way_road",
         "name" : "road",
         "sym" : 43,
-        "color" : "ltgray",
+        "color" : "light_gray",
         "see_cost" : 5,
         "extras" : "forest",
         "mondensity" : 2,
@@ -6556,7 +6556,7 @@
         "id" : "orchard_tree_apple",
         "name" : "apple orchard",
         "sym" : 84,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 3,
@@ -6566,7 +6566,7 @@
         "id" : "orchard_processing",
         "name" : "orchard processing",
         "sym" : 84,
-        "color" : "i_ltgreen",
+        "color" : "i_light_green",
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 3,
@@ -6576,7 +6576,7 @@
         "id" : "orchard_stall",
         "name" : "orchard stall",
         "sym" : 84,
-        "color" : "i_ltgreen",
+        "color" : "i_light_green",
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 3,

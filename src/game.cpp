@@ -11,6 +11,7 @@
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "bionics.h"
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "map_item_stack.h"
@@ -114,6 +115,10 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -1839,7 +1844,7 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
+    if( u.activity && u.activity.moves_left > 0 ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
@@ -3638,7 +3643,10 @@ void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional( savefile, []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 }
 
 bool game::load( const std::string &world ) {
@@ -3846,7 +3854,8 @@ bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        fout << uistate.serialize();
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
     }, _( "uistate data" ) );
 }
 

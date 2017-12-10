@@ -636,7 +636,7 @@ void serialize_liquid_source( player_activity &act, const monster &mon, const it
     act.values.push_back( LST_MONSTER );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( mon.pos() );
-    act.str_values.push_back( liquid.serialize() );
+    act.str_values.push_back( serialize( liquid ) );
 }
 
 void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
@@ -653,7 +653,7 @@ void serialize_liquid_source( player_activity &act, const tripoint &pos, const i
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );
-    act.str_values.push_back( liquid.serialize() );
+    act.str_values.push_back( serialize( liquid ) );
 }
 
 enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
@@ -707,7 +707,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid = item( act.str_values.at( 0 ), calendar::turn, source_veh->fuel_left( act.str_values.at( 0 ) ) );
             break;
         case LST_INFINITE_MAP:
-            liquid.deserialize( act.str_values.at( 0 ) );
+            deserialize( liquid, act.str_values.at( 0 ) );
             liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
@@ -725,7 +725,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 debugmsg( "could not find source creature for liquid transfer" );
                 act.set_to_null();
             }
-            liquid.deserialize( act.str_values.at( 0 ) );
+            deserialize( liquid, act.str_values.at( 0 ) );
             liquid.charges = 1;
             break;
         }

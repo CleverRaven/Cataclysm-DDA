@@ -201,11 +201,6 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
     return result;
 }
 
-item::item(JsonObject &jo)
-{
-    deserialize(jo);
-}
-
 item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
@@ -2776,6 +2771,24 @@ long item::get_property_long( const std::string& prop, long def ) const
 int item::get_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
+
+    /**
+     * EXCEPTION: Items with quality BOIL only count as such if they are empty,
+     * excluding items of their ammo type if they are tools.
+     */
+    if ( id == quality_id( "BOIL" ) && !( contents.empty() || 
+        ( is_tool() && std::all_of( contents.begin(), contents.end(),
+        [this]( const item & itm ) {
+            if ( !itm.is_ammo() ) {
+                return false;
+            }
+            auto& ammo_types = itm.type->ammo->type;
+            return ammo_types.find( ammo_type() ) != ammo_types.end();
+        } ) ) ) )
+    {
+        return INT_MIN;
+    }
+
     for( const auto &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;

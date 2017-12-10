@@ -17,7 +17,6 @@
 #include <algorithm>
 #include <numeric>
 #include "cursesdef.h"
-#include "json.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -633,18 +632,6 @@ bool monster::made_of( const material_id &m ) const
 bool monster::made_of(phase_id p) const
 {
     return type->phase == p;
-}
-
-void monster::load_info(std::string data)
-{
-    std::stringstream dump;
-    dump << data;
-    JsonIn jsin(dump);
-    try {
-        deserialize(jsin);
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
-    }
 }
 
 void monster::shift(int sx, int sy)

@@ -2,9 +2,14 @@
 #ifndef VITAMIN_H
 #define VITAMIN_H
 
-#include "json.h"
 #include "effect.h"
 
+#include <string>
+#include <map>
+#include <utility>
+#include <vector>
+
+class JsonObject;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 

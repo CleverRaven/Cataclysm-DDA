@@ -9,7 +9,7 @@
     "price": 0,
     "material": "iron",
     "symbol": "*",
-    "color": "ltgreen",
+    "color": "light_green",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {

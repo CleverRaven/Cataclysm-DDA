@@ -2242,24 +2242,16 @@ nc_color player::basic_symbol_color() const
 
 void player::load_info( std::string data )
 {
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
     try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad player json\n%s", jsonerr.c_str() );
+        ::deserialize( *this, data );
+    } catch( const std::exception &jsonerr ) {
+        debugmsg( "Bad player json\n%s", jsonerr.what() );
     }
 }
 
 std::string player::save_info() const
 {
-    std::stringstream dump;
-    dump << serialize(); // saves contents
-    dump << std::endl;
-    dump << dump_memorial();
-    return dump.str();
+    return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
 void player::memorial( std::ostream &memorial_file, std::string epitaph )
@@ -2416,8 +2408,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Bionics
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << my_bionics[i].id->name << eol;
+    for( size_t i = 0; i < my_bionics->size(); ++i ) {
+        memorial_file << indent << ( i + 1 ) << ": " << (*my_bionics)[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -5390,8 +5382,8 @@ void player::suffer()
         }
     }
 
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (my_bionics[i].powered) {
+    for (size_t i = 0; i < my_bionics->size(); i++) {
+        if ((*my_bionics)[i].powered) {
             process_bionic(i);
         }
     }
@@ -6755,7 +6747,7 @@ int player::invlet_to_position( const long linvlet ) const
 }
 
 bool player::can_interface_armor() const {
-    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(),
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
         []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
@@ -6983,15 +6975,23 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     std::vector<item *> del;
 
-    visit_items( [this, &what, &qty, &res, &del]( item *e ) {
+    bool has_tool_with_UPS = false;
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
         if( e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
+        }
+        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+            has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 
     for( auto e : del ) {
         remove_item( *e );
+    }
+
+    if( has_tool_with_UPS ) {
+        use_charges( "UPS", qty );
     }
 
     return res;
@@ -11371,7 +11371,7 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto & bio : my_bionics ) {
+    for( auto & bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ) );
         }
