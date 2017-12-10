@@ -5,6 +5,7 @@
 #include "weather.h"
 #include "string_formatter.h"
 #include "profession.h"
+#include "effect.h"
 #include "input.h"
 #include "addiction.h"
 #include <algorithm>
@@ -202,7 +203,7 @@ void player::disp_info()
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
     std::string tmp = "";
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
             if( tmp != "" ) {
@@ -600,7 +601,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             bool reduced = resists_effect( it );

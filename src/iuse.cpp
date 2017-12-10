@@ -7,6 +7,7 @@
 #include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
+#include "effect.h" // for weed_msg
 #include "debug.h"
 #include "options.h"
 #include "iexamine.h"

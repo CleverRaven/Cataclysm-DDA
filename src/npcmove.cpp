@@ -15,6 +15,7 @@
 #include "veh_type.h"
 #include "monster.h"
 #include "itype.h"
+#include "effect.h"
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"

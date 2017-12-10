@@ -11,6 +11,7 @@
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "effect.h"
 #include "bionics.h"
 #include "gamemode.h"
 #include "mapbuffer.h"

@@ -17,6 +17,7 @@
 #include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
+#include "effect.h" // for weed_msg
 #include "item_group.h"
 #include "options.h"
 #include "messages.h"
