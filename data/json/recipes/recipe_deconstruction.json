@@ -2337,13 +2337,4 @@
       [ [ "motor_small", 1 ] ]
     ]
   },
-  {
-    "result": "box_small",
-    "type": "uncraft",
-    "time": 2050,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-    [ [ "paper", 35 ] ]
-    ]
-  }
 ]
