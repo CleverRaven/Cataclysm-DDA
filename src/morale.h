@@ -2,13 +2,15 @@
 #ifndef MORALE_H
 #define MORALE_H
 
+#include "string_id.h"
 #include "calendar.h"
-#include "effect.h"
 #include "bodypart.h"
 #include "morale_types.h"
 
 #include <stdlib.h>
 #include <string>
+#include <vector>
+#include <map>
 #include <functional>
 
 class item;
@@ -17,6 +19,10 @@ class JsonOut;
 class JsonObject;
 struct itype;
 struct morale_mult;
+class effect_type;
+using efftype_id = string_id<effect_type>;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
