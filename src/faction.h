@@ -2,8 +2,6 @@
 #ifndef FACTION_H
 #define FACTION_H
 
-#include "json.h"
-
 #include <string>
 #include <vector>
 #include <map>
@@ -21,6 +19,9 @@ std::string fac_food_supply_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
 class game;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 
 enum faction_goal {
     FACGOAL_NULL = 0,
@@ -87,7 +88,7 @@ class faction;
 
 typedef std::map<std::string, faction> faction_map;
 
-class faction : public JsonSerializer, public JsonDeserializer
+class faction
 {
     public:
         faction();
@@ -98,12 +99,10 @@ class faction : public JsonSerializer, public JsonDeserializer
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
-        ~faction() override;
+        ~faction();
         void load_info( std::string data );
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
+        void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jsout ) const;
 
         static faction_map _all_faction;
 

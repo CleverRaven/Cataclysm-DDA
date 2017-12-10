@@ -983,12 +983,8 @@ std::set<T> JsonObject::get_tags( const std::string &name )
  * is define a `void serialize(JsonOut&) const` method,
  * which should use the provided JsonOut to write its data as JSON.
  *
- * Methods to output to a std::ostream, or as a std::string,
- * are then automatically provided.
- *
  *     class point : public JsonSerializer {
  *         int x, y;
- *         using JsonSerializer::serialize;
  *         void serialize(JsonOut &jsout) const {
  *             jsout.start_array();
  *             jsout.write(x);
@@ -1002,8 +998,6 @@ class JsonSerializer
     public:
         virtual ~JsonSerializer() {}
         virtual void serialize(JsonOut &jsout) const = 0;
-        std::string serialize() const;
-        void serialize(std::ostream &o) const;
         JsonSerializer() { }
         JsonSerializer(JsonSerializer &&) = default;
         JsonSerializer(const JsonSerializer &) = default;
@@ -1023,12 +1017,8 @@ class JsonSerializer
  * which should read its data from the provided JsonIn,
  * assuming it to be in the correct form.
  *
- * Methods to read from a std::istream, or a std::string,
- * are then automatically provided.
- *
  *     class point : public JsonDeserializer {
  *         int x, y;
- *         using JsonDeserializer::deserialize;
  *         void deserialize(JsonIn &jsin) {
  *             JsonArray ja = jsin.get_array();
  *             x = ja.get_int(0);
@@ -1041,8 +1031,6 @@ class JsonDeserializer
     public:
         virtual ~JsonDeserializer() {}
         virtual void deserialize(JsonIn &jsin) = 0;
-        void deserialize(const std::string &json_string);
-        void deserialize(std::istream &i);
         JsonDeserializer() { }
         JsonDeserializer(JsonDeserializer &&) = default;
         JsonDeserializer(const JsonDeserializer &) = default;

@@ -11,6 +11,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <functional>
 
 class uimenu;
 class vehicle;

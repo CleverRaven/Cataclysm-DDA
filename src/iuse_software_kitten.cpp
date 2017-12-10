@@ -237,7 +237,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     nummessages = 201;
     empty.x = -1;
     empty.y = -1;
-    empty.color = (nc_color)0;
+    empty.color = nc_color();
     empty.character = ' ';
     for (int c = 0; c < rfkCOLS; c++) {
         for (int c2 = 0; c2 < rfkLINES; c2++) {

@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "options.h"
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 
 #include <algorithm>

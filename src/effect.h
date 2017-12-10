@@ -3,11 +3,11 @@
 #define EFFECT_H
 
 #include "pldata.h"
-#include "json.h"
 #include "enums.h"
 #include "string_id.h"
 #include <unordered_map>
 #include <tuple>
+#include <vector>
 
 class effect_type;
 class Creature;
@@ -16,6 +16,9 @@ enum game_message_type : int;
 using efftype_id = string_id<effect_type>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( player *p );
@@ -127,7 +130,7 @@ class effect_type
         std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
 };
 
-class effect : public JsonSerializer, public JsonDeserializer
+class effect
 {
     public:
         effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
@@ -263,10 +266,8 @@ class effect : public JsonSerializer, public JsonDeserializer
             return eff_type->id;
         }
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 
     protected:
         const effect_type *eff_type;

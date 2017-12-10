@@ -5,8 +5,17 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include <vector>
 
+#include <vector>
+#include <map>
+#include <set>
+#include <utility>
+#include <bitset>
+#include <string>
+
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class map;
 class game;
 class item;
@@ -23,14 +32,13 @@ using mtype_id = string_id<mtype>;
 class monster;
 typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
-class mon_special_attack : public JsonSerializer
+class mon_special_attack
 {
     public:
         int cooldown = 0;
         bool enabled = true;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &jsout ) const;
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
@@ -52,7 +60,7 @@ enum monster_effect_cache_fields {
     NUM_MEFF
 };
 
-class monster : public Creature, public JsonSerializer, public JsonDeserializer
+class monster : public Creature
 {
         friend class editmap;
     public:
@@ -121,12 +129,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        void load_info( std::string data );
-
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)

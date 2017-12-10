@@ -6,6 +6,8 @@
 #include "ammo.h"
 #include "itype.h"
 #include "game_constants.h"
+#include "json.h"
+
 #include <map>
 #include <algorithm>
 #include <cassert>

@@ -4,7 +4,6 @@
 
 #include "calendar.h"
 #include "tileray.h"
-#include "color.h"
 #include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
@@ -21,6 +20,7 @@
 #include <string>
 #include <iosfwd>
 
+class nc_color;
 class map;
 class player;
 class npc;
@@ -79,7 +79,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
-struct vehicle_part : public JsonSerializer, public JsonDeserializer
+struct vehicle_part
 {
     friend vehicle;
     friend class veh_interact;
@@ -272,11 +272,8 @@ public:
 
     const item& get_base() const;
 
-    // json saving/loading
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
@@ -379,7 +376,7 @@ class turret_data {
  * Struct used for storing labels
  * (easier to json opposed to a std::map<point, std::string>)
  */
-struct label : public JsonSerializer, public JsonDeserializer {
+struct label {
     label() = default;
     label(int const x, int const y) : x(x), y(y) {}
     label(const int x, const int y, std::string text) : x(x), y(y), text(std::move(text)) {}
@@ -393,11 +390,8 @@ struct label : public JsonSerializer, public JsonDeserializer {
         return (x != rhs.x) ? (x < rhs.x) : (y < rhs.y);
     }
 
-    // json saving/loading
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -472,7 +466,7 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   If you can't understand why installation fails, try to assemble your
  *   vehicle in game first.
  */
-class vehicle : public JsonSerializer, public JsonDeserializer
+class vehicle
 {
 private:
     bool has_structural_part(int dx, int dy) const;
@@ -546,7 +540,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle () override;
+    ~vehicle();
 
     /**
      * Set stat for part constrained by range [0,durability]
@@ -574,16 +568,8 @@ public:
     // damages all parts of a vehicle by a random amount
     void smash();
 
-    // load and init vehicle data from stream. This implies valid save data!
-    void load (std::istream &stin);
-
-    // Save vehicle data to stream
-    void save (std::ostream &stout);
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 
     /**
      *  Operate vehicle controls

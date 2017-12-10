@@ -894,8 +894,8 @@ bool veh_interact::do_repair( std::string &msg )
 
     int pos = 0;
     while (true) {
-        auto &pt = veh->parts[parts_here[need_repair[pos]]];
-        auto &vp = pt.info();
+        vehicle_part &pt = veh->parts[parts_here[need_repair[pos]]];
+        const vpart_info &vp = pt.info();
 
         std::ostringstream msg;
 
@@ -1485,7 +1485,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu > 0 ) {
-            const auto &who = *g->npc_by_id( menu.ret );
+            const auto &who = *g->critter_by_id<npc>( menu.ret );
             veh->assign_seat( pt, who );
         }
 

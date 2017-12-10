@@ -431,8 +431,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
-
-    optional( jo, was_loaded, "color", color, color_reader{} );
+    assign( jo, "color", color, strict );
 
     const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );

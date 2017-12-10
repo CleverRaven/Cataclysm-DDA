@@ -2,17 +2,19 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "json.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
-#include "color.h"
 #include "damage.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
+#include <utility>
 #include <map>
+#include <set>
 #include <unordered_map>
 
+class nc_color;
+class JsonObject;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 class martialart;
@@ -177,6 +179,20 @@ struct mutation_branch {
     static void load( JsonObject &jsobj );
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
+
+    /**
+     * Load a trait blacklist specified by the given JSON object.
+     */
+    static void load_trait_blacklist( JsonObject &jsobj );
+
+    /**
+     * Check if the trait with the given ID is blacklisted.
+     */
+    static bool trait_is_blacklisted( const trait_id &tid );
+
+    /** called after all JSON has been read and performs any necessary cleanup tasks */
+    static void finalize();
+    static void finalize_trait_blacklist();
 };
 
 struct mutation_category_trait {
@@ -225,6 +241,7 @@ struct mutation_category_trait {
 
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
+bool mutation_category_is_valid( const std::string &cat );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 

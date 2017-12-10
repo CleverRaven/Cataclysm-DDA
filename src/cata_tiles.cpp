@@ -30,6 +30,7 @@
 #include "submap.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
+#include "cursesport.h"
 
 #include <algorithm>
 #include <fstream>
@@ -61,7 +62,7 @@ extern bool tile_iso;
 //the minimap texture pool which is used to reduce new texture allocation spam
 static minimap_shared_texture_pool tex_pool;
 
-SDL_Color cursesColorToSDL(int color);
+SDL_Color cursesColorToSDL( const nc_color &color );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -108,6 +109,33 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     if( ptr ) {
         SDL_FreeSurface( ptr );
     }
+}
+
+static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
+{
+    const int iBold = bOldMsg ? 0 : 8;
+
+    switch( type ) {
+        case m_good:
+            return iBold + green;
+        case m_bad:
+            return iBold + red;
+        case m_mixed:
+        case m_headshot:
+            return iBold + magenta;
+        case m_neutral:
+            return iBold + white;
+        case m_warning:
+        case m_critical:
+            return iBold + yellow;
+        case m_info:
+        case m_grazing:
+            return iBold + blue;
+        default:
+            break;
+    }
+
+    return -1;
 }
 
 cata_tiles::cata_tiles(SDL_Renderer *render)
@@ -633,21 +661,21 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = COLOR_BLACK;
+        FG = black;
     } else if( scolor == "RED" ) {
-        FG = COLOR_RED;
+        FG = red;
     } else if( scolor == "GREEN" ) {
-        FG = COLOR_GREEN;
+        FG = green;
     } else if( scolor == "YELLOW" ) {
-        FG = COLOR_YELLOW;
+        FG = yellow;
     } else if( scolor == "BLUE" ) {
-        FG = COLOR_BLUE;
+        FG = blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = COLOR_MAGENTA;
+        FG = magenta;
     } else if( scolor == "CYAN" ) {
-        FG = COLOR_CYAN;
+        FG = cyan;
     } else if( scolor == "WHITE" ) {
-        FG = COLOR_WHITE;
+        FG = white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
@@ -1580,10 +1608,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
-            const int pairNumber = (col & A_COLOR) >> 17;
-            const pairs &colorpair = colorpairs[pairNumber];
+            const int pairNumber = col.to_color_pair_index();
+            const cata_cursesport::pairs &colorpair = cata_cursesport::colorpairs[pairNumber];
             // What about isBlink?
-            const bool isBold = col & A_BOLD;
+            const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
 //            const int BG = colorpair.BG;
             // static so it does not need to be allocated every time,

@@ -5,6 +5,7 @@
 #include "player_activity.h"
 
 #include <functional>
+#include <map>
 
 class player;
 

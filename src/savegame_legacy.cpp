@@ -5,6 +5,7 @@
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
+#include "json.h"
 #include "player_activity.h"
 
 #include <unordered_map>
@@ -327,7 +328,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             fin >> mon_loc.x >> mon_loc.y >> mon_loc.z;
             std::string data;
             getline( fin, data );
-            new_monster.deserialize( data );
+            deserialize( new_monster, data );
             monster_map.insert( std::make_pair( std::move(mon_loc),
                                                 std::move(new_monster) ) );
         } else if (datatype == 't') { // City

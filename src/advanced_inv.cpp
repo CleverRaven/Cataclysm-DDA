@@ -2459,8 +2459,8 @@ void advanced_inventory::draw_minimap()
         auto pt = pc + sq.off;
         // invert the color if pointing to the player's position
         auto cl = (sq.id == AIM_INVENTORY || sq.id == AIM_WORN) ?
-            invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
-        mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
+            invert_color(c_ltcyan) : c_ltcyan.blink();
+        mvwputch(minimap, pt.y, pt.x, cl, sym);
     }
 
     // Invert player's tile color if exactly one pane points to player's tile

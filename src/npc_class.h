@@ -22,6 +22,7 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
 typedef std::string Group_tag;
+typedef std::string Mutation_category_tag;
 
 // @todo Move to better suited file (rng.h/.cpp?)
 class distribution
@@ -72,6 +73,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
+        std::map<Mutation_category_tag, distribution> mutation_rounds;
         std::map<trait_id, int> traits;
 
         npc_class();

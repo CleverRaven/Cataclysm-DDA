@@ -11,6 +11,7 @@
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "bionics.h"
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "map_item_stack.h"
@@ -114,6 +115,10 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -1839,7 +1844,7 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
+    if( u.activity && u.activity.moves_left > 0 ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
@@ -2070,7 +2075,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
 
-    if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
+    if( action != "TIMEOUT" ) {
         // Keyboard event, break out of animation loop
         liveview.hide();
         return false;
@@ -3638,7 +3643,10 @@ void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional( savefile, []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 }
 
 bool game::load( const std::string &world ) {
@@ -3846,7 +3854,8 @@ bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        fout << uistate.serialize();
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
     }, _( "uistate data" ) );
 }
 
@@ -6556,16 +6565,6 @@ void game::emp_blast( const tripoint &p )
     // TODO: Drain NPC energy reserves
 }
 
-npc *game::npc_by_id(const int id) const
-{
-    for( auto &cur_npc : active_npc ) {
-        if( cur_npc->getID() == id ) {
-            return cur_npc.get();
-        }
-    }
-    return nullptr;
-}
-
 template<typename T>
 T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
@@ -6623,6 +6622,26 @@ template std::shared_ptr<Character> game::shared_from<Character>( const Characte
 template std::shared_ptr<player> game::shared_from<player>( const player & );
 template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
 template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
+
+template<typename T>
+T *game::critter_by_id( const int id )
+{
+    if( id == u.getID() ) {
+        // player is always alive, therefor no is-dead check
+        return dynamic_cast<T*>( &u );
+    }
+    for( auto &cur_npc : active_npc ) {
+        if( cur_npc->getID() == id && !cur_npc->is_dead() ) {
+            return dynamic_cast<T*>( cur_npc.get() );
+        }
+    }
+    return nullptr;
+}
+
+// monsters don't have ids
+template player *game::critter_by_id<player>( int );
+template npc *game::critter_by_id<npc>( int );
+template Creature *game::critter_by_id<Creature>( int );
 
 monster *game::summon_mon( const mtype_id& id, const tripoint &p )
 {

@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "debug.h"
 #include "line.h"
+#include "json.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -93,7 +94,9 @@ void trap::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
-    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    if( !assign( jo, "color", color ) ) {
+        jo.throw_error( "missing mandatory member \"color\"" );
+    }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );

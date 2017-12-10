@@ -477,12 +477,11 @@
     "skills_required": [ "tailor", 2 ],
     "time": 80000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 8 ] ],
+    "using": [ [ "filament", 8 ], [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "rag", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
       [ [ "element", 2 ] ],

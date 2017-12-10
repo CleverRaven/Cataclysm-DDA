@@ -104,7 +104,7 @@ template<class SAVEOBJ>
 void edit_json( SAVEOBJ *it )
 {
     int tmret = -1;
-    std::string save1 = it->serialize();
+    std::string save1 = serialize( *it );
     std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     std::string save2;
@@ -116,15 +116,14 @@ void edit_json( SAVEOBJ *it )
             tm.addentry( -1, true, -2, "%s", elem.c_str() );
         }
         if( tmret == 0 ) {
-            std::istringstream dump( save1 );
             try {
                 SAVEOBJ tmp;
-                tmp.deserialize( dump );
+                deserialize( tmp, save1 );
                 *it = std::move( tmp );
-            } catch( const JsonError &err ) {
-                popup( "Error on deserialization: %s", err.c_str() );
+            } catch( const std::exception &err ) {
+                popup( "Error on deserialization: %s", err.what() );
             }
-            save2 = it->serialize();
+            save2 = serialize( *it );
             fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
@@ -152,7 +151,7 @@ void edit_json( SAVEOBJ *it )
             fout.close();
 
             fout.open( "save/jtest-2j.txt" );
-            fout << it->serialize();
+            fout << serialize( *it );
             fout.close();
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
@@ -412,10 +411,8 @@ tripoint editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             int veh_part = -1;
             vehicle *veh = g->m.veh_at( target, veh_part );
-            if( g->critter_at<monster>( target ) ) {
-                edit_mon();
-            } else if( g->critter_at<npc>( target ) ) {
-                edit_npc();
+            if( Creature *const critter = g->critter_at( target ) ) {
+                edit_critter( *critter );
             } else if( veh ) {
                 edit_veh();
             }
@@ -605,14 +602,14 @@ void editmap::update_view( bool update_info )
         }
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
-        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ),
+        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
                    terrain_type.name().c_str(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
-            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ),
+            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ).to_i(),
                        furniture_type.name().c_str(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
@@ -622,7 +619,7 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
                    veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
@@ -632,7 +629,7 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "apparent light: %.2f, light_at: %.2f" ),
                    map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
                    map_cache.lm[target.x][target.y] );
-        mvwprintw( w_info, off++, 1, _( "outside: %d" ), g->m.is_outside( target ) );
+        mvwprintw( w_info, off++, 1, _( "outside: %d" ), static_cast<int>( g->m.is_outside( target ) ) );
         std::string extras = "";
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
@@ -1418,12 +1415,14 @@ int editmap::edit_itm()
 /*
  *  Todo
  */
-int editmap::edit_mon()
+int editmap::edit_critter( Creature &critter )
 {
-    int ret = 0;
-    monster *it = g->critter_at<monster>( target );
-    edit_json( it );
-    return ret;
+    if( monster *const mon_ptr = dynamic_cast<monster *>( &critter ) ) {
+        edit_json( mon_ptr );
+    } else if( npc *const npc_ptr = dynamic_cast<npc *>( &critter ) ) {
+        edit_json( npc_ptr );
+    }
+    return 0;
 }
 
 
@@ -1531,18 +1530,6 @@ bool editmap::move_target( const std::string &action, int moveorigin )
         return true;
     }
     return false;
-}
-
-/*
- * Todo
- */
-int editmap::edit_npc()
-{
-    int ret = 0;
-    if( npc *const it = g->critter_at<npc>( target ) ) {
-        edit_json( it );
-    }
-    return ret;
 }
 
 /*
@@ -1743,113 +1730,109 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false );
 
-        if( gpmenu.keypress != ERR ) {
-            if( gpmenu.ret != UIMENU_INVALID ) {
-                inp_mngr.reset_timeout();
-                if( gpmenu.ret == 0 ) {
+        if( gpmenu.ret != UIMENU_INVALID ) {
+            inp_mngr.reset_timeout();
+            if( gpmenu.ret == 0 ) {
 
-                    cleartmpmap( tmpmap );
-                    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
-                    showpreview = true;
-                } else if( gpmenu.ret == 1 ) {
-                    tmpmap.rotate( 1 );
-                    showpreview = true;
-                } else if( gpmenu.ret == 2 ) {
+                cleartmpmap( tmpmap );
+                tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+                showpreview = true;
+            } else if( gpmenu.ret == 1 ) {
+                tmpmap.rotate( 1 );
+                showpreview = true;
+            } else if( gpmenu.ret == 2 ) {
 
-                    point target_sub( target.x / 12, target.y / 12 );
-                    g->m.clear_vehicle_cache( target.z );
+                point target_sub( target.x / 12, target.y / 12 );
+                g->m.clear_vehicle_cache( target.z );
 
-                    std::string s = "";
-                    for( int x = 0; x < 2; x++ ) {
-                        for( int y = 0; y < 2; y++ ) {
-                            // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
-                            // functions that would alter the results
-                            submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
-                            submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
-                            destsm->is_uniform = false;
-                            srcsm->is_uniform = false;
+                std::string s = "";
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                        // functions that would alter the results
+                        submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
+                        submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
+                        destsm->is_uniform = false;
+                        srcsm->is_uniform = false;
 
-                            for( auto &v : destsm->vehicles ) {
-                                auto &ch = g->m.access_cache( v->smz );
-                                ch.vehicle_list.erase( v );
-                            }
-                            destsm->delete_vehicles();
-                            for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                                s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
-                                vehicle *veh1 = srcsm->vehicles[i];
-                                // vehicle *veh1 = veh;   // fixme: is this required?
-                                veh1->smx = target_sub.x + x;
-                                veh1->smy = target_sub.y + y;
-                                veh1->smz = target.z;
-                                destsm->vehicles.push_back( veh1 );
-                                g->m.update_vehicle_cache( veh1, target.z );
-                            }
-                            srcsm->vehicles.clear();
-                            g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
+                        for( auto &v : destsm->vehicles ) {
+                            auto &ch = g->m.access_cache( v->smz );
+                            ch.vehicle_list.erase( v );
+                        }
+                        destsm->delete_vehicles();
+                        for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                            s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
+                            vehicle *veh1 = srcsm->vehicles[i];
+                            // vehicle *veh1 = veh;   // fixme: is this required?
+                            veh1->smx = target_sub.x + x;
+                            veh1->smy = target_sub.y + y;
+                            veh1->smz = target.z;
+                            destsm->vehicles.push_back( veh1 );
+                            g->m.update_vehicle_cache( veh1, target.z );
+                        }
+                        srcsm->vehicles.clear();
+                        g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                            int spawns_todo = 0;
-                            for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                                int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
-                                s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
-                                destsm->spawns.push_back( srcsm->spawns[i] );
-                                spawns_todo++;
-                            }
+                        int spawns_todo = 0;
+                        for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
+                            int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                            s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
+                            destsm->spawns.push_back( srcsm->spawns[i] );
+                            spawns_todo++;
+                        }
 
-                            for( int sx = 0; sx < 12; sx++ ) {  // copy fields
-                                for( int sy = 0; sy < 12; sy++ ) {
-                                    destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                                }
-                            }
-                            destsm->field_count = srcsm->field_count; // and count
-
-                            std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                            std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                            std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                            std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                            std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-                            for( int x = 0; x < SEEX; ++x ) {
-                                for( int y = 0; y < SEEY; ++y ) {
-                                    destsm->itm[x][y].swap( srcsm->itm[x][y] );
-                                    destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
-                                }
-                            }
-
-                            // various misc variables
-                            destsm->active_items = srcsm->active_items;
-
-                            destsm->temperature = srcsm->temperature;
-                            destsm->turn_last_touched = int( calendar::turn );
-                            destsm->comp = srcsm->comp;
-                            destsm->camp = srcsm->camp;
-
-                            if( spawns_todo > 0 ) {                               // trigger spawnpoints
-                                g->m.spawn_monsters( true );
+                        for( int sx = 0; sx < 12; sx++ ) {  // copy fields
+                            for( int sy = 0; sy < 12; sy++ ) {
+                                destsm->fld[sx][sy] = srcsm->fld[sx][sy];
                             }
                         }
+                        destsm->field_count = srcsm->field_count; // and count
+
+                        std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
+                        std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
+                        std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
+                        std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
+                        std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
+                        for( int x = 0; x < SEEX; ++x ) {
+                            for( int y = 0; y < SEEY; ++y ) {
+                                destsm->itm[x][y].swap( srcsm->itm[x][y] );
+                                destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
+                            }
+                        }
+
+                        // various misc variables
+                        destsm->active_items = srcsm->active_items;
+
+                        destsm->temperature = srcsm->temperature;
+                        destsm->turn_last_touched = int( calendar::turn );
+                        destsm->comp = srcsm->comp;
+                        destsm->camp = srcsm->camp;
+
+                        if( spawns_todo > 0 ) {                               // trigger spawnpoints
+                            g->m.spawn_monsters( true );
+                        }
                     }
-                    g->m.reset_vehicle_cache( target.z );
-
-                    //~ message when applying the map generator
-                    popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
-
-                } else if( gpmenu.ret == 3 ) {
-                    popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters->get_name().c_str(), orig_oters.id().c_str(),
-                           omt_ref->get_name().c_str(), omt_ref.id().c_str() );
                 }
-            } else if( gpmenu.keypress == 'm' ) {
-                // todo; keep preview as is and move target
-            } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
-                       gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
+                g->m.reset_vehicle_cache( target.z );
 
-                int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
-                gmenu.scrollby( dir );
-                gpmenu.selected = gpmenupos;
-                gmenu.show();
-                gmenu.refresh();
+                //~ message when applying the map generator
+                popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
+
+            } else if( gpmenu.ret == 3 ) {
+                popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
+                       orig_oters->get_name().c_str(), orig_oters.id().c_str(),
+                       omt_ref->get_name().c_str(), omt_ref.id().c_str() );
             }
-        } else {
-            // fixme: too annoying, make a border instead. // showpreview = !showpreview;
+        } else if( gpmenu.keypress == 'm' ) {
+            // todo; keep preview as is and move target
+        } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
+                   gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
+
+            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
+            gmenu.scrollby( dir );
+            gpmenu.selected = gpmenupos;
+            gmenu.show();
+            gmenu.refresh();
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 

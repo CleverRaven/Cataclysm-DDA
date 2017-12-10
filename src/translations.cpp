@@ -9,6 +9,7 @@
 #include "name.h"
 
 #include <string>
+#include <set>
 #include <algorithm>
 
 // Names depend on the language settings. They are loaded from different files
@@ -28,6 +29,13 @@ static void reload_names()
 #if (defined _WIN32 || defined WINDOWS)
 #include "platform_win.h"
 #include "mmsystem.h"
+#endif
+
+#if (defined MACOSX)
+#include <CoreFoundation/CFLocale.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+std::string getOSXSystemLang();
 #endif
 
 const char *pgettext( const char *context, const char *msgid )
@@ -127,12 +135,15 @@ void select_language()
 
 void set_language()
 {
-    std::string win_lang = "";
+    std::string win_or_mac_lang = "";
 #if (defined _WIN32 || defined WINDOWS)
-    win_lang = getLangFromLCID( GetUserDefaultLCID() );
+    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
+#endif
+#if (defined MACOSX)
+    win_or_mac_lang = getOSXSystemLang();
 #endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang :
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
     if( !lang_opt.empty() ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
@@ -183,6 +194,47 @@ void set_language()
     reload_names();
 }
 
+#if (defined MACOSX)
+bool string_starts_with( std::string s, std::string prefix )
+{
+    return s.compare( 0, prefix.length(), prefix ) == 0;
+}
+
+std::string getOSXSystemLang()
+{
+    // Get the user's language list (in order of preference)
+    CFArrayRef langs = CFLocaleCopyPreferredLanguages();
+    if( CFArrayGetCount( langs ) == 0 ) {
+        return "en_US";
+    }
+
+    const char *lang_code_raw = CFStringGetCStringPtr(
+                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    kCFStringEncodingUTF8 );
+    if( !lang_code_raw ) {
+        return "en_US";
+    }
+
+    // Convert to the underscore format expected by gettext
+    std::string lang_code( lang_code_raw );
+    std::replace( lang_code.begin(), lang_code.end(), '-', '_' );
+
+    /**
+     * Handle special case for simplified/traditional Chinese. Simp/trad
+     * is actually denoted by the region code in older iterations of the
+     * language codes, whereas now (at least on OS X) region is distinct.
+     * That is, CDDA expects 'zh_CN' but OS X might give 'zh-Hans-CN'.
+     */
+    if( string_starts_with( lang_code, "zh_Hans" ) ) {
+        return "zh_CN";
+    } else if( string_starts_with( lang_code, "zh_Hant" ) ) {
+        return "zh_TW";
+    }
+
+    return isValidLanguage( lang_code ) ? lang_code : "en_US";
+}
+#endif
+
 #else // !LOCALIZE
 
 #include <cstring> // strcmp
@@ -207,54 +259,6 @@ void set_language()
 {
     reload_names();
     return;
-}
-
-// sanitized message cache
-std::map<std::string, std::string> &sanitized_messages()
-{
-    static std::map<std::string, std::string> sanitized_messages;
-    return sanitized_messages;
-}
-
-const char *strip_positional_formatting( const char *msgid )
-{
-    // first check if we have it cached
-    std::string s( msgid );
-    auto iter = sanitized_messages().find( s );
-    if( iter != sanitized_messages().end() ) {
-        return iter->second.c_str();
-    }
-
-    // basic usage is just to change all "%{number}$" to "%".
-    // thus for example "%2$s" will change to simply "%s".
-    // strings must have their parameters in strict order,
-    // or else this will not work correctly.
-    size_t pos = 0;
-    size_t len = s.length();
-    while( pos < len ) {
-        pos = s.find( '%', pos );
-        if( pos == std::string::npos || pos + 2 >= len ) {
-            break;
-        }
-        size_t dollarpos = pos + 1;
-        while( dollarpos < len && s[dollarpos] >= '0' && s[dollarpos] <= '9' ) {
-            ++dollarpos;
-        }
-        if( dollarpos >= len ) {
-            break;
-        }
-        if( s[dollarpos] != '$' ) {
-            pos = dollarpos + 1; // skip format type (also skips %%)
-            continue;
-        }
-        s.erase( pos + 1, dollarpos - pos );
-        len = s.length(); // because it ain't da same no more
-        ++pos;
-    }
-
-    std::string &ret_msg = sanitized_messages()[std::string( msgid )];
-    ret_msg = s;
-    return ret_msg.c_str();
 }
 
 #endif // LOCALIZE

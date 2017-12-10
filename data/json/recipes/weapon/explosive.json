@@ -42,8 +42,8 @@
     "time": 32000,
     "reversible": true,
     "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
+    "using": [ [ "soldering_standard", 6 ] ],
     "qualities" : [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 6 ], [ "toolset", 6 ] ] ],
     "components": [
       [ [ "superglue", 1 ], [ "string_36", 1 ] ],
       [ [ "scrap", 3 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "canister_empty", 1 ] ],
@@ -263,8 +263,8 @@
     "time": 32000,
     "reversible": true,
     "book_learn": [ [ "textbook_anarch", 8 ] , [ "advanced_electronics", 8 ] ],
+    "using": [ [ "soldering_standard", 6 ] ],
     "qualities" : [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 6 ], [ "toolset", 6 ] ] ],
     "components": [
       [ [ "EMPbomb", 1 ] ],
       [ [ "antenna", 1 ] ],

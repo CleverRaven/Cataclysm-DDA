@@ -4,7 +4,6 @@
 
 #include "cursesdef.h"
 #include "enums.h"
-#include "json.h"
 #include "options.h"
 
 #include <functional>
@@ -16,6 +15,7 @@
 #include <iosfwd>
 
 class JsonIn;
+class JsonObject;
 
 class save_t
 {

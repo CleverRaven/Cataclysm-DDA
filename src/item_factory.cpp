@@ -2,7 +2,6 @@
 
 #include "addiction.h"
 #include "artifact.h"
-#include "bionics.h"
 #include "catacharset.h"
 #include "construction.h"
 #include "crafting.h"
