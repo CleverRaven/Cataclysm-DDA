@@ -189,9 +189,11 @@ monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
     unset_dest();
 }
 
-monster::~monster()
-{
-}
+monster::monster( const monster & ) = default;
+monster::monster( monster && ) = default;
+monster::~monster() = default;
+monster &monster::operator=( const monster & ) = default;
+monster &monster::operator=( monster && ) = default;
 
 void monster::setpos( const tripoint &p )
 {

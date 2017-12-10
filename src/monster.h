@@ -67,11 +67,11 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) = default;
-        monster( monster && ) = default;
+        monster( const monster & ) ;
+        monster( monster && );
         ~monster() override;
-        monster &operator=( const monster & ) = default;
-        monster &operator=( monster && ) = default;
+        monster &operator=( const monster & );
+        monster &operator=( monster && );
 
         bool is_monster() const override {
             return true;
