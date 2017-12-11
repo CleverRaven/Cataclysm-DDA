@@ -83,14 +83,10 @@ class monster : public Creature
         void try_upgrade( bool pin_time );
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        int get_hp( hp_part ) const override {
-            return hp;
-        };
-        int get_hp() const {
-            return hp;
-        }
+        int get_hp( hp_part ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part ) const override;
-        int get_hp_max() const;
+        int get_hp_max() const override;
         int hp_percentage() const override;
 
         // Access

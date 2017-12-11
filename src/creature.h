@@ -392,8 +392,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual m_size get_size() const = 0;
-        virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
-        virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
+        virtual int get_hp( hp_part bp ) const = 0;
+        virtual int get_hp() const = 0;
+        virtual int get_hp_max( hp_part bp ) const = 0;
+        virtual int get_hp_max() const = 0;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual field_id bloodType () const = 0;
