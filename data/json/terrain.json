@@ -6461,7 +6461,7 @@
     "type": "terrain",
     "name": "milking machine",
     "symbol": "%",
-    "color": [ "grey" ],
+    "color": [ "light_gray" ],
     "move_cost": 1,
     "bash": {
       "str_min": 10,

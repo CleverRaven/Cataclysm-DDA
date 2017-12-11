@@ -351,14 +351,14 @@ void Messages::display_messages()
 
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
-                // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
+                // On lines divisible by 4, draw a dark gray '-' at both horizontal extremes of the window.
                 if( ( line + offset % 4 ) % 4 == 0 ) {
                     mvwprintz( w, line, 1, c_dark_gray, "-" );
                     mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
-                    // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
+                    // On lines divisible by 2 (but not 4), draw a light gray '=' at the horizontal extremes of the window.
                 } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, line, 1, c_dark_gray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "=" );
+                    mvwprintz( w, line, 1, c_light_gray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
                 }
 
                 // Only now are we done with this line:
