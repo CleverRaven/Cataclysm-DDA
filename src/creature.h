@@ -2,7 +2,6 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pldata.h"
 #include "enums.h"
 #include "copyable_unique_ptr.h"
 #include "bodypart.h"
@@ -26,6 +25,7 @@ class material_type;
 enum damage_type : int;
 enum field_id : int;
 enum m_flag : int;
+enum hp_part : int;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
@@ -36,7 +36,10 @@ struct trap;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
+struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 namespace units
 {
 template<typename V, typename U>
