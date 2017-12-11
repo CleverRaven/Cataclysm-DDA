@@ -1777,6 +1777,20 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lye_powder",
+  "id_suffix": "from_lye",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 90000,
+  "autolearn": true,
+  "batch_time_factors": [ 80, 4 ],
+  "qualities": [ { "id": "BOIL", "level": 1 } ],
+  "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
+  "components": [ [ [ "lye", 40 ] ] ]
+},{
+  "type" : "recipe",
   "result": "heatpack",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -1876,24 +1890,6 @@
       [ "honey_bottled", 1 ]
     ]
   ]
-}, {
-  "type" : "recipe",
-  "result": "fertilizer_bomb",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
-  "skill_used": "cooking",
-  "skills_required": ["survival", 2],
-  "difficulty": 3,
-  "time": 20000,
-  "autolearn": true,
-  "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
-  "qualities":[ {"id" : "CHEM", "level" : 2 } ],
-  "components": [
-    [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
-    [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-    [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "sugar", 100 ] ],
-    [ [ "string_6", 1 ], [ "rag", 1] ]
-  ]
 },{
   "type" : "recipe",
   "result": "slime_scrap",
@@ -1936,7 +1932,7 @@
      [ "cooking_oil", 2 ]
     ],
     [
-     [ "lye_powder", 10 ]
+     [ "lye_powder", 10 ], [ "lye", 2 ]
     ],
     [
      [ "water", 1 ],
@@ -2358,5 +2354,22 @@
 [ "sugar", 50 ]
 ]
 ]
+},{
+  "result": "lye",
+  "type": "recipe",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 1 ],
+  "time": 60000,
+  "batch_time_factors": [ 99, 1 ],
+  "autolearn": true,
+  "qualities": [ { "id": "CHEM", "level": 1 } ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "components": [
+    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "ash", 50 ] ]
+  ]
 }
 ]

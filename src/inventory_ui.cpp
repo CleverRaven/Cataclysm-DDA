@@ -5,6 +5,7 @@
 #include "action.h"
 #include "map.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "options.h"
 #include "messages.h"
 #include "catacharset.h"
@@ -13,6 +14,8 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "itype.h"
+#include "item_search.h"
+#include "string_input_popup.h"
 
 #include <set>
 #include <string>
@@ -22,6 +25,7 @@
 #include <numeric>
 #include <sstream>
 #include <algorithm>
+#include <cassert>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -110,7 +114,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dkgray;
-    } else if( g->u.assigned_invlet.count( get_invlet() ) ) {
+    } else if( g->u.inv.assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -317,6 +321,14 @@ size_t inventory_column::get_cells_width() const
     return std::accumulate( cells.begin(), cells.end(), size_t( 0 ), []( size_t lhs, const cell_t &cell ) {
         return lhs + cell.current_width;
     } );
+}
+
+void inventory_column::set_filter( const std::string &filter )
+{
+    entries = entries_unfiltered;
+    entries_cell_cache.clear();
+    paging_is_valid = false;
+    prepare_paging( filter );
 }
 
 const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache( const inventory_entry &entry ) const
@@ -542,14 +554,17 @@ void inventory_column::move_entries_to( inventory_column &dest )
     clear();
 }
 
-void inventory_column::prepare_paging()
+void inventory_column::prepare_paging( const std::string &filter )
 {
     if( paging_is_valid ) {
         return;
     }
+
+    const auto filter_fn = item_filter_from_string( filter );
+
     // First, remove all non-items
-    const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
-        return !entry.is_item();
+    const auto new_end = std::remove_if( entries.begin(), entries.end(), [&filter_fn]( const inventory_entry &entry ) {
+        return !entry.is_item() || !filter_fn( *(entry.location) );
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories
@@ -599,6 +614,9 @@ void inventory_column::prepare_paging()
     }
     entries_cell_cache.clear();
     paging_is_valid = true;
+    if( entries_unfiltered.empty() ) {
+        entries_unfiltered = entries;
+    }
     // Select the uppermost possible entry
     select( 0, scroll_direction::FORWARD );
 }
@@ -772,9 +790,9 @@ selection_column::selection_column( const std::string &id, const std::string &na
     inventory_column( selection_preset ),
     selected_cat( new item_category( id, name, 0 ) ) {}
 
-void selection_column::prepare_paging()
+void selection_column::prepare_paging( const std::string &filter )
 {
-    inventory_column::prepare_paging();
+    inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
         entries.emplace_back( selected_cat.get() );
@@ -1130,7 +1148,7 @@ void inventory_selector::draw_header( WINDOW *w ) const
     if( display_stats ) {
         size_t y = border;
         for( const std::string &elem : get_stats() ) {
-            right_print( w, y++, border + 1, c_dkgray, elem.c_str() );
+            right_print( w, y++, border + 1, c_dkgray, elem );
         }
     }
 }
@@ -1154,9 +1172,9 @@ std::vector<std::string> inventory_selector::get_stats() const
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
-              dummy.weight_carried(),
-              dummy.weight_capacity(), []( int w ) {
-            return string_format( "%.1f", round_up( convert_weight( w ), 1 ) );
+              to_gram( dummy.weight_carried() ),
+              to_gram( dummy.weight_capacity() ), []( int w ) {
+            return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
         } ),
         disp( string_format( _( "Volume (%s):" ), volume_units_abbr() ),
               units::to_milliliter( dummy.volume_carried() ),
@@ -1219,6 +1237,32 @@ void inventory_selector::refresh_window() const
     draw_footer( w_inv.get() );
 
     wrefresh( w_inv.get() );
+}
+
+void inventory_selector::set_filter()
+{
+    string_input_popup spopup;
+    spopup.window( w_inv.get(), 4, getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4 )
+    .max_length( 256 )
+    .text( filter );
+
+    do {
+        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, 2, c_cyan, "< " );
+        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4, c_cyan, " >" );
+        std::string new_filter = spopup.query_string( false );
+
+        if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+            filter = "";
+        } else {
+            filter = new_filter;
+        }
+
+        wrefresh( w_inv.get() );
+    } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
+
+    for( const auto elem : columns ) {
+        elem->set_filter( filter );
+    }
 }
 
 void inventory_selector::update()
@@ -1284,10 +1328,22 @@ std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode
 
 void inventory_selector::draw_footer( WINDOW *w ) const
 {
+    int filter_offset = 0;
+    if( has_available_choices() || !filter.empty() ) {
+        std::string text = string_format( filter.empty() ? _("[%s]Filter") : _("[%s]Filter: "),
+                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        filter_offset = utf8_width( text + filter ) + 6;
+
+        mvwprintz( w, getmaxy( w ) - border, 2, c_ltgray, "< " );
+        wprintz( w, c_ltgray, "%s", text.c_str() );
+        wprintz( w, c_white, filter.c_str() );
+        wprintz( w, c_ltgray, " >" );
+    }
+
     const auto footer = get_footer( mode );
     if( !footer.first.empty() ) {
         const int string_width = utf8_width( footer.first );
-        const int x1 = std::max( getmaxx( w ) - string_width, 0 ) / 2;
+        const int x1 = filter_offset + std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2;
         const int x2 = x1 + string_width - 1;
         const int y = getmaxy( w ) - border;
 
@@ -1323,6 +1379,7 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     ctxt.register_action( "END", _( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
+    ctxt.register_action( "INVENTORY_FILTER" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -1500,6 +1557,8 @@ item_location inventory_pick_selector::execute()
             return item_location();
         } else if( input.action == "CONFIRM" ) {
             return get_active_column().get_selected().location.clone();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
         } else {
             on_input( input );
         }
@@ -1563,6 +1622,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
                           ctxt.get_desc( "RIGHT" ).c_str() );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
         } else {
             on_input( input );
         }
@@ -1641,6 +1702,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             break;
         } else if( input.action == "QUIT" ) {
             return std::list<std::pair<int, int> >();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
         } else {
             on_input( input );
             count = 0;

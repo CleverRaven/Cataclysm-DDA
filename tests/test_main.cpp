@@ -13,6 +13,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "worldfactory.h"
+#include "loading_ui.h"
 
 #include <algorithm>
 #include <cstring>
@@ -84,8 +85,9 @@ void init_global_game_state( const std::vector<std::string> &mods )
     world_generator->set_active_world( test_world );
     assert( world_generator->active_world != NULL );
 
-    g->load_core_data();
-    g->load_world_modfiles( world_generator->active_world );
+    loading_ui ui( false );
+    g->load_core_data( ui );
+    g->load_world_modfiles( world_generator->active_world, ui );
 
     g->u = player();
     g->u.create( PLTYPE_NOW );

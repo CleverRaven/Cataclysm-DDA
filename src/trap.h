@@ -3,18 +3,19 @@
 #define TRAP_H
 
 #include "color.h"
-#include "json.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 #include <string>
 #include <functional>
+#include <vector>
 
 class Creature;
 class item;
 class player;
 struct trap;
 struct tripoint;
-
+class JsonObject;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
@@ -67,20 +68,21 @@ struct trap {
 
         long sym;
         nc_color color;
-        std::string name;
     private:
         int visibility; // 1 to ??, affects detection
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
         trap_function act;
+        std::string name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        int trigger_weight;
+        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:
+        std::string name() const;
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */
@@ -205,7 +207,6 @@ extern trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,

@@ -15,6 +15,7 @@ cataclysmdda-*
 objwin/
 src/version.h
 src/lua/catabindings.cpp
+tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
@@ -27,6 +28,7 @@ build/
 dep/
 *.o
 *.d
+cmake-build-debug/
 
 data/font/
 config/

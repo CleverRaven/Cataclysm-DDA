@@ -10,6 +10,7 @@
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "trap.h"
 #include "vehicle.h"
@@ -39,9 +40,9 @@ void mapbuffer::reset()
     submaps.clear();
 }
 
-bool mapbuffer::add_submap(const tripoint &p, submap *sm)
+bool mapbuffer::add_submap( const tripoint &p, submap *sm )
 {
-    if (submaps.count(p) != 0) {
+    if( submaps.count( p ) != 0 ) {
         return false;
     }
 
@@ -78,21 +79,21 @@ void mapbuffer::remove_submap( tripoint addr )
     submaps.erase( m_target );
 }
 
-submap *mapbuffer::lookup_submap(int x, int y, int z)
+submap *mapbuffer::lookup_submap( int x, int y, int z )
 {
     return lookup_submap( tripoint( x, y, z ) );
 }
 
 submap *mapbuffer::lookup_submap( const tripoint &p )
 {
-    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
+    dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
 
     auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
-        } catch (const std::exception &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
+        } catch( const std::exception &err ) {
+            debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
         }
         return NULL;
     }
@@ -118,8 +119,8 @@ void mapbuffer::save( bool delete_after_save )
     int next_report = 0;
     for( auto &elem : submaps ) {
         if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
-            popup_nowait(_("Please wait as the map saves [%d/%d]"),
-                         num_saved_submaps, num_total_submaps);
+            popup_nowait( _( "Please wait as the map saves [%d/%d]" ),
+                          num_saved_submaps, num_total_submaps );
             next_report += std::max( 100, num_total_submaps / 20 );
         }
 
@@ -140,7 +141,7 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream dirname;
         tripoint segment_addr = omt_to_seg_copy( om_addr );
         dirname << map_directory.str() << "/" << segment_addr.x << "." <<
-                     segment_addr.y << "." << segment_addr.z;
+                segment_addr.y << "." << segment_addr.z;
 
         std::stringstream quad_path;
         quad_path << dirname.str() << "/" << om_addr.x << "." <<
@@ -152,8 +153,8 @@ void mapbuffer::save( bool delete_after_save )
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
-                   om_addr.x > map_origin.x + (MAPSIZE / 2) ||
-                   om_addr.y > map_origin.y + (MAPSIZE / 2) );
+                   om_addr.x > map_origin.x + ( MAPSIZE / 2 ) ||
+                   om_addr.y > map_origin.y + ( MAPSIZE / 2 ) );
         num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {
@@ -167,10 +168,10 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 {
     std::vector<point> offsets;
     std::vector<tripoint> submap_addrs;
-    offsets.push_back( point(0, 0) );
-    offsets.push_back( point(0, 1) );
-    offsets.push_back( point(1, 0) );
-    offsets.push_back( point(1, 1) );
+    offsets.push_back( point( 0, 0 ) );
+    offsets.push_back( point( 0, 1 ) );
+    offsets.push_back( point( 1, 0 ) );
+    offsets.push_back( point( 1, 1 ) );
 
     bool all_uniform = true;
     for( auto &offsets_offset : offsets ) {
@@ -214,7 +215,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.start_object();
 
-        jsout.member( "version", savegame_version);
+        jsout.member( "version", savegame_version );
 
         jsout.member( "coordinates" );
         jsout.start_array();
@@ -228,8 +229,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.member( "terrain" );
         jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 // Save terrains
                 jsout.write( sm->ter[i][j].obj().id );
             }
@@ -242,14 +243,14 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.start_array();
         int lastrad = -1;
         int count = 0;
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 // Save radiation, re-examine this because it doesn't look like it works right
-                int r = sm->get_radiation(i, j);
-                if (r == lastrad) {
+                int r = sm->get_radiation( i, j );
+                if( r == lastrad ) {
                     count++;
                 } else {
-                    if (count) {
+                    if( count ) {
                         jsout.write( count );
                     }
                     jsout.write( r );
@@ -261,10 +262,10 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.write( count );
         jsout.end_array();
 
-        jsout.member("furniture");
+        jsout.member( "furniture" );
         jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 // Save furniture
                 if( sm->get_furn( i, j ) != f_null ) {
                     jsout.start_array();
@@ -279,8 +280,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.member( "items" );
         jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 if( sm->itm[i][j].empty() ) {
                     continue;
                 }
@@ -293,10 +294,10 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.member( "traps" );
         jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 // Save traps
-                if (sm->get_trap( i, j ) != tr_null) {
+                if( sm->get_trap( i, j ) != tr_null ) {
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
@@ -310,19 +311,19 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.member( "fields" );
         jsout.start_array();
-        for(int j = 0; j < SEEY; j++) {
-            for(int i = 0; i < SEEX; i++) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
                 // Save fields
-                if (sm->fld[i][j].fieldCount() > 0) {
+                if( sm->fld[i][j].fieldCount() > 0 ) {
                     jsout.write( i );
                     jsout.write( j );
                     jsout.start_array();
                     for( auto &fld : sm->fld[i][j] ) {
                         const field_entry &cur = fld.second;
-                            // We don't seem to have a string identifier for fields anywhere.
-                            jsout.write( cur.getFieldType() );
-                            jsout.write( cur.getFieldDensity() );
-                            jsout.write( cur.getFieldAge() );
+                        // We don't seem to have a string identifier for fields anywhere.
+                        jsout.write( cur.getFieldType() );
+                        jsout.write( cur.getFieldDensity() );
+                        jsout.write( cur.getFieldAge() );
                     }
                     jsout.end_array();
                 }
@@ -330,15 +331,15 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         }
         jsout.end_array();
 
-        jsout.member("cosmetics");
+        jsout.member( "cosmetics" );
         jsout.start_array();
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
-                if (sm->cosmetics[i][j].size() > 0) {
+        for( int j = 0; j < SEEY; j++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
+                if( sm->cosmetics[i][j].size() > 0 ) {
                     jsout.start_array();
-                    jsout.write(i);
-                    jsout.write(j);
-                    jsout.write(sm->cosmetics[i][j]);
+                    jsout.write( i );
+                    jsout.write( j );
+                    jsout.write( sm->cosmetics[i][j] );
                     jsout.end_array();
                 }
             }
@@ -377,7 +378,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         }
 
         // Output base camp if any
-        if (sm->camp.is_valid()) {
+        if( sm->camp.is_valid() ) {
             jsout.member( "camp" );
             jsout.write( sm->camp.save_data() );
         }
@@ -404,13 +405,14 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
     using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path.str(), std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !read_from_file_optional_json( quad_path.str(),
+                                       std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return NULL;
     }
     if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
-                 p.z);
+        debugmsg( "file %s did not contain the expected submap %d,%d,%d",
+                  quad_path.str().c_str(), p.x, p.y, p.z );
         return NULL;
     }
     return submaps[ p ];
@@ -420,14 +422,14 @@ void mapbuffer::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        std::unique_ptr<submap> sm(new submap());
+        std::unique_ptr<submap> sm( new submap() );
         tripoint submap_coordinates;
         jsin.start_object();
         bool rubpow_update = false;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                if (jsin.get_int() < 22) {
+                if( jsin.get_int() < 22 ) {
                     rubpow_update = true;
                 }
             } else if( submap_member_name == "coordinates" ) {
@@ -445,32 +447,32 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
                 // Small duplication here so that the update check is only performed once
-                if (rubpow_update) {
-                    item rock = item("rock", 0);
-                    item chunk = item("steel_chunk", 0);
+                if( rubpow_update ) {
+                    item rock = item( "rock", 0 );
+                    item chunk = item( "steel_chunk", 0 );
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
                             const ter_str_id tid( jsin.get_string() );
 
-                            if ( tid == "t_rubble" ) {
+                            if( tid == "t_rubble" ) {
                                 sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furn_id( "f_rubble" );
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
-                            } else if ( tid == "t_wreckage" ){
+                            } else if( tid == "t_wreckage" ) {
                                 sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furn_id( "f_wreckage" );
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
-                            } else if ( tid == "t_ash" ){
-                                sm->ter[i][j] = ter_id(  "t_dirt" );
+                            } else if( tid == "t_ash" ) {
+                                sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furn_id( "f_ash" );
-                            } else if ( tid == "t_pwr_sb_support_l" ){
-                                sm->ter[i][j] = ter_id(  "t_support_l" );
-                            } else if ( tid == "t_pwr_sb_switchgear_l" ){
-                                sm->ter[i][j] = ter_id(  "t_switchgear_l" );
-                            } else if ( tid == "t_pwr_sb_switchgear_s" ){
-                                sm->ter[i][j] = ter_id(  "t_switchgear_s" );
+                            } else if( tid == "t_pwr_sb_support_l" ) {
+                                sm->ter[i][j] = ter_id( "t_support_l" );
+                            } else if( tid == "t_pwr_sb_switchgear_l" ) {
+                                sm->ter[i][j] = ter_id( "t_switchgear_l" );
+                            } else if( tid == "t_pwr_sb_switchgear_s" ) {
+                                sm->ter[i][j] = ter_id( "t_switchgear_s" );
                             } else {
                                 sm->ter[i][j] = tid.id();
                             }
@@ -494,7 +496,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     for( int i = 0; i < rad_num; ++i ) {
                         // A little array trick here, assign to it as a 1D array.
                         // If it's not in bounds we're kinda hosed anyway.
-                        sm->set_radiation(0, rad_cell, rad_strength);
+                        sm->set_radiation( 0, rad_cell, rad_strength );
                         rad_cell++;
                     }
                 }
@@ -518,11 +520,11 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         jsin.read( tmp );
 
                         if( tmp.is_emissive() ) {
-                            sm->update_lum_add(tmp, i, j);
+                            sm->update_lum_add( tmp, i, j );
                         }
 
-                        tmp.visit_items( [ &sm, i, j ]( item *it ) {
-                            for( auto& e: it->magazine_convert() ) {
+                        tmp.visit_items( [ &sm, i, j ]( item * it ) {
+                            for( auto &e : it->magazine_convert() ) {
                                 sm->itm[i][j].push_back( e );
                             }
                             return VisitResponse::NEXT;
@@ -530,7 +532,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
 
                         sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {
-                            sm->active_items.add( std::prev(sm->itm[i][j].end()), point( i, j ) );
+                            sm->active_items.add( std::prev( sm->itm[i][j].end() ), point( i, j ) );
                         }
                     }
                 }
@@ -541,7 +543,13 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     int i = jsin.get_int();
                     int j = jsin.get_int();
                     // TODO: jsin should support returning an id like jsin.get_id<trap>()
-                    sm->trp[i][j] = trap_str_id( jsin.get_string() );
+                    const trap_str_id trid( jsin.get_string() );
+                    if( trid == "tr_brazier" ) {
+                        sm->frn[i][j] = furn_id( "f_brazier" );
+                    } else {
+                        sm->trp[i][j] = trid.id();
+                    }
+                    // @todo: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {
@@ -555,10 +563,10 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
-                        if (sm->fld[i][j].findField(field_id(type)) == NULL) {
+                        if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
                             sm->field_count++;
                         }
-                        sm->fld[i][j].addField(field_id(type), density, age);
+                        sm->fld[i][j].addField( field_id( type ), density, age );
                     }
                 }
             } else if( submap_member_name == "graffiti" ) {
@@ -570,20 +578,21 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     sm->set_graffiti( i, j, jsin.get_string() );
                     jsin.end_array();
                 }
-            } else if(submap_member_name == "cosmetics") {
+            } else if( submap_member_name == "cosmetics" ) {
                 jsin.start_array();
-                while (!jsin.end_array()) {
+                while( !jsin.end_array() ) {
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    jsin.read(sm->cosmetics[i][j]);
+                    jsin.read( sm->cosmetics[i][j] );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    const mtype_id type = mtype_id( jsin.get_string() ); // TODO: json should know how to read an string_id
+                    // TODO: json should know how to read an string_id
+                    const mtype_id type = mtype_id( jsin.get_string() );
                     int count = jsin.get_int();
                     int i = jsin.get_int();
                     int j = jsin.get_int();

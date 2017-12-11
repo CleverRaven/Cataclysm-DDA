@@ -30,6 +30,7 @@
 #include "submap.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
+#include "cursesport.h"
 
 #include <algorithm>
 #include <fstream>
@@ -55,14 +56,13 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 extern bool tile_iso;
 
 //the minimap texture pool which is used to reduce new texture allocation spam
 static minimap_shared_texture_pool tex_pool;
 
-SDL_Color cursesColorToSDL(int color);
+SDL_Color cursesColorToSDL( const nc_color &color );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -80,6 +80,21 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "weather", // C_WEATHER,
 }};
 
+
+namespace
+{
+    /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
+    float get_animation_phase( int phase_length_ms )
+    {
+        if( phase_length_ms == 0 ) {
+            return 0.0f;
+        }
+
+        return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
+    }
+}
+
+
 // Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
 {
@@ -94,6 +109,33 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     if( ptr ) {
         SDL_FreeSurface( ptr );
     }
+}
+
+static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
+{
+    const int iBold = bOldMsg ? 0 : 8;
+
+    switch( type ) {
+        case m_good:
+            return iBold + green;
+        case m_bad:
+            return iBold + red;
+        case m_mixed:
+        case m_headshot:
+            return iBold + magenta;
+        case m_neutral:
+            return iBold + white;
+        case m_warning:
+        case m_critical:
+            return iBold + yellow;
+        case m_info:
+        case m_grazing:
+            return iBold + blue;
+        default:
+            break;
+    }
+
+    return -1;
 }
 
 cata_tiles::cata_tiles(SDL_Renderer *render)
@@ -255,14 +297,6 @@ inline static void set_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w, p
     pixel_ptr[1] = static_cast<unsigned char>(pix.g);
     pixel_ptr[2] = static_cast<unsigned char>(pix.b);
     pixel_ptr[3] = static_cast<unsigned char>(pix.a);
-}
-
-static void color_pixel_red_mix(pixel& pix, int percent)
-{
-    int otherpercent = 100 - percent;
-    pix.r = pix.r * otherpercent / 100 + 255 * percent / 100;
-    pix.g = pix.g * otherpercent / 100;
-    pix.b = pix.b * otherpercent / 100;
 }
 
 static void color_pixel_grayscale(pixel& pix)
@@ -627,21 +661,21 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sp
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = COLOR_BLACK;
+        FG = black;
     } else if( scolor == "RED" ) {
-        FG = COLOR_RED;
+        FG = red;
     } else if( scolor == "GREEN" ) {
-        FG = COLOR_GREEN;
+        FG = green;
     } else if( scolor == "YELLOW" ) {
-        FG = COLOR_YELLOW;
+        FG = yellow;
     } else if( scolor == "BLUE" ) {
-        FG = COLOR_BLUE;
+        FG = blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = COLOR_MAGENTA;
+        FG = magenta;
     } else if( scolor == "CYAN" ) {
-        FG = COLOR_CYAN;
+        FG = cyan;
     } else if( scolor == "WHITE" ) {
-        FG = COLOR_WHITE;
+        FG = white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
@@ -1109,6 +1143,21 @@ void cata_tiles::clear_unused_minimap_cache()
 //the render target will be set back to display_buffer after all submaps are updated
 void cata_tiles::process_minimap_cache_updates()
 {
+    SDL_Rect rectangle;
+    bool draw_with_dots = false;
+
+    const std::string mode = get_option<std::string>( "PIXEL_MINIMAP_MODE" );
+    if( mode == "solid" ) {
+        rectangle.w = minimap_tile_size.x;
+        rectangle.h = minimap_tile_size.y;
+    } else if( mode == "squares" ) {
+        rectangle.w = std::max( minimap_tile_size.x - 1, 1 );
+        rectangle.h = std::max( minimap_tile_size.y - 1, 1 );
+        draw_with_dots = rectangle.w == 1 && rectangle.h == 1;
+    } else if( mode == "dots" ) {
+        draw_with_dots = true;
+    }
+
     for( auto &mcp : minimap_cache ) {
         if( !mcp.second->update_list.empty() ) {
             SDL_SetRenderTarget( renderer, mcp.second->minimap_tex.get() );
@@ -1116,25 +1165,25 @@ void cata_tiles::process_minimap_cache_updates()
             //draw a default dark-colored rectangle over the texture which may have been used previously
             if( !mcp.second->ready ) {
                 mcp.second->ready = true;
-                SDL_Rect fullRect;
-                fullRect.h = SEEY * minimap_tile_size.y;
-                fullRect.w = SEEX * minimap_tile_size.x;
-                fullRect.x = 0;
-                fullRect.y = 0;
-                SDL_SetRenderDrawColor( renderer, 12, 12, 12, 255 );
-                SDL_RenderFillRect( renderer, &fullRect );
+                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+                SDL_RenderClear( renderer );
             }
 
-            SDL_Rect rectangle;
-            rectangle.w = minimap_tile_size.x;
-            rectangle.h = minimap_tile_size.y;
-            for( point &p : mcp.second->update_list ) {
-                rectangle.x = p.x * minimap_tile_size.x;
-                rectangle.y = p.y * minimap_tile_size.y;
-                pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
-                SDL_Color c = current_pix.getSdlColor();
+            for( const point &p : mcp.second->update_list ) {
+                const pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
+                const SDL_Color c = current_pix.getSdlColor();
+
+
                 SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
-                SDL_RenderFillRect( renderer, &rectangle );
+
+                if( draw_with_dots ) {
+                    SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y );
+                } else {
+                    rectangle.x = p.x * minimap_tile_size.x;
+                    rectangle.y = p.y * minimap_tile_size.y;
+
+                    SDL_RenderFillRect( renderer, &rectangle );
+                }
             }
             mcp.second->update_list.clear();
         }
@@ -1256,7 +1305,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     auto vision_cache = g->u.get_vision_modes();
     bool nv_goggle = vision_cache[NV_GOGGLES];
 
-
+    const int brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
     for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
         for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
@@ -1265,7 +1314,11 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             SDL_Color color;
             color.a = 255;
-            if( lighting == LL_DARK || lighting == LL_BLANK ) {
+            if( lighting == LL_BLANK ) {
+                color.r = 0;
+                color.g = 0;
+                color.b = 0;
+            } else if( lighting == LL_DARK ) {
                 color.r = 12;
                 color.g = 12;
                 color.b = 12;
@@ -1293,6 +1346,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             } else if( lighting == LL_LOW ) {
                 color_pixel_grayscale( pix );
             }
+
+            pix.adjust_brightness( brightness );
             //add an individual color update to the cache
             update_minimap_cache( p, pix );
         }
@@ -1348,13 +1403,16 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     //handles the enemy faction red highlights
     //this value should be divisible by 200
     const int indicator_length = get_option<int>( "PIXEL_MINIMAP_BLINK" ) * 200; //default is 2000 ms, 2 seconds
-    int indicator_tick = 0; //if blink is disabled, leave at 0
+
+    int flicker = 100;
+    int mixture = 0;
+
     if( indicator_length > 0 ) {
-        indicator_tick = SDL_GetTicks() % indicator_length;
-        if( indicator_tick > indicator_length / 2 ) {
-            indicator_tick = indicator_length - indicator_tick;
-        }
-        indicator_tick /= ( indicator_length / 200 ); //scale to 0-100 percent
+        const float t = get_animation_phase( 2 * indicator_length );
+        const float s = std::sin( 2 * M_PI * t );
+
+        flicker = lerp_clamped( 25, 100, std::abs( s ) );
+        mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
     }
 
     // Now draw critters over terrain.
@@ -1383,19 +1441,20 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                                 //faction status (attacking or tracking) determines if red highlights get applied to creature
                                 monster_attitude matt = m->attitude( &( g->u ) );
                                 if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                                    // use a red-black transition for flickering enemy beacons
-                                    c.r = 0;
-                                    c.g = 0;
-                                    c.b = 0;
+                                    const pixel red_pixel( 0xFF, 0x0, 0x0 );
+
                                     pixel p( c );
-                                    color_pixel_red_mix( p, indicator_tick );
+
+                                    p.mix_with( red_pixel, mixture );
+                                    p.adjust_brightness( flicker );
+
                                     c = p.getSdlColor();
                                 }
                             }
                         }
                         draw_rhombus(
-                            destx + minimap_border_width + x * minimap_tile_size.x + minimap_tile_size.x / 2,
-                            desty + minimap_border_height + y * minimap_tile_size.y + minimap_tile_size.y / 2,
+                            destx + minimap_border_width + x * minimap_tile_size.x,
+                            desty + minimap_border_height + y * minimap_tile_size.y,
                             minimap_tile_size.x,
                             c,
                             width,
@@ -1549,10 +1608,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
-            const int pairNumber = (col & A_COLOR) >> 17;
-            const pairs &colorpair = colorpairs[pairNumber];
+            const int pairNumber = col.to_color_pair_index();
+            const cata_cursesport::pairs &colorpair = cata_cursesport::colorpairs[pairNumber];
             // What about isBlink?
-            const bool isBold = col & A_BOLD;
+            const bool isBold = col.is_bold();
             const int FG = colorpair.FG + (isBold ? 8 : 0);
 //            const int BG = colorpair.BG;
             // static so it does not need to be allocated every time,
@@ -1667,9 +1726,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters, seed with index into monster list
-            // FIXME add persistent id to Creature type, instead of using monster list index
-            seed = g->mon_at( pos );
+            // FIXME add persistent id to Creature type, instead of using monster pointer address
+            seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             break;
         default:
             // player

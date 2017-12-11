@@ -5,8 +5,17 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include <vector>
 
+#include <vector>
+#include <map>
+#include <set>
+#include <utility>
+#include <bitset>
+#include <string>
+
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class map;
 class game;
 class item;
@@ -20,16 +29,16 @@ enum field_id : int;
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
 
-typedef std::map< mfaction_id, std::set< int > > mfactions;
+class monster;
+typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
-class mon_special_attack : public JsonSerializer
+class mon_special_attack
 {
     public:
         int cooldown = 0;
         bool enabled = true;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &jsout ) const;
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
@@ -51,18 +60,18 @@ enum monster_effect_cache_fields {
     NUM_MEFF
 };
 
-class monster : public Creature, public JsonSerializer, public JsonDeserializer
+class monster : public Creature
 {
         friend class editmap;
     public:
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) = default;
-        monster( monster && ) = default;
+        monster( const monster & ) ;
+        monster( monster && );
         ~monster() override;
-        monster &operator=( const monster & ) = default;
-        monster &operator=( monster && ) = default;
+        monster &operator=( const monster & );
+        monster &operator=( monster && );
 
         bool is_monster() const override {
             return true;
@@ -92,7 +101,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string disp_name( bool possessive = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
-        void get_Attitude( nc_color &color, std::string &text ) const;
+        std::pair<std::string, nc_color> get_attitude() const;
         int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear
@@ -120,12 +129,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        void load_info( std::string data );
-
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
@@ -281,12 +286,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects( effect e, bool reduced ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false ) override;
+        /** Returns a std::string containing effects for descriptions */
+        std::string get_effect_status() const;
 
         float power_rating() const override;
         float speed_rating() const override;
@@ -364,13 +369,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         field_id bloodType() const override;
         field_id gibType() const override;
 
-        void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_npc( game_message_type type, const char *msg,
-                             ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( const char *, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( game_message_type type, const char *, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 4, 5 );
+        using Creature::add_msg_if_npc;
+        void add_msg_if_npc( const std::string &msg ) const override;
+        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
 
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
@@ -455,6 +461,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     protected:
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
+
+        /** Processes monster-specific effects of an effect. */
+        void process_one_effect( effect &e, bool is_new ) override;
 };
 
 #endif

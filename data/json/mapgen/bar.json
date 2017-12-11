@@ -158,7 +158,7 @@
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall",
-        ".": "t_null",
+        ".": "t_floor",
         "@": "t_console_broken",
         "D": "t_door_locked",
         "c": "t_linoleum_gray",
@@ -182,9 +182,7 @@
         "x": "f_pool_table",
         "{": "f_rack"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 5, 8 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "pool_table", "x": [ 14, 17 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },

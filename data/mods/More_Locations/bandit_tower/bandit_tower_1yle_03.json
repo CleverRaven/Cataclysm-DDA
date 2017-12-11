@@ -1,0 +1,50 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_1yle",
+        "comment" : "yard, left edge",
+        "weight": 100,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+             "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "##kkkkkkkkkkkkkkkkkkkk##",
+                "##kjjjjjjjjjjjjjjjjjjk##",
+                "##kjkkkkkkkkkkkkkkkkjk##",
+                "##kjk##############kjk##",
+                "##kjk#KKKKKKKKKKKK#kjk##",
+                "##kjk##############kjk##",
+                "##kjk#KKKKKKKKKKKK#kjk##",
+                "##kjk##############kjk##",
+                "##kjk#KKKKKKKKKKKK#kjk##",
+                "##kjk##############kjk##",
+                "##kjk#KKKKKKKKKKKK#kjk##",
+                "##kjk##############kjk##",
+                "##kjkkkkkkkkkkkkk##kjk##",
+                "##kjjjjjjjjjjjjjj++jjk##",
+                "##kkkkkkkkkkkkkkk##kkk##",
+                "########################",
+                "########################",
+                "YYYYYYYYYYYYYYYYYYYYYYYY",
+                "YY====================YY",
+                "YY=##################=YY",
+                "YY=##################=YY"
+            ],
+            "rotation": 3,
+            "palettes": [
+                "tri_tower",
+                "ground_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "j": "t_scrap_wall",
+                "k": "t_pit",
+                "K": "t_dirtmound",
+                "Y": "t_pit_spiked"
+            }
+        }
+    }
+]

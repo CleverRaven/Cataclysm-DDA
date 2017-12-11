@@ -9,8 +9,10 @@
 #include "output.h"
 #include "rng.h"
 #include "requirements.h"
+#include "ammo.h"
 #include "line.h"
 #include "player.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "uistate.h"
 #include "messages.h"
@@ -70,12 +72,18 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
+/**
+ * Nothing player can interact with here.
+ */
 void iexamine::none(player &p, const tripoint &examp)
 {
     (void)p; //unused
     add_msg(_("That is a %s."), g->m.name(examp).c_str());
 }
 
+/**
+ * Pick an appropriate item and apply diamond coating if possible.
+ */
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item &e ) {
@@ -110,6 +118,9 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
     p.mod_moves( -1000 );
 }
 
+/**
+ * Use "gas pump."  Will pump any liquids on tile.
+ */
 void iexamine::gaspump(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername(examp).c_str())) {
@@ -281,6 +292,7 @@ private:
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
     };
 
+    //!Get a new cash card. $1.00 fine.
     bool do_purchase_card() {
         const char *prompt = _("This will automatically deduct $1.00 from your bank account. Continue?");
 
@@ -298,6 +310,7 @@ private:
         return true;
     }
 
+    //!Deposit money from cash card into bank account.
     bool do_deposit_money() {
         item *src = choose_card(_("Insert card for deposit."));
         if (!src) {
@@ -325,6 +338,7 @@ private:
         return true;
     }
 
+    //!Move money from bank acount onto cash card.
     bool do_withdraw_money() {
         item *dst = choose_card(_("Insert card for withdrawal."));
         if (!dst) {
@@ -347,6 +361,7 @@ private:
         return true;
     }
 
+    //!Move money between cash cards.
     bool do_transfer_money() {
         item *dst = choose_card(_("Insert card for deposit."));
         if (!dst) {
@@ -380,6 +395,7 @@ private:
         return true;
     }
 
+    //!Move the money from all the cash cards in inventory to a single card.
     bool do_transfer_all_money() {
         item *dst;
         if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
@@ -420,11 +436,17 @@ private:
 };
 } //namespace
 
+/**
+ * launches the atm menu class which then handles all the atm interactions.
+ */
 void iexamine::atm(player &p, const tripoint& )
 {
     atm_menu {p}.start();
 }
 
+/**
+ * Generates vending machine UI and allows players to purchase contained items with a cash card.
+ */
 void iexamine::vending(player &p, const tripoint &examp)
 {
     constexpr int moves_cost = 250;
@@ -588,6 +610,9 @@ void iexamine::vending(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * If there's water, allow its usage but add chance of poison.
+ */
 void iexamine::toilet(player &p, const tripoint &examp)
 {
     auto items = g->m.i_at(examp);
@@ -609,6 +634,9 @@ void iexamine::toilet(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
+ */
 void iexamine::elevator(player &p, const tripoint &examp)
 {
     (void)p; //unused
@@ -619,6 +647,9 @@ void iexamine::elevator(player &p, const tripoint &examp)
     g->vertical_move( movez, false );
 }
 
+/**
+ * Open gate.
+ */
 void iexamine::controls_gate(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername( examp ).c_str())) {
@@ -628,6 +659,9 @@ void iexamine::controls_gate(player &p, const tripoint &examp)
     g->open_gate( examp );
 }
 
+/**
+ * Use id/hack reader. Using an id despawns turrets.
+ */
 void iexamine::cardreader(player &p, const tripoint &examp)
 {
     itype_id card_type = (g->m.ter(examp) == t_card_science ? "id_science" :
@@ -640,11 +674,10 @@ void iexamine::cardreader(player &p, const tripoint &examp)
             }
         }
         //TODO only despawn turrets "behind" the door
-        for (int i = 0; i < (int)g->num_zombies(); i++) {
-            if ( (g->zombie(i).type->id == mon_turret) ||
-                 (g->zombie(i).type->id == mon_turret_rifle) ) {
-                g->remove_zombie(i);
-                i--;
+        for( monster &critter : g->all_monsters() ) {
+            if( ( critter.type->id == mon_turret ) ||
+                ( critter.type->id == mon_turret_rifle ) ) {
+                g->remove_zombie( critter );
             }
         }
         add_msg(_("You insert your ID card."));
@@ -683,6 +716,9 @@ void iexamine::cardreader(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removal of rubble. Select best shovel and invoke "DIG" on tile.
+ */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
     static quality_id quality_dig( "DIG" );
@@ -713,6 +749,9 @@ void iexamine::rubble(player &p, const tripoint &examp)
     p.invoke_item( *it, "DIG", examp );
 }
 
+/**
+ * Try to pry crate open with crowbar.
+ */
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
@@ -743,6 +782,9 @@ void iexamine::crate(player &p, const tripoint &examp)
 }
 
 
+/**
+ * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
+ */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
     if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
@@ -787,6 +829,9 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * If player has amorphous trait, slip through the bars.
+ */
 void iexamine::bars(player &p, const tripoint &examp)
 {
     if(!(p.has_trait(trait_AMORPHOUS))) {
@@ -809,6 +854,9 @@ void iexamine::bars(player &p, const tripoint &examp)
     p.setpos( examp );
 }
 
+/**
+ * Determine structure's type and prompts its removal.
+ */
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
     const auto &fr = g->m.furn( examp ).obj();
@@ -883,6 +931,9 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
     g->m.add_item_or_charges( examp, item( dropped, calendar::turn ) );
 }
 
+/**
+ * If there is a 2x4 around, prompt placing it across pit.
+ */
 void iexamine::pit(player &p, const tripoint &examp)
 {
     inventory map_inv;
@@ -924,6 +975,9 @@ void iexamine::pit(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removing the 2x4 placed across the pit
+ */
 void iexamine::pit_covered(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove cover?"))) {
@@ -944,6 +998,9 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Put fencing on fenceposts.
+ */
 void iexamine::fence_post(player &p, const tripoint &examp)
 {
 
@@ -989,6 +1046,9 @@ void iexamine::fence_post(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Prompt removing the rope from rope fence. Leaves the posts.
+ */
 void iexamine::remove_fence_rope(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1003,6 +1063,9 @@ void iexamine::remove_fence_rope(player &p, const tripoint &examp)
 
 }
 
+/**
+ * Prompt removing the wire from wire fence. Leaves the posts.
+ */
 void iexamine::remove_fence_wire(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1017,6 +1080,9 @@ void iexamine::remove_fence_wire(player &p, const tripoint &examp)
     p.moves -= 200;
 }
 
+/**
+ * Prompt removing the wire from wire fence. Leaves the posts.
+ */
 void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
@@ -1031,6 +1097,9 @@ void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
     p.moves -= 200;
 }
 
+/**
+ * Loop prompt to bet $10.
+ */
 void iexamine::slot_machine( player &p, const tripoint& )
 {
     if (p.cash < 10) {
@@ -1056,6 +1125,13 @@ void iexamine::slot_machine( player &p, const tripoint& )
     }
 }
 
+/**
+ * Attempt to crack safe through audio-feedback manual lock manipulation.
+ * 
+ * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
+ * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
+ * Small chance of just guessing the combo without listening device.
+ */
 void iexamine::safe(player &p, const tripoint &examp)
 {
     if ( !( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
@@ -1089,6 +1165,9 @@ void iexamine::safe(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Attempt to pick the gunsafe's lock and open it.
+ */
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
@@ -1131,6 +1210,9 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Attempt to "hack" the gunsafe's electronic lock and open it.
+ */
 void iexamine::gunsafe_el(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
@@ -1161,6 +1243,9 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Checks that player is outside and has crowbar then calls iuse.crowbar.
+ */
 void iexamine::locked_object( player &p, const tripoint &examp) {
     // Print ordinary examine message if inside (where you can open doors/windows anyway)
     if (!g->m.is_outside(p.pos())) {
@@ -1180,7 +1265,6 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
     iuse dummy;
     dummy.crowbar( &p, &fakecrow, false, examp );
 }
-
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
@@ -1209,6 +1293,9 @@ void iexamine::bulletin_board(player &, const tripoint &examp)
     }
 }
 
+/**
+ * Display popup with reference to "The Enigma of Amigara Fault."
+ */
 void iexamine::fault( player &, const tripoint & )
 {
     popup(_("\
@@ -1217,6 +1304,9 @@ as far back into the solid rock as you can see.  The holes are humanoid in\n\
 shape, but with long, twisted, distended limbs."));
 }
 
+/**
+ * Spawn 1d4 wyrms and sink pedestal into ground.
+ */
 void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
 {
     if (!g->m.i_at(examp).empty()) {
@@ -1247,6 +1337,9 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
     g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
 
+/**
+ * Put petrified eye on pedestal causing it to sink into ground and open temple.
+ */
 void iexamine::pedestal_temple(player &p, const tripoint &examp)
 {
 
@@ -1267,6 +1360,9 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
 large semi-spherical indentation at the top."));
 }
 
+/**
+ * Unlock/open door or attempt to peek through peephole.
+ */
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
         // if door is a locked type attempt to open
@@ -1360,6 +1456,9 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
 }
 
+/**
+ * If it's winter: show msg and return true. Otherwise return false
+ */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
     if (calendar::turn.get_season() == WINTER) {
@@ -1376,12 +1475,18 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
     return false;
 }
 
+/**
+ * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
+ */
 bool can_drink_nectar( const player &p )
 {
     return (p.has_active_mutation( trait_id( "PROBOSCIS" ) )  || p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
         ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth)));
 }
 
+/**
+ * Consume Nectar. -15 hunger.
+ */
 bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
@@ -1394,6 +1499,12 @@ bool drink_nectar( player &p )
     return false;
 }
 
+/**
+ * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
+ * 
+ * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
+ * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
+ */
 void iexamine::flower_poppy(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1442,6 +1553,9 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     g->m.spawn_item(examp, "poppy_bud");
 }
 
+/**
+ * It's a flower, drink nectar if your able to.
+ */
 void iexamine::flower_bluebell(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1456,6 +1570,9 @@ void iexamine::flower_bluebell(player &p, const tripoint &examp)
     return;
 }
 
+/**
+ * Dig up its roots or drink its nectar if you can.
+ */
 void iexamine::flower_dahlia(player &p, const tripoint &examp)
 {
     if( dead_plant( true, p, examp ) ) {
@@ -1553,6 +1670,9 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * Only harvest a plant once per season.  Display message and call iexamine::none.
+ */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
     p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
@@ -1581,6 +1701,14 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
     g->m.spawn_item(examp, "marloss_seed", 1, 3);
 }
 
+/**
+ * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
+ * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
+ * Also spawns eggs.
+ * @param p The player
+ * @param examp Location of egg sack
+ * @param montype The monster type of the created spiders.
+ */
 void iexamine::egg_sack_generic( player &p, const tripoint &examp,
                                  const mtype_id& montype )
 {
@@ -1623,6 +1751,9 @@ void iexamine::egg_sackws( player &p, const tripoint &examp )
     egg_sack_generic( p, examp, mon_spider_web_s );
 }
 
+/**
+ * Remove furniture. Add spore effect.
+ */
 void iexamine::fungus(player &p, const tripoint &examp)
 {
     add_msg(_("The %s crumbles into spores!"), g->m.furnname(examp).c_str());
@@ -1631,6 +1762,9 @@ void iexamine::fungus(player &p, const tripoint &examp)
     p.moves -= 50;
 }
 
+/**
+ * If it's warm enough, pick one of the player's seeds and plant it.
+ */
 void iexamine::dirtmound(player &p, const tripoint &examp)
 {
 
@@ -1702,13 +1836,22 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().bday = calendar::turn;
+    used_seed.front().set_age( 0 );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
     add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
 }
 
+/**
+ * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
+ * @param type The seed type, must have a @ref itype::seed slot.
+ * @param plant_count Number of fruits to generate. For charge-based items, this
+ *     specifies multiples of the default charge.
+ * @param seed_count Number of seeds to generate.
+ * @param byproducts If true, byproducts (like straw, withered plants, see
+ * @ref islot_seed::byproducts) are included.
+ */
 std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
                                              const int seed_count, const bool byproducts )
 {
@@ -1853,12 +1996,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
-
-             if( seed.bday > fertilizerEpoch ) {
-              seed.bday -= fertilizerEpoch;
-            } else {
-              seed.bday = 0;
-            }
+            seed.set_birthday( std::max( 0, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -1957,16 +2095,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         g->m.furn_set(examp, next_kiln_type);
         return;
     }
-    int last_bday = items[0].bday;
-    for( auto i : items ) {
-        if( i.typeId() == "unfinished_charcoal" && i.bday > last_bday ) {
-            last_bday = i.bday;
-        }
-    }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
     const int firing_time = HOURS(6); // 5 days in real life
-    int time_left = firing_time - calendar::turn.get_turn() + items[0].bday;
+    int time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
         add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
         return;
@@ -2074,7 +2206,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         p.moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        g->m.i_at( examp ).front().bday = calendar::turn;
+        g->m.i_at( examp ).front().set_age( 0 );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -2115,7 +2247,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
         int brew_time = brew_i.brewing_time();
-        int progress = calendar::turn.get_turn() - brew_i.bday;
+        int progress = brew_i.age();
         if( progress < brew_time ) {
             int hours = ( brew_time - progress ) / HOURS(1);
             if( hours < 1 ) {
@@ -2134,7 +2266,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             g->m.i_clear( examp );
             for( const auto &result : results ) {
                 // @todo Different age based on settings
-                item booze( result, brew_i.bday, brew_i.charges );
+                item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
                 if( booze.made_of( LIQUID ) ) {
                     add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );
@@ -2164,6 +2296,9 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
     else                                { return 0; }
 }
 
+/**
+ * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
+ */
 bool iexamine::has_keg( const tripoint &pos )
 {
     return get_keg_capacity( pos ) > 0;
@@ -2326,6 +2461,11 @@ void iexamine::keg(player &p, const tripoint &examp)
     }
 }
 
+/**
+ * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
+ * will be removed from the liquid item.
+ * @return Whether any charges have been transferred at all.
+ */
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
@@ -2386,7 +2526,9 @@ void pick_plant(player &p, const tripoint &examp,
 
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
-    harvest_common( p, examp, false, false );
+    if( harvest_common( p, examp, false, false ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
         p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
@@ -2603,9 +2745,17 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
+/**
+ * Returns the weight of all the items on tile made of specific material.
+ * 
+ * @param &stack item stack.
+ * @param &material the material whose mass we want.
+ * @param remove_items are the items getting consumed in the process?
+ * @param include_contents dose item contents count towards the weight?
+ */
+units::mass sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
 {
-    int sum_weight = 0;
+    units::mass sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {
         if( item_it->made_of(material) && item_it->weight() > 0) {
             sum_weight += item_it->weight( include_contents );
@@ -2621,7 +2771,7 @@ int sum_up_item_weight_by_material( map_stack &stack, const material_id &materia
     return sum_weight;
 }
 
-void add_recyle_menu_entry(uimenu &menu, int w, char hk, const std::string &type)
+void add_recyle_menu_entry( uimenu &menu, const units::mass &w, char hk, const std::string &type )
 {
     const auto itt = item( type, 0 );
     const int amount = w / itt.weight();
@@ -2640,7 +2790,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
+    units::mass steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2649,7 +2799,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // See below for recover_factor (rng(6,9)/10), this
     // is the normal value of that recover factor.
     static const double norm_recover_factor = 8.0 / 10.0;
-    const int norm_recover_weight = steel_weight * norm_recover_factor;
+    const units::mass norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
     const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
                                                             weight_units());
@@ -2677,14 +2827,14 @@ void iexamine::recycler(player &p, const tripoint &examp)
     sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
 
     double recover_factor = rng(6, 9) / 10.0;
-    steel_weight = (int)(steel_weight * recover_factor);
+    steel_weight = steel_weight * recover_factor;
 
     sounds::sound(examp, 80, _("Ka-klunk!"));
 
-    int lump_weight = item( "steel_lump", 0 ).weight();
-    int sheet_weight = item( "sheet_metal", 0 ).weight();
-    int chunk_weight = item( "steel_chunk", 0 ).weight();
-    int scrap_weight = item( "scrap", 0 ).weight();
+    units::mass lump_weight = item( "steel_lump", 0 ).weight();
+    units::mass sheet_weight = item( "sheet_metal", 0 ).weight();
+    units::mass chunk_weight = item( "steel_chunk", 0 ).weight();
+    units::mass scrap_weight = item( "scrap", 0 ).weight();
 
     if (steel_weight < scrap_weight) {
         add_msg(_("The recycler chews up all the items in its hopper."));
@@ -2761,15 +2911,15 @@ void iexamine::trap(player &p, const tripoint &examp)
     bool seen = tr.can_see( examp, p );
     if( seen && possible >= 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
-            tr.name.c_str());
+            tr.name().c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
+        if( query_yn(_("There is a %s there. Take down?"), tr.name().c_str()) ) {
             g->m.disarm_trap(examp);
         }
-    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name().c_str() ) ) {
         g->m.disarm_trap(examp);
     }
 }
@@ -2793,7 +2943,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
+        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
     }
     return nullptr;
 }
@@ -2814,13 +2964,13 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
-        add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
+        add_msg(m_info, _("This %s can not be reloaded!"), f.name().c_str());
         return;
     }
     const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
     if( amount_in_furn > 0 ) {
         //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+        add_msg(_("The %1$s contains %2$d %3$s."), f.name().c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
     const int max_amount_in_furn = f.max_volume / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
@@ -2830,13 +2980,13 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
+        add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name().c_str());
         return;
     }
     const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %1$s into the %2$s?"),
-                                 ammo->nname(max_amount).c_str(), f.name.c_str());
+                                 ammo->nname(max_amount).c_str(), f.name().c_str());
     long amount = string_input_popup()
                   .title( popupmsg )
                   .width( 20 )
@@ -3252,7 +3402,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
         amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
-        amenu.addentry( 0, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
+        amenu.addentry( 0, true, static_cast<long>( 'q' ), str_to_illiterate_str( _( "Cancel" ) ) );
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i + 1, true, -1,
@@ -3441,12 +3591,12 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 /**
-* Given then name of one of the above functions, returns the matching function
-* pointer. If no match is found, defaults to iexamine::none but prints out a
-* debug message as a warning.
-* @param function_name The name of the function to get.
-* @return A function pointer to the specified function.
-*/
+ * Given then name of one of the above functions, returns the matching function
+ * pointer. If no match is found, defaults to iexamine::none but prints out a
+ * debug message as a warning.
+ * @param function_name The name of the function to get.
+ * @return A function pointer to the specified function.
+ */
 iexamine_function iexamine_function_from_string(std::string const &function_name)
 {
     static const std::map<std::string, iexamine_function> function_map = {{

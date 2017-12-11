@@ -30,7 +30,6 @@ class activity_type
         activity_id id_;
         bool rooted_ = false;
         std::string stop_phrase_ = "THIS IS A BUG";
-        bool abortable_ = true;
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
@@ -41,9 +40,6 @@ class activity_type
         }
         bool rooted() const {
             return rooted_;
-        }
-        bool abortable() const {
-            return abortable_;
         }
         bool suspendable() const {
             return suspendable_;

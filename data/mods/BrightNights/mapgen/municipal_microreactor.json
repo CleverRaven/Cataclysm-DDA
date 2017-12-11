@@ -1,0 +1,348 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor"
+        ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                ",,,,,,############,,,,,,",
+                ",,,,,##############,,,,,",
+                ",,,##################,,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",,####################,,",
+                ",--##################,,,",
+                ",=hd################,,,,",
+                ",= dh #############,,,,,",
+                ",-    -----------------,",
+                ",-BB-2- &-ll h- i&-  h-,",
+                ",---- 2 i-  dd-2--- d6-,",
+                ",-t   ----4(((-   2   -,",
+                ",-a  Ydh -        -----,",
+                ",-a   d  -        2eeE-,",
+                ",-^      4        2eee-,",
+                ",-=[[==---------55-----,",
+                "ssssssssssssssssssssssss"
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "-": "t_wall_metal",
+                "#": "t_rock",
+                "G": "t_card_science",
+                "R": "t_nuclear_reactor",
+                "e": "t_elevator",
+                "E": "t_elevator_control",
+                "Y": "t_utility_light"
+            },
+            "items": {
+                "l": { "item": "cop_armory", "chance": 90 },
+                "t": { "item": "magazines", "chance": 90 },
+                "i": { "item": "cleaning", "chance": 50 },
+                "B": [{ "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 }]
+                },
+            "place_items": [
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor_ware"
+        ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                ",#,,,,,,,,,,,,,,,,,,,,,,",
+                ",,,,||||||||||,,,,,,,,,,",
+                ",,,,| i&-rttr||||,,,,,,,",
+                ",###|   -    |> |,,,,,,,",
+                "s||||||2||||2||2||||,,,,",
+                "s|              2ee|,,,,",
+                "s|  hd   h      2ee|,,,,",
+                "s| ddd   dd     |eE|,,,,",
+                "s|              ||||,,,,",
+                "s|             * **|,,,,",
+                "s|             * **|,,,,",
+                "s|             * **|,,,,",
+                "s|              M  |,,,,",
+                "s|             * **|,,,,",
+                "s|             * **|,,,,",
+                "s|            eeee||,,,,",
+                "s|            eeee|#,,,,",
+                "s| h          eeee|#,,,,",
+                "s|dd          eeee|#,,,,",
+                "s|            eeee|#,,,,",
+                "s|||4|5555555||||||#,,,,",
+                "ssssssssssssssssssssssss"
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "e": "t_elevator",
+                "E": "t_elevator_control_off"
+            },
+            "items": {
+                "r": [ { "item": "cleaning", "chance": 90 }, { "item": "hardware", "chance": 90} ],
+                "t": { "item": "hardware", "chance": 90 },
+                "*": { "item": "nuclear_waste", "chance": 70 }
+            },
+            "monster": {
+                "M": { "monster": "mon_hazmatbot"}
+            }
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor_b"
+        ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "#######----------#######",
+                "######--```gg```--######",
+                "####---````gg````---####",
+                "###--`````gggg`````--###",
+                "###-``````g%%g``````-###",
+                "###-``````g%%g``````-###",
+                "###-``````gggg``````-###",
+                "###-```````gg```````-###",
+                "###--``````gg``````--###",
+                "####---ggggggggg`---####",
+                "######--6gggggg>--######",
+                "#######----55----#######",
+                "#########-%  -##########",
+                "#########-%  -##########",
+                "######-----55-----------",
+                "######-**%%   ****2**2  ",
+                "######-**       M 2  2  ",
+                "######-     M     ----  ",
+                "######-*** ** ****-``-  ",
+                "######-*** ** ****-``-  ",
+                "######------------------",
+                "########################"
+            ],
+            "set": [
+                { "square": "radiation", "amount": 1000, "x": 3, "y":  2, "x2": 20, "y2": 13 },
+                { "square": "radiation", "amount": 50, "x": 7, "y":  17, "x2": 23, "y2": 21},
+                { "square": "radiation", "amount": 10000, "x": 9, "y":  5, "x2": 14, "y2": 8 }
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "-": "t_wall_metal",
+                "1": "t_support_l",
+                "#": "t_rock",
+                "%": "t_machinery_heavy"
+            },
+            "items": {
+                "*": { "item": "nuclear_waste", "chance": 70 }
+            },
+            "monster": {
+                "M": { "monster": "mon_hazmatbot"}
+            }
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor_ware_b"
+        ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "####-----###############",
+                "####- i&-#-------#######",
+                "####-   -#-r -< -#######",
+                "#------2----2--2----####",
+                "#-              2ee-####",
+                "#-     d        2ee-####",
+                "#-    hd        -eE-####",
+                "#---22----(22-------####",
+                "#-6      -   2    l-####",
+                "#-6h     -   -l b l-####",
+                "#-       --22-l b l-####",
+                "#-dh   hd(   --2----####",
+                "#-dd66 dd(   -~ ~-######",
+                "--(((((((--22------#####",
+                "***   ****    eeee-#####",
+                "***  M****    eeee-#####",
+                "          M   eeee-#####",
+                "****  ****    eeee-#####",
+                "****  ****    eeee-#####",
+                "-------------------#####",
+                "########################"
+            ],
+            "set": [
+                { "square": "radiation", "amount": 50, "x": 0, "y":  17, "x2": 17, "y2": 21}
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "-": "t_wall_metal",
+                "1": "t_support_l",
+                "#": "t_rock",
+                "e": "t_elevator",
+                "E": "t_elevator_control_off",
+                "%": "t_machinery_heavy"
+            },
+            "items": {
+                "d": { "item": "cop_armory", "chance": 5 },
+                "l": { "item": "reactor_gear", "chance": 70 },
+                "r": { "item": "cleaning", "chance": 100},
+                "*": { "item": "nuclear_waste", "chance": 70 }
+            },
+            "monster": {
+                "M": { "monster": "mon_hazmatbot"}
+            }
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor_b2"
+        ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "#######----------#######",
+                "######--````````--######",
+                "####---``````````---####",
+                "###--````gggggg````--###",
+                "###-`````ggRRgg`````-###",
+                "###-`````ggRRgg`````-###",
+                "###-`````gggggg`````-###",
+                "###-````````ggg`````-###",
+                "###--```````>g>````--###",
+                "####-((((((-      --####",
+                "####-d6 6d -YYY.<--#####",
+                "####-Yh hY -..M.--#----#",
+                "####-      -222--##- ~-#",
+                "####-     6-YYYT----2--#",
+                "####-    h6-   T-l b l-#",
+                "####-  ^  6-G55--l b l-#",
+                "####--2-----    2    l-#",
+                "####-      -(22(-------#",
+                "####-   d   YYY   2eE-##",
+                "####-  hd         2ee-##",
+                "####------------------##",
+                "########################"
+            ],
+            "set": [
+                { "square": "radiation", "amount": 1000, "x": 6, "y":  2, "x2": 17, "y2": 10 },
+                { "square": "radiation", "amount": 1000, "x": 3, "y":  4, "x2": 20, "y2": 10 },
+                { "square": "radiation", "amount": 100, "x": 11, "y":  11, "x2": 18, "y2": 13 },
+                { "square": "radiation", "amount": 10000, "x": 9, "y":  5, "x2": 14, "y2": 8 }
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "-": "t_wall_metal",
+                "#": "t_rock",
+                "G": "t_card_science",
+                "R": "t_nuclear_reactor",
+                "e": "t_elevator",
+                "E": "t_elevator_control",
+                "Y": "t_utility_light"
+            },
+            "items": {
+                "d": { "item": "cop_armory", "chance": 5 },
+                "l": { "item": "reactor_gear", "chance": 70 }
+            },
+            "place_items": [
+                { "item": "nuclear_reactor", "x": 11, "y": 6, "chance": 100},
+                { "item": "nuclear_reactor", "x": 12, "y": 6, "chance": 100},
+                { "item": "nuclear_reactor", "x": 11, "y": 7, "chance": 100},
+                { "item": "nuclear_reactor", "x": 12, "y": 7, "chance": 100}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] }
+            ],
+            "monster": {
+                "T": { "monster": "mon_turret"},
+                "M": { "monster": "mon_charred_nightmare"}
+            }
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "municipal_reactor_b3"
+        ],
+        "method": "json",
+        "object": {
+            "rows": [
+                "########################",
+                "########################",
+                "#######----------#######",
+                "######--wwwwwwww--######",
+                "####---wwwwwwwwww---####",
+                "###--wwww1gggg1wwww--###",
+                "###-wwwwwggRRggwwwww-###",
+                "###-wwwwwggRRggwwwww-###",
+                "###-wwwww1gggg1wwwww-###",
+                "###-wwwwwwwggggwwwww-###",
+                "###--wwwwwww<g<wwww--###",
+                "####---wwwwwwwwww---####",
+                "######--wwwwwwww--######",
+                "#######----------#######",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "########################"
+            ],
+            "set": [
+                { "square": "radiation", "amount": 1000, "x": 3, "y":  2, "x2": 20, "y2": 13 },
+                { "square": "radiation", "amount": 10000, "x": 9, "y":  5, "x2": 14, "y2": 8 }
+            ],
+            "palettes": [
+                "general_jc"
+            ],
+            "terrain": {
+                "-": "t_wall_metal",
+                "1": "t_support_l",
+                "#": "t_rock",
+                "R": "t_nuclear_reactor",
+                "w": "t_water_sh",
+                "Y": "t_utility_light"
+            }
+        }
+    }
+]

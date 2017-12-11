@@ -84,7 +84,7 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
 void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
-    []( const harvest_entry &entry ) {
+    []( const harvest_entry & entry ) {
         return item::type_is_defined( entry.drop ) ? item::nname( entry.drop ) : "";
     } );
 }
@@ -106,7 +106,7 @@ void harvest_list::check_consistency()
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry &entry ) {
+        []( const harvest_entry & entry ) {
             return item::type_is_defined( entry.drop ) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
@@ -142,7 +142,7 @@ std::string harvest_list::describe( int at_skill ) const
     }
 
     return enumerate_as_string( entries().begin(), entries().end(),
-    [at_skill]( const harvest_entry &en ) {
+    [at_skill]( const harvest_entry & en ) {
         float min_f = en.base_num.first;
         float max_f = en.base_num.second;
         if( at_skill >= 0 ) {

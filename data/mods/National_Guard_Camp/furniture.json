@@ -12,10 +12,7 @@
       "str_max": 601,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 0, 3 ] },
-        { "item": "steel_chunk", "count": [ 5, 25 ] }
-      ]
+      "items": [ { "item": "scrap", "count": [ 0, 3 ] }, { "item": "steel_chunk", "count": [ 5, 25 ] } ]
     },
     "flags": [ "TRANSPARENT", "MOUNTABLE" ]
   }

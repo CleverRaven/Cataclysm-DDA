@@ -2,14 +2,15 @@
 #ifndef REQUIREMENTS_H
 #define REQUIREMENTS_H
 
+#include <functional>
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
-#include "color.h"
 #include "output.h"
 #include "string_id.h"
 
+class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
@@ -64,7 +65,8 @@ struct tool_comp : public component {
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int batch = 1 ) const;
+    bool has( const inventory &crafting_inv, int batch = 1,
+              std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
     std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
     bool by_charges() const;
@@ -75,7 +77,8 @@ struct item_comp : public component {
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int batch = 1 ) const;
+    bool has( const inventory &crafting_inv, int batch = 1,
+              std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
     std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
 };
@@ -92,7 +95,8 @@ struct quality_requirement {
         level( LEVEL ) { }
 
     void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int = 0 ) const;
+    bool has( const inventory &crafting_inv, int = 0,
+              std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
     std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
@@ -216,7 +220,7 @@ struct requirement_data {
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
-                const inventory &crafting_inv, int batch = 1 ) const;
+                const inventory &crafting_inv, int batch = 1, std::string hilite = "" ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
@@ -250,7 +254,7 @@ struct requirement_data {
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::vector< std::vector<T> > &objs, int batch = 1 ) const;
+                const std::vector< std::vector<T> > &objs, int batch = 1, std::string hilite = "" ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

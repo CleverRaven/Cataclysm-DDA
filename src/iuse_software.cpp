@@ -4,6 +4,7 @@
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "iuse_software_minesweeper.h"
+#include "string_formatter.h"
 
 #include "output.h"
 #include "translations.h"

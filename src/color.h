@@ -2,11 +2,12 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "json.h"
 #include <array>
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <utility>
+#include <functional>
 
 #define all_colors get_all_colors()
 
@@ -323,7 +324,8 @@ enum color_id {
     num_colors
 };
 
-class JsonObject;
+class JsonOut;
+class JsonIn;
 
 void init_colors();
 
@@ -339,9 +341,50 @@ enum hl_enum {
     NUM_HL
 };
 
-typedef int nc_color;
+class nc_color
+{
+    private:
+        // color is actually an ncurses attribute.
+        int attribute_value;
 
-class color_manager : public JsonSerializer, public JsonDeserializer
+        nc_color( const int a ) : attribute_value( a ) { }
+
+    public:
+        nc_color() : attribute_value( 0 ) { }
+
+        // Most of the functions here are implemented in ncurses_def.cpp
+        // (for ncurses builds) *and* in cursesport.cpp (for other builds).
+
+        static nc_color from_color_pair_index( const int index );
+        int to_color_pair_index() const;
+
+        operator int() const {
+            return attribute_value;
+        }
+
+        // Returns this attribute plus A_BOLD.
+        nc_color bold() const;
+        bool is_bold() const;
+        // Returns this attribute plus A_BLINK.
+        nc_color blink() const;
+        bool is_blink() const;
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+};
+
+// Support hashing of nc_color by forwarding the hash of the contained int.
+namespace std
+{
+template<>
+struct hash<nc_color> {
+    std::size_t operator()( const nc_color &v ) const {
+        return hash<int>()( v.operator int() );
+    }
+};
+}
+
+class color_manager
 {
     private:
         void add_color( const color_id col, const std::string &name,
@@ -393,12 +436,30 @@ class color_manager : public JsonSerializer, public JsonDeserializer
 
         void show_gui();
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 color_manager &get_all_colors();
+
+/**
+ * For color values that are created *before* the color definitions are loaded
+ * from JSON. One can't use the macros (e.g. c_white) directly as they query
+ * the color_manager, which may not be initialized. Instead one has to use
+ * the color_id (e.g. def_c_white) and translate the id to an actual color
+ * later. This is done by this class: it stores the id and translates it
+ * when needed to the color value.
+ */
+class deferred_color
+{
+    private:
+        color_id id;
+    public:
+        deferred_color( const color_id id ) : id( id ) { }
+        operator nc_color() const {
+            return all_colors.get( id );
+        }
+};
 
 struct note_color {
     nc_color color;

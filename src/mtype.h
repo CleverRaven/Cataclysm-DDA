@@ -16,11 +16,14 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <math.h>
 
 class Creature;
 class monster;
 class monfaction;
+class emit;
+using emit_id = string_id<emit>;
 struct dealt_projectile_attack;
 struct species_type;
 enum field_id : int;
@@ -40,6 +43,7 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class material_type;
 using material_id = string_id<material_type>;
 
@@ -182,6 +186,7 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string description;
 
         std::set< const species_type * > species_ptrs;
 
@@ -197,7 +202,6 @@ struct mtype {
         // TODO: maybe make this private as well? It must be set to `true` only once,
         // and must never be set back to `false`.
         bool was_loaded = false;
-        std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
@@ -308,6 +312,7 @@ struct mtype {
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
+        std::string get_description() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );

@@ -52,7 +52,30 @@ function calculate_bonuses()
     print_results(player.int_max,"Int",prev_int)
     print_results(player.per_max,"Per",prev_per)
 
+    local hp_prev = {}
+    for k,v in pairs(enums.hp_part) do
+        if string.match(v, "num_hp_parts") == nil then
+            hp_prev[v] = player:get_hp(v)
+        end
+    end
+
     player:recalc_hp()
+
+    local hp_new = {}
+    for k,v in pairs(enums.hp_part) do
+        if string.match(v, "num_hp_parts") == nil then
+            hp_new[v] = player:get_hp(v)
+        end
+    end
+
+    for k,v in pairs(enums.hp_part) do
+        if string.match(v, "num_hp_parts") == nil then
+            if hp_prev[v] ~= hp_new[v] then
+                player:heal(v, math.abs(hp_prev[v] - hp_new[v]))
+            end
+        end
+    end
+
 end
 
 function remove_existing_bonuses()

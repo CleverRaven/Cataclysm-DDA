@@ -1,16 +1,13 @@
+#include "scenario.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <cmath>
 
-#include "scenario.h"
-
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "game.h"
-#include "map.h"
 #include "translations.h"
 #include "pldata.h"
 #include "addiction.h"

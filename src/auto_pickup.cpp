@@ -1,13 +1,15 @@
+#include "auto_pickup.h"
 #include "game.h"
 #include "player.h"
-#include "auto_pickup.h"
 #include "output.h"
+#include "json.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
+#include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
 #include "worldfactory.h"
@@ -637,7 +639,7 @@ void auto_pickup::load(const bool bCharacter)
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
-    if( !read_from_file_optional( sFile, *this ) ) {
+    if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);

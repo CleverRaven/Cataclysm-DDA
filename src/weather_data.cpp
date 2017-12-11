@@ -8,6 +8,7 @@
 #include <string>
 #include <array>
 #include <cmath>
+#include <cwctype>
 
 /**
  * @ingroup Weather

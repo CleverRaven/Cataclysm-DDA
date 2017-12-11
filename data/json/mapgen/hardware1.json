@@ -47,14 +47,8 @@
         "|": "t_wall",
         "~": "t_sidewalk"
       },
-      "furniture": {
-        "#": "f_counter",
-        "[": "f_table",
-        "]": "f_rack"
-      },
-      "place_signs": [
-        { "signage": "the name is gone but a slogan remains: 'We'll repair you all the way'", "x": 15, "y": 4 }
-      ],
+      "furniture": { "#": "f_counter", "[": "f_table", "]": "f_rack" },
+      "place_signs": [ { "signage": "the name is gone but a slogan remains: 'We'll repair you all the way'", "x": 15, "y": 4 } ],
       "place_items": [
         { "item": "hardware_bulk", "x": [ 4, 11 ], "y": 4, "chance": 35, "repeat": [ 1, 6 ] },
         { "item": "cleaning", "x": [ 5, 7 ], "y": 7, "chance": 40, "repeat": [ 1, 2 ] },

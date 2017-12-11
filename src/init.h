@@ -2,13 +2,16 @@
 #ifndef INIT_H
 #define INIT_H
 
-#include "json.h"
-
 #include <string>
 #include <vector>
 #include <list>
 #include <memory>
+#include <map>
 #include <functional>
+
+class loading_ui;
+class JsonObject;
+class JsonIn;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -77,9 +80,10 @@ class DynamicDataLoader
          * or an array of objects. Each object must have a
          * "type", that is part of the @ref type_function_map
          * @param src String identifier for mod this data comes from
+         * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( JsonIn &jsin, const std::string &src );
+        void load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &ui );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
@@ -97,8 +101,9 @@ class DynamicDataLoader
         /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.
+         * @param ui Finalization status display.
          */
-        void check_consistency();
+        void check_consistency( loading_ui &ui );
 
     public:
         /**
@@ -112,9 +117,12 @@ class DynamicDataLoader
          * files with the extension .json), or a file (load only
          * that file, don't check extension).
          * @param src String identifier for mod this data comes from
+         * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_data_from_path( const std::string &path, const std::string &src );
+        /*@{*/
+        void load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui );
+        /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with
          * @ref load_data_from_path
@@ -126,10 +134,14 @@ class DynamicDataLoader
          * It must be called once after loading all data.
          * It also checks the consistency of the loaded data with
          * @ref check_consistency
+         * @param ui Finalization status display.
          * @throw std::exception if the loaded data is not valid. The
          * game should *not* proceed in that case.
          */
+        /*@{*/
         void finalize_loaded_data();
+        void finalize_loaded_data( loading_ui &ui );
+        /*@}*/
 
         /**
          * Loads and then removes entries from @param data
@@ -143,7 +155,5 @@ class DynamicDataLoader
             return finalized;
         }
 };
-
-void init_names();
 
 #endif

@@ -69,6 +69,10 @@
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Style the whitelisted json files (maintain the current level of styling).
+#  make style-json
+# Style all json files using the current rules (don't PR this, it's too many changes at once).
+#  make style-all-json
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -154,23 +158,48 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
-# Compiler version & target machine - used later for MXE ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
-  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+# This sets CXX and so must be up here
+ifdef CLANG
+  # Allow setting specific CLANG version
+  ifeq ($(CLANG), 1)
+    CLANGCMD = clang++
+  else
+    CLANGCMD = $(CLANG)
+  endif
+  ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
+    OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
+  endif
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+  else
+    CXX = $(CROSS)$(CLANGCMD)
+    LD  = $(CROSS)$(CLANGCMD)
+  endif
+else
+  # Compiler version & target machine - used later for MXE ICE workaround
+  ifdef CROSS
+    CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+    CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+  endif
+
+  # Expand at reference time to avoid recursive reference
+  OS_COMPILER := $(CXX)
+  # Appears that the default value of $LD is unsuitable on most systems
+  OS_LINKER := $(CXX)
+  ifdef CCACHE
+    CXX = ccache $(CROSS)$(OS_COMPILER)
+    LD  = ccache $(CROSS)$(OS_LINKER)
+  else
+    CXX = $(CROSS)$(OS_COMPILER)
+    LD  = $(CROSS)$(OS_LINKER)
+  endif
 endif
 
-# Expand at reference time to avoid recursive reference
-OS_COMPILER := $(CXX)
-# Appears that the default value of $LD is unsuitable on most systems
-OS_LINKER := $(CXX)
-ifdef CCACHE
-  CXX = ccache $(CROSS)$(OS_COMPILER)
-  LD  = ccache $(CROSS)$(OS_LINKER)
-else
-  CXX = $(CROSS)$(OS_COMPILER)
-  LD  = $(CROSS)$(OS_LINKER)
-endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
@@ -224,24 +253,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check lint-check
-endif
-
-ifdef CLANG
-  ifeq ($(NATIVE), osx)
-    USE_LIBCXX = 1
-  endif
-  ifdef USE_LIBCXX
-    OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
-  endif
-  ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
-  else
-    CXX = $(CROSS)clang++
-    LD  = $(CROSS)clang++
-  endif
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -285,12 +297,18 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
+  ifdef GOLD
+    CXXFLAGS += -fuse-ld=gold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
+    ifdef GOLD
+      CXXFLAGS += -fuse-ld=gold
+    endif
   endif
 endif
 
@@ -303,7 +321,7 @@ ifeq ($(NATIVE), osx)
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -446,7 +464,7 @@ ifdef LUA
   else
     ifdef LUA_USE_PKGCONFIG
       # On unix-like systems, use pkg-config to find lua
-      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
+      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua $(LUA_BINARY)
       LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
           $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
       LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
@@ -533,27 +551,37 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
+  # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
+  # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell which ncursesw5-config 2>/dev/null),)
-      HAVE_NCURSESW5CONFIG = 1
+    ifneq ($(shell pkg-config --libs ncurses 2>/dev/null),)
+      HAVE_PKGCONFIG = 1
+    endif
+    ifneq ($(shell which ncurses5-config 2>/dev/null),)
+      HAVE_NCURSES5CONFIG = 1
     endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
-  ifeq ($(HAVE_NCURSESW5CONFIG),1)
-    CXXFLAGS += $(shell ncursesw5-config --cflags)
-    LDFLAGS += $(shell ncursesw5-config --libs)
+  ifeq ($(HAVE_PKGCONFIG),1)
+    CXXFLAGS += $(shell pkg-config --cflags ncurses)
+    LDFLAGS += $(shell pkg-config --libs ncurses)
   else
-    ifneq ($(TARGETSYSTEM),WINDOWS)
-      LDFLAGS += -lncurses
-    endif
+    ifeq ($(HAVE_NCURSES5CONFIG),1)
+      CXXFLAGS += $(shell ncurses5-config --cflags)
+      LDFLAGS += $(shell ncurses5-config --libs)
+    else
+      ifneq ($(TARGETSYSTEM),WINDOWS)
+        LDFLAGS += -lncurses
+      endif
 
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-      CXXFLAGS += -I$(LIBSDIR)/ncurses/include
-    endif
-  endif
-endif
+      ifdef OSXCROSS
+        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
+        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+      endif # OSXCROSS
+    endif # HAVE_NCURSES5CONFIG
+  endif # HAVE_PKGCONFIG
+endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BACKTRACE = 0
@@ -610,10 +638,13 @@ ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
+# Enumerations of all the source files and headers.
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 TESTSRC = $(wildcard tests/*.cpp)
 TESTHDR = $(wildcard tests/*.h)
+TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -917,12 +948,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 # Generate a list of files to check based on the difference between the blacklist and the existing source files.
-ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
 
 astyle: $(ASTYLED_WHITELIST)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
 
-astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
@@ -939,26 +970,22 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-lint-check: json_whitelist $(ODIR)/lint.cache
+JSON_WHITELIST = $(shell cat json_whitelist)
 
-$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
+style-json: $(JSON_WHITELIST)
+
+$(JSON_WHITELIST): json_whitelist json_formatter
+ifndef CROSS
+	@tools/format/json_formatter.cgi $@
 else
-	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
+	@echo Cannot run json formatter in cross compiles.
 endif
 
-lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-	@for file in $?; do \
-		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/lint.sh $$file || exit $$?; \
-		fi; \
-	done;
-	@touch $(ODIR)/lint.cache
+style-all-json: json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+
+json_formatter: tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

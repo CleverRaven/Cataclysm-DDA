@@ -94,4 +94,26 @@ inline V random_entry_removed( C &container )
     return result;
 }
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
+class map;
+struct tripoint;
+class tripoint_range;
+
+/// Returns a range enclosing all valid points of the map.
+tripoint_range points_in_range( const map &m );
+/// Returns a random point in the given range that satisfies the given predicate ( if any ).
+cata::optional<tripoint> random_point( const tripoint_range &range,
+                                       const std::function<bool( const tripoint & )> &predicate );
+/// Same as other random_point with a range enclosing all valid points of the map.
+cata::optional<tripoint> random_point( const map &m,
+                                       const std::function<bool( const tripoint & )> &predicate );
+
+/** Get random tile on circumference of a circle */
+tripoint random_perimeter( const tripoint &src, int radius );
+
 #endif

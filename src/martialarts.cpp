@@ -1,7 +1,8 @@
+#include "martialarts.h"
 #include "player.h"
 #include "game.h"
 #include "debug.h"
-#include "martialarts.h"
+#include "effect.h"
 #include "json.h"
 #include "translations.h"
 #include "itype.h"
@@ -10,6 +11,7 @@
 #include <string>
 #include <algorithm>
 #include "generic_factory.h"
+#include "string_formatter.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -63,6 +65,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 void ma_technique::load( JsonObject &jo, const std::string &src )
 {
     optional( jo, was_loaded, "name", name, translated_string_reader );
+    optional( jo, was_loaded, "description", description, translated_string_reader );
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array("messages");
@@ -188,6 +191,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id>{} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -575,11 +579,11 @@ bool martialart::weapon_valid( const item &it ) const
 // Player stuff
 
 // technique
-std::vector<matec_id> player::get_all_techniques() const
+std::vector<matec_id> player::get_all_techniques( const item &weap ) const
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
-    const auto &weapon_techs = weapon.get_techniques();
+    const auto &weapon_techs = weap.get_techniques();
     tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     // and martial art techniques
     const auto &style = style_selected.obj();
@@ -589,9 +593,9 @@ std::vector<matec_id> player::get_all_techniques() const
 }
 
 // defensive technique-related
-bool player::has_miss_recovery_tec() const
+bool player::has_miss_recovery_tec( const item &weap ) const
 {
-    for( auto &technique : get_all_techniques() ) {
+    for( auto &technique : get_all_techniques( weap ) ) {
         if( technique.obj().miss_recovery ) {
             return true;
         }
@@ -599,9 +603,10 @@ bool player::has_miss_recovery_tec() const
     return false;
 }
 
+// This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
-    for( auto &technique : get_all_techniques() ) {
+    for( auto &technique : get_all_techniques( ret_null ) ) {
         if( technique.obj().grab_break ) {
             return true;
         }
@@ -711,7 +716,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 float player::mabuff_tohit_bonus() const
 {
     float ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect & ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
     return ret;
@@ -719,7 +724,7 @@ float player::mabuff_tohit_bonus() const
 float player::mabuff_dodge_bonus() const
 {
     float ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.dodge_bonus( *this );
     } );
     return ret;
@@ -727,7 +732,7 @@ float player::mabuff_dodge_bonus() const
 int player::mabuff_block_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.block_bonus( *this );
     } );
     return ret;
@@ -735,7 +740,7 @@ int player::mabuff_block_bonus() const
 int player::mabuff_speed_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.speed_bonus( *this );
     } );
     return ret;
@@ -743,7 +748,7 @@ int player::mabuff_speed_bonus() const
 int player::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.armor_bonus( *this, type );
     } );
     return ret;
@@ -751,7 +756,7 @@ int player::mabuff_armor_bonus( damage_type type ) const
 float player::mabuff_damage_mult( damage_type type ) const
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.damage_mult( *this, type ) - 1 ) + 1;
@@ -761,7 +766,7 @@ float player::mabuff_damage_mult( damage_type type ) const
 int player::mabuff_damage_bonus( damage_type type ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.damage_bonus( *this, type );
     } );
     return ret;
@@ -769,7 +774,7 @@ int player::mabuff_damage_bonus( damage_type type ) const
 int player::mabuff_attack_cost_penalty() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.bonuses.get_flat( *this, AFFECTED_MOVE_COST );
     } );
     return ret;
@@ -777,7 +782,7 @@ int player::mabuff_attack_cost_penalty() const
 float player::mabuff_attack_cost_mult() const
 {
     float ret = 1.0f;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.bonuses.get_mult( *this, AFFECTED_MOVE_COST ) - 1 ) + 1;
@@ -787,27 +792,27 @@ float player::mabuff_attack_cost_mult() const
 
 bool player::is_throw_immune() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.is_throw_immune();
     } );
 }
 bool player::is_quiet() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.is_quiet();
     } );
 }
 
 bool player::can_melee() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.can_melee();
     } );
 }
 
 bool player::has_mabuff(mabuff_id id) const
 {
-    return search_ma_buff_effect( effects, [&id]( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, [&id]( const ma_buff &b, const effect & ) {
         return b.id == id;
     } );
 }

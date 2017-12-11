@@ -3,7 +3,20 @@
 #define TRANSLATIONS_H
 
 #ifndef translate_marker
+/**
+ * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
+ * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
+ * do anything, the argument is passed through it without any changes.
+ */
 #define translate_marker(x) x
+#endif
+#ifndef translate_marker_context
+/**
+ * Same as @ref translate_marker, but also provides a context (string literal). This is similar
+ * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
+ * passes the *second* argument through.
+ */
+#define translate_marker_context(c, x) x
 #endif
 
 #ifdef LOCALIZE
@@ -38,20 +51,16 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 // so preemptively include it before the gettext overrides.
 #include <locale>
 
-const char *strip_positional_formatting( const char *msgid );
-
-// If PRINTF_CHECKS is enabled, have to skip the function call so GCC can see the format string
-#if defined(PRINTF_CHECKS) && defined(__GNUC__)
 #define _(STRING) (STRING)
-#else
-#define _(STRING) strip_positional_formatting(STRING)
-#endif
 
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+bool isValidLanguage( const std::string &lang );
+std::string getLangFromLCID( const int &lcid );
+void select_language();
 void set_language();
 
 #endif // _TRANSLATIONS_H_

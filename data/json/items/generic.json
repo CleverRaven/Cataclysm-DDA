@@ -209,6 +209,7 @@
     {
         "type":"GENERIC",
         "id": "chitin_piece",
+        "category": "spare_parts",
         "symbol": ",",
         "color": "light_gray",
         "name": "chunk of chitin",
@@ -241,7 +242,7 @@
         "color": "light_gray",
         "name": "empty canister",
         "description": "An empty canister, which may have once held tear gas or other substances.",
-        "material": "aluminum",
+        "material": "steel",
         "weight": 158,
         "volume": 1,
         "bashing": 2,
@@ -550,7 +551,7 @@
         "price": 10000,
         "price_postapoc": 500,
         "material": ["steel", "iron"],
-        "weight": 9071,
+        "weight": 22680,
         "volume": 25,
         "bashing": 6,
         "to_hit": -4
@@ -1029,6 +1030,21 @@
             "moves_slow": 30000,
             "need_sunlight": true
         }
+    },
+    {
+        "type":"GENERIC",
+        "id": "glass_tinted",
+        "symbol": ".",
+        "color": "dark_gray",
+        "name": "pair of tinted glass",
+        "name_plural": "pairs of tinted glass",
+        "category": "spare_parts",
+        "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
+        "price": 1000,
+        "material": "glass",
+        "weight": 340,
+        "volume": 0,
+        "to_hit": -3
     },
     {
         "type":"GENERIC",
@@ -1626,7 +1642,6 @@
         "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-        "material": "wood",
         "weight": 90,
         "volume": 1,
         "to_hit": -2,
@@ -2143,7 +2158,7 @@
         "type" : "GENERIC",
         "id" : "cigar_butt",
         "name" : "cigar butt",
-        "color" : "dkgray",
+        "color" : "dark_gray",
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
         "category" : "other",
@@ -2174,7 +2189,7 @@
         "type" : "GENERIC",
         "id" : "joint_lit",
         "name" : "joint",
-        "color" : "ltgreen",
+        "color" : "light_green",
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "category" : "drugs",

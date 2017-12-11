@@ -2,19 +2,22 @@
 #ifndef VEHICLE_GROUP_H
 #define VEHICLE_GROUP_H
 
-#include "json.h"
 #include "mapgen.h"
 #include <string>
 #include <memory>
+#include <unordered_map>
+
+#include "string_id.h"
 #include "weighted_list.h"
 
+class JsonObject;
 class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 class VehicleSpawn;
 using vspawn_id = string_id<VehicleSpawn>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+struct point;
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
@@ -61,9 +64,7 @@ struct VehicleLocation {
         return facings.pick();
     }
 
-    point pick_point() const {
-        return point( x.get(), y.get() );
-    }
+    point pick_point() const;
 
     jmapgen_int x;
     jmapgen_int y;

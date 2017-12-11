@@ -4,6 +4,7 @@
 
 #include "enums.h"
 #include "string_id.h"
+#include <array>
 #include <string>
 #include <vector>
 #include <set>
@@ -12,13 +13,14 @@
 class item;
 class monster;
 class JsonObject;
+class JsonArray;
 
 class Skill;
 using skill_id = string_id<Skill>;
 
 enum body_part : int;
 
-    enum damage_type : int {
+enum damage_type : int {
     DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_BIOLOGICAL, // internal damage, like from smoke or poison

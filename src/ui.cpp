@@ -15,12 +15,6 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
-#ifdef debuguimenu
-#define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
-#else
-#define dprint(a,...)      void()
-#endif
-
 /**
 * \defgroup UI "The UI Menu."
 * @{
@@ -117,7 +111,6 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
@@ -132,7 +125,6 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 /*
@@ -203,6 +195,8 @@ void uimenu::init()
     last_fsize = -1;
     last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
+    input_category = "UIMENU";
+    additional_actions.clear();
 }
 
 /**
@@ -334,7 +328,7 @@ void uimenu::setup()
 
     if ( desc_enabled && !(w_auto && h_auto) ) {
         desc_enabled = false; // give up
-        debugmsg("desc_enabled without w_auto and h_auto (h: %d, w: %d)", h_auto, w_auto);
+        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ), static_cast<int>( w_auto ) );
     }
 
     max_entry_len = 0;
@@ -458,17 +452,16 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
-        vmax = w_height - (2 + text_separator_line) - textformatted.size();
-        if ( vmax < 1 ) {
-            if (textformatted.empty()) {
-                popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
-                      TERMY);
+    if( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
+        vmax = w_height - ( 2 + text_separator_line ) - textformatted.size();
+        if( vmax < 1 ) {
+            if( textformatted.empty() ) {
+                popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
+                       TERMY );
             } else {
-                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                      textformatted.size(), TERMY, textformatted[0].c_str(),
-                      textformatted[ textformatted.size() - 1 ].c_str()
-                     );
+                popup( "Can't display menu options, %lu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                       static_cast<unsigned long>( textformatted.size() ), TERMY, textformatted[ 0 ].c_str(),
+                       textformatted[ textformatted.size() - 1 ].c_str() );
             }
         }
     }
@@ -802,7 +795,7 @@ void uimenu::query(bool loop)
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
 
-    input_context ctxt( "UIMENU" );
+    input_context ctxt( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -814,6 +807,10 @@ void uimenu::query(bool loop)
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    for ( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action.first, additional_action.second );
+    }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
@@ -824,28 +821,20 @@ void uimenu::query(bool loop)
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if ( callback != nullptr ) {
-            if( iter == keymap.end() && action == "ANY_INPUT" && event.get_first_input() != '?' ) {
-                skipkey = callback->key( event, -1, this );
-            } else {
-                skipkey = callback->key( event, selected, this );
-            }
-        }
-
         if ( skipkey ) {
             /* nothing */
         } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
+        } else if ( action == "HELP_KEYBINDINGS" ) {
+            /* nothing, handled by input_context */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
-            if( iter != keymap.end() ) {
-                selected = iter->second;
-                if( entries[ selected ].enabled ) {
-                    ret = entries[ selected ].retval; // valid
-                } else if( return_invalid ) {
-                    ret = 0 - entries[ selected ].retval; // disabled
-                }
+        } else if( iter != keymap.end() ) {
+            selected = iter->second;
+            if( entries[ selected ].enabled ) {
+                ret = entries[ selected ].retval; // valid
+            } else if( return_invalid ) {
+                ret = 0 - entries[ selected ].retval; // disabled
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -856,6 +845,9 @@ void uimenu::query(bool loop)
         } else if( action == "QUIT" ) {
             break;
         } else {
+            if ( callback != nullptr ) {
+                skipkey = callback->key( ctxt, event, selected, this );
+            }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
@@ -896,24 +888,6 @@ void uimenu::addentry(int r, bool e, int k, std::string str)
     entries.push_back(uimenu_entry(r, e, k, str));
 }
 
-void uimenu::addentry(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(text));
-}
-
-void uimenu::addentry(int r, bool e, int k, const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    const std::string text = vstring_format(format, ap);
-    va_end(ap);
-    entries.push_back(uimenu_entry(r, e, k, text));
-}
-
 void uimenu::addentry_desc(std::string str, std::string desc)
 {
     entries.push_back(uimenu_entry(str, desc));
@@ -927,14 +901,6 @@ void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string de
 void uimenu::settext(std::string str)
 {
     text = str;
-}
-
-void uimenu::settext(const char *format, ...)
-{
-    va_list ap;
-    va_start(ap, format);
-    text = vstring_format(format, ap);
-    va_end(ap);
 }
 
 pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )

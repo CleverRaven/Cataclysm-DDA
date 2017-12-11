@@ -2,7 +2,7 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "catacurse.h"
+#include "cursesport.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
@@ -18,12 +18,17 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "color_loader.h"
+#include "font_loader.h"
+#include "platform_win.h"
+#include "mmsystem.h"
 
 //***********************************
 //Globals                           *
 //***********************************
 
+static constexpr int ERR = -1;
 const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
@@ -32,8 +37,6 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-//WINDOW *_windows;  //Probably need to change this to dynamic at some point
-//int WindowCount;        //The number of curses windows currently in use
 HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
 HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
 int fontwidth;          //the width of the font, background is always this size
@@ -49,7 +52,7 @@ bool CursorVisible = true; // Showcursor is a somewhat weird function
 //Non-curses, Window functions      *
 //***********************************
 
-// declare this locally, because it's not generally cross-compatible in catacurse.h
+// declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam);
 
 std::wstring widen( const std::string &s )
@@ -316,7 +319,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
         memset(&dcbits[x+j*WindowWidth],color,width);
 }
 
-void curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     wchar_t tmp;
@@ -421,9 +424,9 @@ void curses_drawwindow(WINDOW *win)
                         break;
                     };//switch (tmp)
                 }//(tmp < 0)
-            };//for (i=0;i<_windows[w].width;i++)
+            }//for (i=0;i<win->width;i++)
         }
-    };// for (j=0;j<_windows[w].height;j++)
+    }// for (j=0;j<win->height;j++)
     win->draw=false;                //We drew the window, mark it as so
     if (update.top != -1)
     {
@@ -458,86 +461,15 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void catacurses::init_interface()
 {
-   // _windows = new WINDOW[20];         //initialize all of our variables
     lastchar=-1;
     inputdelay=-1;
 
-    int fontsize = 16;
-    std::string typeface;
-    int map_fontwidth = 8;
-    int map_fontheight = 16;
-    int map_fontsize = 16;
-    std::string map_typeface;
-    int overmap_fontwidth = 8;
-    int overmap_fontheight = 16;
-    int overmap_fontsize = 16;
-    std::string overmap_typeface;
-    bool fontblending = false;
-
-    std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
-    if (jsonstream.good()) {
-        JsonIn json(jsonstream);
-        JsonObject config = json.get_object();
-        // fontsize, fontblending, map_* are ignored in wincurse.
-        fontwidth = config.get_int("fontwidth", fontwidth);
-        fontheight = config.get_int("fontheight", fontheight);
-        typeface = config.get_string("typeface", typeface);
-        jsonstream.close();
-    } else { // User fontdata is missed. Try to load legacy fontdata.
-        // Get and save all values. With unused.
-        std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
-        if(InStream.good()) {
-            JsonIn jIn(InStream);
-            JsonObject config = jIn.get_object();
-            fontwidth = config.get_int("fontwidth", fontwidth);
-            fontheight = config.get_int("fontheight", fontheight);
-            fontsize = config.get_int("fontsize", fontsize);
-            typeface = config.get_string("typeface", typeface);
-            map_fontwidth = config.get_int("map_fontwidth", fontwidth);
-            map_fontheight = config.get_int("map_fontheight", fontheight);
-            map_fontsize = config.get_int("map_fontsize", fontsize);
-            map_typeface = config.get_string("map_typeface", typeface);
-            overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
-            overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
-            overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
-            overmap_typeface = config.get_string("overmap_typeface", typeface);
-            InStream.close();
-            // Save legacy as user fontdata.
-            assure_dir_exist(FILENAMES["config_dir"]);
-            std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
-            if(!OutStream.good()) {
-                DebugLog( D_ERROR, DC_ALL ) << "Can't save user fontdata file.\n"
-                << "Check permissions for: " << FILENAMES["fontdata"].c_str();
-                return NULL;
-            }
-            JsonOut jOut(OutStream, true); // pretty-print
-            jOut.start_object();
-            jOut.member("fontblending", fontblending);
-            jOut.member("fontwidth", fontwidth);
-            jOut.member("fontheight", fontheight);
-            jOut.member("fontsize", fontsize);
-            jOut.member("typeface", typeface);
-            jOut.member("map_fontwidth", map_fontwidth);
-            jOut.member("map_fontheight", map_fontheight);
-            jOut.member("map_fontsize", map_fontsize);
-            jOut.member("map_typeface", map_typeface);
-            jOut.member("overmap_fontwidth", overmap_fontwidth);
-            jOut.member("overmap_fontheight", overmap_fontheight);
-            jOut.member("overmap_fontsize", overmap_fontsize);
-            jOut.member("overmap_typeface", overmap_typeface);
-            jOut.end_object();
-            OutStream << "\n";
-            OutStream.close();
-        } else {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't load fontdata files.\n"
-            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
-            << FILENAMES["fontdata"].c_str() << "\n";
-            return NULL;
-        }
-    }
-
+    font_loader fl;
+    fl.load();
+    ::fontwidth = fl.fontwidth;
+    ::fontheight = fl.fontheight;
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= get_option<int>( "TERMINAL_X" ) * fontwidth;
@@ -582,16 +514,19 @@ WINDOW *curses_init(void)
     // Use desired font, if possible
     font = CreateFontW(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, widen(typeface).c_str());
+                      PROOF_QUALITY, FF_MODERN, widen(fl.typeface).c_str());
 
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
-//    WindowCount=0;
 
+    color_loader<RGBQUAD>().load( windowsPalette );
+    if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+        throw std::runtime_error( "SetDIBColorTable failed" );
+    }
     init_colors();
 
-    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
@@ -601,14 +536,14 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-input_event input_manager::get_input_event( WINDOW *win )
+input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh(win);
+    wrefresh( stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)
@@ -664,19 +599,18 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( WINDOW *, int &, int & )
+bool input_context::get_coordinates( const catacurses::window &, int &, int & )
 {
     // TODO: implement this properly
     return false;
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+void catacurses::endwin()
 {
     DeleteObject(font);
     WinDestroy();
     RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
-    return 1;
 }
 
 template<>
@@ -690,23 +624,13 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     return result;
 }
 
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
-        return ERR;
-    }
-    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
-}
-
 void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
 }
 
-void handle_additional_window_clear(WINDOW*)
+void cata_cursesport::handle_additional_window_clear(WINDOW*)
 {
 }
 

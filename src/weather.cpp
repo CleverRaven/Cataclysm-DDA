@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"
@@ -20,11 +21,17 @@
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
+const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -148,7 +155,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, in
         return;
     }
 
-    it.bday = endturn; // bday == last fill check
+    it.set_birthday( endturn ); // bday == last fill check
     auto data = sum_conditions( startturn, endturn, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
@@ -236,7 +243,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water("water", 0);
-    static const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
+    static const double charge_ml = ( double ) to_gram( water.weight() ) / water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS(1);
@@ -295,7 +302,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
 
             if( container != items.end() ) {
                 container->add_rain_to_container(acid, 1);
-                container->bday = int(calendar::turn);
+                container->set_age( 0 );
             }
         }
     }
@@ -400,7 +407,7 @@ void weather_effect::very_wet()
 void weather_effect::thunder()
 {
     very_wet();
-    if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
+    if (!g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
             sfx::play_variant_sound("environment", "thunder_far", 80, rng(0, 359));

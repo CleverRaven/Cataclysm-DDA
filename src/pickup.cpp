@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "vehicle_selector.h"
 #include "veh_interact.h"
@@ -306,7 +307,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
                         if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            here[i].begin()->_item.weight() <= weight_limit * 50 &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
@@ -357,7 +358,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
@@ -403,7 +404,11 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     }
 
     bool did_prompt = false;
-    if( newit.made_of( LIQUID ) ) {
+    newit.charges = u.i_add_to_container( newit, false );
+    if( newit.is_ammo() && newit.charges == 0 ) {
+        picked_up = true;
+        option = NUM_ANSWERS; //Skip the options part
+    } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
@@ -976,27 +981,27 @@ void Pickup::pick_up( const tripoint &pos, int min )
             mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
-                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 1, c_ltgray, string_format( _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
-                         ctxt.get_desc( "RIGHT", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 1, 0, c_ltgray, string_format( _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ).c_str() ) );
 
             mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
-                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 2, c_ltgray, string_format( _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
-                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 2, 0, c_ltgray, string_format( _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() ) );
 
             if( update ) { // Update weight & volume information
                 update = false;
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                int weight_picked_up = 0;
+                units::mass weight_picked_up = 0;
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
@@ -1114,18 +1119,12 @@ void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_pa
 void show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
-        std::string name;
-        if( entry.second.first.count_by_charges() ) {
-            name = entry.second.first.tname( entry.second.second );
-        } else {
-            name = entry.second.first.display_name( entry.second.second );
-        }
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
-                     name.c_str(), entry.second.first.invlet );
+                     entry.second.first.display_name( entry.second.second ).c_str(), entry.second.first.invlet );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
-                     name.c_str() );
+                     entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
 }
@@ -1140,7 +1139,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
     }
 
     // Is it too heavy? It'll take 10 moves per kg over limit
-    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100 );
+    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );

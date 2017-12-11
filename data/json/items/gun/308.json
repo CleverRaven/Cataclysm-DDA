@@ -22,7 +22,7 @@
     "barrel_length": 2,
     "magazines": [
       [ "308", [ "falmag", "falbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -51,7 +51,7 @@
     ],
     "magazines": [
       [ "308", [ "g3mag", "g3bigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -114,7 +114,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "magazines": [
       [ "308", [ "m14mag", "m14smallmag" ] ],
-      [ "223", [ "stanag10" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -133,7 +133,7 @@
     "color": "dark_gray",
     "ammo": "308",
     "dispersion": 200,
-    "durability": 7,
+    "durability": 9,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 20 ] ],
     "built_in_mods": [ "bipod" ],

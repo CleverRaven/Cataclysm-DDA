@@ -1,28 +1,13 @@
 [
   {
-    "result": "10mm",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 8 ] ],
-      [ [ "40_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
     "result": "223",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ],
@@ -36,7 +21,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "22_casing_new", 1 ] ],
@@ -50,7 +35,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "22_casing_new", 1 ] ],
@@ -65,7 +50,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "22_casing_new", 1 ] ],
@@ -79,7 +64,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "22_casing_new", 1 ] ],
@@ -93,7 +78,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 5 ] ],
       [ [ "3006_casing", 1 ] ],
@@ -109,7 +94,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 6 ] ],
       [ [ "3006_casing", 1 ] ],
@@ -125,7 +110,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "incendiary", 6 ] ],
       [ [ "3006_casing", 1 ] ],
@@ -141,7 +126,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 6 ] ],
       [ [ "3006_casing", 1 ] ],
@@ -157,7 +142,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 8 ] ],
       [ [ "300_casing", 1 ] ],
@@ -173,7 +158,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 6 ] ],
       [ [ "308_casing", 1 ] ],
@@ -189,89 +174,12 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "38_fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 5 ] ],
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ],
-      [ [ "copper", 5 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "38_special",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 5 ] ],
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "38_super",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 5 ] ],
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 7 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "40fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "40_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "40sw",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "40_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ]
+      [ [ "gunpowder", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -281,7 +189,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 7 ] ],
       [ [ "44_casing", 1 ] ],
@@ -297,7 +205,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 10 ] ],
       [ [ "44_casing", 1 ] ],
@@ -312,7 +220,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 20 ] ],
       [ [ "454_casing", 1 ] ],
@@ -323,58 +231,12 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "45_acp",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 8 ] ],
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "45_jhp",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 7 ] ],
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 7 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "45_super",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 10 ] ],
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 12 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
     "result": "46mm",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "46mm_casing", 1 ] ],
@@ -389,7 +251,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 24 ] ],
       [ [ "500_casing", 1 ] ],
@@ -405,14 +267,14 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 20 ] ],
-      [ [ "incendiary", 30 ] ],
+      [ [ "lead", 12 ] ],
+      [ [ "incendiary", 20 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 100 ] ],
-      [ [ "copper", 27 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -422,30 +284,29 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 12 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 33 ] ],
-      [ [ "copper", 9 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
     "result": "50ss",
     "type": "uncraft",
-    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation.",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 100 ] ],
-      [ [ "copper", 27 ] ],
-      [ [ "combatnail", 5 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "scrap", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -455,7 +316,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "545_casing", 1 ] ],
@@ -471,7 +332,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "545_casing", 1 ] ],
@@ -487,9 +348,9 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -503,9 +364,10 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "incendiary", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -519,7 +381,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "57mm_casing", 1 ] ],
@@ -534,7 +396,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "5x50_hull", 1 ] ],
@@ -549,7 +411,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "5x50_hull", 1 ] ],
@@ -564,7 +426,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 14 ] ],
       [ [ "700nx_casing", 1 ] ],
@@ -580,7 +442,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 6 ] ],
       [ [ "308_casing", 1 ] ],
@@ -596,7 +458,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "incendiary", 6 ] ],
       [ [ "308_casing", 1 ] ],
@@ -612,7 +474,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "762_casing", 1 ] ],
@@ -628,7 +490,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 5 ] ],
       [ [ "762_casing", 1 ] ],
@@ -644,7 +506,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 5 ] ],
       [ [ "762_casing", 1 ] ],
@@ -660,9 +522,9 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ]
@@ -675,9 +537,9 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 5 ] ]
@@ -690,9 +552,9 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ],
@@ -764,8 +626,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -775,8 +637,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -786,8 +648,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -797,8 +659,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -808,8 +670,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -819,8 +681,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -830,8 +692,8 @@
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
     "time": 50000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -872,8 +734,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -886,8 +748,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -900,13 +762,10 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": 120000,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -923,8 +782,8 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": 30000,
+    "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 3 ], [ "toolset", 3 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "lens", 1 ] ],
@@ -938,8 +797,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -952,8 +811,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -966,8 +825,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -980,8 +839,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "spike", 2 ] ],
       [ [ "processor", 1 ] ],
@@ -995,8 +854,8 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "time": 4000,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
@@ -1009,8 +868,8 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 180000,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ] ],
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "motor", 1 ] ],
@@ -1023,13 +882,10 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": 120000,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1046,8 +902,8 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 60000,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "power_supply", 1 ] ],
       [ [ "tazer", 2 ] ],
@@ -1061,14 +917,11 @@
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 600000,
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
-      [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ],
     "components": [
       [ [ "flamethrower", 1 ] ],
@@ -1089,13 +942,10 @@
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 300000,
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-      [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ],
     "components": [
       [ [ "power_supply", 12 ] ],
@@ -1232,11 +1082,23 @@
     ]
   },
   {
+    "result": "crown_golden",
+    "type": "uncraft",
+    "time": 600,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 200 ] ] ]
+  },
+  {
+    "result": "crown_golden_survivor",
+    "type": "uncraft",
+    "copy-from": "crown_golden"
+  },
+  {
     "result": "cu_pipe",
     "type": "uncraft",
     "time": 1200,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {
@@ -1318,6 +1180,13 @@
     ]
   },
   {
+    "result": "fancy_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "time": 6000,
@@ -1329,6 +1198,13 @@
     "type": "uncraft",
     "time": 100,
     "components": [ [ [ "paper", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fitover_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -1379,6 +1255,12 @@
     "type": "uncraft",
     "time": 500,
     "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "glass_sheet",
+    "type": "uncraft",
+    "time": 2000,
+    "components": [ [ [ "glass_shard", 12 ] ] ]
   },
   {
     "result": "gobag",
@@ -1628,8 +1510,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "time": 10000,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "element", 3 ] ],
       [ [ "amplifier", 1 ] ],
@@ -1691,14 +1573,11 @@
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": 30000,
+    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 3 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ], [ "welder_crude", 45 ] ]
     ],
     "components": [
       [ [ "amplifier", 2 ] ],
@@ -1713,14 +1592,11 @@
     "skill_used": "mechanics",
     "difficulty": 6,
     "time": 50000,
+    "using": [ [ "soldering_standard", 50 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -1961,8 +1837,8 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": 10000,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ],
@@ -2031,8 +1907,8 @@
     "skill_used": "electronics",
     "difficulty": 1,
     "time": 10000,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "e_scrap", 3 ] ],
       [ [ "plastic_chunk", 1 ] ]
@@ -2120,12 +1996,12 @@
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 60000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "motor_small", 3 ] ],
       [ [ "processor", 3 ] ],
@@ -2137,8 +2013,8 @@
     "result": "seat",
     "type": "uncraft",
     "time": 5000,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
@@ -2260,6 +2136,13 @@
     "time": 2000,
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "survivormap",
@@ -2441,11 +2324,11 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 9000,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1, "amount": 1 },
       { "id": "HAMMER", "level": 3, "amount": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],

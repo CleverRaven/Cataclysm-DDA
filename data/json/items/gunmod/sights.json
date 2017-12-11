@@ -14,7 +14,7 @@
     "location": "sights",
     "mod_targets": [ "bow" ],
     "sight_dispersion": 45,
-    "aim_cost": 6
+    "aim_speed": 4
   },
   {
     "id": "holo_sight",
@@ -29,8 +29,8 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
-    "sight_dispersion": 60,
-    "aim_cost": 6,
+    "sight_dispersion": 50,
+    "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -50,7 +50,7 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 120,
-    "aim_cost": 6,
+    "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -68,7 +68,7 @@
     "location": "sights",
     "mod_targets": [ "pistol", "crossbow" ],
     "sight_dispersion": 30,
-    "aim_cost": 10,
+    "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -87,7 +87,7 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "sight_dispersion": 90,
-    "aim_cost": 4,
+    "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -106,7 +106,26 @@
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
     "install_time": 30000,
     "sight_dispersion": 0,
-    "aim_cost": 10,
+    "aim_speed": 0,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "acog_scope",
+    "type": "GUNMOD",
+    "name": "ACOG scope",
+    "description": "An Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Increases weight but improves accuracy significantly.",
+    "weight": 450,
+    "volume": 2,
+    "price": 68000,
+    "material": [ "aluminum", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "install_time": 30000,
+    "sight_dispersion": 30,
+    "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
@@ -120,7 +139,7 @@
     "volume": 0,
     "price": 0,
     "material": [ "superalloy", "ceramic" ],
-    "proportional": { "aim_cost": 0.8 },
+    "aim_speed": 2,
     "flags": [ "ZOOM", "IRREMOVABLE" ]
   }
 ]

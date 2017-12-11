@@ -810,7 +810,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_INLINE" ]
   },
   {
     "id": "rollerskates",
@@ -832,7 +832,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_QUAD" ]
   },
   {
     "id": "shoes_birchbark",
@@ -947,7 +947,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FIN" ]
   },
   {
     "id": "thigh_high_boots",

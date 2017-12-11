@@ -12,6 +12,7 @@ class monster;
 class player;
 class Creature;
 class item;
+class JsonObject;
 
 namespace sounds
 {

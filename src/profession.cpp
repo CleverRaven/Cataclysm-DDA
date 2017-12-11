@@ -1,13 +1,11 @@
+#include "profession.h"
 #include <iostream>
 #include <sstream>
 #include <iterator>
 
-#include "profession.h"
-
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "text_snippets.h"
 #include "rng.h"
 #include "translations.h"

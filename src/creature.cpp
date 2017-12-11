@@ -1,5 +1,5 @@
-#include "item.h"
 #include "creature.h"
+#include "item.h"
 #include "output.h"
 #include "game.h"
 #include "map.h"
@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "effect.h"
 #include "mtype.h"
 #include "npc.h"
 #include "itype.h"
@@ -14,6 +15,7 @@
 #include "debug.h"
 #include "field.h"
 #include "projectile.h"
+#include "anatomy.h"
 
 #include <algorithm>
 #include <numeric>
@@ -30,42 +32,6 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
 
-static std::map<int, std::map<body_part, double> > default_hit_weights = {
-    {
-        -1, /* attacker smaller */
-        {   { bp_eyes, 0.f },
-            { bp_head, 0.f },
-            { bp_torso, 20.f },
-            { bp_arm_l, 15.f },
-            { bp_arm_r, 15.f },
-            { bp_leg_l, 25.f },
-            { bp_leg_r, 25.f }
-        }
-    },
-    {
-        0, /* attacker equal size */
-        {   { bp_eyes, 0.33f },
-            { bp_head, 2.33f },
-            { bp_torso, 33.33f },
-            { bp_arm_l, 20.f },
-            { bp_arm_r, 20.f },
-            { bp_leg_l, 12.f },
-            { bp_leg_r, 12.f }
-        }
-    },
-    {
-        1, /* attacker larger */
-        {   { bp_eyes, 0.57f },
-            { bp_head, 5.71f },
-            { bp_torso, 36.57f },
-            { bp_arm_l, 22.86f },
-            { bp_arm_r, 22.86f },
-            { bp_leg_l, 5.71f },
-            { bp_leg_r, 5.71f }
-        }
-    }
-};
-
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
@@ -81,11 +47,10 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
+    effects.reset( new effects_map() );
 }
 
-Creature::~Creature()
-{
-}
+Creature::~Creature() = default;
 
 void Creature::normalize()
 {
@@ -294,23 +259,18 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         self_area_iff = true;
     }
 
-    std::vector<Creature*> targets;
-    targets.reserve( g->num_zombies() + g->active_npc.size() );
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &m = g->zombie(i);
-        if( m.friendly != 0 ) {
+    std::vector<Creature*> targets = g->get_creatures_if( [&]( const Creature &critter ) {
+        if( const monster *const mon_ptr = dynamic_cast<const monster*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return mon_ptr->friendly == 0;
         }
-        targets.push_back( &m );
-    }
-    for( auto &p : g->active_npc ) {
-        if( p->attitude != NPCATT_KILL ) {
+        if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return npc_ptr->attitude == NPCATT_KILL;
         }
-        targets.push_back( p );
-    }
+        //@todo what about g->u?
+        return false;
+    } );
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
@@ -792,13 +752,6 @@ void Creature::set_fake(const bool fake_value)
     fake = fake_value;
 }
 
-void Creature::add_eff_effects(effect e, bool reduced)
-{
-    (void)e;
-    (void)reduced;
-    return;
-}
-
 void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
@@ -820,8 +773,8 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 
     bool found = false;
     // Check if we already have it
-    auto matching_map = effects.find(eff_id);
-    if (matching_map != effects.end()) {
+    auto matching_map = effects->find(eff_id);
+    if (matching_map != effects->end()) {
         auto &bodyparts = matching_map->second;
         auto found_effect = bodyparts.find(bp);
         if (found_effect != bodyparts.end()) {
@@ -838,10 +791,13 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
             if( e.is_permanent() ) {
                 e.pause_effect();
             }
-            // Set intensity if value is given
-            if (intensity > 0) {
+            // int_dur_factor overrides all other intensity settings
+            // ...but it's handled in set_duration, so explicitly do nothing here
+            if( e.get_int_dur_factor() > 0 ) {
+                // Set intensity if value is given
+            } else if (intensity > 0) {
                 e.set_intensity(intensity);
-            // Else intensity uses the type'd step size if it already exists
+                // Else intensity uses the type'd step size if it already exists
             } else if (e.get_int_add_val() != 0) {
                 e.mod_intensity(e.get_int_add_val());
             }
@@ -863,7 +819,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another
-        for( auto &elem : effects ) {
+        for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
                 for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
@@ -893,7 +849,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         } else if (e.get_intensity() > e.get_max_intensity()) {
             e.set_intensity(e.get_max_intensity());
         }
-        effects[eff_id][bp] = e;
+        ( *effects )[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
             if(type.get_apply_message() != "") {
@@ -907,8 +863,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        bool reduced = resists_effect(e);
-        add_eff_effects(e, reduced);
+        process_one_effect( e, true );
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
@@ -929,13 +884,13 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
 }
 void Creature::clear_effects()
 {
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             on_effect_int_change( e.get_id(), 0, e.get_bp() );
         }
     }
-    effects.clear();
+    effects->clear();
 }
 bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 {
@@ -959,16 +914,16 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
-        for( auto &it : effects[eff_id] ) {
+        for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
         }
-        effects.erase(eff_id);
+        effects->erase(eff_id);
     } else {
-        effects[eff_id].erase(bp);
+        ( *effects )[eff_id].erase(bp);
         on_effect_int_change( eff_id, 0, bp );
         // If there are no more effects of a given type remove the type map
-        if (effects[eff_id].empty()) {
-            effects.erase(eff_id);
+        if (( *effects )[eff_id].empty()) {
+            effects->erase(eff_id);
         }
     }
     return true;
@@ -977,10 +932,10 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 {
     // num_bp means anything targeted or not
     if (bp == num_bp) {
-        return effects.find( eff_id ) != effects.end();
+        return effects->find( eff_id ) != effects->end();
     } else {
-        auto got_outer = effects.find(eff_id);
-        if(got_outer != effects.end()) {
+        auto got_outer = effects->find(eff_id);
+        if(got_outer != effects->end()) {
             auto got_inner = got_outer->second.find(bp);
             if (got_inner != got_outer->second.end()) {
                 return true;
@@ -997,8 +952,8 @@ effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
 
 const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
 {
-    auto got_outer = effects.find(eff_id);
-    if(got_outer != effects.end()) {
+    auto got_outer = effects->find(eff_id);
+    if(got_outer != effects->end()) {
         auto got_inner = got_outer->second.find(bp);
         if (got_inner != got_outer->second.end()) {
             return got_inner->second;
@@ -1033,7 +988,7 @@ void Creature::process_effects()
     std::vector<body_part> rem_bps;
 
     // Decay/removal of effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
             for( const auto removed_effect : _it.second.get_removes_effects() ) {
@@ -1384,9 +1339,9 @@ void Creature::set_throw_resist(int nthrowres)
     throw_resist = nthrowres;
 }
 
-int Creature::weight_capacity() const
+units::mass Creature::weight_capacity() const
 {
-    int base_carry = 13000;
+    units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
     case MS_TINY:
         base_carry /= 4;
@@ -1408,19 +1363,19 @@ int Creature::weight_capacity() const
     return base_carry;
 }
 
-int Creature::get_weight() const
+units::mass Creature::get_weight() const
 {
     switch( get_size() ) {
         case MS_TINY:
-            return 1000;
+            return 1000_gram;
         case MS_SMALL:
-            return 40750;
+            return 40750_gram;
         case MS_MEDIUM:
-            return 81500;
+            return 81500_gram;
         case MS_LARGE:
-            return 120000;
+            return 120_kilogram;
         case MS_HUGE:
-            return 200000;
+            return 200_kilogram;
     }
 
     return 0;
@@ -1458,64 +1413,14 @@ bool Creature::is_symbol_highlighted() const
 
 body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
-    // Get size difference (-1,0,1);
-    int szdif = std::min( 1, std::max( -1, source->get_size() - get_size() ) );
+    int szdif = source->get_size() - get_size();
 
     add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    std::map<body_part, double> hit_weights = default_hit_weights[szdif];
-
-    // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
-    // Any hit modifiers to locations should go here. (Tags, attack style, etc)
-    if(is_on_ground()) {
-        hit_weights[bp_eyes] += 1;
-        hit_weights[bp_head] += 5;
-    }
-
-    //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
-    //This should eventually be replaced with targeted attacks and this being miss chances.
-    // pow() is unstable at 0, so don't apply any changes.
-    if( hit_roll != 0 ) {
-        hit_weights[bp_eyes] *= std::pow(hit_roll, 1.15);
-        hit_weights[bp_head] *= std::pow(hit_roll, 1.35);
-        hit_weights[bp_torso] *= std::pow(hit_roll, 1);
-        hit_weights[bp_arm_l] *= std::pow(hit_roll, 0.95);
-        hit_weights[bp_arm_r] *= std::pow(hit_roll, 0.95);
-        hit_weights[bp_leg_l] *= std::pow(hit_roll, 0.975);
-        hit_weights[bp_leg_r] *= std::pow(hit_roll, 0.975);
-    }
-
-    // Debug for seeing weights.
-    add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
-    add_msg( m_debug, "head = %f", hit_weights.at( bp_head ) );
-    add_msg( m_debug, "torso = %f", hit_weights.at( bp_torso ) );
-    add_msg( m_debug, "arm_l = %f", hit_weights.at( bp_arm_l ) );
-    add_msg( m_debug, "arm_r = %f", hit_weights.at( bp_arm_r ) );
-    add_msg( m_debug, "leg_l = %f", hit_weights.at( bp_leg_l ) );
-    add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
-
-    double totalWeight = 0;
-    for( const auto &hit_weight : hit_weights ) {
-        totalWeight += hit_weight.second;
-    }
-
-    double roll = rng_float(0, totalWeight);
-    body_part selected_part = bp_torso;
-
-    for( const auto &hit_candidate : hit_weights) {
-        roll -= hit_candidate.second;
-        if(roll <= 0) {
-            selected_part = hit_candidate.first;
-            break;
-        }
-    }
-
-    add_msg( m_debug, "selected part: %s", body_part_name(selected_part).c_str() );
-
-    return selected_part;
+    return human_anatomy->select_body_part( szdif, hit_roll )->token;
 }
 
 void Creature::check_dead_state() {

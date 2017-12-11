@@ -710,16 +710,6 @@
         "ammo_type" : "NULL",
         "flags" : ["UNRECOVERABLE"]
     },
-    {   "type" : "GENERIC",
-        "id" : "5x50_hull",
-        "copy-from" : "casing",
-        "name" : "5x50mm hull",
-        "color" : "light_green",
-        "description" : "An empty plastic hull from a 5x50mm flechette round.",
-        "material" : "plastic",
-        "volume" : "9ml",
-        "weight" : 1
-    },
     {
         "type" : "AMMO",
         "id" : "charcoal",
@@ -959,5 +949,20 @@
         "range" : 4,
         "count" : 100,
         "effects" : [ "TOXICGAS", "NEVER_MISFIRES" , "JET"]
+    },
+    {
+        "type" : "AMMO",
+        "id" : "chain_link",
+        "category" : "spare_parts",
+        "price" : 150,
+        "name" : "chain link",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "description" : "Small metal rings, suitable for constructing chainmail.",
+        "material" : "iron",
+        "volume" : 1,
+        "weight" : 1,
+        "ammo_type" : "components",
+        "count" : 150
     }
 ]

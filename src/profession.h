@@ -24,12 +24,10 @@ struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 enum add_type : int;
 
-    // The weird indentation is thanks to astyle; don't fix it unless you feel like
-    // failing a build or two.
-    class Skill;
-    using skill_id = string_id<Skill>;
+class Skill;
+using skill_id = string_id<Skill>;
 
-    class profession
+class profession
 {
     public:
         typedef std::pair<skill_id, int> StartingSkill;

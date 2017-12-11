@@ -1,10 +1,13 @@
-#include "item_factory.h"
 #include "item_group.h"
+#include "item_factory.h"
 #include "rng.h"
 #include "item.h"
 #include "debug.h"
+#include "ammo.h"
 #include "itype.h"
 #include "game_constants.h"
+#include "json.h"
+
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -204,7 +207,7 @@ void Item_modifier::modify(item &new_item) const
             const auto qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
             if( new_item.ammo_type() && qty > 0 ) {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ), qty );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
             }
         } else if( !new_item.is_gun() ) {
             //not gun, food, ammo or tool.
@@ -216,10 +219,10 @@ void Item_modifier::modify(item &new_item) const
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() ) {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
             }
         } else {
-            const item am = ammo->create_single( new_item.bday );
+            const item am = ammo->create_single( new_item.birthday() );
             new_item.ammo_set( am.typeId(), ch );
         }
         // Make sure the item is in valid state
@@ -236,22 +239,21 @@ void Item_modifier::modify(item &new_item) const
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() && !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.bday );
+            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
         }
 
         if( spawn_ammo ) {
             if( ammo.get() ) {
-                const item am = ammo->create_single( new_item.bday );
+                const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
             }
         }
     }
 
-
     if(container.get() != NULL) {
-        item cont = container->create_single(new_item.bday);
+        item cont = container->create_single( new_item.birthday() );
         if (!cont.is_null()) {
             if (new_item.made_of(LIQUID)) {
                 long rc = cont.get_remaining_capacity_for_liquid(new_item);
@@ -265,9 +267,14 @@ void Item_modifier::modify(item &new_item) const
             new_item = cont;
         }
     }
+
     if (contents.get() != NULL) {
-        Item_spawn_data::ItemList contentitems = contents->create(new_item.bday);
+        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
+    }
+
+    for( auto &flag : custom_flags ) {
+        new_item.set_flag( flag );
     }
 }
 

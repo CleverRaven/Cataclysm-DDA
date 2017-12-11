@@ -11,10 +11,12 @@
 #include "cursesdef.h"
 #include "ranged.h"
 
+#include <array>
 #include <vector>
 #include <map>
 #include <unordered_map>
 #include <list>
+#include <memory>
 #include <stdarg.h>
 
 extern const int savegame_version;
@@ -35,6 +37,9 @@ extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+class input_context;
+input_context get_default_mode_input_context();
 
 enum class dump_mode {
     TSV,
@@ -107,11 +112,12 @@ class weather_generator;
 struct weather_printable;
 class faction;
 class live_view;
-typedef int nc_color;
+class nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
+class loading_ui;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -136,7 +142,7 @@ class game
         void load_static_data();
 
         /** Loads core dynamic data. May throw. */
-        void load_core_data();
+        void load_core_data( loading_ui &ui );
 
         /** Returns whether the core data is currently loaded. */
         bool is_core_data_loaded() const;
@@ -146,22 +152,23 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<std::string> &opts );
+        bool check_mod_data( const std::vector<std::string> &opts, loading_ui &ui );
 
         /** Loads core data and mods from the given world. May throw. */
-        void load_world_modfiles(WORLDPTR world);
+        void load_world_modfiles( WORLDPTR world, loading_ui &ui );
 
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
+         *  @param ui structure for load progress display
          *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui );
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const std::string &path, const std::string &src );
+        void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
 
         // May be a bit hacky, but it's probably better than the header spaghetti
@@ -280,8 +287,13 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        npc *npc_by_id(const int id) const;
+        /**
+         * @return The the living creature with the given id. Returns null if no living
+         * creature with such an id exists. Never returns a dead creature.
+         * Currently only the player character and npcs have ids.
+         */
+        template<typename T = Creature>
+        T *critter_by_id( int id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -292,19 +304,32 @@ class game
         T *critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
         T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        /**
+         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
+         * @ref Creature). The function may return an empty pointer if the given critter
+         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
+         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
+         */
+        template<typename T = Creature>
+        std::shared_ptr<T> shared_from( const T &critter );
 
-        /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        bool summon_mon( const mtype_id& id, const tripoint &p );
+        /**
+         * Summons a brand new monster at the current time. Returns the summoned monster.
+         * Returns a `nullptr` if the monster could not be created.
+         */
+        monster *summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
-        /** Returns the number of creatures through the creature_tracker size() function. */
-        size_t num_zombies() const;
-        /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie(const int idx);
+        /**
+         * Returns the approximate number of creatures in the reality bubble.
+         * Because of performance restrictions it may return a slightly incorrect
+         * values (as it includes dead, but not yet cleaned up creatures).
+         */
+        size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
-        void remove_zombie(const int idx);
+        void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
         /** Spawns a hallucination close to the player. */
@@ -312,10 +337,100 @@ class game
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
-        /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
+    private:
+        friend class monster_range;
+        friend class Creature_range;
+
+        template<typename T>
+        class non_dead_range {
+            public:
+                std::vector<std::weak_ptr<T>> items;
+
+                class iterator {
+                    private:
+                        bool valid();
+                    public:
+                        std::vector<std::weak_ptr<T>> &items;
+                        typename std::vector<std::weak_ptr<T>>::iterator iter;
+                        std::shared_ptr<T> current;
+
+                        iterator( std::vector<std::weak_ptr<T>> &i, const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                            while( iter != items.end() && !valid() ) {
+                                ++iter;
+                            }
+                        }
+                        iterator( const iterator & ) = default;
+                        iterator &operator=( const iterator & ) = default;
+
+                        bool operator==( const iterator &rhs ) const {
+                            return iter == rhs.iter;
+                        }
+                        bool operator!=( const iterator &rhs ) const {
+                            return !operator==( rhs );
+                        }
+                        iterator &operator++() {
+                            do {
+                                ++iter;
+                            } while( iter != items.end() && !valid() );
+                            return *this;
+                        }
+                        T &operator*() const {
+                            return *current;
+                        }
+                };
+                iterator begin() {
+                    return iterator( items, items.begin() );
+                }
+                iterator end() {
+                    return iterator( items, items.end() );
+                }
+        };
+
+        class monster_range : public non_dead_range<monster> {
+            public:
+                monster_range( game &g );
+        };
+
+        class npc_range : public non_dead_range<npc> {
+            public:
+                npc_range( game &g );
+        };
+
+        class Creature_range : public non_dead_range<Creature> {
+            private:
+                std::shared_ptr<player> u;
+
+            public:
+                Creature_range( game &g );
+        };
+
+    public:
+        /**
+         * Returns an anonymous range that contains all creatures. The range allows iteration
+         * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
+         * One shall not store the returned range nor the iterators.
+         * One can freely remove and add creatures to the game during the iteration. Added
+         * creatures will not be iterated over.
+         */
+        Creature_range all_creatures();
+        /// Same as @ref all_creatures but iterators only over monsters.
+        monster_range all_monsters();
+        /// Same as @ref all_creatures but iterators only over npcs.
+        npc_range all_npcs();
+
+        /**
+         * Returns all creatures matching a predicate. Only living ( not dead ) creatures
+         * are checked ( and returned ). Returned pointers are never null.
+         */
+        std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<npc*> get_npcs_if( const std::function<bool( const npc & )> &pred );
+        /**
+         * Returns a creature matching a predicate. Only living (not dead) creatures
+         * are checked. Returns `nullptr` if no creature matches the predicate.
+         * There is no guarantee which creature is returned when several creatures match.
+         */
+        Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
+
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */
@@ -325,7 +440,7 @@ class game
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
-         * new monster there (see @ref mon_at).
+         * new monster there (see @ref critter_at).
          * @param location The place where to put the revived monster.
          * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
@@ -368,10 +483,10 @@ class game
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query(const char *message, ...);
+        bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query(const char *reason, ...);
+        bool cancel_activity_or_ignore_query( const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -517,9 +632,10 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
-        std::vector<npc *> active_npc;
+    private:
+        std::vector<std::shared_ptr<npc>> active_npc;
+    public:
         std::vector<faction> factions;
-        int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
 
@@ -533,6 +649,7 @@ class game
         WINDOW_PTR w_location_ptr;
         WINDOW_PTR w_status_ptr;
         WINDOW_PTR w_status2_ptr;
+
     public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
@@ -664,8 +781,7 @@ class game
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
-        void draw_bullet( Creature const &p, const tripoint &pos, int i,
-                          std::vector<tripoint> const &trajectory, char bullet );
+        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
         void draw_hit_player(player const &p, int dam);
         void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
@@ -677,6 +793,7 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
+        bool is_in_viewport( const tripoint& p, int margin = 0 ) const;
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -684,7 +801,6 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        const int dangerous_proximity;
         bool narrow_sidebar;
         bool right_sidebar;
         bool fullscreen;
@@ -740,10 +856,7 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_fields();
-        void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
-        void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
@@ -805,11 +918,18 @@ class game
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
         void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
         void use_wielded_item();
-        void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
-        void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void wear(); // Wear armor  'W' (or 'a')
+        void wear( int pos );
+        void wear( item_location& loc );
+
+        void takeoff(); // Remove armor  'T'
+        void takeoff( int pos );
+        void takeoff( item_location& loc );
+
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false );
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
@@ -827,7 +947,10 @@ public:
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
 private:
-        void wield(int pos = INT_MIN); // Wield a weapon  'w'
+        void wield();
+        void wield( int pos ); // Wield a weapon  'w'
+        void wield( item_location& loc );
+
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow(int pos = INT_MIN); // Throw an item  't'
@@ -864,10 +987,10 @@ private:
         void shift_monsters(const int shiftx, const int shifty, const int shiftz);
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
-         * it from the creature tracker. Keep in mind that mondex points to a
-         * different monster after calling this (or to no monster at all).
+         * it from the creature tracker. Keep in mind that any monster index may
+         * point to a different monster after calling this (or to no monster at all).
          */
-        void despawn_monster(int mondex);
+        void despawn_monster( monster &critter );
 
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
         void rebuild_mon_at_cache();
@@ -932,11 +1055,10 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
-        std::vector<int> new_seen_mon;
+        std::vector<std::shared_ptr<monster>> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
@@ -957,12 +1079,12 @@ private:
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died;
+        /** Was the player sleeping during this turn. */
+        bool player_was_sleeping;
 
         std::unique_ptr<special_game> gamemode;
 
-        int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
-        const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;

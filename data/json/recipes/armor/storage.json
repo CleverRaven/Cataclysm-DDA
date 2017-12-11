@@ -9,15 +9,14 @@
     "skills_required": [ "pistol", 3 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
-      [ [ "scrap", 3 ] ]
+      [ [ "scrap", 3 ] ],
+      [ [ "filament", 40, "LIST" ], [ "cordage", 2, "LIST" ] ]
     ]
   },
   {
@@ -30,11 +29,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -47,11 +45,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 18000,
     "autolearn": true,
-    "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
+      [ [ "filament", 60, "LIST" ], [ "cordage", 3, "LIST" ] ]
     ]
   },
   {
@@ -156,11 +153,10 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+      [ [ "string_6", 4 ], [ "filament", 40, "LIST" ] ]
     ]
   },
   {
@@ -188,11 +184,10 @@
     "skills_required": [ "stabbing", 1 ],
     "time": 65000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
     ]
   },
   {
@@ -205,11 +200,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 75000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
     ]
   },
   {
@@ -243,11 +237,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 78000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -263,7 +256,7 @@
     "using": [ [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
@@ -295,11 +288,10 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -312,13 +304,12 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -331,11 +322,10 @@
     "skills_required": [ "pistol", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -380,11 +370,10 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -397,11 +386,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 68000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -414,11 +402,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 76000,
     "autolearn": true,
-    "using": [ [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "filament", 25, "LIST" ], [ "cordage_short", 2, "LIST" ] ]
     ]
   },
   {
@@ -434,7 +421,7 @@
     "using": [ [ "filament", 15 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
@@ -557,11 +544,10 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -595,11 +581,10 @@
     "skills_required": [ "cutting", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -612,11 +597,10 @@
     "skills_required": [ "pistol", 2 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+      [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ]
     ]
   },
   {

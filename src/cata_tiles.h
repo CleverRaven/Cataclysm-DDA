@@ -6,17 +6,22 @@
 #include <SDL_ttf.h>
 
 #include "animation.h"
-#include "map.h"
+#include "lightmap.h"
+#include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
 
+#include <memory>
 #include <list>
 #include <map>
+#include <set>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
+class Creature;
+class player;
 class JsonObject;
 struct visibility_variables;
 
@@ -137,7 +142,7 @@ struct pixel {
     pixel() : r( 0 ), g( 0 ), b( 0 ), a( 0 ) {
     }
 
-    pixel( int sr, int sg, int sb, int sa ) : r( sr ), g( sg ), b( sb ), a( sa ) {
+    pixel( int sr, int sg, int sb, int sa = 0xFF ) : r( sr ), g( sg ), b( sb ), a( sa ) {
     }
 
     pixel( SDL_Color c ) {
@@ -154,6 +159,19 @@ struct pixel {
         c.b = static_cast<Uint8>( b );
         c.a = static_cast<Uint8>( a );
         return c;
+    }
+
+    void adjust_brightness( int percent ) {
+        r = std::min( r * percent / 100, 0xFF );
+        g = std::min( g * percent / 100, 0xFF );
+        b = std::min( b * percent / 100, 0xFF );
+    }
+
+    void mix_with( const pixel &other, int percent ) {
+        const int my_percent = 100 - percent;
+        r = std::min( r * my_percent / 100 + other.r * percent / 100, 0xFF );
+        g = std::min( g * my_percent / 100 + other.g * percent / 100, 0xFF );
+        b = std::min( b * my_percent / 100 + other.b * percent / 100, 0xFF );
     }
 
     bool isBlack() const {
