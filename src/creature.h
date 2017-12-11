@@ -2,7 +2,6 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "enums.h"
 #include "copyable_unique_ptr.h"
 #include "bodypart.h"
 #include "output.h"
@@ -13,6 +12,7 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
+#include <climits>
 
 class effect;
 class effects_map;
@@ -21,6 +21,8 @@ class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
+struct tripoint;
+struct point;
 class material_type;
 enum damage_type : int;
 enum field_id : int;
