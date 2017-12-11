@@ -537,7 +537,7 @@ nc_color color_from_string(const std::string &color)
         while ((pos = new_color.find(pSearch[i].second, pos)) != std::string::npos) {
             new_color.replace(pos, pSearch[i].second.length(), pSearch[i].first);
             pos += pSearch[i].first.length();
-            DebugLog( D_WARNING, DC_ALL) << "Deperecated foregorund color suffix was used: (" <<
+            DebugLog( D_WARNING, DC_ALL) << "Deperecated foreground color suffix was used: (" <<
             pSearch[i].second << ") in (" << color << ").  Please update mod that uses that.";
         }
     }
