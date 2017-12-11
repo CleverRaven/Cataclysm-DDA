@@ -1567,8 +1567,9 @@ void catacurses::init_interface()
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
+// This is supposed to be called from init.cpp, and only from there.
 void load_tileset() {
-    if( !use_tiles ) {
+    if( !tilecontext || !use_tiles ) {
         return;
     }
     tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
