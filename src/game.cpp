@@ -7856,10 +7856,12 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() && signage.size() < 36 ) {
-        mvwprintw( w_look, ++line, column, g->u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
+        mvwprintw( w_look, ++line, column, g->u.has_trait( trait_ILLITERATE ) ?
+               _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     } else if( !signage.empty() ) {
         // Truncate to width of window as a guesstimate.
-        mvwprintw( w_look, ++line, column, g->u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s..." ), signage.substr( 0, 32 ).c_str() );
+        mvwprintw( w_look, ++line, column, g->u.has_trait( trait_ILLITERATE ) ?
+               _( "Sign: ???" ) : _( "Sign: %s..." ), signage.substr( 0, 32 ).c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
