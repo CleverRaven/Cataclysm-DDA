@@ -2898,10 +2898,12 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if (previous_signage_exists) {
-        popup(existing_signage.c_str());
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+    } else if( previous_signage_exists ) {
+        popup( existing_signage.c_str() );
     } else {
-        p.add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+        p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
 
     // Allow chance to modify message.
