@@ -12,22 +12,22 @@
         "                        ",
         "                        ",
         "    e         e         ",
-        " ----========--======-- ",
-        " |c.e.........e.......| ",
-        " |c...................| ",
-        " |c...................| ",
-        " |c...................| ",
-        " |c...................| ",
-        " |c...................| ",
-        " |c...................| ",
+        " ----======----======-- ",
+        " |c.eM#MM#M...eM#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..MMMMMMMMMMMMMMMM.| ",
         " |....................| ",
-        " |---.................| ",
-        " |..|............HHHHH| ",
-        " |..|............H.bbb| ",
-        " |..*............H....| ",
-        " |..|............$.6b.+ ",
-        " |..|ccccccccccccH.LLL| ",
-        " |----::::::----------| ",
+        " |---............HHHHH| ",
+        " |ts|............HLLLL| ",
+        " |-+|............Hbbbb| ",
+        " |...............$....+ ",
+        " |^W|............Hhbbb| ",
+        " |xx|ccccccccccccH6LLL| ",
+        " |----::::--::::------| ",
         "                        ",
         "                        ",
         "                        "
@@ -44,20 +44,29 @@
         "=": "t_door_metal_locked",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
-        "|": "t_wall"
+        "|": "t_wall",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "M": "t_metal_floor",
+        "#": "t_grate"
       },
       "furniture": {
         "L": "f_locker",
         "b": "f_bench",
-        "c": "f_counter"
+        "c": "f_counter",
+        "s": "f_sink",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair"
       },
       "items": {
-        "L": { "item": "clothing_work_set", "chance": 40 },
-        "c": { "item": "mechanics", "chance": 20 }
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 20 },
+        "x": { "item": "mechanics", "chance": 10 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [ 10, 11 ], "y": [ 16, 18 ], "chance": 25, "rotation": 0 },
-        { "vehicle": "garage", "x": [ 10, 11 ], "y": [ 6, 8 ], "chance": 25, "rotation": 0 }
+        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
   }
