@@ -90,10 +90,6 @@
         "$": "t_chainfence_v",
         ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ]
       },
-      "furniture": {
-        "$": "f_null",
-        ".": "f_null"
-      },
       "place_monsters": [
         { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },

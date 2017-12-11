@@ -8,7 +8,7 @@
     "price": 0,
     "material": "steel",
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "rigid": false,
     "reliability": 6,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5 },

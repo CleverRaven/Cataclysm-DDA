@@ -15,6 +15,7 @@
 #include "action.h"
 #include "translations.h"
 #include "messages.h"
+#include "json.h"
 #include "rng.h"
 #include "requirements.h"
 #include "trap.h"

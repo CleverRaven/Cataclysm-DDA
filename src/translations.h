@@ -51,14 +51,7 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 // so preemptively include it before the gettext overrides.
 #include <locale>
 
-const char *strip_positional_formatting( const char *msgid );
-
-// If PRINTF_CHECKS is enabled, have to skip the function call so GCC can see the format string
-#if defined(PRINTF_CHECKS) && defined(__GNUC__)
 #define _(STRING) (STRING)
-#else
-#define _(STRING) strip_positional_formatting(STRING)
-#endif
 
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)

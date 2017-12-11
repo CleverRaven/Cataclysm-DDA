@@ -2,6 +2,7 @@
 #include "game.h"
 #include "player.h"
 #include "output.h"
+#include "json.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "catacharset.h"
@@ -638,7 +639,7 @@ void auto_pickup::load(const bool bCharacter)
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
-    if( !read_from_file_optional( sFile, *this ) ) {
+    if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);

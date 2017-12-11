@@ -37,6 +37,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "input.h"
+#include "effect.h"
 #include "veh_type.h"
 #include "overmap.h"
 #include "vehicle.h"
@@ -812,7 +813,7 @@ void player::reset_stats()
     recalc_speed_bonus();
 
     // Effects
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
@@ -1850,7 +1851,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
 
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
@@ -2242,24 +2243,16 @@ nc_color player::basic_symbol_color() const
 
 void player::load_info( std::string data )
 {
-    std::stringstream dump;
-    dump << data;
-
-    JsonIn jsin( dump );
     try {
-        deserialize( jsin );
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad player json\n%s", jsonerr.c_str() );
+        ::deserialize( *this, data );
+    } catch( const std::exception &jsonerr ) {
+        debugmsg( "Bad player json\n%s", jsonerr.what() );
     }
 }
 
 std::string player::save_info() const
 {
-    std::stringstream dump;
-    dump << serialize(); // saves contents
-    dump << std::endl;
-    dump << dump_memorial();
-    return dump.str();
+    return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
 void player::memorial( std::ostream &memorial_file, std::string epitaph )
@@ -2416,8 +2409,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Bionics
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << my_bionics[i].id->name << eol;
+    for( size_t i = 0; i < my_bionics->size(); ++i ) {
+        memorial_file << indent << ( i + 1 ) << ": " << (*my_bionics)[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -5345,7 +5338,7 @@ void player::process_effects() {
     }
 
     //Human only effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
@@ -5390,8 +5383,8 @@ void player::suffer()
         }
     }
 
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (my_bionics[i].powered) {
+    for (size_t i = 0; i < my_bionics->size(); i++) {
+        if ((*my_bionics)[i].powered) {
             process_bionic(i);
         }
     }
@@ -6298,7 +6291,7 @@ void player::vomit()
     }
 
     moves -= 100;
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
@@ -6573,7 +6566,7 @@ void player::check_and_recover_morale()
         test_morale.on_mutation_gain( mut.first );
     }
 
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -6755,7 +6748,7 @@ int player::invlet_to_position( const long linvlet ) const
 }
 
 bool player::can_interface_armor() const {
-    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(),
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
         []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
@@ -6983,15 +6976,23 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     std::vector<item *> del;
 
-    visit_items( [this, &what, &qty, &res, &del]( item *e ) {
+    bool has_tool_with_UPS = false;
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
         if( e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
+        }
+        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+            has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 
     for( auto e : del ) {
         remove_item( *e );
+    }
+
+    if( has_tool_with_UPS ) {
+        use_charges( "UPS", qty );
     }
 
     return res;
@@ -11371,7 +11372,7 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto & bio : my_bionics ) {
+    for( auto & bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ) );
         }
@@ -11410,7 +11411,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
 
     // first get effects
-    for( const auto &eff_pr : effects ) {
+    for( const auto &eff_pr : *effects ) {
         rval.push_back( "effect_" + eff_pr.first.str() );
     }
 

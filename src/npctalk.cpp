@@ -3003,8 +3003,8 @@ void talk_function::give_all_aid( npc &p )
     body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
-            for (int i = 0; i < num_hp_parts; i++) {
-                bp_healed = player::hp_to_bp( hp_part(i) );
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );

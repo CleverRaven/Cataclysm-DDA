@@ -5,53 +5,62 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 
 ## `raw/`
 
-* bionics.json       - bionics, does NOT include bionic effects
-* dreams.json        - dream text and linked mutation categories
-* item_groups.json   - item spawn groups
-* materials.json     - material types
-* monstergroups.json - monster spawn groups
-* monster_factions.json - monster factions
-* names.json         - names used for NPC/player name generation
-* professions.json   - profession definitions
-* recipes.json       - crafting/disassembly recipes
-* road_vehicles.json - vehicle spawn information for roads
-* skills.json        - skill descriptions and ID's
-* snippets.json      - flier/poster descriptions
-* mutations.json     - traits/mutations
-* mutation_ordering.json - draw order for mutation overlays in tiles mode
-* vehicle_groups.json - vehicle spawn groups
-* vehicle_parts.json - vehicle parts, does NOT affect flag effects
+| Filename               | Description
+|---                     |---
+| bionics.json           | bionics, does NOT include bionic effects
+| dreams.json            | dream text and linked mutation categories
+| item_groups.json       | item spawn groups
+| materials.json         | material types
+| monstergroups.json     | monster spawn groups
+| monster_factions.json  | monster factions
+| names.json             | names used for NPC/player name generation
+| professions.json       | profession definitions
+| recipes.json           | crafting/disassembly recipes
+| road_vehicles.json     | vehicle spawn information for roads
+| skills.json            | skill descriptions and ID's
+| snippets.json          | flier/poster descriptions
+| mutations.json         | traits/mutations
+| mutation_ordering.json | draw order for mutation overlays in tiles mode
+| vehicle_groups.json    | vehicle spawn groups
+| vehicle_parts.json     | vehicle parts, does NOT affect flag effects
 
 ## `raw/vehicles/`
 
 Groups of vehicle definitions with self-explanatory names of files:
 
-* bikes.json
-* cars.json
-* carts.json
-* emergency.json
-* farm.json
-* military.json
-* trucks.json
-* utility.json
-* vans_busses.json
-* vehicles.json
+| Filename
+|---
+| bikes.json
+| cars.json
+| carts.json
+| emergency.json
+| farm.json
+| military.json
+| trucks.json
+| utility.json
+| vans_busses.json
+| vehicles.json
 
 ## `raw/items/`
 
-* archery.json       - bows and arrows
-* ranged.json        - guns
-* tools.json         - tools and items that can be (a)ctivated
-* ammo.json          - ammo
-* books.json         - books
-* comestibles.json   - food/drinks
-* containers.json    - containers
-* melee.json         - anything that doesn't go in the other item jsons, melee weapons
-* mods.json          - gunmods
+| Filename           | Description
+|---                 |---
+| archery.json       | bows and arrows
+| ranged.json        | guns
+| tools.json         | tools and items that can be (a)ctivated
+| ammo.json          | ammo
+| books.json         | books
+| comestibles.json   | food/drinks
+| containers.json    | containers
+| melee.json         | anything that doesn't go in the other item jsons, melee weapons
+| mods.json          | gunmods
 
 ## `json/`
-* furniture.json     - furniture, and features treated like furniture
-* terrain.json       - terrain types and definitions
+
+| Filename           | Description
+|---                 |---
+| furniture.json     | furniture, and features treated like furniture
+| terrain.json       | terrain types and definitions
 
 # Raw JS
 
@@ -63,33 +72,51 @@ Groups of vehicle definitions with self-explanatory names of files:
 
 ### Bionics
 
+| Identifier         | Description
+|---                 |---
+| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
+| name               | In-game name displayed.
+| active             | Whether the bionic is active or passive. (default: `passive`)
+| power_source       | Whether the bionic provides power. (default: `false`)
+| faulty             | Whether it is a faulty type. (default: `false`)
+| cost               | How many PUs it costs to use the bionic. (default: `0`)
+| time               | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| description        | In-game description.
+| canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+
 ```json
-"id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
-                                   // use underscores if necessary.
-"name"         : "Battery System", // In-game name displayed
-"active"       : false,  // Whether the bionic is active or passive (default: passive)
-"power_source" : false,  // Whether the bionic provides power (default: false)
-"faulty"       : false,  // Whether it is a faulty type (default: false)
-"cost"         : 0,  // How many PUs it costs to use the bionic. (default: 0)
-"time"         : 0,  // How long, when activated, between drawing cost.
-                     // If 0, it draws power once. (default: 0)
-"description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
-"canceled_mutations": ["HYPEROPIC"] // (optional) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
-"included_bionics": ["bio_blindfold"] // (optional) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+{
+    "id"           : "bio_batteries",
+    "name"         : "Battery System",
+    "active"       : false,
+    "power_source" : false,
+    "faulty"       : false,
+    "cost"         : 0,
+    "time"         : 0,
+    "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
+    "canceled_mutations": ["HYPEROPIC"],
+    "included_bionics": ["bio_blindfold"]
+}
 ```
 
 ### Dreams
 
+| Identifier | Description
+|---         |---
+| messages   | List of potential dreams.
+| category   | Mutation category needed to dream.
+| strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
+
 ```json
-"messages" : [                // List of potential dreams
-    "You have a strange dream about birds.",
-    "Your dreams give you a strange feathered feeling."
-],
-"category" : "MUTCAT_BIRD",   // Mutation category needed to dream
-"strength" : 1                // Mutation category strength required
-                                     1 = 20 - 34
-                                     2 = 35 - 49
-                                     3 = 50+
+{
+    "messages" : [
+        "You have a strange dream about birds.",
+        "Your dreams give you a strange feathered feeling."
+    ],
+    "category" : "MUTCAT_BIRD",
+    "strength" : 1
+}
 ```
 
 ### Item Groups
@@ -97,64 +124,110 @@ Groups of vehicle definitions with self-explanatory names of files:
 Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
 The syntax listed here is still valid.
 
+| Identifier | Description
+|---         |---
+| id         | Unique ID. Must be one continuous word, use underscores if necessary
+| items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
+| groups     | ??
+
 ```json
-"id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
-"items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where
-  ["rock", 40],           //    X is the value linked to the specific item and T is the total of all
-  ["stick", 95],          //    item values in a group
-  ["mushroom", 4],
-  ["mushroom_poison", 3],
-  ["mushroom_magic", 1],
-  ["blueberries", 3]
-],
-"groups":[]               // ?
+{
+    "id":"forest",
+    "items":[
+        ["rock", 40],
+        ["stick", 95],
+        ["mushroom", 4],
+        ["mushroom_poison", 3],
+        ["mushroom_magic", 1],
+        ["blueberries", 3]
+    ],
+    "groups":[]
+}
 ```
 
 ### Materials
 
+| Identifier       | Description
+|---               |---
+| `ident`          | Unique ID. Must be one continuous word, use underscores if necessary.
+| `name`           | In-game name displayed.
+| `bash_resist`    | How well a material resists bashing damage.
+| `cut_resist`     | How well a material resists cutting damage.
+| `bash_dmg_verb`  | Verb used when material takes bashing damage.
+| `cut_dmg_verb`   | Verb used when material takes cutting damage.
+| `dmg_adj`        | Description added to damaged item in ascending severity.
+| `acid_resist`    | Ability of a material to resist acid.
+| `elec_resist`    | Ability of a material to resist electricity.
+| `fire_resist`    | Ability of a material to resist fire.
+| `density`        | Density of a material.
+
 ```json
-"ident"         : "hflesh",       // Unique ID. Must be one continuous word, use underscores if necessary
-"name"          : "Human Flesh",  // In-game name displayed
-"bash_resist"   :   1,            // How well a material resists bashing damage
-"cut_resist"    :   1,            // How well a material resists cutting damage
-"bash_dmg_verb" : "bruised",      // Verb used when material takes bashing damage
-"cut_dmg_verb"  : "sliced",       // Verb used when material takes cutting damage
-"dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"], // Description added to damaged item in ascending severity
-"acid_resist"   :   1,            // Ability of a material to resist acid
-"elec_resist"   :   1,            // Ability of a material to resist electricity
-"fire_resist"   :   0,            // Ability of a material to resist fire
-"density"       :   5             // Density of a material
+{
+    "ident"         : "hflesh",
+    "name"          : "Human Flesh",
+    "bash_resist"   : 1,
+    "cut_resist"    : 1,
+    "bash_dmg_verb" : "bruised",
+    "cut_dmg_verb"  : "sliced",
+    "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],
+    "acid_resist"   : 1,
+    "elec_resist"   : 1,
+    "fire_resist"   : 0,
+    "density"       : 5
+}
 ```
 
 ### Monster Groups
 
+#### Group definition
+
+| Identifier | Description
+|---         |---
+| `name`     | Unique ID. Must be one continuous word, use underscores if necessary.
+| `default`  | Default monster, automatically fills in any remaining spawn chances.
+| `monsters` | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
+
+#### Monster definition
+
+| Identifier   | Description
+|---           |---
+| `monster`    | The monster's id.
+| `freq`       | Chance of occurrence, out of a thousand.
+| `multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
+| `pack_size`  | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
+| `conditions` | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
+
 ```json
-"name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
-"default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
-"monsters" : [                    // To choose monster spawned game creates 1000 entries and picks one.
-  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and
-  { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
-  { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
-  { "monster" : "mon_thing",              // Monsters id
-    "freq" : 100,                         // Chance of occurrence, out of a thousand
-    "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
-    // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
-    "pack_size" : [3,5],
-    // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN
-    // Multiple Time-of-day conditions (DAY, NIGHT, DUSK, DAWN) will be combined together so that any of those conditions makes the spawn valid
-    // Multiple Season conditions (SUMMER, WINTER, AUTUMN, SPRING) will be combined together so that any of those conditions makes the spawn valid
-    "conditions" : ["DUSK","DAWN","SUMMER"]
-  }
+{
+    "name" : "GROUP_ANT",
+    "default" : "mon_ant",
+    "monsters" : [
+        { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },
+        { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 },
+        { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 },
+        { "monster" : "mon_thing", "freq" : 100, "multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+    ]
+}
 ```
 
 ### Monster Factions
 
+| Identifier      | Description
+|---              |---
+| `name`          | Unique ID. Must be one continuous word, use underscores when necessary.
+| `base_faction`  | Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this.
+| `by_mood`       | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.
+| `neutral`       | Always be neutral towards this faction.
+| `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
+
 ```json
-"name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
-"base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
-"by_mood" : ["blob"],       // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
-"neutral" : ["nether"],     // Always be neutral towards this faction
-"friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
+{
+    "name"         : "cult",
+    "base_faction" : "zombie",
+    "by_mood"      : ["blob"],
+    "neutral"      : ["nether"],
+    "friendly"     : ["blob"]
+}
 ```
 
 ### Monsters
@@ -1428,7 +1501,14 @@ Displayed name of the object. This will be translated.
 
 #### `connects_to`
 
-(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL". Current values are "WALL", "CHAINFENCE", "WOODFENCE" and "RAILING".
+(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+
+Current values:
+- `CHAINFENCE`
+- `RAILING`
+- `WALL`
+- `WATER`
+- `WOODFENCE`
 
 Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
 

@@ -2,8 +2,6 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "json.h"
-
 #include <vector>
 #include <set>
 #include <string>
@@ -12,6 +10,8 @@
 typedef std::string Item_tag;
 typedef std::string Group_tag;
 class item;
+class JsonObject;
+class JsonIn;
 
 namespace item_group {
     /**

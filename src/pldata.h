@@ -2,11 +2,13 @@
 #ifndef PLDATA_H
 #define PLDATA_H
 
-#include "json.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include <map>
 #include <string>
+
+class JsonIn;
+class JsonOut;
 
 class martialart;
 using matype_id = string_id<martialart>;
@@ -46,7 +48,7 @@ enum hp_part : int {
     num_hp_parts
 };
 
-class addiction : public JsonSerializer, public JsonDeserializer
+class addiction
 {
     public:
         add_type type      = ADD_NULL;
@@ -56,21 +58,8 @@ class addiction : public JsonSerializer, public JsonDeserializer
         addiction() = default;
         addiction( add_type const t, int const i = 1 ) : type {t}, intensity {i} { }
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override {
-            json.start_object();
-            json.member( "type_enum", type );
-            json.member( "intensity", intensity );
-            json.member( "sated", sated );
-            json.end_object();
-        }
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            type = ( add_type )jo.get_int( "type_enum" );
-            intensity = jo.get_int( "intensity" );
-            sated = jo.get_int( "sated" );
-        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 #endif

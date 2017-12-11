@@ -2341,8 +2341,7 @@ void map::drop_fields( const tripoint &p )
         return;
     }
 
-    // Ugly two-pass for now - field access is weird
-    bool dropped = false;
+    std::list<field_id> dropped;
     const tripoint below = p - tripoint( 0, 0, 1 );
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
@@ -2350,19 +2349,12 @@ void map::drop_fields( const tripoint &p )
         // Active fields "drop themselves"
         if( entry.decays_on_actualize() ) {
             add_field( below, entry.getFieldType(), entry.getFieldDensity(), entry.getFieldAge() );
-            dropped = true;
+            dropped.push_back( entry.getFieldType() );
         }
     }
 
-    // Now remove the dropped fields (that's the ugly part)
-    while( dropped ) {
-        dropped = false;
-        for( auto iter = fld.begin(); !dropped && iter != fld.end(); ) {
-            if( iter->second.decays_on_actualize() ) {
-                dropped = fld.removeField( iter->second.getFieldType() );
-                break;
-            }
-        }
+    for( const auto &entry : dropped ) {
+        fld.removeField( entry );
     }
 }
 

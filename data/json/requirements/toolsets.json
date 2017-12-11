@@ -35,5 +35,11 @@
       [ [ "anvil", -1 ] ],
       [ [ "cordless_drill", 10 ] ]
     ]
+  },
+  {
+    "id": "soldering_standard",
+    "type": "requirement",
+    "//": "Soldering metal items",
+    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ]
   }
 ]

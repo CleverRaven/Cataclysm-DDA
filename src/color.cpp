@@ -12,34 +12,6 @@
 
 #include <iostream>
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
-static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
-static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
-#else
-// Otherwise it's already defined via the ncurses header.
-#endif
-
-nc_color nc_color::bold() const
-{
-    return nc_color( attribute_value | A_BOLD );
-}
-
-bool nc_color::is_bold() const
-{
-    return attribute_value & A_BOLD;
-}
-
-nc_color nc_color::blink() const
-{
-    return nc_color( attribute_value | A_BLINK );
-}
-
-bool nc_color::is_blink() const
-{
-    return attribute_value & A_BLINK;
-}
-
 void nc_color::serialize( JsonOut &jsout ) const
 {
     jsout.write( attribute_value );
@@ -230,26 +202,6 @@ nc_color color_manager::highlight_from_names( const std::string &name, const std
     return color_array[id].color;
 }
 
-nc_color nc_color::from_color_pair_index( const int index )
-{
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    return nc_color( ( index << 17 ) & A_COLOR );
-#else
-    // COLOR_PAIR is defined by ncurses
-    return nc_color( COLOR_PAIR( index ) );
-#endif
-}
-
-int nc_color::to_color_pair_index() const
-{
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    return ( attribute_value & A_COLOR ) >> 17;
-#else
-    // PAIR_NUMBER is defined by ncurses
-    return PAIR_NUMBER( attribute_value );
-#endif
-}
-
 void color_manager::load_default()
 {
     static const auto color_pair = []( const int n ) {
@@ -413,89 +365,89 @@ void color_manager::load_default()
 
 void init_colors()
 {
-    init_pair( 1, COLOR_WHITE,      COLOR_BLACK  );
-    init_pair( 2, COLOR_RED,        COLOR_BLACK  );
-    init_pair( 3, COLOR_GREEN,      COLOR_BLACK  );
-    init_pair( 4, COLOR_BLUE,       COLOR_BLACK  );
-    init_pair( 5, COLOR_CYAN,       COLOR_BLACK  );
-    init_pair( 6, COLOR_MAGENTA,    COLOR_BLACK  );
-    init_pair( 7, COLOR_YELLOW,     COLOR_BLACK  );
+    init_pair( 1, white,      black );
+    init_pair( 2, red,        black );
+    init_pair( 3, green,      black );
+    init_pair( 4, blue,       black );
+    init_pair( 5, cyan,       black );
+    init_pair( 6, magenta,    black );
+    init_pair( 7, yellow,     black );
 
     // Inverted Colors
-    init_pair( 8, COLOR_BLACK,      COLOR_WHITE  );
-    init_pair( 9, COLOR_BLACK,      COLOR_RED    );
-    init_pair(10, COLOR_BLACK,      COLOR_GREEN  );
-    init_pair(11, COLOR_BLACK,      COLOR_BLUE   );
-    init_pair(12, COLOR_BLACK,      COLOR_CYAN   );
-    init_pair(13, COLOR_BLACK,      COLOR_MAGENTA);
-    init_pair(14, COLOR_BLACK,      COLOR_YELLOW );
+    init_pair( 8, black,      white );
+    init_pair( 9, black,      red );
+    init_pair(10, black,      green );
+    init_pair(11, black,      blue );
+    init_pair(12, black,      cyan );
+    init_pair(13, black,      magenta );
+    init_pair(14, black,      yellow );
 
     // Highlighted - blue background
-    init_pair(15, COLOR_WHITE,      COLOR_BLUE);
-    init_pair(16, COLOR_RED,        COLOR_BLUE);
-    init_pair(17, COLOR_GREEN,      COLOR_BLUE);
-    init_pair(18, COLOR_BLUE,       COLOR_BLUE);
-    init_pair(19, COLOR_CYAN,       COLOR_BLUE);
-    init_pair(20, COLOR_BLACK,      COLOR_BLUE);
-    init_pair(21, COLOR_MAGENTA,    COLOR_BLUE);
-    init_pair(22, COLOR_YELLOW,     COLOR_BLUE);
+    init_pair(15, white,      blue );
+    init_pair(16, red,        blue );
+    init_pair(17, green,      blue );
+    init_pair(18, blue,       blue );
+    init_pair(19, cyan,       blue );
+    init_pair(20, black,      blue );
+    init_pair(21, magenta,    blue );
+    init_pair(22, yellow,     blue );
 
     // Red background - for monsters on fire
-    init_pair(23, COLOR_WHITE,      COLOR_RED);
-    init_pair(24, COLOR_RED,        COLOR_RED);
-    init_pair(25, COLOR_GREEN,      COLOR_RED);
-    init_pair(26, COLOR_BLUE,       COLOR_RED);
-    init_pair(27, COLOR_CYAN,       COLOR_RED);
-    init_pair(28, COLOR_MAGENTA,    COLOR_RED);
-    init_pair(29, COLOR_YELLOW,     COLOR_RED);
+    init_pair(23, white,      red );
+    init_pair(24, red,        red );
+    init_pair(25, green,      red );
+    init_pair(26, blue,       red );
+    init_pair(27, cyan,       red );
+    init_pair(28, magenta,    red );
+    init_pair(29, yellow,     red );
 
-    init_pair(30, COLOR_BLACK,      COLOR_BLACK);
-    init_pair(31, COLOR_WHITE,      COLOR_BLACK);
+    init_pair(30, black,      black );
+    init_pair(31, white,      black );
 
-    init_pair(32, COLOR_BLACK,      COLOR_WHITE);
-    init_pair(33, COLOR_WHITE,      COLOR_WHITE);
-    init_pair(34, COLOR_RED,        COLOR_WHITE);
-    init_pair(35, COLOR_GREEN,      COLOR_WHITE);
-    init_pair(36, COLOR_YELLOW,     COLOR_WHITE);
-    init_pair(37, COLOR_BLUE,       COLOR_WHITE);
-    init_pair(38, COLOR_MAGENTA,    COLOR_WHITE);
-    init_pair(39, COLOR_CYAN,       COLOR_WHITE);
+    init_pair(32, black,      white );
+    init_pair(33, white,      white );
+    init_pair(34, red,        white );
+    init_pair(35, green,      white );
+    init_pair(36, yellow,     white );
+    init_pair(37, blue,       white );
+    init_pair(38, magenta,    white );
+    init_pair(39, cyan,       white );
 
-    init_pair(40, COLOR_BLACK,      COLOR_GREEN);
-    init_pair(41, COLOR_WHITE,      COLOR_GREEN);
-    init_pair(42, COLOR_RED,        COLOR_GREEN);
-    init_pair(43, COLOR_GREEN,      COLOR_GREEN);
-    init_pair(44, COLOR_YELLOW,     COLOR_GREEN);
-    init_pair(45, COLOR_BLUE,       COLOR_GREEN);
-    init_pair(46, COLOR_MAGENTA,    COLOR_GREEN);
-    init_pair(47, COLOR_CYAN,       COLOR_GREEN);
+    init_pair(40, black,      green );
+    init_pair(41, white,      green );
+    init_pair(42, red,        green );
+    init_pair(43, green,      green );
+    init_pair(44, yellow,     green );
+    init_pair(45, blue,       green );
+    init_pair(46, magenta,    green );
+    init_pair(47, cyan,       green );
 
-    init_pair(48, COLOR_BLACK,      COLOR_YELLOW);
-    init_pair(49, COLOR_WHITE,      COLOR_YELLOW);
-    init_pair(50, COLOR_RED,        COLOR_YELLOW);
-    init_pair(51, COLOR_GREEN,      COLOR_YELLOW);
-    init_pair(52, COLOR_YELLOW,     COLOR_YELLOW);
-    init_pair(53, COLOR_BLUE,       COLOR_YELLOW);
-    init_pair(54, COLOR_MAGENTA,    COLOR_YELLOW);
-    init_pair(55, COLOR_CYAN,       COLOR_YELLOW);
+    init_pair(48, black,      yellow );
+    init_pair(49, white,      yellow );
+    init_pair(50, red,        yellow );
+    init_pair(51, green,      yellow );
+    init_pair(52, yellow,     yellow );
+    init_pair(53, blue,       yellow );
+    init_pair(54, magenta,    yellow );
+    init_pair(55, cyan,       yellow );
 
-    init_pair(56, COLOR_BLACK,      COLOR_MAGENTA);
-    init_pair(57, COLOR_WHITE,      COLOR_MAGENTA);
-    init_pair(58, COLOR_RED,        COLOR_MAGENTA);
-    init_pair(59, COLOR_GREEN,      COLOR_MAGENTA);
-    init_pair(60, COLOR_YELLOW,     COLOR_MAGENTA);
-    init_pair(61, COLOR_BLUE,       COLOR_MAGENTA);
-    init_pair(62, COLOR_MAGENTA,    COLOR_MAGENTA);
-    init_pair(63, COLOR_CYAN,       COLOR_MAGENTA);
+    init_pair(56, black,      magenta );
+    init_pair(57, white,      magenta );
+    init_pair(58, red,        magenta );
+    init_pair(59, green,      magenta );
+    init_pair(60, yellow,     magenta );
+    init_pair(61, blue,       magenta );
+    init_pair(62, magenta,    magenta );
+    init_pair(63, cyan,       magenta );
 
-    init_pair(64, COLOR_BLACK,      COLOR_CYAN);
-    init_pair(65, COLOR_WHITE,      COLOR_CYAN);
-    init_pair(66, COLOR_RED,        COLOR_CYAN);
-    init_pair(67, COLOR_GREEN,      COLOR_CYAN);
-    init_pair(68, COLOR_YELLOW,     COLOR_CYAN);
-    init_pair(69, COLOR_BLUE,       COLOR_CYAN);
-    init_pair(70, COLOR_MAGENTA,    COLOR_CYAN);
-    init_pair(71, COLOR_CYAN,       COLOR_CYAN);
+    init_pair(64, black,      cyan );
+    init_pair(65, white,      cyan );
+    init_pair(66, red,        cyan );
+    init_pair(67, green,      cyan );
+    init_pair(68, yellow,     cyan );
+    init_pair(69, blue,       cyan );
+    init_pair(70, magenta,    cyan );
+    init_pair(71, cyan,       cyan );
 
     all_colors.load_default();
     all_colors.load_custom();

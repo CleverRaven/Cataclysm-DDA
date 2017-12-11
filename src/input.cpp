@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "options.h"
 #include "string_input_popup.h"
+#include "cursesdef.h"
 
 #include <fstream>
 #include <sstream>
@@ -1120,7 +1121,7 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
+bool input_context::get_coordinates( const catacurses::window &capture_win, int &x, int &y )
 {
     if( !coordinate_input_received ) {
         return false;

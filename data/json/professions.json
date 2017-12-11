@@ -4611,7 +4611,7 @@
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
-        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones.  Now the all the drones carry guns instead of pizza.",
+        "description": "You had a job programming machines such as automatic street cleaners, newsbots and pizza delivery drones.  Now all the drones carry guns instead of pizza.",
         "points": 1,
         "CBMs":[
             "bio_batteries",

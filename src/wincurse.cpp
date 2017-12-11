@@ -2,7 +2,7 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "catacurse.h"
+#include "cursesport.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
@@ -52,7 +52,7 @@ bool CursorVisible = true; // Showcursor is a somewhat weird function
 //Non-curses, Window functions      *
 //***********************************
 
-// declare this locally, because it's not generally cross-compatible in catacurse.h
+// declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam);
 
 std::wstring widen( const std::string &s )
@@ -319,7 +319,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
         memset(&dcbits[x+j*WindowWidth],color,width);
 }
 
-void curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     wchar_t tmp;
@@ -461,7 +461,7 @@ int projected_window_height(int)
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-void init_interface()
+void catacurses::init_interface()
 {
     lastchar=-1;
     inputdelay=-1;
@@ -599,19 +599,18 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( WINDOW *, int &, int & )
+bool input_context::get_coordinates( const catacurses::window &, int &, int & )
 {
     // TODO: implement this properly
     return false;
 }
 
 //Ends the terminal, destroy everything
-int endwin()
+void catacurses::endwin()
 {
     DeleteObject(font);
     WinDestroy();
     RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
-    return 1;
 }
 
 template<>
@@ -631,7 +630,7 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-void handle_additional_window_clear(WINDOW*)
+void cata_cursesport::handle_additional_window_clear(WINDOW*)
 {
 }
 

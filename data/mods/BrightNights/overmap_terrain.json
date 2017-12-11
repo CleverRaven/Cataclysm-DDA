@@ -4,7 +4,7 @@
     "type": "overmap_terrain",
     "name": "municipal reactor",
     "sym": 79,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "NO_ROTATE", "SIDEWALK" ]
@@ -24,7 +24,7 @@
     "type": "overmap_terrain",
     "name": "waste storage",
     "sym": 79,
-    "color": "ltred",
+    "color": "light_red",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "NO_ROTATE" ]
@@ -34,7 +34,7 @@
     "type": "overmap_terrain",
     "name": "waste storage",
     "sym": 79,
-    "color": "ltred",
+    "color": "light_red",
     "see_cost": 79,
     "mondensity": 2,
     "flags": [ "NO_ROTATE" ]
@@ -44,7 +44,7 @@
     "type": "overmap_terrain",
     "name": "reactor control",
     "sym": 79,
-    "color": "ltred",
+    "color": "light_red",
     "see_cost": 79,
     "mondensity": 2,
     "flags": [ "NO_ROTATE" ]
@@ -54,7 +54,7 @@
     "type": "overmap_terrain",
     "name": "reactor room",
     "sym": 79,
-    "color": "ltred",
+    "color": "light_red",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "NO_ROTATE" ]

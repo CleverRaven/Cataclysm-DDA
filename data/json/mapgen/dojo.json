@@ -71,7 +71,7 @@
     "type": "overmap_terrain",
     "name": "dojo",
     "sym": 94,
-    "color": "i_ltcyan",
+    "color": "i_light_cyan",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",
@@ -108,7 +108,7 @@
             "  qqqqqqqqqqqqqqqqqqqq  "
           ],
           "terrain": {
-            " ": "t_null",
+            " ": "t_grass",
             "#": "t_floor",
             "'": "t_door_c",
             "+": "t_door_glass_c",

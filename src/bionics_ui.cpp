@@ -32,7 +32,7 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const long ch )
 {
-    for( auto &elem : my_bionics ) {
+    for( auto &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -276,7 +276,7 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
     return type;
 }
 
-std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic_tab_mode mode )
+std::vector< bionic *>filtered_bionics( bionic_collection &all_bionics, bionic_tab_mode mode )
 {
     std::vector< bionic *>filtered_entries;
     for( auto &elem : all_bionics ) {
@@ -289,8 +289,8 @@ std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic
 
 void player::power_bionics()
 {
-    std::vector <bionic *> passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-    std::vector <bionic *> active = filtered_bionics( my_bionics, TAB_ACTIVE );
+    std::vector <bionic *> passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
+    std::vector <bionic *> active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = NULL;
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
@@ -310,7 +310,7 @@ void player::power_bionics()
     const int HEIGHT = std::min( TERMY,
                                  std::max( FULL_SCREEN_HEIGHT,
                                            TITLE_HEIGHT + TITLE_TAB_HEIGHT +
-                                           ( int )my_bionics.size() + 2 ) );
+                                           ( int )my_bionics->size() + 2 ) );
     const int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -368,8 +368,8 @@ void player::power_bionics()
 
     for( ;; ) {
         if( recalc ) {
-            passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-            active = filtered_bionics( my_bionics, TAB_ACTIVE );
+            passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
+            active = filtered_bionics( *my_bionics, TAB_ACTIVE );
 
             if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
@@ -590,7 +590,7 @@ void player::power_bionics()
             }
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - &my_bionics[0];
+                    int b = tmp - &( *my_bionics )[0];
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
