@@ -9,7 +9,6 @@
 #include "cursesdef.h" // WINDOW
 #include "string_formatter.h"
 
-#include <stdlib.h>
 #include <string>
 #include <unordered_map>
 #include <climits>
