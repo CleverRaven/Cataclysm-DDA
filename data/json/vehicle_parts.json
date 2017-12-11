@@ -306,6 +306,7 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 400,
+        "size" : 800,
         "item" : "sheet_metal",
         "difficulty" : 1,
         "location" : "center",
@@ -320,10 +321,11 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 400,
+        "size" : 800,
         "item" : "sheet_metal",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["AISLE", "BOARDABLE"],
+        "flags" : ["CARGO", "AISLE", "BOARDABLE"],
         "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
@@ -334,10 +336,11 @@
         "broken_symbol" : "#",
         "broken_color" : "brown",
         "durability" : 200,
+        "size" : 800,
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["AISLE", "BOARDABLE", "NAILABLE"],
+        "flags" : ["CARGO", "AISLE", "BOARDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [7, 9]},
             {"item": "nail", "charges": [5, 10]}
@@ -351,10 +354,11 @@
         "broken_symbol" : "#",
         "broken_color" : "brown",
         "durability" : 200,
+        "size" : 800,
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["AISLE", "BOARDABLE", "NAILABLE"],
+        "flags" : ["CARGO", "AISLE", "BOARDABLE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [7, 9]},
             {"item": "nail", "charges": [5, 10]}
