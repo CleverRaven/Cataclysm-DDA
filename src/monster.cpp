@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <numeric>
 #include "cursesdef.h"
+#include "effect.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -189,9 +190,11 @@ monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
     unset_dest();
 }
 
-monster::~monster()
-{
-}
+monster::monster( const monster & ) = default;
+monster::monster( monster && ) = default;
+monster::~monster() = default;
+monster &monster::operator=( const monster & ) = default;
+monster &monster::operator=( monster && ) = default;
 
 void monster::setpos( const tripoint &p )
 {
@@ -605,7 +608,7 @@ bool monster::digging() const
 bool monster::can_act() const
 {
     return moves > 0 &&
-        ( effects.empty() ||
+        ( effects->empty() ||
           ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
@@ -1386,7 +1389,7 @@ void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 std::string monster::get_effect_status() const
 {
     std::vector<std::string> effect_status;
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             if( elem.first->is_show_in_info() ) {
                 effect_status.push_back( _it.second.disp_name() );
@@ -1829,7 +1832,7 @@ void monster::process_one_effect( effect &it, bool is_new )
 void monster::process_effects()
 {
     // Monster only effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }

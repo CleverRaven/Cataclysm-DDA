@@ -37,6 +37,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "input.h"
+#include "effect.h"
 #include "veh_type.h"
 #include "overmap.h"
 #include "vehicle.h"
@@ -812,7 +813,7 @@ void player::reset_stats()
     recalc_speed_bonus();
 
     // Effects
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
@@ -1850,7 +1851,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
 
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
@@ -5337,7 +5338,7 @@ void player::process_effects() {
     }
 
     //Human only effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
@@ -6290,7 +6291,7 @@ void player::vomit()
     }
 
     moves -= 100;
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
@@ -6565,7 +6566,7 @@ void player::check_and_recover_morale()
         test_morale.on_mutation_gain( mut.first );
     }
 
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -11410,7 +11411,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
 
     // first get effects
-    for( const auto &eff_pr : effects ) {
+    for( const auto &eff_pr : *effects ) {
         rval.push_back( "effect_" + eff_pr.first.str() );
     }
 

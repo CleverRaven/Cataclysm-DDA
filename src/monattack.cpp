@@ -15,6 +15,7 @@
 #include "speech.h"
 #include "messages.h"
 #include "sounds.h"
+#include "effect.h"
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"

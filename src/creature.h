@@ -3,7 +3,8 @@
 #define CREATURE_H
 
 #include "pldata.h"
-#include "effect.h"
+#include "enums.h"
+#include "copyable_unique_ptr.h"
 #include "bodypart.h"
 #include "output.h"
 #include "string_id.h"
@@ -14,6 +15,8 @@
 #include <string>
 #include <unordered_map>
 
+class effect;
+class effects_map;
 class field;
 class field_entry;
 class game;
@@ -30,7 +33,8 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
 struct trap;
-
+class effect_type;
+using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
 using trait_id = string_id<mutation_branch>;
 
@@ -552,8 +556,7 @@ class Creature
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
-        // Storing body_part as an int to make things easier for hash and JSON
-        std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> effects;
+        copyable_unique_ptr<effects_map> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
