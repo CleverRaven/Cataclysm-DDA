@@ -2569,7 +2569,7 @@ bool game::handle_action()
             }
 
             int mx, my;
-            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
+            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
@@ -7081,7 +7081,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
         }
     }
     const tripoint kbp( kbx, kby, p.z );
-    const bool can_see = u.sees(x, y);
+    const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ) );
     if (npc_or_player != nullptr) {
         if (bash_dmg <= 0) {
@@ -8361,7 +8361,7 @@ void game::zones_manager()
 #endif
                     for (int iY = start.y; iY <= end.y; ++iY) {
                         for (int iX = start.x; iX <= end.x; ++iX) {
-                            if (u.sees(iX, iY)) {
+                            if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
                                 m.drawsq(w_terrain, u,
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
@@ -8547,7 +8547,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 #endif
                         for (int iY = std::min(start_point.y, ly); iY <= std::max(start_point.y, ly); ++iY) {
                             for (int iX = std::min(start_point.x, lx); iX <= std::max(start_point.x, lx); ++iX) {
-                                if (u.sees(iX, iY)) {
+                                if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
                                     m.drawsq(w_terrain, u,
                                              tripoint( iX, iY, lp.z ),
                                              false,

@@ -638,13 +638,13 @@ void player::hardcoded_effects( effect &it )
                     }
                 } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
-                    if( g->m.impassable( x, y ) ) {
-                        g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true );
+                    if( g->m.impassable( dest ) ) {
+                        g->m.make_rubble( dest, f_rubble_rock, true );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            mongroup_id( "GROUP_NETHER" ) );
                     g->summon_mon( spawn_details.name, dest );
-                    if( g->u.sees( x, y ) ) {
+                    if( g->u.sees( dest ) ) {
                         g->cancel_activity_query( _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
