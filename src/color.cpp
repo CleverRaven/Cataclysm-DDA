@@ -513,21 +513,33 @@ nc_color cyan_background(nc_color c)
 }
 
 /**
- * Given the name of a color, returns the nc_color value that matches. If
+ * Given the name of a foreground color, returns the nc_color value that matches. If
  * no match is found, c_unset is returned.
  * Special cases:
  * {"black"           , c_black}, // missing default prefix c_
  * {"<c|h|i>_black"   , h_black}, // has prefix c_ or h_ or i_
- * {"dark_gray_red"   , c_dkgray_red}, // dark_ instead of dk as the latter is deprecated
- * {"light_blue_red"  , c_ltblue_red}, // light_ instead of lt as the latter is deprecated
+ * {"dark_gray_red"   , c_dkgray_red}, // use dark_ instead of dk as the latter is being deprecated
+ * {"light_blue_red"  , c_ltblue_red}, // use light_ instead of lt as the latter is being deprecated
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
 nc_color color_from_string(const std::string &color)
 {
+
     std::string new_color = color;
     if ( new_color.substr(1, 1) != "_" ) {  //c_  //i_  //h_
         new_color = "c_" + new_color;
+    }
+
+    const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
+    for (int i=0; i < 2; ++i) {
+        size_t pos = 0;
+        while ((pos = new_color.find(pSearch[i].second, pos)) != std::string::npos) {
+            new_color.replace(pos, pSearch[i].second.length(), pSearch[i].first);
+            pos += pSearch[i].first.length();
+            DebugLog( D_WARNING, DC_ALL) << "Deperecated foregorund color suffix was used: (" <<
+            pSearch[i].second << ") in (" << color << ").  Please update mod that uses that.";
+        }
     }
 
     const nc_color col = all_colors.name_to_color(new_color);
@@ -560,11 +572,23 @@ std::string string_from_color(const nc_color color)
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color bgcolor_from_string(std::string color)
+nc_color bgcolor_from_string(const std::string &color)
 {
-    color = "i_" + color;
 
-    const nc_color col = all_colors.name_to_color(color);
+    std::string new_color = "i_" + color;
+
+    const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
+    for (int i=0; i < 2; ++i) {
+        size_t pos = 0;
+        while ((pos = new_color.find(pSearch[i].second, pos)) != std::string::npos) {
+            new_color.replace(pos, pSearch[i].second.length(), pSearch[i].first);
+            pos += pSearch[i].first.length();
+            DebugLog( D_WARNING, DC_ALL) << "Deperecated background color suffix was used: (" <<
+            pSearch[i].second << ") in (" << color << ").  Please update mod that uses that.";
+        }
+    }
+
+    const nc_color col = all_colors.name_to_color(new_color);
     if ( col > 0 ) {
         return col;
     }
