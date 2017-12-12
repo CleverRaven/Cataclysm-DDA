@@ -32,9 +32,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "bike_shop"
-      ],
+      "palettes": [ "bike_shop" ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
         "&": { "item": "trash", "chance": 70 },
@@ -88,9 +86,7 @@
         "_###############@________",
         "_________________________"
       ],
-      "palettes": [
-        "bike_shop"
-      ],
+      "palettes": [ "bike_shop" ],
       "items": {
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
