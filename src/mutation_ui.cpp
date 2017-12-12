@@ -43,7 +43,7 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
              shortcut_desc( _( "%s to examine mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == "examining" ) {
-        desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
+        desc << "<color_light_blue>" << _( "Examining" ) << "</color>  " <<
              shortcut_desc( _( "%s to activate mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != "reassigning" ) {

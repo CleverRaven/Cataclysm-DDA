@@ -1163,7 +1163,7 @@ std::vector<std::string> inventory_selector::get_stats() const
         const std::string color = string_from_color( cur_value > max_value ? c_red : c_ltgray );
         return {{ caption,
                   string_format( "<color_%s>%s</color>", color.c_str(), disp_func( cur_value ).c_str() ), "/",
-                  string_format( "<color_ltgray>%s</color>", disp_func( max_value ).c_str() )
+                  string_format( "<color_light_gray>%s</color>", disp_func( max_value ).c_str() )
         }};
     };
 
