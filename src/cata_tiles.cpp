@@ -62,6 +62,8 @@ extern int fontwidth, fontheight;
 extern bool tile_iso;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
+///@throws std::exception upon errors.
+///@returns Always a valid pointer.
 static SDL_Surface_Ptr create_tile_surface( int w, int h );
 
 static const std::string empty_string;
@@ -351,7 +353,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
 {
     assert( original );
     SDL_Surface_Ptr surf = create_tile_surface( original->w, original->h );
-    throwErrorIf( !surf, "Unable to create alternate colored tilesets." );
+    assert( surf );
     throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0, "SDL_BlitSurface failed" );
     for (int y = 0; y < surf->h; y++) {
         for (int x = 0; x < surf->w; x++) {
@@ -467,9 +469,7 @@ void tileset_loader::load_tileset( std::string img_path )
             const int w = std::min( tile_atlas->w - sub_rect.x, sub_rect.w );
             const int h = std::min( tile_atlas->h - sub_rect.y, sub_rect.h );
             smaller_surf = ::create_tile_surface( w, h );
-            if( !smaller_surf ) {
-                throw std::runtime_error( std::string( "Unable to create smaller tilesets." ) );
-            }
+            assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
             throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(), NULL ) != 0, "SDL_BlitSurface failed" );
         }
@@ -1126,7 +1126,8 @@ static tripoint convert_tripoint_to_abs_submap(const tripoint& p)
 //the surface is needed to determine the color format needed by the texture
 SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int tile_height)
 {
-    SDL_Surface_Ptr temp = create_tile_surface();
+    const SDL_Surface_Ptr temp = create_tile_surface();
+    assert( temp );
     SDL_Texture_Ptr tex ( SDL_CreateTexture(renderer, temp->format->format, SDL_TEXTUREACCESS_TARGET,
                                             tile_width, tile_height) );
     throwErrorIf( !tex, "SDL_CreateTexture failed to create minimap texture" );
@@ -2286,7 +2287,8 @@ SDL_Surface_Ptr create_tile_surface( const int w, const int h )
     #else
         surface.reset( SDL_CreateRGBSurface( 0, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 ) );
     #endif
-    printErrorIf( !surface, "Failed to create surface" );
+    throwErrorIf( !surface, "Failed to create surface" );
+    assert( surface );
     return surface;
 }
 
@@ -2305,8 +2307,8 @@ void tileset_loader::ensure_default_item_highlight()
     std::string key = ITEM_HIGHLIGHT;
     int index = ts.tile_values.size();
 
-    SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
-    throwErrorIf( !surface, "Failed to create surface for default item highlight" );
+    const SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
+    assert( surface );
     throwErrorIf( SDL_FillRect( surface.get(), NULL, SDL_MapRGBA( surface->format, 0, 0, 127, highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
     throwErrorIf( !texture, "Failed to create texture for default item highlight" );
