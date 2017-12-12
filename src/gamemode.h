@@ -6,11 +6,11 @@
 #include <string>
 #include <memory>
 #include "cursesdef.h" // WINDOW
-#include "itype.h"
+#include "enums.h"
 #include "string_id.h"
 
 enum action_id : int;
-
+using itype_id = std::string;
 struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
