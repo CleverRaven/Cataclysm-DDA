@@ -40,7 +40,6 @@
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60 },
-        "l": { "item": "jackets", "chance": 60 },
         "r": { "item": "bikeshop_tools", "chance": 80 }
       },
       "place_vehicles": [
@@ -85,7 +84,7 @@
         "_############..#########_",
         "_#t.........;..;_________",
         "_#th......l##+##_________",
-        "_#t.......l#S.T#@________",
+        "_#t...f...l#S.T#@________",
         "_###############@________",
         "_________________________"
       ],
@@ -96,6 +95,7 @@
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60 },
+        "f": { "item": "fridge", "chance": 40 },
         "l": { "item": "jackets", "chance": 60 },
         "r": { "item": "bikeshop_tools", "chance": 80 }
       },
