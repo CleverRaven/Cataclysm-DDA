@@ -1,4 +1,4 @@
-0.D (3f1c109db994735fef29107cc7202017dc00d67f)
+0.D (895652c740bb6e2f60e0ea343ab0b8bdaa7c9f7d)
 
 Features:
 Power transmission between vehicles.
@@ -12,6 +12,7 @@ Gun mods extended to draw power from UPS.
 Player can set zone instructing friendly NPCs to avoid picking up items.
 Unsupported items/fields/monsters/etc fall to lower z-levels.
 Mods can override overmap specials.
+Display hints about health upon waking.
 
 Content:
 Minefield signs
@@ -26,6 +27,10 @@ Ranch and Ranch-related missions.
 Monster grab and pull attacks.
 Recipes based on offal and corpse waste.
 Cheesemaking.
+Tanks Mod
+biodiesel
+Alchohol stoves.
+Vehicle based tools, street sweepers, tractors, plows, planters.
 
 Interface:
 Bionics menu tabbed for better visibility.
@@ -37,6 +42,8 @@ Many menus are resizeable.
 Search feature added to many menus.
 Lots of dialogs allow use or consumption of items from immediate surroundings as well as inventory.
 Enhancements to AIM.
+Improved explosion animation.
+Ambient sound effects.
 
 Mods:
 More Survival Tools
@@ -49,6 +56,8 @@ Removed flaming eye annihilation beam.
 Overhauled encumbrance system for finer degrees of encumbrance.
 Tuned up wilderness crafting a great deal.
 Removed inventory overcapacity penalty, items are dropped instead.
+Ensured that skills can be bootstrapped with practice.
+Zombie stumbling is more pervasive and random.
 
 Bugfixes:
 Fix inability to repair modified clothing.
@@ -66,6 +75,11 @@ Prevent windows from thinking the game has hung.
 Prevent turrets from damaging source vehicle.
 Don't drop skeleton meat.
 Don't automatically shoot neutral creatures with autofire.
+Fixup behavior of frightened monsters.
+Optimized fire spread.
+Fixed disarm technique.
+Crash fixes for item handling.
+Stumbling monsters no longer move at different effective speeds based on direction of movement.
 
 Performance:
 Optimized mapgen when generating homogenous tiles (empty air or all rock).
