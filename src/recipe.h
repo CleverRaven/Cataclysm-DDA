@@ -2,6 +2,7 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
+#include "string_id.h"
 #include "requirements.h"
 
 #include <map>
@@ -15,6 +16,8 @@ class item;
 using skill_id = string_id<Skill>;
 using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
+class recipe;
+using recipe_id = string_id<recipe>;
 
 class recipe
 {
@@ -40,7 +43,7 @@ class recipe
             return requirements_;
         }
 
-        const std::string &ident() const {
+        const recipe_id &ident() const {
             return ident_;
         }
 
@@ -90,7 +93,7 @@ class recipe
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
-        std::string ident_;
+        recipe_id ident_ = recipe_id::NULL_ID();
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;

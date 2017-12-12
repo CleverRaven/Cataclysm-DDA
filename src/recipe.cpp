@@ -70,9 +70,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     if( abstract ) {
-        ident_ = jo.get_string( "abstract" );
+        ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        ident_ = result = jo.get_string( "result" );
+        result = jo.get_string( "result" );
+        ident_ = recipe_id( result );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -176,7 +177,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
             if( abstract ) {
                 jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
             }
-            ident_ += "_" + jo.get_string( "id_suffix" );
+            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
         }
 
         assign( jo, "category", category, strict );

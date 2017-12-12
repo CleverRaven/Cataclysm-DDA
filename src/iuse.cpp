@@ -5656,21 +5656,21 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         if (candidates.size() > 0) {
 
             const recipe *r = random_entry( candidates );
-            const std::string rident = r->ident();
+            const recipe_id rident = r->ident();
 
             const item dummy(r->result, 0);
 
             const auto old_recipes = eink->get_var( "EIPC_RECIPES" );
             if( old_recipes.empty() ) {
                 something_downloaded = true;
-                eink->set_var( "EIPC_RECIPES", "," + rident + "," );
+                eink->set_var( "EIPC_RECIPES", "," + rident.str() + "," );
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
                                      dummy.type_name().c_str());
             } else {
-                if (old_recipes.find("," + rident + ",") == std::string::npos) {
+                if (old_recipes.find("," + rident.str() + ",") == std::string::npos) {
                     something_downloaded = true;
-                    eink->set_var( "EIPC_RECIPES", old_recipes + rident + "," );
+                    eink->set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
                                          dummy.type_name().c_str());
@@ -5923,7 +5923,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> candidate_recipes;
+            std::vector<recipe_id> candidate_recipes;
             std::istringstream f(it->get_var( "EIPC_RECIPES" ));
             std::string s;
             int k = 1;
@@ -5933,9 +5933,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                     continue;
                 }
 
-                candidate_recipes.push_back(s);
+                candidate_recipes.emplace_back(s);
 
-                const auto &recipe = recipe_dict[ s ];
+                const auto &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, item::nname( recipe.result ) );
                 }
@@ -5949,9 +5949,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             } else {
                 it->item_tags.insert("HAS_RECIPE");
                 const auto rec_id = candidate_recipes[rchoice - 1];
-                it->set_var( "RECIPE", rec_id );
+                it->set_var( "RECIPE", rec_id.str() );
 
-                const auto &recipe = recipe_dict[ rec_id ];
+                const auto &recipe = *rec_id;
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
