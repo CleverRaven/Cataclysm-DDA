@@ -3332,7 +3332,7 @@ void dialogue::print_history( size_t const hilight_lines )
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
         // red for new text, gray for old, similar to coloring of messages
-        nc_color const col = ( curindex >= newindex ) ? c_red : c_dkgray;
+        nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
         mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
         curline--;
         curindex--;
@@ -3451,7 +3451,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     if( text[0] == '!' ) {
         color = c_red;
     } else if( text[0] == '*' ) {
-        color = c_ltred;
+        color = c_light_red;
     } else if( text[0] == '&' ) {
         color = c_green;
     } else {
@@ -3532,7 +3532,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
             okay = true;
         } else if( responses[ch].color == c_red && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             okay = true;
-        } else if( responses[ch].color == c_ltred && query_yn( _( "You'll be helpless! Proceed?" ) ) ) {
+        } else if( responses[ch].color == c_light_red && query_yn( _( "You'll be helpless! Proceed?" ) ) ) {
             okay = true;
         }
     } while( !okay );
@@ -3790,7 +3790,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        cost_string.c_str(), ( double )std::abs( cash ) / 100 );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_ltred : c_ltgreen, deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green, deal.c_str() );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
@@ -3814,11 +3814,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
                     const item_pricing &ip = list[i];
                     const item *it = ip.loc.get_item();
-                    auto color = it == &person.weapon ? c_yellow : c_ltgray;
+                    auto color = it == &person.weapon ? c_yellow : c_light_gray;
                     std::string itname = it->display_name();
                     if( ip.loc.where() != item_location::type::character ) {
                         itname = itname + " " + ip.loc.describe( &g->u );
-                        color = c_ltblue;
+                        color = c_light_blue;
                     }
 
                     if( ip.selected ) {
@@ -3833,7 +3833,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                     ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
-                    nc_color price_color = ex ? c_dkgray : ( ip.selected ? c_white : c_ltgray );
+                    nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white : c_light_gray );
                     mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
                                price_color, price_str.c_str() );
                 }

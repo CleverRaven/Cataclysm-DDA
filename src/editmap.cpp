@@ -130,8 +130,8 @@ void edit_json( SAVEOBJ *it )
             for( size_t s = 0; s < fs2.size(); ++s ) {
                 tm.addentry( -1, true, -2, "%s", fs2[s].c_str() );
                 if( s < fs1.size() && fs2[s] != fs1[s] ) {
-                    tm.entries[ tm.entries.size() - 1 ].text_color = c_ltgreen;
-                    tm.entries[s].text_color = c_ltred;
+                    tm.entries[ tm.entries.size() - 1 ].text_color = c_light_green;
+                    tm.entries[s].text_color = c_light_red;
                 }
             }
             fs2.clear();
@@ -472,7 +472,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            nc_color col = c_dkgray;
+            nc_color col = c_dark_gray;
             long sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
@@ -596,7 +596,7 @@ void editmap::update_view( bool update_info )
         int off = 1;
         draw_border( w_info );
 
-        mvwprintz( w_info, 0, 2, c_ltgray, "< %d,%d >", target.x, target.y );
+        mvwprintz( w_info, 0, 2, c_light_gray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
             mvwprintz( w_info, i, 1, c_white, padding.c_str() );
         }
@@ -671,7 +671,7 @@ void editmap::update_view( bool update_info )
         }
 
         if( !g->m.has_flag( "CONTAINER", target ) && g->m.i_at( target ).size() > 0 ) {
-            trim_and_print( w_info, off, 1, getmaxx( w_info ), c_ltgray, _( "There is a %s there." ),
+            trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
                             g->m.i_at( target ).front().tname().c_str() );
             off++;
             if( g->m.i_at( target ).size() > 1 ) {
@@ -811,8 +811,8 @@ int editmap::edit_ter()
         }
 
         // cursor is green for terrain or furniture, depending on selection
-        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_ltgreen : c_dkgray );
-        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_ltgreen : c_dkgray );
+        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_light_green : c_dark_gray );
+        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_light_green : c_dark_gray );
 
         int cur_t = 0;
         int tstart = 2;
@@ -821,7 +821,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ), ttype.symbol() );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dark_gray ), ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -837,8 +837,8 @@ int editmap::edit_ter()
         mvwputch( w_pickter, lastsel_terp.y + 1, lastsel_terp.x + 1, c_tercurs, ' ' );
         mvwputch( w_pickter, lastsel_terp.y - 1, lastsel_terp.x - 1, c_tercurs, ' ' );
         // indicate current tile
-        mvwputch( w_pickter, target_terp.y + 1, target_terp.x, c_ltgray, '^' );
-        mvwputch( w_pickter, target_terp.y - 1, target_terp.x, c_ltgray, 'v' );
+        mvwputch( w_pickter, target_terp.y + 1, target_terp.x, c_light_gray, '^' );
+        mvwputch( w_pickter, target_terp.y - 1, target_terp.x, c_light_gray, 'v' );
         // draw cursor around selected terrain icon
         mvwputch( w_pickter, sel_terp.y + 1, sel_terp.x - 1, c_tercurs, LINE_XXOO );
         mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x + 1, c_tercurs, LINE_OOXX );
@@ -877,7 +877,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < ( int ) furn_t::count(); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dkgray ), ftype.symbol() );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dark_gray ), ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -894,8 +894,8 @@ int editmap::edit_ter()
         mvwputch( w_pickter, lastsel_frnp.y + 1, lastsel_frnp.x + 1, c_frncurs, ' ' );
         mvwputch( w_pickter, lastsel_frnp.y - 1, lastsel_frnp.x - 1, c_frncurs, ' ' );
 
-        mvwputch( w_pickter, target_frnp.y + 1, target_frnp.x, c_ltgray, '^' );
-        mvwputch( w_pickter, target_frnp.y - 1, target_frnp.x, c_ltgray, 'v' );
+        mvwputch( w_pickter, target_frnp.y + 1, target_frnp.x, c_light_gray, '^' );
+        mvwputch( w_pickter, target_frnp.y - 1, target_frnp.x, c_light_gray, 'v' );
 
         mvwputch( w_pickter, sel_frnp.y + 1, sel_frnp.x - 1, c_frncurs, LINE_XXOO );
         mvwputch( w_pickter, sel_frnp.y - 1, sel_frnp.x + 1, c_frncurs, LINE_OOXX );
@@ -927,12 +927,12 @@ int editmap::edit_ter()
 
         // draw green |'s around terrain or furniture tilesets depending on selection
         for( int y = tstart - 1; y < tstart + tlen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_ltgreen, ( ter_frn_mode == 0 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_ltgreen, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
         }
         for( int y = fstart - 1; y < fstart + flen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_ltgreen, ( ter_frn_mode == 1 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_ltgreen, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
         }
 
         uphelp( pgettext( "Map editor: terrain/furniture shortkeys",
@@ -1261,7 +1261,7 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_ltgray ) ), "%d %s", t,
+                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_light_gray ) ), "%d %s", t,
                            tnam.c_str() );
             }
         }
@@ -1680,7 +1680,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
     WINDOW *w_preview = newwin( 24, 24, pofs.y, pofs.x );
 
-    gmenu.border_color = c_ltgray;
+    gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
     gmenu.redraw();
     gmenu.show();

@@ -34,7 +34,7 @@ void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
     if (show_shortcut) {
         std::string shortcut = _("<q>uit");
         shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut) - 2,
-                       c_white, c_ltgreen, shortcut);
+                       c_white, c_light_green, shortcut);
     }
 }
 
@@ -53,7 +53,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
 
     // Head of dead snake
     mvwprintz(w_snake, body_length + 1, 3, c_green, "(     )");
-    mvwprintz(w_snake, body_length + 1, 4, c_dkgray, "x   x");
+    mvwprintz(w_snake, body_length + 1, 4, c_dark_gray, "x   x");
     mvwprintz(w_snake, body_length + 2, 3, c_green, " \\___/ ");
     mvwputch(w_snake, body_length + 3, 6, c_red, '|');
     mvwputch(w_snake, body_length + 4, 6, c_red, '^');
@@ -77,7 +77,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
     game_over_text.push_back("         \\/                  \\/         \\/      ");
 
     for (size_t i = 0; i < game_over_text.size(); i++) {
-        mvwprintz(w_snake, i + 3, 17, c_ltred, game_over_text[i].c_str());
+        mvwprintz(w_snake, i + 3, 17, c_light_red, game_over_text[i].c_str());
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
@@ -188,7 +188,7 @@ int snake_game::start_game()
         mvwputch(w_snake, vSnakeBody[vSnakeBody.size() - 1].first,
                  vSnakeBody[vSnakeBody.size() - 1].second, c_white, '#');
         mvwputch(w_snake, vSnakeBody[vSnakeBody.size() - 2].first,
-                 vSnakeBody[vSnakeBody.size() - 2].second, c_ltgray, '#');
+                 vSnakeBody[vSnakeBody.size() - 2].second, c_light_gray, '#');
 
         //On full length add a fruit
         if (iFruitPosX == 0 && iFruitPosY == 0) {
@@ -197,7 +197,7 @@ int snake_game::start_game()
                 iFruitPosX = rng(1, FULL_SCREEN_WIDTH - 2);
             } while (mSnakeBody[iFruitPosY][iFruitPosX]);
 
-            mvwputch(w_snake, iFruitPosY, iFruitPosX, c_ltred, '*');
+            mvwputch(w_snake, iFruitPosY, iFruitPosX, c_light_red, '*');
         }
 
         wrefresh(w_snake);

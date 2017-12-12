@@ -164,11 +164,11 @@ void uimenu::init()
     desc_lines = 6;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
-    text_color = c_ltgray;  // text color
+    text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
-    hotkey_color = c_ltgreen; // hotkey text to the right of menu entry's text
-    disabled_color = c_dkgray; // disabled menu entry
+    hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
+    disabled_color = c_dark_gray; // disabled menu entry
     return_invalid = false;  // return 0-(int)invalidKeyCode
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
@@ -188,7 +188,7 @@ void uimenu::init()
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height
     scrollbar_nopage_color =
-        c_ltgray;    // color of '|' line for the entire area that isn't current page.
+        c_light_gray;    // color of '|' line for the entire area that isn't current page.
     scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
@@ -625,7 +625,7 @@ void uimenu::show()
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
+            mvwprintz(window, estart + si, pad_left + 1, c_light_gray , "%s", padspaces.c_str());
         }
     }
 

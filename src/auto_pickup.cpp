@@ -64,36 +64,36 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     const auto initial_draw = [&]() {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, custom_name );
-        mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO) ; // |-
-        mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 5, c_ltgray, LINE_XXOX ); // _|_
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 51, c_ltgray, LINE_XXOX );
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 61, c_ltgray, LINE_XXOX );
+        mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO) ; // |-
+        mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 5, c_light_gray, LINE_XXOX ); // _|_
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 51, c_light_gray, LINE_XXOX );
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 61, c_light_gray, LINE_XXOX );
         wrefresh( w_border );
 
         // Redraw the header
         int tmpx = 0;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<A>dd" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<R>emove" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<C>opy" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<D>isable" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<C>opy" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _("<M>ove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
         if( !g->u.name.empty() ) {
-            shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<T>est" ) );
+            shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
-        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen,
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green,
                                 _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
         for( int i = 0; i < 78; i++ ) {
             if( i == 4 || i == 50 || i == 60 ) {
-                mvwputch( w_header, 2, i, c_ltgray, LINE_OXXX );
-                mvwputch( w_header, 3, i, c_ltgray, LINE_XOXO );
+                mvwputch( w_header, 2, i, c_light_gray, LINE_OXXX );
+                mvwputch( w_header, 3, i, c_light_gray, LINE_XOXO );
             } else {
-                mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+                mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
             }
         }
         mvwprintz( w_header, 3, 1, c_white, "#" );
@@ -141,11 +141,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         locx = 55;
         mvwprintz(w_header, 0, locx, c_white, _("Auto pickup enabled:"));
         locx += shortcut_print(w_header, 1, locx,
-                               (get_option<bool>( "AUTO_PICKUP" ) ? c_ltgreen : c_ltred), c_white,
+                               (get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red), c_white,
                                (get_option<bool>( "AUTO_PICKUP" ) ? _("True") : _("False")));
-        locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
-        locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
-        shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
+        locx += shortcut_print(w_header, 1, locx, c_white, c_light_green, "  ");
+        locx += shortcut_print(w_header, 1, locx, c_white, c_light_green, _("<S>witch"));
+        shortcut_print(w_header, 1, locx, c_white, c_light_green, "  ");
 
         wrefresh(w_header);
 
@@ -153,7 +153,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if( j == 4 || j == 50 || j == 60 ) {
-                    mvwputch(w, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w, i, j, c_light_gray, LINE_XOXO);
                 } else {
                     mvwputch(w, i, j, c_black, ' ');
                 }
@@ -181,7 +181,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 i < iStartPos + ((iContentHeight > (int)vRules[iTab].size()) ?
                                  (int)vRules[iTab].size() : iContentHeight)) {
                 nc_color cLineColor = (vRules[iTab][i].bActive) ?
-                                      c_white : c_ltgray;
+                                      c_white : c_light_gray;
 
                 sTemp.str("");
                 sTemp << i + 1;

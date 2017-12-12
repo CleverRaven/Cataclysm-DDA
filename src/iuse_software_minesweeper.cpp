@@ -172,7 +172,7 @@ int minesweeper_game::start_game()
 
     int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
-        shortcut_print(w_minesweeper_border, 0, iPos, c_white, c_ltgreen, shortcut);
+        shortcut_print(w_minesweeper_border, 0, iPos, c_white, c_light_green, shortcut);
         iPos += utf8_width(shortcut) + 1;
     }
 
@@ -190,10 +190,10 @@ int minesweeper_game::start_game()
 
     static const std::array<nc_color, 9> aColors = {{
         c_white,
-        c_ltgray,
+        c_light_gray,
         c_cyan,
         c_blue,
-        c_ltblue,
+        c_light_blue,
         c_green,
         c_magenta,
         c_red,

@@ -95,7 +95,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
         werase( w_main );
-        fold_and_print_from( w_main, 0, 0, width, 0, c_ltgray, desc );
+        fold_and_print_from( w_main, 0, 0, width, 0, c_light_gray, desc );
         wrefresh( w_main );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();

@@ -530,7 +530,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
 
-        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
+        mvwprintz(w, 1, 2, c_light_gray, title.c_str());
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -545,7 +545,7 @@ void iexamine::vending(player &p, const tripoint &examp)
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
             auto const &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
@@ -562,7 +562,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         werase(w_item_info);
         // | {line}|
         // 12      3
-        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 

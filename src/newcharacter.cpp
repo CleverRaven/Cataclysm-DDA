@@ -35,25 +35,25 @@
 #include <algorithm>
 #include <cassert>
 
-// Colors used in this file: (Most else defaults to c_ltgray)
+// Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
-#define COL_STAT_BONUS      c_ltgreen // Bonus
+#define COL_STAT_BONUS      c_light_green // Bonus
 #define COL_STAT_NEUTRAL    c_white   // Neutral Property
-#define COL_STAT_PENALTY    c_ltred   // Penalty
+#define COL_STAT_PENALTY    c_light_red   // Penalty
 #define COL_TR_GOOD         c_green   // Good trait descriptive text
-#define COL_TR_GOOD_OFF_ACT c_ltgray  // A toggled-off good trait
-#define COL_TR_GOOD_ON_ACT  c_ltgreen // A toggled-on good trait
-#define COL_TR_GOOD_OFF_PAS c_dkgray  // A toggled-off good trait
+#define COL_TR_GOOD_OFF_ACT c_light_gray  // A toggled-off good trait
+#define COL_TR_GOOD_ON_ACT  c_light_green // A toggled-on good trait
+#define COL_TR_GOOD_OFF_PAS c_dark_gray  // A toggled-off good trait
 #define COL_TR_GOOD_ON_PAS  c_green   // A toggled-on good trait
 #define COL_TR_BAD          c_red     // Bad trait descriptive text
-#define COL_TR_BAD_OFF_ACT  c_ltgray  // A toggled-off bad trait
-#define COL_TR_BAD_ON_ACT   c_ltred   // A toggled-on bad trait
-#define COL_TR_BAD_OFF_PAS  c_dkgray  // A toggled-off bad trait
+#define COL_TR_BAD_OFF_ACT  c_light_gray  // A toggled-off bad trait
+#define COL_TR_BAD_ON_ACT   c_light_red   // A toggled-on bad trait
+#define COL_TR_BAD_OFF_PAS  c_dark_gray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MAJOR      c_green   // Important note
-#define COL_NOTE_MINOR      c_ltgray  // Just regular note
+#define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_STAT 20 // The point after which stats can not be increased further
@@ -678,8 +678,8 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
     mvwprintz( w, 3, 2, c_black, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
     std::string points_msg = points.to_string();
     int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
-    nc_color color = c_ltgray;
-    print_colored_text( w, 3, 2, color, c_ltgray, points_msg );
+    nc_color color = c_light_gray;
+    print_colored_text( w, 3, 2, color, c_light_gray, points_msg );
     if( netPointCost > 0 ) {
         mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", std::abs( netPointCost ) );
     } else if( netPointCost < 0 ) {
@@ -694,8 +694,8 @@ void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorte
     auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
                                            ctxt.get_desc("SORT").c_str() );
     wprintz(w_sorting, COL_HEADER, _("Sort by:"));
-    wprintz(w_sorting, c_ltgray, " %s", sort_order);
-    fold_and_print(w_sorting, 0, 16, (TERMX / 2), c_ltgray, sort_help);
+    wprintz(w_sorting, c_light_gray, " %s", sort_order);
+    fold_and_print(w_sorting, 0, 16, (TERMX / 2), c_light_gray, sort_help);
 }
 
 tab_direction set_points( WINDOW *w, player *, points_left &points )
@@ -758,7 +758,7 @@ Scenarios and professions affect skill point pool" ) );
         werase( w_description );
 
         for( int i = 0; i < (int)opts.size(); i++ ) {
-            nc_color color = (points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_ltgray);
+            nc_color color = (points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray);
             if( highlighted == i ) {
                 color = hilite( color );
             }
@@ -844,14 +844,14 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
 
         draw_points( w, points );
 
-        mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
-        mvwprintz(w, 6, 16, c_ltgray, "%2d", u->str_max);
-        mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:"));
-        mvwprintz(w, 7, 16, c_ltgray, "%2d", u->dex_max);
-        mvwprintz(w, 8,  2, c_ltgray, _("Intelligence:"));
-        mvwprintz(w, 8, 16, c_ltgray, "%2d", u->int_max);
-        mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
-        mvwprintz(w, 9, 16, c_ltgray, "%2d", u->per_max);
+        mvwprintz(w, 6,  2, c_light_gray, _("Strength:"));
+        mvwprintz(w, 6, 16, c_light_gray, "%2d", u->str_max);
+        mvwprintz(w, 7,  2, c_light_gray, _("Dexterity:"));
+        mvwprintz(w, 7, 16, c_light_gray, "%2d", u->dex_max);
+        mvwprintz(w, 8,  2, c_light_gray, _("Intelligence:"));
+        mvwprintz(w, 8, 16, c_light_gray, "%2d", u->int_max);
+        mvwprintz(w, 9,  2, c_light_gray, _("Perception:"));
+        mvwprintz(w, 9, 16, c_light_gray, "%2d", u->per_max);
 
         werase(w_description);
         switch (sel) {
@@ -859,7 +859,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 6, 2, COL_STAT_ACT, _("Strength:"));
             mvwprintz(w, 6, 16, COL_STAT_ACT, "%2d", u->str_max);
             if (u->str_max >= HIGH_STAT) {
-                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_light_red, _("Increasing Str further costs 2 points."));
             }
             u->recalc_hp();
             mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
@@ -875,7 +875,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:"));
             mvwprintz(w, 7,  16, COL_STAT_ACT, "%2d", u->dex_max);
             if (u->dex_max >= HIGH_STAT) {
-                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_light_red, _("Increasing Dex further costs 2 points."));
             }
             mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%.2f"),
                       u->get_hit_base());
@@ -893,7 +893,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence:"));
             mvwprintz(w, 8,  16, COL_STAT_ACT, "%2d", u->int_max);
             if (u->int_max >= HIGH_STAT) {
-                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Int further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_light_red, _("Increasing Int further costs 2 points."));
             }
             read_spd = u->read_speed(false);
             mvwprintz(w_description, 0, 0, (read_spd == 100 ? COL_STAT_NEUTRAL :
@@ -909,7 +909,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz( w, 9,  2, COL_STAT_ACT, _( "Perception:" ) );
             mvwprintz( w, 9,  16, COL_STAT_ACT, "%2d", u->per_max );
             if( u->per_max >= HIGH_STAT ) {
-                mvwprintz( w, 3, iSecondColumn, c_ltred, _( "Increasing Per further costs 2 points." ) );
+                mvwprintz( w, 3, iSecondColumn, c_light_red, _( "Increasing Per further costs 2 points." ) );
             }
             if( u->ranged_per_mod() > 0 ) {
                 mvwprintz( w_description, 0, 0, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
@@ -1073,8 +1073,8 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 
     do {
         draw_points( w, points );
-        mvwprintz(w, 3, 26, c_ltgreen, "%2d/%-2d", num_good, max_trait_points);
-        mvwprintz(w, 3, 32, c_ltred, "%3d/-%-2d ", num_bad, max_trait_points);
+        mvwprintz(w, 3, 26, c_light_green, "%2d/%-2d", num_good, max_trait_points);
+        mvwprintz(w, 3, 32, c_light_red, "%3d/-%-2d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
         werase(w_description);
@@ -1113,7 +1113,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                 auto &mdata = cur_trait.obj();
                 if (cur_line_y == i && iCurrentPage == iCurWorkingPage) {
                     // Clear line from 41 to end of line (minus border)
-                    mvwprintz( w, 3, 41, c_ltgray, std::string( getmaxx( w ) - 41 - 1, ' ' ).c_str() );
+                    mvwprintz( w, 3, 41, c_light_gray, std::string( getmaxx( w ) - 41 - 1, ' ' ).c_str() );
                     int points = mdata.points;
                     bool negativeTrait = points < 0;
                     if (negativeTrait) {
@@ -1134,13 +1134,13 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     if( cur_line_y == i ) {
                         cLine = hi_off;
                         if (u->has_conflicting_trait(cur_trait)) {
-                            cLine = hilite(c_dkgray);
+                            cLine = hilite(c_dark_gray);
                         } else if (u->has_trait(cur_trait)) {
                             cLine = hi_on;
                         }
                     } else {
                         if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
-                            cLine = c_dkgray;
+                            cLine = c_dark_gray;
 
                         } else if (u->has_trait(cur_trait)) {
                             cLine = col_on_act;
@@ -1150,13 +1150,13 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     cLine = col_on_pas;
 
                 } else if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
-                    cLine = c_ltgray;
+                    cLine = c_light_gray;
                 }
 
                 // Clear the line
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, cur_line_y, cur_line_x, c_ltgray, std::string( page_width, ' ' ).c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ).c_str() );
                 mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
             }
 
@@ -1344,7 +1344,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             }
             const auto filter_indicator = filterstring.empty() ? _("no filter")
                                           : filterstring;
-            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
+            mvwprintz(w, getmaxy(w) - 1, 2, c_light_gray, "<%s>", filter_indicator.c_str());
 
             recalc_profs = false;
         }
@@ -1355,7 +1355,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 
         // Clear the bottom of the screen and header.
         werase(w_description);
-        mvwprintz( w, 3, 1, c_ltgray, clear_line.c_str() );
+        mvwprintz( w, 3, 1, c_light_gray, clear_line.c_str() );
 
         int pointsForProf = sorted_profs[cur_id]->point_cost();
         bool negativeProf = pointsForProf < 0;
@@ -1378,7 +1378,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         }
 
         int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
-        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_ltred, prof_msg_temp.c_str(),
+        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_light_red, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForProf);
 
@@ -1391,11 +1391,11 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
                             profs_length : iContentHeight);
         int i;
         for (i = iStartPos; i < end_pos; i++) {
-            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+            mvwprintz(w, 5 + i - iStartPos, 2, c_light_gray, "\
                                              "); // Clear the line
             nc_color col;
             if( u->prof != &sorted_profs[i].obj() ) {
-                col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
+                col = (sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray);
             } else {
                 col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
@@ -1404,7 +1404,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         }
         //Clear rest of space in case stuff got filtered out
         for (; i < iStartPos + iContentHeight; ++i) {
-            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+            mvwprintz(w, 5 + i - iStartPos, 2, c_light_gray, "\
                                              "); // Clear the line
         }
 
@@ -1484,7 +1484,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         const auto scroll_msg = string_format( _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                                ctxt.get_desc("LEFT").c_str(),
                                                ctxt.get_desc("RIGHT").c_str() );
-        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
+        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_light_gray, scroll_msg );
 
         werase(w_sorting);
         draw_sorting_indicator(w_sorting, ctxt, profession_sorter);
@@ -1619,9 +1619,9 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         draw_points( w, points );
         // Clear the bottom of the screen.
         werase(w_description);
-        mvwprintz(w, 3, 31, c_ltgray, std::string( getmaxx( w ) - 32, ' ' ).c_str() );
+        mvwprintz(w, 3, 31, c_light_gray, std::string( getmaxx( w ) - 32, ' ' ).c_str() );
         const int cost = skill_increment_cost( *u, currentSkill->ident() );
-        mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
+        mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
 
@@ -1668,7 +1668,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             if( elem.first == currentSkill->name() ) {
                 rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
             } else {
-                rec_disp += "\n \n<color_c_ltgray>[" + elem.first + "]\n" + rec_temp + "</color>";
+                rec_disp += "\n \n<color_c_light_gray>[" + elem.first + "]\n" + rec_temp + "</color>";
             }
         }
 
@@ -1696,10 +1696,10 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             const int y = 5 + i - cur_offset;
             const Skill* thisSkill = sorted_skills[i];
             // Clear the line
-            mvwprintz(w, y, 2, c_ltgray, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
+            mvwprintz(w, y, 2, c_light_gray, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
             if (u->get_skill_level(thisSkill->ident()) == 0) {
                 mvwprintz(w, y, 2,
-                          (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
+                          (i == cur_pos ? h_light_gray : c_light_gray), thisSkill->name().c_str());
             } else {
                 mvwprintz(w, y, 2,
                           (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
@@ -1891,7 +1891,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             }
             const auto filter_indicator = filterstring.empty() ? _("no filter")
                                           : filterstring;
-            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
+            mvwprintz(w, getmaxy(w) - 1, 2, c_light_gray, "<%s>", filter_indicator.c_str());
 
             recalc_scens = false;
         }
@@ -1902,7 +1902,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
 
         // Clear the bottom of the screen and header.
         werase(w_description);
-        mvwprintz(w, 3, 1, c_ltgray, clear_line.c_str());
+        mvwprintz(w, 3, 1, c_light_gray, clear_line.c_str());
 
         int pointsForScen = sorted_scens[cur_id]->point_cost();
         bool negativeScen = pointsForScen < 0;
@@ -1927,7 +1927,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         }
 
         int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
-        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
+        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_light_red, scen_msg_temp.c_str(),
                   sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
@@ -1947,16 +1947,16 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                             scens_length : iContentHeight);
         int i;
         for (i = iStartPos; i < end_pos; i++) {
-            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+            mvwprintz(w, 5 + i - iStartPos, 2, c_light_gray, "\
                                              ");
             nc_color col;
             if (g->scen != sorted_scens[i]) {
                 if( sorted_scens[i] == sorted_scens[cur_id] && (sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ) {
-                    col = h_dkgray;
+                    col = h_dark_gray;
                 } else if( sorted_scens[i] != sorted_scens[cur_id] && (sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled) ) {
-                    col = c_dkgray;
+                    col = c_dark_gray;
                 } else {
-                    col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
+                    col = (sorted_scens[i] == sorted_scens[cur_id] ? h_light_gray : c_light_gray);
                 }
             } else {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
@@ -1967,7 +1967,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         }
         //Clear rest of space in case stuff got filtered out
         for (; i < iStartPos + iContentHeight; ++i) {
-            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+            mvwprintz(w, 5 + i - iStartPos, 2, c_light_gray, "\
                                              "); // Clear the line
         }
 
@@ -1979,64 +1979,64 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         draw_sorting_indicator(w_sorting, ctxt, scenario_sorter);
 
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
-        wprintz( w_profession, c_ltgray,
+        wprintz( w_profession, c_light_gray,
                  string_format( _( "\n%s" ), sorted_scens[cur_id]->prof_count_str().c_str() ).c_str() );
-        wprintz(w_profession, c_ltgray, _(", default:\n"));
+        wprintz(w_profession, c_light_gray, _(", default:\n"));
 
         auto psorter = profession_sorter;
         psorter.sort_by_points = true;
         const auto permitted = sorted_scens[cur_id]->permitted_professions();
         const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
         const int prof_points = default_prof->point_cost();
-        wprintz( w_profession, prof_points > 0 ? c_green : c_ltgray,
+        wprintz( w_profession, prof_points > 0 ? c_green : c_light_gray,
                  default_prof->gender_appropriate_name( u->male ).c_str() );
         if ( prof_points > 0 ) {
             wprintz(w_profession, c_green, " (+%d)", prof_points);
         }
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
-        wprintz(w_location, c_ltgray, ("\n"));
-        wprintz(w_location, c_ltgray, sorted_scens[cur_id]->start_name().c_str());
+        wprintz(w_location, c_light_gray, ("\n"));
+        wprintz(w_location, c_light_gray, sorted_scens[cur_id]->start_name().c_str());
 
         mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
-        wprintz(w_flags, c_ltgray, ("\n"));
+        wprintz(w_flags, c_light_gray, ("\n"));
 
         if ( sorted_scens[cur_id]->has_flag("SPR_START")) {
-            wprintz(w_flags, c_ltgray, _("Spring start"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Spring start"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("SUM_START")) {
-            wprintz(w_flags, c_ltgray, _("Summer start"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Summer start"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("AUT_START")) {
-            wprintz(w_flags, c_ltgray, _("Autumn start"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Autumn start"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("WIN_START")) {
-            wprintz(w_flags, c_ltgray, _("Winter start"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Winter start"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("SUM_ADV_START")) {
-            wprintz(w_flags, c_ltgray, _("Next summer start"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Next summer start"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
 
         if ( sorted_scens[cur_id]->has_flag("INFECTED") ) {
-            wprintz(w_flags, c_ltgray, _("Infected player"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Infected player"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("BAD_DAY") ) {
-            wprintz(w_flags, c_ltgray, _("Drunk and sick player"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Drunk and sick player"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("FIRE_START") ) {
-            wprintz(w_flags, c_ltgray, _("Fire nearby"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Fire nearby"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("SUR_START") ) {
-            wprintz(w_flags, c_ltgray, _("Zombies nearby"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Zombies nearby"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("HELI_CRASH") ) {
-            wprintz(w_flags, c_ltgray, _("Various limb wounds"));
-            wprintz(w_flags, c_ltgray, ("\n"));
+            wprintz(w_flags, c_light_gray, _("Various limb wounds"));
+            wprintz(w_flags, c_light_gray, ("\n"));
         }
 
         draw_scrollbar(w, cur_id, iContentHeight, scens_length, 5);
@@ -2180,21 +2180,21 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             for (size_t i = 0; i < vStatNames.size(); i++) {
                 pos = (utf8_width(vStatNames[i]) > pos ?
                        utf8_width(vStatNames[i]) : pos);
-                mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
+                mvwprintz(w_stats, i + 1, 0, c_light_gray, vStatNames[i].c_str());
             }
-            mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
-            mvwprintz(w_stats, 2, pos + 1, c_ltgray, "%2d", u->dex_max);
-            mvwprintz(w_stats, 3, pos + 1, c_ltgray, "%2d", u->int_max);
-            mvwprintz(w_stats, 4, pos + 1, c_ltgray, "%2d", u->per_max);
+            mvwprintz(w_stats, 1, pos + 1, c_light_gray, "%2d", u->str_max);
+            mvwprintz(w_stats, 2, pos + 1, c_light_gray, "%2d", u->dex_max);
+            mvwprintz(w_stats, 3, pos + 1, c_light_gray, "%2d", u->int_max);
+            mvwprintz(w_stats, 4, pos + 1, c_light_gray, "%2d", u->per_max);
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
             std::vector<trait_id> current_traits = u->get_base_traits();
             if (current_traits.empty()) {
-                wprintz(w_traits, c_ltred, _("None!"));
+                wprintz(w_traits, c_light_red, _("None!"));
             } else {
                 for( auto &current_trait : current_traits ) {
-                    wprintz(w_traits, c_ltgray, "\n");
+                    wprintz(w_traits, c_light_gray, "\n");
                     wprintz( w_traits, current_trait->get_display_color(), current_trait->name.c_str() );
                 }
             }
@@ -2223,17 +2223,17 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 }
 
                 if (level > 0) {
-                    mvwprintz( w_skills, line, 0, c_ltgray, "%s",
+                    mvwprintz( w_skills, line, 0, c_light_gray, "%s",
                                ( ( elem )->name() + ":" ).c_str() );
-                    mvwprintz(w_skills, line, 23, c_ltgray, "%-2d", (int)level);
+                    mvwprintz(w_skills, line, 23, c_light_gray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
                 }
             }
             if (!has_skills) {
-                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_ltred, _("None!"));
+                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_light_red, _("None!"));
             } else if (line > 10) {
-                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_ltgray, _("(Top 8)"));
+                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_light_gray, _("(Top 8)"));
             }
             wrefresh(w_skills);
 
@@ -2257,21 +2257,21 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         }
 
         //We draw this stuff every loop because this is user-editable
-        mvwprintz(w_name, 0, 0, c_ltgray, _("Name:"));
-        mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
+        mvwprintz(w_name, 0, 0, c_light_gray, _("Name:"));
+        mvwprintz(w_name, 0, namebar_pos, c_light_gray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_white, "%s", u->name.c_str());
-        wprintz(w_name, h_ltgray, "_");
+        wprintz(w_name, h_light_gray, "_");
 
         if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
-            mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
+            mvwprintz(w_name, 1, 0, c_light_gray, _("Press %s to pick a random name."),
                       ctxt.get_desc("PICK_RANDOM_NAME").c_str());
         }
         wrefresh(w_name);
 
-        mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
-        mvwprintz(w_gender, 0, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
-        mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
-        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press %s to switch gender"),
+        mvwprintz(w_gender, 0, 0, c_light_gray, _("Gender:"));
+        mvwprintz(w_gender, 0, male_pos, (u->male ? c_light_red : c_light_gray), _("Male"));
+        mvwprintz(w_gender, 0, female_pos, (u->male ? c_light_gray : c_light_red), _("Female"));
+        mvwprintz(w_gender, 1, 0, c_light_gray, _("Press %s to switch gender"),
                   ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
 
@@ -2279,21 +2279,21 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                                             ctxt.get_desc("CHOOSE_LOCATION").c_str() );
         const int prompt_offset = utf8_width( location_prompt );
         werase(w_location);
-        mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
-        mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, 0, c_light_gray, location_prompt.c_str() );
+        mvwprintz( w_location, 0, prompt_offset + 1, c_light_gray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, u->start_location.obj().name().c_str());
+                   c_light_gray, u->start_location.obj().name().c_str());
         wrefresh(w_location);
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wprintz(w_scenario, c_light_gray, g->scen->gender_appropriate_name(u->male).c_str());
         wrefresh(w_scenario);
 
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
-        wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
+        wprintz (w_profession, c_light_gray, u->prof->gender_appropriate_name(u->male).c_str());
         wrefresh(w_profession);
 
         const std::string action = ctxt.handle_input();
@@ -2316,7 +2316,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 redraw = true;
                 continue;
             } else if (u->name.empty()) {
-                mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
+                mvwprintz(w_name, 0, namebar_pos, h_light_gray, _("______NO NAME ENTERED!!!______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
                     redraw = true;

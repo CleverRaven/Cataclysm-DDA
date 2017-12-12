@@ -97,7 +97,7 @@ void game::list_missions()
             const auto miss = umissions[i];
             nc_color col = c_white;
             if( u.get_active_mission() == miss ) {
-                col = c_ltred;
+                col = c_light_red;
             }
             const int y = i - top_of_page + 3;
             if( ( int )selection == i ) {
@@ -148,7 +148,7 @@ void game::list_missions()
                 { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope.at( tab ).c_str() );
+            mvwprintz( w_missions, 4, 31, c_light_red, "%s", nope.at( tab ).c_str() );
         }
 
         wrefresh( w_missions );

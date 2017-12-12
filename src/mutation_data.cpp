@@ -371,9 +371,9 @@ nc_color mutation_branch::get_display_color() const
     } else if( mixed_effect ) {
         return c_pink;
     } else if( points > 0 ) {
-        return c_ltgreen;
+        return c_light_green;
     } else if( points < 0 ) {
-        return c_ltred;
+        return c_light_red;
     } else {
         return c_yellow;
     }
