@@ -989,46 +989,30 @@ void iexamine::fence_post(player &p, const tripoint &examp)
     }
 }
 
-void iexamine::remove_fence_rope(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-    item rope("rope_6", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-
-}
-
-void iexamine::remove_fence_wire(player &p, const tripoint &examp)
+void iexamine::remove_fence(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
         none( p, examp );
         return;
     }
 
-    item rope("wire", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-}
+    add_msg( _ ( "You remove the %s.", g->m.tername( examp ).c_str() ) );
 
-void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
+    ter_id tid = g->m.ter( examp );
+    std::string result;
+    if( tid == t_fence_rope ) {
+        result = "rope_6";
+    } else if( tid == t_fence_wire ) {
+        result = "wire";
+    } else if( tid == t_fence_barbed ) {
+        result = "wire_barbed";
     }
 
-    item rope("wire_barbed", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
+    g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
+    g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
     g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
+    p.mod_moves( -200 );
+
 }
 
 void iexamine::slot_machine( player &p, const tripoint& )
