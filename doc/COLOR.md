@@ -35,6 +35,10 @@ Whenever color is defined in JSON it should be defined in following format: `Pre
 - `dkgray_red` - `dark_gray` foreground color with `red` background color (deprecated prefix `dk` instead of `dark_`);
 - `ltblue_red` - `light_blue` foreground color with `red` background color (deprecated prefix `lt` instead of `light_`).
 
+## Color code
+
+Color code is short string which defines color and can be used, for example, in maps notes.
+
 ## Possible colors
 
 | Color (image)                                            | Color name (dda)   | Color name (curses) | Default R,G,B values | Color code | Notes                                                  |
