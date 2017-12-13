@@ -989,9 +989,9 @@ void iexamine::fence_post(player &p, const tripoint &examp)
     }
 }
 
-void iexamine::remove_fence(player &p, const tripoint &examp)
+void iexamine::remove_fence( player &p, const tripoint &examp )
 {
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
+    if( !query_yn( _( "Remove %s?" ), g->m.tername( examp ).c_str() ) ) {
         none( p, examp );
         return;
     }
@@ -1010,9 +1010,8 @@ void iexamine::remove_fence(player &p, const tripoint &examp)
 
     g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
     g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
-    g->m.ter_set(examp, t_fence_post);
+    g->m.ter_set( examp, t_fence_post );
     p.mod_moves( -200 );
-
 }
 
 void iexamine::slot_machine( player &p, const tripoint& )
