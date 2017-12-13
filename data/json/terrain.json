@@ -3805,7 +3805,7 @@
         "color": "blue",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
-        "examine_action": "remove_fence_wire",
+        "examine_action": "remove_fence",
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
@@ -3824,7 +3824,7 @@
         "color": "blue",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT"],
-        "examine_action": "remove_fence_barbed",
+        "examine_action": "remove_fence",
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
@@ -3843,7 +3843,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
-        "examine_action": "remove_fence_rope",
+        "examine_action": "remove_fence",
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
