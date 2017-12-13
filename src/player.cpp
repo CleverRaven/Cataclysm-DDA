@@ -5857,10 +5857,10 @@ void player::suffer()
     if( item_radiation > 0 || map_radiation > 0 || rad_mut > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor(&has_helmet);
-        const bool rad_resist = is_rad_immune || power_armored || worn_with_flag( "RAD_RESIST" );
+        const bool rad_resist = is_rad_immune() || power_armored || worn_with_flag( "RAD_RESIST" );
 
         float rads;
-        if( is_rad_immune ) {
+        if( is_rad_immune() ) {
             // Power armor and some high-tech gear protects completely from radiation
             rads = 0.0f;
         } else if( rad_resist ) {
@@ -5870,7 +5870,7 @@ void player::suffer()
         }
 
         if( rad_mut > 0 ) {
-            const bool kept_in = is_rad_immune || ( rad_resist && !one_in( 4 ) );
+            const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
             if( kept_in ) {
                 // As if standing on a map tile with radiation level equal to rad_mut
                 rads += rad_mut / 100.0f;
