@@ -996,7 +996,7 @@ void iexamine::remove_fence( player &p, const tripoint &examp )
         return;
     }
 
-    add_msg( _ ( "You remove the %s.", g->m.tername( examp ).c_str() ) );
+    add_msg( _( "You remove the %s.", g->m.tername( examp ).c_str() ) );
 
     ter_id tid = g->m.ter( examp );
     std::string result;
