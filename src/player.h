@@ -452,6 +452,8 @@ class player : public Character
         bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
+        /** Returns true if the player is protected from radiation */
+        bool is_rad_immune() const;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;

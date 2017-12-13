@@ -11670,3 +11670,9 @@ std::set<tripoint> player::get_path_avoid() const
 
     return ret;
 }
+
+bool player::is_rad_immune() const
+{
+    bool has_helmet = false;
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
+}
