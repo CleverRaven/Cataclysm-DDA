@@ -504,7 +504,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "lt_gray",
+    "color": "light__gray",
     "ammo": "bfeed",
     "max_charges": 250,
     "charges_per_use": 250,
@@ -577,7 +577,7 @@
     "bashing": 9,
     "material": [ "flesh" ],
     "symbol": "]",
-    "color": "lt_gray",
+    "color": "light__gray",
     "diameter": 40,
     "width": 40
   },
@@ -594,7 +594,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "lt_gray",
+    "color": "light__gray",
     "use_action": {
       "target": "gray",
       "msg": "The blob balloons to full size.",
@@ -616,7 +616,7 @@
     "bashing": 9,
     "material": [ "stone", "flesh" ],
     "symbol": "]",
-    "color": "lt_gray",
+    "color": "light__gray",
     "diameter": 60,
     "width": 60
   },

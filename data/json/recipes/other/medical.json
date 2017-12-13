@@ -34,7 +34,7 @@
     "components": [
       [ [ "rag", 3 ] ],
       [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "superglue", 1 ] ],
-      [ [ "hard_liquor", 14, "LIST" ] ]
+      [ [ "hard_liquor_toxic", 14, "LIST" ] ]
     ]
   },
   {

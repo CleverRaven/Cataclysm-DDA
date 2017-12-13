@@ -1,7 +1,7 @@
 #include "clzones.h"
-#include "map.h"
 #include "game.h"
 #include "player.h"
+#include "json.h"
 #include "debug.h"
 #include "output.h"
 #include "cata_utility.h"
@@ -187,7 +187,8 @@ bool zone_manager::save_zones()
                                g->u.name ) + ".zones.json";
 
     return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
-        fout << serialize();
+        JsonOut jsout( fout );
+        serialize( jsout );
     }, _( "zones date" ) );
 }
 

@@ -2,7 +2,6 @@
 
 #include "activity_type.h"
 #include "game.h"
-#include "map.h"
 #include "construction.h"
 #include "craft_command.h"
 #include "player.h"
@@ -11,7 +10,6 @@
 #include "activity_handlers.h"
 #include "messages.h"
 #include "mapdata.h"
-#include "generic_factory.h"
 
 #include <algorithm>
 
@@ -19,7 +17,7 @@ player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
                                   std::string name_in ) :
-    JsonSerializer(), JsonDeserializer(), type( t ), moves_total( turns ), moves_left( turns ),
+    type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
     placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
@@ -27,8 +25,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 }
 
 player_activity::player_activity( const player_activity &rhs )
-    : JsonSerializer( rhs ), JsonDeserializer( rhs ),
-      type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
       ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
@@ -86,11 +83,6 @@ std::string player_activity::get_stop_phrase() const
 int player_activity::get_value( size_t index, int def ) const
 {
     return ( index < values.size() ) ? values[index] : def;
-}
-
-bool player_activity::is_abortable() const
-{
-    return type->abortable();
 }
 
 bool player_activity::is_suspendable() const

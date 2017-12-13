@@ -2,8 +2,6 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "json.h"
-
 #include <vector>
 #include <set>
 #include <string>
@@ -12,6 +10,8 @@
 typedef std::string Item_tag;
 typedef std::string Group_tag;
 class item;
+class JsonObject;
+class JsonIn;
 
 namespace item_group {
     /**
@@ -166,6 +166,11 @@ class Item_modifier
          * This is used to create the contents of an item.
          */
         std::unique_ptr<Item_spawn_data> contents;
+
+        /**
+         * Custom flags to be added to the item.
+         */
+        std::vector<std::string> custom_flags;
 
         Item_modifier();
         ~Item_modifier();

@@ -425,6 +425,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CAMERA```
 - ```CAMERA_CONTROL```
 - ```CARGO``` Cargo holding area.
+- ```CARGO_LOCKING``` This cargo area is inaccessable to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
@@ -449,6 +450,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
+- ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).
@@ -1067,13 +1069,18 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Flags
 
-- ```ALLOW_OVERRIDE``` The terrain can be overriden during mapgen (e.g. with a road tile).
 - ```KNOWN_DOWN``` There's a known way down.
 - ```KNOWN_UP``` There's a known way up.
 - ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+
+## Overmap connections
+
+### Flags
+
+- ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
 
 ## TODO
 

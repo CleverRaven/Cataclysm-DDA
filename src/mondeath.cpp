@@ -8,7 +8,7 @@
 #include "line.h"
 #include "messages.h"
 #include "sounds.h"
-#include "mondeath.h"
+#include "string_formatter.h"
 #include "iuse_actor.h"
 #include "translations.h"
 #include "morale_types.h"
@@ -212,24 +212,20 @@ void mdeath::boomer_glow(monster *z)
 
 void mdeath::kill_vines(monster *z)
 {
-    std::vector<int> vines;
-    std::vector<int> hubs;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
-        if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
-            hubs.push_back(i);
-        }
-        if (g->zombie(i).type->id == mon_creeper_vine) {
-            vines.push_back(i);
-        }
-    }
+    const std::vector<Creature*> vines = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon->type->id == mon_creeper_vine;
+    } );
+    const std::vector<Creature*> hubs = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon != z && mon->type->id == mon_creeper_hub;
+    } );
 
-    for( auto &i : vines ) {
-        monster *vine = &(g->zombie(i));
+    for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
-            if (rl_dist(vine->pos(), g->zombie(j).pos()) < dist) {
+            if (rl_dist(vine->pos(), j->pos()) < dist) {
                 break;
             }
         }
@@ -334,7 +330,7 @@ void mdeath::worm(monster *z)
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
         const tripoint target = random_entry_removed( wormspots );
-        if(-1 == g->mon_at( target )) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon(mon_halfworm, target);
             worms++;
         }
@@ -442,8 +438,7 @@ void mdeath::blobsplit(monster *z)
 
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         const tripoint target = random_entry_removed( valid );
-        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
-            monster *blob = g->monster_at( target );
+        if( monster * const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
@@ -452,21 +447,19 @@ void mdeath::blobsplit(monster *z)
 }
 
 void mdeath::brainblob(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+            critter.remove_effect( effect_controlled);
         }
     }
     blobsplit(z);
 }
 
 void mdeath::jackson(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->id == mon_zombie_dancer ) {
-            candidate->poly( mon_zombie_hulk );
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->id == mon_zombie_dancer ) {
+            critter.poly( mon_zombie_hulk );
+            critter.remove_effect( effect_controlled);
         }
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The music stops!"));
@@ -483,11 +476,14 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const monster &critter = g->zombie( i );
-        if( critter.type == z->type && !critter.is_dead() ) {
-            return;
+    const bool has_others = g->get_creature_if( [&]( const Creature &critter ) {
+        if( const monster *const candidate = dynamic_cast<const monster*>( &critter ) ) {
+            return candidate->type == z->type;
         }
+        return false;
+    } );
+    if( has_others ) {
+        return;
     }
 
     // We were the last!
@@ -649,10 +645,10 @@ void mdeath::gameover(monster *z)
 void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const mtype_id& monID = g->zombie(i).type->id;
+    for( monster &critter : g->all_monsters() ) {
+        const mtype_id& monID = critter.type->id;
         if (monID == mon_breather_hub || monID == mon_breather) {
-            g->zombie(i).die( nullptr );
+            critter.die( nullptr );
         }
     }
 }
@@ -704,27 +700,29 @@ void mdeath::detonate(monster *z)
     }
 
 
-    if (g->u.sees(*z)) {
-        if (dets.empty()) {
+    if( g->u.sees( *z ) ) {
+        if( dets.empty() ) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s's hands fly to its pockets, but there's nothing left in them."), z->name().c_str());
+            add_msg( m_info,
+                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
+                     z->name().c_str() );
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
+            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
+                     z->name().c_str() );
         }
     }
-    const tripoint det_point = z->pos();
     // HACK, used to stop them from having ammo on respawn
-    z->add_effect( effect_no_ammo, 1, num_bp, true);
+    z->add_effect( effect_no_ammo, 1, num_bp, true );
 
     // First die normally
-    mdeath::normal(z);
+    mdeath::normal( z );
     // Then detonate our suicide bombs
-    for (auto bombs : dets) {
-        item bomb_item(bombs.first, 0);
+    for( auto bombs : dets ) {
+        item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
-        g->m.add_item_or_charges(z->pos(), bomb_item);
+        g->m.add_item_or_charges( z->pos(), bomb_item );
     }
 }
 
@@ -764,7 +762,7 @@ void mdeath::preg_roach( monster *z )
 
     while( !roachspots.empty() ) {
         const tripoint target = random_entry_removed( roachspots );
-        if( -1 == g->mon_at( target ) ) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
             if( g->u.sees(*z) ) {

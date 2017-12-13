@@ -66,35 +66,18 @@
       },
       "furniture": {
         "#": "f_counter",
-        "%": "f_null",
-        "+": "f_null",
-        ",": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "5": "f_null",
-        "8": "f_null",
         "C": "f_sofa",
-        "D": "f_null",
         "E": "f_desk",
         "F": "f_fridge",
-        "L": "f_null",
         "S": "f_sink",
-        "W": "f_null",
         "^": "f_indoor_plant",
-        "_": "f_null",
         "c": "f_chair",
         "d": "f_dumpster",
         "l": "f_locker",
         "r": "f_rack",
-        "s": "f_null",
-        "t": "f_table",
-        "w": "f_null",
-        "x": "f_null",
-        "|": "f_null"
+        "t": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {  } },
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 1, 2 ] },
         { "group": "gunmod_rare", "x": [ 5, 10 ], "y": 11, "chance": 100, "repeat": [ 2, 4 ] },

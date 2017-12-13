@@ -4,7 +4,6 @@
 
 #include "inventory.h"
 #include "input.h"
-#include "color.h"
 #include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
@@ -16,6 +15,7 @@
 #include <map>
 #include <sstream>
 
+class nc_color;
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
 
@@ -85,7 +85,7 @@ class veh_interact
 
         player_activity serialize_activity();
 
-        void set_title( std::string msg, ... ) const;
+        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
@@ -138,9 +138,12 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         /**
-         * Display overview of parts
-         * @param enable used to determine if a part can be selected
-         * @param action callback when part is selected, should return true if redraw required
+         * Display overview of parts, optionally with interactive selection of one part
+         *
+         * @param enable used to determine parts of interest. If \p action also present, these
+                         parts are the ones that can be selected. Otherwise, these are the parts
+                         that will be highlighted
+         * @param action callback when part is selected, should return true if redraw required.
          * @return whether redraw is required (always false if no action was run)
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},

@@ -13,6 +13,9 @@
 #include <bitset>
 #include <string>
 #include <memory>
+#include <map>
+#include <utility>
+#include <array>
 
 using itype_id = std::string;
 
@@ -25,7 +28,6 @@ class JsonObject;
 struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
-typedef int nc_color;
 class Character;
 
 struct requirement_data;
@@ -97,8 +99,8 @@ class vpart_info
         std::string location;
 
         /** Color of part for different states */
-        nc_color color = c_ltgray;
-        nc_color color_broken = c_ltgray;
+        nc_color color = c_light_gray;
+        nc_color color_broken = c_light_gray;
 
         /**
          * Symbol of part which will be translated as follows:

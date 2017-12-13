@@ -911,22 +911,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "v_curtain_item",
-        "name": "vehicle curtain",
-        "name_plural" : "vehicle curtains",
-        "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
-        "weight": 2200,
-        "to_hit": -4,
-        "color": "white",
-        "symbol": "\"",
-        "material": ["cotton", "steel"],
-        "volume": 20,
-        "bashing": 1,
-        "category" : "veh_parts",
-        "price": 3500
-    },
-    {
-        "type":"GENERIC",
         "id":"v_scoop_item",
         "name":"vehicle scoop",
         "symbol":"u",
@@ -1022,5 +1006,17 @@
         "weight": 1000,
         "volume": 4,
         "price": 3000
+    },{
+        "id": "cargo_lock",
+        "type":"GENERIC",
+        "name": "cargo lock set",
+        "description": "A set of locks designed to be installed on a vehicle.",
+        "symbol": "+",
+        "color": "dark_gray",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 500,
+        "volume": 1,
+        "price": 800
     }
 ]

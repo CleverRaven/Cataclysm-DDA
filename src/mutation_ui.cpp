@@ -7,6 +7,7 @@
 #include "output.h"
 #include "player.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -42,7 +43,7 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
              shortcut_desc( _( "%s to examine mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == "examining" ) {
-        desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
+        desc << "<color_light_blue>" << _( "Examining" ) << "</color>  " <<
              shortcut_desc( _( "%s to activate mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != "reassigning" ) {
@@ -146,15 +147,15 @@ void player::power_mutations()
             mvwputch( wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
             // Captions
-            mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_ltblue, _( "Passive:" ) );
-            mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_ltblue, _( "Active:" ) );
+            mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_light_blue, _( "Passive:" ) );
+            mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_light_blue, _( "Active:" ) );
 
             if( menu_mode == "examining" ) {
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
             }
             nc_color type;
             if( passive.empty() ) {
-                mvwprintz( wBio, list_start_y, 2, c_ltgray, _( "None" ) );
+                mvwprintz( wBio, list_start_y, 2, c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < passive.size(); i++ ) {
                     const auto &md = passive[i].obj();
@@ -163,13 +164,13 @@ void player::power_mutations()
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
                     }
-                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_ltcyan );
+                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_light_cyan );
                     mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name.c_str() );
                 }
             }
 
             if( active.empty() ) {
-                mvwprintz( wBio, list_start_y, second_column, c_ltgray, _( "None" ) );
+                mvwprintz( wBio, list_start_y, second_column, c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < active.size(); i++ ) {
                     const auto &md = active[i].obj();
@@ -179,9 +180,9 @@ void player::power_mutations()
                         break;
                     }
                     if( td.powered ) {
-                        type = ( has_base_trait( active[i] ) ? c_green : c_ltgreen );
+                        type = ( has_base_trait( active[i] ) ? c_green : c_light_green );
                     } else {
-                        type = ( has_base_trait( active[i] ) ? c_red : c_ltred );
+                        type = ( has_base_trait( active[i] ) ? c_red : c_light_red );
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );
@@ -207,11 +208,11 @@ void player::power_mutations()
 
             // Scrollbar
             if( scroll_position > 0 ) {
-                mvwputch( wBio, HEADER_LINE_Y + 2, 0, c_ltgreen, '^' );
+                mvwputch( wBio, HEADER_LINE_Y + 2, 0, c_light_green, '^' );
             }
             if( scroll_position < max_scroll_position && max_scroll_position > 0 ) {
                 mvwputch( wBio, ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) - 1,
-                          0, c_ltgreen, 'v' );
+                          0, c_light_green, 'v' );
             }
         }
         wrefresh( wBio );
@@ -313,7 +314,7 @@ You cannot activate %s!  To read a description of \
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
                 // Clear the lines first
                 werase( w_description );
-                fold_and_print( w_description, 0, 0, WIDTH - 2, c_ltblue, mut_data.description );
+                fold_and_print( w_description, 0, 0, WIDTH - 2, c_light_blue, mut_data.description );
                 wrefresh( w_description );
             }
         }

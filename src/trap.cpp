@@ -1,9 +1,10 @@
+#include "trap.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "generic_factory.h"
-#include "trap.h"
 #include "debug.h"
 #include "line.h"
+#include "json.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -92,8 +93,10 @@ void trap::load_trap( JsonObject &jo, const std::string &src )
 void trap::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    mandatory( jo, was_loaded, "name", name_ );
+    if( !assign( jo, "color", color ) ) {
+        jo.throw_error( "missing mandatory member \"color\"" );
+    }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
@@ -103,8 +106,14 @@ void trap::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
-    optional( jo, was_loaded, "trigger_weight", trigger_weight, -1 );
+    assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
+}
+
+std::string trap::name() const
+{
+    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
+    return name_.empty() ? name_ : _( name_.c_str() );
 }
 
 void trap::reset()
@@ -205,7 +214,6 @@ trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,
@@ -272,7 +280,6 @@ void trap::finalize()
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
     tr_cot = trapfind( "tr_cot" );
-    tr_brazier = trapfind( "tr_brazier" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
     tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );

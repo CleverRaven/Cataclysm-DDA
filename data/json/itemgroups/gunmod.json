@@ -20,7 +20,6 @@
     "//" : "Less common gunmods including those only used by police/paramilitary forces.",
     "items": [
       [ "adjustable_stock", 80],
-      [ "autofire", 20 ],
       [ "barrel_big", 20 ],
       [ "barrel_ported", 20 ],
       [ "barrel_rifled", 20 ],
@@ -59,6 +58,7 @@
     "id" : "gunmod_milspec",
     "//" : "Military specification gunmods found only at military sites.",
     "items": [
+      [ "acog_scope", 100 ],
       [ "aux_flamer", 20 ],
       [ "holo_sight", 100 ],
       [ "m203", 30 ],

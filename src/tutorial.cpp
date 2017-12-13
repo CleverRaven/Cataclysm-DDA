@@ -9,10 +9,12 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "profession.h"
+#include "mapdata.h"
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
 #include "scent_map.h"
+#include "json.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -93,7 +95,7 @@ void tutorial_game::per_turn()
         add_message( LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MIN_RECOIL ) {
+    if( g->u.recoil >= MAX_RECOIL ) {
         add_message( LESSON_RECOIL );
     }
 

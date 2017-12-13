@@ -4,6 +4,10 @@
 #include "cursesdef.h"
 #include "wcwidth.h"
 #include "options.h"
+#if (defined _WIN32 || defined WINDOWS)
+#include "platform_win.h"
+#include "mmsystem.h"
+#endif
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
@@ -333,14 +337,14 @@ std::string base64_decode(std::string str)
     return decoded_data;
 }
 
-inline void strip_trailing_nulls( std::wstring &str )
+static void strip_trailing_nulls( std::wstring &str )
 {
     while( !str.empty() && str.back() == '\0' ) {
         str.pop_back();
     }
 }
 
-inline void strip_trailing_nulls( std::string &str )
+static void strip_trailing_nulls( std::string &str )
 {
     while( !str.empty() && str.back() == '\0' ) {
         str.pop_back();
@@ -356,7 +360,7 @@ std::wstring utf8_to_wstr( const std::string &str )
     strip_trailing_nulls( wstr );
     return wstr;
 #else
-    std::size_t sz = std::mbstowcs( NULL, str.c_str(), str.size() );
+    std::size_t sz = std::mbstowcs( NULL, str.c_str(), 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     std::mbstowcs( &wstr[0], str.c_str(), sz );
     strip_trailing_nulls( wstr );
@@ -373,7 +377,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     strip_trailing_nulls( str );
     return str;
 #else
-    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), wstr.size() );
+    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), 0 ) + 1;
     std::string str( sz, '\0' );
     std::wcstombs( &str[0], wstr.c_str(), sz );
     strip_trailing_nulls( str );

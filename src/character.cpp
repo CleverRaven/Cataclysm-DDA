@@ -1,6 +1,7 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "bionics.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
 #include "debug.h"
@@ -19,6 +20,7 @@
 #include "veh_interact.h"
 #include "cata_utility.h"
 
+#include "string_formatter.h"
 #include <algorithm>
 #include <sstream>
 #include <numeric>
@@ -128,8 +130,12 @@ Character::Character() : Creature(), visitable<Character>()
 
     name = "";
 
-    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
+    path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+
+    my_bionics.reset( new bionic_collection() );
 }
+
+Character::~Character() = default;
 
 field_id Character::bloodType() const
 {
@@ -180,70 +186,132 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::effective_dispersion( int dispersion ) const
 {
-    /** @EFFECT_PER improves effectiveness of gun sights */
-    dispersion += ( 10 - per_cur ) * 15;
+    /** @EFFECT_PER penalizes sight dispersion when low. */
+    dispersion += ranged_per_mod();
 
     dispersion += encumb( bp_eyes );
 
     return std::max( dispersion, 0 );
 }
 
-double Character::aim_per_move( const item& gun, double recoil ) const
+std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
 {
-    if( !gun.is_gun() ) {
-        return 0;
-    }
-
-    // get fastest sight that can be used to improve aim further below @ref recoil
-    int cost = INT_MAX;
+    // Get fastest sight that can be used to improve aim further below @ref recoil.
+    int sight_speed_modifier = INT_MIN;
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
+        sight_speed_modifier = 6;
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = 0;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
     for( const auto e : gun.gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < cost ) {
-            cost  = mod->aim_cost;
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = mod->aim_speed;
             limit = effective_dispersion( mod->sight_dispersion );
         }
     }
+    return std::make_pair( sight_speed_modifier, limit );
+}
 
-    if( cost == INT_MAX ) {
-        return 0; // no suitable sights (already at maxium aim)
+double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
+{
+    double skill_mult = 1.0;
+    if( gun_skill == "pistol" ) {
+        skill_mult = 2.0;
+    } else if( gun_skill == "rifle" ) {
+        skill_mult = 0.9;
     }
-
-    // each 5 points (combined) of hand encumbrance increases aim cost by one unit
-    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
-
-    /** @EFFECT_DEX increases aiming speed */
-    cost += 8 - dex_cur;
-
     /** @EFFECT_PISTOL increases aiming speed for pistols */
     /** @EFFECT_SMG increases aiming speed for SMGs */
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
+    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+}
 
-    cost = std::max( cost, 1 );
+double Character::aim_speed_dex_modifier() const
+{
+    return get_dex() - 8;
+}
 
-    // constant at which one unit of aim cost ~75 moves
-    // (presuming aiming from nil to maximum aim via single sight at DEX 8)
-    int k = 25;
+double Character::aim_speed_encumbrance_modifier() const
+{
+    return ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
+}
 
-    // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
-    double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
+double Character::aim_cap_from_volume( const item &gun ) const
+{
+    skill_id gun_skill = gun.gun_skill();
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+    // TODO: also scale with skill level.
+    if( gun_skill == "smg" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "shotgun" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "pistol" ) {
+        aim_cap = std::max( 15.0, aim_cap * 1.25 );
+    } else if( gun_skill == "rifle" ) {
+        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+    } else { // Launchers, etc.
+        aim_cap = std::max( 10.0, aim_cap );
+    }
+    return aim_cap;
+}
 
-    // minimum improvment is 0.1MoA
-    double aim = std::max( recoil * improv, 0.1 );
+double Character::aim_per_move( const item &gun, double recoil ) const
+{
+    if( !gun.is_gun() ) {
+        return 0.0;
+    }
 
-    // never improve by more than the currently used sights permit
-    return std::min( aim, recoil - limit );
+    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    int sight_speed_modifier = best_sight.first;
+    int limit = best_sight.second;
+    if( sight_speed_modifier == INT_MIN ) {
+        // No suitable sights (already at maxium aim).
+        return 0;
+    }
+
+    // Overal strategy for determining aim speed is to sum the factors that contribute to it,
+    // then scale that speed by current recoil level.
+    // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
+    // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
+    double aim_speed = 10.0;
+
+    skill_id gun_skill = gun.gun_skill();
+    // Ranges [0 - 10]
+    aim_speed += aim_speed_skill_modifier( gun_skill );
+
+    // Range [0 - 12]
+    /** @EFFECT_DEX increases aiming speed */
+    aim_speed += aim_speed_dex_modifier();
+
+    // Range [0 - 10]
+    aim_speed += sight_speed_modifier;
+
+    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
+    aim_speed -= aim_speed_encumbrance_modifier();
+
+    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
+
+    // Just a raw scaling factor.
+    aim_speed *= 6.5;
+
+    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
+    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+
+    // Minimum improvment is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    aim_speed = std::max( aim_speed, 5.0 );
+
+    // Never improve by more than the currently used sights permit.
+    return std::min( aim_speed, recoil - limit );
 }
 
 bool Character::move_effects(bool attacking)
@@ -357,9 +425,10 @@ bool Character::move_effects(bool attacking)
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if( g->mon_at( dest ) != -1 &&
-                ( g->zombie( g->mon_at( dest ) ).has_flag( MF_GRABS ) ||
-                  g->zombie( g->mon_at( dest ) ).type->has_special_attack( "GRAB" ) ) ) {
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon &&
+                ( mon->has_flag( MF_GRABS ) ||
+                  mon->type->has_special_attack( "GRAB" ) ) ) {
                 zed_number ++;
             }
         }
@@ -504,6 +573,10 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
     }
 
+    if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
+    }
+
     if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
@@ -546,7 +619,7 @@ float Character::get_vision_threshold( float light_level ) const {
 
 bool Character::has_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return true;
         }
@@ -556,7 +629,7 @@ bool Character::has_bionic(const bionic_id &b) const
 
 bool Character::has_active_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return (i.powered);
         }
@@ -596,6 +669,40 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
     return res;
 }
 
+long int Character::i_add_to_container(const item &it, const bool unloading)
+{
+    long int charges = it.charges;
+    if( !it.is_ammo() || unloading ) {
+        return charges;
+    }
+
+    const itype_id item_type = it.typeId();
+    auto add_to_container = [&it, &charges](item &container) {
+        auto &contained_ammo = container.contents.front();
+        if( contained_ammo.charges < container.ammo_capacity() ) {
+            const long int diff = container.ammo_capacity() - contained_ammo.charges;
+            add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
+            if( diff > charges ) {
+                contained_ammo.charges += charges;
+                return 0L;
+            } else {
+                contained_ammo.charges = container.ammo_capacity();
+                return charges - diff;
+            }
+        }
+        return charges;
+    };
+
+    visit_items( [ & ]( item *item ) {
+        if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
+            charges = add_to_container(*item);
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return charges;
+}
+
 item& Character::i_add(item it)
 {
     itype_id item_type_id = it.typeId();
@@ -609,7 +716,7 @@ item& Character::i_add(item it)
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const std::set<char> cur_inv = allocated_invlets();
-    for (auto iter : assigned_invlet) {
+    for (auto iter : inv.assigned_invlet) {
         if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -715,7 +822,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
-    inv.assign_empty_invlet( it );
+    inv.assign_empty_invlet( it , this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
@@ -836,9 +943,9 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-int Character::weight_carried() const
+units::mass Character::weight_carried() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     ret += weapon.weight();
     for (auto &i : worn) {
         ret += i.weight();
@@ -852,31 +959,31 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
-int Character::weight_capacity() const
+units::mass Character::weight_capacity() const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         // Infinite enough
-        return INT_MAX;
+        return units::mass_max;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
-    int ret = Creature::weight_capacity();
+    units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4000;
+    ret += get_str() * 4_kilogram;
     if( has_trait( trait_id( "BADBACK" ) ) ) {
-        ret = int(ret * .65);
+        ret = ret * .65;
     }
     if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        ret = int(ret * 1.35);
+        ret = ret * 1.35;
     }
     if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
-        ret = int(ret * .80);
+        ret = ret * .80;
     }
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
-        ret = int(ret * .60);
+        ret = ret * .60;
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
-        ret += 22500;
+        ret += 22500_gram;
     }
     if (ret < 0) {
         ret = 0;
@@ -929,7 +1036,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? units::mass_max : weight_capacity() * 4 ) );
     }
     else
     {
@@ -1289,11 +1396,11 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     return ret;
 }
 
-int Character::get_weight() const
+units::mass Character::get_weight() const
 {
-    int ret = 0;
-    int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
-                     []( int sum, const item &itm ) {
+    units::mass ret = 0;
+    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), units::mass( 0 ),
+                     []( units::mass sum, const item &itm ) {
                         return sum + itm.weight();
                      } );
 
@@ -1523,6 +1630,18 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <20 increases ranged penalty
+    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_PER <20 increases ranged aiming penalty.
+    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -1772,7 +1891,7 @@ hp_part Character::body_window( const std::string &menu_header,
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
 
-    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
     /* This struct estabiles some kind of connection between the hp_part (which can be healed and
@@ -1803,13 +1922,13 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
-        // This will c_ltgray if the part does not have any effects cured by the item
+        // This will c_light_gray if the part does not have any effects cured by the item
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed, bite, infect );
-        const bool has_curable_effect = state_col != c_ltgray;
+        const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        const bool has_any_effect = all_state_col != c_ltgray;
+        const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
         // This considers only the effects that can *not* be removed.
@@ -1848,7 +1967,7 @@ hp_part Character::body_window( const std::string &menu_header,
             print_hp( 15, color, current_hp );
         } else {
             // But still could be infected or bleeding
-            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
+            const nc_color color = has_any_effect ? all_state_col : c_dark_gray;
             print_hp( 15, color, 0 );
         }
 
@@ -1860,17 +1979,17 @@ hp_part Character::body_window( const std::string &menu_header,
                 continue;
             }
 
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
 
             const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
-            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            const nc_color color = has_any_effect ? new_state_col : c_dark_gray;
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
             print_hp( 24, color, 0 );
         }
     }
-    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
 
     wrefresh(hp_window);
     char ch;
@@ -1898,11 +2017,11 @@ hp_part Character::body_window( const std::string &menu_header,
 nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
 {
     if( bp == num_bp ) {
-        return c_ltgray;
+        return c_light_gray;
     }
 
     int color_bit = 0;
-    nc_color i_color = c_ltgray;
+    nc_color i_color = c_light_gray;
     if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }
@@ -1941,7 +2060,15 @@ std::string Character::get_name() const
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
+
+    if( has_effect( effect_downed ) ) {
+        return hilite( basic );
+    } else if( has_effect( effect_grabbed ) ) {
+        return cyan_background( basic );
+    }
+
     const auto &fields = g->m.field_at( pos() );
+
     bool has_fire = false;
     bool has_acid = false;
     bool has_elec = false;
@@ -1984,7 +2111,7 @@ nc_color Character::symbol_color() const
         return white_background( basic );
     }
 
-    if( in_sleep_state() || has_effect( effect_downed ) ) {
+    if( in_sleep_state() ) {
         return hilite( basic );
     }
 
@@ -2025,7 +2152,7 @@ bool Character::is_immune_field( const field_id fid ) const
         case fd_web:
             return has_trait( trait_id( "WEB_WALKER" ) );
         case fd_fire:
-        case fd_flame_burst: 
+        case fd_flame_burst:
             return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( bionic_id( "bio_heatsink" ) ) ||
                    is_wearing( "rm13_armor_on" );
         default:
@@ -2049,12 +2176,12 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {

@@ -7,10 +7,13 @@
 #include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
+#include "effect.h" // for weed_msg
 #include "debug.h"
 #include "options.h"
+#include "iexamine.h"
 #include "requirements.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
 #include "player.h"
@@ -20,7 +23,6 @@
 #include "monstergenerator.h"
 #include "speech.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "messages.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
@@ -46,11 +48,13 @@
 
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
 #include <set>
 #include <cstdlib>
+#include <functional>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -573,14 +577,13 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                         continue;
                     }
                     if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
-                        const int zid = g->mon_at(dest);
-                        if (zid >= 0) {  // Spores hit a monster
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species( FUNGUS )) {
+                                !critter.type->in_species( FUNGUS ) ) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        g->zombie(zid).name().c_str());
+                                        critter.name().c_str() );
                             }
-                            monster &critter = g->zombie( zid );
                             if( !critter.make_fungus() ) {
                                 critter.die( p ); // counts as kill by player
                             }
@@ -766,7 +769,7 @@ int iuse::vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You feel tough."));
     p->mod_healthy_mod(200, 200);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -777,7 +780,7 @@ int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
     p->add_effect( effect_flushot, 1, num_bp, true);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -972,7 +975,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( it->type ) * multiplier );
+        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
@@ -989,415 +992,278 @@ int iuse::chew(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-static int marloss_reject_mutagen( player *p, item *it )
+enum class mutagen_rejection {
+    accepted,
+    rejected,
+    destroyed
+};
+
+static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
 {
-    // I've been unable to replicate the rejections on marloss berries
-    // but best to be careful-KA101.
-    if( (it->type->can_use( "MYCUS" )) || (it->type->can_use( "MARLOSS" )) ||
-      (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
-        return 0;
-    }
-    if (p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_player_or_npc( m_warning,
-            _("The %s sears your insides white-hot, and you collapse to the ground!"),
-            _("<npcname> writhes in agony and collapses to the ground!"),
-            it->tname().c_str());
-        p->vomit();
-        p->mod_pain(35);
-        // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(20, 35), nullptr);
-        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->fall_asleep((3000 - p->int_cur * 10));
-        // Marloss is too thoroughly into your body to be dislodged by orals.
-        p->set_mutation( trait_MUTAGEN_AVOID );
-        p->add_msg_if_player(m_warning, _("That was some toxic %s!  Let's stick with Marloss next time, that's safe."), it->tname().c_str());
-        p->add_memorial_log(pgettext("memorial_male", "Suffered a toxic marloss/mutagen reaction."),
-                            pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
-        return it->type->charges_to_use();
+    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
+         //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p.add_msg_if_player( m_warning, _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+        return mutagen_rejection::rejected;
     }
 
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait( trait_M_SPORES ) || p->has_trait( trait_M_FERTILE ) ||
-            p->has_trait( trait_M_BLOSSOMS ) || p->has_trait( trait_M_BLOOM ) ) {
-            p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
-            g->m.ter_set(p->posx(), p->posy(), t_fungus);
-            p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
+    static const std::vector<std::string> safe = {{
+        "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
+    }};
+    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string &flag ) {
+        return it.type->can_use( flag );
+    } ) ) {
+        return mutagen_rejection::accepted;
+    }
+
+    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
+            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
+            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
+            g->m.ter_set( p.pos(), t_fungus );
+            p.add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
                                 pgettext("memorial_female", "Destroyed a harmful invader."));
-            return it->type->charges_to_use();
-        }
-        else {
-            p->add_msg_if_player(m_bad, _("We must eliminate this contaminant at the earliest opportunity."));
-            return it->type->charges_to_use();
+            return mutagen_rejection::destroyed;
+        } else {
+            p.add_msg_if_player( m_bad, _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            return mutagen_rejection::rejected;
         }
     }
-    return 0;
-}
 
-static int marloss_reject_mut_iv( player *p, item *it )
-{
-    if( it->type->can_use( "MYCUS" ) ) {
-        return 0;
-    }
-    if (p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_player_or_npc( m_warning,
+    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+        p.add_msg_player_or_npc( m_warning,
             _("The %s sears your insides white-hot, and you collapse to the ground!"),
             _("<npcname> writhes in agony and collapses to the ground!"),
-            it->tname().c_str());
-        p->vomit();
-        p->mod_pain(55);
+            it.tname().c_str());
+        p.vomit();
+        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(30, 45), nullptr);
-         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p->fall_asleep((4000 - p->int_cur * 10));
-        // Injection does the trick.  Burn the fungus out.
-        p->unset_mutation( trait_THRESH_MARLOSS );
-        p->set_mutation( trait_MUTAGEN_AVOID );
-        //~ Recall that Marloss mutations made you feel warmth spreading throughout your body.  That's gone.
-        p->add_msg_if_player(m_warning, _("You feel a cold burn inside, as though everything warm has left you."));
-        if( it->type->can_use("PURIFY_IV") ) {
-            p->add_msg_if_player(m_warning, _("It was probably that marloss -- how did you know to call it \"marloss\" anyway?"));
-            p->add_msg_if_player(m_warning, _("Best to stay clear of that alien crap in future."));
-            p->add_memorial_log(pgettext("memorial_male", "Burned out a particularly nasty fungal infestation."),
+        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( MINUTES( 300 - p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.set_mutation( trait_MUTAGEN_AVOID );
+        // Injected mutagen purges marloss, ingested doesn't
+        if( strong ) {
+            p.unset_mutation( trait_THRESH_MARLOSS );
+            p.add_msg_if_player(m_warning, _("It was probably that marloss -- how did you know to call it \"marloss\" anyway?"));
+            p.add_msg_if_player(m_warning, _("Best to stay clear of that alien crap in future."));
+            p.add_memorial_log(pgettext("memorial_male", "Burned out a particularly nasty fungal infestation."),
                                 pgettext("memorial_female", "Burned out a particularly nasty fungal infestation."));
         } else {
-            p->add_memorial_log(pgettext("memorial_male", "Suffered a toxic marloss/mutagen reaction."),
-                                pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
+            p.add_msg_if_player( m_warning, _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                  it.tname().c_str() );
+            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                                 pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
         }
-        return it->type->charges_to_use();
+
+        return mutagen_rejection::destroyed;
     }
 
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait( trait_M_SPORES ) || p->has_trait( trait_M_FERTILE ) ||
-            p->has_trait( trait_M_BLOSSOMS ) || p->has_trait( trait_M_BLOOM ) ) {
-            p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
-            g->m.ter_set( p->pos(), t_fungus );
-            p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
-                                pgettext("memorial_female", "Destroyed a harmful invader."));
-            return it->type->charges_to_use();
-        } else {
-            p->add_msg_if_player(m_bad, _("We must eliminate this contaminant at the earliest opportunity."));
-            return it->type->charges_to_use();
-        }
-    }
-    return 0;
+
+    return mutagen_rejection::accepted;
 }
 
-int iuse::mutagen(player *p, item *it, bool, const tripoint& )
+struct mutagen_attempt {
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c )
+    { }
+    bool allowed;
+    int charges_used;
+};
+
+static mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+                                              const std::string &memorial_male, const std::string &memorial_female )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not drinking that chemical stuff."));
-        return 0;
+    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    if( status == mutagen_rejection::rejected ) {
+        return mutagen_attempt( false, 0 );
+    }
+    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
+    if( status == mutagen_rejection::destroyed ) {
+        return mutagen_attempt( false, it.type->charges_to_use() );
     }
 
-    if( !(p->has_trait( trait_THRESH_MYCUS )) ) {
-        p->add_memorial_log(pgettext("memorial_male", "Consumed mutagen."),
-                            pgettext("memorial_female", "Consumed mutagen."));
+    return mutagen_attempt( true, 0 );
+}
+
+int iuse::mutagen( player *p, item *it, bool, const tripoint& )
+{
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Consumed mutagen." ), pgettext( "memorial_female", "Consumed mutagen." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if( marloss_reject_mutagen( p, it ) ) {
+    if( !one_in( 3 ) && it->has_flag( "MUTAGEN_WEAK" ) ) {
+        // Nothing! Mutagenic flesh often just fails to work.
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait( trait_MUT_JUNKIE )) {
+    if( p->has_trait( trait_MUT_JUNKIE ) ) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
-    bool downed = false;
-    std::string mutation_category;
-    // Generic "mutagen".
-    if (it->has_flag("MUTAGEN_STRONG")) {
-        mutation_category = "";
-        p->mutate();
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            if (one_in(4)) {
-                downed = true;
-            }
-        }
-        if (one_in(2)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("Oops.  You must've blacked out for a minute there."),
-                _("<npcname> suddenly collapses!") );
-            //Should be about 3 min, less 6 sec/IN point.
-            /** @EFFECT_INT reduces sleep duration when using mutagen */
-            p->fall_asleep((30 - p->int_cur));
-        }
-    }
-    if (it->has_flag("MUTAGEN_WEAK")) {
-        mutation_category = "";
-        // Stuff like the limbs, the tainted tornado, etc.
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            if (one_in(4)) {
-                downed = true;
-            }
-        }
-    } else {
-        // Categorized/targeted mutagens go here.
-        for (auto& iter : mutation_category_traits){
-            mutation_category_trait m_category = iter.second;
-            if (it->has_flag("MUTAGEN_" + m_category.category)) {
-                mutation_category = "MUTCAT_" + m_category.category;
-                p->add_msg_if_player(m_category.mutagen_message.c_str());
-                p->mutate_category(mutation_category);
-                p->mod_pain(m_category.mutagen_pain * rng(1, 5));
-                p->mod_hunger(m_category.mutagen_hunger);
-                p->mod_thirst(m_category.mutagen_thirst);
-                p->mod_fatigue(m_category.mutagen_fatigue);
-                break;
-            }
-        }
-        // Yep, orals take a bit out of you too
-        if (one_in(4)) {
-            downed = true;
-        }
-    }
 
-    // Don't print downed message for sleeping player
-    if( downed && !p->in_sleep_state() ) {
+    if( one_in( 6 ) ) {
         p->add_msg_player_or_npc( m_bad,
             _("You suddenly feel dizzy, and collapse to the ground."),
             _("<npcname> suddenly collapses to the ground!") );
         p->add_effect( effect_downed, 1, num_bp, false, 0, true );
     }
+
+    // Categorized/targeted mutagens go here.
+    for( auto& iter : mutation_category_trait::get_all() ) {
+        mutation_category_trait m_category = iter.second;
+        if( !it->has_flag( m_category.mutagen_flag ) ) {
+            continue;
+        }
+
+        int mut_count = 1 + ( it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0 );
+
+        p->add_msg_if_player( m_category.mutagen_message.c_str() );
+        const std::string &mutation_category = m_category.category_full;
+        for( int i = 0; i < mut_count; i++ ) {
+            p->mutate_category( mutation_category );
+            p->mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
+            p->mod_hunger( m_category.mutagen_hunger );
+            p->mod_thirst( m_category.mutagen_thirst );
+            p->mod_fatigue( m_category.mutagen_fatigue );
+        }
+
+        return it->type->charges_to_use();
+    }
+
     return it->type->charges_to_use();
 }
 
 static void test_crossing_threshold(player *p, const mutation_category_trait &m_category) {
     // Threshold-check.  You only get to cross once!
-    if (!p->crossed_threshold()) {
-        std::string mutation_category = "MUTCAT_" + m_category.category;
-        const trait_id mutation_thresh( "THRESH_" + m_category.category );
-        int total = 0;
-        for (auto& iter : mutation_category_traits){
-            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+    if( p->crossed_threshold() ) {
+        return;
+    }
+
+    // If there is no threshold for this category, don't check it
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+    if( mutation_thresh.is_empty() ) {
+        return;
+    }
+
+    std::string mutation_category = m_category.category_full;
+    int total = 0;
+    for( const auto& iter : mutation_category_trait::get_all() ){
+        total += p->mutation_category_level[ iter.second.category_full ];
+    }
+    // Threshold-breaching
+    const std::string &primary = p->get_highest_category();
+    int breach_power = p->mutation_category_level[primary];
+    // Only if you were pushing for more in your primary category.
+    // You wanted to be more like it and less human.
+    // That said, you're required to have hit third-stage dreams first.
+    if ((mutation_category == primary) && (breach_power > 50)) {
+        // Little help for the categories that have a lot of crossover.
+        // Starting with Ursine as that's... a bear to get.  8-)
+        // Alpha is similarly eclipsed by other mutation categories.
+        // Will add others if there's serious/demonstrable need.
+        int booster = 0;
+        if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
+            booster = 50;
         }
-        // Threshold-breaching
-        std::string primary = p->get_highest_category();
-        // Only if you were pushing for more in your primary category.
-        // You wanted to be more like it and less human.
-        // That said, you're required to have hit third-stage dreams first.
-        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-            // Little help for the categories that have a lot of crossover.
-            // Starting with Ursine as that's... a bear to get.  8-)
-            // Alpha is similarly eclipsed by other mutation categories.
-            // Will add others if there's serious/demonstrable need.
-            int booster = 0;
-            if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
-                booster = 50;
-            }
-            int breacher = (p->mutation_category_level[primary]) + booster;
-            if (x_in_y(breacher, total)) {
-                p->add_msg_if_player(m_good,
-                                   _("Something strains mightily for a moment...and then..you're...FREE!"));
-                p->set_mutation(mutation_thresh);
-                p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
-                                    pgettext("memorial_female", m_category.memorial_message.c_str()));
-                if (mutation_category == "MUTCAT_URSINE") {
-                    // Manually removing Carnivore, since it tends to creep in
-                    // This is because carnivore is a prereq for the
-                    // predator-style post-threshold mutations.
-                    if (p->has_trait( trait_CARNIVORE )) {
-                        p->unset_mutation( trait_CARNIVORE );
-                        p->add_msg_if_player(_("Your appetite for blood fades."));
-                    }
-                }
-            }
-        } else if (p->mutation_category_level[primary] > 100) {
-            //~NOPAIN is a post-Threshold trait, so you shouldn't
-            //~legitimately have it and get here!
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                p->mod_pain_noresist( 8 );
-                p->add_effect( effect_stunned, rng(3, 5));
-            }
-        } else if (p->mutation_category_level[primary] > 80) {
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel very Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                p->mod_pain_noresist( 6 );
-                p->add_effect( effect_stunned, rng(2, 4));
-            }
-        } else if (p->mutation_category_level[primary] > 60) {
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                p->add_effect( effect_stunned, rng(2, 3));
+        int breacher = breach_power + booster;
+        if (x_in_y(breacher, total)) {
+            p->add_msg_if_player(m_good,
+                               _("Something strains mightily for a moment...and then..you're...FREE!"));
+            p->set_mutation(mutation_thresh);
+            p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                pgettext("memorial_female", m_category.memorial_message.c_str()));
+            // Manually removing Carnivore, since it tends to creep in
+            // This is because carnivore is a prereq for the
+            // predator-style post-threshold mutations.
+            if( mutation_category == "MUTCAT_URSINE" && p->has_trait( trait_CARNIVORE ) ) {
+                p->unset_mutation( trait_CARNIVORE );
+                p->add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
+    } else if( p->has_trait( trait_NOPAIN ) ) {
+        //~NOPAIN is a post-Threshold trait, so you shouldn't
+        //~legitimately have it and get here!
+        p->add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+    } else if (breach_power > 100) {
+        p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
+        p->mod_pain_noresist( 8 );
+        p->add_effect( effect_stunned, rng(3, 5));
+    } else if (breach_power > 80) {
+        p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
+        p->mod_pain_noresist( 6 );
+        p->add_effect( effect_stunned, rng(2, 4));
+    } else if (breach_power > 60) {
+        p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
+        p->add_effect( effect_stunned, rng(2, 3));
     }
 }
 
-int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
+int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
-        return 0;
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Injected mutagen." ), pgettext( "memorial_female", "Injected mutagen." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
-        p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
-                            pgettext("memorial_female", "Injected mutagen."));
-    }
+    for( auto& iter : mutation_category_trait::get_all() ) {
+        // @todo Get rid of this revolting string hack
+        if( !it->has_flag( iter.second.mutagen_flag ) ) {
+            continue;
+        }
 
-    if( marloss_reject_mut_iv( p, it) ) {
-        return it->type->charges_to_use();
-    }
+        const mutation_category_trait &m_category = iter.second;
+        const std::string &mutation_category = m_category.category_full;
 
-    if (p->has_trait( trait_MUT_JUNKIE )) {
-        p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
-        p->add_morale(MORALE_MUTAGEN, 10, 100);
-    }
-    std::string mutation_category;
-    if (it->has_flag("MUTAGEN_STRONG")) {
-        // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
-        // 6-16 Pain per shot and potential knockdown/KO.
-        mutation_category = "";
-        // TODO: Make MUT_JUNKIE NPCs like the player for giving them some of that stuff
-        if (p->has_trait( trait_MUT_JUNKIE )) {
-            p->add_msg_if_player(m_good, _("Oh, yeah! That's the stuff!"));
-            /** @EFFECT_STR increases volume of shouting with strong mutagen */
-            sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("YES!  YES!  YESSS!!!"));
-        } else if (p->has_trait( trait_NOPAIN )) {
-            p->add_msg_if_player(_("You inject yourself."));
+        // try to cross the threshold to be able to get post-threshold mutations this iv.
+        test_crossing_threshold(p, m_category);
+
+        if( p->has_trait( trait_MUT_JUNKIE ) ) {
+            p->add_msg_if_player( m_category.junkie_message.c_str() );
         } else {
-            p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
-            /** @EFFECT_STR increases volume of painful shouting with strong mutagen */
-            std::string scream = p->is_player() ?
-                _("You scream in agony!!") :
-                _("an agonized scream!");
-            sounds::sound( p->pos(), 15 + 3 * p->str_cur, scream.c_str() );
+            p->add_msg_if_player( m_category.iv_message.c_str() );
         }
-        p->mutate();
-        p->mod_pain(1 * rng(1, 4));
-        //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
-        // Numbers may vary based on mutagen.
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mutate();
-        p->mod_pain(2 * rng(1, 3));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mutate();
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mod_pain(3 * rng(1, 2));
-        if (!one_in(4)) {
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
+        // TODO: Remove the "is_player" part, implement NPC screams
+        if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
+            p->mod_pain(m_category.iv_pain);
+            /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
+            sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
         }
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("You writhe and collapse to the ground."),
-                _("<npcname> writhes and collapses to the ground.") );
-            p->add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
+        for( int i = 0; i < m_category.iv_min_mutations; i++ ){
+            p->mutate_category(mutation_category);
+            p->mod_pain(m_category.iv_pain * rng(1, 5));
+            p->mod_hunger(m_category.iv_hunger);
+            p->mod_thirst(m_category.iv_thirst);
+            p->mod_fatigue(m_category.iv_fatigue);
         }
-        if (!one_in(3)) {
-            //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("It all goes dark..."),
-                _("<npcname> suddenly falls over!") );
-            //Should be about 40 min, less 30 sec/IN point.
-            /** @EFFECT_INT decreases sleep duration with IV mutagen */
-            p->fall_asleep((400 - p->int_cur * 5));
-        }
-    } else {
-        mutation_category_trait m_category;
-        std::string mutation_thresh;
-        for (auto& iter : mutation_category_traits){
-            if (it->has_flag("MUTAGEN_" + iter.second.category)) {
-                m_category = iter.second;
-                mutation_category = "MUTCAT_" + m_category.category;
-                mutation_thresh = "THRESH_" + m_category.category;
-
-                // try to cross the threshold to be able to get post-threshold mutations this iv.
-                test_crossing_threshold(p, m_category);
-
-                if (p->has_trait( trait_MUT_JUNKIE )) {
-                    p->add_msg_if_player(m_category.junkie_message.c_str());
-                } else if (!(p->has_trait( trait_MUT_JUNKIE ))) {
-                    //there is only the one case, so no json, unless there is demand for it.
-                    p->add_msg_if_player(m_category.iv_message.c_str());
-                }
-                // TODO: Remove the "is_player" part, implement NPC screams
-                if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
-                    p->mod_pain(m_category.iv_pain);
-                    /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-                    sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
-                }
-                for (int i=0; i < m_category.iv_min_mutations; i++){
-                    p->mutate_category(mutation_category);
-                    p->mod_pain(m_category.iv_pain * rng(1, 5));
-                    p->mod_hunger(m_category.iv_hunger);
-                    p->mod_thirst(m_category.iv_thirst);
-                    p->mod_fatigue(m_category.iv_fatigue);
-                }
-                for (int i=0; i < m_category.iv_additional_mutations; i++){
-                    if (!one_in(m_category.iv_additional_mutations_chance)) {
-                        p->mutate_category(mutation_category);
-                        p->mod_pain(m_category.iv_pain * rng(1, 5));
-                        p->mod_hunger(m_category.iv_hunger);
-                        p->mod_thirst(m_category.iv_thirst);
-                        p->mod_fatigue(m_category.iv_fatigue);
-                    }
-                }
-                if (m_category.category == "CHIMERA"){
-                     p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
-                } else if (m_category.category == "ELFA"){
-                     p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
-                } else if(m_category.iv_morale > 0){
-                    p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
-                }
-
-                if (m_category.iv_sleep && !one_in(3)){
-                    p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
-                    /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-                    p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
-                }
-                // try crossing again after getting new in-category mutations.
-                test_crossing_threshold(p, m_category);
+        for( int i = 0; i < m_category.iv_additional_mutations; i++ ){
+            if (!one_in(m_category.iv_additional_mutations_chance)) {
+                p->mutate_category(mutation_category);
+                p->mod_pain(m_category.iv_pain * rng(1, 5));
+                p->mod_hunger(m_category.iv_hunger);
+                p->mod_thirst(m_category.iv_thirst);
+                p->mod_fatigue(m_category.iv_fatigue);
             }
         }
+        if( m_category.category == "CHIMERA" ) {
+             p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
+        } else if( m_category.category == "ELFA" ) {
+             p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
+        } else if( m_category.iv_morale > 0 ){
+            p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+        }
+
+        if( m_category.iv_sleep && !one_in( 3 ) ) {
+            p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+            /** @EFFECT_INT reduces sleep duration when using IV mutagen */
+            p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+        }
+        // try crossing again after getting new in-category mutations.
+        test_crossing_threshold( p, m_category );
     }
+
     return it->type->charges_to_use();
 }
 
@@ -1429,39 +1295,22 @@ static void do_purify( player *p )
 
 int iuse::purifier(player *p, item *it, bool, const tripoint& )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not drinking that chemical stuff."));
-        return 0;
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Consumed purifier." ), pgettext( "memorial_female", "Consumed purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
-        p->add_memorial_log(pgettext("memorial_male", "Consumed purifier."),
-                            pgettext("memorial_female", "Consumed purifier."));
-    }
-
-    if( marloss_reject_mutagen( p, it ) ) {
-        it->type->charges_to_use();
-    }
     do_purify( p );
     return it->type->charges_to_use();
 }
 
 int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
-        return 0;
-    }
-
-    if( !(p->has_trait( trait_THRESH_MYCUS )) ) {
-        p->add_memorial_log(pgettext("memorial_male", "Injected purifier."),
-                            pgettext("memorial_female", "Injected purifier."));
-    }
-
-    if( marloss_reject_mut_iv( p, it ) ) {
-        return it->type->charges_to_use();
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Injected purifier." ), pgettext( "memorial_female", "Injected purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
     std::vector<trait_id> valid; // Which flags the player has
@@ -1513,8 +1362,7 @@ void spawn_spores( const player &p ) {
             continue;
         }
         if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( g->summon_mon( mon_spore, dest ) ) {
-                monster *spore = g->monster_at( dest );
+            if( monster * const spore = g->summon_mon( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
             }
@@ -1522,318 +1370,171 @@ void spawn_spores( const player &p ) {
     }
 }
 
-int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
+static void marloss_common( player &p, item &it, const trait_id &current_color )
 {
-    if (p->is_npc()) {
-        return it->type->charges_to_use();
+    static const std::map<trait_id, add_type> mycus_colors = {{
+        { trait_MARLOSS_BLUE, ADD_MARLOSS_B }, { trait_MARLOSS_YELLOW, ADD_MARLOSS_Y }, { trait_MARLOSS, ADD_MARLOSS_R }
+    }};
+
+    if( p.has_trait( current_color ) || p.has_trait( trait_THRESH_MARLOSS ) ) {
+        p.add_msg_if_player( m_good,
+                             _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings..." ),
+                             it.tname().c_str() );
+        p.add_morale( MORALE_MARLOSS, 100, 1000 );
+        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+            if( pr.first != current_color ) {
+                p.add_addiction( pr.second, 50 );
+            }
+        }
+
+        p.set_hunger( -100 );
+        spawn_spores( p );
+        return;
     }
-    if (p->has_trait( trait_MARLOSS_AVOID )) {
+
+    int marloss_count = std::count_if( mycus_colors.begin(), mycus_colors.end(),
+        [&p]( const std::pair<trait_id, add_type> &pr ) {
+        return p.has_trait( pr.first );
+    } );
+
+    /* If we're not already carriers of current type of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9-12 - Give Marloss mutation
+     */
+    int effect = rng( 1, 12 );
+    if( effect <= 3 ) {
+        p.add_msg_if_player(_("It tastes extremely strange!"));
+        p.mutate();
+        // Gruss dich, mutation drain, missed you!
+        p.mod_pain(2 * rng(1, 5));
+        p.mod_hunger(10);
+        p.mod_thirst(10);
+        p.mod_fatigue(5);
+    } else if( effect <= 6 ) { // Radiation cleanse is below
+        p.add_msg_if_player(m_good, _("You feel better all over."));
+        p.mod_painkiller(30);
+        iuse dummy;
+        dummy.purifier( &p, &it, false, p.pos() );
+        if( effect == 6 ) {
+            p.radiation = 0;
+        }
+    } else if( effect == 7 ) {
+        p.add_msg_if_player(m_good, _("It is delicious, and very filling!"));
+        p.set_hunger(-100);
+    } else if( effect == 8 ) {
+        p.add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p.vomit();
+    } else if( p.crossed_threshold() ) {
+        // Mycus Rejection.  Goo already present fights off the fungus.
+        p.add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
+        p.add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
+                        pgettext("memorial_female", "Suffered Marloss Rejection."));
+        p.vomit();
+        p.mod_pain(90);
+        p.hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
+        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
+        p.fall_asleep((6000 - p.int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+            p.unset_mutation( pr.first );
+            p.rem_addiction( pr.second );
+        }
+        p.set_mutation( trait_MARLOSS_AVOID ); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+    } else if( marloss_count >= 2 ) {
+        p.add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
+        p.fall_asleep( MINUTES( 40 - p.int_cur * 0.5f ) );
+        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+            p.unset_mutation( pr.first );
+            p.rem_addiction( pr.second );
+        }
+
+        p.set_mutation( trait_THRESH_MARLOSS );
+        g->m.ter_set( p.pos(), t_marloss );
+        p.add_memorial_log( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
+                             pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
+        p.add_msg_if_player( m_good, _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
+        //~ Beginning to hear the Mycus while conscious: that's it speaking
+        p.add_msg_if_player( m_good, _( "unity.  together we have reached the door.  we provide the final key.  now to pass through..." ) );
+    } else {
+        p.add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p.set_mutation( current_color );
+        // Give us addictions to the other two colors, but cure one for current color
+        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+            if( pr.first == current_color ) {
+                p.rem_addiction( pr.second );
+            } else {
+                p.add_addiction( pr.second, 60 );
+            }
+        }
+    }
+}
+
+static bool marloss_prevented( const player &p )
+{
+    if( p.is_npc() ) {
+        return true;
+    }
+    if( p.has_trait( trait_MARLOSS_AVOID ) ) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not eating that alien poison sac."));
+        p.add_msg_if_player( m_warning, _( "After what happened that last time?  uh-uh.  You're not eating that alien poison." ) );
+        return true;
+    }
+    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+        p.add_msg_if_player( m_info, _( "We no longer require this scaffolding.  We reserve it for other uses." ) );
+        return true;
+    }
+
+    return false;
+}
+
+int iuse::marloss( player *p, item *it, bool, const tripoint & )
+{
+    if( marloss_prevented( *p ) ) {
         return 0;
     }
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
-        return 0;
-    }
-    // If we have the marloss in our veins, we are a "breeder" and will spread
-    // the fungus.
+
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
                         pgettext("memorial_female", "Ate a marloss berry."));
 
-    if (p->has_trait( trait_MARLOSS ) || p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_if_player(m_good,
-                             _("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
-        p->add_morale(MORALE_MARLOSS, 100, 1000);
-        p->add_addiction(ADD_MARLOSS_B, 50);
-        p->add_addiction(ADD_MARLOSS_Y, 50);
-        p->set_hunger(-100);
-        spawn_spores(*p);
-
-        return it->type->charges_to_use();
-    }
-
-    /* If we're not already carriers of Marloss, roll for a random effect:
-     * 1 - Mutate
-     * 2 - Mutate
-     * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
-     * 7 - Fully satiate
-     * 8 - Vomit
-     * 9-16 - Give Marloss mutation
-     */
-    int effect = rng(1, 16);
-    if (effect <= 3) {
-        p->add_msg_if_player(_("This berry tastes extremely strange!"));
-        p->mutate();
-        // Gruss dich, mutation drain, missed you!
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-    } else if (effect <= 6) { // Radiation cleanse is below
-        p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
-        p->mod_painkiller(30);
-        this->purifier(p, it, t, pos);
-        if (effect == 6) {
-            p->radiation = 0;
-        }
-    } else if (effect == 7) {
-        p->add_msg_if_player(m_good, _("This berry is delicious, and very filling!"));
-        p->set_hunger(-100);
-    } else if (effect == 8) {
-        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
-        p->vomit();
-    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
-        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
-                        pgettext("memorial_female", "Suffered Marloss Rejection."));
-        p->vomit();
-        p->vomit(); // Yes, make sure you're empty.
-        p->mod_pain(90);
-        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->unset_mutation( trait_MARLOSS_BLUE );
-        p->unset_mutation( trait_MARLOSS );
-        p->set_mutation( trait_MARLOSS_AVOID ); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
-        p->rem_addiction(ADD_MARLOSS_R);
-        p->rem_addiction(ADD_MARLOSS_B);
-        p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait( trait_MARLOSS_BLUE ) && p->has_trait( trait_MARLOSS_YELLOW )) && (!p->has_trait( trait_MARLOSS )) ) {
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
-        p->fall_asleep((400 - p->int_cur * 5));
-        p->unset_mutation( trait_MARLOSS_BLUE );
-        p->unset_mutation( trait_MARLOSS_YELLOW );
-        p->set_mutation( trait_THRESH_MARLOSS );
-        p->rem_addiction(ADD_MARLOSS_R);
-        g->m.ter_set(p->posx(), p->posy(), t_marloss);
-        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
-                        pgettext("memorial_female", "Opened the Marloss Gateway."));
-        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
-        //~ Beginning to hear the Mycus while conscious: that's it speaking
-        p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
-    } else if (!p->has_trait( trait_MARLOSS )) {
-        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->set_mutation( trait_MARLOSS );
-        p->add_addiction(ADD_MARLOSS_B, 60);
-        p->add_addiction(ADD_MARLOSS_Y, 60);
-        p->rem_addiction(ADD_MARLOSS_R);
-    }
+    marloss_common( *p, *it, trait_MARLOSS );
     return it->type->charges_to_use();
 }
 
-int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
+int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
-    if (p->is_npc()) {
-        return it->type->charges_to_use();
-    }
-    if (p->has_trait( trait_MARLOSS_AVOID )) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not eating that alien drek."));
-        return 0;
-    }
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
-        return 0;
-    }
-    if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
-                 it->tname().c_str())) ) {
+    if( !query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
+                   it->tname().c_str() ) ) {
         return 0; // Save the seed for later!
     }
-    // If we have the marloss in our veins, we are a "breeder" and will spread
-    // the fungus.
+
+    if( marloss_prevented( *p ) ) {
+        return 0;
+    }
+
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
                         pgettext("memorial_female", "Ate a marloss seed."));
 
-    if (p->has_trait( trait_MARLOSS_BLUE ) || p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_if_player(m_good,
-                             _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
-        p->add_morale(MORALE_MARLOSS, 100, 1000);
-        p->add_addiction(ADD_MARLOSS_R, 50);
-        p->add_addiction(ADD_MARLOSS_Y, 50);
-        p->set_hunger(-100);
-        spawn_spores(*p);
-
-        return it->type->charges_to_use();
-    }
-
-    /* If we're not already carriers of Marloss, roll for a random effect:
-     * 1 - Mutate
-     * 2 - Mutate
-     * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
-     * 7 - Fully satiate
-     * 8 - Vomit
-     * 9 - Give Marloss mutation
-     */
-    int effect = rng(1, 9);
-    if (effect <= 3) {
-        p->add_msg_if_player(_("This seed tastes extremely strange!"));
-        p->mutate();
-        // HELLO MY NAME IS MUTATION DRAIN YOU KILLED MY MUTAGEN PREPARE TO DIE! ;-)
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-    } else if (effect <= 6) { // Radiation cleanse is below
-        p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
-        p->mod_painkiller(30);
-        this->purifier(p, it, t, pos);
-        if (effect == 6) {
-            p->radiation = 0;
-        }
-    } else if (effect == 7) {
-        p->add_msg_if_player(m_good, _("This seed is delicious, and very filling!"));
-        p->set_hunger(-100);
-    } else if (effect == 8) {
-        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
-        p->vomit();
-    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
-        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
-                        pgettext("memorial_female", "Suffered Marloss Rejection."));
-        p->vomit();
-        p->vomit(); // Yes, make sure you're empty.
-        p->mod_pain(90);
-        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->unset_mutation( trait_MARLOSS_BLUE );
-        p->unset_mutation( trait_MARLOSS );
-        p->set_mutation( trait_MARLOSS_AVOID ); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
-        p->rem_addiction(ADD_MARLOSS_R);
-        p->rem_addiction(ADD_MARLOSS_B);
-        p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait( trait_MARLOSS ) && p->has_trait( trait_MARLOSS_YELLOW )) && (!p->has_trait( trait_MARLOSS_BLUE )) ) {
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
-        /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
-        p->fall_asleep((400 - p->int_cur * 5));
-        p->unset_mutation( trait_MARLOSS );
-        p->unset_mutation( trait_MARLOSS_YELLOW );
-        p->set_mutation( trait_THRESH_MARLOSS );
-        p->rem_addiction(ADD_MARLOSS_B);
-        g->m.ter_set(p->posx(), p->posy(), t_marloss);
-        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
-                        pgettext("memorial_female", "Opened the Marloss Gateway."));
-        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
-        //~ Beginning to hear the Mycus while conscious: that's it speaking
-        p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
-    } else if (!p->has_trait( trait_MARLOSS_BLUE )) {
-        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->set_mutation( trait_MARLOSS_BLUE );
-        p->add_addiction(ADD_MARLOSS_R, 60);
-        p->add_addiction(ADD_MARLOSS_Y, 60);
-        p->rem_addiction(ADD_MARLOSS_B);
-    }
+    marloss_common( *p, *it, trait_MARLOSS_BLUE );
     return it->type->charges_to_use();
 }
 
-int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
+int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
 {
-    if (p->is_npc()) {
-        return it->type->charges_to_use();
-    }
-    if (p->has_trait( trait_MARLOSS_AVOID )) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien slime."));
+    if( marloss_prevented( *p ) ) {
         return 0;
     }
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
-        return 0;
-    }
-    // If we have the marloss in our veins, we are a "breeder" and will spread
-    // the fungus.
-    p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
-                        pgettext("memorial_female", "Ate some marloss jelly."));
 
-    if (p->has_trait( trait_MARLOSS_YELLOW ) || p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_if_player(m_good,
-                             _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
-        p->add_morale(MORALE_MARLOSS, 100, 1000);
-        p->add_addiction(ADD_MARLOSS_R, 50);
-        p->add_addiction(ADD_MARLOSS_B, 50);
-        p->set_hunger(-100);
-        spawn_spores(*p);
+    p->add_memorial_log( pgettext( "memorial_male", "Ate some marloss jelly." ),
+                         pgettext( "memorial_female", "Ate some marloss jelly." ) );
 
-        return it->type->charges_to_use();
-    }
-
-    /* If we're not already carriers of Marloss, roll for a random effect:
-     * 1 - Mutate
-     * 2 - Mutate
-     * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
-     * 7 - Fully satiate
-     * 8 - Vomit
-     * 9 - Give Marloss mutation
-     */
-    int effect = rng(1, 9);
-    if (effect <= 3) {
-        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
-        p->mutate();
-        // hihi! wavewave! mutation draindrain!
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-    } else if (effect <= 6) { // Radiation cleanse is below
-        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
-        p->mod_painkiller(30);
-        this->purifier(p, it, t, pos);
-        if (effect == 6) {
-            p->radiation = 0;
-        }
-    } else if (effect == 7) {
-        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
-        p->set_hunger(-100);
-    } else if (effect == 8) {
-        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
-        p->vomit();
-    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
-        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
-                        pgettext("memorial_female", "Suffered Marloss Rejection."));
-        p->vomit();
-        p->vomit(); // Yes, make sure you're empty.
-        p->mod_pain(90);
-        p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->unset_mutation( trait_MARLOSS_BLUE );
-        p->unset_mutation( trait_MARLOSS );
-        p->set_mutation( trait_MARLOSS_AVOID ); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
-        p->rem_addiction(ADD_MARLOSS_R);
-        p->rem_addiction(ADD_MARLOSS_B);
-        p->rem_addiction(ADD_MARLOSS_Y);
-    } else if ( (p->has_trait( trait_MARLOSS_BLUE ) && p->has_trait( trait_MARLOSS )) && (!p->has_trait( trait_MARLOSS_YELLOW )) ) {
-        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
-        /** @EFFECT_INT slightly reduces sleep duration when eating wrong color marloss */
-        p->fall_asleep((400 - p->int_cur * 5));
-        p->unset_mutation( trait_MARLOSS_BLUE );
-        p->unset_mutation( trait_MARLOSS );
-        p->rem_addiction(ADD_MARLOSS_Y);
-        p->set_mutation( trait_THRESH_MARLOSS );
-        g->m.ter_set(p->posx(), p->posy(), t_marloss);
-        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
-                        pgettext("memorial_female", "Opened the Marloss Gateway."));
-        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
-        //~ Beginning to hear the Mycus while conscious: that's it speaking
-        p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
-    } else if (!p->has_trait( trait_MARLOSS_YELLOW )) {
-        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->set_mutation( trait_MARLOSS_YELLOW );
-        p->add_addiction(ADD_MARLOSS_R, 60);
-        p->add_addiction(ADD_MARLOSS_B, 60);
-        p->rem_addiction(ADD_MARLOSS_Y);
-    }
+    marloss_common( *p, *it, trait_MARLOSS_YELLOW );
     return it->type->charges_to_use();
 }
 
@@ -1917,10 +1618,9 @@ int petfood( player *p, item *it, Petfood animal_food_type )
         return 0;
     }
     p->moves -= 15;
-    const int mon_idx = g->mon_at( dirp, true );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD ) {
+    if( animal_food_type == DOGFOOD && g->critter_at<npc>(dirp) != NULL ) {
         if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
             npc &person = *person_;
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
@@ -1940,9 +1640,8 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             }
         }
     // Then monsters.
-    } else if( mon_idx != -1 ) {
-
-        monster &mon = g->zombie( mon_idx );
+    } else if( monster *const mon_ptr = g->critter_at<monster>( dirp, true ) ) {
+        monster &mon = *mon_ptr;
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
         case DOGFOOD:
@@ -2300,7 +1999,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item& e ) {
             return e.is_toolmod();
         } );
         p->i_add_or_drop( *mod );
@@ -2390,7 +2089,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         it->active = true;
-        it->bday = calendar::turn;
+        it->set_age( 0 );
         g->m.add_item_or_charges(dirx, diry, *it);
         p->i_rem(it);
         p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
@@ -2404,7 +2103,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         //after 3 hours.
-        if (calendar::turn - it->bday > 1800) {
+        if( it->age() > 1800 ) {
             it->active = false;
 
             if (!g->m.has_flag("FISHABLE", pos)) {
@@ -2462,7 +2161,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                         //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->bday + rng(0, 1800) ) );
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng(0, 1800) ) );
                         break; //this can happen only once
                     }
                 }
@@ -2491,25 +2190,24 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
     // Also spray monsters in that tile.
-    int mondex = g->mon_at( dest, true );
-    if (mondex != -1) {
-        g->zombie(mondex).moves -= 150;
+    if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
+        monster &critter = *mon_ptr;
+        critter.moves -= 150;
         bool blind = false;
-        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
             blind = true;
-            g->zombie(mondex).add_effect( effect_blind, rng(10, 20));
+            critter.add_effect( effect_blind, rng( 10, 20 ) );
         }
-        if (g->u.sees(g->zombie(mondex))) {
-            p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+        if( g->u.sees( critter ) ) {
+            p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name().c_str() );
             if(blind) {
-                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+                p->add_msg_if_player( _( "The %s looks blinded." ), critter.name().c_str() );
             }
         }
-        if (g->zombie(mondex).made_of(LIQUID)) {
-            if (g->u.sees(g->zombie(mondex))) {
-                p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+        if( critter.made_of( LIQUID ) ) {
+            if( g->u.sees( critter ) ) {
+                p->add_msg_if_player( _( "The %s is frozen!" ), critter.name().c_str() );
             }
-            monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
         }
@@ -2614,14 +2312,14 @@ static int cauterize_elec(player *p, item *it)
     } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {
         if ((p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE )) &&
             p->query_yn(_("Cauterize yourself for fun?"))) {
-            return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect( *p, *it, true ) ? it->type->charges_to_use() : 0;
         } else {
             p->add_msg_if_player(m_info,
                                  _("You are not bleeding or bitten, there is no need to cauterize yourself."));
             return 0;
         }
     } else if (p->is_npc() || query_yn(_("Cauterize any open wounds?"))) {
-        return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect( *p, *it, true ) ? it->type->charges_to_use() : 0;
     }
     return 0;
 }
@@ -2784,7 +2482,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
+int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
@@ -2792,14 +2490,14 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
-    if (p->has_martialart(style_to_learn)) {
-        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+    if( p->has_martialart( style_to_learn ) ) {
+        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
         return 0;
     }
 
-    p->ma_styles.push_back(style_to_learn);
+    p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
 }
@@ -2878,12 +2576,12 @@ int iuse::hammer(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
+int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     // TODO: Make this 3D now that NPCs get to use items
     tripoint dirp = pos;
     if( pos == p->pos() ) {
-        if( !choose_adjacent(_("Pry where?"), dirp ) ) {
+        if( !choose_adjacent( _( "Pry where?" ), dirp ) ) {
             return 0;
         }
     } // else it is already set to pos in the line above if
@@ -2892,116 +2590,122 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     int &diry = dirp.y;
 
     if( dirx == p->posx() && diry == p->posy() ) {
-        p->add_msg_if_player(m_info, _("You attempt to pry open your wallet"));
-        p->add_msg_if_player(m_info, _("but alas. You are just too miserly."));
+        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet" ) );
+        p->add_msg_if_player( m_info, _( "but alas.  You are just too miserly." ) );
         return 0;
     }
-    ter_id type = g->m.ter(dirx, diry);
+    ter_id type = g->m.ter( dirx, diry );
     const char *succ_action;
     const char *fail_action;
     ter_id new_type = t_null;
     bool noisy;
     int difficulty;
 
-    if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm ||
-        type == t_door_locked_interior) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_locked_peep) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_locked_peep ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_bar_locked) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_c ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o );
+        p->mod_moves( 100 );
+        return 0;
+    } else if ( type == t_door_c_peep ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o_peep );
+        p->mod_moves( 100 );
+        return 0;
+    } else if( type == t_door_bar_locked ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_bar_o;
         noisy = false;
         difficulty = 10;
-    } else if (type == t_manhole_cover) {
-        succ_action = _("You lift the manhole cover.");
-        fail_action = _("You pry, but cannot lift the manhole cover.");
+    } else if( type == t_manhole_cover ) {
+        succ_action = _( "You lift the manhole cover." );
+        fail_action = _( "You pry, but cannot lift the manhole cover." );
         new_type = t_manhole;
         noisy = false;
         difficulty = 12;
-    } else if (g->m.furn(dirx, diry) == f_crate_c) {
-        succ_action = _("You pop open the crate.");
-        fail_action = _("You pry, but cannot pop open the crate.");
+    } else if( g->m.furn( dirx, diry ) == f_crate_c ) {
+        succ_action = _( "You pop open the crate." );
+        fail_action = _( "You pry, but cannot pop open the crate." );
         noisy = true;
         difficulty = 6;
-    } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-        succ_action = _("You wedge open the coffin.");
-        fail_action = _("You pry, but the coffin remains closed.");
+    } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+        succ_action = _( "You wedge open the coffin." );
+        fail_action = _( "You pry, but the coffin remains closed." );
         noisy = true;
         difficulty = 5;
-    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
-        succ_action = _("You pry open the window.");
-        fail_action = _("You pry, but cannot pry open the window.");
-        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
+    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
+        succ_action = _( "You pry open the window." );
+        fail_action = _( "You pry, but cannot pry open the window." );
+        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
-    } else if (pry_nails(p, type, dirx, diry)) {
+    } else if( pry_nails( p, type, dirx, diry ) ) {
         return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
         return 0;
     }
 
-    p->practice( skill_mechanics, 1);
     /** @EFFECT_STR speeds up crowbar prying attempts */
 
-    /** @EFFECT_MECHANICS speeds up crowbar prying attempts */
-    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->get_skill_level( skill_mechanics ) ) * 5 ) );
+    p->mod_moves( -( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
-    /** @EFFECT_MECHANICS increases chance of crowbar prying success */
-    if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-        p->practice( skill_mechanics, 1);
-        p->add_msg_if_player(m_good, succ_action);
+    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
+        p->add_msg_if_player( m_good, succ_action );
 
-        if (g->m.furn(dirx, diry) == f_crate_c) {
-            g->m.furn_set(dirx, diry, f_crate_o);
-        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-            g->m.furn_set(dirx, diry, f_coffin_o);
+        if( g->m.furn( dirx, diry ) == f_crate_c ) {
+            g->m.furn_set( dirx, diry, f_crate_o );
+        } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+            g->m.furn_set( dirx, diry, f_coffin_o );
         } else {
-            g->m.ter_set(dirx, diry, new_type);
+            g->m.ter_set( dirx, diry, new_type );
         }
 
-        if (noisy) {
-            sounds::sound(dirp, 12, _("crunch!"));
+        if( noisy ) {
+            sounds::sound( dirp, 12, _( "crunch!" ) );
         }
-        if (type == t_manhole_cover) {
-            g->m.spawn_item(dirx, diry, "manhole_cover");
+        if( type == t_manhole_cover ) {
+            g->m.spawn_item( dirx, diry, "manhole_cover" );
         }
-        if (type == t_door_locked_alarm) {
-            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                  pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p->pos(), 40, _("an alarm sound!"));
-            if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
+        if( type == t_door_locked_alarm ) {
+            p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                                 pgettext( "memorial_female", "Set off an alarm." ) );
+            sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
+            if( !g->event_queued( EVENT_WANTED ) ) {
+                g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
             }
         }
     } else {
-        if (type == t_window_domestic || type == t_curtains) {
+        if( type == t_window_domestic || type == t_curtains ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if (dice(4, difficulty) > dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-                p->add_msg_if_player(m_mixed, _("You break the glass."));
-                sounds::sound(dirp, 24, _("glass breaking!"));
-                g->m.ter_set(dirx, diry, t_window_frame);
-                g->m.spawn_item(dirx, diry, "sheet", 2);
-                g->m.spawn_item(dirx, diry, "stick");
-                g->m.spawn_item(dirx, diry, "string_36");
+            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
+                sounds::sound( dirp, 24, _( "glass breaking!" ) );
+                g->m.ter_set( dirx, diry, t_window_frame );
+                g->m.spawn_item( dirx, diry, "sheet", 2 );
+                g->m.spawn_item( dirx, diry, "stick" );
+                g->m.spawn_item( dirx, diry, "string_36" );
                 return it->type->charges_to_use();
             }
         }
-        p->add_msg_if_player(fail_action);
+        p->add_msg_if_player( fail_action );
     }
     return it->type->charges_to_use();
 }
@@ -3030,14 +2734,13 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile:
-            // DIG 2 = 300 seconds, 10 hunger and thirst
-            // DIG 3 =  75 seconds,  2 hunger and thirst
-            // DIG 4 =  33 seconds,  1 hunger and thirst
-            // DIG 5 =  18 seconds,  0 hunger and thirst
+            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
+            // DIG 2 = 150  seconds
+            // DIG 3 = 75   seconds
+            // DIG 4 = 50   seconds
+            // DIG 5 = 37.5 seconds
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            bonus *= bonus;
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 5000 / ( bonus * bonus ), bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
@@ -3402,9 +3105,8 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
     if (tries == 10) {
         return 0;
     }
-    int mondex = g->mon_at(goop);
-    if (mondex != -1) {
-        auto &critter = g->zombie( mondex );
+    if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
+        monster &critter = *mon_ptr;
         if (g->u.sees(goop)) {
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
@@ -3417,8 +3119,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
         if (g->u.sees(goop)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
-        if (g->summon_mon(mon_blob, goop)) {
-            monster *goo = g->monster_at(goop);
+        if( monster * const goo = g->summon_mon( mon_blob, goop ) ) {
             goo->friendly = -1;
         }
     }
@@ -3435,7 +3136,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             if (g->u.sees(goop)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));
             }
-            g->m.add_trap(goop, tr_goo);
+            g->m.trap_set(goop, tr_goo);
         } else {
             return 0;
         }
@@ -3520,15 +3221,13 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos, 100, _("BUGFIXES!!"));
-                g->draw_explosion( pos, explosion_radius, c_ltcyan );
+                g->draw_explosion( pos, explosion_radius, c_light_cyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int zid = g->mon_at( dest, true );
-                        if (zid != -1 &&
-                            (g->zombie(zid).type->in_species( INSECT ) ||
-                             g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).die_in_explosion( nullptr );
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
+                            mon->die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -3540,9 +3239,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
@@ -3582,9 +3280,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
                             critter.set_hp( rng( 1, critter.get_hp() ) );
@@ -3623,9 +3320,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base( critter.type->speed );
                             critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
@@ -3781,15 +3477,14 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(_("You light the pack of firecrackers."));
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->bday = calendar::turn;
+    it->set_age( 0 );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
 {
-    int current_turn = calendar::turn;
-    int timer = current_turn - it->bday;
+    int timer = it->age();
     if (timer < 2) {
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
@@ -3886,11 +3581,11 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             tripoint dest( x, y, pos.z );
-            int mondex = g->mon_at( dest, true );
-            if( mondex == -1 ) {
+            monster *const mon_ptr = g->critter_at<monster>( dest, true );
+            if( !mon_ptr ) {
                 continue;
             }
-            monster &critter = g->zombie( mondex );
+            monster &critter = *mon_ptr;
             if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
@@ -3917,7 +3612,7 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     tripoint t(p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), p->posz());
-    g->m.add_trap(t, tr_portal);
+    g->m.trap_set(t, tr_portal);
     return it->type->charges_to_use();
 }
 
@@ -4278,69 +3973,81 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     p->add_msg_if_player(_("You blow your dog whistle."));
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
-            bool u_see = g->u.sees(g->zombie(i));
-            if (g->zombie(i).has_effect( effect_docile)) {
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.friendly != 0 && critter.type->id == mon_dog ) {
+            bool u_see = g->u.sees( critter );
+            if( critter.has_effect( effect_docile ) ) {
                 if (u_see) {
-                    p->add_msg_if_player(_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
+                    p->add_msg_if_player( _( "Your %s looks ready to attack." ), critter.name().c_str() );
                 }
-                g->zombie(i).remove_effect( effect_docile);
+                critter.remove_effect( effect_docile );
             } else {
                 if (u_see) {
-                    p->add_msg_if_player(_("Your %s goes docile."), g->zombie(i).name().c_str());
+                    p->add_msg_if_player( _( "Your %s goes docile." ), critter.name().c_str() );
                 }
-                g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
+                critter.add_effect( effect_docile, 1, num_bp, true );
             }
         }
     }
     return it->type->charges_to_use();
 }
 
-int iuse::blood_draw(player *p, item *it, bool, const tripoint& )
+int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 {
-    if (p->is_npc()) {
+    if( p->is_npc() ) {
         return 0;    // No NPCs for now!
     }
 
-    if (!it->contents.empty()) {
-        p->add_msg_if_player(m_info, _("That %s is full!"), it->tname().c_str());
+    if( !it->contents.empty() ) {
+        p->add_msg_if_player( m_info, _( "That %s is full!" ), it->tname().c_str() );
         return 0;
     }
 
-    item blood("blood", calendar::turn);
-    item acid("acid", calendar::turn);
+    item blood( "blood", calendar::turn );
+    item acid( "acid", calendar::turn );
     bool drew_blood = false;
-    for( auto &map_it : g->m.i_at(p->posx(), p->posy()) ) {
+    bool acid_blood = false;
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
         if( map_it.is_corpse() &&
-            query_yn(_("Draw blood from %s?"), map_it.tname().c_str()) ) {
-            blood.set_mtype( map_it.get_mtype() );
+            query_yn( _( "Draw blood from %s?" ), map_it.tname().c_str() ) ) {
+            p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname().c_str() );
             drew_blood = true;
-        }
-    }
-
-    if (!drew_blood && query_yn(_("Draw your own blood?"))) {
-        drew_blood = true;
-        if (p->has_trait( trait_ACIDBLOOD )) {
-            it->put_in(acid);
-            auto str = it->tname();
-            if( one_in( 3 ) ) {
-                if( it->inc_damage( DT_ACID ) ) {
-                    p->add_msg_if_player( m_info, _( "Your acidic blood melts the %s, destroying it!" ), str.c_str() );
-                    p->inv.remove_item(it);
-                    return 0;
-                }
-                p->add_msg_if_player( m_info, _( "Your acidic blood damages the %s!" ), str.c_str() );
-                return it->type->charges_to_use();
+            auto bloodtype( map_it.get_mtype()->bloodType() );
+            if( bloodtype == fd_acid ) {
+                acid_blood = true;
+            } else {
+                blood.set_mtype( map_it.get_mtype() );
             }
         }
     }
 
-    if (!drew_blood) {
+    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+        p->add_msg_if_player( m_info, _( "You drew your own blood..." ) );
+        drew_blood = true;
+        if( p->has_trait( trait_ACIDBLOOD ) ) {
+            acid_blood = true;
+        }
+    }
+
+    if( acid_blood ) {
+        it->put_in( acid );
+        if( one_in( 3 ) ) {
+            if( it->inc_damage( DT_ACID ) ) {
+                p->add_msg_if_player( m_info, _( "...but acidic blood melts the %s, destroying it!" ),
+                                      it->tname().c_str() );
+                p->inv.remove_item( it );
+                return 0;
+            }
+            p->add_msg_if_player( m_info, _( "...but acidic blood damages the %s!" ), it->tname().c_str() );
+        }
         return it->type->charges_to_use();
     }
 
-    it->put_in(blood);
+    if( !drew_blood ) {
+        return it->type->charges_to_use();
+    }
+
+    it->put_in( blood );
     return it->type->charges_to_use();
 }
 
@@ -4631,9 +4338,9 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -4674,9 +4381,9 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -4896,9 +4603,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1) {
-                            g->zombie(mondex).add_effect( effect_stunned, rng(5, 15));
+                        if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
+                            mon->add_effect( effect_stunned, rng( 5, 15 ) );
                         }
                     }
                 }
@@ -4908,10 +4614,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
-                            rng(0, 600) > g->zombie(mondex).get_hp()) {
-                            g->zombie(mondex).make_friendly();
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+                            mon->make_friendly();
                         }
                     }
                 }
@@ -4948,8 +4653,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
-                        if (g->summon_mon(bug, spawnp)) {
-                            monster *b = g->monster_at(spawnp);
+                        if( monster * const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
                         }
                     }
@@ -4973,8 +4677,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_HURTALL:
-                for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
+                for( monster &critter : g->all_monsters() ) {
+                    critter.apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 
@@ -5072,9 +4776,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
                     if (tries < 5) {
-                        if (g->summon_mon(mon_shadow, monp)) {
+                        if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
-                            monster *spawned = g->monster_at(monp);
                             spawned->reset_special_rng("DISAPPEAR");
                         }
                     }
@@ -5327,7 +5030,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
     p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
                               _("<npcname> injects themselves with adrenaline.") );
 
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _("Your heart spasms!") );
@@ -5619,14 +5322,14 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        //~ $1 - toolmod, $2 - base item
-        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
-                              it->tname().c_str(), loc->tname().c_str() );
-
-        loc->contents.push_back( p->i_rem( it ) );
+    if( loc->ammo_remaining() ) {
+        if( !g->unload( *loc ) ) {
+            p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
+            return 0;
+        }
     }
 
+    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 
@@ -5739,11 +5442,10 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             uimenu pick_robot;
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
-            std::vector< monster* > mons;
+            std::vector< monster* > mons; // @todo change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
-            for( size_t i = 0; i < g->num_zombies(); ++i ) {
-                monster &candidate = g->zombie( i );
+            for( monster &candidate : g->all_monsters() ) {
                 if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
                     mons.push_back( &candidate );
@@ -5811,11 +5513,11 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
         case 2: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species( ROBOT )) {
+            for( monster &critter : g->all_monsters() ) {
+                if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
-                                         g->zombie(i).name().c_str());
-                    g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
+                                         critter.name().c_str() );
+                    critter.add_effect( effect_docile, 1, num_bp, true );
                     f = 1;
                 }
             }
@@ -5828,11 +5530,11 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
         case 3: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
+            for( monster &critter : g->all_monsters() ) {
+                if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
                     p->add_msg_if_player(_("A following %s goes into combat mode."),
-                                         g->zombie(i).name().c_str());
-                    g->zombie(i).remove_effect( effect_docile);
+                                         critter.name().c_str() );
+                    critter.remove_effect( effect_docile );
                     f = 1;
                 }
             }
@@ -6329,7 +6031,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 }
 
                 const monster dummy( monster_photos[choice - 1] );
-                popup(dummy.type->description.c_str());
+                popup( dummy.type->get_description().c_str() );
             } while (true);
             return it->type->charges_to_use();
         }
@@ -6454,7 +6156,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        const int sel_zid = g->mon_at( aim_point, true );
+        const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
         const npc * const sel_npc = g->critter_at<npc>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
@@ -6470,10 +6172,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         for (auto &i : trajectory) {
 
-            int zid = g->mon_at( i, true );
-
+            monster *const mon = g->critter_at<monster>( i, true );
             npc * const guy = g->critter_at<npc>( i );
-            if (zid != -1 || guy) {
+            if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
@@ -6490,8 +6191,8 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                 const std::string quality_name = photo_quality_name( photo_quality );
 
-                if (zid != -1) {
-                    monster &z = g->zombie(zid);
+                if( mon ) {
+                    monster &z = *mon;
 
                     if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
                         p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
@@ -6499,12 +6200,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon != sel_mon && ( z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
 
                     // get an empty photo if the target is a hallucination
-                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon == sel_mon && ( z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -6513,7 +6214,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         //quest processing...
                     }
 
-                    if (zid == sel_zid) {
+                    if( mon == sel_mon ) {
                         // if the loop makes it to the target, take its photo
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
@@ -6640,7 +6341,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             }
 
             const monster dummy( monster_photos[choice - 1] );
-            popup(dummy.type->description.c_str());
+            popup(dummy.type->get_description().c_str());
 
         } while (true);
 
@@ -6835,7 +6536,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
+            if ( put->has_flag( "RADIOCARITEM" ) && ( put->volume() <= 1250_ml || ( put->weight() <= 2_kilogram ) ) ) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
@@ -6851,7 +6552,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
             p->moves -= 150;
             item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet(bomb, true); // force getting an invlet.
+            p->inv.assign_empty_invlet(bomb, p, true); // force getting an invlet.
             p->i_add(bomb);
             it->contents.erase(it->contents.begin());
 
@@ -6912,12 +6613,12 @@ void sendRadioSignal(player *p, std::string signal)
 
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                it.type->invoke( p, &it, p->pos() );
+                it.type->invoke( *p, it, p->pos() );
                 it.ammo_unset();
                 // The type changed
             }
 
-            it.type->invoke(p, &it, p->pos());
+            it.type->invoke( *p, it, p->pos() );
         }
     }
 
@@ -7212,8 +6913,7 @@ bool multicooker_hallu(player *p)
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = random_entry( points );
-                if (g->summon_mon(mon_hallu_multicooker, random_point)) {
-                    monster *m = g->monster_at(random_point);
+                if( monster * const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1, num_bp, true);
                 }
@@ -7221,8 +6921,7 @@ bool multicooker_hallu(player *p)
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for( auto &point : points ) {
-                    if (g->summon_mon(mon_hallu_multicooker, point )) {
-                        monster *m = g->monster_at(point);
+                    if( monster * const m = g->summon_mon( mon_hallu_multicooker, point ) ) {
                         m->hallucination = true;
                     }
                 }
@@ -7570,7 +7269,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at( vpos );
+        int target_part_num;
+        auto target_veh = g->m.veh_at( vpos, target_part_num );
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
@@ -7579,7 +7279,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = g->m.getlocal(source_global);
-            auto source_veh = g->m.veh_at( source_local );
+            int source_part_num;
+            auto source_veh = g->m.veh_at( source_local, source_part_num );
 
             if(source_veh == target_veh) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7590,7 +7291,6 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             }
 
             tripoint target_global = g->m.getabs( vpos );
-            tripoint target_local = vpos;
 
             if(source_veh == nullptr) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7600,17 +7300,21 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
+            const auto veh_part_coordinates = []( const vehicle &veh, const int part_num ) {
+                return veh.parts[part_num].mount;
+            };
+
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = g->m.veh_part_coordinates( source_local );
+            point vcoords = veh_part_coordinates( *source_veh, source_part_num );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = g->m.veh_part_coordinates( target_local );
+            vcoords = veh_part_coordinates( *target_veh, target_part_num );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
@@ -7750,9 +7454,9 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
         monster new_monster;
         try {
-            new_monster.deserialize( it->get_var("contained_json","") );
-        } catch( const JsonError &e ) {
-            debugmsg( _("Error restoring monster: %s"), e.c_str() );
+            deserialize( new_monster, it->get_var( "contained_json", "" ) );
+        } catch( const std::exception &e ) {
+            debugmsg( _( "Error restoring monster: %s" ), e.what() );
             return 0;
         }
         new_monster.spawn( target );
@@ -7770,9 +7474,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         // Capture the thing, if it's on the same square.
-        int mon_dex = g->mon_at( target );
-        if( mon_dex != -1 ) {
-            monster f = g->zombie( mon_dex );
+        if( const monster *const mon_ptr = g->critter_at<monster>( target ) ) {
+            const monster &f = *mon_ptr;
 
             if( !it->has_property("monster_size_capacity") ) {
                 debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
@@ -7795,14 +7498,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                std::string serialized_monster;
-                try {
-                    serialized_monster = f.serialize();
-                } catch( const JsonError &e ) {
-                    debugmsg( _("Error serializing monster: %s"), e.c_str() );
-                    return 0;
-                }
-                it->set_var( "contained_json", serialized_monster );
+                it->set_var( "contained_json", serialize( f ) );
                 it->set_var( "contained_name", f.type->nname() );
                 it->set_var( "name", string_format(_("%s holding %s"), it->type->nname(1).c_str(),
                                                    f.type->nname().c_str()));
@@ -7826,7 +7522,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                     break;
                 }
                 it->set_var( "weight", new_weight );
-                g->remove_zombie( mon_dex );
+                g->remove_zombie( f );
                 return 0;
             } else {
                 p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),
@@ -7864,38 +7560,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
-{
-    if( p == nullptr || t ) {
-        return 0;
-    }
-
-    auto filter = []( const item& e ) {
-        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
-            return false;
-        }
-
-        const auto gunmods = e.gunmods();
-        // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == gunmod_location( "barrel" );
-        });
-    };
-
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
-
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return 0;
-    }
-
-    item &obj = p->i_at( pos );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
-
-    return 0;
-}
-
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
@@ -7926,7 +7590,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
         return 0;
     }
-    
+
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required_water ) );
     comps.push_back( item_comp( "water_clean", required_water ) );

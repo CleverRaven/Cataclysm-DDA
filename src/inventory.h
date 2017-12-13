@@ -31,21 +31,24 @@ class salvage_actor;
  * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
  * range of possible characters.
  */
-class invlet_wrapper : private std::string {
-private:
+class invlet_wrapper : private std::string
+{
+    private:
 
-public:
-    invlet_wrapper( const char *chars ) : std::string( chars ) { }
+    public:
+        invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
-    bool valid( long invlet ) const;
-    std::string get_allowed_chars() const { return *this; }
+        bool valid( long invlet ) const;
+        std::string get_allowed_chars() const {
+            return *this;
+        }
 
-    using std::string::begin;
-    using std::string::end;
-    using std::string::rbegin;
-    using std::string::rend;
-    using std::string::size;
-    using std::string::length;
+        using std::string::begin;
+        using std::string::end;
+        using std::string::rbegin;
+        using std::string::rend;
+        using std::string::size;
+        using std::string::length;
 };
 
 const extern invlet_wrapper inv_chars;
@@ -57,41 +60,40 @@ class inventory : public visitable<inventory>
 
         invslice slice();
         const_invslice const_slice() const;
-        const std::list<item> &const_stack(int i) const;
+        const std::list<item> &const_stack( int i ) const;
         size_t size() const;
-        int num_items() const;
         bool is_sorted() const;
 
-        inventory();
-        inventory(inventory &&) = default;
-        inventory(const inventory &) = default;
-        inventory &operator=(inventory &&) = default;
-        inventory &operator=(const inventory &) = default;
+        std::map<char, itype_id> assigned_invlet;
 
-        inventory &operator+= (const inventory &rhs);
-        inventory &operator+= (const item &rhs);
-        inventory &operator+= (const std::list<item> &rhs);
-        inventory &operator+= (const std::vector<item> &rhs);
-        inventory  operator+  (const inventory &rhs);
-        inventory  operator+  (const item &rhs);
-        inventory  operator+  (const std::list<item> &rhs);
+        inventory();
+        inventory( inventory && ) = default;
+        inventory( const inventory & ) = default;
+        inventory &operator=( inventory && ) = default;
+        inventory &operator=( const inventory & ) = default;
+
+        inventory &operator+= ( const inventory &rhs );
+        inventory &operator+= ( const item &rhs );
+        inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const std::vector<item> &rhs );
+        inventory  operator+ ( const inventory &rhs );
+        inventory  operator+ ( const item &rhs );
+        inventory  operator+ ( const std::list<item> &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void sort();
         void clear();
-        void add_stack(std::list<item> newits);
-        void clone_stack(const std::list<item> &rhs);
-        void push_back(std::list<item> newits);
+        void push_back( std::list<item> newits );
         // returns a reference to the added item
-        item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
-        void add_item_keep_invlet(item newit);
-        void push_back(item newit);
+        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true );
+        void add_item_keep_invlet( item newit );
+        void push_back( item newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack(player *p = NULL);
+        void restack( player *p = NULL );
 
         void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 
@@ -102,22 +104,16 @@ class inventory : public visitable<inventory>
          * in this inventory.
          * @return A copy of the removed item.
          */
-        item remove_item(const item *it);
-        item remove_item(int position);
+        item remove_item( const item *it );
+        item remove_item( int position );
         /**
          * Randomly select items until the volume quota is filled.
          */
         std::list<item> remove_randomly_by_volume( const units::volume &volume );
-        std::list<item> reduce_stack(int position, int quantity);
-        std::list<item> reduce_stack(const itype_id &type, int quantity);
+        std::list<item> reduce_stack( int position, int quantity );
 
-        // amount of -1 removes the entire stack.
-        template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
-
-        const item &find_item(int position) const;
-        item &find_item(int position);
-        item &item_by_type(itype_id type);
-        item &item_or_container(itype_id type); // returns an item, or a container of it
+        const item &find_item( int position ) const;
+        item &find_item( int position );
 
         /**
          * Returns the item position of the stack that contains the given item (compared by
@@ -127,52 +123,51 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type(itype_id type);
+        int position_by_type( itype_id type );
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
-        int invlet_to_position(char invlet) const;
-
-        std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
+        int invlet_to_position( char invlet ) const;
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount (itype_id it, int quantity);
+        std::list<item> use_amount( itype_id it, int quantity );
 
-        bool has_tools (itype_id it, int quantity) const;
-        bool has_components (itype_id it, int quantity) const;
-        bool has_charges(itype_id it, long quantity) const;
+        bool has_tools( itype_id it, int quantity ) const;
+        bool has_components( itype_id it, int quantity ) const;
+        bool has_charges( itype_id it, long quantity ) const;
 
-        int leak_level(std::string flag) const; // level of leaked bad stuff from items
+        int leak_level( std::string flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions
-        int worst_item_value(npc *p) const;
-        bool has_enough_painkiller(int pain) const;
-        item *most_appropriate_painkiller(int pain);
+        int worst_item_value( npc *p ) const;
+        bool has_enough_painkiller( int pain ) const;
+        item *most_appropriate_painkiller( int pain );
         item *best_for_melee( player &p, double &best );
         item *most_loaded_gun();
 
         void rust_iron_items();
 
-        int weight() const;
+        units::mass weight() const;
         units::volume volume() const;
 
-        void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)
+        // dumps contents into dest (does not delete contents)
+        void dump( std::vector<item *> &dest );
 
         // vector rather than list because it's NOT an item stack
         std::vector<item *> active_items();
 
-        void json_load_invcache(JsonIn &jsin);
-        void json_load_items(JsonIn &jsin);
+        void json_load_invcache( JsonIn &jsin );
+        void json_load_items( JsonIn &jsin );
 
-        void json_save_invcache(JsonOut &jsout) const;
-        void json_save_items(JsonOut &jsout) const;
+        void json_save_invcache( JsonOut &jsout ) const;
+        void json_save_items( JsonOut &jsout ) const;
 
         item nullitem;
         std::list<item> nullstack;
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet(item &it, bool force = false);
+        void assign_empty_invlet( item &it, Character *p, bool force = false );
         // Assigns the item with the given invlet, and updates the favourite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
@@ -191,12 +186,7 @@ class inventory : public visitable<inventory>
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
-        char find_usable_cached_invlet(const std::string &item_type);
-
-        // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
-        // we back those functions with a single internal function templated on the type of Locator.
-        template<typename Locator> item remove_item_internal(const Locator &locator);
-        template<typename Locator> std::list<item> reduce_stack_internal(const Locator &type, int amount);
+        char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
         bool sorted;

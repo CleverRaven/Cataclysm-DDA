@@ -4,7 +4,7 @@
         "id" : "t_marloss",
         "name": "marloss bush",
         "symbol": "#",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "FUNGUS", "SHORT"],
         "bash": {
@@ -18,7 +18,7 @@
         "id" : "t_marloss_tree",
         "name": "marloss tree",
         "symbol": "7",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
         "bash": {

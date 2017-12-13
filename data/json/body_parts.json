@@ -10,6 +10,8 @@
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
+    "hit_size_relative": [ 20, 33.33, 36.57 ],
+    "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "TORSO"
   },
@@ -24,6 +26,8 @@
     "main_part": "head",
     "opposite_part": "head",
     "hit_size": 6,
+    "hit_size_relative": [ 0, 2.33, 5.71 ],
+    "hit_difficulty": 1.35,
     "side": "both",
     "legacy_id": "HEAD"
   },
@@ -37,6 +41,8 @@
     "main_part": "head",
     "opposite_part": "eyes",
     "hit_size": 1,
+    "hit_size_relative": [ 0, 0.33, 0.57 ],
+    "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "EYES"
   },
@@ -50,6 +56,8 @@
     "main_part": "head",
     "opposite_part": "mouth",
     "hit_size": 1,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "MOUTH"
   },
@@ -64,6 +72,8 @@
     "main_part": "arm_l",
     "opposite_part": "arm_r",
     "hit_size": 9,
+    "hit_size_relative": [ 15, 20, 22.86 ],
+    "hit_difficulty": 0.95,
     "side": "left",
     "legacy_id": "ARM_L"
   },
@@ -78,6 +88,8 @@
     "main_part": "arm_r",
     "opposite_part": "arm_l",
     "hit_size": 9,
+    "hit_size_relative": [ 15, 20, 22.86 ],
+    "hit_difficulty": 0.95,
     "side": "right",
     "legacy_id": "ARM_R"
   },
@@ -91,6 +103,8 @@
     "main_part": "arm_l",
     "opposite_part": "hand_r",
     "hit_size": 3,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 1.1,
     "side": "left",
     "legacy_id": "HAND_L"
   },
@@ -104,6 +118,8 @@
     "main_part": "arm_r",
     "opposite_part": "hand_l",
     "hit_size": 3,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 1.1,
     "side": "right",
     "legacy_id": "HAND_R"
   },
@@ -118,6 +134,8 @@
     "main_part": "leg_l",
     "opposite_part": "leg_r",
     "hit_size": 9,
+    "hit_size_relative": [ 25, 12, 5.71 ],
+    "hit_difficulty": 0.975,
     "side": "left",
     "legacy_id": "LEG_L"
   },
@@ -132,6 +150,8 @@
     "main_part": "leg_r",
     "opposite_part": "leg_l",
     "hit_size": 9,
+    "hit_size_relative": [ 25, 12, 5.71 ],
+    "hit_difficulty": 0.975,
     "side": "right",
     "legacy_id": "LEG_R"
   },
@@ -145,6 +165,8 @@
     "main_part": "leg_l",
     "opposite_part": "foot_r",
     "hit_size": 3,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 0.8,
     "side": "left",
     "legacy_id": "FOOT_L"
   },
@@ -158,6 +180,8 @@
     "main_part": "leg_r",
     "opposite_part": "foot_l",
     "hit_size": 3,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 0.8,
     "side": "right",
     "legacy_id": "FOOT_R"
   },
@@ -171,6 +195,8 @@
     "main_part": "num_bp",
     "opposite_part": "num_bp",
     "hit_size": 0,
+    "hit_size_relative": [ 0, 0, 0 ],
+    "hit_difficulty": 0,
     "side": "both",
     "legacy_id": "NUM_BP"
   }

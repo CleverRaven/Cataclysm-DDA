@@ -68,13 +68,13 @@
 #define PLUTONIUM_CHARGES 500
 
 ///\EFFECT_STR allows lifting of heavier objects */
-#define STR_LIFT_FACTOR 50000 // 50kg/STR @todo revert to 10kg/STR
+#define STR_LIFT_FACTOR 50_kilogram // 50kg/STR @todo revert to 10kg/STR
 
 /** Weight per level of LIFT/JACK tool quality */
-#define TOOL_LIFT_FACTOR 500000 // 500kg/level
+#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
 /** Cap JACK requirements to support arbritrarily large vehicles */
-#define JACK_LIMIT 8500000 // 8500kg (8.5 metric tonnes)
+#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
@@ -88,8 +88,6 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range at which only standard dispersion applies */
-#define RANGE_SOFT_CAP 30
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 60
 

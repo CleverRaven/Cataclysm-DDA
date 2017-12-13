@@ -2,7 +2,6 @@
 #include "game.h"
 #include "debug.h"
 #include "rng.h"
-#include "map.h"
 #include "translations.h"
 #include "messages.h"
 #include "npc.h"

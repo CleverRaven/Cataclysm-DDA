@@ -1,0 +1,77 @@
+[
+  {
+    "id": "shelter_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "jacket_evac", 100 ],
+      [ "emer_blanket", 100 ],
+      [ "mask_gas", 12 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "shelter" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |----:-++-:----|    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    +......>>......+    ",
+        "    +......>>......+    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |..........c..x|    ",
+        "    |----:-++-:----|    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_floor",
+        "6": "t_console",
+        ":": "t_window_domestic",
+        ">": "t_stairs_down",
+        "b": "t_floor",
+        "c": "t_floor",
+        "l": "t_floor",
+        "x": "t_console_broken",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "b": "f_bench",
+        "c": "f_counter",
+        "l": "f_locker"
+      },
+      "place_items": [
+        { "item": "shelter_supplies", "x": [ 5, 8 ], "y": 5, "chance": 100 },
+        { "item": "shelter_supplies", "x": [ 5, 8 ], "y": 5, "chance": 33 }
+      ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  }
+]

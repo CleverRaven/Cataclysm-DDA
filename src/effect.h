@@ -3,11 +3,11 @@
 #define EFFECT_H
 
 #include "pldata.h"
-#include "json.h"
 #include "enums.h"
 #include "string_id.h"
 #include <unordered_map>
 #include <tuple>
+#include <vector>
 
 class effect_type;
 class Creature;
@@ -16,6 +16,9 @@ enum game_message_type : int;
 using efftype_id = string_id<effect_type>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( player *p );
@@ -65,6 +68,8 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        bool is_show_in_info() const;
+
         /** Loading helper functions */
         bool load_mod_data( JsonObject &jsobj, std::string member );
         bool load_miss_msgs( JsonObject &jsobj, std::string member );
@@ -85,6 +90,9 @@ class effect_type
         int int_dur_factor;
 
         bool main_parts_only;
+
+        // Determins if effect should be shown in description.
+        bool show_in_info;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
@@ -122,7 +130,7 @@ class effect_type
         std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
 };
 
-class effect : public JsonSerializer, public JsonDeserializer
+class effect
 {
     public:
         effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
@@ -258,10 +266,8 @@ class effect : public JsonSerializer, public JsonDeserializer
             return eff_type->id;
         }
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 
     protected:
         const effect_type *eff_type;
@@ -275,5 +281,12 @@ class effect : public JsonSerializer, public JsonDeserializer
 
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
+
+// Inheritance here allows forward declaration of the map in class Creature.
+// Storing body_part as an int to make things easier for hash and JSON
+class effects_map : public
+    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+{
+};
 
 #endif

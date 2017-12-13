@@ -1,48 +1,13 @@
 [
     {
         "type" : "terrain",
-        "id" : "t_brick_wall_line",
-        "name": "brick wall",
-        "symbol": "LINE_OXOX",
-        "color": "brown",
+        "id" : "t_border_rock",
+        "comment" : "placed at border of underground specials to prevent double wall look",
+        "name": "solid rock",
+        "symbol": "#",
+        "color": "white",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
-        "bash": {
-            "str_min": 60, "str_max": 160,
-            "sound": "crash!",
-            "sound_fail": "bash!",
-            "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [10, 20] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_wall_wood_line",
-        "name": "wooden wall",
-        "symbol": "LINE_OXOX",
-        "color": "ltred",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
-        "bash": {
-            "str_min": 12, "str_max": 150,
-            "sound": "crunch!",
-            "sound_fail": "whump!",
-            "ter_set": "t_wall_wood_chipped",
-            "items": [
-                { "item": "2x4", "count": [0, 3] },
-                { "item": "nail", "charges": [1, 5] },
-                { "item": "splinter", "count": [1, 4] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_stone_wall_line",
-        "name": "stone rock",
-        "symbol": "LINE_OXOX",
-        "color": "ltgray",
-        "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"],
         "roof": "t_rock_floor",
         "bash": {
             "str_min": 100, "str_max": 400,
@@ -51,7 +16,9 @@
             "ter_set": "t_rock_floor",
             "items": [
                 { "item": "rock", "count": [3, 7] },
-                { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
+                { "item": "coal_lump", "charges": [250, 500], "prob": 10 },
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
             ]
         }
     },{
@@ -59,7 +26,7 @@
         "id" : "t_concrete_floor",
         "name": "concrete floor",
         "symbol": ".",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
@@ -86,7 +53,7 @@
         "flags": [ "WALL", "BASHABLE", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "cable", "charges": [0, 4] },
@@ -115,7 +82,7 @@
         "bash": {
             "str_min": 20, "str_max": 150,
             "explosive" : 1,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "cable", "charges": [0, 4] },
@@ -138,12 +105,12 @@
         "id" : "t_ind_press",
         "name": "hydraulic press",
         "symbol": "9",
-        "color": "black_ltred",
+        "color": "black_light_red",
         "move_cost": 0,
         "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "cable", "charges": [0, 4] },
@@ -171,7 +138,7 @@
         "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "cable", "charges": [0, 4] },
@@ -194,12 +161,12 @@
         "id" : "t_ind_assembler",
         "name": "robotic assembler",
         "symbol": "3",
-        "color": "magenta_ltcyan",
+        "color": "magenta_light_cyan",
         "move_cost": 0,
         "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "processor", "count": [1, 2] },
@@ -240,7 +207,7 @@
         "bash": {
             "str_min": 20, "str_max": 150,
             "explosive" : 1,
-            "ter_set": "t_concrete",
+            "ter_set": "t_concrete_floor",
             "sound_fail": "clang!",
             "items": [
                 { "item": "cable", "charges": [0, 4] },

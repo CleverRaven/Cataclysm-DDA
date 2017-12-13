@@ -6,12 +6,13 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "input.h"
 #include "mtype.h"
-#include "generic_factory.h"
+#include "json.h"
 #include "worldfactory.h"
 #include "monstergenerator.h"
 #include "string_input_popup.h"
@@ -80,11 +81,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO ); // |-
-    mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
+    mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
+    mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
 
     for( auto &column : column_pos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_ltgray,
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray,
                   LINE_XXOX ); // _|_
     }
 
@@ -98,21 +99,21 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     int tmpx = 0;
     for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, hotkey ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, hotkey ) + 2;
     }
 
     tmpx = 0;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
     for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+        mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
     }
 
     for( auto &pos : column_pos ) {
-        mvwputch( w_header, 2, pos.second, c_ltgray, LINE_OXXX );
-        mvwputch( w_header, 3, pos.second, c_ltgray, LINE_XOXO );
+        mvwputch( w_header, 2, pos.second, c_light_gray, LINE_OXXX );
+        mvwputch( w_header, 3, pos.second, c_light_gray, LINE_XOXO );
     }
 
     mvwprintz( w_header, 3, 1, c_white, "#" );
@@ -160,11 +161,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx = 55;
         mvwprintz( w_header, 0, locx, c_white, _( "Safe Mode enabled:" ) );
         locx += shortcut_print( w_header, 1, locx,
-                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_ltgreen : c_ltred ), c_white,
+                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_light_green : c_light_red ), c_white,
                                 ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, _( "<S>witch" ) );
-        shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, _( "<S>witch" ) );
+        shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
 
         wrefresh( w_header );
 
@@ -175,7 +176,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
 
             for( auto &pos : column_pos ) {
-                mvwputch( w, i, pos.second, c_ltgray, LINE_XOXO );
+                mvwputch( w, i, pos.second, c_light_gray, LINE_XOXO );
             }
         }
 
@@ -202,7 +203,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 auto rule = current_tab[i];
 
-                nc_color line_color = ( rule.active ) ? c_white : c_ltgray;
+                nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
                 mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
                 mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );

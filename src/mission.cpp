@@ -4,8 +4,10 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "requirements.h"
+#include "string_formatter.h"
 #include "overmap.h"
 #include "line.h"
+#include "io.h"
 #include "npc.h"
 #include "npc_class.h"
 
@@ -214,6 +216,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             // Go back and report.
             set_target_to_mission_giver();
             break;
@@ -293,12 +296,10 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
-            for( size_t i = 0; i < g->num_zombies(); i++ ) {
-                if( g->zombie( i ).mission_id == uid ) {
-                    return true;
-                }
-            }
-            return false;
+            return g->get_creature_if( [&]( const Creature &critter ) {
+                const monster *const mon_ptr = dynamic_cast<const monster*>( &critter );
+                return mon_ptr && mon_ptr->mission_id == uid;
+            } );
 
         case MGOAL_RECRUIT_NPC:
             {
@@ -456,7 +457,7 @@ std::string mission::name()
     if (type == NULL) {
         return "NULL";
     }
-    return type->name;
+    return _( type->name.c_str() );
 }
 
 mission_type_id mission::mission_id()

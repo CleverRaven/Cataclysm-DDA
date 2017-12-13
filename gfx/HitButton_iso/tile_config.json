@@ -6336,7 +6336,7 @@
         },
         {
           "id": ["gunpowder", "incendiary", "lead", "small_charcoal", "fungal_seeds", "pepper", "material_cement", "material_limestone", "material_quicklime", "material_sand", "coal", "chem_black_powder" ],
-          "//": "powder dark grey/black",
+          "//": "powder dark gray/black",
           "fg": 1908
         },
         {
@@ -6346,7 +6346,7 @@
         },
         {
           "id": ["silver_small", "bismuth", "tin", "seed_cabbage", "sauerkraut_onions", "starch", "tallow_tainted", "mannwurstgravy", "sausagegravy", "can_sardine", "can_tuna", "can_clams", "oatmeal", "dry_beans", "beans_cooked", "rice_cooked", "beansnrice", "oatmeal_cooked", "oatmeal_deluxe", "heroin", "morphine", "quikclot", "material_rocksalt", "material_shrd_limestone", "silver" ],
-          "//": "powder light grey",
+          "//": "powder light gray",
           "fg": 1910
         },
         {
@@ -7500,7 +7500,7 @@
           "fg": 2205
         },
         {
-          "id": ["brazier", "tr_brazier" ],
+          "id": ["brazier", "f_brazier" ],
           "fg": 2206
         },
         {

@@ -38,19 +38,6 @@
     },
     {
         "type" : "trap",
-        "id": "tr_brazier",
-        "name" : "brazier",
-        "color" : "red",
-        "symbol" : "#",
-        "visibility" : -1,
-        "avoidance" : 0,
-        "difficulty" : 0,
-        "action" : "none",
-        "drops" : ["brazier"],
-        "benign" : true
-    },
-    {
-        "type" : "trap",
         "id": "tr_funnel",
         "name" : "funnel",
         "color" : "yellow",

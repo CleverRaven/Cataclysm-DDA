@@ -15,10 +15,14 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "main_menu.h"
+#include "loading_ui.h"
 
 #include <cstring>
 #include <ctime>
+#include <locale>
 #include <map>
+#include <iostream>
+#include <stdexcept>
 #include <signal.h>
 #ifdef LOCALIZE
 #include <libintl.h>
@@ -402,34 +406,46 @@ int main(int argc, char *argv[])
 
     setupDebug();
 
+/**
+ * OS X does not populate locale env vars correctly (they usually default to
+ * "C") so don't bother trying to set the locale based on them.
+ */
+#if (!defined MACOSX)
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    } else {
+#endif
+        try {
+            std::locale::global( std::locale( "" ) );
+        } catch( const std::exception& ) {
+            // if user default locale retrieval isn't implemented by system
+            try{
+                // default to basic C locale
+                std::locale::global( std::locale::classic() );
+            } catch( const std::exception &err ) {
+                debugmsg( "%s", err.what() );
+                exit_handler(-999);
+            }
+        }
+#if (!defined MACOSX)
     }
+#endif
 
-    // Options strings loaded with system locale. Even though set_language calls these, we
-    // need to call them from here too.
     get_options().init();
     get_options().load();
     set_language();
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
-         if( initscr() == nullptr ) { // Initialize ncurses
-            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+        try {
+			catacurses::init_interface();
+        } catch( const std::exception &err ) {
+            // can't use any curses function as it has not been initialized
+            std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
+            DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
-        init_interface();
-        noecho();  // Don't echo keypresses
-        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-        keypad(stdscr, true); // Numpad is numbers
     }
-
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
-    // For tiles or windows, this is handled already in initscr().
-    init_colors();
-#endif
-    // curs_set(0); // Invisible cursor
-    set_escdelay(10); // Make escape actually responsive
 
     srand(seed);
 
@@ -447,7 +463,8 @@ int main(int argc, char *argv[])
         }
         if( check_mods ) {
             init_colors();
-            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
+            loading_ui ui( false );
+            exit( g->check_mod_data( opts, ui ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -466,6 +483,26 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
+
+#ifdef LOCALIZE
+    std::string lang = "";
+#if (defined _WIN32 || defined WINDOWS)
+    lang = getLangFromLCID( GetUserDefaultLCID() );
+#else
+    const char *v = setlocale( LC_ALL, NULL );
+    if( v != NULL ) {
+        lang = v;
+
+        if( lang == "C" ) {
+            lang = "en";
+        }
+    }
+#endif
+    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() || !isValidLanguage( lang ) ) ) {
+        select_language();
+        set_language();
+    }
 #endif
 
     while( true ) {

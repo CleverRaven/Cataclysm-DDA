@@ -92,6 +92,27 @@
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
   {
+    "result": "crown_golden_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 600000,
+    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "gold_small", 300 ] ] ]
+  },
+  {
     "result": "fur_cat_ears",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -102,7 +123,7 @@
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "plastic_chunk", 3 ] ]
@@ -190,10 +211,10 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
-    "tools": [ [ [ "spray_can", 1 ] ] ],
     "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ], [ "sunglasses", 1 ] ],
-      [ [ "duct_tape", 20 ], [ "medical_tape", 20 ] ]
+      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
+      [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
+      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
     ]
   },
   {
@@ -247,7 +268,7 @@
     "autolearn": true,
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 15, "LIST" ] ]
     ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
@@ -470,12 +491,11 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 40000,
     "autolearn": true,
-    "using": [ [ "filament", 65 ] ],
+    "using": [ [ "filament", 65 ], [ "soldering_standard", 8 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
@@ -729,7 +749,7 @@
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "plastic_chunk", 3 ] ]
@@ -1336,12 +1356,11 @@
     "skills_required": [ "tailor", 2 ],
     "time": 80000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 8 ] ],
+    "using": [ [ "filament", 8 ], [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
       [ [ "element", 2 ] ],
@@ -1402,6 +1421,23 @@
     "components": [
       [ [ "neoprene", 2 ] ],
       [ [ "rag", 2 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_hood",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 20000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [
+      [ [ "link_sheet", 2 ] ],
+      [ [ "chain_link", 50 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
     ]
   }
 ]

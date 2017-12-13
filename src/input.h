@@ -6,14 +6,35 @@
 #include <map>
 #include <vector>
 #include <utility>
-#include "cursesdef.h"
 
-// Compiling with SDL enables gamepad support.
-#ifdef TILES
-#define GAMEPAD_ENABLED
-#endif
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
-#define KEY_ESCAPE 27
+static constexpr int KEY_ESCAPE     = 27;
+static constexpr int KEY_MIN        =
+    0x101;    /* minimum extended key value */ //<---------not used
+static constexpr int KEY_BREAK      =
+    0x101;    /* break key */                  //<---------not used
+static constexpr int KEY_DOWN       = 0x102;    /* down arrow */
+static constexpr int KEY_UP         = 0x103;    /* up arrow */
+static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
+static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
+static constexpr int KEY_HOME       =
+    0x106;    /* home key */                   //<---------not used
+static constexpr int KEY_BACKSPACE  =
+    0x107;    /* Backspace */                  //<---------not used
+static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+inline constexpr int KEY_F( const int n )
+{
+    return 0x108 + n;    /* F1, F2, etc*/
+}
+static constexpr int KEY_NPAGE      = 0x152;    /* page down */
+static constexpr int KEY_PPAGE      = 0x153;    /* page up */
+static constexpr int KEY_ENTER      = 0x157;    /* enter */
+static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
+static constexpr int KEY_END        = 0x168;    /* End */
 
 bool is_mouse_enabled();
 std::string get_input_string_from_file( std::string fname = "input.txt" );
@@ -51,6 +72,8 @@ struct input_event {
     // Actually entered text (if any), UTF-8 encoded, might be empty if
     // the input is not UTF-8 or not even text.
     std::string text;
+    std::string edit;
+    bool edit_refresh;
 
     input_event() {
         mouse_x = mouse_y = 0;
@@ -195,7 +218,6 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event( WINDOW *win );
         input_event get_input_event();
 
         /**
@@ -414,7 +436,7 @@ class input_context
          *
          * @return true if we could process a click inside the window, false otherwise.
          */
-        bool get_coordinates( WINDOW *window, int &x, int &y );
+        bool get_coordinates( const catacurses::window &window, int &x, int &y );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -458,10 +480,17 @@ class input_context
          */
         std::vector<char> keys_bound_to( const std::string &action_id ) const;
 
+        /**
+        * Get/Set edittext to display IME unspecified string.
+        */
+        void set_edittext( std::string s );
+        std::string get_edittext();
+
         void set_iso( bool mode = true );
     private:
 
         std::vector<std::string> registered_actions;
+        std::string edittext;
     public:
         const std::string &input_to_action( const input_event &inp ) const;
     private:

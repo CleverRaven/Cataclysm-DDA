@@ -3,13 +3,16 @@
 #include "calendar.h"
 #include "generic_factory.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "skill.h"
+#include "game_constants.h"
 
 #include <algorithm>
 #include <numeric>
+#include <math.h>
 
-recipe::recipe() : skill_used( "none" ) {}
+recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
@@ -147,7 +150,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         while( bk.has_more() ) {
             auto arr = bk.next_array();
-            booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
+            booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
     }
 

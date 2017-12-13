@@ -59,15 +59,14 @@ class color_loader
             }
         }
 
-        void load_throws( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
+    public:
+        /// @throws std::exception upon any kind of error.
+        void load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
             const std::string default_path = FILENAMES["colors"];
             const std::string custom_path = FILENAMES["base_colors"];
 
             if( !file_exist( custom_path ) ) {
-                std::ifstream src( default_path.c_str(), std::ifstream::in | std::ios::binary );
-                write_to_file_exclusive( custom_path, [&src]( std::ostream & dst ) {
-                    dst << src.rdbuf();
-                }, _( "base colors" ) );
+                copy_file( default_path, custom_path );
             }
 
             try {
@@ -75,24 +74,13 @@ class color_loader
             } catch( const JsonError &err ) {
                 DebugLog( D_ERROR, D_SDL ) << "Failed to load color data from " << custom_path << ": " <<
                                            err.what();
+
+                // this should succeed, otherwise the installation is botched
+                load_colorfile( default_path );
             }
-            // this should succeed, otherwise the installation is botched
-            load_colorfile( default_path );
 
             for( size_t c = 0; c < main_color_names().size(); c++ ) {
                 windowsPalette[c] = ccolor( main_color_names()[c] );
-            }
-        }
-
-    public:
-        // does not throw anything
-        bool load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
-            try {
-                load_throws( windowsPalette );
-                return true;
-            } catch( const JsonError &err ) {
-                DebugLog( D_ERROR, D_SDL ) << "Failed to load color data: " << err.what();
-                return false;
             }
         }
 };

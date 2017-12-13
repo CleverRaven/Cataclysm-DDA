@@ -1,12 +1,12 @@
+#include "faction.h"
 #include <sstream>
 
-#include "faction.h"
 #include "rng.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
-#include "map.h"
 #include "debug.h"
 #include "catacharset.h"
 
@@ -149,167 +149,118 @@ faction::~faction()
 {
 }
 
-std::string faction::faction_adj_pos[15];
-std::string faction::faction_adj_neu[15];
-std::string faction::faction_adj_bad[15];
-std::string faction::faction_noun_strong[15];
-std::string faction::faction_noun_sneak[15];
-std::string faction::faction_noun_crime[15];
-std::string faction::faction_noun_cult[15];
-std::string faction::faction_noun_none[15];
-faction_value_datum faction::facgoal_data[NUM_FACGOALS];
-faction_value_datum faction::facjob_data[NUM_FACJOBS];
-faction_value_datum faction::facval_data[NUM_FACVALS];
-
 //TODO move them to json
-void game::init_faction_data()
-{
-    const int elements = 15;
-    std::array<std::string, elements> tmp_pos = {{
-        _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"),
-        _("Virtuous"), _("Splendid"), _("Divine"), _("Radiant"), _("Noble"), _("Venerable"),
-        _("Immaculate"), _("Heroic"), _("Bright")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_adj_pos[i] = tmp_pos[i];
-    }
 
-    std::array<std::string, elements> tmp_neu = {{
-        _("Original"), _("Crystal"), _("Metal"), _("Mighty"), _("Powerful"), _("Solid"),
-        _("Stone"), _("Firey"), _("Colossal"), _("Famous"), _("Supreme"), _("Invincible"),
-        _("Unlimited"), _("Great"), _("Electric")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_adj_neu[i] = tmp_neu[i];
-    }
+static const std::array<std::string, 15> faction_adj_pos = { {
+    translate_marker("Shining"), translate_marker("Sacred"), translate_marker("Golden"), translate_marker("Holy"), translate_marker("Righteous"), translate_marker("Devoted"),
+    translate_marker("Virtuous"), translate_marker("Splendid"), translate_marker("Divine"), translate_marker("Radiant"), translate_marker("Noble"), translate_marker("Venerable"),
+    translate_marker("Immaculate"), translate_marker("Heroic"), translate_marker("Bright")
+} };
 
-    std::array<std::string, elements> tmp_bad = {{
-        _("Poisonous"), _("Deadly"), _("Foul"), _("Nefarious"), _("Wicked"), _("Vile"),
-        _("Ruinous"), _("Horror"), _("Devastating"), _("Vicious"), _("Sinister"), _("Baleful"),
-        _("Pestilent"), _("Pernicious"), _("Dread")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_adj_bad[i] = tmp_bad[i];
-    }
+static const std::array<std::string, 15> faction_adj_neu = {{
+    translate_marker("Original"), translate_marker("Crystal"), translate_marker("Metal"), translate_marker("Mighty"), translate_marker("Powerful"), translate_marker("Solid"),
+    translate_marker("Stone"), translate_marker("Firey"), translate_marker("Colossal"), translate_marker("Famous"), translate_marker("Supreme"), translate_marker("Invincible"),
+    translate_marker("Unlimited"), translate_marker("Great"), translate_marker("Electric")
+}};
 
-    std::array<std::string, elements> tmp_strong = {{
-        _("Fists"), _("Slayers"), _("Furies"), _("Dervishes"), _("Tigers"), _("Destroyers"),
-        _("Berserkers"), _("Samurai"), _("Valkyries"), _("Army"), _("Killers"), _("Paladins"),
-        _("Knights"), _("Warriors"), _("Huntsmen")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_noun_strong[i] = tmp_strong[i];
-    }
+static const std::array<std::string, 15> faction_adj_bad = {{
+    translate_marker("Poisonous"), translate_marker("Deadly"), translate_marker("Foul"), translate_marker("Nefarious"), translate_marker("Wicked"), translate_marker("Vile"),
+    translate_marker("Ruinous"), translate_marker("Horror"), translate_marker("Devastating"), translate_marker("Vicious"), translate_marker("Sinister"), translate_marker("Baleful"),
+    translate_marker("Pestilent"), translate_marker("Pernicious"), translate_marker("Dread")
+}};
 
-    std::array<std::string, elements> tmp_sneak = {{
-        _("Snakes"), _("Rats"), _("Assassins"), _("Ninja"), _("Agents"), _("Shadows"),
-        _("Guerillas"), _("Eliminators"), _("Snipers"), _("Smoke"), _("Arachnids"), _("Creepers"),
-        _("Shade"), _("Stalkers"), _("Eels")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_noun_sneak[i] = tmp_sneak[i];
-    }
+static const std::array<std::string, 15> faction_noun_strong = {{
+    translate_marker("Fists"), translate_marker("Slayers"), translate_marker("Furies"), translate_marker("Dervishes"), translate_marker("Tigers"), translate_marker("Destroyers"),
+    translate_marker("Berserkers"), translate_marker("Samurai"), translate_marker("Valkyries"), translate_marker("Army"), translate_marker("Killers"), translate_marker("Paladins"),
+    translate_marker("Knights"), translate_marker("Warriors"), translate_marker("Huntsmen")
+}};
 
-    std::array<std::string, elements> tmp_crime = {{
-        _("Bandits"), _("Punks"), _("Family"), _("Mafia"), _("Mob"), _("Gang"), _("Vandals"),
-        _("Sharks"), _("Muggers"), _("Cutthroats"), _("Guild"), _("Faction"), _("Thugs"),
-        _("Racket"), _("Crooks")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_noun_crime[i] = tmp_crime[i];
-    }
+static const std::array<std::string, 15> faction_noun_sneak = {{
+    translate_marker("Snakes"), translate_marker("Rats"), translate_marker("Assassins"), translate_marker("Ninja"), translate_marker("Agents"), translate_marker("Shadows"),
+    translate_marker("Guerillas"), translate_marker("Eliminators"), translate_marker("Snipers"), translate_marker("Smoke"), translate_marker("Arachnids"), translate_marker("Creepers"),
+    translate_marker("Shade"), translate_marker("Stalkers"), translate_marker("Eels")
+}};
 
-    std::array<std::string, elements> tmp_cult = {{
-        _("Brotherhood"), _("Church"), _("Ones"), _("Crucible"), _("Sect"), _("Creed"),
-        _("Doctrine"), _("Priests"), _("Tenet"), _("Monks"), _("Clerics"), _("Pastors"),
-        _("Gnostics"), _("Elders"), _("Inquisitors")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_noun_cult[i] = tmp_cult[i];
-    }
+static const std::array<std::string, 15> faction_noun_crime = {{
+    translate_marker("Bandits"), translate_marker("Punks"), translate_marker("Family"), translate_marker("Mafia"), translate_marker("Mob"), translate_marker("Gang"), translate_marker("Vandals"),
+    translate_marker("Sharks"), translate_marker("Muggers"), translate_marker("Cutthroats"), translate_marker("Guild"), translate_marker("Faction"), translate_marker("Thugs"),
+    translate_marker("Racket"), translate_marker("Crooks")
+}};
 
-    std::array<std::string, elements> tmp_none = {{
-        _("Settlers"), _("People"), _("Men"), _("Faction"), _("Tribe"), _("Clan"), _("Society"),
-        _("Folk"), _("Nation"), _("Republic"), _("Colony"), _("State"), _("Kingdom"), _("Party"),
-        _("Company")
-    }};
-    for(int i = 0; i < elements; i++) {
-        faction::faction_noun_none[i] = tmp_none[i];
-    }
+static const std::array<std::string, 15> faction_noun_cult = {{
+    translate_marker("Brotherhood"), translate_marker("Church"), translate_marker("Ones"), translate_marker("Crucible"), translate_marker("Sect"), translate_marker("Creed"),
+    translate_marker("Doctrine"), translate_marker("Priests"), translate_marker("Tenet"), translate_marker("Monks"), translate_marker("Clerics"), translate_marker("Pastors"),
+    translate_marker("Gnostics"), translate_marker("Elders"), translate_marker("Inquisitors")
+}};
 
+static const std::array<std::string, 15> faction_noun_none = {{
+    translate_marker("Settlers"), translate_marker("People"), translate_marker("Men"), translate_marker("Faction"), translate_marker("Tribe"), translate_marker("Clan"), translate_marker("Society"),
+    translate_marker("Folk"), translate_marker("Nation"), translate_marker("Republic"), translate_marker("Colony"), translate_marker("State"), translate_marker("Kingdom"), translate_marker("Party"),
+    translate_marker("Company")
+}};
 
-    std::array<faction_value_datum, NUM_FACGOALS> tmp_goal = {{
-        // "Their ultimate goal is <name>"
-        //Name                               Good Str Sneak Crime Cult
-        {"Null",                             0,   0,  0,    0,    0},
-        {_("basic survival"),                0,   0,  0,    0,    0},
-        {_("financial wealth"),              0,  -1,  0,    2,   -1},
-        {_("dominance of the region"),      -1,   1, -1,    1,   -1},
-        {_("the extermination of monsters"), 1,   3, -1,   -1,   -1},
-        {_("contact with unseen powers"),   -1,   0,  1,    0,    4},
-        {_("bringing the apocalypse"),      -5,   1,  2,    0,    7},
-        {_("general chaos and anarchy"),    -3,   2, -3,    2,   -1},
-        {_("the cultivation of knowledge"),  2,  -3,  2,   -1,    0},
-        {_("harmony with nature"),           2,  -2,  0,   -1,    2},
-        {_("rebuilding civilization"),       2,   1, -2,   -2,   -4},
-        {_("spreading the fungus"),         -2,   1,  1,    0,    4}
-    }};
-    // TOTAL:                               -5    3  -2     0     7
-    for(int i = 0; i < NUM_FACGOALS; i++) {
-        faction::facgoal_data[i] = tmp_goal[i];
-    }
+static const std::array<faction_value_datum, NUM_FACGOALS> facgoal_data = {{
+    // "Their ultimate goal is <name>"
+    //Name                               Good Str Sneak Crime Cult
+    {"Null",                             0,   0,  0,    0,    0},
+    {translate_marker("basic survival"),                0,   0,  0,    0,    0},
+    {translate_marker("financial wealth"),              0,  -1,  0,    2,   -1},
+    {translate_marker("dominance of the region"),      -1,   1, -1,    1,   -1},
+    {translate_marker("the extermination of monsters"), 1,   3, -1,   -1,   -1},
+    {translate_marker("contact with unseen powers"),   -1,   0,  1,    0,    4},
+    {translate_marker("bringing the apocalypse"),      -5,   1,  2,    0,    7},
+    {translate_marker("general chaos and anarchy"),    -3,   2, -3,    2,   -1},
+    {translate_marker("the cultivation of knowledge"),  2,  -3,  2,   -1,    0},
+    {translate_marker("harmony with nature"),           2,  -2,  0,   -1,    2},
+    {translate_marker("rebuilding civilization"),       2,   1, -2,   -2,   -4},
+    {translate_marker("spreading the fungus"),         -2,   1,  1,    0,    4}
+}};
+// TOTAL:                               -5    3  -2     0     7
 
-    std::array<faction_value_datum, NUM_FACJOBS> tmp_job = {{
-        // "They earn money via <name>"
-        //Name                              Good Str Sneak Crime Cult
-        {"Null",                            0,   0,  0,    0,    0},
-        {_("protection rackets"),          -3,   2, -1,    4,    0},
-        {_("the sale of information"),     -1,  -1,  4,    1,    0},
-        {_("their bustling trade centers"), 1,  -1, -2,   -4,   -4},
-        {_("trade caravans"),               2,  -1, -1,   -3,   -2},
-        {_("scavenging supplies"),          0,  -1,  0,   -1,   -1},
-        {_("mercenary work"),               0,   3, -1,    1,   -1},
-        {_("assassinations"),              -1,   2,  2,    1,    1},
-        {_("raiding settlements"),         -4,   4, -3,    3,   -2},
-        {_("the theft of property"),       -3,  -1,  4,    4,    1},
-        {_("gambling parlors"),            -1,  -2, -1,    1,   -1},
-        {_("medical aid"),                  4,  -3, -2,   -3,    0},
-        {_("farming & selling food"),       3,  -4, -2,   -4,    1},
-        {_("drug dealing"),                -2,   0, -1,    2,    0},
-        {_("selling manufactured goods"),   1,   0, -1,   -2,    0}
-    }};
-    // TOTAL:                              -5   -3  -5     0    -6
-    for(int i = 0; i < NUM_FACJOBS; i++) {
-        faction::facjob_data[i] = tmp_job[i];
-    }
+static const std::array<faction_value_datum, NUM_FACJOBS> facjob_data = {{
+    // "They earn money via <name>"
+    //Name                              Good Str Sneak Crime Cult
+    {"Null",                            0,   0,  0,    0,    0},
+    {translate_marker("protection rackets"),          -3,   2, -1,    4,    0},
+    {translate_marker("the sale of information"),     -1,  -1,  4,    1,    0},
+    {translate_marker("their bustling trade centers"), 1,  -1, -2,   -4,   -4},
+    {translate_marker("trade caravans"),               2,  -1, -1,   -3,   -2},
+    {translate_marker("scavenging supplies"),          0,  -1,  0,   -1,   -1},
+    {translate_marker("mercenary work"),               0,   3, -1,    1,   -1},
+    {translate_marker("assassinations"),              -1,   2,  2,    1,    1},
+    {translate_marker("raiding settlements"),         -4,   4, -3,    3,   -2},
+    {translate_marker("the theft of property"),       -3,  -1,  4,    4,    1},
+    {translate_marker("gambling parlors"),            -1,  -2, -1,    1,   -1},
+    {translate_marker("medical aid"),                  4,  -3, -2,   -3,    0},
+    {translate_marker("farming & selling food"),       3,  -4, -2,   -4,    1},
+    {translate_marker("drug dealing"),                -2,   0, -1,    2,    0},
+    {translate_marker("selling manufactured goods"),   1,   0, -1,   -2,    0}
+}};
+// TOTAL:                              -5   -3  -5     0    -6
 
-    std::array<faction_value_datum, NUM_FACVALS> tmp_val = {{
-        // "They are known for <name>"
-        //Name                            Good Str Sneak Crime Cult
-        {"Null",                          0,   0,  0,    0,    0},
-        {_("their charitable nature"),    5,  -1, -1,   -2,   -2},
-        {_("their isolationism"),         0,  -2,  1,    0,    2},
-        {_("exploring extensively"),      1,   0,  0,   -1,   -1},
-        {_("collecting rare artifacts"),  0,   1,  1,    0,    3},
-        {_("their knowledge of bionics"), 1,   2,  0,    0,    0},
-        {_("their libraries"),            1,  -3,  0,   -2,    1},
-        {_("their elite training"),       0,   4,  2,    0,    2},
-        {_("their robotics factories"),   0,   3, -1,    0,   -2},
-        {_("treachery"),                 -3,   0,  1,    3,    0},
-        {_("the avoidance of drugs"),     1,   0,  0,   -1,    1},
-        {_("their adherance to the law"), 2,  -1, -1,   -4,   -1},
-        {_("their cruelty"),             -3,   1, -1,    4,    1}
-    }};
-    // TOTALS:                            5    4   1    -3     4
-    for(int i = 0; i < NUM_FACVALS; i++) {
-        faction::facval_data[i] = tmp_val[i];
-    }
-    /* Note: It's nice to keep the totals around 0 for Good, and about even for the
-     * other four.  It's okay if Good is slightly negative (after all, in a post-
-     * apocalyptic world people might be a LITTLE less virtuous), and to keep
-     * strength valued a bit higher than the others.
-     */
-}
+static const std::array<faction_value_datum, NUM_FACVALS> facval_data = {{
+    // "They are known for <name>"
+    //Name                            Good Str Sneak Crime Cult
+    {"Null",                          0,   0,  0,    0,    0},
+    {translate_marker("their charitable nature"),    5,  -1, -1,   -2,   -2},
+    {translate_marker("their isolationism"),         0,  -2,  1,    0,    2},
+    {translate_marker("exploring extensively"),      1,   0,  0,   -1,   -1},
+    {translate_marker("collecting rare artifacts"),  0,   1,  1,    0,    3},
+    {translate_marker("their knowledge of bionics"), 1,   2,  0,    0,    0},
+    {translate_marker("their libraries"),            1,  -3,  0,   -2,    1},
+    {translate_marker("their elite training"),       0,   4,  2,    0,    2},
+    {translate_marker("their robotics factories"),   0,   3, -1,    0,   -2},
+    {translate_marker("treachery"),                 -3,   0,  1,    3,    0},
+    {translate_marker("the avoidance of drugs"),     1,   0,  0,   -1,    1},
+    {translate_marker("their adherance to the law"), 2,  -1, -1,   -4,   -1},
+    {translate_marker("their cruelty"),             -3,   1, -1,    4,    1}
+}};
+// TOTALS:                            5    4   1    -3     4
+/* Note: It's nice to keep the totals around 0 for Good, and about even for the
+ * other four.  It's okay if Good is slightly negative (after all, in a post-
+ * apocalyptic world people might be a LITTLE less virtuous), and to keep
+ * strength valued a bit higher than the others.
+ */
 
 void faction::load_info(std::string data)
 {
@@ -409,27 +360,27 @@ void faction::randomize()
 
     switch (sel) {
     case 1:
-        noun  = faction_noun_strong[rng(0, 14)];
+        noun  = _( faction_noun_strong[rng(0, 14)].c_str() );
         power = dice(5, 20);
         size  = dice(5, 6);
         break;
     case 2:
-        noun  = faction_noun_sneak [rng(0, 14)];
+        noun  = _( faction_noun_sneak [rng(0, 14)].c_str() );
         power = dice(5, 8);
         size  = dice(5, 8);
         break;
     case 3:
-        noun  = faction_noun_crime [rng(0, 14)];
+        noun  = _( faction_noun_crime [rng(0, 14)].c_str() );
         power = dice(5, 16);
         size  = dice(5, 8);
         break;
     case 4:
-        noun  = faction_noun_cult  [rng(0, 14)];
+        noun  = _( faction_noun_cult  [rng(0, 14)].c_str() );
         power = dice(8, 8);
         size  = dice(4, 6);
         break;
     default:
-        noun  = faction_noun_none  [rng(0, 14)];
+        noun  = _( faction_noun_none  [rng(0, 14)].c_str() );
         power = dice(6, 8);
         size  = dice(6, 6);
     }
@@ -446,11 +397,11 @@ void faction::randomize()
         do {
             std::string adj;
             if (good >= 3) {
-                adj = faction_adj_pos[rng(0, 14)];
+                adj = _( faction_adj_pos[rng(0, 14)].c_str() );
             } else if  (good <= -3) {
-                adj = faction_adj_bad[rng(0, 14)];
+                adj = _( faction_adj_bad[rng(0, 14)].c_str() );
             } else {
-                adj = faction_adj_neu[rng(0, 14)];
+                adj = _( faction_adj_neu[rng(0, 14)].c_str() );
             }
             name = string_format(_("The %1$s %2$s"), adj.c_str(), noun.c_str());
             if (one_in(4)) {
@@ -557,13 +508,13 @@ std::string faction::describe() const
 {
     std::string ret;
     ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
-                                          facgoal_data[goal].name.c_str());
+                                          _( facgoal_data[goal].name.c_str() ) );
     if (job2 == FACJOB_NULL) {
-        ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
+        ret += string_format( _(" Their primary concern is %s."), _( facjob_data[job1].name.c_str()));
     } else {
         ret += string_format( _(" Their primary concern is %1$s, but they are also involved in %2$s."),
-                              facjob_data[job1].name.c_str(),
-                              facjob_data[job2].name.c_str());
+                              _( facjob_data[job1].name.c_str()),
+                              _( facjob_data[job2].name.c_str()));
     }
     if( values == 0 ) {
         return ret;
@@ -574,7 +525,7 @@ std::string faction::describe() const
         vals.push_back( faction_value( i ) );
     }
     const std::string known_vals = enumerate_as_string( vals.begin(), vals.end(), [ this ]( const faction_value val ) {
-        return has_value( val ) ? facval_data[val].name : "";
+        return has_value( val ) ? _( facval_data[val].name.c_str() ) : "";
     } );
     if( !known_vals.empty() ) {
         ret += _( " They are known for " ) + known_vals + ".";

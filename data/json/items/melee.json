@@ -781,6 +781,7 @@
     {
         "type":"GENERIC",
         "id" : "baton",
+        "category" : "weapons",
         "name" : "expandable baton",
         "description" : "A telescoping baton that collapses for easy storage.  Makes an excellent melee weapon.  Activate to expand.",
         "weight" : 725,
@@ -803,6 +804,7 @@
     {
         "type":"GENERIC",
         "id" : "baton-extended",
+        "category" : "weapons",
         "name" : "expandable baton (extended)",
         "name_plural" : "expandable batons (extended)",
         "description" : "A telescoping baton that collapses for easy storage.  Makes an excellent melee weapon.  Activate to collapse.",
@@ -961,7 +963,7 @@
         "type":"GENERIC",
         "id" : "javelin",
         "name" : "wooden javelin",
-        "description" : "A wooden spear, honed to a sharper point and fire hardened for toughness.  The grip area has also be carved and covered for better grip.",
+        "description" : "A fire-hardened wooden spear honed to a sharper point.  The grip area has been carved and covered for better grip.",
         "weight" : 600,
         "to_hit" : 2,
         "color" : "brown",
@@ -983,7 +985,7 @@
         "type":"GENERIC",
         "id" : "javelin_iron",
         "name" : "iron javelin",
-        "description" : "An iron-tipped wooden throwing spear.  The grip area has also be carved and covered for better grip.",
+        "description" : "An iron-tipped wooden throwing spear.  The grip area has been carved and covered for better grip.",
         "weight" : 960,
         "to_hit" : 2,
         "color" : "light_gray",
@@ -1119,7 +1121,7 @@
         "name_plural": "pairs of brass knuckles",
         "category": "weapons",
         "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
-        "material": "steel",
+        "material": "brass",
         "weight": 320,
         "bashing": 6,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
@@ -1282,7 +1284,7 @@
         "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
         "qualities": [["BUTCHER", -18]]
     },{
-        "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
+        "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
         "type":"GENERIC",
         "id" : "glass_macuahuitl",
         "name" : "makeshift macuahuitl",
@@ -1517,7 +1519,6 @@
     "color": "light_gray",
     "name": "zweihänder",
     "description": "This is a huge two-handed sword from Germany.  You're not quite sure it's supposed to be that bendy.",
-    "rarity": 30,
     "price": 160000,
     "material": "budget_steel",
     "flags" : ["SHEATH_SWORD"],

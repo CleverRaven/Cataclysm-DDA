@@ -2,9 +2,12 @@
 #include "debug.h"
 #include "rng.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "player.h"
 #include "translations.h"
 #include "messages.h"
+#include "json.h"
+
 #include <map>
 #include <sstream>
 
@@ -329,7 +332,7 @@ effect_rating effect_type::get_rating() const
 
 bool effect_type::use_name_ints() const
 {
-    return ((size_t)max_intensity <= name.size());
+    return name.size() > 1;
 }
 
 bool effect_type::use_desc_ints(bool reduced) const
@@ -391,6 +394,10 @@ bool effect_type::get_main_parts() const
 {
     return main_parts_only;
 }
+bool effect_type::is_show_in_info() const
+{
+    return show_in_info;
+}
 bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
 {
     if (jo.has_array(member)) {
@@ -446,11 +453,12 @@ std::string effect::disp_name() const
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::ostringstream ret;
-    if (eff_type->use_name_ints()) {
-        if(eff_type->name[intensity - 1] == "") {
+    if( eff_type->use_name_ints() ) {
+        const std::string &d_name = eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
+        if( d_name.empty() ) {
             return "";
         }
-        ret << _(eff_type->name[intensity - 1].c_str());
+        ret << _( d_name.c_str() );
     } else {
         if(eff_type->name[0] == "") {
             return "";
@@ -463,6 +471,7 @@ std::string effect::disp_name() const
     if (bp != num_bp) {
         ret << " (" << body_part_name(bp).c_str() << ")";
     }
+
     return ret.str();
 }
 
@@ -1073,7 +1082,7 @@ std::string effect::get_speed_name() const
     if( eff_type->speed_mod_name != "" ) {
         return eff_type->speed_mod_name;
     } else if( eff_type->use_name_ints() ) {
-        return eff_type->name[intensity-1];
+        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
     } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
@@ -1185,6 +1194,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.load_decay_msgs(jo, "decay_messages");
 
     new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
+    new_etype.show_in_info = jo.get_bool("show_in_info", false);
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);
 
     new_etype.pain_sizing = jo.get_bool("pain_sizing", false);

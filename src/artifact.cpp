@@ -4,12 +4,14 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "rng.h"
 #include "translations.h"
 
 #include <bitset>
 #include <cmath>
+#include <array>
 #include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
@@ -28,7 +30,7 @@ std::vector<art_effect_passive> fill_bad_passive();
 std::vector<art_effect_active>  fill_good_active();
 std::vector<art_effect_active>  fill_bad_active();
 
-int passive_effect_cost[NUM_AEPS] = {
+static const std::array<int, NUM_AEPS> passive_effect_cost = { {
     0, // AEP_NULL
 
     3, // AEP_STR_UP
@@ -41,6 +43,7 @@ int passive_effect_cost[NUM_AEPS] = {
     4, // AEP_SNAKES
     7, // AEP_INVISIBLE
     5, // AEP_CLAIRVOYANCE
+    7, // AEP_CLAIRVOYANCE_PLUS
     50,// AEP_SUPER_CLAIRVOYANCE
     2, // AEP_STEALTH
     2, // AEP_EXTINGUISH
@@ -70,9 +73,9 @@ int passive_effect_cost[NUM_AEPS] = {
     -3, // AEP_MOVEMENT_NOISE
     -2, // AEP_BAD_WEATHER
     -1  // AEP_SICK
-};
+} };
 
-int active_effect_cost[NUM_AEAS] = {
+static const std::array<int, NUM_AEAS> active_effect_cost = { {
     0, // AEA_NULL
 
     2, // AEA_STORM
@@ -107,7 +110,7 @@ int active_effect_cost[NUM_AEAS] = {
     -4, // AEA_FLASH
     -2, // AEA_VOMIT
     -5  // AEA_SHADOWS
-};
+} };
 
 enum artifact_natural_shape {
     ARTSHAPE_NULL,
@@ -135,16 +138,16 @@ struct artifact_shape_datum {
     std::string name;
     std::string desc;
     units::volume volume_min, volume_max;
-    int weight_min, weight_max;
+    units::mass weight_min, weight_max;
 };
 
 struct artifact_property_datum {
     std::string name;
     std::string desc;
-    art_effect_passive passive_good[4];
-    art_effect_passive passive_bad[4];
-    art_effect_active active_good[4];
-    art_effect_active active_bad[4];
+    std::array<art_effect_passive, 4> passive_good;
+    std::array<art_effect_passive, 4> passive_bad;
+    std::array<art_effect_active, 4> active_good;
+    std::array<art_effect_active, 4> active_bad;
 };
 
 enum artifact_weapon_type {
@@ -160,13 +163,13 @@ enum artifact_weapon_type {
 struct artifact_tool_form_datum {
     std::string name;
     char sym;
-    nc_color color;
+    deferred_color color;
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume_min, volume_max;
-    int weight_min, weight_max;
+    units::mass weight_min, weight_max;
     artifact_weapon_type base_weapon;
-    artifact_weapon_type extra_weapons[3];
+    std::array<artifact_weapon_type, 3> extra_weapons;
 };
 
 enum artifact_tool_form {
@@ -182,7 +185,7 @@ enum artifact_tool_form {
 struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
-    int weight; // Only applicable if this is an *extra* weapon
+    units::mass weight; // Only applicable if this is an *extra* weapon
     int bash_min, bash_max;
     int cut_min, cut_max;
     int stab_min, stab_max;
@@ -203,11 +206,11 @@ enum artifact_armor_mod {
 
 struct artifact_armor_form_datum {
     std::string name;
-    nc_color color;
+    deferred_color color;
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume;
-    int weight;
+    units::mass weight;
     int encumb;
     int coverage;
     int thickness;
@@ -217,7 +220,7 @@ struct artifact_armor_form_datum {
     int melee_bash, melee_cut, melee_hit;
     std::bitset<num_bp> covers;
     bool plural;
-    artifact_armor_mod available_mods[5];
+    std::array<artifact_armor_mod, 5> available_mods;
 };
 
 enum artifact_armor_form {
@@ -232,22 +235,326 @@ enum artifact_armor_form {
     NUM_ARTARMFORMS
 };
 
-//see below, move them so gettext and be applied properly
-artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX];
-artifact_property_datum artifact_property_data[ARTPROP_MAX];
-artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS];
-artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];
-artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
+static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
+    {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
+    {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+    {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
+    {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
+    {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
+    {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
+    {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+    {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
+    {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
+    {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
+    {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+    {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
+    {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
+    {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
+    {translate_marker( "pyramid" ), translate_marker( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
+    {translate_marker( "crystal" ), translate_marker( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
+    {translate_marker( "knot" ), translate_marker( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
+    {translate_marker( "crescent" ), translate_marker( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
+} };
+static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_data = { {
+    {
+        "BUG", "BUG",
+        {{AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL}},
+        {{AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL}},
+        {{AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}},
+        {{AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}}
+    },
+    {
+        translate_marker( "wriggling" ), translate_marker( "is constantly wriggling" ),
+        {{AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL}},
+        {{AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL}},
+        {{AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL}},
+        {{AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}}
+    },
+    {
+        translate_marker( "glowing" ), translate_marker( "glows faintly" ),
+        {{AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL}},
+        {{AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL}},
+        {{AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL}},
+        {{AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}}
+    },
+    {
+        translate_marker( "humming" ), translate_marker( "hums very quietly" ),
+        {{AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL}},
+        {{AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL}},
+        {{AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL}},
+        {{AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}}
+    },
+    {
+        translate_marker( "moving" ), translate_marker( "shifts from side to side slowly" ),
+        {{AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL}},
+        {{AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL}},
+        {{AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL}},
+        {{AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}}
+    },
+    {
+        translate_marker( "whispering" ), translate_marker( "makes very faint whispering sounds" ),
+        {{AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL}},
+        {{AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL}},
+        {{AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL}},
+        {{AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}}
+    },
+    {
+        translate_marker( "breathing" ),
+        translate_marker( "shrinks and grows very slightly with a regular pulse, as if breathing" ),
+        {{AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE}},
+        {{AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER}},
+        {{AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH}},
+        {{AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}}
+    },
+    {
+        translate_marker( "dead" ), translate_marker( "is icy cold to the touch" ),
+        {{AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE}},
+        {{AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK}},
+        {{AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL}},
+        {{AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}}
+    },
+    {
+        translate_marker( "itchy" ), translate_marker( "makes your skin itch slightly when it is close" ),
+        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL}},
+        {{AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL}},
+        {{AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS}},
+        {{AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}}
+    },
+    {
+        translate_marker( "glittering" ), translate_marker( "glitters faintly under direct light" ),
+        {{AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL}},
+        {{AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL}},
+        {{AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE}},
+        {{AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}}
+    },
+    {
+        translate_marker( "electric" ), translate_marker( "very weakly shocks you when touched" ),
+        {{AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD}},
+        {{AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER}},
+        {{AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL}},
+        {{AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}}
+    },
+    {
+        translate_marker( "slimy" ), translate_marker( "feels slimy" ),
+        {{AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE}},
+        {{AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK}},
+        {{AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL}},
+        {{AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}}
+    },
+    {
+        translate_marker( "engraved" ), translate_marker( "is covered with odd etchings" ),
+        {{AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE}},
+        {{AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL}},
+        {{AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE}},
+        {{AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}}
+    },
+    {
+        translate_marker( "crackling" ), translate_marker( "occasionally makes a soft crackling sound" ),
+        {{AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL}},
+        {{AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL}},
+        {{AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL}},
+        {{AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}}
+    },
+    {
+        translate_marker( "warm" ), translate_marker( "is warm to the touch" ),
+        {{AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL}},
+        {{AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL}},
+        {{AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT}},
+        {{AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}}
+    },
+    {
+        translate_marker( "rattling" ), translate_marker( "makes a rattling sound when moved" ),
+        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE}},
+        {{AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE}},
+        {{AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL}},
+        {{AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}}
+    },
+    {
+        translate_marker( "scaled" ), translate_marker( "has a surface reminiscent of reptile scales" ),
+        {{AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH}},
+        {{AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL}},
+        {{AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL}},
+        {{AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}}
+    },
+    {
+        translate_marker( "fractal" ),
+        translate_marker( "has a self-similar pattern which repeats until it is too small for you to see" ),
+        {{AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD}},
+        {{AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER}},
+        {{AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL}},
+        {{AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}}
+    }
+} };
+static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
+    {
+        "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
+        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
+    },
+
+    {
+        translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+        {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
+    },
+
+    {
+        translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+        {{ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}}
+    },
+
+    {
+        translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+        {{ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}}
+    },
+
+    {
+        translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
+    },
+
+    {
+        translate_marker( "Cube" ), '*', def_c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
+        {{ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
+    }
+} };
+static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_data = { {
+    { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
+    // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
+    { translate_marker( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
+    { translate_marker( "Knobbed" ), 250_ml,  250_gram, 14, 30,  0,  0,  0,  0, -1, 1, "" },
+    { translate_marker( "Spiked" ),  250_ml,  100_gram,  0,  0,  0,  0, 20, 40, -1, 1, "" },
+    { translate_marker( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
+    { translate_marker( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
+} };
+static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
+    {
+        "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+        0, false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+    // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+        mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
+        {{
+            ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
+            ARMORMOD_PADDED
+        }}
+    },
+
+    {
+        translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+        mfb(bp_torso), false,
+        {{
+            ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
+            ARMORMOD_PLATED
+        }}
+    },
+
+    {
+        translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+        mfb(bp_eyes) | mfb(bp_mouth), false,
+        {{
+            ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
+            ARMORMOD_NULL
+        }}
+    },
+
+    // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+        mfb(bp_head), false,
+        {{
+            ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }}
+    },
+
+    {
+        translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+        mfb(bp_hand_l) | mfb(bp_hand_r), true,
+        {{
+            ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }}
+    },
+
+    // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+        mfb(bp_foot_l) | mfb(bp_foot_r), true,
+        {{
+            ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }}
+    },
+
+    {
+        translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+        0, true,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    }
+} };
 /*
  * Armor mods alter the normal values of armor.
  * If the basic armor type has "null" as its second material, and the mod has a
  * material attached, the second material will be changed.
  */
-artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS];
-#define NUM_ART_ADJS 20
-std::string artifact_adj[NUM_ART_ADJS];
-#define NUM_ART_NOUNS 20
-std::string artifact_noun[NUM_ART_NOUNS];
+static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
+    {
+        "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+    // Description; "It is ..." or "They are ..."
+    {
+        translate_marker("very thin and light."), def_c_white, material_id( "null" ),
+        // Vol   Wgt Enc Cov Thk Env Wrm Sto
+        -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+
+    {
+        translate_marker("extremely bulky."), def_c_white, material_id( "null" ),
+        2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+
+    {
+        translate_marker("covered in pockets."), def_c_white, material_id( "null" ),
+        250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+
+    {
+        translate_marker("disgustingly furry."), def_c_white, material_id( "wool" ),
+        // Vol  Wgt Enc Dmg Cut Env Wrm Sto
+        1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+
+    {
+        translate_marker("leather-padded."), def_c_white, material_id( "leather" ),
+        1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+
+    {
+        translate_marker("plated in iron."), def_c_white, material_id( "iron" ),
+        1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+    },
+} };
+static const std::array<std::string, 20> artifact_adj = { {
+    translate_marker( "Forbidden" ), translate_marker( "Unknown" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
+    translate_marker( "Gelatinous" ), translate_marker( "Ancient" ), translate_marker( "Cursed" ), translate_marker( "Bloody" ), translate_marker( "Undying" ),
+    translate_marker( "Shadowy" ), translate_marker( "Silent" ), translate_marker( "Cyclopean" ), translate_marker( "Fungal" ), translate_marker( "Unspeakable" ),
+    translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
+} };
+static const std::array<std::string, 20> artifact_noun = { {
+    translate_marker( "%s Technique" ), translate_marker( "%s Dreams" ), translate_marker( "%s Beasts" ), translate_marker( "%s Evil" ), translate_marker( "%s Miasma" ),
+    translate_marker( "the %s Abyss" ), translate_marker( "the %s City" ), translate_marker( "%s Shadows" ), translate_marker( "%s Shade" ), translate_marker( "%s Illusion" ),
+    translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
+    translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
+} };
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
@@ -285,360 +592,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
     deserialize( jo );
 }
 
-void init_artifacts()
-{
-    artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
-        {"BUG", "BUG", 0_ml, 0_ml, 0, 0},
-        {_("sphere"), _("smooth sphere"), 500_ml, 1000_ml, 1, 1150},
-        {_("rod"), _("tapered rod"), 250_ml, 1750_ml, 1, 800},
-        {_("teardrop"), _("teardrop-shaped stone"), 500_ml, 1500_ml, 1, 950},
-        {_("lamp"), _("hollow, transparent cube"), 1000_ml, 225_ml, 1, 350},
-        {_("snake"), _("winding, flexible rod"), 0_ml, 2000_ml, 1, 950},
-        {_("disc"), _("smooth disc"), 1000_ml, 1500_ml, 200, 400},
-        {_("beads"), _("string of beads"), 750_ml, 1750_ml, 1, 700},
-        {_("napkin"), _("very thin sheet"), 0_ml, 750_ml, 1, 350},
-        {_("urchin"), _("spiked sphere"), 750_ml, 1250_ml, 200, 700},
-        {_("jelly"), _("malleable blob"), 500_ml, 2000_ml, 200, 450},
-        {_("spiral"), _("spiraling rod"), 1250_ml, 1500_ml, 200, 350},
-        {_("pin"), _("pointed rod"), 250_ml, 1250_ml, 100, 1050},
-        {_("tube"), _("hollow tube"), 500_ml, 1250_ml, 350, 700},
-        {_("pyramid"), _("regular tetrahedron"), 750_ml, 1750_ml, 200, 450},
-        {_("crystal"), _("translucent crystal"), 250_ml, 1500_ml, 200, 800},
-        {_("knot"), _("twisted, knotted cord"), 500_ml, 1500_ml, 100, 800},
-        {_("crescent"), _("crescent-shaped stone"), 500_ml, 1500_ml, 200, 700}
-    };
-    for(int i = 0; i < ARTSHAPE_MAX; i++) {
-        artifact_shape_data[i] = tmp_artifact_shape_data[i];
-    }
-
-    artifact_property_datum tmp_artifact_property_data[ARTPROP_MAX] = {
-        {
-            "BUG", "BUG",
-            {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
-            {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
-            {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL},
-            {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}
-        },
-        {
-            _("wriggling"), _("is constantly wriggling"),
-            {AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL},
-            {AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL},
-            {AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL},
-            {AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}
-        },
-        {
-            _("glowing"), _("glows faintly"),
-            {AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL},
-            {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL},
-            {AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL},
-            {AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}
-        },
-        {
-            _("humming"), _("hums very quietly"),
-            {AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL},
-            {AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL},
-            {AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL},
-            {AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}
-        },
-        {
-            _("moving"), _("shifts from side to side slowly"),
-            {AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL},
-            {AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL},
-            {AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL},
-            {AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}
-        },
-        {
-            _("whispering"), _("makes very faint whispering sounds"),
-            {AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL},
-            {AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL},
-            {AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL},
-            {AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}
-        },
-        {
-            _("breathing"),
-            _("shrinks and grows very slightly with a regular pulse, as if breathing"),
-            {AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE},
-            {AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER},
-            {AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH},
-            {AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}
-        },
-        {
-            _("dead"), _("is icy cold to the touch"),
-            {AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE},
-            {AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK},
-            {AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL},
-            {AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}
-        },
-        {
-            _("itchy"), _("makes your skin itch slightly when it is close"),
-            {AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL},
-            {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL},
-            {AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS},
-            {AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}
-        },
-        {
-            _("glittering"), _("glitters faintly under direct light"),
-            {AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
-            {AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL},
-            {AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE},
-            {AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}
-        },
-        {
-            _("electric"), _("very weakly shocks you when touched"),
-            {AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD},
-            {AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER},
-            {AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL},
-            {AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}
-        },
-        {
-            _("slimy"), _("feels slimy"),
-            {AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE},
-            {AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK},
-            {AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL},
-            {AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}
-        },
-        {
-            _("engraved"), _("is covered with odd etchings"),
-            {AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE},
-            {AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL},
-            {AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE},
-            {AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}
-        },
-        {
-            _("crackling"), _("occasionally makes a soft crackling sound"),
-            {AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL},
-            {AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL},
-            {AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL},
-            {AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}
-        },
-        {
-            _("warm"), _("is warm to the touch"),
-            {AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
-            {AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL},
-            {AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT},
-            {AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}
-        },
-        {
-            _("rattling"), _("makes a rattling sound when moved"),
-            {AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE},
-            {AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE},
-            {AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL},
-            {AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}
-        },
-        {
-            _("scaled"), _("has a surface reminiscent of reptile scales"),
-            {AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH},
-            {AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL},
-            {AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL},
-            {AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}
-        },
-        {
-            _("fractal"),
-            _("has a self-similar pattern which repeats until it is too small for you to see"),
-            {AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD},
-            {AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER},
-            {AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL},
-            {AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}
-        }
-    };
-    for(int i = 0; i < ARTPROP_MAX; i++) {
-        artifact_property_data[i] = tmp_artifact_property_data[i];
-    }
-
-    artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
-        {
-            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0, 0, ARTWEAP_BULK,
-            {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            _("Harp"), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150, 2100, ARTWEAP_BULK,
-            {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
-        },
-
-        {
-            _("Staff"), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450, 1150, ARTWEAP_CLUB,
-            {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
-        },
-
-        {
-            _("Sword"), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900, 3259, ARTWEAP_SWORD,
-            {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100, 700, ARTWEAP_KNIFE,
-            {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            _("Cube"), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100, 2300, ARTWEAP_BULK,
-            {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
-        }
-    };
-    for(int i = 0; i < NUM_ARTTOOLFORMS; i++) {
-        artifact_tool_form_data[i] = tmp_artifact_tool_form_data[i];
-    }
-
-    artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-        { "", 0_ml, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""},
-        // Adjective      Vol   Weight Bashing Cutting Stabbing To-hit Flag
-        { _( "Heavy" ),   0_ml,   1400, 10, 20,  0,  0,  0,  0, -2, 0, "" },
-        { _( "Knobbed" ), 250_ml,  250, 14, 30,  0,  0,  0,  0, -1, 1, "" },
-        { _( "Spiked" ),  250_ml,  100,  0,  0,  0,  0, 20, 40, -1, 1, "" },
-        { _( "Edged" ),   500_ml,  450,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
-        { _( "Bladed" ),  250_ml, 2250,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
-    };
-    for(int i = 0; i < NUM_ARTWEAPS; i++) {
-        artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
-    }
-
-    artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
-        {
-            "", c_white, material_id( "null" ),        0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-            0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-        // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            _("Robe"),   c_red, material_id( "wool" ),    1500_ml, 700,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
-            mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
-                ARMORMOD_PADDED
-            }
-        },
-
-        {
-            _("Coat"),   c_brown, material_id( "leather" ),   3500_ml, 1600,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
-            mfb(bp_torso), false,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
-                ARMORMOD_PLATED
-            }
-        },
-
-        {
-            _("Mask"),   c_white, material_id( "wood" ),      1000_ml, 100,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
-            mfb(bp_eyes) | mfb(bp_mouth), false,
-            {
-                ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
-                ARMORMOD_NULL
-            }
-        },
-
-        // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            _("Helm"),   c_dkgray, material_id( "silver" ),    1500_ml, 700,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
-            mfb(bp_head), false,
-            {
-                ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        {
-            _("Gloves"), c_ltblue, material_id( "leather" ), 500_ml, 100,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
-            mfb(bp_hand_l) | mfb(bp_hand_r), true,
-            {
-                ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            _("Boots"), c_blue, material_id( "leather" ),     1500_ml, 250,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
-            mfb(bp_foot_l) | mfb(bp_foot_r), true,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        {
-            _("Ring"), c_ltgreen, material_id( "silver" ),   0_ml,  4,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-            0, true,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        }
-
-    };
-    for(int i = 0; i < NUM_ARTARMFORMS; i++) {
-        artifact_armor_form_data[i] = tmp_artifact_armor_form_data[i];
-    }
-
-    artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
-
-        {
-            "", c_white, material_id( "null" ), 0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-        // Description; "It is ..." or "They are ..."
-        {
-            _("very thin and light."), c_white, material_id( "null" ),
-            // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -1000_ml, -950, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            _("extremely bulky."), c_white, material_id( "null" ),
-            2000_ml, 1150,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            _("covered in pockets."), c_white, material_id( "null" ),
-            250_ml, 150,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            _("disgustingly furry."), c_white, material_id( "wool" ),
-            // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            1000_ml, 250,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            _("leather-padded."), c_white, material_id( "leather" ),
-            1000_ml, 450,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            _("plated in iron."), c_white, material_id( "iron" ),
-            1000_ml, 1400,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-    };
-    for(int i = 0; i < NUM_ARMORMODS; i++) {
-        artifact_armor_mod_data[i] = tmp_artifact_armor_mod_data[i];
-    }
-
-    std::string tmp_artifact_adj[NUM_ART_ADJS] = {
-        _("Forbidden"), _("Unknown"), _("Forgotten"), _("Hideous"), _("Eldritch"),
-        _("Gelatinous"), _("Ancient"), _("Cursed"), _("Bloody"), _("Undying"),
-        _("Shadowy"), _("Silent"), _("Cyclopean"), _("Fungal"), _("Unspeakable"),
-        _("Grotesque"), _("Frigid"), _("Shattered"), _("Sleeping"), _("Repellent")
-    };
-    for(int i = 0; i < NUM_ART_ADJS; i++) {
-        artifact_adj[i] = tmp_artifact_adj[i];
-    }
-
-    std::string tmp_artifact_noun[NUM_ART_NOUNS] = {
-        _("%s Technique"), _("%s Dreams"), _("%s Beasts"), _("%s Evil"), _("%s Miasma"),
-        _("the %s Abyss"), _("the %s City"), _("%s Shadows"), _("%s Shade"), _("%s Illusion"),
-        _("%s Justice"), _("the %s Necropolis"), _("%s Ichor"), _("the %s Monolith"), _("%s Aeons"),
-        _("%s Graves"), _("%s Horrors"), _("%s Suffering"), _("%s Death"), _("%s Horror")
-    };
-    for(int i = 0; i < NUM_ART_NOUNS; i++) {
-        artifact_noun[i] = tmp_artifact_noun[i];
-    }
-
-}
-
 void it_artifact_tool::create_name(const std::string &type)
 {
     name = artifact_name(type);
@@ -667,15 +620,15 @@ std::string new_artifact()
 
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
-        artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
-        art->create_name(info->name);
+        const artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
+        art->create_name( _( info->name.c_str() ) );
         art->color = info->color;
         art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
-        artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+        const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
         art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
         art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
         art->melee[DT_STAB] = rng(weapon->stab_min, weapon->stab_max);
@@ -698,7 +651,7 @@ std::string new_artifact()
                     art->item_tags.insert(weapon->tag);
                 }
                 std::ostringstream newname;
-                newname << weapon->adjective << " " << info->name;
+                newname << _( weapon->adjective.c_str() ) << " " << _( info->name.c_str() );
                 art->create_name(newname.str());
             }
         }
@@ -786,9 +739,9 @@ std::string new_artifact()
         auto art = &def; // avoid huge number of line changes
 
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
-        artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
+        const artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
-        art->create_name(info->name);
+        art->create_name( _( info->name.c_str() ) );
         art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
@@ -815,17 +768,17 @@ std::string new_artifact()
             int index = rng(0, 4);
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
-                artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
+                const artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
                 if( modinfo->volume >= 0 || art->volume > -modinfo->volume ) {
                     art->volume += modinfo->volume;
                 } else {
                     art->volume = 250_ml;
                 }
 
-                if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
+                if( modinfo->weight >= 0 || art->weight.value() > std::abs( modinfo->weight.value() ) ) {
                     art->weight += modinfo->weight;
                 } else {
-                    art->weight = 1;
+                    art->weight = 1_gram;
                 }
 
                 art->armor->encumber += modinfo->encumb;
@@ -858,7 +811,7 @@ std::string new_artifact()
                 description << string_format(info->plural ?
                                              _("\nThey are %s") :
                                              _("\nIt is %s"),
-                                             modinfo->name.c_str());
+                                             _( modinfo->name.c_str() ) );
             }
         }
 
@@ -898,12 +851,12 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
-    artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
+    const artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
                                                   ARTPROP_MAX - 1)));
-    artifact_property_datum *property_data = &(artifact_property_data[property]);
+    const artifact_property_datum *property_data = &(artifact_property_data[property]);
 
     art->sym = ":";
     art->color = c_yellow;
@@ -914,9 +867,9 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->melee[DT_CUT] = 0;
     art->m_to_hit = 0;
 
-    art->create_name(property_data->name, shape_data->name);
+    art->create_name( _( property_data->name.c_str() ), _( shape_data->name.c_str() ) );
     art->description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                      shape_data->desc.c_str(), property_data->desc.c_str() );
+                                      _( shape_data->desc.c_str() ), _( property_data->desc.c_str() ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -999,20 +952,18 @@ std::string new_natural_artifact(artifact_natural_property prop)
 // Make a special debugging artifact.
 std::string architects_cube()
 {
-    std::string artifact_name(std::string type);
-
     it_artifact_tool def;
     auto art = &def;
 
-    artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-    art->create_name(info->name);
+    const artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+    art->create_name( _( info->name.c_str() ) );
     art->color = info->color;
     art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
     art->volume = rng(info->volume_min, info->volume_max);
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
-    artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+    const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
     art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
     art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
     art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
@@ -1065,8 +1016,8 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
     std::string ret;
-    std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
-    std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
+    std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
+    std::string adj = _( random_entry_ref( artifact_adj ).c_str() );
     ret = string_format(noun, adj.c_str());
     ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
     return ret;
@@ -1103,7 +1054,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1124,7 +1075,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
         }
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
-    weight = jo.get_int("weight");
+    weight = units::from_gram( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int("melee_dam");
     melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
@@ -1166,7 +1117,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     } else {
         sym = jo.get_string( "sym" );
     }
-    color = jo.get_int("color");
+    jo.read( "color", color );
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1187,7 +1138,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
         }
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
-    weight = jo.get_int("weight");
+    weight = units::from_gram( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int("melee_dam");
     melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
@@ -1213,7 +1164,8 @@ bool save_artifacts( const std::string &path )
     return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
-        for( const itype *e : item_controller->all() ) {
+        // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)
+        for( const itype *e : item_controller->get_runtime_types() ) {
             if( !e->artifact ) {
                 continue;
             }
@@ -1260,7 +1212,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     }
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
-    json.member("weight", weight);
+    json.member( "weight", to_gram( weight ) );
 
     json.member( "melee_dam", melee[DT_BASH] );
     json.member( "melee_cut", melee[DT_CUT] );
@@ -1307,7 +1259,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     }
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
-    json.member("weight", weight);
+    json.member( "weight", to_gram( weight ) );
 
     json.member( "melee_dam", melee[DT_BASH] );
     json.member( "melee_cut", melee[DT_CUT] );
@@ -1348,6 +1300,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
     PAIR( AEP_SNAKES ),
     PAIR( AEP_INVISIBLE ),
     PAIR( AEP_CLAIRVOYANCE ),
+    PAIR( AEP_CLAIRVOYANCE_PLUS ),
     PAIR( AEP_SUPER_CLAIRVOYANCE ),
     PAIR( AEP_STEALTH ),
     PAIR( AEP_EXTINGUISH ),

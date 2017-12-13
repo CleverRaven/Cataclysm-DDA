@@ -1,3 +1,4 @@
+#include "pathfinding.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
@@ -11,7 +12,6 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "cata_utility.h"
-#include "pathfinding.h"
 
 #include <algorithm>
 #include <queue>
@@ -192,12 +192,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
-    constexpr auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
+    static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
     if( f.z == t.z ) {
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
-        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache, non_normal]( const tripoint & p ) {
+        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
         return !( pf_cache.special[p.x][p.y] & non_normal );
         } ) ) {
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
@@ -215,6 +215,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
     int max_length = settings.max_length;
     int bash = settings.bash_strength;
+    int climb_cost = settings.climb_cost;
     bool doors = settings.allow_open_doors;
     bool trapavoid = settings.avoid_traps;
 
@@ -307,17 +308,19 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr ) {
+                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr && climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
                     continue;
                 }
 
                 newg += cost;
                 if( cost == 0 ) {
-                    // Handle all kinds of doors
-                    // Only try to open INSIDE doors from the inside
-                    if( doors && terrain.open &&
-                        ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
+                        // Climbing fences
+                        newg += climb_cost;
+                    } else if( doors && terrain.open &&
+                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                        // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
                         newg += 4;
                     } else if( veh != nullptr ) {

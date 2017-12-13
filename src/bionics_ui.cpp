@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "output.h"
+#include "string_formatter.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -31,7 +32,7 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const long ch )
 {
-    for( auto &elem : my_bionics ) {
+    for( auto &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -54,8 +55,8 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white, _( "Power: %i/%i" ),
-                                         int( p->power_level ), int( p->max_power_level ) );
+    const int pwr_str_pos = right_print( window, 0, 1, c_white, string_format( _( "Power: %i/%i" ),
+                                         p->power_level, p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -64,7 +65,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     } else if( mode == REMOVING ) {
         desc = _( "<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
     fold_and_print( window, 0, 1, pwr_str_pos, c_white, desc );
 
@@ -136,15 +137,15 @@ void draw_description( WINDOW *win, bionic const &bio )
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
     int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string.c_str() );
     }
-    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bio.id->description );
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
     // @todo Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
     }
@@ -240,33 +241,33 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
             if( bio.powered && !bio.id->power_source ) {
                 type = h_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = h_ltgreen;
+                type = h_light_green;
             } else {
-                type = h_ltred;
+                type = h_light_red;
             }
         } else {
             if( bio.powered && !bio.id->power_source ) {
                 type = c_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = c_ltgreen;
+                type = c_light_green;
             } else {
-                type = c_ltred;
+                type = c_light_red;
             }
         }
     } else {
         if( isHighlightedBionic ) {
             if( bio.id->power_source ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else {
                 type = h_cyan;
             }
         } else {
             if( bio.id->power_source ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else {
                 type = c_cyan;
             }
@@ -275,7 +276,7 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
     return type;
 }
 
-std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic_tab_mode mode )
+std::vector< bionic *>filtered_bionics( bionic_collection &all_bionics, bionic_tab_mode mode )
 {
     std::vector< bionic *>filtered_entries;
     for( auto &elem : all_bionics ) {
@@ -288,8 +289,8 @@ std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic
 
 void player::power_bionics()
 {
-    std::vector <bionic *> passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-    std::vector <bionic *> active = filtered_bionics( my_bionics, TAB_ACTIVE );
+    std::vector <bionic *> passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
+    std::vector <bionic *> active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = NULL;
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
@@ -309,7 +310,7 @@ void player::power_bionics()
     const int HEIGHT = std::min( TERMY,
                                  std::max( FULL_SCREEN_HEIGHT,
                                            TITLE_HEIGHT + TITLE_TAB_HEIGHT +
-                                           ( int )my_bionics.size() + 2 ) );
+                                           ( int )my_bionics->size() + 2 ) );
     const int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -367,8 +368,8 @@ void player::power_bionics()
 
     for( ;; ) {
         if( recalc ) {
-            passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-            active = filtered_bionics( my_bionics, TAB_ACTIVE );
+            passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
+            active = filtered_bionics( *my_bionics, TAB_ACTIVE );
 
             if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
@@ -414,7 +415,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                 for( int i = 0; i < num_bp; ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, "%s", bps[i].c_str() );
                 }
             }
 
@@ -428,7 +429,7 @@ void player::power_bionics()
                         msg = _( "No passive bionics installed." );
                         break;
                 }
-                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_ltgray, msg );
+                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_light_gray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
@@ -589,7 +590,7 @@ void player::power_bionics()
             }
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - &my_bionics[0];
+                    int b = tmp - &( *my_bionics )[0];
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {

@@ -16,7 +16,7 @@
 struct real_coords;
 enum field_id : int;
 
-    enum shapetype {
+enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 
@@ -54,8 +54,7 @@ class editmap
         int edit_fld();
         int edit_trp();
         int edit_itm();
-        int edit_mon();
-        int edit_npc();
+        int edit_critter( Creature &critter );
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );

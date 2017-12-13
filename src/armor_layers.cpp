@@ -5,9 +5,11 @@
 #include "input.h"
 #include "output.h"
 #include "item.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "npc.h"
 #include "cata_utility.h"
+#include "line.h"
 
 #include <vector>
 #include <string>
@@ -26,15 +28,15 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item.type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( worn_item, win_width - 3 );
-    nc_color color = c_ltgray;
+    nc_color color = c_light_gray;
     for( auto &iter : props ) {
-        print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
+        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
     }
 
     std::vector<std::string> prot = clothing_protection( worn_item, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( auto &iter : prot ) {
-            print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
+            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
         }
     } else {
         return;
@@ -44,7 +46,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     std::vector<std::string> layer_desc = foldstring( clothing_layer( worn_item ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( worn_item ).empty() ) {
         for( auto &iter : layer_desc ) {
-            mvwprintz( w_sort_middle, ++i, 0, c_ltblue, iter.c_str() );
+            mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter.c_str() );
         }
     }
 
@@ -52,7 +54,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     std::vector<std::string> desc = clothing_flags_description( worn_item );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, win_width, c_ltblue, desc[j] );
+            i += -1 + fold_and_print( w_sort_middle, i + j, 0, win_width, c_light_blue, desc[j] );
         }
     }
 }
@@ -309,10 +311,10 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        right_print( w_sort_cat, 0, 0, c_white,
-                     _( "Press %s for help. Press %s to change keybindings." ),
-                     ctxt.get_desc( "USAGE_HELP" ).c_str(),
-                     ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
+        right_print( w_sort_cat, 0, 0, c_white, string_format(
+                         _( "Press %s for help. Press %s to change keybindings." ),
+                         ctxt.get_desc( "USAGE_HELP" ).c_str(),
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
         // Create ptr list of items to display
         tmp_worn.clear();
@@ -330,8 +332,9 @@ void player::sort_armor()
         leftListSize = ( ( int )tmp_worn.size() < cont_h - 2 ) ? ( int )tmp_worn.size() : cont_h - 2;
 
         // Left header
-        mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (%s)" ), volume_units_abbr() );
+        mvwprintz( w_sort_left, 0, 0, c_light_gray, _( "(Innermost)" ) );
+        right_print( w_sort_left, 0, 0, c_light_gray, string_format( _( "Storage (%s)" ),
+                     volume_units_abbr() ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -344,20 +347,21 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%s",
-                         format_volume( tmp_worn[itemindex]->get_storage() ).c_str() );
+            right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
+                         format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
-        mvwprintz( w_sort_left, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
+        mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
             // @todo replace it by right_print()
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ), c_ltblue, _( "<more>" ) );
+            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
+                       c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
             // @todo replace it by right_print()
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ), c_ltblue,
-                       _( "<empty>" ) );
+            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
+                       c_light_blue, _( "<empty>" ) );
         }
 
         // Items stats
@@ -372,8 +376,8 @@ void player::sort_armor()
         print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? tmp_worn[leftListIndex] : nullptr );
 
         // Right header
-        mvwprintz( w_sort_right, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_right, 0, 0, c_ltgray, _( "Encumbrance" ) );
+        mvwprintz( w_sort_right, 0, 0, c_light_gray, _( "(Innermost)" ) );
+        right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
 
         // Right list
         rightListSize = 0;
@@ -393,7 +397,7 @@ void player::sort_armor()
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     trim_and_print( w_sort_right, pos, 2, right_w - 4, elem.damage,
                                     elem.name.c_str() );
-                    mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
+                    mvwprintz( w_sort_right, pos, right_w - 3, c_light_gray, "%3d",
                                elem.encumber );
                     pos++;
                 }
@@ -405,10 +409,10 @@ void player::sort_armor()
         }
 
         // Right footer
-        mvwprintz( w_sort_right, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
+        mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
             // @todo replace it by right_print()
-            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_ltblue,
+            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
         // F5
@@ -443,9 +447,9 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
-                    worn.insert( worn.end(), tmp_item );
+                    for( std::size_t i = 0; i < tmp_worn.size() - 1; i++ ) {
+                        std::swap( *tmp_worn[i + 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -465,9 +469,9 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const item tmp_item = *tmp_worn[selected];
-                    i_rem( tmp_worn[selected] );
-                    worn.insert( worn.begin(), tmp_item );
+                    for( std::size_t i = tmp_worn.size() - 1; i > 0; i-- ) {
+                        std::swap( *tmp_worn[i - 1], *tmp_worn[i] );
+                    }
                 }
 
                 selected = leftListIndex;
@@ -510,11 +514,12 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = game_menus::inv::wear( g->u );
+            item_location loc = game_menus::inv::wear( g->u );
+
             // only equip if something valid selected!
-            if( pos != INT_MIN ) {
+            if( loc ) {
                 // wear the item
-                if( wear( pos ) ) {
+                if( wear( g->u.i_at( loc.obtain( g->u ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
                     auto iter = worn.end();
                     item new_equip  = *( --iter );
@@ -527,7 +532,7 @@ void player::sort_armor()
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
                     // @todo Pass the reason here
-                    popup( _( "Can't put this on" ) );
+                    popup( _( "Can't put this on!" ) );
                 }
             }
             draw_grid( w_sort_armor, left_w, middle_w );

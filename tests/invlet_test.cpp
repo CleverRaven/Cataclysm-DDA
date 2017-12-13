@@ -168,8 +168,8 @@ invlet_state check_invlet( player &p, item &it, char invlet ) {
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( p.assigned_invlet.find( invlet ) != p.assigned_invlet.end() &&
-                p.assigned_invlet[invlet] == it.typeId() ) {
+        if( p.inv.assigned_invlet.find( invlet ) != p.inv.assigned_invlet.end() &&
+            p.inv.assigned_invlet[invlet] == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
@@ -544,6 +544,64 @@ void swap_invlet_test( player &dummy, inventory_location loc ) {
     assign_invlet( dummy, item_at( dummy, 1, loc ), invlet_1, NONE );
 }
 
+void merge_invlet_test( player &dummy, inventory_location from )
+{
+    // invlet to assign
+    constexpr char invlet_1 = '{';
+    constexpr char invlet_2 = '}';
+
+    // should merge from a place other than the inventory
+    REQUIRE( from != INVENTORY );
+    // cannot assign invlet to items on the ground
+    REQUIRE( from != GROUND );
+
+    for( int id = 0; id < INVLET_STATE_NUM * INVLET_STATE_NUM; ++id ) {
+        // how to assign invlet to the first item
+        invlet_state first_invlet_state = invlet_state( id % INVLET_STATE_NUM );
+        // how to assign invlet to the second item
+        invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM );
+        // what the invlet should be for the merged stack
+        invlet_state expected_merged_invlet_state = first_invlet_state != NONE ? first_invlet_state : second_invlet_state;
+        char expected_merged_invlet = first_invlet_state != NONE ? invlet_1 : second_invlet_state != NONE ? invlet_2 : 0;
+
+        // remove all items
+        dummy.inv.clear();
+        dummy.worn.clear();
+        dummy.remove_weapon();
+        g->m.i_clear( dummy.pos() );
+
+        // some stackable item
+        item tshirt( "tshirt" );
+
+        // add the item
+        add_item( dummy, tshirt, INVENTORY );
+        add_item( dummy, tshirt, from );
+
+        // assign the items with invlets
+        assign_invlet( dummy, item_at( dummy, 0, INVENTORY ), invlet_1, first_invlet_state );
+        assign_invlet( dummy, item_at( dummy, 0, from ), invlet_2, second_invlet_state );
+
+        // merge the second item into inventory
+        move_item( dummy, 0, from, INVENTORY );
+
+        item &merged_item = item_at( dummy, 0, INVENTORY );
+        invlet_state merged_invlet_state = check_invlet( dummy, merged_item, expected_merged_invlet );
+        char merged_invlet = merged_item.invlet;
+
+        std::stringstream ss;
+        ss << "1. add two stackable items to the inventory and " << location_desc( from ) << std::endl;
+        ss << "2. assign " << invlet_state_desc( first_invlet_state ) << " invlet " << invlet_1 << " to the item in the inventory " << std::endl;
+        ss << "3. assign " << invlet_state_desc( second_invlet_state ) << " invlet " << invlet_2 << " to the " << location_desc( from ) << std::endl;
+        ss << "4. " << move_action_desc( 0, from, INVENTORY ) << std::endl;
+        ss << "expect the stack in the inventory to have " << invlet_state_desc( expected_merged_invlet_state ) << " invlet " << expected_merged_invlet << std::endl;
+        ss << "the stack actually has " << invlet_state_desc( merged_invlet_state ) << " invlet " << merged_invlet << std::endl;
+        INFO( ss.str() );
+        REQUIRE( merged_item.typeId() == tshirt.typeId() );
+        CHECK( merged_invlet_state == expected_merged_invlet_state );
+        CHECK( merged_invlet == expected_merged_invlet );
+    }
+}
+
 #define invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
         get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
@@ -560,6 +618,12 @@ void swap_invlet_test( player &dummy, inventory_location loc ) {
     SECTION( std::string( name ) + " (auto letter off)" ) { \
         get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
         swap_invlet_test( dummy, loc ); \
+    }
+
+#define merge_invlet_test_autoletter_off( name, dummy, from ) \
+    SECTION( std::string( name ) + " (auto letter off)" ) { \
+        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
+        merge_invlet_test( dummy, from ); \
     }
 
 TEST_CASE( "Inventory letter test", "[invlet]" ) {
@@ -581,4 +645,7 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
     stack_invlet_test_autoletter_off( "Wielding item from a stack in inventory", dummy, INVENTORY, WIELDED_OR_WORN );
 
     swap_invlet_test_autoletter_off( "Swapping invlets of two worn items of the same type", dummy, WORN );
+
+    merge_invlet_test_autoletter_off( "Merging wielded item into an inventory stack", dummy, WIELDED_OR_WORN );
+    merge_invlet_test_autoletter_off( "Merging worn item into an inventory stack", dummy, WORN );
 }

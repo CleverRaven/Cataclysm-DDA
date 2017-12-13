@@ -31,7 +31,7 @@
     "name_plural": ".357 Magnum +P",
     "//": "+2 hollowpoint bonus to damage.",
     "description": "A .357 Magnum +P cartridge loaded with 125gr JHP bullets.  A high-power version of the already-powerful .357 Magnum.",
-    "count": 35,
+    "count": 20,
     "relative": {
       "price": 300,
       "range": 1,

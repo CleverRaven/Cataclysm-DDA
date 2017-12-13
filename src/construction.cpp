@@ -11,9 +11,11 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "action.h"
 #include "translations.h"
 #include "messages.h"
+#include "json.h"
 #include "rng.h"
 #include "requirements.h"
 #include "trap.h"
@@ -128,22 +130,22 @@ void load_available_constructions( std::vector<std::string> &available,
 void draw_grid( WINDOW *w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
+    mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
     mvwhline( w, 2, 1, LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
-    mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
+    mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
+    mvwputch( w, 2, 0, c_light_gray, LINE_XXXO );
+    mvwputch( w, 2, list_width, c_light_gray, LINE_XOXX );
 
     wrefresh( w );
 }
 
 nc_color construction_color( std::string &con_name, bool highlight )
 {
-    nc_color col = c_dkgray;
+    nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
@@ -163,7 +165,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
                 if( s_lvl < pr.second ) {
                     col = c_red;
                 } else if( s_lvl < pr.second * 1.25 ) {
-                    col = c_ltblue;
+                    col = c_light_blue;
                 }
             }
         }
@@ -292,6 +294,7 @@ void construction_menu()
                 previous_index = tabindex;
             } else if( category_name == "FILTER" ) {
                 constructs.clear();
+                previous_select = -1;
                 std::copy_if( available.begin(), available.end(),
                     std::back_inserter( constructs ),
                     [&](const std::string &a){
@@ -409,9 +412,9 @@ void construction_menu()
 
                             std::string result_string;
                             if( current_con->post_is_furniture ) {
-                                result_string = furn_str_id( current_con->post_terrain ).obj().name;
+                                result_string = furn_str_id( current_con->post_terrain ).obj().name();
                             } else {
-                                result_string = ter_str_id( current_con->post_terrain ).obj().name;
+                                result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Result: %s" ), result_string.c_str() ) << "</color>";
@@ -435,7 +438,7 @@ void construction_menu()
                                 if( s_lvl < skill.second ) {
                                     col = c_red;
                                 } else if( s_lvl < skill.second * 1.25 ) {
-                                    col = c_ltblue;
+                                    col = c_light_blue;
                                 } else {
                                     col = c_white;
                                 }
@@ -454,9 +457,9 @@ void construction_menu()
                         if( current_con->pre_terrain != "" ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
-                                require_string = furn_str_id( current_con->pre_terrain ).obj().name;
+                                require_string = furn_str_id( current_con->pre_terrain ).obj().name();
                             } else {
-                                require_string = ter_str_id( current_con->pre_terrain ).obj().name;
+                                require_string = ter_str_id( current_con->pre_terrain ).obj().name();
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Requires: %s" ), require_string.c_str() ) << "</color>";
@@ -801,6 +804,8 @@ void complete_construction()
         }
     }
 
+    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+
     // clear the activity
     u.activity.set_to_null();
 
@@ -943,7 +948,7 @@ void construct::done_deconstruct( const tripoint &p )
     if( g->m.has_furn( p ) ) {
         const furn_t &f = g->m.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
-            add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
+            add_msg( m_info, _( "That %s can not be disassembled!" ), f.name().c_str() );
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
@@ -951,7 +956,7 @@ void construct::done_deconstruct( const tripoint &p )
         } else {
             g->m.furn_set( p, f.deconstruct.furn_set );
         }
-        add_msg( _( "You disassemble the %s." ), f.name.c_str() );
+        add_msg( _( "You disassemble the %s." ), f.name().c_str() );
         g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -962,7 +967,7 @@ void construct::done_deconstruct( const tripoint &p )
     } else {
         const ter_t &t = g->m.ter( p ).obj();
         if( !t.deconstruct.can_do ) {
-            add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
+            add_msg( _( "That %s can not be disassembled!" ), t.name().c_str() );
             return;
         }
         if( t.id == "t_console_broken" )  {
@@ -976,7 +981,7 @@ void construct::done_deconstruct( const tripoint &p )
             }
         }
         g->m.ter_set( p, t.deconstruct.ter_set );
-        add_msg( _( "You disassemble the %s." ), t.name.c_str() );
+        add_msg( _( "You disassemble the %s." ), t.name().c_str() );
         g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }
@@ -1160,7 +1165,7 @@ void load_construction(JsonObject &jo)
         con.requirements = requirement_id( jo.get_string( "using" ) );
     } else {
         // Warning: the IDs may change!
-        std::string req_id = string_format( "inline_construction_%i", con.id );
+        std::string req_id = string_format( "inline_construction_%u", con.id );
         requirement_data::load_requirement( jo, req_id );
         con.requirements = requirement_id( req_id );
     }
@@ -1184,7 +1189,7 @@ void load_construction(JsonObject &jo)
     }
 
     con.pre_flags = jo.get_tags("pre_flags");
-    
+
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
         { "", construct::check_nothing },
         { "check_empty", construct::check_empty },
@@ -1261,7 +1266,7 @@ void check_constructions()
             }
         }
         if( c->id != i ) {
-            debugmsg( "Construction \"%s\" has id %d, but should have %d",
+            debugmsg( "Construction \"%s\" has id %u, but should have %u",
                       c->description.c_str(), c->id, i );
         }
     }

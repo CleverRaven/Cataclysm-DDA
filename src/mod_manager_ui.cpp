@@ -3,6 +3,7 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include <algorithm>
 
 mod_ui::mod_ui( mod_manager *mman )
@@ -66,12 +67,12 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     std::ostringstream info;
 
     if( !mod->authors.empty() ) {
-        info << "<color_ltblue>" << ngettext( "Author", "Authors", mod->authors.size() )
+        info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
              << "</color>: " << enumerate_as_string( mod->authors ) << "\n";
     }
 
     if( !mod->maintainers.empty() ) {
-        info << "<color_ltblue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
+        info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
              << "</color>: " << enumerate_as_string( mod->maintainers ) << "\n";
     }
 
@@ -84,7 +85,7 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info << "<color_ltblue>" << ngettext( "Dependency", "Dependencies", deps.size() )
+        info << "<color_light_blue>" << ngettext( "Dependency", "Dependencies", deps.size() )
              << "</color>: " << str << "\n";
     }
 

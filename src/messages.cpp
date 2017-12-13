@@ -8,6 +8,7 @@
 #include "output.h"
 #include "calendar.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <deque>
 #include <iterator>
@@ -69,7 +70,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         }
 
         // color for old messages
-        return c_dkgray;
+        return c_dark_gray;
     }
 
     void deserialize( JsonIn &jsin ) override {
@@ -213,14 +214,14 @@ void Messages::deserialize( JsonObject &json )
     obj.read( "curmes", player_messages.impl_->curmes );
 }
 
-void Messages::vadd_msg( const char *msg, va_list ap )
+void Messages::add_msg( std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ) );
+    player_messages.impl_->add_msg_string( std::move( msg ) );
 }
 
-void Messages::vadd_msg( game_message_type type, const char *msg, va_list ap )
+void Messages::add_msg( const game_message_type type, std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ), type );
+    player_messages.impl_->add_msg_string( std::move( msg ), type );
 }
 
 void Messages::clear_messages()
@@ -335,7 +336,8 @@ void Messages::display_messages()
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
+                right_print( w, line, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                             unit.c_str() ) );
                 lasttime = timepassed.get_turn();
             }
 
@@ -349,14 +351,14 @@ void Messages::display_messages()
 
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
-                // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
+                // On lines divisible by 4, draw a dark gray '-' at both horizontal extremes of the window.
                 if( ( line + offset % 4 ) % 4 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "-" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "-" );
-                    // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
+                    mvwprintz( w, line, 1, c_dark_gray, "-" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
+                    // On lines divisible by 2 (but not 4), draw a light gray '=' at the horizontal extremes of the window.
                 } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "=" );
+                    mvwprintz( w, line, 1, c_light_gray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
                 }
 
                 // Only now are we done with this line:
@@ -456,18 +458,12 @@ void Messages::display_messages( WINDOW *const ipk_target, int const left, int c
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void add_msg( const char *msg, ... )
+void add_msg( std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( msg, ap );
-    va_end( ap );
+    Messages::add_msg( std::move( msg ) );
 }
 
-void add_msg( game_message_type const type, const char *msg, ... )
+void add_msg( game_message_type const type, std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( type, msg, ap );
-    va_end( ap );
+    Messages::add_msg( type, std::move( msg ) );
 }

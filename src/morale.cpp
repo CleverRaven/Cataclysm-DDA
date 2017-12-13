@@ -392,7 +392,7 @@ void player_morale::display( double focus_gain )
             color = ( value > 0.0 ) ? c_green : c_red;
             mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
         } else {
-            color = c_dkgray;
+            color = c_dark_gray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
         return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
@@ -402,8 +402,8 @@ void player_morale::display( double focus_gain )
         const char *source_column = _( "Source" );
         const char *value_column = _( "Value" );
 
-        mvwprintz( w, 3, 2, c_ltgray, source_column );
-        mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_ltgray, value_column );
+        mvwprintz( w, 3, 2, c_light_gray, source_column );
+        mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
 
         const morale_mult mult = get_temper_mult();
 
@@ -418,7 +418,7 @@ void player_morale::display( double focus_gain )
             }
         }
     } else {
-        fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dkgray, _( "Nothing affects your morale" ) );
+        fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dark_gray, _( "Nothing affects your morale" ) );
     }
 
     print_line( win_h - 3, morale_gain_caption, get_level() );

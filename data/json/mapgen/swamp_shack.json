@@ -1,5 +1,16 @@
 [
   {
+    "type": "palette",
+    "id": "swamp_background",
+    "furniture": {
+      "i": "f_cattails"
+    },
+    "terrain": {
+      " ": [ "t_swater_dp", "t_swater_sh", "t_swater_sh", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree", "t_tree_young" ],
+      "i": "t_water_sh"
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "hunter_shack" ],
@@ -7,30 +18,33 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "          i             ",
-        " i       i i    i       ",
-        "     i   i  i    i  ii  ",
-        "        i   i      ii   ",
-        "   i         ii      i  ",
-        "     i    i       i     ",
-        "  i            ii       ",
-        "ii  i    -----------iii ",
-        "i     i  -CSn.....d- i  ",
-        " i       -....---+--    ",
-        "  i   i  -B..D-@..d-    ",
-        "         -B...-@..d-  i ",
-        "   i i   -bbTc-s.ss- i  ",
-        "  i   i  ---o---+---    ",
-        "  i    i i=V,,^,,,,,  i ",
-        "   i     ,,,,,,,,X=   i ",
-        "      i  ,=&&,xxXX=i  i ",
-        "    ii i  =========  i  ",
-        "       i  i   i       ii",
-        "  i        i   i       i",
-        "     i  i       i ii    ",
-        "      ii i     i i   i  ",
-        "   i      ii    i i i   ",
-        "                i   i   "
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       -----------      ",
+        "       -CSn.....d-      ",
+        "       -....---+--      ",
+        "       -B..D-@..d-      ",
+        "       -B...-@..d-      ",
+        "       -bbTc-s.ss-      ",
+        "       ---o---+---      ",
+        "        =V,,^,,,,,      ",
+        "       ,,,,,,,,X=       ",
+        "       ,=&&,xxXX=       ",
+        "        =========       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "swamp_background"
       ],
       "mapping": {
         "B": {
@@ -83,7 +97,6 @@
         }
       },
       "terrain": {
-        " ": [ "t_swater_dp", "t_swater_sh", "t_swater_sh", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree", "t_tree_young" ],
         "&": "t_dirt",
         "+": "t_door_c",
         ",": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
@@ -93,7 +106,6 @@
         "V": "t_dirt",
         "X": "t_dirt",
         "^": "t_dirt",
-        "i": [ "t_swater_dp", "t_swater_sh", "t_swater_sh", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_underbrush" ],
         "o": "t_window_domestic",
         "x": "t_dirt"
       },
@@ -112,11 +124,36 @@
         "b": "f_makeshift_bed",
         "c": "f_chair",
         "d": "f_rack",
-        "i": [ "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_cattails", "f_cattails", "f_cattails", "f_cattails" ],
         "n": "f_counter",
         "s": "f_counter",
         "x": "f_crate_o"
-      }
+      },
+      "place_nested": [
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" }, "repeat": 4 },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "east": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 7, 17 ], "neighbors": { "east": "forest_water" }, "repeat": 4 },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "east": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" }, "repeat": 4 },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "west": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 7, 17 ], "neighbors": { "west": "forest_water" }, "repeat": 4 },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "west": "forest_water" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cattail",
+    "object": {
+      "rows": [ "i" ],
+      "palettes": [
+        "swamp_background"
+      ],
+      "mapgensize": [ 1, 1 ]
     }
   },
   {
@@ -151,6 +188,9 @@
         "  ;;;;;;;;;;;;;;;;;;;;;;",
         "             ;;;;;;;;;;;",
         "              ;;;;;;;;;;"
+      ],
+      "palettes": [
+        "swamp_background"
       ],
       "mapping": {
         "B": {
@@ -227,7 +267,6 @@
         }
       },
       "terrain": {
-        " ": [ "t_swater_dp", "t_swater_sh", "t_swater_sh", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree", "t_tree_young" ],
         "#": "t_dirtmound",
         "&": "t_dirt",
         "+": "t_door_c",
