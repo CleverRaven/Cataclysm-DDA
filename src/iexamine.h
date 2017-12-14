@@ -52,7 +52,6 @@ void bars( player &p, const tripoint &examp );
 void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
-void fence_post( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
 void gunsafe_ml( player &p, const tripoint &examp );
