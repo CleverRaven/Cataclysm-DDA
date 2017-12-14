@@ -1373,7 +1373,7 @@
         ],
         "pre_terrain" : "t_fence_post",
         "post_terrain" : "t_fence_barbed"
-    }{
+    },{
         "type" : "construction",
         "description" : "Build Chainlink Fence", "//": "Step 1: fence posts",
         "category" : "CONSTRUCT",
