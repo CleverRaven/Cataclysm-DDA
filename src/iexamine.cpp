@@ -999,54 +999,6 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
 }
 
 /**
- * Put fencing on fenceposts.
- */
-void iexamine::fence_post(player &p, const tripoint &examp)
-{
-
-    int ch = menu(true, _("Fence Construction:"), _("Rope Fence"),
-                  _("Wire Fence"), _("Barbed Wire Fence"), _("Cancel"), NULL);
-    switch (ch) {
-    case 1: {
-        if (p.has_amount("rope_6", 2)) {
-            p.use_amount("rope_6", 2);
-            g->m.ter_set(examp, t_fence_rope);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 six-foot lengths of rope to do that"));
-        }
-    }
-    break;
-
-    case 2: {
-        if (p.has_amount("wire", 2)) {
-            p.use_amount("wire", 2);
-            g->m.ter_set(examp, t_fence_wire);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of wire to do that!"));
-        }
-    }
-    break;
-
-    case 3: {
-        if (p.has_amount("wire_barbed", 2)) {
-            p.use_amount("wire_barbed", 2);
-            g->m.ter_set(examp, t_fence_barbed);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of barbed wire to do that!"));
-        }
-    }
-    break;
-
-    case 4:
-    default:
-        break;
-    }
-}
-
-/**
  * Loop prompt to bet $10.
  */
 void iexamine::slot_machine( player &p, const tripoint& )
@@ -3563,7 +3515,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "portable_structure", &iexamine::portable_structure },
         { "pit", &iexamine::pit },
         { "pit_covered", &iexamine::pit_covered },
-        { "fence_post", &iexamine::fence_post },
         { "slot_machine", &iexamine::slot_machine },
         { "safe", &iexamine::safe },
         { "bulletin_board", &iexamine::bulletin_board },
