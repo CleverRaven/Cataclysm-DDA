@@ -3830,7 +3830,12 @@
         "color": "blue",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
-        "examine_action": "remove_fence",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "wire", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
@@ -3849,7 +3854,12 @@
         "color": "blue",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT"],
-        "examine_action": "remove_fence",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "wire_barbed", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
@@ -3868,7 +3878,12 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
-        "examine_action": "remove_fence",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "rope_6", "count": 2 }
+            ]
+        }, 
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
