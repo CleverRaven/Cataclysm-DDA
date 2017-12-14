@@ -2159,6 +2159,16 @@ int monster::get_hp_max() const
     return type->hp;
 }
 
+int monster::get_hp( hp_part ) const
+{
+    return hp;
+}
+
+int monster::get_hp() const
+{
+    return hp;
+}
+
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {

@@ -9,6 +9,8 @@
 #include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
+#include "bodypart.h"
+#include "pldata.h"
 
 #include <map>
 #include <vector>

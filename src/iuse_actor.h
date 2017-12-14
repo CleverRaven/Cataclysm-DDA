@@ -9,7 +9,6 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "explosion.h"
-#include "vitamin.h"
 #include "units.h"
 #include <limits.h>
 #include <set>
@@ -17,6 +16,8 @@
 #include <string>
 #include <vector>
 
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;

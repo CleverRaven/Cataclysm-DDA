@@ -4,6 +4,7 @@
 #include "options.h"
 #include "weather.h"
 #include "string_formatter.h"
+#include "units.h"
 #include "profession.h"
 #include "effect.h"
 #include "input.h"

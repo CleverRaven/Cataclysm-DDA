@@ -17,6 +17,7 @@
 #include "cursesdef.h"
 #include "string_formatter.h"
 #include "catacharset.h"
+#include "units.h"
 #include "debug.h"
 #include "path_info.h"
 #include "ui.h"

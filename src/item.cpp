@@ -4,10 +4,12 @@
 #include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
+#include "enums.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "output.h"
 #include "skill.h"
+#include "vitamin.h"
 #include "bionics.h"
 #include "game.h"
 #include "map.h"
@@ -43,6 +45,8 @@
 #include "input.h"
 #include "fault.h"
 #include "vehicle_selector.h"
+#include "units.h"
+#include "ret_val.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3318,6 +3322,16 @@ bool item::mod_damage( double qty, damage_type dt )
     }
 
     return destroy;
+}
+
+bool item::mod_damage( const double qty )
+{
+    return mod_damage( qty, DT_NULL );
+}
+
+bool item::inc_damage()
+{
+    return inc_damage( DT_NULL );
 }
 
 nc_color item::damage_color() const

@@ -4,6 +4,7 @@
 #include "map.h"
 #include "dialogue.h"
 #include "rng.h"
+#include "itype.h"
 #include "line.h"
 #include "bionics.h"
 #include "debug.h"

@@ -2,7 +2,6 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "item.h"
 #include "requirements.h"
 
 #include <map>
@@ -12,7 +11,7 @@
 
 class recipe_dictionary;
 class Skill;
-
+class item;
 using skill_id = string_id<Skill>;
 using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;

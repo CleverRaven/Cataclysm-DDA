@@ -12,20 +12,27 @@
 #include <map>
 
 #include "visitable.h"
-#include "enums.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "debug.h"
-#include "units.h"
 #include "cata_utility.h"
 
 class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+template<typename T>
+class ret_val;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+} // namespace units
 class gun_type_type;
 class gunmod_location;
 class game;
@@ -40,11 +47,15 @@ struct use_function;
 class material_type;
 using material_id = string_id<material_type>;
 class item_category;
+enum art_effect_passive : int;
+enum phase_id : int;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+struct point;
+struct tripoint;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -53,6 +64,7 @@ struct quality;
 using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
+struct damage_unit;
 
 enum damage_type : int;
 
@@ -809,16 +821,20 @@ public:
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( double qty, damage_type dt = DT_NULL );
+        bool mod_damage( double qty, damage_type dt );
+        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        bool mod_damage( double qty );
 
     /**
      * Increment item damage constrained @ref max_damage
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool inc_damage( damage_type dt = DT_NULL ) {
+    bool inc_damage( const damage_type dt ) {
         return mod_damage( 1, dt );
     }
+        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        bool inc_damage();
 
     /** Provide color for UI display dependent upon current item damage level */
     nc_color damage_color() const;

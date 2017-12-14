@@ -3,7 +3,6 @@
 #define CLZONES_H
 
 #include "enums.h"
-#include "translations.h"
 #include <vector>
 #include <string>
 #include <unordered_map>

@@ -2,8 +2,6 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pldata.h"
-#include "enums.h"
 #include "copyable_unique_ptr.h"
 #include "bodypart.h"
 #include "output.h"
@@ -11,9 +9,9 @@
 #include "cursesdef.h" // WINDOW
 #include "string_formatter.h"
 
-#include <stdlib.h>
 #include <string>
 #include <unordered_map>
+#include <climits>
 
 class effect;
 class effects_map;
@@ -22,10 +20,13 @@ class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
+struct tripoint;
+struct point;
 class material_type;
 enum damage_type : int;
 enum field_id : int;
 enum m_flag : int;
+enum hp_part : int;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
@@ -36,7 +37,17 @@ struct trap;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
+struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+}
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -385,8 +396,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual m_size get_size() const = 0;
-        virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
-        virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
+        virtual int get_hp( hp_part bp ) const = 0;
+        virtual int get_hp() const = 0;
+        virtual int get_hp_max( hp_part bp ) const = 0;
+        virtual int get_hp_max() const = 0;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual field_id bloodType () const = 0;

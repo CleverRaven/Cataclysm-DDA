@@ -3,6 +3,7 @@
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "profession.h"
+#include "itype.h"
 #include "string_formatter.h"
 #include "bionics.h"
 #include "mapdata.h"
@@ -11047,6 +11048,11 @@ m_size player::get_size() const
     return MS_MEDIUM;
 }
 
+int player::get_hp() const
+{
+    return get_hp( num_hp_parts );
+}
+
 int player::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
@@ -11057,6 +11063,11 @@ int player::get_hp( hp_part bp ) const
         hp_total += hp_cur[i];
     }
     return hp_total;
+}
+
+int player::get_hp_max() const
+{
+    return get_hp_max( num_hp_parts );
 }
 
 int player::get_hp_max( hp_part bp ) const
