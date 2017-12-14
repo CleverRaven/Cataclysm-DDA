@@ -3812,7 +3812,6 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
-        "examine_action": "fence_post",
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
