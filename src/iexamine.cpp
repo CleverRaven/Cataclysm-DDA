@@ -1047,34 +1047,6 @@ void iexamine::fence_post(player &p, const tripoint &examp)
 }
 
 /**
- * Prompt removing rope, wire or barbed fence from the fence posts. Leaves the posts.
- */
-void iexamine::remove_fence( player &p, const tripoint &examp )
-{
-    if( !query_yn( _( "Remove %s?" ), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
-    }
-
-    add_msg( m_info, _( "You remove the %s." ), g->m.tername( examp ).c_str() );
-
-    ter_id tid = g->m.ter( examp );
-    std::string result;
-    if( tid == t_fence_rope ) {
-        result = "rope_6";
-    } else if( tid == t_fence_wire ) {
-        result = "wire";
-    } else if( tid == t_fence_barbed ) {
-        result = "wire_barbed";
-    }
-
-    g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
-    g->m.add_item_or_charges( p.pos(), item( result, calendar::turn ) );
-    g->m.ter_set( examp, t_fence_post );
-    p.mod_moves( -200 );
-}
-
-/**
  * Loop prompt to bet $10.
  */
 void iexamine::slot_machine( player &p, const tripoint& )
@@ -3592,7 +3564,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "pit", &iexamine::pit },
         { "pit_covered", &iexamine::pit_covered },
         { "fence_post", &iexamine::fence_post },
-        { "remove_fence", &iexamine::remove_fence },
         { "slot_machine", &iexamine::slot_machine },
         { "safe", &iexamine::safe },
         { "bulletin_board", &iexamine::bulletin_board },
