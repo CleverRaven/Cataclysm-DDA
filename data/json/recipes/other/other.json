@@ -24,5 +24,17 @@
         [ "spaghetti_raw", 1 ]
       ]
     ]
+  },
+  {
+    "result": "unplaced_target",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": 20000,
+    "book_learn": [ [ "mag_guns", 2 ], [ "mag_pistol", 2 ], [ "mag_rifle", 2 ] ],
+    "components": [ [ [ "rag", 10 ] ], [ [ "2x4", 3 ] ], [ [ "straw_pile", 1 ] ] ]
   }
 ]

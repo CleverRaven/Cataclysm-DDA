@@ -12,11 +12,7 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 5,
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "robots", 80 ] ],
-      "//": "80% chance of an item from group robots"
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": [ "BROKEN_AMMO" ],
     "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO" ]
   },
@@ -106,12 +102,7 @@
     "armor_bash": 2,
     "armor_cut": 8,
     "revert_to_itype": "bot_manhack",
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "manhack", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
@@ -130,5 +121,27 @@
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+  },
+  {
+    "id": "mon_target",
+    "type": "MONSTER",
+    "name": "active practice target",
+    "description": "A placed target for shooting practice.  It looks like a zombie scarecrow.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 1000,
+    "speed": 1,
+    "material": [ "wood", "cotton" ],
+    "symbol": "@",
+    "color": "red",
+    "aggression": 1,
+    "morale": 1,
+    "armor_bash": 1,
+    "armor_cut": 1,
+    "vision_day": 1,
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "IMMOBILE" ]
   }
 ]

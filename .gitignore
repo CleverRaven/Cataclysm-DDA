@@ -135,3 +135,4 @@ msvc-full-features/distribution
 
 # Transifex Client
 .tx/
+data/json/items/generic.json
