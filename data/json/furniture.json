@@ -1719,9 +1719,17 @@
         "symbol": "O",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_empty",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
@@ -1740,9 +1748,17 @@
         "symbol": "O",
         "color": "brown_cyan",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_full",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
@@ -1761,9 +1777,17 @@
         "symbol": "H",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 18 },
+                { "item": "nail", "charges": [7, 14] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 3 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
