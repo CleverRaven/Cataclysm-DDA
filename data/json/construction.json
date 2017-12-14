@@ -1337,9 +1337,45 @@
         "time" : 1,
         "pre_terrain" : "t_fence_v",
         "post_terrain" : "t_fence_h"
-    },{
+    },
+    {
         "type" : "construction",
-        "description" : "Build Wire Fence", "//": "Step 1: fence posts",
+        "description" : "Build Rope Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "rope_6", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_rope"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Wire Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "wire", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_wire"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Barbed Wire Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "wire_barbed", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_barbed"
+    }{
+        "type" : "construction",
+        "description" : "Build Chainlink Fence", "//": "Step 1: fence posts",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
@@ -1354,7 +1390,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build Wire Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
+        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
@@ -1365,7 +1401,7 @@
         "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
-        "description" : "Realign Fence",
+        "description" : "Realign Chainlink Fence",
         "category" : "OTHER",
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
@@ -1373,7 +1409,7 @@
         "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
-        "description" : "Realign Fence",
+        "description" : "Realign Chainlink Fence",
         "category" : "OTHER",
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
@@ -1381,7 +1417,7 @@
         "post_terrain" : "t_chainfence_h"
     },{
         "type" : "construction",
-        "description" : "Build Wire Gate",
+        "description" : "Build Chainlink Gate",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 150,
