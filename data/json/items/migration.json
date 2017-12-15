@@ -400,5 +400,10 @@
     "id": "pda_flashlight",
     "type": "MIGRATION",
     "replace": "cell_phone"
+  },
+  {
+    "id": "crude_brick",
+    "type": "MIGRATION",
+    "replace": "brick"
   }
 ]

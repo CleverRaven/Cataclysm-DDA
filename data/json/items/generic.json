@@ -1756,21 +1756,6 @@
         "to_hit": -2
     },
     {
-        "type": "GENERIC",
-        "id": "crude_brick",
-        "symbol": ",",
-        "color": "red",
-        "name": "unfired clay brick",
-        "category": "spare_parts",
-        "description": "A soft, unfired clay brick.  Firing it in a brick kiln would harden it up, making it suitable for use in a construction project.",
-        "price": 1500,
-        "material": ["stone", "freshclay"],
-        "weight": 1269,
-        "volume": 2,
-        "bashing": 8,
-        "to_hit": -2
-    },
-    {
         "type": "AMMO",
         "id": "mortar_build",
         "symbol": "%",
