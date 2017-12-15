@@ -385,11 +385,6 @@ void player::complete_craft()
     //@todo change making to be a reference, it can never be null anyway
     const recipe *making = &recipe_id( activity.name ).obj(); // Which recipe is it?
     int batch_size = activity.values.front();
-    if( making == nullptr ) {
-        debugmsg( "no recipe with id %s found", activity.name.c_str() );
-        activity.set_to_null();
-        return;
-    }
 
     int secondary_dice = 0;
     int secondary_difficulty = 0;
