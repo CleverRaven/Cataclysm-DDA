@@ -197,13 +197,13 @@ void construction_menu()
     const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3);
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    WINDOW_PTR w_con_ptr {newwin( w_height, w_width, w_y0, w_x0 )};
+    catacurses::WINDOW_PTR w_con_ptr {catacurses::newwin( w_height, w_width, w_y0, w_x0 )};
     WINDOW *const w_con = w_con_ptr.get();
 
     const int w_list_width = int( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
-    WINDOW_PTR w_list_ptr {newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
+    catacurses::WINDOW_PTR w_list_ptr {catacurses::newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
     WINDOW *const w_list = w_list_ptr.get();
 
     draw_grid( w_con, w_list_width + w_list_x0 );

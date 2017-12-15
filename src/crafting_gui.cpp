@@ -134,11 +134,12 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const recipe *last_recipe = nullptr;
 
-    WINDOW *w_head = newwin( headHeight, width, 0, wStart );
+    catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
     WINDOW_PTR w_head_ptr( w_head );
-    WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
+    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
     WINDOW_PTR w_subhead_ptr( w_subhead );
-    WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
+    catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
+                                wStart );
     WINDOW_PTR w_data_ptr( w_data );
 
     int item_info_x = infoWidth;
@@ -153,7 +154,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         item_info_height = 1;
     }
 
-    WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
+    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
+                                    item_info_width );
     WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
 
     list_circularizer<std::string> tab( craft_cat_list );

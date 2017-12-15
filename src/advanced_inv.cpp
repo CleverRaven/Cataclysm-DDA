@@ -737,13 +737,13 @@ void advanced_inventory::init()
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
 
-    head = newwin( head_height, w_width - minimap_width, headstart, colstart );
-    mm_border = newwin( minimap_height + 2, minimap_width + 2, headstart,
+    head = catacurses::newwin( head_height, w_width - minimap_width, headstart, colstart );
+    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2, headstart,
                         colstart + ( w_width - ( minimap_width + 2 ) ) );
-    minimap = newwin( minimap_height, minimap_width, headstart + 1,
+    minimap = catacurses::newwin( minimap_height, minimap_width, headstart + 1,
                       colstart + ( w_width - ( minimap_width + 1 ) ) );
-    left_window = newwin( w_height, w_width / 2, headstart + head_height, colstart );
-    right_window = newwin( w_height, w_width / 2, headstart + head_height,
+    left_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height, colstart );
+    right_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height,
                            colstart + w_width / 2 );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff

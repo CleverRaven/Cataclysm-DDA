@@ -36,7 +36,7 @@ class nc_color;
 //Currently this namespace is automatically exported into the global namespace to
 //allow existing code (that called global ncurses functions) to remain unchanged.
 //The compiler will translate `WINDOW *win = newwin(...)` into
-//`catacurses::WINDWO *win = catacurses::newwin(...)`
+//`catacurses::WINDOW *win = catacurses::newwin(...)`
 namespace catacurses
 {
 
