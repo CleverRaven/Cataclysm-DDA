@@ -2069,8 +2069,8 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } ) == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) == t_sewage ) {
-                g->m.ter_set( pos, t_sewage );
-                g->m.spawn_item( pos, "pipe", 3 );
+            g->m.ter_set( pos, t_sewage );
+            g->m.spawn_item( pos, "pipe", 3 );
         } else {
             g->m.ter_set( pos, t_floor );
             g->m.spawn_item( pos, "pipe", 3 );
