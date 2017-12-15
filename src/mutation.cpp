@@ -516,34 +516,6 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
-{
-    werase(window);
-
-    std::string caption = _("MUTATIONS -");
-    int cap_offset = utf8_width(caption) + 1;
-    mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
-
-    std::stringstream pwr;
-    pwr << string_format(_("Power: %d/%d"), int(p->power_level), int(p->max_power_level));
-    int pwr_length = utf8_width(pwr.str()) + 1;
-
-    std::string desc;
-    int desc_length = getmaxx(window) - cap_offset - pwr_length;
-
-    if(menu_mode == "reassigning") {
-        desc = _("Reassigning.\nSelect a mutation to reassign or press SPACE to cancel.");
-    } else if(menu_mode == "activating") {
-        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign.");
-    } else if(menu_mode == "examining") {
-        desc = _("<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign.");
-    }
-    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
-    fold_and_print(window, 1, 0, desc_length, c_white, _("Might need to use ? to assign the keys."));
-
-    wrefresh(window);
-}
-
 trait_id Character::trait_by_invlet( const long ch ) const
 {
     for( auto &mut : my_mutations ) {
