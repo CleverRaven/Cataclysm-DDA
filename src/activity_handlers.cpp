@@ -64,7 +64,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_ATM" ), atm_do_turn },
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
-    { activity_id( "ACT_BUTCHER" ), butcher_do_turn }
+    { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
+    { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -105,7 +106,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
-    { activity_id( "ACT_WASH" ), washing_finish }
+    { activity_id( "ACT_WASH" ), washing_finish },
+    { activity_id( "ACT_HACKSAW" ), hacksaw_finish }
 };
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -2015,5 +2017,73 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     filthy_item.item_tags.erase( "FILTHY" );
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    act->set_to_null();
+}
+
+void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
+        sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
+        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
+            p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
+        }
+        if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
+            p->add_msg_if_player( m_info, _( "About an hour left to go." ) );
+        }
+        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
+            p->add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
+        }
+        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
+            p->add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
+        }
+    }
+}
+
+void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+    const ter_id ter = g->m.ter( pos );
+
+    if( g->m.furn( pos ) == f_rack ) {
+        g->m.furn_set( pos, f_null );
+        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( pos, "steel_chunk" );
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l ) {
+        g->m.ter_set( pos, t_dirt );
+        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( pos, "wire", 20 );
+    } else if( ter == t_chainfence_posts ) {
+        g->m.ter_set( pos, t_dirt );
+        g->m.spawn_item( pos, "pipe", 6);
+    } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( pos, t_window_alarm );
+        g->m.spawn_item( pos, "pipe", 6 );
+    } else if( ter == t_window_bars ) {
+        g->m.ter_set( pos, t_window_empty );
+        g->m.spawn_item( pos, "pipe", 6 );
+    } else if( ter == t_window_enhanced ) {
+        g->m.ter_set( pos, t_window_reinforced );
+        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_window_enhanced_noglass ) {
+        g->m.ter_set( pos, t_window_reinforced_noglass );
+        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_bars ) {
+        if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } ) == t_sewage ||
+            g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) == t_sewage ) {
+            g->m.ter_set( pos, t_sewage );
+            g->m.spawn_item( pos, "pipe", 3 );
+        } else {
+            g->m.ter_set( pos, t_floor );
+            g->m.spawn_item( pos, "pipe", 3 );
+        }
+    } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
+        g->m.ter_set( pos, t_mdoor_frame );
+        g->m.spawn_item( pos, "pipe", 12 );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finished cutting the metal." ) );
+
     act->set_to_null();
 }
