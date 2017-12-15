@@ -123,8 +123,11 @@ void player::long_craft()
 
 bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
+    if( !id_to_make.is_valid() || id_to_make.is_null() ) {
+        return false;
+    }
     const auto &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !crafting_allowed( *this, making ) ) {
         return false;
     }
 
@@ -319,12 +322,11 @@ void player::make_all_craft( const recipe_id &id_to_make, int batch_size )
 
 void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long )
 {
-    const auto &recipe_to_make = *id_to_make;
-
-    if( !recipe_to_make ) {
+    if( !id_to_make.is_valid() || id_to_make.is_null() ) {
         return;
     }
 
+    const auto &recipe_to_make = *id_to_make;
     *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this );
     last_craft->execute();
 }

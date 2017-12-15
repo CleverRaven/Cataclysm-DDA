@@ -29,10 +29,6 @@ class recipe
     public:
         recipe();
 
-        operator bool() const {
-            return result_ != "null";
-        }
-
         const itype_id &result() const {
             return result_;
         }
