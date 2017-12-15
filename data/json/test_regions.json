@@ -64,7 +64,7 @@
       "id" : "s_restaurant_deserted_test",
       "name" : "abandoned drive-through",
       "sym" : 94,
-      "color" : "dkgray_magenta",
+      "color" : "dark_gray_magenta",
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,
@@ -99,7 +99,7 @@
                        "   dd                   "
                    ],
                    "terrain":{
-                       " ": "t_null",
+                       " ": "t_sand",
                        "d": "t_floor",
                        "5": "t_wall_glass",
                        "%": "t_wall_glass",
@@ -153,7 +153,7 @@
       "id" : "t_searth_test",
       "name": "scorched earth",
       "symbol": ".",
-      "color": "ltgray",
+      "color": "light_gray",
       "move_cost": 2,
       "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
    },

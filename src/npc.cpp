@@ -6,6 +6,7 @@
 #include "game.h"
 #include "item_group.h"
 #include "string_formatter.h"
+#include "itype.h"
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
@@ -21,7 +22,7 @@
 #include "mtype.h"
 #include "iuse_actor.h"
 #include "trait_group.h"
-
+#include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -250,7 +251,7 @@ npc::~npc() { }
 
 std::string npc::save_info() const
 {
-    return serialize(); // also saves contents
+    return ::serialize( *this );
 }
 
 void npc::load_info( std::string data )
@@ -1740,7 +1741,7 @@ nc_color npc::basic_symbol_color() const
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
-        return c_ltgreen;
+        return c_light_green;
     } else if( guaranteed_hostile() ) {
         return c_red;
     }

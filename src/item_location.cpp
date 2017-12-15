@@ -6,6 +6,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_selector.h"
+#include "json.h"
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"

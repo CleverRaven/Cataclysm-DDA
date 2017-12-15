@@ -284,7 +284,7 @@
       },
       "signs": {
         "P": { "signage": "Closed at sunset." },
-        "p": { "signage": "Maintained by the the <city> church." }
+        "p": { "signage": "Maintained by the <city> church." }
       },
       "place_items": [
         { "item": "trash", "x": [ 2, 21 ], "y": [ 7, 14 ], "chance": 20, "repeat": [ 1, 2 ] }

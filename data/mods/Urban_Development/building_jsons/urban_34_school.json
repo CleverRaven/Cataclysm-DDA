@@ -674,10 +674,6 @@
         "M": "t_monkey_bars",
         "S": "t_slide"
       },
-      "furniture": {
-        "M": "f_null",
-        "S": "f_null"
-      },
       "items": {
         ";": { "item": "trash_cart", "chance": 1 }
       },
@@ -776,11 +772,6 @@
         "M": "t_monkey_bars",
         "S": "t_slide",
         "t": "t_sandbox"
-      },
-      "furniture": {
-        "M": "f_null",
-        "S": "f_null",
-        "t": "f_null"
       },
       "items": {
         ";": { "item": "trash_cart", "chance": 1 }

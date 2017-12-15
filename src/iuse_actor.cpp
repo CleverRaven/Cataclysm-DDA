@@ -11,6 +11,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "morale_types.h"
+#include "vitamin.h"
 #include "messages.h"
 #include "material.h"
 #include "event.h"

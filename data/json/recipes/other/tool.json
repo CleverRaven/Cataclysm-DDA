@@ -139,11 +139,11 @@
     "time": 20000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1, "amount": 1 },
       { "id": "HAMMER", "level": 3, "amount": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],

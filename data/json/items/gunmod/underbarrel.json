@@ -13,7 +13,7 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
     "gun_data": {
-      "ammo": "gasoline",
+      "ammo": "flammable",
       "skill": "launcher",
       "dispersion": 300,
       "durability": 10,

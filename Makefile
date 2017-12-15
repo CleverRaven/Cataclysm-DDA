@@ -321,7 +321,7 @@ ifeq ($(NATIVE), osx)
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -554,7 +554,7 @@ else
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell which pkg-config 2>/dev/null),)
+    ifneq ($(shell pkg-config --libs ncurses 2>/dev/null),)
       HAVE_PKGCONFIG = 1
     endif
     ifneq ($(shell which ncurses5-config 2>/dev/null),)

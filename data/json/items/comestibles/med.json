@@ -38,7 +38,7 @@
         "stack_size" : 2,
         "material" : "cotton",
         "symbol" : "!",
-        "color" : "dkgray",
+        "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
             "limb_power" : 8,

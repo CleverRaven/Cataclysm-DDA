@@ -73,6 +73,10 @@
 #include <sstream> // for throwing errors
 #include <locale> // for loading names
 
+#if defined(TILES)
+void load_tileset();
+#endif
+
 DynamicDataLoader::DynamicDataLoader()
 {
     initialize();
@@ -433,7 +437,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Constructions" ), &finalize_constructions },
         { _( "NPC classes" ), &npc_class::finalize_all },
         { _( "Harvest lists" ), &harvest_list::finalize_all },
-        { _( "Anatomies" ), &anatomy::finalize_all }
+        { _( "Anatomies" ), &anatomy::finalize_all },
+#if defined(TILES)
+        { _( "Tileset" ), &load_tileset },
+#endif
     }};
 
     for( const named_entry &e : entries ) {

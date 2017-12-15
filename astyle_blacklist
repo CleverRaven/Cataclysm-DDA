@@ -3,13 +3,11 @@ src/advanced_inv.cpp
 src/animation.cpp
 src/artifact.cpp
 src/auto_pickup.cpp
-src/bionics.cpp
 src/calendar.cpp
 src/catacharset.cpp
 src/catalua.cpp
 src/cata_tiles.cpp
 src/character.cpp
-src/color.cpp
 src/computer.cpp
 src/construction.cpp
 src/creature.cpp
@@ -39,7 +37,6 @@ src/json.cpp
 src/lightmap.cpp
 src/line.cpp
 src/main.cpp
-src/mapbuffer.cpp
 src/map.cpp
 src/mapdata.cpp
 src/mapgen.cpp
@@ -61,7 +58,6 @@ src/mutation_data.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
-src/output.cpp
 src/overmapbuffer.cpp
 src/overmap.cpp
 src/path_info.cpp
@@ -77,13 +73,10 @@ src/sounds.cpp
 src/ui.cpp
 src/vehicle.cpp
 src/veh_interact.cpp
-src/veh_type.cpp
-src/visitable.cpp
 src/weather.cpp
 src/weather_data.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
-src/character.h
 src/clzones.h
 src/creature.h
 src/dialogue.h

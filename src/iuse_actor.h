@@ -9,10 +9,15 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "explosion.h"
-#include "vitamin.h"
 #include "units.h"
 #include <limits.h>
+#include <set>
+#include <map>
+#include <string>
+#include <vector>
 
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
@@ -279,8 +284,8 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        skill_id skill1 = skill_id( "none" );
-        skill_id skill2 = skill_id( "none" );
+        skill_id skill1 = skill_id::NULL_ID();
+        skill_id skill2 = skill_id::NULL_ID();
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override;

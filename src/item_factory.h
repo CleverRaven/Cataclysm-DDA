@@ -12,7 +12,6 @@
 #include <list>
 #include <functional>
 
-#include "json.h"
 #include "itype.h"
 
 bool item_is_blacklisted( const std::string &id );
@@ -26,6 +25,8 @@ class Item_group;
 class item;
 class item_category;
 class Item_factory;
+class JsonObject;
+class JsonArray;
 
 extern std::unique_ptr<Item_factory> item_controller;
 

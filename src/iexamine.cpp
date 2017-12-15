@@ -478,9 +478,9 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
-    WINDOW_PTR const w_item_info_ptr {
-        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+    catacurses::WINDOW_PTR const w_ptr {catacurses::newwin( window_h, w_items_w, padding_y, padding_x )};
+    catacurses::WINDOW_PTR const w_item_info_ptr {
+        catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
 
     WINDOW *w           = w_ptr.get();
     WINDOW *w_item_info = w_item_info_ptr.get();
@@ -530,7 +530,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
 
-        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
+        mvwprintz(w, 1, 2, c_light_gray, title.c_str());
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -545,7 +545,7 @@ void iexamine::vending(player &p, const tripoint &examp)
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
             auto const &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
@@ -562,7 +562,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         werase(w_item_info);
         // | {line}|
         // 12      3
-        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -3048,10 +3048,12 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if (previous_signage_exists) {
-        popup(existing_signage.c_str());
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+    } else if( previous_signage_exists ) {
+        popup( existing_signage.c_str() );
     } else {
-        p.add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+        p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
 
     // Allow chance to modify message.

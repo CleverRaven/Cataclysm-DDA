@@ -486,7 +486,7 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(),
-                 tmp.weapon.gun_type().name().c_str() );
+                 tmp.weapon.tname().c_str() );
     }
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );

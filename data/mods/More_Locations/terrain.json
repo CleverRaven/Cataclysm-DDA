@@ -26,7 +26,7 @@
         "id" : "t_concrete_floor",
         "name": "concrete floor",
         "symbol": ".",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
@@ -105,7 +105,7 @@
         "id" : "t_ind_press",
         "name": "hydraulic press",
         "symbol": "9",
-        "color": "black_ltred",
+        "color": "black_light_red",
         "move_cost": 0,
         "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {
@@ -161,7 +161,7 @@
         "id" : "t_ind_assembler",
         "name": "robotic assembler",
         "symbol": "3",
-        "color": "magenta_ltcyan",
+        "color": "magenta_light_cyan",
         "move_cost": 0,
         "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {

@@ -8,7 +8,7 @@ We haven't been able to find a decent JSON styling tool, so we wrote our own.  I
 
 This example outlines most of the styling features:
 
-````json
+```json
 [
   {
     "type": "foo",
@@ -21,7 +21,7 @@ This example outlines most of the styling features:
     "long_array": [
       "a really long string to illustrate line wrapping, ",
       "which occurs if the line is longer than 120 characters"
-    ]
+    ],
     "nested_array": [
       [
         [ "item1", "value1" ],
@@ -34,7 +34,7 @@ This example outlines most of the styling features:
     ]
   }
 ]
-````
+```
 Indention is two spaces.
 All JSON delimiters except comma and colon are surrounded by whitespace (either a space or a newline).
 Comma and colon are followed by whitespace.

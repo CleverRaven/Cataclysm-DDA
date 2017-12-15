@@ -1786,31 +1786,6 @@ void JsonOut::null_member(const std::string &name)
     write_null();
 }
 
-std::string JsonSerializer::serialize() const
-{
-    std::ostringstream s;
-    serialize(s);
-    return s.str();
-}
-
-void JsonSerializer::serialize(std::ostream &o) const
-{
-    JsonOut jout(o);
-    serialize(jout);
-}
-
-void JsonDeserializer::deserialize(const std::string &json_string)
-{
-    std::istringstream s(json_string);
-    deserialize(s);
-}
-
-void JsonDeserializer::deserialize(std::istream &i)
-{
-    JsonIn jin(i);
-    deserialize(jin);
-}
-
 JsonError::JsonError( const std::string &msg )
 : std::runtime_error( msg )
 {

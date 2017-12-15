@@ -2,15 +2,16 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <map>
 
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "text_snippets.h"
 #include "rng.h"
 #include "translations.h"
 #include "addiction.h"
+#include "item_group.h"
 #include "pldata.h"
 #include "itype.h"
 #include "generic_factory.h"
