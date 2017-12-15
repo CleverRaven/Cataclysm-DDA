@@ -343,7 +343,7 @@ class advanced_inventory
         const int min_w_width;
         const int max_w_width;
 
-        // swap the panes and WINDOW pointers via std::swap()
+        // swap the panes and windows via std::swap()
         void swap_panes();
 
         // minimap that displays things around character

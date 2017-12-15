@@ -56,7 +56,7 @@ extern bool use_tiles;
 
 extern bool test_mode;
 
-void delwin_functor::operator()( WINDOW *w ) const
+void delwin_functor::operator()( void *w ) const
 {
     if( w != nullptr ) {
         delwin( w );
