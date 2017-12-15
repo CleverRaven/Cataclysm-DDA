@@ -320,7 +320,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return get_recipe( loc );
+            return !recipe_dictionary::get_uncraft( loc->typeId() );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -333,7 +333,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
 
     protected:
         const recipe &get_recipe( const item_location &loc ) const {
-            return recipe_dictionary::get_uncraft( loc->typeId() );
+            return recipe_dictionary::get_uncraft( loc->typeId() ).obj();
         }
 
     private:

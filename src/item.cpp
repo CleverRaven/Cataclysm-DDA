@@ -1469,9 +1469,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   _( components_to_string().c_str() ) ) ) );
     } else {
-        const auto &dis = recipe_dictionary::get_uncraft( typeId() );
-        const auto &req = dis.disassembly_requirements();
-        if( !req.is_empty() ) {
+        if( const recipe_id dis_id = recipe_dictionary::get_uncraft( typeId() ) ) {
+            const auto &dis = *dis_id;
+            const auto &req = dis.disassembly_requirements();
             const auto components = req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {

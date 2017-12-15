@@ -962,11 +962,12 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
 
 ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
 {
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-
-    if( !r ) {
+    const recipe_id rid = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !rid ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
+
+    const recipe &r = *rid;
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
@@ -1051,7 +1052,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         return false;
     }
 
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() ).obj();
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         const auto components( r.disassembly_requirements().get_components() );
@@ -1171,7 +1172,8 @@ void player::complete_disassemble()
 
     const bool from_ground = loc != tripoint_min;
 
-    complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
+    complete_disassemble( item_pos, loc, from_ground,
+                          recipe_dictionary::get_uncraft( recipe_name ).obj() );
 
     if( !activity ) {
         // Something above went wrong, don't continue
@@ -1190,13 +1192,13 @@ void player::complete_disassemble()
         return;
     }
 
-    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe_id next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
     if( !next_recipe ) {
         activity.set_to_null();
         return;
     }
 
-    activity.moves_left = next_recipe.time;
+    activity.moves_left = next_recipe->time;
 }
 
 // TODO: Make them accessible in a less ugly way
