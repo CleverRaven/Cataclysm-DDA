@@ -390,7 +390,7 @@ void Item_factory::finalize_item_blacklist()
 
         // remove any recipes used to craft the blacklisted item
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
-            return r.result == e.first;
+            return r.result() == e.first;
         } );
     }
 

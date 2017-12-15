@@ -7103,7 +7103,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     p->consume_items(it);
                 }
 
-                it->set_var( "DISH", meal->result );
+                it->set_var( "DISH", meal->result() );
                 it->set_var( "COOKTIME", mealtime );
 
                 p->add_msg_if_player(m_good ,

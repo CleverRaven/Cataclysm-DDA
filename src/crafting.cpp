@@ -561,7 +561,7 @@ void player::complete_craft()
 
         // Don't store components for things made by charges,
         // don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making->result ) && !newit.count_by_charges() ) {
+        if( recipe_dictionary::get_uncraft( making->result() ) && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
@@ -1079,7 +1079,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( r.result );
+    activity.str_values.push_back( r.result() );
 
     return true;
 }
@@ -1220,7 +1220,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         return;
     }
 
-    if( org_item.typeId() != dis.result ) {
+    if( org_item.typeId() != dis.result() ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
         activity.set_to_null();
         return;

@@ -23,13 +23,18 @@ class recipe
 {
         friend class recipe_dictionary;
 
+    private:
+        itype_id result_ = "null";
+
     public:
         recipe();
 
-        itype_id result = "null";
-
         operator bool() const {
-            return result != "null";
+            return result_ != "null";
+        }
+
+        const itype_id &result() const {
+            return result_;
         }
 
         std::string category;

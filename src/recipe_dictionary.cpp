@@ -107,7 +107,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return search_reqs( r->requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                const auto &quals = item::find_type( r->result )->qualities;
+                const auto &quals = item::find_type( r->result() )->qualities;
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, txt );
                 } );
@@ -236,8 +236,8 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.reversible && !recipe_dict.uncraft.count( recipe_id( r.result ) ) ) {
-            recipe_dict.uncraft[ recipe_id( r.result ) ] = r;
+        if( r.reversible && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
+            recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
         }
     }
 
@@ -251,7 +251,7 @@ void recipe_dictionary::finalize()
             int pages = e->volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
-            bk.result = id;
+            bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
             bk.time = pages * 10; // @todo allow specifying time in requirement_data
