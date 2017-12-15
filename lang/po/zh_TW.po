@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-02 03:01-0500\n"
-"PO-Revision-Date: 2017-12-07 17:06+0000\n"
-"Last-Translator: Laughing Man\n"
+"POT-Creation-Date: 2017-12-09 03:47-0500\n"
+"PO-Revision-Date: 2017-12-10 12:00+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54555,6 +54555,33 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "auto-fire mechanism"
+msgid_plural "auto-fire mechanisms"
+msgstr[0] "連發射擊模組"
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple mechanism that converts a pistol to a selective fire weapon with a "
+"burst size of three rounds.  However it reduces accuracy and increases "
+"noise."
+msgstr "讓手槍變成自動武器，可以一次發射三發。但是會降低準確性與增加噪音。"
+
+#: lang/json/gunmod_from_json.py
+msgid "mechanism"
+msgstr "機件"
+
+#: lang/json/gunmod_from_json.py
+msgid "handmade auto-fire mechanism"
+msgid_plural "handmade auto-fire mechanisms"
+msgstr[0] "自製全自動射擊改裝套件"
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
+"is handmade."
+msgstr "此改裝套件讓你的CW-24步槍以全自動射擊模式射擊。它是自製的。"
+
+#: lang/json/gunmod_from_json.py
 msgid "arrow rest"
 msgid_plural "arrow rests"
 msgstr[0] "箭座"
@@ -54843,22 +54870,6 @@ msgid ""
 "A bootleg adapter for permanently converting a firearm to accept proprietary"
 " Leadworks magazines.  Guaranteed to void your warranty."
 msgstr "一套黑市轉接器，能讓 Leadworks 彈匣裝於其他槍械上。這會讓你的保固失效。"
-
-#: lang/json/gunmod_from_json.py
-msgid "auto-fire mechanism"
-msgid_plural "auto-fire mechanisms"
-msgstr[0] "連發射擊模組"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"A simple mechanism that converts a pistol to a selective fire weapon with a "
-"burst size of three rounds.  However it reduces accuracy and increases "
-"noise."
-msgstr "讓手槍變成自動武器，可以一次發射三發。但是會降低準確性與增加噪音。"
-
-#: lang/json/gunmod_from_json.py
-msgid "mechanism"
-msgstr "機件"
 
 #: lang/json/gunmod_from_json.py
 msgid "rapid blowback"
@@ -55418,17 +55429,6 @@ msgid ""
 "sniper rifle.  It removes any automatic fire capabilities but also increases"
 " accuracy and damage."
 msgstr "該模組會將步槍轉成狙擊步槍，缺點包括降低彈夾容量，只有半自動模式。優點則為增加準確性與傷害。"
-
-#: lang/json/gunmod_from_json.py
-msgid "handmade auto-fire mechanism"
-msgid_plural "handmade auto-fire mechanisms"
-msgstr[0] "自製全自動射擊改裝套件"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
-"is handmade."
-msgstr "此改裝套件讓你的CW-24步槍以全自動射擊模式射擊。它是自製的。"
 
 #: lang/json/gunmod_from_json.py
 msgid "5.45 caliber conversion kit"
@@ -71214,10 +71214,10 @@ msgstr "無人機操作者"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "你有一份替機器編寫程式的工作，像全自動街道清潔機、售報機器人和外送披薩無人機。現在，所有的無人機都掛著槍支，而非披薩。"
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -71228,10 +71228,10 @@ msgstr "無人機操作者"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "你有一份替機器編寫程式的工作，像全自動街道清潔機、售報機器人和外送披薩無人機。現在，所有的無人機都掛著槍支，而非披薩。"
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -99308,8 +99308,8 @@ msgstr "Q:我好冷，我沒辦法在晚上入睡！\nA:多收集些衣服並把
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode."
-msgstr "Q:我的問題沒有列在這邊。我要怎樣才能取得解答？\nA:你可以到論壇 smf.cataclysmdda.com 發問，或是上freenode的irc，頻道#CataclysmDDA（英文）。\n（譯註：中文討論區可以到komica、PTT 或是巴哈姆特發問）"
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+msgstr ""
 
 #: src/help.cpp
 msgid " HELP "
@@ -105164,11 +105164,6 @@ msgstr "你不能在這裡使用 %s 。"
 #, c-format
 msgid "The %1$s is too big to put in your %2$s."
 msgstr "%1$s 太大，無法穩定放好你的 %2$s。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "Error serializing monster: %s"
-msgstr "為怪物序列化時發生錯誤：%s"
 
 #: src/iuse.cpp
 #, c-format
@@ -118250,12 +118245,6 @@ msgstr "你的 %s 因為不擊發的子彈而受損！"
 #, c-format
 msgid "<npcname>'s %s is damaged by the misfired round!"
 msgstr "<npcname> 的 %s 因為不擊發的子彈而受損！"
-
-#: src/ranged.cpp
-msgid ""
-"You'll need to aim at more distant targets to further improve your "
-"marksmanship."
-msgstr "你需要瞄準更遠的目標，以進一步提高你的射擊技術。"
 
 #: src/ranged.cpp
 msgid "Recoil"
