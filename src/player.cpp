@@ -8631,7 +8631,7 @@ hint_rating player::rate_action_disassemble( const item &it )
     if( can_disassemble( it, crafting_inventory() ).success() ) {
         return HINT_GOOD; // possible
 
-    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+    } else if( recipe_dictionary::get_uncraft( it.typeId() ).ident() ) {
         return HINT_IFFY; // potentially possible but we currently lack requirements
 
     } else {
