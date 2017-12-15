@@ -302,5 +302,11 @@
     "type": "activity_type",
     "stop_phrase": "Stop washing?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_HACKSAW",
+    "type": "activity_type",
+    "stop_phrase": "Stop cutting the metal?",
+    "based_on": "speed"
   }
 ]
