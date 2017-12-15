@@ -4338,9 +4338,9 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
+                    firestarter_actor::resolve_firestarter_use( *p, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -4381,9 +4381,9 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
+                    firestarter_actor::resolve_firestarter_use( *p, temp );
                     return it->type->charges_to_use();
                 }
             }

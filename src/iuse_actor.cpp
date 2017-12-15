@@ -35,6 +35,7 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "options.h"
+#include "skill.h"
 
 #include <sstream>
 #include <algorithm>
@@ -248,9 +249,13 @@ long countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) co
     return 0;
 }
 
-bool countdown_actor::can_use( const player &, const item &it, bool, const tripoint & ) const
+ret_val<bool> countdown_actor::can_use( const player &, const item &it, bool, const tripoint & ) const
 {
-    return !it.active;
+    if( it.active ) {
+        ret_val<bool>::make_failure( "It's already been triggered." );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 std::string countdown_actor::get_name() const
@@ -938,16 +943,8 @@ iuse_actor *firestarter_actor::clone() const
     return new firestarter_actor( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const player &p, const item &it, tripoint &pos )
+bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
-    if( it.ammo_remaining() < it.ammo_required() ) {
-        p.add_msg_if_player( m_info, _("This tool doesn't have enough charges.") );
-        return false;
-    }
-    if( p.is_underwater() ) {
-        p.add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
     if( pos == p.pos() && !choose_adjacent( _("Light where?"), pos ) ) {
         g->refresh_all();
         return false;
@@ -983,24 +980,28 @@ bool firestarter_actor::prep_firestarter_use( const player &p, const item &it, t
     }
 }
 
-void firestarter_actor::resolve_firestarter_use( const player &p, const item &, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
     if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
 
-bool firestarter_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
+ret_val<bool> firestarter_actor::can_use( const player &p, const item &it, bool, const tripoint& ) const
 {
     if( p.is_underwater() ) {
-        return false;
+        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( light_mod( p.pos() ) <= 0.0f ) {
-        return false;
+    if( it.ammo_remaining() < it.ammo_required() ) {
+        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    return true;
+    if( need_sunlight && light_mod( p.pos() ) <= 0.0f ) {
+        return ret_val<bool>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 float firestarter_actor::light_mod( const tripoint &pos ) const
@@ -1039,12 +1040,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
 
     tripoint pos = spos;
     float light = light_mod( pos );
-    if( light <= 0.0f ) {
-        p.add_msg_if_player( _("You need direct sunlight to light a fire with this.") );
-        return 0;
-    }
-
-    if( !prep_firestarter_use( p, it, pos ) ) {
+    if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
 
@@ -1064,7 +1060,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             moves / MOVES( MINUTES( 1 ) ) );
     } else if( moves < MOVES( 2 ) ) {
         // If less than 2 turns, don't start a long action
-        resolve_firestarter_use( p, it, pos );
+        resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
         return it.type->charges_to_use();
     }
@@ -1473,23 +1469,14 @@ long cauterize_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
     bool has_disease = p.has_effect( effect_bite ) || p.has_effect( effect_bleed );
     bool did_cauterize = false;
-    if( flame && !p.has_charges("fire", 4) ) {
-        p.add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
-        return 0;
-    } else if( !flame && !it.ammo_sufficient() ) {
-        p.add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it.ammo_required() );
-        return 0;
-    } else if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _("You can't cauterize anything underwater.") );
-        return 0;
-    } else if( has_disease ) {
+
+    if( has_disease ) {
         did_cauterize = cauterize_effect( p, it, !has_disease );
     } else {
-        if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) || p.has_trait( trait_CENOBITE ) ) &&
-            query_yn(_("Cauterize yourself for fun?"))) {
+        const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) || p.has_trait( trait_CENOBITE );
+
+        if( can_have_fun && query_yn( _( "Cauterize yourself for fun?" ) ) ) {
             did_cauterize = cauterize_effect( p, it, true );
-        } else {
-            p.add_msg_if_player( m_info, _("You are not bleeding or bitten, there is no need to cauterize yourself.") );
         }
     }
 
@@ -1506,21 +1493,32 @@ long cauterize_actor::use( player &p, item &it, bool t, const tripoint& ) const
     }
 }
 
-bool cauterize_actor::can_use( const player &p, const item &it, bool, const tripoint& ) const
+ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool, const tripoint& ) const
 {
-    if( flame && !p.has_charges( "fire", 4 ) ) {
-        return false;
-    } else if( !flame && it.type->charges_to_use() > it.charges ) {
-        return false;
-    } else if( p.is_underwater() ) {
-        return false;
-    } else if( p.has_effect( effect_bite ) || p.has_effect( effect_bleed ) ) {
-        return true;
-    } else if( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) || p.has_trait( trait_CENOBITE ) ) {
-        return true;
+    if( !p.has_effect( effect_bite ) &&
+        !p.has_effect( effect_bleed ) &&
+        !p.has_trait( trait_MASOCHIST ) &&
+        !p.has_trait( trait_MASOCHIST_MED ) &&
+        !p.has_trait( trait_CENOBITE ) ) {
+
+        return ret_val<bool>::make_failure( _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
     }
 
-    return false;
+    if( flame ) {
+        if( !p.has_charges( "fire", 4 ) ) {
+            return ret_val<bool>::make_failure( _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
+        }
+    } else {
+        if( !it.ammo_sufficient() ) {
+            return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ), it.ammo_required() );
+        }
+    }
+
+    if( p.is_underwater() ) {
+        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 void enzlave_actor::load( JsonObject &obj )
@@ -1646,12 +1644,22 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
     return cost >= 0 ? cost : it.ammo_required();
 }
 
-bool enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
+ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
     /** @EFFECT_SURVIVAL >1 allows enzlavement */
 
     /** @EFFECT_FIRSTAID >1 allows enzlavement */
-    return p.get_skill_level( skill_survival ) > 1 && p.get_skill_level( skill_firstaid ) > 1;
+
+    // TODO: Extract such checks into some kind of 'stat_requirements' class.
+    if( p.get_skill_level( skill_survival ) <= 1 ) {
+        return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
+    }
+
+    if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+        return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 void fireweapon_off_actor::load( JsonObject &obj )
@@ -1698,9 +1706,17 @@ long fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint& ) c
     return it.type->charges_to_use();
 }
 
-bool fireweapon_off_actor::can_use( const player &p, const item &it, bool, const tripoint& ) const
+ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bool, const tripoint& ) const
 {
-    return it.charges > it.type->charges_to_use() && !p.is_underwater();
+    if( it.charges < it.type->charges_to_use() ) {
+        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+    }
+
+    if( p.is_underwater() ) {
+        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 void fireweapon_on_actor::load( JsonObject &obj )
@@ -1784,9 +1800,13 @@ long manualnoise_actor::use( player &p, item &it, bool t, const tripoint& ) cons
     return it.type->charges_to_use();
 }
 
-bool manualnoise_actor::can_use( const player &, const item &it, bool, const tripoint& ) const
+ret_val<bool> manualnoise_actor::can_use( const player &, const item &it, bool, const tripoint& ) const
 {
-    return it.type->charges_to_use() == 0 || it.charges >= it.type->charges_to_use();
+    if( it.charges < it.type->charges_to_use() ) {
+        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 iuse_actor *musical_instrument_actor::clone() const
@@ -1899,14 +1919,14 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     return 0;
 }
 
-bool musical_instrument_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
+ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
     // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
-        return false;
+        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
 iuse_actor *holster_actor::clone() const

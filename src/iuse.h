@@ -2,11 +2,13 @@
 #ifndef IUSE_H
 #define IUSE_H
 
+#include "enums.h"
+#include "ret_val.h"
+
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
-#include "enums.h"
 
 class item;
 class player;
@@ -232,7 +234,9 @@ public:
     virtual ~iuse_actor() { }
     virtual void load( JsonObject &jo ) = 0;
     virtual long use( player &, item &, bool, const tripoint& ) const = 0;
-    virtual bool can_use( const player &, const item &, bool, const tripoint& ) const { return true; }
+    virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint& ) const {
+        return ret_val<bool>::make_success();
+    }
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
     /**
      * Returns a deep copy of this object. Example implementation:
@@ -274,6 +278,7 @@ public:
     ~use_function() = default;
 
     long call( player &, item &, bool, const tripoint & ) const;
+    ret_val<bool> can_call(const player &p, const item &it, bool t, const tripoint &pos) const;
 
     iuse_actor *get_actor_ptr() const
     {
@@ -290,11 +295,6 @@ public:
     std::string get_name() const;
     /** @return Used by @ref item::info to get description of the actor */
     void dump_info( const item &, std::vector<iteminfo> & ) const;
-
-    bool can_call(const player &p, const item &it, bool t, const tripoint &pos) const
-    {
-        return !actor || actor->can_use( p, it, t, pos );
-    }
 
     use_function &operator=( iuse_actor *f );
     use_function &operator=( use_function && ) = default;
