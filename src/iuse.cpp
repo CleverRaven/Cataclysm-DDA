@@ -5658,25 +5658,23 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             const recipe *r = random_entry( candidates );
             const recipe_id rident = r->ident();
 
-            const item dummy(r->result, 0);
-
             const auto old_recipes = eink->get_var( "EIPC_RECIPES" );
             if( old_recipes.empty() ) {
                 something_downloaded = true;
                 eink->set_var( "EIPC_RECIPES", "," + rident.str() + "," );
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.type_name().c_str());
+                                     item::nname( r->result ).c_str());
             } else {
                 if (old_recipes.find("," + rident.str() + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.type_name().c_str());
+                                         item::nname( r->result ).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.type_name().c_str());
+                                         item::nname( r->result ).c_str());
                 }
             }
         }
@@ -7069,9 +7067,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
-                    item dummy( r->result );
 
-                    dmenu.addentry(counter++, can_make, -1, dummy.display_name());
+                    dmenu.addentry( counter++, can_make, -1, item::nname( r->result ) );
                 }
             }
 
