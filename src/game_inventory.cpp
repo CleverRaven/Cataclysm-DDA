@@ -499,6 +499,15 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const auto &uses = loc->type->use_methods;
+
+            if( uses.size() == 1 ) {
+                const auto ret = uses.begin()->second.can_call( p, *loc, false, p.pos() );
+                if( !ret.success() ) {
+                    return trim_punctuation_marks( ret.str() );
+                }
+            }
+
             if( !p.has_enough_charges( *loc, false ) ) {
                 return string_format(
                            ngettext( _( "Needs at least %d charge" ),

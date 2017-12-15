@@ -8677,14 +8677,22 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     uimenu umenu;
+
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
+    umenu.hilight_disabled = true;
     umenu.return_invalid = true;
+
     for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( *this, *used, false, pt ).success(),
-                        MENU_AUTOASSIGN, e.second.get_name() );
+        const auto res = e.second.can_call( *this, *used, false, pt );
+        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(), res.str() );
     }
 
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(), umenu.entries.end(), []( const uimenu_entry &elem ) {
+        return !elem.desc.empty();
+    });
+
     umenu.query();
+
     int choice = umenu.ret;
     if( choice < 0 || choice >= static_cast<int>( used->type->use_methods.size() ) ) {
         return false;
