@@ -59,7 +59,7 @@ uimenu::uimenu(bool, const char * const mes, ...)
 }
 /**
  * exact usage as menu_vec
- */ 
+ */
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> options)
 {
@@ -749,31 +749,25 @@ bool uimenu::scrollby( const int scrollby )
         }
     }
 
-    int iter = ( hilight_disabled ? 1 : fentries.size() );
-
     if ( backwards ) {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected < 0 ) {
                 fselected = fentries.size() - 1;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected--;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            --fselected;
         }
     } else {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected >= (int)fentries.size() ) {
                 fselected = 0;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected++;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            ++fselected;
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
@@ -784,7 +778,7 @@ bool uimenu::scrollby( const int scrollby )
 
 /**
  * Handle input and update display
- * 
+ *
  */
 void uimenu::query(bool loop)
 {
