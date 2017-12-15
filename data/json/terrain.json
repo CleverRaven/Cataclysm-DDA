@@ -3828,7 +3828,7 @@
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "ter_set": "t_fence_post",
             "items": [
@@ -3852,7 +3852,7 @@
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT"],
+        "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "ter_set": "t_fence_post",
             "items": [
@@ -3876,7 +3876,7 @@
         "symbol": "$",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "ter_set": "t_fence_post",
             "items": [
