@@ -92,7 +92,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
         switch( key ) {
             case search_type::name:
-                return lcmatch( item::nname( r->result ), txt );
+                return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
                 return lcmatch( r->required_skills_string(), txt ) || lcmatch( r->skill_used->name(), txt );
@@ -231,7 +231,7 @@ void recipe_dictionary::finalize()
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, item::nname( r.result ), false };
+            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
             booktype->book->recipes.insert( desc );
         }
 

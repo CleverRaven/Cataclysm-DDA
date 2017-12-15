@@ -56,6 +56,9 @@ class recipe
             return reversible ? requirements().disassembly_requirements() : requirement_data();
         }
 
+        /// @returns The name (@ref item::nname) of the resulting item (@ref result).
+        std::string result_name() const;
+
         std::map<itype_id, int> byproducts;
 
         skill_id skill_used;

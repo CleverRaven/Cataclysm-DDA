@@ -335,7 +335,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -350,7 +350,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -367,7 +367,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -385,7 +385,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else {
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
-                std::string tmp_name = item::nname( current[i]->result );
+                std::string tmp_name = current[i]->result_name();
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
                 }

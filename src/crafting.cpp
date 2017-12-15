@@ -494,15 +494,14 @@ void player::complete_craft()
 
     // Messed up badly; waste some components.
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
-        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
-                 item::nname( making->result ).c_str() );
+        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making->result_name() );
         consume_components_for_craft( making, batch_size );
         activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
         add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
-                 item::nname( making->result ).c_str() );
+                 making->result_name() );
         //this method would only have been called from a place that nulls activity.type,
         //so it appears that it's safe to NOT null that variable here.
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures

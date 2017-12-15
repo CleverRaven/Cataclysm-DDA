@@ -1386,7 +1386,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                 if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = nname( elem.recipe->result );
+                    const std::string name = elem.recipe->result_name();
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
                     recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
@@ -1849,9 +1849,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
                     if( r->requirements().can_make_with_inventory( inv ) ) {
-                        return nname( r->result );
+                        return r->result_name();
                     } else {
-                        return string_format( "<dark>%s</dark>", nname( r->result ).c_str() );
+                        return string_format( "<dark>%s</dark>", r->result_name() );
                     }
                 } );
                 if( !recipes.empty() ) {

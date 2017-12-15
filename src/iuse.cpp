@@ -5664,17 +5664,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 eink->set_var( "EIPC_RECIPES", "," + rident.str() + "," );
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     item::nname( r->result ).c_str());
+                                     r->result_name() );
             } else {
                 if (old_recipes.find("," + rident.str() + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         item::nname( r->result ).c_str());
+                                         r->result_name() );
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         item::nname( r->result ).c_str());
+                                         r->result_name() );
                 }
             }
         }
@@ -5935,7 +5935,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
                 const auto &recipe = *candidate_recipes.back();
                 if( recipe ) {
-                    rmenu.addentry( k++, true, -1, item::nname( recipe.result ) );
+                    rmenu.addentry( k++, true, -1, recipe.result_name() );
                 }
             }
 
@@ -5953,7 +5953,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         item::nname( recipe.result ).c_str());
+                                         recipe.result_name() );
                 }
             }
 
@@ -7068,7 +7068,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     dishes.push_back( r );
                     const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
 
-                    dmenu.addentry( counter++, can_make, -1, item::nname( r->result ) );
+                    dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
             }
 

@@ -365,3 +365,8 @@ std::string recipe::required_skills_string() const
         return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
     } );
 }
+
+std::string recipe::result_name() const
+{
+    return item::nname( result );
+}
