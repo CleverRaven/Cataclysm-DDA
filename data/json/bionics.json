@@ -33,7 +33,8 @@
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "power_source": true,
     "toggled": true,
-    "included_bionics": [ "bio_plutdump" ]
+    "included_bionics": [ "bio_plutdump" ],
+    "upgraded_bionic": "bio_reactor"
   },
   {
     "id": "bio_alarm",
@@ -933,12 +934,6 @@
     "power_source": true,
     "toggled": true,
     "included_bionics": [ "bio_plutdump" ]
-  },
-  {
-    "id": "bio_reactor_upgrade",
-    "type": "bionic",
-    "name": "Reactor Upgrade",
-    "description": "You shouldn't see this."
   },
   {
     "id": "bio_recycler",

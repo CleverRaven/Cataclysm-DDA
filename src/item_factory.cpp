@@ -661,6 +661,7 @@ void Item_factory::init()
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
     add_actor( new saw_barrel_actor() );
+    add_actor( new install_bionic_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
@@ -1564,9 +1565,13 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
 {
     bool strict = src == "dda";
 
+    if( jo.has_member( "bionic_id" ) ) {
+        assign( jo, "bionic_id", slot.id, strict );
+    } else {
+        assign( jo, "id", slot.id, strict );
+    }
+
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
-    // TODO: must be the same as the item type id, for compatibility
-    assign( jo, "id", slot.id, strict );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )

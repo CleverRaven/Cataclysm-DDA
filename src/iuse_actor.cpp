@@ -1,6 +1,7 @@
 #include "iuse_actor.h"
 #include "action.h"
 #include "assign.h"
+#include "bionics.h"
 #include "item.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -3279,4 +3280,45 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
 iuse_actor *saw_barrel_actor::clone() const
 {
     return new saw_barrel_actor( *this );
+}
+
+long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    return p.install_bionics( *it.type ) ? it.type->charges_to_use() : 0;
+}
+
+ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool, const tripoint & ) const
+{
+    if( !it.is_bionic() ) {
+        return ret_val<bool>::make_failure();
+    }
+
+    const bionic_id &bid = it.type->bionic->id;
+
+    if( p.has_bionic( bid ) ) {
+        return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
+    } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+        return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
+    } else {
+        const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+
+        if( downgrade ) {
+            return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+iuse_actor *install_bionic_actor::clone() const
+{
+    return new install_bionic_actor( *this );
+}
+
+void install_bionic_actor::finalize( const itype_id &my_item_type )
+{
+    if( !item::find_type( my_item_type )->bionic ) {
+        debugmsg( "Item %s has install_bionic actor, but it's not a bionic.", my_item_type.c_str() );
+    }
 }

@@ -36,6 +36,8 @@ class material_type;
 using material_id = string_id<material_type>;
 class emit;
 using emit_id = string_id<emit>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 
 /**
  * Transform an item into a specific type.
@@ -905,6 +907,18 @@ class saw_barrel_actor : public iuse_actor
         iuse_actor *clone() const override;
 
         ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
+};
+
+class install_bionic_actor : public iuse_actor
+{
+    public:
+        install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
+
+        void load( JsonObject & ) override {};
+        long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
+        ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
 };
 
 #endif
