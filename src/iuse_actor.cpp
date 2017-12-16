@@ -1653,10 +1653,12 @@ ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const
 
     // TODO: Extract such checks into some kind of 'stat_requirements' class.
     if( p.get_skill_level( skill_survival ) <= 1 ) {
+        //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
     }
 
     if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+        //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
     }
 
@@ -3352,6 +3354,7 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
         p.gunmod_remove( it, *gm );
+        //~ %1$s - gunmod, %2$s - gun.
         p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), gm->tname().c_str(), it.tname().c_str() );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );

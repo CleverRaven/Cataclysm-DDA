@@ -1059,9 +1059,11 @@ bool player::install_bionics( const itype &type, int skill_level )
 
         if( bioid->upgraded_bionic ) {
             remove_bionic( bioid->upgraded_bionic );
-            add_msg( m_good, _( "Successfully upgraded %s to %s." ),
+            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
                      bioid->upgraded_bionic->name.c_str(), bioid->name.c_str() );
         } else {
+            //~ %s - name of the bionic.
             add_msg( m_good, _( "Successfully installed %s." ), bioid->name.c_str() );
         }
 
