@@ -383,7 +383,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const auto att = attitude_names.at( attitude( &( g->u ) ) );
     return {
-        att.first,
+        _( att.first.c_str() ),
         all_colors.get( att.second )
     };
 }
@@ -460,7 +460,7 @@ std::string monster::extended_description() const
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
     ss << "--" << std::endl;
 
-    ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
+    ss << string_format( _( "It is %s in size." ), _( size_names.at( get_size() ).c_str() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
