@@ -67,11 +67,11 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) = default;
-        monster( monster && ) = default;
+        monster( const monster & ) ;
+        monster( monster && );
         ~monster() override;
-        monster &operator=( const monster & ) = default;
-        monster &operator=( monster && ) = default;
+        monster &operator=( const monster & );
+        monster &operator=( monster && );
 
         bool is_monster() const override {
             return true;
@@ -83,14 +83,10 @@ class monster : public Creature
         void try_upgrade( bool pin_time );
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        int get_hp( hp_part ) const override {
-            return hp;
-        };
-        int get_hp() const {
-            return hp;
-        }
+        int get_hp( hp_part ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part ) const override;
-        int get_hp_max() const;
+        int get_hp_max() const override;
         int hp_percentage() const override;
 
         // Access

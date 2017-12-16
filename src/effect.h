@@ -282,4 +282,11 @@ class effect
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
 
+// Inheritance here allows forward declaration of the map in class Creature.
+// Storing body_part as an int to make things easier for hash and JSON
+class effects_map : public
+    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+{
+};
+
 #endif

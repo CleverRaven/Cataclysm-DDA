@@ -66,26 +66,27 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    WINDOW *w_help = newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                             7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
+                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
     WINDOW_PTR w_helpptr( w_help );
 
-    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y, offset_x );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y,
+                                  offset_x );
     WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin( header_height, FULL_SCREEN_WIDTH - 2, 1 + offset_y,
-                               1 + offset_x );
+    catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                                  1 + offset_y, 1 + offset_x );
     WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin( content_height, FULL_SCREEN_WIDTH - 2, header_height + 1 + offset_y,
-                        1 + offset_x );
+    catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                           header_height + 1 + offset_y, 1 + offset_x );
     WINDOW_PTR wptr( w );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO ); // |-
-    mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
+    mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
+    mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
 
     for( auto &column : column_pos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_ltgray,
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray,
                   LINE_XXOX ); // _|_
     }
 
@@ -99,21 +100,21 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     int tmpx = 0;
     for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, hotkey ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, hotkey ) + 2;
     }
 
     tmpx = 0;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
     for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+        mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
     }
 
     for( auto &pos : column_pos ) {
-        mvwputch( w_header, 2, pos.second, c_ltgray, LINE_OXXX );
-        mvwputch( w_header, 3, pos.second, c_ltgray, LINE_XOXO );
+        mvwputch( w_header, 2, pos.second, c_light_gray, LINE_OXXX );
+        mvwputch( w_header, 3, pos.second, c_light_gray, LINE_XOXO );
     }
 
     mvwprintz( w_header, 3, 1, c_white, "#" );
@@ -161,11 +162,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx = 55;
         mvwprintz( w_header, 0, locx, c_white, _( "Safe Mode enabled:" ) );
         locx += shortcut_print( w_header, 1, locx,
-                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_ltgreen : c_ltred ), c_white,
+                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_light_green : c_light_red ), c_white,
                                 ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, _( "<S>witch" ) );
-        shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, _( "<S>witch" ) );
+        shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
 
         wrefresh( w_header );
 
@@ -176,7 +177,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
 
             for( auto &pos : column_pos ) {
-                mvwputch( w, i, pos.second, c_ltgray, LINE_XOXO );
+                mvwputch( w, i, pos.second, c_light_gray, LINE_XOXO );
             }
         }
 
@@ -203,7 +204,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 auto rule = current_tab[i];
 
-                nc_color line_color = ( rule.active ) ? c_white : c_ltgray;
+                nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
                 mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
                 mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
@@ -435,10 +436,11 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     const int content_height = FULL_SCREEN_HEIGHT - 8;
     const int content_width = FULL_SCREEN_WIDTH - 30;
 
-    WINDOW *w_test_rule_border = newwin( content_height + 2, content_width, offset_y, offset_x );
+    catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+                                            offset_y, offset_x );
     WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin( content_height, content_width - 2, 1 + offset_y,
-                                          1 + offset_x );
+    catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+            1 + offset_y, 1 + offset_x );
     WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border( w_test_rule_border );

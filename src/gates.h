@@ -2,10 +2,13 @@
 #ifndef GATES_H
 #define GATES_H
 
-#include "player.h"
-#include "enums.h"
+#include <string>
 
 class JsonObject;
+class player;
+class map;
+class Character;
+struct tripoint;
 
 namespace gates
 {

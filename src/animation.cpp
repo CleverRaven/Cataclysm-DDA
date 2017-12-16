@@ -684,7 +684,7 @@ void draw_zones_curses( WINDOW *const w, const tripoint &start, const tripoint &
         return;
     }
 
-    nc_color    const col = invert_color( c_ltgreen );
+    nc_color    const col = invert_color( c_light_green );
     std::string const line( end.x - start.x + 1, '~' );
     int         const x = start.x - offset.x;
 

@@ -7,6 +7,7 @@
 #include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
+#include "effect.h" // for weed_msg
 #include "debug.h"
 #include "options.h"
 #include "iexamine.h"
@@ -3220,7 +3221,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos, 100, _("BUGFIXES!!"));
-                g->draw_explosion( pos, explosion_radius, c_ltcyan );
+                g->draw_explosion( pos, explosion_radius, c_light_cyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );

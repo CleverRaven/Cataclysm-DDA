@@ -3,6 +3,7 @@
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "profession.h"
+#include "itype.h"
 #include "string_formatter.h"
 #include "bionics.h"
 #include "mapdata.h"
@@ -37,6 +38,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "input.h"
+#include "effect.h"
 #include "veh_type.h"
 #include "overmap.h"
 #include "vehicle.h"
@@ -812,7 +814,7 @@ void player::reset_stats()
     recalc_speed_bonus();
 
     // Effects
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
@@ -1850,7 +1852,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
 
-    for( auto maps : effects ) {
+    for( auto maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
@@ -2222,7 +2224,7 @@ nc_color player::basic_symbol_color() const
         return c_red;
     }
     if( has_effect( effect_stunned ) ) {
-        return c_ltblue;
+        return c_light_blue;
     }
     if( has_effect( effect_boomered ) ) {
         return c_pink;
@@ -2235,7 +2237,7 @@ nc_color player::basic_symbol_color() const
     }
     if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
         has_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
-        return c_dkgray;
+        return c_dark_gray;
     }
     return c_white;
 }
@@ -2594,7 +2596,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     {
         const int y = sideStyle ? 1 : 0;
         const int wn = getmaxx( weapwin );
-        trim_and_print( weapwin, y, 0, wn, c_ltgray, "%s", print_gun_mode( *this ).c_str() );
+        trim_and_print( weapwin, y, 0, wn, c_light_gray, "%s", print_gun_mode( *this ).c_str() );
     }
 
     // Print currently used style or weapon mode.
@@ -2618,9 +2620,9 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     if( get_hunger() > 2800 ) {
         wprintz( w, c_red,    _( "Starving!" ) );
     } else if( get_hunger() > 1400 ) {
-        wprintz( w, c_ltred,  _( "Near starving" ) );
+        wprintz( w, c_light_red,  _( "Near starving" ) );
     } else if( get_hunger() > 300 ) {
-        wprintz( w, c_ltred,  _( "Famished" ) );
+        wprintz( w, c_light_red,  _( "Famished" ) );
     } else if( get_hunger() > 100 ) {
         wprintz( w, c_yellow, _( "Very hungry" ) );
     } else if( get_hunger() > 40 ) {
@@ -2704,14 +2706,14 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        wprintz( w, c_ltred, _( "Very hot!%s" ), temp_message );
+        wprintz( w, c_light_red, _( "Very hot!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
         wprintz( w, c_yellow, _( "Warm%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >
                BODYTEMP_COLD ) { // If you're warmer than cold, you are comfortable
         wprintz( w, c_green, _( "Comfortable%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        wprintz( w, c_ltblue, _( "Chilly%s" ), temp_message );
+        wprintz( w, c_light_blue, _( "Chilly%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
         wprintz( w, c_cyan,  _( "Very cold!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
@@ -2729,9 +2731,9 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
 
     wmove( w, 2, sideStyle ? 0 : 15 );
     if( get_thirst() > 520 ) {
-        wprintz( w, c_ltred,  _( "Parched" ) );
+        wprintz( w, c_light_red,  _( "Parched" ) );
     } else if( get_thirst() > 240 ) {
-        wprintz( w, c_ltred,  _( "Dehydrated" ) );
+        wprintz( w, c_light_red,  _( "Dehydrated" ) );
     } else if( get_thirst() > 80 ) {
         wprintz( w, c_yellow, _( "Very thirsty" ) );
     } else if( get_thirst() > 40 ) {
@@ -2748,18 +2750,18 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
     } else if( get_fatigue() > DEAD_TIRED ) {
-        wprintz( w, c_ltred,  _( "Dead tired" ) );
+        wprintz( w, c_light_red,  _( "Dead tired" ) );
     } else if( get_fatigue() > TIRED ) {
         wprintz( w, c_yellow, _( "Tired" ) );
     }
 
     wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 41 );
     wprintz( w, c_white, _( "Focus" ) );
-    nc_color col_xp = c_dkgray;
+    nc_color col_xp = c_dark_gray;
     if( focus_pool >= 100 ) {
         col_xp = c_white;
     } else if( focus_pool >  0 ) {
-        col_xp = c_ltgray;
+        col_xp = c_light_gray;
     }
     wprintz( w, col_xp, " %d", focus_pool );
 
@@ -2767,7 +2769,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     if( get_perceived_pain() >= 60 ) {
         col_pain = c_red;
     } else if( get_perceived_pain() >= 40 ) {
-        col_pain = c_ltred;
+        col_pain = c_light_red;
     }
     if( get_perceived_pain() > 0 ) {
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
@@ -2806,12 +2808,12 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
-        nc_color col_indf1 = c_ltgray;
+        nc_color col_indf1 = c_light_gray;
 
         float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_ltblue :
+        nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_ltred : c_red ) );
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
 
         // Draw the speedometer.
         int speedox = sideStyle ? 0 : 28;
@@ -2836,7 +2838,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
                    int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
         if( veh->cruise_on ) {
-            mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+            mvwprintz( w, speedoy, speedox + cruisex, c_light_green, "%4d",
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
 
@@ -2921,9 +2923,9 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         }
         if( this->volume_carried() > this->volume_capacity() ) {
             if( this->weight_carried() > this->weight_capacity() ) {
-                col_time = c_dkgray_magenta;
+                col_time = c_dark_gray_magenta;
             } else {
-                col_time = c_dkgray_red;
+                col_time = c_dark_gray_red;
             }
         }
         wprintz( w, col_time, " %d", movecounter );
@@ -5337,7 +5339,7 @@ void player::process_effects() {
     }
 
     //Human only effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
@@ -5856,12 +5858,11 @@ void player::suffer()
     if( item_radiation > 0 || map_radiation > 0 || rad_mut > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor(&has_helmet);
-        const bool rad_immune = (power_armored && has_helmet) || worn_with_flag("RAD_PROOF");
-        const bool rad_resist = rad_immune || power_armored || worn_with_flag("RAD_RESIST");
+        const bool rad_resist = is_rad_immune() || power_armored || worn_with_flag( "RAD_RESIST" );
 
         float rads;
-        if( rad_immune ) {
-            // Power armor protects completely from radiation
+        if( is_rad_immune() ) {
+            // Power armor and some high-tech gear protects completely from radiation
             rads = 0.0f;
         } else if( rad_resist ) {
             rads = map_radiation / 400.0f + item_radiation / 40.0f;
@@ -5870,7 +5871,7 @@ void player::suffer()
         }
 
         if( rad_mut > 0 ) {
-            const bool kept_in = rad_immune || (rad_resist && !one_in( 4 ));
+            const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
             if( kept_in ) {
                 // As if standing on a map tile with radiation level equal to rad_mut
                 rads += rad_mut / 100.0f;
@@ -6290,7 +6291,7 @@ void player::vomit()
     }
 
     moves -= 100;
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
@@ -6565,7 +6566,7 @@ void player::check_and_recover_morale()
         test_morale.on_mutation_gain( mut.first );
     }
 
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -10824,11 +10825,11 @@ nc_color encumb_color(int level)
  if (level < 0)
   return c_green;
  if (level < 10)
-  return c_ltgray;
+  return c_light_gray;
  if (level < 40)
   return c_yellow;
  if (level < 70)
-  return c_ltred;
+  return c_light_red;
  return c_red;
 }
 
@@ -11046,6 +11047,11 @@ m_size player::get_size() const
     return MS_MEDIUM;
 }
 
+int player::get_hp() const
+{
+    return get_hp( num_hp_parts );
+}
+
 int player::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
@@ -11056,6 +11062,11 @@ int player::get_hp( hp_part bp ) const
         hp_total += hp_cur[i];
     }
     return hp_total;
+}
+
+int player::get_hp_max() const
+{
+    return get_hp_max( num_hp_parts );
 }
 
 int player::get_hp_max( hp_part bp ) const
@@ -11192,19 +11203,19 @@ bool player::sees( const Creature &critter ) const
 
 nc_color player::bodytemp_color(int bp) const
 {
-  nc_color color =  c_ltgray; // default
+  nc_color color =  c_light_gray; // default
     if (bp == bp_eyes) {
-        color = c_ltgray;    // Eyes don't count towards warmth
+        color = c_light_gray;    // Eyes don't count towards warmth
     } else if (temp_conv[bp] >  BODYTEMP_SCORCHING) {
         color = c_red;
     } else if (temp_conv[bp] >  BODYTEMP_VERY_HOT) {
-        color = c_ltred;
+        color = c_light_red;
     } else if (temp_conv[bp] >  BODYTEMP_HOT) {
         color = c_yellow;
     } else if (temp_conv[bp] >  BODYTEMP_COLD) {
         color = c_green;
     } else if (temp_conv[bp] >  BODYTEMP_VERY_COLD) {
-        color = c_ltblue;
+        color = c_light_blue;
     } else if (temp_conv[bp] >  BODYTEMP_FREEZING) {
         color = c_cyan;
     } else if (temp_conv[bp] <= BODYTEMP_FREEZING) {
@@ -11410,7 +11421,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
 
     // first get effects
-    for( const auto &eff_pr : effects ) {
+    for( const auto &eff_pr : *effects ) {
         rval.push_back( "effect_" + eff_pr.first.str() );
     }
 
@@ -11668,4 +11679,10 @@ std::set<tripoint> player::get_path_avoid() const
     // @todo Add known traps in a way that doesn't destroy performance
 
     return ret;
+}
+
+bool player::is_rad_immune() const
+{
+    bool has_helmet = false;
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }

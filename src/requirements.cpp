@@ -646,7 +646,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
     } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
 bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> ) const
@@ -670,7 +670,7 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
     } else if( has( crafting_inv, batch) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
 template<typename T, typename ID>

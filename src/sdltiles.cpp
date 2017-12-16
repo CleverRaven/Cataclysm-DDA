@@ -467,7 +467,7 @@ void WinDestroy()
     cleanup_sound();
     Mix_CloseAudio();
 #endif
-    clear_texture_pool();
+    tilecontext.reset();
 
     if(joystick) {
         SDL_JoystickClose(joystick);
@@ -1540,10 +1540,9 @@ void catacurses::init_interface()
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext.reset( new cata_tiles( renderer.get() ) );
     try {
-        tilecontext->init();
-        dbg( D_INFO ) << "Tiles initialized successfully.";
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to initialize tile: " << err.what();
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
@@ -1566,6 +1565,15 @@ void catacurses::init_interface()
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
     stdscr = newwin(get_terminal_height(), get_terminal_width(),0,0);
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
+}
+
+// This is supposed to be called from init.cpp, and only from there.
+void load_tileset() {
+    if( !tilecontext || !use_tiles ) {
+        return;
+    }
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->do_tile_loading_report();
 }
 
 std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )

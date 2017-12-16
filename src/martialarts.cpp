@@ -2,6 +2,7 @@
 #include "player.h"
 #include "game.h"
 #include "debug.h"
+#include "effect.h"
 #include "json.h"
 #include "translations.h"
 #include "itype.h"
@@ -715,7 +716,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 float player::mabuff_tohit_bonus() const
 {
     float ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect & ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
     return ret;
@@ -723,7 +724,7 @@ float player::mabuff_tohit_bonus() const
 float player::mabuff_dodge_bonus() const
 {
     float ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.dodge_bonus( *this );
     } );
     return ret;
@@ -731,7 +732,7 @@ float player::mabuff_dodge_bonus() const
 int player::mabuff_block_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.block_bonus( *this );
     } );
     return ret;
@@ -739,7 +740,7 @@ int player::mabuff_block_bonus() const
 int player::mabuff_speed_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.speed_bonus( *this );
     } );
     return ret;
@@ -747,7 +748,7 @@ int player::mabuff_speed_bonus() const
 int player::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.armor_bonus( *this, type );
     } );
     return ret;
@@ -755,7 +756,7 @@ int player::mabuff_armor_bonus( damage_type type ) const
 float player::mabuff_damage_mult( damage_type type ) const
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.damage_mult( *this, type ) - 1 ) + 1;
@@ -765,7 +766,7 @@ float player::mabuff_damage_mult( damage_type type ) const
 int player::mabuff_damage_bonus( damage_type type ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.damage_bonus( *this, type );
     } );
     return ret;
@@ -773,7 +774,7 @@ int player::mabuff_damage_bonus( damage_type type ) const
 int player::mabuff_attack_cost_penalty() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.bonuses.get_flat( *this, AFFECTED_MOVE_COST );
     } );
     return ret;
@@ -781,7 +782,7 @@ int player::mabuff_attack_cost_penalty() const
 float player::mabuff_attack_cost_mult() const
 {
     float ret = 1.0f;
-    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.bonuses.get_mult( *this, AFFECTED_MOVE_COST ) - 1 ) + 1;
@@ -791,27 +792,27 @@ float player::mabuff_attack_cost_mult() const
 
 bool player::is_throw_immune() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.is_throw_immune();
     } );
 }
 bool player::is_quiet() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.is_quiet();
     } );
 }
 
 bool player::can_melee() const
 {
-    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
         return b.can_melee();
     } );
 }
 
 bool player::has_mabuff(mabuff_id id) const
 {
-    return search_ma_buff_effect( effects, [&id]( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, [&id]( const ma_buff &b, const effect & ) {
         return b.id == id;
     } );
 }
