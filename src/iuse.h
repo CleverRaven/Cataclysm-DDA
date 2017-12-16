@@ -168,7 +168,6 @@ public:
     int remove_all_mods     ( player*, item*, bool, const tripoint& );
     int fishing_rod         ( player*, item*, bool, const tripoint& );
     int fish_trap           ( player*, item*, bool, const tripoint& );
-    int gun_detach_gunmods  ( player*, item*, bool, const tripoint& );
     int gun_repair          ( player*, item*, bool, const tripoint& );
     int gunmod_attach       ( player*, item*, bool, const tripoint& );
     int toolmod_attach      ( player*, item*, bool, const tripoint& );

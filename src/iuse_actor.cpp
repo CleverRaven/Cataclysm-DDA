@@ -3322,3 +3322,73 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
         debugmsg( "Item %s has install_bionic actor, but it's not a bionic.", my_item_type.c_str() );
     }
 }
+
+namespace
+{
+    bool is_irremovable_gunmod( const item *it )
+    {
+        assert( it );
+        return it->has_flag( "IRREMOVABLE" );
+    }
+}
+
+long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    auto mods = it.gunmods();
+
+    mods.erase( std::remove_if( mods.begin(), mods.end(), is_irremovable_gunmod ), mods.end() );
+
+    uimenu prompt;
+    prompt.selected = 0;
+    prompt.text = _( "Remove which modification?" );
+    prompt.return_invalid = true;
+
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        prompt.addentry( i, true, -1, mods[ i ]->tname() );
+    }
+
+    prompt.query();
+
+    if( prompt.ret >= 0 ) {
+        item *gm = mods[ prompt.ret ];
+        p.gunmod_remove( it, *gm );
+        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), gm->tname().c_str(), it.tname().c_str() );
+    } else {
+        p.add_msg_if_player( _( "Never mind." ) );
+    }
+
+    return 0;
+}
+
+ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bool, const tripoint & ) const
+{
+    const auto mods = it.gunmods();
+
+    if( mods.empty() ) {
+        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+    }
+
+    const bool no_removables = std::all_of( mods.begin(), mods.end(), is_irremovable_gunmod );
+
+    if( no_removables ) {
+        return ret_val<bool>::make_failure( _( "None of the mods can be removed." ) );
+    }
+
+    if( p.is_worn( it ) ) { // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
+        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+iuse_actor *detach_gunmods_actor::detach_gunmods_actor::clone() const
+{
+    return new detach_gunmods_actor( *this );
+}
+
+void detach_gunmods_actor::finalize( const itype_id &my_item_type )
+{
+    if( !item::find_type( my_item_type )->gun ) {
+        debugmsg( "Item %s has detach_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
+    }
+}

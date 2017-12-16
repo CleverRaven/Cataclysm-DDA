@@ -921,4 +921,15 @@ class install_bionic_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
+class detach_gunmods_actor : public iuse_actor
+{
+    public:
+        detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
+
+        void load( JsonObject & ) override {};
+        long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
+        ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
+};
 #endif

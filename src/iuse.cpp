@@ -5160,53 +5160,6 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::gun_detach_gunmods( player *p, item* it, bool, const tripoint& )
-{
-    auto mods = it->gunmods();
-
-    if( mods.empty() ) {
-        p->add_msg_if_player( m_info, _( "Your %s doesn't appear to be modded." ), it->tname().c_str() );
-        return 0;
-    }
-
-    mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
-        return e->has_flag( "IRREMOVABLE" );
-    } ), mods.end() );
-
-    if( mods.empty() ) {
-        p->add_msg_if_player( m_info, _( "You can't remove any of the mods from your %s." ), it->tname().c_str() );
-        return 0;
-    }
-
-    if( p->is_worn( *it ) ) {
-        // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
-        p->add_msg_if_player( _( "You can not modify your %s while it's worn." ), it->tname().c_str() );
-        return 0;
-    }
-
-    uimenu prompt;
-    prompt.selected = 0;
-    prompt.text = _( "Remove which modification?" );
-    prompt.return_invalid = true;
-
-    for( size_t i = 0; i != mods.size(); ++i ) {
-        prompt.addentry( i, true, -1, mods[ i ]->tname() );
-    }
-
-    prompt.query();
-
-    if( prompt.ret >= 0 ) {
-        item *gm = mods[ prompt.ret ];
-        std::string name = gm->tname();
-        p->gunmod_remove( *it, *gm );
-        p->add_msg_if_player( _( "You remove your %1$s from your %2$s." ), name.c_str(), it->tname().c_str() );
-    } else {
-        p->add_msg_if_player( _( "Never mind." ) );
-    }
-
-    return 0;
-}
-
 int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {

@@ -8516,20 +8516,6 @@ hint_rating player::rate_action_use( const item &it ) const
         }
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
-    } else if ( it.is_gun() ) {
-        auto mods = it.gunmods();
-
-        if( !mods.empty() ) {
-            mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
-                return e->has_flag( "IRREMOVABLE" );
-            } ), mods.end() );
-
-            if( !mods.empty() ) {
-                return HINT_GOOD;
-            }
-        }
-
-        return HINT_CANT;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
     } else if( !it.is_container_empty() ) {
