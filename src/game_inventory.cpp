@@ -495,7 +495,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( *loc ).empty();
+            return loc->type->has_use();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -522,22 +522,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
         std::string get_action_name( const item &it ) const {
             const auto &uses = it.type->use_methods;
 
-            if( uses.empty() ) {
-                if( it.is_food() || it.is_medication() ) {
-                    return _( "Consume" );
-                } else if( it.is_book() ) {
-                    return _( "Read" );
-                } else if( it.is_bionic() ) {
-                    return _( "Install bionic" );
-                }
-            } else if( uses.size() == 1 ) {
+            if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else {
+            } else if( uses.size() > 1 ) {
                 return _( "..." );
-            }
-
-            if( !it.is_container_empty() ) {
-                return get_action_name( it.get_contained() );
             }
 
             return std::string();
