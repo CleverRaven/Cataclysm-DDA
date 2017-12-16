@@ -53,7 +53,7 @@
     "id": "glock17_17",
     "type": "MAGAZINE",
     "name": "Glock 17 magazine - 17 rd",
-    "description": "Made for the Glock 17, ironically this magazine holds 17 rounds.",
+    "description": "Made for the Glock 17, this magazine holds 17 rounds.",
     "weight": 105,
     "volume": 1,
     "price": 2900,
