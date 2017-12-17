@@ -636,5 +636,60 @@
     "reload": 300,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON" ]
+  },
+  {
+    "id": "heavy_snare_kit",
+    "type": "TOOL",
+    "name": "heavy snare kit",
+    "description": "This is a kit for a simple trap consisting of a rope noose and a snare trigger.  It requires a tree nearby.  It is effective at trapping monsters.",
+    "weight": 1066,
+    "volume": 1,
+    "price": 250,
+    "cutting": 10,
+    "material": "wood",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "place_trap",
+      "needs_neighbor_terrain": "t_tree",
+      "trap": "tr_heavy_snare",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the snare trap."
+    }
+  },
+  {
+    "id": "light_snare_kit",
+    "type": "TOOL",
+    "name": "light snare kit",
+    "description": "This is a kit for a simple trap consisting of a string noose and a snare trigger.  It requires a young tree nearby.  It is effective at trapping and killing some small animals.",
+    "weight": 886,
+    "volume": 1,
+    "price": 100,
+    "cutting": 6,
+    "material": "wood",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "place_trap",
+      "needs_neighbor_terrain": "t_tree_young",
+      "trap": "tr_light_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the snare trap."
+    }
+  },
+  {
+    "id": "snare_trigger",
+    "type": "TOOL",
+    "name": "snare trigger",
+    "description": "This is a stick that has been cut into a trigger mechanism for a snare trap.",
+    "weight": 850,
+    "volume": 1,
+    "price": 0,
+    "to_hit": -1,
+    "material": "wood",
+    "symbol": ";",
+    "color": "brown"
   }
 ]
