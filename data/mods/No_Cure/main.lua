@@ -1,51 +1,45 @@
 local MOD = {}
 
-mods[ "No_Cure" ] = MOD
+mods["No_Cure"] = MOD
+
+local NO_CURE_MESSAGE_START_NOTIFICATION = "Starting new game with <color_red>No Cure!</color> mod.  You will <color_red>die</color> in <color_yellow>72 hours</color> after getting <color_green>infected</color>."
+local NO_CURE_MESSAGE_EFFECT_APPLIED = "You have been <color_green>infected</color> and will <color_red>die</color> in <color_yellow>72 hours</color>!"
+local NO_CURE_MESSAGE_DEATH = "You have <color_red>died</color> due to being <color_green>infected</color> <color_yellow>72 hours</color> earlier."
+
+local no_cure_effect = efftype_id("infected")
+local no_cure_effect_duration = 72*60*60/10 --72 hours
+local no_cure_effect_body_part = "bp_torso"
+local no_cure_effect_body_part_damage = 666
+local no_cure_player_variable = "No_Cure_DeathTurn"
 
 function MOD.on_new_player_created()
 
-  game.add_msg( "Starting new game with <color_red>No Cure!</color> mod." )
-  game.add_msg( "You will <color_red>die</color> in <color_yellow>24 hours</color> after getting <color_green>infected</color>." )
+  game.add_msg(NO_CURE_MESSAGE_START_NOTIFICATION)
 
-  doom()
+  no_cure_process()
 
 end
 
 function MOD.on_minute_passed()
 
-  doom()
+  no_cure_process()
 
 end
 
-function doom()
+function no_cure_process()
 
   local calendar = game.get_calendar_turn()
   local current_turn = calendar:get_turn()
+  local expected_death_turn = tonumber(player:get_value(no_cure_player_variable))
 
-  if get_death_turn() ~= nil then
-    if current_turn >= get_death_turn() then
-      game.add_msg( "You have <color_red>died</color> due to being <color_green>infected</color> <color_yellow>24 hours</color> earlier." )
-      player:apply_damage(player, "bp_torso", 666)  -- :die() is not working, so we apply high damage to player torso.
-    end
+  if expected_death_turn == nil and player:has_effect(no_cure_effect) then
+    game.add_msg(NO_CURE_MESSAGE_EFFECT_APPLIED)
+    player:set_value(no_cure_player_variable, tostring(current_turn + no_cure_effect_duration))
   else
-    if player:has_effect(efftype_id("infected")) then
-      set_death_turn(current_turn + 24*60*60/10)
+    if current_turn >= expected_death_turn then
+      game.add_msg(NO_CURE_MESSAGE_DEATH)
+      player:apply_damage(player, no_cure_effect_body_part_damage, no_cure_effect_damage) -- player:die() is not working, so we apply high damage to selected player body part.
     end
-  end
-
-end
-
-function get_death_turn()
-
-  return tonumber(player:get_value("No_Cure_DeathTurn"))
-
-end
-
-function set_death_turn(death_turn)
-
-  player:set_value("No_Cure_DeathTurn", tostring(death_turn))
-  if get_death_turn() ~= nil then
-    game.add_msg( "You have have been <color_green>infected</color> and will <color_red>die</color> in <color_yellow>24 hours</color>!" )
   end
 
 end
