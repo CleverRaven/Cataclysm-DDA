@@ -6203,7 +6203,7 @@ void player::suffer()
             add_msg(m_warning, _("You feel tired...") );
             // Proportional "distance" to deadly levels, whichever is greater
             auto prop = std::max((-stim - 60)/140.0, (pkill - 130)/110.0);
-            mod_fatigue( 10 * prop + rng(5, 10) );
+            mod_fatigue( rng(1, 2) );
         }
     }
 }
