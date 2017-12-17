@@ -1214,10 +1214,7 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
 ret_val<bool> use_function::can_call(const player &p, const item &it, bool t, const tripoint &pos) const
 {
     if( actor == nullptr ) {
-        if( p.is_player() ) {
-            ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ), it.tname().c_str() );
-        }
-        return ret_val<bool>::make_failure();
+        return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ), it.tname().c_str() );
     }
 
     return actor->can_use( p, it, t, pos );

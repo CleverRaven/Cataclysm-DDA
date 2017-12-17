@@ -3,7 +3,6 @@
 #define IUSE_H
 
 #include "enums.h"
-#include "ret_val.h"
 
 #include <map>
 #include <string>
@@ -14,6 +13,9 @@ class item;
 class player;
 class JsonObject;
 class MonsterGenerator;
+
+template<typename T> class ret_val;
+
 struct iteminfo;
 typedef std::string itype_id;
 
@@ -233,9 +235,7 @@ public:
     virtual ~iuse_actor() { }
     virtual void load( JsonObject &jo ) = 0;
     virtual long use( player &, item &, bool, const tripoint& ) const = 0;
-    virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint& ) const {
-        return ret_val<bool>::make_success();
-    }
+    virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint& ) const;
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
     /**
      * Returns a deep copy of this object. Example implementation:

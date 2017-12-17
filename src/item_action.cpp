@@ -17,6 +17,7 @@
 #include "itype.h"
 #include "ui.h"
 #include "player.h"
+#include "ret_val.h"
 
 #include <algorithm>
 #include <istream>
@@ -317,6 +318,11 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
+}
+
+ret_val<bool> iuse_actor::can_use( const player &, const item &, bool, const tripoint & ) const
+{
+    return ret_val<bool>::make_success();
 }
 
 bool iuse_actor::is_valid() const

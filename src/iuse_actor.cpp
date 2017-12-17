@@ -253,7 +253,7 @@ long countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) co
 ret_val<bool> countdown_actor::can_use( const player &, const item &it, bool, const tripoint & ) const
 {
     if( it.active ) {
-        ret_val<bool>::make_failure( "It's already been triggered." );
+        return ret_val<bool>::make_failure( _( "It's already been triggered." ) );
     }
 
     return ret_val<bool>::make_success();

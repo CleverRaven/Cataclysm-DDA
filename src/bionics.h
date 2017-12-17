@@ -5,7 +5,6 @@
 #include "bodypart.h"
 #include "string_id.h"
 
-#include <map>
 #include <set>
 #include <string>
 #include <vector>
