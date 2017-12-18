@@ -9759,16 +9759,6 @@
     "time": 4000,
     "autolearn": true,
     "flags": ["BLIND_HARD"],
-    "components": [
-      [
-        [ "jr_grape", 1 ]
-      ],
-      [
-        [ "codeine", 2 ]
-      ],
-      [
-        [ "lemonlime", 1 ]
-      ]
-    ]
+    "components": [ [ [ "jr_grape", 1 ] ], [ [ "codeine", 2 ] ], [ [ "lemonlime", 1 ] ] ]
   }
 ]
