@@ -226,7 +226,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .30-06 M2          | 165gr FMJ bullet            | 3894      | 62  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
-7.62x54mmR         | 150gr FMJ bullet            | 2677      | 52  | 28in     |                              |
+7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 7.62x25mm          | 85gr JHP bullet             | 544       | 23  | 4.7in    |                              |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
