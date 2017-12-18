@@ -214,6 +214,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .500 S&W Magnum    | 500gr bullet                | 3056      | 55  | 8.4in    |                              |
 5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
 4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
+7.62x39mm          | 123gr FMJ bullet            | 2179      | 46  | 16.3in   |                              |
 7.62x39mm M43      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 15  |
 7.62x39mm M67      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 9   |
 5.45x39mm 7N10     | 56gr FMJ bullet             | 1402      | 37  | 16.3in   |        damage increased by 3 |
