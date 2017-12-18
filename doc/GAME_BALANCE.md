@@ -225,7 +225,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 7.62 NATO M62      | 147gr FMJ bullet            | 3304      | 57  | 24in     |  Belt with 1/5 tracer rounds |
 .270 Winchester    | 130gr soft point bullet     | 3663      | 61  | 24in     |                              |
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
-.30-06 M2          | 165gr FMJ bullet            | 3894      | 62  | 24in     |         damage reduced by 10 |
+.30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
 7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
