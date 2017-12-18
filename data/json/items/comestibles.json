@@ -11335,8 +11335,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "jr_grape",
-        "name" : "jolly rancher (grape)",
-        "name_plural" : "jolly ranchers (grape)",
+        "name" : "hard candy (grape)",
+        "name_plural" : "hard candies (grape)",
         "healthy" : -1,
         "nutrition" : 1,
         "fun" : 3,
@@ -11355,8 +11355,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "jr_apple",
-        "name" : "jolly rancher (apple)",
-        "name_plural" : "jolly ranchers (apple)",
+        "name" : "hard candy (apple)",
+        "name_plural" : "hard candies (apple)",
         "healthy" : -1,
         "nutrition" : 1,
         "fun" : 3,
@@ -11375,8 +11375,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "jr_watermelon",
-        "name" : "jolly rancher (watermelon)",
-        "name_plural" : "jolly ranchers (watermelon)",
+        "name" : "hard candy (watermelon)",
+        "name_plural" : "hard candies (watermelon)",
         "healthy" : -1,
         "nutrition" : 1,
         "fun" : 3,
@@ -11419,7 +11419,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "sprite",
-        "name" : "Sprite",
+        "name" : "Lemon drink",
         "weight" : 260,
         "color" : "white",
         "stim" : 1,
