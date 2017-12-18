@@ -195,7 +195,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 9x19mm FMJ         | 115gr FMJ bullet            | 420       | 24  | 5.9in    |                              |
 9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
 9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
-9x19mm JHP         | 116gr JHP bullet            | 533       | 23  | 5.9in    |damage increased by 3         |
+9x19mm JHP         | 115gr JHP bullet            | 533       | 23  | 5.9in    |damage increased by 3         |
 9x18mm 57-N-181S   | 93gr FMJ bullet             | 251       | 16  | 3.8in    |                              |
 9x18mm SP-7        | 93gr bullet                 | 417       | 20  | 3.8in    |                              |
 9x18mm RG028       | 93gr hardened steel core bullet | 317   | 18  | 3.8in    |          damage reduced by 4 |
