@@ -231,6 +231,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
+.50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
+.50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.
