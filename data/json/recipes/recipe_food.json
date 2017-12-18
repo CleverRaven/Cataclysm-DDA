@@ -9761,15 +9761,13 @@
     "flags": ["BLIND_HARD"],
     "components": [
       [
-        [ "jr_grape", 1 ],
-        [ "jr_apple", 1 ],
-        [ "jr_watermelon", 1 ]
+        [ "jr_grape", 1 ]
       ],
       [
         [ "codeine", 2 ]
       ],
       [
-        [ "sprite", 1 ]
+        [ "lemonlime", 1 ]
       ]
     ]
   }
