@@ -831,9 +831,9 @@ void input_context::display_help()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                             1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                             1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -850,9 +850,9 @@ void input_context::display_help()
     } ), org_registered_actions.end() );
 
     // colors of the keybindings
-    static const nc_color global_key = c_ltgray;
-    static const nc_color local_key = c_ltgreen;
-    static const nc_color unbound_key = c_ltred;
+    static const nc_color global_key = c_light_gray;
+    static const nc_color local_key = c_light_green;
+    static const nc_color unbound_key = c_light_red;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
@@ -901,7 +901,7 @@ void input_context::display_help()
         draw_border( w_help );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), 10, 0, c_white, true );
-        center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
+        center_print( w_help, 0, c_light_red, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
@@ -922,7 +922,7 @@ void input_context::display_help()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dkgray, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
                 mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
             } else if( status == s_remove ) {

@@ -122,12 +122,12 @@ void computer::shutdown_terminal()
 void computer::use()
 {
     if (w_border == NULL) {
-        w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                           (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                           (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     }
     if (w_terminal == NULL) {
-        w_terminal = newwin(getmaxy(w_border) - 2, getmaxx(w_border) - 2,
+        w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
                             getbegy(w_border) + 1, getbegx(w_border) + 1);
     }
     draw_border(w_border);

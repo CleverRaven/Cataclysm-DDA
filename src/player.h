@@ -11,6 +11,7 @@
 #include "game_constants.h"
 #include "craft_command.h"
 #include "ret_val.h"
+#include "damage.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -452,6 +453,8 @@ class player : public Character
         bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
+        /** Returns true if the player is protected from radiation */
+        bool is_rad_immune() const;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
@@ -1432,7 +1435,9 @@ class player : public Character
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
+        int get_hp_max() const override;
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
 

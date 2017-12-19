@@ -4,10 +4,12 @@
 #include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
+#include "enums.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "output.h"
 #include "skill.h"
+#include "vitamin.h"
 #include "bionics.h"
 #include "game.h"
 #include "map.h"
@@ -17,6 +19,7 @@
 #include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
+#include "effect.h" // for weed_msg
 #include "item_group.h"
 #include "options.h"
 #include "messages.h"
@@ -42,6 +45,8 @@
 #include "input.h"
 #include "fault.h"
 #include "vehicle_selector.h"
+#include "units.h"
+#include "ret_val.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1923,7 +1928,7 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player* const u = &g->u; // TODO: make a reference, make a const reference
-    nc_color ret = c_ltgray;
+    nc_color ret = c_light_gray;
 
     if(has_flag("WET")) {
         ret = c_cyan;
@@ -1932,7 +1937,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() ) {
         ret = c_brown;
     } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage() > 0 ) {
-        ret = c_ltgreen;
+        ret = c_light_green;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
@@ -1959,7 +1964,7 @@ nc_color item::color_in_inventory() const
                 break;
             case INEDIBLE:
             case INEDIBLE_MUTATION:
-                ret = c_dkgray;
+                ret = c_dark_gray;
                 break;
             case ALLERGY:
             case ALLERGY_WEAK:
@@ -1986,7 +1991,7 @@ nc_color item::color_in_inventory() const
         if( has_ammo && has_mag ) {
             ret = c_green;
         } else if( has_ammo || has_mag ) {
-            ret = c_ltred;
+            ret = c_light_red;
         }
     } else if( is_ammo() ) {
         // Likewise, ammo is green if you have guns that use it
@@ -2002,7 +2007,7 @@ nc_color item::color_in_inventory() const
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
-            ret = c_ltred;
+            ret = c_light_red;
         }
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
@@ -2015,7 +2020,7 @@ nc_color item::color_in_inventory() const
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
-            ret = c_ltred;
+            ret = c_light_red;
         }
     } else if (is_book()) {
         if(u->has_identified( typeId() )) {
@@ -2024,7 +2029,7 @@ nc_color item::color_in_inventory() const
                 u->get_skill_level( tmp.skill ).can_train() &&
                 u->get_skill_level( tmp.skill ) >= tmp.req &&
                 u->get_skill_level( tmp.skill ) < tmp.level ) {
-                ret = c_ltblue;
+                ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
@@ -3319,6 +3324,16 @@ bool item::mod_damage( double qty, damage_type dt )
     return destroy;
 }
 
+bool item::mod_damage( const double qty )
+{
+    return mod_damage( qty, DT_NULL );
+}
+
+bool item::inc_damage()
+{
+    return inc_damage( DT_NULL );
+}
+
 nc_color item::damage_color() const
 {
     // @todo unify with getDurabilityColor
@@ -3328,7 +3343,7 @@ nc_color item::damage_color() const
         return c_green;
     }
     if( damage() <= 0 ) {
-        return c_ltgreen;
+        return c_light_green;
     }
     if( damage() == max_damage() ) {
         return c_red;
@@ -3337,7 +3352,7 @@ nc_color item::damage_color() const
     // assign other colors proportionally
     auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
-        return c_ltred;
+        return c_light_red;
     }
     if( q > 0.33 ) {
         return c_magenta;

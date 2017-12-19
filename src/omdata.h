@@ -6,16 +6,18 @@
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
-#include "mongroup.h"
 #include "string_id.h"
+#include "translations.h"
 
 #include <string>
 #include <vector>
 #include <limits>
 #include <list>
+#include <bitset>
 #include <set>
 
 struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 struct city;
 struct oter_t;
 struct oter_type_t;

@@ -32,6 +32,10 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const long ch )
 {
+    if( ch == ' ' ) {  // space is a special case for unassigned
+        return nullptr;
+    }
+
     for( auto &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
@@ -65,7 +69,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     } else if( mode == REMOVING ) {
         desc = _( "<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
     fold_and_print( window, 0, 1, pwr_str_pos, c_white, desc );
 
@@ -137,15 +141,15 @@ void draw_description( WINDOW *win, bionic const &bio )
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
     int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string.c_str() );
     }
-    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bio.id->description );
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
     // @todo Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
     }
@@ -241,33 +245,33 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
             if( bio.powered && !bio.id->power_source ) {
                 type = h_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = h_ltgreen;
+                type = h_light_green;
             } else {
-                type = h_ltred;
+                type = h_light_red;
             }
         } else {
             if( bio.powered && !bio.id->power_source ) {
                 type = c_red;
             } else if( bio.id->power_source && !bio.powered ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else if( bio.id->power_source && bio.powered ) {
-                type = c_ltgreen;
+                type = c_light_green;
             } else {
-                type = c_ltred;
+                type = c_light_red;
             }
         }
     } else {
         if( isHighlightedBionic ) {
             if( bio.id->power_source ) {
-                type = h_ltcyan;
+                type = h_light_cyan;
             } else {
                 type = h_cyan;
             }
         } else {
             if( bio.id->power_source ) {
-                type = c_ltcyan;
+                type = c_light_cyan;
             } else {
                 type = c_cyan;
             }
@@ -315,7 +319,7 @@ void player::power_bionics()
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
     //wBio is the entire bionic window
-    WINDOW *wBio = newwin( HEIGHT, WIDTH, START_Y, START_X );
+    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
     WINDOW_PTR wBioptr( wBio );
 
     const int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
@@ -324,19 +328,21 @@ void player::power_bionics()
     const int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
     const int DESCRIPTION_START_X = START_X + 1 + 40;
     //w_description is the description panel that is controlled with ! key
-    WINDOW *w_description = newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
-                                    DESCRIPTION_START_Y, DESCRIPTION_START_X );
+    catacurses::window w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
+                                       DESCRIPTION_START_Y, DESCRIPTION_START_X );
     WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
     const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-    WINDOW *w_title = newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1 );
+    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
+                                 START_X + 1 );
     WINDOW_PTR w_titleptr( w_title );
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
-    WINDOW *w_tabs = newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y, START_X + 1 );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y,
+                                START_X + 1 );
     WINDOW_PTR w_tabsptr( w_tabs );
 
     int scroll_position = 0;
@@ -415,7 +421,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                 for( int i = 0; i < num_bp; ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, "%s", bps[i].c_str() );
                 }
             }
 
@@ -429,7 +435,7 @@ void player::power_bionics()
                         msg = _( "No passive bionics installed." );
                         break;
                 }
-                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_ltgray, msg );
+                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_light_gray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
@@ -471,18 +477,60 @@ void player::power_bionics()
         const long ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = NULL;
         bool confirmCheck = false;
-        if( menu_mode == REASSIGNING ) {
+
+        if( action == "DOWN" ) {
+            redraw = true;
+            if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
+                cursor++;
+            } else {
+                cursor = 0;
+            }
+            if( scroll_position < max_scroll_position &&
+                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
+                scroll_position++;
+            }
+            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
+                scroll_position = std::max( cursor - half_list_view_location, 0 );
+            }
+        } else if( action == "UP" ) {
+            redraw = true;
+            if( cursor > 0 ) {
+                cursor--;
+            } else {
+                cursor = current_bionic_list->size() - 1;
+            }
+            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
+                scroll_position--;
+            }
+            if( scroll_position < max_scroll_position &&
+                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
+                scroll_position =
+                    std::max( std::min<int>( current_bionic_list->size() - LIST_HEIGHT,
+                                             cursor - half_list_view_location ), 0 );
+            }
+        } else if( menu_mode == REASSIGNING ) {
             menu_mode = ACTIVATING;
-            tmp = bionic_by_invlet( ch );
+
+            if( action == "CONFIRM" && !current_bionic_list->empty() ) {
+                auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+                tmp = bio_list[cursor];
+            } else {
+                tmp = bionic_by_invlet( ch );
+            }
+
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic (or escape, or ...)
                 continue;
             }
             redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter." ),
+            const long newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
                                              tmp->id->name.c_str() );
             wrefresh( wBio );
-            if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
+            if( newch == ch || newch == KEY_ESCAPE ) {
+                continue;
+            }
+            if( newch == ' ' ) {
+                tmp->invlet = ' ';
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
@@ -514,23 +562,6 @@ void player::power_bionics()
                 tab_mode = TAB_ACTIVE;
             } else {
                 tab_mode = TAB_PASSIVE;
-            }
-        } else if( action == "DOWN" ) {
-            redraw = true;
-            if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
-                cursor++;
-            }
-            if( scroll_position < max_scroll_position &&
-                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
-                scroll_position++;
-            }
-        } else if( action == "UP" ) {
-            redraw = true;
-            if( cursor > 0 ) {
-                cursor--;
-            }
-            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
-                scroll_position--;
             }
         } else if( action == "REASSIGN" ) {
             menu_mode = REASSIGNING;

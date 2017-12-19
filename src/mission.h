@@ -4,11 +4,14 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <iosfwd>
+#include <map>
 
-#include "omdata.h"
-#include "itype.h"
+#include "enums.h"
 #include "npc_favor.h"
 
+class player;
 class mission;
 class game;
 class npc;
@@ -19,6 +22,7 @@ class JsonObject;
 class JsonIn;
 class JsonOut;
 struct mission_type;
+struct oter_type_t;
 
 enum npc_mission : int;
 

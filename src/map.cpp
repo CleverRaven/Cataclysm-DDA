@@ -5757,7 +5757,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
             return false;
         case VIS_LIT: // can only tell that this square is bright
             symbol = '#';
-            color = c_ltgray;
+            color = c_light_gray;
             break;
         case VIS_BOOMER:
             symbol = '#';
@@ -6022,11 +6022,11 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
+        tercol = (bright_light) ? c_white : c_light_green;
     } else if( low_light ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     }
 
     if( invert ) {
@@ -6066,7 +6066,7 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
 {
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    nc_color tercol = c_dkgray;
+    nc_color tercol = c_dark_gray;
     long sym = ' ';
 
     const ter_t &curr_ter = curr_tile.get_ter_t();
@@ -6083,7 +6083,7 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         const int roof = veh->roof_at_part( part_below );
         const int displayed_part = roof >= 0 ? roof : part_below;
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
-        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_ltgray : c_ltgray_cyan;
+        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;
@@ -6117,11 +6117,11 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
+        tercol = (bright_light) ? c_white : c_light_green;
     } else if( low_light ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     }
 
     if( invert ) {

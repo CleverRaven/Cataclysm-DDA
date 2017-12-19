@@ -308,3 +308,31 @@ TEST_CASE( "charge_handling" )
         test_craft( "carver_off", tools, false );
     }
 }
+
+TEST_CASE( "tool_use" )
+{
+    SECTION( "clean_water" ) {
+        std::vector<item> tools;
+        tools.emplace_back( "hotplate", -1, 20 );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        tools.push_back( plastic_bottle );
+        tools.emplace_back( "pot" );
+
+        test_craft( "water_clean", tools, true );
+    }
+    SECTION( "clean_water_in_occupied_cooking_vessel" ) {
+        std::vector<item> tools;
+        tools.emplace_back( "hotplate", -1, 20 );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        tools.push_back( plastic_bottle );
+        item jar( "jar_glass" );
+        // If it's not watertight the water will spill.
+        REQUIRE( jar.is_watertight_container() );
+        jar.contents.emplace_back( "water", -1, 2 );
+        tools.push_back( jar );
+
+        test_craft( "water_clean", tools, false );
+    }
+}

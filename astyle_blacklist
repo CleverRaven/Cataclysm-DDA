@@ -8,7 +8,6 @@ src/catacharset.cpp
 src/catalua.cpp
 src/cata_tiles.cpp
 src/character.cpp
-src/color.cpp
 src/computer.cpp
 src/construction.cpp
 src/creature.cpp

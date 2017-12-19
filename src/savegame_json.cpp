@@ -19,9 +19,11 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
+#include "vitamin.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "effect.h"
 #include "crafting.h"
 #include "get_version.h"
 #include "scenario.h"
@@ -1291,7 +1293,7 @@ void inventory::json_load_items(JsonIn &jsin)
     while( !jsin.end_array() ) {
         item tmp;
         tmp.deserialize( jsin );
-        add_item( tmp );
+        add_item( tmp, true, false );
     }
 }
 
@@ -2191,7 +2193,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for (auto maps : effects) {
+    for (auto maps : *effects) {
         for (auto i : maps.second) {
             std::ostringstream convert;
             convert << i.first;
@@ -2258,7 +2260,7 @@ void Creature::load( JsonObject &jsin )
                     const body_part bp = static_cast<body_part>( key_num );
                     effect &e = i.second;
 
-                    effects[id][bp] = e;
+                    ( *effects )[id][bp] = e;
                     on_effect_int_change( id, e.get_intensity(), bp );
                 }
             }
