@@ -1,4 +1,3 @@
-
 #include "ui.h"
 #include "catacharset.h"
 #include "output.h"
