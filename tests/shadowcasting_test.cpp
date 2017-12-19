@@ -319,24 +319,7 @@ void shadowcasting_3d_2d( int iterations )
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
-        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+        cast_zlight<sight_calc, sight_check>(
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
