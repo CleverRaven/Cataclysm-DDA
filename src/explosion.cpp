@@ -268,8 +268,8 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
-std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoint &p, float power,
-        float factor, bool fire, int shrapnel_count, int shrapnel_mass )
+void game::explosion( const tripoint &p, float power, float factor, bool fire,
+                      int shrapnel_count, int shrapnel_mass )
 {
     explosion_data data;
     data.power = power;
@@ -277,15 +277,11 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     data.fire = fire;
     data.shrapnel.count = shrapnel_count;
     data.shrapnel.mass = shrapnel_mass;
-    return explosion( p, data );
+    explosion( p, data );
 }
 
-std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoint &p,
-        const explosion_data &ex )
+void game::explosion( const tripoint &p, const explosion_data &ex )
 {
-    // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
-    std::unordered_map<tripoint, std::pair<int, int>> distrib;
-
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, _( "a huge explosion!" ) );
@@ -301,31 +297,21 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     if( ex.distance_factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
-        // @todo: return map containing distribution of damage
         do_blast( p, ex.power, ex.distance_factor, ex.fire );
     }
 
     const auto &shr = ex.shrapnel;
     if( shr.count > 0 ) {
         int shrapnel_power = ( log( ex.power ) + 1 ) * shr.mass;
-        auto res = shrapnel( p, shrapnel_power, shr.count, shr.mass );
-        for( const auto &e : res ) {
-            if( distrib.count( e.first ) ) {
-                // If tile was already affected by blast just update the shrapnel field
-                distrib[ e.first ].second = e.second;
-            } else {
-                // Otherwise add the tile but mark is as unaffected by the blast (-1)
-                distrib[ e.first ] = std::make_pair( -1, e.second );
-            }
-        }
+        auto shrapnel_locations = shrapnel( p, shrapnel_power, shr.count, shr.mass );
 
         // If explosion drops shrapnel...
         if( shr.recovery > 0 && shr.drop != "null" ) {
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
-            for( const auto &e : distrib ) {
-                if( g->m.passable( e.first ) && e.second.second >= 0 ) {
+            for( const auto &e : shrapnel_locations ) {
+                if( g->m.passable( e.first ) && e.second >= 0 ) {
                     tiles.push_back( e.first );
                 }
             }
@@ -340,8 +326,6 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
             }
         }
     }
-
-    return distrib;
 }
 
 std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power, int count,

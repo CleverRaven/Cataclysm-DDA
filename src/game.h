@@ -230,14 +230,14 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, float power, float factor = 0.8f,
-                    bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
-                );
+        void explosion(
+            const tripoint &p, float power, float factor = 0.8f,
+            bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
+        );
 
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, const explosion_data &ex
-                );
+        void explosion(
+            const tripoint &p, const explosion_data &ex
+        );
 
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
