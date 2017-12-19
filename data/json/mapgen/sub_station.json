@@ -46,12 +46,7 @@
         "_": "t_pavement",
         "b": "t_floor"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "1": "f_indoor_plant",
-        "2": "f_indoor_plant_y",
-        "b": "f_bench"
-      },
+      "furniture": { "&": "f_trashcan", "1": "f_indoor_plant", "2": "f_indoor_plant_y", "b": "f_bench" },
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
     }
   },
@@ -145,10 +140,8 @@
         "x": "t_railroad_track_on_tie",
         "|": "t_railing_v"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "b": "f_bench"
-      }
+      "furniture": { "&": "f_trashcan", "b": "f_bench" }
     }
   }
 ]
+
