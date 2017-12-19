@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-02 03:01-0500\n"
-"PO-Revision-Date: 2017-12-07 14:55+0000\n"
+"POT-Creation-Date: 2017-12-09 03:47-0500\n"
+"PO-Revision-Date: 2017-12-11 05:07+0000\n"
 "Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -54548,6 +54548,33 @@ msgid ""
 msgstr ".454 Casull 탄환을 사용하는 5연발 리볼버. .410 산탄 탄환과 .45 Long Colt 탄환을 사용할 수 있습니다."
 
 #: lang/json/gunmod_from_json.py
+msgid "auto-fire mechanism"
+msgid_plural "auto-fire mechanisms"
+msgstr[0] "자동사격 개조부품"
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple mechanism that converts a pistol to a selective fire weapon with a "
+"burst size of three rounds.  However it reduces accuracy and increases "
+"noise."
+msgstr "권총에 3연사 기능을 제공하는 간단한 기계 부품. 하지만 명중률이 감소하고 사격 소음이 커집니다."
+
+#: lang/json/gunmod_from_json.py
+msgid "mechanism"
+msgstr "내부구조"
+
+#: lang/json/gunmod_from_json.py
+msgid "handmade auto-fire mechanism"
+msgid_plural "handmade auto-fire mechanisms"
+msgstr[0] "수제 자동사격 개조부품"
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
+"is handmade."
+msgstr "CW-24 소총에 완전 자동 사격이 가능하도록 하는 부품. 수제품 입니다."
+
+#: lang/json/gunmod_from_json.py
 msgid "arrow rest"
 msgid_plural "arrow rests"
 msgstr[0] "화살 받침대"
@@ -54836,22 +54863,6 @@ msgid ""
 "A bootleg adapter for permanently converting a firearm to accept proprietary"
 " Leadworks magazines.  Guaranteed to void your warranty."
 msgstr "총기에 레드웍스 정품 탄창을 사용할 수 있도록 영구적으로 개조하는 비정품 어뎁터. 제품 보증이 무효화 됩니다."
-
-#: lang/json/gunmod_from_json.py
-msgid "auto-fire mechanism"
-msgid_plural "auto-fire mechanisms"
-msgstr[0] "자동사격 개조부품"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"A simple mechanism that converts a pistol to a selective fire weapon with a "
-"burst size of three rounds.  However it reduces accuracy and increases "
-"noise."
-msgstr "권총에 3연사 기능을 제공하는 간단한 기계 부품. 하지만 명중률이 감소하고 사격 소음이 커집니다."
-
-#: lang/json/gunmod_from_json.py
-msgid "mechanism"
-msgstr "내부구조"
 
 #: lang/json/gunmod_from_json.py
 msgid "rapid blowback"
@@ -55411,17 +55422,6 @@ msgid ""
 "sniper rifle.  It removes any automatic fire capabilities but also increases"
 " accuracy and damage."
 msgstr "소총을 치명적인 저격소총으로 바꿔주는 컨버전 장치.  자동 발사 기능을 완전히 없애지만 정확도와 위력 또한 증가시켜줍니다."
-
-#: lang/json/gunmod_from_json.py
-msgid "handmade auto-fire mechanism"
-msgid_plural "handmade auto-fire mechanisms"
-msgstr[0] "수제 자동사격 개조부품"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
-"is handmade."
-msgstr "CW-24 소총에 완전 자동 사격이 가능하도록 하는 부품. 수제품 입니다."
 
 #: lang/json/gunmod_from_json.py
 msgid "5.45 caliber conversion kit"
@@ -71207,10 +71207,10 @@ msgstr "드론 조종사"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "당신은 자동 거리미화기계, 뉴스로봇 그리고 피자 배달 드론같은 기계를 프로그래밍하는 일을 했었습니다. 이제 드론은 피자대신 총을 나르네요."
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -71221,10 +71221,10 @@ msgstr "드론 조종사"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "당신은 자동 거리 미화 기계, 뉴스로봇 그리고 피자 배달 드론같은 기계를 프로그래밍하는 일을 했었습니다. 이제 드론은 피자대신 총을 나르네요."
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -99301,8 +99301,8 @@ msgstr "Q: 추워서 밤에 잠을 잘 수가 없어요!\nA: 옷가지를 모아
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode."
-msgstr "Q: 여기에 나와있지 않은 것에 대해 질문하고 싶습니다. 어디서 답변을 받을 수 있을까요?\nA: smf.cataclysmdda.com 포럼이나 freenode의 irc 채널 #CataclysmDDA에서 물어보세요."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+msgstr ""
 
 #: src/help.cpp
 msgid " HELP "
@@ -105157,11 +105157,6 @@ msgstr ""
 #, c-format
 msgid "The %1$s is too big to put in your %2$s."
 msgstr "%1$s은(는) %2$s에 착용하기 너무 크다."
-
-#: src/iuse.cpp
-#, c-format
-msgid "Error serializing monster: %s"
-msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -112487,11 +112482,11 @@ msgstr "방사능 증세 때문에 괴롭다..."
 
 #: src/npcmove.cpp
 msgid "<hungry>"
-msgstr "<허기>"
+msgstr "<hungry>"
 
 #: src/npcmove.cpp
 msgid "<thirsty>"
-msgstr "<목마름>"
+msgstr "<thirsty>"
 
 #: src/npcmove.cpp
 #, c-format
@@ -118243,12 +118238,6 @@ msgstr "%s이(가) 불량 탄환에 손상되었다!"
 #, c-format
 msgid "<npcname>'s %s is damaged by the misfired round!"
 msgstr "<npcname>의 %s이(가) 불량 탄환에 손상되었다!"
-
-#: src/ranged.cpp
-msgid ""
-"You'll need to aim at more distant targets to further improve your "
-"marksmanship."
-msgstr "사격에 능숙해지려면 좀 더 먼 목표물을 조준해야 한다."
 
 #: src/ranged.cpp
 msgid "Recoil"

@@ -478,9 +478,9 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
-    WINDOW_PTR const w_item_info_ptr {
-        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+    catacurses::WINDOW_PTR const w_ptr {catacurses::newwin( window_h, w_items_w, padding_y, padding_x )};
+    catacurses::WINDOW_PTR const w_item_info_ptr {
+        catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
 
     WINDOW *w           = w_ptr.get();
     WINDOW *w_item_info = w_item_info_ptr.get();
@@ -3048,10 +3048,12 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if (previous_signage_exists) {
-        popup(existing_signage.c_str());
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+    } else if( previous_signage_exists ) {
+        popup( existing_signage.c_str() );
     } else {
-        p.add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+        p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
 
     // Allow chance to modify message.

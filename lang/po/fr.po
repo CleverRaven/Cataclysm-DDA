@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-02 03:01-0500\n"
-"PO-Revision-Date: 2017-12-02 13:06+0000\n"
+"POT-Creation-Date: 2017-12-09 03:47-0500\n"
+"PO-Revision-Date: 2017-12-10 12:00+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -57393,6 +57393,35 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "auto-fire mechanism"
+msgid_plural "auto-fire mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple mechanism that converts a pistol to a selective fire weapon with a "
+"burst size of three rounds.  However it reduces accuracy and increases "
+"noise."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "mechanism"
+msgstr "mécanisme"
+
+#: lang/json/gunmod_from_json.py
+msgid "handmade auto-fire mechanism"
+msgid_plural "handmade auto-fire mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
+"is handmade."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
 msgid "arrow rest"
 msgid_plural "arrow rests"
 msgstr[0] ""
@@ -57703,23 +57732,6 @@ msgid ""
 "A bootleg adapter for permanently converting a firearm to accept proprietary"
 " Leadworks magazines.  Guaranteed to void your warranty."
 msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid "auto-fire mechanism"
-msgid_plural "auto-fire mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"A simple mechanism that converts a pistol to a selective fire weapon with a "
-"burst size of three rounds.  However it reduces accuracy and increases "
-"noise."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid "mechanism"
-msgstr "mécanisme"
 
 #: lang/json/gunmod_from_json.py
 msgid "rapid blowback"
@@ -58327,18 +58339,6 @@ msgid ""
 "sniper rifle.  It removes any automatic fire capabilities but also increases"
 " accuracy and damage."
 msgstr "Ceci est un kit complet de conversion, conçu pour convertir une carabine en un fusil sniper mortel. Il retire toutes capacités de tir automatique mais augmente la précision et les dommages."
-
-#: lang/json/gunmod_from_json.py
-msgid "handmade auto-fire mechanism"
-msgid_plural "handmade auto-fire mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
-"is handmade."
-msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "5.45 caliber conversion kit"
@@ -74134,10 +74134,10 @@ msgstr "Opérateur de Drones"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "Vous programmiez des machines telles que les robots de nettoyage, de distribution de journaux ou de livraison de pizza. Désormais ces drones sont tous équipés avec des armes à feu."
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -74148,10 +74148,10 @@ msgstr "Opératrice de Drones"
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You had a job programming machines like automatic street cleaners, newsbots "
-"and pizza delivery drones.  Now the all the drones carry guns instead of "
-"pizza."
-msgstr "Vous programmiez des machines telles que les robots de nettoyage, de distribution de journaux ou de livraison de pizza. Désormais ces drones sont tous équipés avec des armes à feu."
+"You had a job programming machines such as automatic street cleaners, "
+"newsbots and pizza delivery drones.  Now all the drones carry guns instead "
+"of pizza."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -102259,8 +102259,8 @@ msgstr "Q: J'ai froid et ne peux pas dormir la nuit!\nR: Récupérez des vêteme
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode."
-msgstr "Q: J'ai une question qui n'apparaît pas ici; comment puis-je obtenir une réponse?\nR: Demandez aux aimables membres du forum smf.cataclysmdda.com ou sur le canal irc #CataclysmDDA sur freenode."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+msgstr ""
 
 #: src/help.cpp
 msgid " HELP "
@@ -108137,11 +108137,6 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "The %1$s is too big to put in your %2$s."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "Error serializing monster: %s"
 msgstr ""
 
 #: src/iuse.cpp
@@ -121252,12 +121247,6 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "<npcname>'s %s is damaged by the misfired round!"
-msgstr ""
-
-#: src/ranged.cpp
-msgid ""
-"You'll need to aim at more distant targets to further improve your "
-"marksmanship."
 msgstr ""
 
 #: src/ranged.cpp

@@ -260,15 +260,17 @@ void player::sort_armor()
     };
 
     // Layout window
-    WINDOW *w_sort_armor = newwin( win_h, win_w, win_y, win_x );
+    catacurses::window w_sort_armor = catacurses::newwin( win_h, win_w, win_y, win_x );
     draw_grid( w_sort_armor, left_w, middle_w );
     // Subwindows (between lines)
-    WINDOW *w_sort_cat    = newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
-    WINDOW *w_sort_left   = newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
-    WINDOW *w_sort_middle = newwin( cont_h - num_bp - 1, middle_w, win_y + 3, win_x + left_w + 2 );
-    WINDOW *w_sort_right  = newwin( cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3 );
-    WINDOW *w_encumb      = newwin( num_bp + 1, middle_w, win_y + 3 + cont_h - num_bp - 1,
-                                    win_x + left_w + 2 );
+    catacurses::window w_sort_cat = catacurses::newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
+    catacurses::window w_sort_left = catacurses::newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
+    catacurses::window w_sort_middle = catacurses::newwin( cont_h - num_bp - 1, middle_w, win_y + 3,
+                                       win_x + left_w + 2 );
+    catacurses::window w_sort_right = catacurses::newwin( cont_h, right_w,  win_y + 3,
+                                      win_x + left_w + middle_w + 3 );
+    catacurses::window w_encumb = catacurses::newwin( num_bp + 1, middle_w,
+                                  win_y + 3 + cont_h - num_bp - 1, win_x + left_w + 2 );
 
     input_context ctxt( "SORT_ARMOR" );
     ctxt.register_cardinal();

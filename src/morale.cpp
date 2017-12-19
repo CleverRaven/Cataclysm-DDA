@@ -370,7 +370,7 @@ void player_morale::display( double focus_gain )
     const int win_x = ( TERMX - win_w ) / 2;
     const int win_y = ( TERMY - win_h ) / 2;
 
-    WINDOW *w = newwin( win_h, win_w, win_y, win_x );
+    catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
 
     draw_border( w );
 

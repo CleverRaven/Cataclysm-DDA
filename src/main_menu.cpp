@@ -239,12 +239,12 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
 void main_menu::display_credits()
 {
     // astyle got this redundant indent
-    WINDOW *w_credits_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    WINDOW *w_credits = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                          ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                          ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    catacurses::window w_credits = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                   1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                   1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
     draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
     wrefresh( w_credits_border );
     refresh();
@@ -262,7 +262,7 @@ bool main_menu::opening_screen()
     world_generator->set_active_world( NULL );
     world_generator->init();
 
-    w_background = newwin( TERMY, TERMX, 0, 0 );
+    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
     WINDOW_PTR w_backgroundptr( w_background );
     werase( w_background );
     wrefresh( w_background );
@@ -280,7 +280,7 @@ bool main_menu::opening_screen()
     const int x0 = ( TERMX - total_w ) / 2;
     const int y0 = ( TERMY - total_h ) / 2;
 
-    w_open = newwin( total_h, total_w, y0, x0 );
+    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
     WINDOW_PTR w_openptr( w_open );
 
     iMenuOffsetY = total_h - 3;

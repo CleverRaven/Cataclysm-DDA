@@ -712,8 +712,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
         int itemsX = pickupX;
 
-        WINDOW *w_pickup    = newwin( pickupH, pickupW, pickupY, pickupX );
-        WINDOW *w_item_info = newwin( itemsH,  itemsW,  itemsY,  itemsX );
+        catacurses::window w_pickup    = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
+        catacurses::window w_item_info = catacurses::newwin( itemsH,  itemsW,  itemsY,  itemsX );
         WINDOW_PTR w_pickupptr( w_pickup );
         WINDOW_PTR w_item_infoptr( w_item_info );
 
