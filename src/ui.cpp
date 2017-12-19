@@ -1,3 +1,4 @@
+
 #include "ui.h"
 #include "catacharset.h"
 #include "output.h"
@@ -481,13 +482,6 @@ void uimenu::setup()
     }
     window = catacurses::newwin( w_height, w_width, w_y, w_x );
 
-    werase(window);
-    draw_border(window, border_color);
-    if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
-    }
     fselected = selected;
     if(fselected < 0) {
         fselected = selected = 0;
@@ -567,6 +561,15 @@ void uimenu::show()
     if (!started) {
         setup();
     }
+
+    werase(window);
+    draw_border(window, border_color);
+    if( !title.empty() ) {
+        mvwprintz(window, 0, 1, border_color, "< ");
+        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz(window, border_color, " >");
+    }
+
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     int estart = 1;
@@ -582,7 +585,6 @@ void uimenu::show()
         mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
         estart += text_lines + 1; // +1 for the horizontal line.
     }
-
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
