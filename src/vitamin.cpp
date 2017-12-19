@@ -70,7 +70,6 @@ void vitamin::load_vitamin( JsonObject &jo )
         jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
     } else {
         vitamins_all[ vit.id_ ] = vit;
-        DebugLog( D_INFO, DC_ALL ) << "Loaded vitamin: " << vit.name_;
     }
 }
 

@@ -4723,7 +4723,6 @@ void overmap::add_mon_group(const mongroup &group)
             xpop += tmp.population;
         }
     }
-    DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
 }
 
 void overmap::for_each_npc( const std::function<void( npc & )> callback )
