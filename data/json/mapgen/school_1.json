@@ -152,15 +152,15 @@
         { "item": "american_flag", "x": 36, "y": 58, "amount": 1 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 3 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 1, 3 ], "density": 2 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 1, 3 ], "density": 2 }
+        { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 1 ], "density": 2 },
+        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 1 }
       ],
       "place_vehicles": [
         { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "fuel": 0, "status": 0, "rotation": 0 }
