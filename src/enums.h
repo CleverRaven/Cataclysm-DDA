@@ -95,7 +95,7 @@ enum visibility_type {
   VIS_BOOMER_DARK
 };
 
-enum special_game_id {
+enum special_game_id : int {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
     SGAME_DEFENSE,

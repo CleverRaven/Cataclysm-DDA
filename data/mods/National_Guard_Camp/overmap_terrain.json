@@ -1738,7 +1738,7 @@
         "type": "overmap_terrain"
     },
     {
-        "color": "i_ltgray",
+        "color": "i_light_gray",
         "id": "national_guard_camp_159",
         "mondensity": 2,
         "name": "commo building",
@@ -1793,7 +1793,7 @@
         "type": "overmap_terrain"
     },
     {
-        "color": "c_ltgray",
+        "color": "c_light_gray",
         "id": "national_guard_camp_164",
         "mondensity": 2,
         "name": "flag pole",
@@ -1826,7 +1826,7 @@
         "type": "overmap_terrain"
     },
     {
-        "color": "i_ltcyan",
+        "color": "i_light_cyan",
         "id": "national_guard_camp_167",
         "mondensity": 2,
         "name": "gym",

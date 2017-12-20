@@ -16,6 +16,7 @@
 #include "options.h"
 #include "translations.h"
 #include "units.h"
+#include "vitamin.h"
 
 #include <string>
 #include <algorithm>

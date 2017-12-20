@@ -9,6 +9,7 @@
 #include "name.h"
 
 #include <string>
+#include <set>
 #include <algorithm>
 
 // Names depend on the language settings. They are loaded from different files

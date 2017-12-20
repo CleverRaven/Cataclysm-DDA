@@ -2,15 +2,16 @@
 #ifndef MONSTER_GENERATOR_H
 #define MONSTER_GENERATOR_H
 
-#include "json.h"
 #include "enums.h"
 #include "string_id.h"
 #include "mattack_common.h"
 
 #include <map>
 #include <memory>
+#include <vector>
 #include <set>
 
+class JsonObject;
 class Creature;
 struct mtype;
 enum m_flag : int;

@@ -18,6 +18,8 @@ class quantity;
 class mass_in_gram_tag;
 using mass = quantity<int, mass_in_gram_tag>;
 }
+class JsonIn;
+class JsonOut;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -329,7 +331,6 @@ class ofstream_wrapper
  */
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
-class JsonIn;
 class JsonDeserializer;
 /**
  * Try to open and read from given file using the given callback.
@@ -408,5 +409,40 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
 
 std::string obscure_message( const std::string &str, std::function<char( void )> f );
 
+/**
+ * @group JSON (de)serialization wrappers.
+ *
+ * The functions here provide a way to (de)serialize objects without actually
+ * including "json.h". The `*_wrapper` function create the JSON stream instances
+ * and therefor require "json.h", but the caller doesn't. Callers should just
+ * forward the stream reference to the actual (de)serialization function.
+ *
+ * The inline function do this by calling `T::(de)serialize` (which is assumed
+ * to exist with the proper signature).
+ *
+ * @throws std::exception Deserialization functions may throw upon malformed
+ * JSON or unexpected/invalid content.
+ */
+/**@{*/
+std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
+void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
+                          const std::string &data );
+
+template<typename T>
+inline std::string serialize( const T &obj )
+{
+    return serialize_wrapper( [&obj]( JsonOut & jsout ) {
+        obj.serialize( jsout );
+    } );
+}
+
+template<typename T>
+inline void deserialize( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin );
+    }, data );
+}
+/**@}*/
 
 #endif // CAT_UTILITY_H

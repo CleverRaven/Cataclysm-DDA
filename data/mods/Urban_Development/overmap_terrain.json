@@ -4,7 +4,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -14,7 +14,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -24,7 +24,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -34,7 +34,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -44,7 +44,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -54,7 +54,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -64,7 +64,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -74,7 +74,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -84,7 +84,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -94,7 +94,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -104,7 +104,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -114,7 +114,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -124,7 +124,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -134,7 +134,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -144,7 +144,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -154,7 +154,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -164,7 +164,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -194,7 +194,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -204,7 +204,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -214,7 +214,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -224,7 +224,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -234,7 +234,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -244,7 +244,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -254,7 +254,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -264,7 +264,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -274,7 +274,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -284,7 +284,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -294,7 +294,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -304,7 +304,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -314,7 +314,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -324,7 +324,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -334,7 +334,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -344,7 +344,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -354,7 +354,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -364,7 +364,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -374,7 +374,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -384,7 +384,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -394,7 +394,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -404,7 +404,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -414,7 +414,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -424,7 +424,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -434,7 +434,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -444,7 +444,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -454,7 +454,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -464,7 +464,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -474,7 +474,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -484,7 +484,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -494,7 +494,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -504,7 +504,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -514,7 +514,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -524,7 +524,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -534,7 +534,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -544,7 +544,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -554,7 +554,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -564,7 +564,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -574,7 +574,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -584,7 +584,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -594,7 +594,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -604,7 +604,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -614,7 +614,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -624,7 +624,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -634,7 +634,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -644,7 +644,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -654,7 +654,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -664,7 +664,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -674,7 +674,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -684,7 +684,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -694,7 +694,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -704,7 +704,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -714,7 +714,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -984,7 +984,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -994,7 +994,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1004,7 +1004,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1014,7 +1014,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1024,7 +1024,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1034,7 +1034,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1044,7 +1044,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1054,7 +1054,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1064,7 +1064,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1074,7 +1074,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1084,7 +1084,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1094,7 +1094,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1104,7 +1104,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1114,7 +1114,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1144,7 +1144,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1154,7 +1154,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1164,7 +1164,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1174,7 +1174,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1184,7 +1184,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1194,7 +1194,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1204,7 +1204,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1214,7 +1214,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1244,7 +1244,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1254,7 +1254,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1264,7 +1264,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1274,7 +1274,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1284,7 +1284,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1294,7 +1294,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1304,7 +1304,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1314,7 +1314,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1324,7 +1324,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1334,7 +1334,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1364,7 +1364,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1374,7 +1374,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1384,7 +1384,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1394,7 +1394,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1404,7 +1404,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1414,7 +1414,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1424,7 +1424,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1434,7 +1434,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1444,7 +1444,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1454,7 +1454,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1464,7 +1464,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1474,7 +1474,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1484,7 +1484,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -1494,7 +1494,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2795,7 +2795,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2805,7 +2805,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2815,7 +2815,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2825,7 +2825,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2835,7 +2835,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2845,7 +2845,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2855,7 +2855,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2865,7 +2865,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2875,7 +2875,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2885,7 +2885,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2895,7 +2895,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2905,7 +2905,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2915,7 +2915,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2925,7 +2925,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2935,7 +2935,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2945,7 +2945,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2955,7 +2955,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2965,7 +2965,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2975,7 +2975,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2985,7 +2985,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -2995,7 +2995,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3005,7 +3005,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3015,7 +3015,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3025,7 +3025,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3035,7 +3035,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3045,7 +3045,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3055,7 +3055,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3065,7 +3065,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3075,7 +3075,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3085,7 +3085,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3095,7 +3095,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3105,7 +3105,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3115,7 +3115,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3125,7 +3125,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3135,7 +3135,7 @@
     "type": "overmap_terrain",
     "name": "hotel",
     "sym": 72,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3145,7 +3145,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3155,7 +3155,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3165,7 +3165,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3175,7 +3175,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3185,7 +3185,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3195,7 +3195,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3205,7 +3205,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3215,7 +3215,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3225,7 +3225,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3235,7 +3235,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3245,7 +3245,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3255,7 +3255,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3265,7 +3265,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3275,7 +3275,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3285,7 +3285,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3295,7 +3295,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3305,7 +3305,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3315,7 +3315,7 @@
     "type": "overmap_terrain",
     "name": "school",
     "sym": 83,
-    "color": "ltblue",
+    "color": "light_blue",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3555,7 +3555,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3565,7 +3565,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3575,7 +3575,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3585,7 +3585,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3595,7 +3595,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3605,7 +3605,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3615,7 +3615,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3625,7 +3625,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3635,7 +3635,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3645,7 +3645,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3655,7 +3655,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3665,7 +3665,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3675,7 +3675,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3685,7 +3685,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3695,7 +3695,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3705,7 +3705,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3715,7 +3715,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3725,7 +3725,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3735,7 +3735,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3745,7 +3745,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3755,7 +3755,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3765,7 +3765,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3775,7 +3775,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3785,7 +3785,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3795,7 +3795,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3805,7 +3805,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3815,7 +3815,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3825,7 +3825,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3835,7 +3835,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3845,7 +3845,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3855,7 +3855,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3865,7 +3865,7 @@
     "type": "overmap_terrain",
     "name": "projects",
     "sym": 80,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4455,7 +4455,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4465,7 +4465,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4475,7 +4475,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4485,7 +4485,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4495,7 +4495,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4505,7 +4505,7 @@
     "type": "overmap_terrain",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]

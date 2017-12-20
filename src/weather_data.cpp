@@ -18,12 +18,12 @@
 weather_animation_t get_weather_animation(weather_type const type)
 {
     static std::map<weather_type, weather_animation_t> const map {
-        {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_ltgreen, '.'}},
-        {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_ltgreen, ','}},
-        {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_ltblue,  '.'}},
-        {WEATHER_RAINY,        weather_animation_t {0.02f, c_ltblue,  ','}},
-        {WEATHER_THUNDER,      weather_animation_t {0.02f, c_ltblue,  '.'}},
-        {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_ltblue,  ','}},
+        {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
+        {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
+        {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
+        {WEATHER_RAINY,        weather_animation_t {0.02f, c_light_blue,  ','}},
+        {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},
+        {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_light_blue,  ','}},
         {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
         {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
         {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}}
@@ -84,15 +84,15 @@ weather_datum const weather_data(weather_type const type)
             &weather_effect::none
         },
         weather_datum {
-            translate_marker("Sunny"), c_ltcyan, 0, 1.0f, 2, 0, false,
+            translate_marker("Sunny"), c_light_cyan, 0, 1.0f, 2, 0, false,
             &weather_effect::glare
         },
         weather_datum {
-            translate_marker("Cloudy"), c_ltgray, 0, 1.0f, -20, 0, false,
+            translate_marker("Cloudy"), c_light_gray, 0, 1.0f, -20, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            translate_marker("Drizzle"), c_ltblue, 1, 1.03f, -20, 1, false,
+            translate_marker("Drizzle"), c_light_blue, 1, 1.03f, -20, 1, false,
             &weather_effect::wet
         },
         weather_datum {
@@ -100,7 +100,7 @@ weather_datum const weather_data(weather_type const type)
             &weather_effect::very_wet
         },
         weather_datum {
-            translate_marker("Thunder Storm"), c_dkgray, 4, 1.2f, -40, 8, false,
+            translate_marker("Thunder Storm"), c_dark_gray, 4, 1.2f, -40, 8, false,
             &weather_effect::thunder
         },
         weather_datum {
@@ -108,7 +108,7 @@ weather_datum const weather_data(weather_type const type)
             &weather_effect::lightning
         },
         weather_datum {
-            translate_marker("Acidic Drizzle"), c_ltgreen, 2, 1.03f, -20, 1, true,
+            translate_marker("Acidic Drizzle"), c_light_green, 2, 1.03f, -20, 1, true,
             &weather_effect::light_acid
         },
         weather_datum {

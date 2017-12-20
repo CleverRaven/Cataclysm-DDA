@@ -996,7 +996,7 @@
         "id" : "vehicle_alarm",
         "name" : "security system",
         "symbol" : ",",
-        "color" : "ltred",
+        "color" : "light_red",
         "broken_symbol" : ",",
         "broken_color" : "red",
         "damage_modifier" : 10,

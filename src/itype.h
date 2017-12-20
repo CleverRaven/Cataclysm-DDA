@@ -10,7 +10,6 @@
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
 #include "explosion.h"
-#include "vitamin.h"
 #include "units.h"
 #include "damage.h"
 #include "translations.h"
@@ -35,6 +34,8 @@ struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 class player;
 class item;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;

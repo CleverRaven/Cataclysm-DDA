@@ -2,7 +2,6 @@
 #ifndef VEHICLE_GROUP_H
 #define VEHICLE_GROUP_H
 
-#include "json.h"
 #include "mapgen.h"
 #include <string>
 #include <memory>
@@ -11,6 +10,7 @@
 #include "string_id.h"
 #include "weighted_list.h"
 
+class JsonObject;
 class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 class VehicleSpawn;

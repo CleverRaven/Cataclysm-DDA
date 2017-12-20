@@ -74,7 +74,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         abort();
     }
 
-    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred,
+    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " DEBUG    : %s\n \n"
                     " FUNCTION : %s\n"
