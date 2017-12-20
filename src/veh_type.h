@@ -99,8 +99,8 @@ class vpart_info
         std::string location;
 
         /** Color of part for different states */
-        nc_color color = c_ltgray;
-        nc_color color_broken = c_ltgray;
+        nc_color color = c_light_gray;
+        nc_color color_broken = c_light_gray;
 
         /**
          * Symbol of part which will be translated as follows:

@@ -5,7 +5,6 @@
 #include <typeinfo>
 #include <list>
 
-#include "json.h"
 #include "enums.h"
 #include "omdata.h"
 
@@ -22,7 +21,7 @@ class item;
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
 */
-class uistatedata : public JsonSerializer, public JsonDeserializer
+class uistatedata
 {
     /**** this will set a default value on startup, however to save, see below ****/
     private:
@@ -104,8 +103,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         }
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
-        template <typename T>
-        void serialize_array(JsonOut &json, std::string name, T &data) const
+        template<typename JsonStream, typename T>
+        void serialize_array( JsonStream &json, std::string name, T &data ) const
         {
             json.member(name);
             json.start_array();
@@ -115,8 +114,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.end_array();
         }
 
-        using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override
+        template<typename JsonStream>
+        void serialize( JsonStream &json ) const
         {
             const unsigned int input_history_save_max = 25;
             json.start_object();
@@ -168,9 +167,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.end_object();
         };
 
-        void deserialize(JsonIn &jsin) override
+        template<typename JsonStream>
+        void deserialize( JsonStream &jsin )
         {
-            JsonObject jo = jsin.get_object();
+            auto jo = jsin.get_object();
             /**** here ****/
             if(jo.has_array("adv_inv_sort")) {
                 auto tmp = jo.get_int_array("adv_inv_sort");
@@ -197,7 +197,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             }
             // viewing vehicle cargo
             if(jo.has_array("adv_inv_in_vehicle")) {
-                JsonArray ja = jo.get_array("adv_inv_in_vehicle");
+                auto ja = jo.get_array( "adv_inv_in_vehicle" );
                 for(size_t i = 0; ja.has_more(); ++i) {
                     adv_inv_in_vehicle[i] = ja.next_bool();
                 }
@@ -239,11 +239,11 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("list_item_downvote_active", list_item_downvote_active);
             jo.read("list_item_priority_active", list_item_priority_active);
 
-            JsonObject inhist = jo.get_object("input_history");
+            auto inhist = jo.get_object( "input_history" );
             std::set<std::string> inhist_members = inhist.get_member_names();
             for (std::set<std::string>::iterator it = inhist_members.begin();
                  it != inhist_members.end(); ++it) {
-                JsonArray ja = inhist.get_array(*it);
+                auto ja = inhist.get_array( *it );
                 std::vector<std::string>& v = gethistory(*it);
                 v.clear();
                 while (ja.has_more()) {

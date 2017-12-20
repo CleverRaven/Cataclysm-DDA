@@ -158,7 +158,7 @@
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall",
-        ".": "t_null",
+        ".": "t_floor",
         "@": "t_console_broken",
         "D": "t_door_locked",
         "c": "t_linoleum_gray",

@@ -34,6 +34,29 @@
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
 
+static bool wmove_internal( const window &win_, const int y, const int x )
+{
+    if( win_.get() == nullptr ) {
+        return false;
+    }
+    cata_cursesport::WINDOW &win = *win_.get<cata_cursesport::WINDOW>();
+    if( x >= win.width ) {
+        return false;
+    }
+    if( y >= win.height ) {
+        return false;
+    }
+    if( y < 0 ) {
+        return false;
+    }
+    if( x < 0 ) {
+        return false;
+    }
+    win.cursorx = x;
+    win.cursory = y;
+    return true;
+}
+
 //***********************************
 //Pseudo-Curses Functions           *
 //***********************************
@@ -388,12 +411,9 @@ void catacurses::wprintw(const window &win, const std::string &printbuf )
 //Prints a formatted string to a window, moves the cursor
 void catacurses::mvwprintw(const window &win, int y, int x, const std::string &printbuf )
 {
-    if( win == nullptr ) {
-        //@todo log this
+    if( !wmove_internal( win, y, x ) ) {
         return;
     }
-
-    wmove( win, y, x );
     return printstring(win.get<cata_cursesport::WINDOW>(), printbuf);
 }
 
@@ -432,24 +452,10 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 //moves the cursor in a window
 void catacurses::wmove( const window &win_, int y, int x)
 {
+    if( !wmove_internal( win_, y, x ) ) {
+        return;
+    }
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    if( win == nullptr ) {
-        //@todo log this
-        return;
-    }
-
-    if (x >= win->width) {
-        return;   //FIXES MAP CRASH -> >= vs > only
-    }
-    if (y >= win->height) {
-        return;   // > crashes?
-    }
-    if (y < 0) {
-        return;
-    }
-    if (x < 0) {
-        return;
-    }
     win->cursorx = x;
     win->cursory = y;
 }
@@ -463,7 +469,9 @@ void catacurses::clear()
 //adds a character to the window
 void catacurses::mvwaddch(const window &win, int y, int x, const chtype ch)
 {
-    wmove( win, y, x );
+    if( !wmove_internal( win, y, x ) ) {
+        return;
+    }
     return waddch(win, ch);
 }
 

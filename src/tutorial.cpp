@@ -14,6 +14,7 @@
 #include "trap.h"
 #include "player.h"
 #include "scent_map.h"
+#include "json.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

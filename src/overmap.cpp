@@ -1387,7 +1387,7 @@ bool overmap::inbounds( int x, int y, int z, int clearance )
 point overmap::display_notes(int z)
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
-    WINDOW *w_notes = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_notes = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                               (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                               (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
@@ -1405,7 +1405,7 @@ point overmap::display_notes(int z)
     bool redraw = true;
     point result(-1, -1);
 
-    mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
+    mvwprintz(w_notes, 1, 1, c_light_gray, title.c_str());
     do {
         if (redraw) {
             for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++) {
@@ -1420,7 +1420,7 @@ point overmap::display_notes(int z)
                 }
                 // Print letter ('a' <=> cur_it == start)
                 mvwputch (w_notes, i + 2, 1, c_white, 'a' + i);
-                mvwprintz(w_notes, i + 2, 3, c_ltgray, "- %s", notes[cur_it].second.c_str());
+                mvwprintz(w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str());
             }
             if (start >= maxitems) {
                 mvwprintw(w_notes, maxitems + 2, 1, back_msg.c_str());
@@ -1950,11 +1950,11 @@ static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &t
             break;
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
-            ter_color = c_ltblue;
+            ter_color = c_light_blue;
             ter_sym = '8';
             break;
         case WEATHER_ACID_DRIZZLE:
-            ter_color = c_ltgreen;
+            ter_color = c_light_green;
             ter_sym = '8';
             break;
         case WEATHER_RAINY:
@@ -1969,7 +1969,7 @@ static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &t
         case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
         case WEATHER_SNOWSTORM:
-            ter_color = c_dkgray;
+            ter_color = c_dark_gray;
             ter_sym = '8';
             break;
     }
@@ -2149,7 +2149,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     get_note_display_info(overmap_buffer.note(cur_pos));
             } else if (!see) {
                 // All cases above ignore the seen-status,
-                ter_color = c_dkgray;
+                ter_color = c_dark_gray;
                 ter_sym   = '#';
                 // All cases below assume that see is true.
             } else if( blink && npc_color.count( cur_pos ) != 0 ) {
@@ -2187,7 +2187,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 if (info) {
                     // Map tile marked as explored
                     bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
-                    ter_color = explored ? c_dkgray : info->get_color();
+                    ter_color = explored ? c_dark_gray : info->get_color();
                     ter_sym   = info->get_sym();
                 }
             }
@@ -2223,7 +2223,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     // Set the color only if we encountered an eligible group.
                     if( ter_sym == '+' || ter_sym == '-' ) {
                         if( los ) {
-                            ter_color = c_ltblue;
+                            ter_color = c_light_blue;
                         } else {
                             ter_color = c_blue;
                         }
@@ -2403,7 +2403,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
         }
     } else {
-        mvwprintz(wbar, 1, 1, c_dkgray, _("# Unexplored"));
+        mvwprintz(wbar, 1, 1, c_dark_gray, _("# Unexplored"));
     }
 
     if (has_target) {
@@ -2422,8 +2422,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         };
 
         if( data.debug_editor ) {
-            print_hint( "PLACE_TERRAIN", c_ltblue );
-            print_hint( "PLACE_SPECIAL", c_ltblue );
+            print_hint( "PLACE_TERRAIN", c_light_blue );
+            print_hint( "PLACE_SPECIAL", c_light_blue );
             ++y;
         }
 
@@ -2449,10 +2449,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     // draw nice crosshair around the cursor
     if( blink && !uistate.place_terrain && !uistate.place_special ) {
-        mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
-        mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
-        mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
-        mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
+        mvwputch(w, om_half_height-1, om_half_width-1, c_light_gray, LINE_OXXO);
+        mvwputch(w, om_half_height-1, om_half_width+1, c_light_gray, LINE_OOXX);
+        mvwputch(w, om_half_height+1, om_half_width-1, c_light_gray, LINE_XXOO);
+        mvwputch(w, om_half_height+1, om_half_width+1, c_light_gray, LINE_XOOX);
     }
     // Done with all drawing!
     wrefresh(wbar);
@@ -2552,14 +2552,14 @@ tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, in
 tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
     delwin(g->w_omlegend);
-    g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
+    g->w_omlegend = catacurses::newwin( TERMY, 28, 0, TERMX - 28 );
     delwin(g->w_overmap);
-    g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
+    g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0 );
 
     // Draw black padding space to avoid gap between map and legend
     // also clears the pixel minimap in TILES
     delwin(g->w_blackspace);
-    g->w_blackspace = newwin(TERMY, TERMX, 0, 0);
+    g->w_blackspace = catacurses::newwin( TERMY, TERMX, 0, 0 );
     mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);
 
@@ -2714,7 +2714,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             int i = 0;
             //Navigate through results
             tripoint tmp = curs;
-            WINDOW *w_search = newwin(13, 27, 3, TERMX - 27);
+            catacurses::window w_search = catacurses::newwin( 13, 27, 3, TERMX - 27 );
             WINDOW_PTR w_searchptr( w_search );
 
             input_context ctxt("OVERMAP_SEARCH");
@@ -2731,13 +2731,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 tmp.y = locations[i].y;
                 draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
-                mvwprintz(w_search, 1, 1, c_ltblue, _("Search:"));
-                mvwprintz(w_search, 1, 10, c_ltred, "%*s", 12, term.c_str());
+                mvwprintz(w_search, 1, 1, c_light_blue, _("Search:"));
+                mvwprintz(w_search, 1, 10, c_light_red, "%*s", 12, term.c_str());
 
-                mvwprintz(w_search, 2, 1, c_ltblue, _("Result(s):"));
-                mvwprintz(w_search, 2, 16, c_ltred, "%*d/%d" , 3, i+1, locations.size());
+                mvwprintz(w_search, 2, 1, c_light_blue, _("Result(s):"));
+                mvwprintz(w_search, 2, 16, c_light_red, "%*d/%d" , 3, i+1, locations.size());
 
-                mvwprintz(w_search, 3, 1, c_ltblue, _("Direction:"));
+                mvwprintz(w_search, 3, 1, c_light_blue, _("Direction:"));
                 mvwprintz(w_search, 3, 14, c_white, "%*d %s",
                           5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
@@ -2783,7 +2783,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             pmenu.query();
 
             if( pmenu.ret >= 0 ) {
-                WINDOW *w_editor = newwin( 15, 27, 3, TERMX - 27 );
+                catacurses::window w_editor = catacurses::newwin( 15, 27, 3, TERMX - 27 );
                 input_context ctxt( "OVERMAP_EDITOR" );
                 ctxt.register_directions();
                 ctxt.register_action( "CONFIRM" );
@@ -2818,17 +2818,17 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     draw_border( w_editor );
                     if( terrain ) {
                         mvwprintz( w_editor, 1, 1, c_white, _("Place overmap terrain:") );
-                        mvwprintz( w_editor, 2, 1, c_ltblue, "                         " );
-                        mvwprintz( w_editor, 2, 1, c_ltblue, uistate.place_terrain->id.c_str() );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_terrain->id.c_str() );
                     } else {
                         mvwprintz( w_editor, 1, 1, c_white, _("Place overmap special:") );
-                        mvwprintz( w_editor, 2, 1, c_ltblue, "                         " );
-                        mvwprintz( w_editor, 2, 1, c_ltblue, uistate.place_special->id.c_str() );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_special->id.c_str() );
                     }
                     const std::string rotation = om_direction::name( uistate.omedit_rotation );
 
-                    mvwprintz( w_editor, 3, 1, c_ltgray, "                         " );
-                    mvwprintz( w_editor, 3, 1, c_ltgray, _("Rotation: %s %s"), rotation.c_str(), can_rotate ? "" : _( "(fixed)" ) );
+                    mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
+                    mvwprintz( w_editor, 3, 1, c_light_gray, _("Rotation: %s %s"), rotation.c_str(), can_rotate ? "" : _( "(fixed)" ) );
                     mvwprintz( w_editor, 5, 1, c_red, _("Areas highlighted in red") );
                     mvwprintz( w_editor, 6, 1, c_red, _("already have map content") );
                     mvwprintz( w_editor, 7, 1, c_red, _("generated. Their overmap") );

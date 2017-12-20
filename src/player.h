@@ -11,6 +11,7 @@
 #include "game_constants.h"
 #include "craft_command.h"
 #include "ret_val.h"
+#include "damage.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -21,6 +22,9 @@ static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz")
 
 enum action_id : int;
 struct bionic;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class dispersion_sources;
 class monster;
 class game;
@@ -115,31 +119,14 @@ extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
-struct stats : public JsonSerializer, public JsonDeserializer {
+struct stats {
     int squares_walked = 0;
     int damage_taken = 0;
     int damage_healed = 0;
     int headshots = 0;
 
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("squares_walked", squares_walked);
-        json.member("damage_taken", damage_taken);
-        json.member("damage_healed", damage_healed);
-        json.member("headshots", headshots);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        jo.read("squares_walked", squares_walked);
-        jo.read("damage_taken", damage_taken);
-        jo.read("damage_healed", damage_healed);
-        jo.read("headshots", headshots);
-    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 struct stat_mod {
@@ -151,7 +138,7 @@ struct stat_mod {
     int speed = 0;
 };
 
-class player : public Character, public JsonSerializer, public JsonDeserializer
+class player : public Character
 {
     public:
         player();
@@ -201,12 +188,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int print_info(WINDOW *w, int vStart, int vLines, int column) const override;
 
         // populate variables, inventory items, and misc from json object
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        virtual void deserialize( JsonIn &jsin );
 
-        using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const override;
+        virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, std::string epitaph );
@@ -468,6 +453,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
+        /** Returns true if the player is protected from radiation */
+        bool is_rad_immune() const;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
@@ -1262,6 +1249,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void long_craft();
         void make_craft( const std::string & id, int batch_size );
         void make_all_craft( const std::string & id, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1447,7 +1435,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
+        int get_hp_max() const override;
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
 

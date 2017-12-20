@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "json.h"
 #include "sounds.h"
 #include "cata_utility.h"
 #include "input.h"
@@ -1532,6 +1533,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
@@ -1610,18 +1612,18 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     mapLines[4] = true;
     mapLines[60] = true;
 
-    WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX);
+    catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX );
     WINDOW_PTR w_options_borderptr( w_options_border );
 
-    WINDOW *w_options_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                        1 + iOffsetX);
     WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
 
-    WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
+    catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
                                       1 + iOffsetX);
     WINDOW_PTR w_options_headerptr( w_options_header );
 
-    WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
+    catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
     WINDOW_PTR w_optionsptr( w_options );
 
@@ -1681,7 +1683,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 (int)mPageItems[iCurrentPage].size() : iContentHeight); i++) {
 
             int line_pos; // Current line position in window.
-            nc_color cLineColor = c_ltgreen;
+            nc_color cLineColor = c_light_green;
             cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
 
             line_pos = i - iStartPos;
@@ -1699,7 +1701,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
 
             if (current_opt->getValue() == "false") {
-                cLineColor = c_ltred;
+                cLineColor = c_light_red;
             }
 
             const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
@@ -1721,10 +1723,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
                     wprintz(w_options_header,
-                            (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
+                            (iCurrentPage == i) ? hilite(c_light_green) : c_light_green, _("Current world"));
                 } else {
                     wprintz(w_options_header, (iCurrentPage == i) ?
-                            hilite( c_ltgreen ) : c_ltgreen, "%s", _( vPages[i].second.c_str() ) );
+                            hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second.c_str() ) );
                 }
                 wprintz(w_options_header, c_white, "]");
                 wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
@@ -1773,7 +1775,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
         if ( iCurrentPage != iLastPage ) {
             iLastPage = iCurrentPage;
             if ( ingame && iCurrentPage == iWorldOptPage ) {
-                mvwprintz( w_options_tooltip, 3, 3, c_ltred, "%s", _("Note: ") );
+                mvwprintz( w_options_tooltip, 3, 3, c_light_red, "%s", _("Note: ") );
                 wprintz(  w_options_tooltip, c_white, "%s",
                           _("Some of these options may produce unexpected results if changed."));
             }
@@ -1993,8 +1995,9 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = FILENAMES["options"];
-
-    if( !read_from_file_optional( file, *this ) ) {
+    if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    deserialize( jsin );
+    } ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);

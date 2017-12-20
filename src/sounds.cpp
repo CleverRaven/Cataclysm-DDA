@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
+#include "effect.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"

@@ -211,7 +211,7 @@ So for example if your local language is New Zealand English (en_NZ), and you wa
 
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
-[2]: http://smf.cataclysmdda.com/index.php?board=14.0
+[2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/
 [4]: ../lang/notes
 [5]: https://www.gnu.org/software/gettext/

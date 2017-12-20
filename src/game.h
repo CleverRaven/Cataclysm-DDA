@@ -11,6 +11,7 @@
 #include "cursesdef.h"
 #include "ranged.h"
 
+#include <array>
 #include <vector>
 #include <map>
 #include <unordered_map>
@@ -117,13 +118,6 @@ struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
-
-// Note: this is copied from inventory.h
-// Entire inventory.h would also bring item.h here
-typedef std::list< std::list<item> > invstack;
-typedef std::vector< std::list<item>* > invslice;
-typedef std::vector< const std::list<item>* > const_invslice;
-typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 typedef std::function<bool( const item & )> item_filter;
 

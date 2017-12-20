@@ -3,19 +3,18 @@
 #define WORLDFACTORY_H
 
 #include "cursesdef.h"
-#include "enums.h"
-#include "json.h"
 #include "options.h"
 
 #include <functional>
 #include <map>
-#include <unordered_map>
 #include <vector>
 #include <string>
 #include <memory>
 #include <iosfwd>
 
 class JsonIn;
+class JsonObject;
+enum special_game_id : int;
 
 class save_t
 {

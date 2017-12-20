@@ -9,7 +9,7 @@
     "price": 1920,
     "material": "steel",
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo_type": "nail",
     "capacity": 50,
     "reliability": 6,

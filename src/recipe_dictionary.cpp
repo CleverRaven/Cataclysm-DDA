@@ -3,6 +3,7 @@
 #include "itype.h"
 #include "generic_factory.h"
 #include "item_factory.h"
+#include "item.h"
 #include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
