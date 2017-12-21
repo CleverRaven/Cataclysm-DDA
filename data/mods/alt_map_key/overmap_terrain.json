@@ -7835,5 +7835,157 @@
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_0",
+    "name": "lumberyard",
+    "copy-from" : "generic_city_building",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_1",
+    "name": "lumberyard",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_0",
+    "name": "lumberyard",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_1",
+    "name": "lumberyard",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_0",
+    "name": "zoo parking",
+    "copy-from" : "generic_city_building",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_0",
+    "name": "zoo parking",
+    "copy-from" : "generic_city_building",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_0",
+    "name": "zoo pavilion",
+    "copy-from" : "generic_city_building",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_1",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_1",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_1",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_2",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_2",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_2",
+    "name": "zoo",
+    "copy-from" : "generic_city_building_no_sidewalk",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pet_store",
+    "name": "pet store",
+    "copy-from" : "generic_city_building",
+    "sym": 112,
+    "color" : "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "construction_site",
+    "name": "construction site",
+    "copy-from" : "generic_city_building",
+    "sym": 120,
+    "color": "i_grey"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office",
+    "name": "post office",
+    "copy-from" : "generic_city_building",
+    "sym": 80,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop",
+    "name": "candy shop",
+    "copy-from" : "generic_city_building",
+    "sym": 67,
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "name": "bakery",
+    "copy-from" : "generic_city_building",
+    "sym": 66,
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "copy-from" : "generic_city_building",
+    "sym": 73,
+    "color": "white"
   }
 ]
