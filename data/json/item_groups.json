@@ -8948,7 +8948,7 @@
       ["atomic_coffee",      10],
       ["tea",                35]
     ]
-  }{
+  },{
     "type" : "item_group",
     "id" : "lumberyard",
     "items":[
@@ -8960,5 +8960,5 @@
       ["saw", 10],
       ["chainsaw_off", 5]
     ]
-  },
+  }
 ]
