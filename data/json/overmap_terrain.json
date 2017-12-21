@@ -24,7 +24,7 @@
     },{
         "type" : "overmap_terrain",
         "abstract" : "generic_city_building",
-        "copy-from" : "city building",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
