@@ -230,8 +230,6 @@ tr_shotgun_2,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
-tr_light_snare,
-tr_heavy_snare,
 tr_landmine,
 tr_landmine_buried,
 tr_telepad,
@@ -296,8 +294,6 @@ void trap::finalize()
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
-    tr_light_snare = trapfind( "tr_light_snare" );
-    tr_heavy_snare = trapfind( "tr_heavy_snare" );
     tr_landmine = trapfind( "tr_landmine" );
     tr_landmine_buried = trapfind( "tr_landmine_buried" );
     tr_telepad = trapfind( "tr_telepad" );

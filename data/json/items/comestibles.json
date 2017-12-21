@@ -7367,6 +7367,7 @@
         "material" : "flesh",
         "volume" : 1,
         "stack_size" : 2,
+        "flags" : [ "EATEN_HOT" ],
         "fun" : 2
     },
     {
