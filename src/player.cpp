@@ -7235,7 +7235,8 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     }
 
     uimenu menu;
-    menu.text = string_format( _("Reload %s" ), base.tname().c_str() );
+    menu.text = string_format( base.is_watertight_container() ? _("Refill %s") : _("Reload %s" ),
+            base.tname().c_str() );
     menu.return_invalid = true;
     menu.w_width = -1;
     menu.w_height = -1;
@@ -7254,7 +7255,8 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
             }
 
-        } else if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
+        } else if( e.ammo->is_watertight_container() ||
+                ( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
 
@@ -7266,8 +7268,12 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(), std::back_inserter( where ), []( const reload_option& e ) {
-        if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
-            return e.ammo->type_name();
+        bool is_ammo_container = e.ammo->is_ammo_container();
+        if( is_ammo_container || e.ammo->is_container() ) {
+            if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
+                return e.ammo->type_name();
+            }
+            return string_format( _("%s, %s"), e.ammo->type_name(), e.ammo.describe( &g->u ) );
         }
         return e.ammo.describe( &g->u );
     } );
@@ -7439,7 +7445,9 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
-            auto id = ammo->is_ammo_container() ? ammo->contents.front().typeId() : ammo->typeId();
+            auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
+                ? ammo->contents.front().typeId()
+                : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 ammo_match_found = true;
             }
@@ -7456,7 +7464,14 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else if ( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
-            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : base.ammo_type()->name();
+            std::string name;
+            if ( base.ammo_data() ) {
+                base.ammo_data()->nname( 1 );
+            } else if ( base.is_watertight_container() ) {
+                name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+            } else {
+                name = base.ammo_type()->name();
+            }
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
         }
         return reload_option();
@@ -7824,7 +7839,6 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
-
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }
@@ -8072,7 +8086,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;

@@ -18,6 +18,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "enums.h"
+#include "calendar.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -830,7 +831,7 @@ class map
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const unsigned birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = 0, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
@@ -838,7 +839,7 @@ class map
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
         std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
-                                         const int x2, const int y2, bool ongrass, const int turn,
+                                         const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );
         void create_anomaly( const int cx, const int cy, artifact_natural_property prop );
@@ -856,7 +857,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const unsigned birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = 0, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -930,7 +931,7 @@ class map
         * @return vector containing all placed items
         */
         std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
-                                         const tripoint &t, bool ongrass, const int turn,
+                                         const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
         * Place items from an item group at p. Places as much items as the item group says.
@@ -940,7 +941,8 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p, const int turn = 0 );
+        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
+                                                const time_point &turn = 0 );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );

@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "json.h"
 #include "player_activity.h"
+#include "calendar.h"
 
 #include <unordered_map>
 #include <string>
@@ -197,7 +198,7 @@ void item::load_info( const std::string &data )
     unset_flags();
     clear_vars();
     std::string idtmp, ammotmp, item_tag, mode;
-    int lettmp, damtmp, acttmp, corp, tag_count;
+    int lettmp, damtmp, acttmp, corp, tag_count, bday_;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
@@ -208,8 +209,9 @@ void item::load_info( const std::string &data )
         }
     }
 
-    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
+    dump >> burnt >> poison >> ammotmp >> owned >> bday_ >>
          mode >> acttmp >> corp >> mission_id >> player_id;
+    bday = time_point::from_turn( bday_ );
     corpse = NULL;
     getline(dump, corpse_name);
     if( corpse_name == " ''" ) {

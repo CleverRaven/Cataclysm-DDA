@@ -242,7 +242,7 @@
         "symbol": "#",
         "color": "magenta",
         "move_cost_mod": 3,
-        "required_str": 12,
+        "required_str": 10,
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 4 },
@@ -315,7 +315,7 @@
         "symbol": "#",
         "color": "dark_gray",
         "move_cost_mod": 2,
-        "required_str": 16,
+        "required_str": 10,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -702,7 +702,7 @@
         "color": "brown",
         "examine_action": "sign",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -946,7 +946,7 @@
         "symbol": "{",
         "bgcolor": "white",
         "move_cost_mod": -1,
-        "required_str": 16,
+        "required_str": 12,
         "max_volume": 4000,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
@@ -981,7 +981,7 @@
         "symbol": "{",
         "bgcolor": "white",
         "move_cost_mod": -1,
-        "required_str": 16,
+        "required_str": 12,
         "max_volume": 4000,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
@@ -1049,7 +1049,7 @@
         "symbol": "{",
         "color": "light_cyan",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": 12,
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
         "examine_action": "vending",
         "bash": {
@@ -1070,7 +1070,7 @@
         "symbol": "{",
         "color": "dark_gray",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": 12,
         "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
             "str_min": 30, "str_max": 50,
@@ -1186,7 +1186,7 @@
         "symbol": "X",
         "bgcolor": "brown",
         "move_cost_mod": -1,
-        "required_str": 14,
+        "required_str": 12,
         "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM",
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "examine_action": "crate",
@@ -1213,7 +1213,7 @@
         "symbol": "O",
         "bgcolor": "brown",
         "move_cost_mod": -1,
-        "required_str": 12,
+        "required_str": 10,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE",
           "SHORT"],
         "deconstruct": {
@@ -1719,9 +1719,17 @@
         "symbol": "O",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_empty",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
@@ -1740,9 +1748,17 @@
         "symbol": "O",
         "color": "brown_cyan",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 12,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_full",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
@@ -1761,9 +1777,17 @@
         "symbol": "H",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 18 },
+                { "item": "nail", "charges": [7, 14] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 3 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
@@ -1976,7 +2000,7 @@
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 16,
         "crafting_pseudo_item": "anvil",
         "deconstruct": {
             "items": [
@@ -1999,7 +2023,7 @@
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "crafting_pseudo_item": "still",
         "deconstruct": {
             "items": [
@@ -2294,7 +2318,7 @@
         "symbol" : "O",
         "color": "light_gray",
         "move_cost_mod" : -1,
-        "required_str": -1,
+        "required_str": 10,
         "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
@@ -2349,7 +2373,7 @@
         "symbol": "U",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
@@ -2374,7 +2398,7 @@
         "symbol": "U",
         "color": "brown_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 12,
         "examine_action": "kiln_full",
         "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
@@ -2397,7 +2421,7 @@
         "symbol": "U",
         "color": "blue",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
@@ -2425,7 +2449,7 @@
         "symbol": "U",
         "color": "blue_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 12,
         "examine_action": "kiln_full",
         "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
         "deconstruct": {
@@ -2527,7 +2551,7 @@
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
-    "required_str": -1,
+    "required_str": 8,
     "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
@@ -2577,7 +2601,7 @@
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 10,
         "crafting_pseudo_item": "brick_kiln",
         "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {

@@ -7464,7 +7464,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
 }
 
 std::vector<item*> map::place_items( const items_location loc, const int chance, const tripoint &f,
-                                     const tripoint &t, const bool ongrass, const int turn,
+                                     const tripoint &t, const bool ongrass, const time_point &turn,
                                      const int magazine, const int ammo )
 {
     //@todo implement for 3D
@@ -7474,7 +7474,7 @@ std::vector<item*> map::place_items( const items_location loc, const int chance,
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
-                                      int x2, int y2, bool ongrass, int turn,
+                                      int x2, int y2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
     std::vector<item *> res;
@@ -7528,7 +7528,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
     return res;
 }
 
-std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
+std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, const time_point &turn)
 {
     const auto items = item_group::items_from(loc, turn);
     return spawn_items( p, items );

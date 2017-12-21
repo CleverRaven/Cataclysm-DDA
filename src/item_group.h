@@ -12,6 +12,7 @@ typedef std::string Group_tag;
 class item;
 class JsonObject;
 class JsonIn;
+class time_point;
 
 namespace item_group {
     /**
@@ -20,7 +21,7 @@ namespace item_group {
      * Note that this may return a null-item, if the group does not exist, is empty or did not
      * create an item this time. You have to check this with @ref item::is_null.
      */
-    item item_from( const Group_tag &group_id, int birthday );
+    item item_from( const Group_tag &group_id, const time_point &birthday );
     /**
      * Same as above but with implicit birthday at turn 0.
      */
@@ -41,7 +42,7 @@ namespace item_group {
      * with @ref group_is_defined.
      * @param birthday The birthday (@ref item::bday) of the items created by this function.
      */
-    ItemList items_from( const Group_tag &group_id, int birthday );
+    ItemList items_from( const Group_tag &group_id, const time_point &birthday );
     /**
      * Same as above but with implicit birthday at turn 0.
      */
@@ -104,14 +105,14 @@ class Item_spawn_data
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here
          */
-        virtual ItemList create(int birthday, RecursionList &rec) const = 0;
-        ItemList create(int birthday) const;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
+        ItemList create( const time_point &birthday ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
          */
-        virtual item create_single(int birthday, RecursionList &rec) const = 0;
-        item create_single(int birthday) const;
+        virtual item create_single( const time_point &birthday, RecursionList &rec ) const = 0;
+        item create_single( const time_point &birthday ) const;
         /**
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
@@ -221,8 +222,8 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
-        virtual ItemList create(int birthday, RecursionList &rec) const override;
-        item create_single(int birthday, RecursionList &rec) const override;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item(const Item_tag &itemid) override;
         bool has_item(const Item_tag &itemid) const override;
@@ -264,8 +265,8 @@ class Item_group : public Item_spawn_data
          */
         void add_entry(std::unique_ptr<Item_spawn_data> &ptr);
 
-        virtual ItemList create(int birthday, RecursionList &rec) const override;
-        item create_single(int birthday, RecursionList &rec) const override;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item(const Item_tag &itemid) override;
         bool has_item(const Item_tag &itemid) const override;

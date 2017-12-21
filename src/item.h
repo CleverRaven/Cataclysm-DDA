@@ -17,6 +17,7 @@
 #include "item_location.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "calendar.h"
 
 class nc_color;
 class JsonObject;
@@ -212,18 +213,18 @@ class item : public visitable<item>
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
 
-        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
-        explicit item( const itype *type, int turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = -1, long qty = -1 );
+        explicit item( const itype *type, time_point turn = -1, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
-        item( const itype_id& id, int turn, default_charges_tag );
-        item( const itype *type, int turn, default_charges_tag );
+        item( const itype_id& id, time_point turn, default_charges_tag );
+        item( const itype *type, time_point turn, default_charges_tag );
 
         /** Default (or randomised) charges except if counted by charges then only one charge */
         struct solitary_tag {};
-        item( const itype_id& id, int turn, solitary_tag );
-        item( const itype *type, int turn, solitary_tag );
+        item( const itype_id& id, time_point turn, solitary_tag );
+        item( const itype *type, time_point turn, solitary_tag );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -289,7 +290,7 @@ class item : public visitable<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = -1, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -1707,12 +1708,13 @@ public:
 
     int burnt = 0;           // How badly we're burnt
     private:
-        int bday;                // The turn on which it was created
+        /// The time the item was created.
+        time_point bday;
     public:
-        int age() const;
-        void set_age( int age );
-        int birthday() const;
-        void set_birthday( int bday );
+        time_duration age() const;
+        void set_age( time_duration age );
+        time_point birthday() const;
+        void set_birthday( time_point bday );
 
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency
