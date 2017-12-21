@@ -8948,5 +8948,17 @@
       ["atomic_coffee",      10],
       ["tea",                35]
     ]
-  }
+  }{
+    "type" : "item_group",
+    "id" : "lumberyard",
+    "items":[
+      ["2x4", 500],
+      ["log", 200],
+      ["stick", 100],
+      ["pine_bough", 50],
+      ["ax", 10],
+      ["saw", 10],
+      ["chainsaw_off", 5]
+    ]
+  },
 ]
