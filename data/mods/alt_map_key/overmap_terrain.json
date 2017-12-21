@@ -7874,7 +7874,7 @@
     "name": "construction site",
     "copy-from": "generic_city_building",
     "sym": 120,
-    "color": "i_grey"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",

@@ -7332,7 +7332,7 @@
     "type": "overmap_terrain",
     "name": "small cemetery",
     "sym": 67,
-    "color": "i_grey",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",
@@ -7376,7 +7376,7 @@
     "name": "construction site",
     "copy-from": "generic_city_building",
     "sym": 120,
-    "color": "i_grey"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
