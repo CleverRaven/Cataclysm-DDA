@@ -438,7 +438,7 @@ int main(int argc, char *argv[])
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
         try {
-            init_interface();
+			catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
             std::cerr << "Error while initializing the interface: " << err.what() << std::endl;

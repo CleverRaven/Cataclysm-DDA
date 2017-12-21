@@ -3,13 +3,12 @@
 #define MOD_MANAGER_H
 
 #include "dependency_tree.h"
-#include "json.h"
-#include "translations.h"
 
 #include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <memory>
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
@@ -20,6 +19,7 @@ typedef WORLD *WORLDPTR;
 class mod_ui;
 class game;
 class worldfactory;
+class JsonObject;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();

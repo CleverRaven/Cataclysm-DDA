@@ -1,5 +1,4 @@
 #include "player.h"
-#include "bionics.h"
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"

@@ -352,22 +352,22 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 void robot_finds_kitten::instructions(WINDOW *w)
 {
     int pos = 1;
-    pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_ltgray, _("robotfindskitten v22July2008"));
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("\
+    pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_light_gray, _("robotfindskitten v22July2008"));
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
 Originally by the illustrious Leonard Richardson, \
 rewritten in PDCurses by Joseph Larson, \
 ported to CDDA gaming system by a nutcase."));
 
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray,
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray,
                               _("In this game, you are robot ("));
     draw_robot(w);
-    wprintz(w, c_ltgray, _(")."));
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("\
+    wprintz(w, c_light_gray, _(")."));
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
 Your job is to find kitten. This task is complicated by the existance of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
 The game ends when robotfindskitten. Alternatively, you may end the game by hitting \
 'q', 'Q' or the escape key."));
-    fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("Press any key to start."));
+    fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("Press any key to start."));
     wrefresh(w);
     inp_mngr.wait_for_any_key();
 }
@@ -444,7 +444,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             }
 
             /* They're in love! */
-            mvwprintz(w, 0, ((rfkCOLS - 6) / 2) - 1, c_ltred, "<3<3<3");
+            mvwprintz(w, 0, ((rfkCOLS - 6) / 2) - 1, c_light_red, "<3<3<3");
             wrefresh(w);
             nanosleep(&ts, NULL);
             for (int c = 0; c < rfkCOLS; c++) {

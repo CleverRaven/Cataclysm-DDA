@@ -7,8 +7,8 @@
 
 #include <map>
 
-lua_console::lua_console() : cWin( newwin( lines, width, 0, 0 ) ),
-    iWin( newwin( 1, width, lines, 0 ) )
+lua_console::lua_console() : cWin( catacurses::newwin( lines, width, 0, 0 ) ),
+    iWin( catacurses::newwin( 1, width, lines, 0 ) )
 {
 }
 

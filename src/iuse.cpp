@@ -7,6 +7,7 @@
 #include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
+#include "effect.h" // for weed_msg
 #include "debug.h"
 #include "options.h"
 #include "iexamine.h"
@@ -22,7 +23,6 @@
 #include "monstergenerator.h"
 #include "speech.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "messages.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
@@ -48,6 +48,7 @@
 
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
@@ -3220,7 +3221,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos, 100, _("BUGFIXES!!"));
-                g->draw_explosion( pos, explosion_radius, c_ltcyan );
+                g->draw_explosion( pos, explosion_radius, c_light_cyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
@@ -7453,9 +7454,9 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
         monster new_monster;
         try {
-            new_monster.deserialize( it->get_var("contained_json","") );
-        } catch( const JsonError &e ) {
-            debugmsg( _("Error restoring monster: %s"), e.c_str() );
+            deserialize( new_monster, it->get_var( "contained_json", "" ) );
+        } catch( const std::exception &e ) {
+            debugmsg( _( "Error restoring monster: %s" ), e.what() );
             return 0;
         }
         new_monster.spawn( target );
@@ -7497,14 +7498,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                std::string serialized_monster;
-                try {
-                    serialized_monster = f.serialize();
-                } catch( const JsonError &e ) {
-                    debugmsg( _("Error serializing monster: %s"), e.c_str() );
-                    return 0;
-                }
-                it->set_var( "contained_json", serialized_monster );
+                it->set_var( "contained_json", serialize( f ) );
                 it->set_var( "contained_name", f.type->nname() );
                 it->set_var( "name", string_format(_("%s holding %s"), it->type->nname(1).c_str(),
                                                    f.type->nname().c_str()));

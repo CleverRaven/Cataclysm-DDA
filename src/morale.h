@@ -2,20 +2,27 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "json.h"
+#include "string_id.h"
 #include "calendar.h"
-#include "effect.h"
 #include "bodypart.h"
 #include "morale_types.h"
 
 #include <stdlib.h>
 #include <string>
+#include <vector>
+#include <map>
 #include <functional>
 
 class item;
-
+class JsonIn;
+class JsonOut;
+class JsonObject;
 struct itype;
 struct morale_mult;
+class effect_type;
+using efftype_id = string_id<effect_type>;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
@@ -59,7 +66,7 @@ class player_morale
         void load( JsonObject &jsin );
 
     private:
-        class morale_point : public JsonSerializer, public JsonDeserializer
+        class morale_point
         {
             public:
                 morale_point(
@@ -78,10 +85,8 @@ class player_morale
                     decay_start( std::max( decay_start, 0 ) ),
                     age( 0 ) {};
 
-                using JsonDeserializer::deserialize;
-                void deserialize( JsonIn &jsin ) override;
-                using JsonSerializer::serialize;
-                void serialize( JsonOut &json ) const override;
+                void deserialize( JsonIn &jsin );
+                void serialize( JsonOut &json ) const;
 
                 std::string get_name() const;
                 int get_net_bonus() const;

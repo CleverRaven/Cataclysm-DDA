@@ -3,6 +3,7 @@
 #include <map>
 
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 #include "calendar.h"
 

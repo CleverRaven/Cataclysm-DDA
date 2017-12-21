@@ -11,6 +11,8 @@
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "effect.h"
+#include "bionics.h"
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "map_item_stack.h"
@@ -115,6 +117,10 @@
 #include "cata_tiles.h"
 #endif // TILES
 
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
+
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
 #endif
@@ -177,6 +183,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -519,7 +526,7 @@ void game::init_ui()
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
+    w_terrain = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
                        VIEW_OFFSET_Y, right_sidebar ? VIEW_OFFSET_X :
                        VIEW_OFFSET_X + sidebarWidth);
     w_terrain_ptr.reset( w_terrain );
@@ -634,23 +641,23 @@ void game::init_ui()
     int _y = VIEW_OFFSET_Y;
     int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
-    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
+    w_minimap = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
     w_minimap_ptr.reset( w_minimap );
     werase(w_minimap);
 
-    w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
+    w_HP = catacurses::newwin( hpH, hpW, _y + hpY, _x + hpX );
     w_HP_ptr.reset( w_HP );
     werase(w_HP);
 
-    w_messages_short = newwin(messHshort, messW, _y + messY, _x + messX);
+    w_messages_short = catacurses::newwin( messHshort, messW, _y + messY, _x + messX );
     w_messages_short_ptr.reset( w_messages_short );
     werase(w_messages_short);
 
-    w_messages_long = newwin(messHlong, messW, _y + messY, _x + messX);
+    w_messages_long = catacurses::newwin( messHlong, messW, _y + messY, _x + messX );
     w_messages_long_ptr.reset( w_messages_long );
     werase(w_messages_long);
 
-    w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+    w_pixel_minimap = catacurses::newwin( pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX );
     w_pixel_minimap_ptr.reset( w_pixel_minimap );
     werase(w_pixel_minimap);
 
@@ -659,15 +666,15 @@ void game::init_ui()
         w_messages = w_messages_long;
     }
 
-    w_location = newwin(locH, locW, _y + locY, _x + locX);
+    w_location = catacurses::newwin( locH, locW, _y + locY, _x + locX );
     w_location_ptr.reset( w_location );
     werase(w_location);
 
-    w_status = newwin(statH, statW, _y + statY, _x + statX);
+    w_status = catacurses::newwin( statH, statW, _y + statY, _x + statX );
     w_status_ptr.reset( w_status );
     werase(w_status);
 
-    w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
+    w_status2 = catacurses::newwin( stat2H, stat2W, _y + stat2Y, _x + stat2X );
     w_status2_ptr.reset( w_status2 );
     werase(w_status2);
 
@@ -1126,7 +1133,7 @@ bool game::cleanup_at_end()
         const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
         const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-        WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+        catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
         draw_border(w_rip);
 
         sfx::do_player_death_hurt( g->u, 1 );
@@ -1139,7 +1146,7 @@ bool game::cleanup_at_end()
             for (unsigned int iX = 0; iX < vRip[iY].length(); ++iX) {
                 char cTemp = vRip[iY][iX];
                 if (cTemp != ' ') {
-                    nc_color ncColor = c_ltgray;
+                    nc_color ncColor = c_light_gray;
 
                     if (cTemp == '%') {
                         ncColor = c_green;
@@ -1173,7 +1180,7 @@ bool game::cleanup_at_end()
             }
 
             sTemp = lifespan ? _("Adventured:") : _("Survived:");
-            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, (sTemp + " ").c_str());
+            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
 
             int iDays = lifespan ? days_adventured : days_survived;
             ssTemp << iDays;
@@ -1195,11 +1202,11 @@ bool game::cleanup_at_end()
         ssTemp << iTotalKills;
 
         sTemp = _("Kills:");
-        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, (sTemp + " ").c_str());
+        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
         wprintz(w_rip, c_magenta, ssTemp.str().c_str());
 
         sTemp = _("In memory of:");
-        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_light_gray,
                   sTemp.c_str());
 
         sTemp = u.name;
@@ -1207,7 +1214,7 @@ bool game::cleanup_at_end()
                   sTemp.c_str());
 
         sTemp = _("Last Words:");
-        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_light_gray,
                   sTemp.c_str());
 
         int iStartX = (FULL_SCREEN_WIDTH / 2) - ((iMaxWidth - 4) / 2);
@@ -1839,7 +1846,7 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
+    if( u.activity && u.activity.moves_left > 0 ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
@@ -1884,13 +1891,13 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
             auto &entry = action_menu.entries.back();
             switch( hint ) {
                 case HINT_CANT:
-                    entry.text_color = c_ltgray;
+                    entry.text_color = c_light_gray;
                     break;
                 case HINT_IFFY:
-                    entry.text_color = c_ltred;
+                    entry.text_color = c_light_red;
                     break;
                 case HINT_GOOD:
-                    entry.text_color = c_ltgreen;
+                    entry.text_color = c_light_green;
                     break;
             }
             max_text_length = std::max( max_text_length, utf8_width( text ) );
@@ -3638,7 +3645,10 @@ void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional( savefile, []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 }
 
 bool game::load( const std::string &world ) {
@@ -3846,7 +3856,8 @@ bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        fout << uistate.serialize();
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
     }, _( "uistate data" ) );
 }
 
@@ -4394,7 +4405,7 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
 
@@ -4454,7 +4465,7 @@ void game::disp_kills()
 
 void game::disp_NPC_epilogues()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
     std::vector<std::string> data;
@@ -4483,7 +4494,7 @@ void game::disp_NPC_epilogues()
 
 void game::disp_faction_ends()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
     std::vector<std::string> data;
@@ -4672,7 +4683,7 @@ struct npc_dist_to_player {
 
 void game::disp_NPCs()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
@@ -4713,10 +4724,10 @@ faction *game::list_factions(std::string title)
         return nullptr;
     }
 
-    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                             ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
                             1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
@@ -4868,11 +4879,11 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('.', c_brown));
         vGlyphs.push_back(std::make_pair(',', c_blue));
         vGlyphs.push_back(std::make_pair('+', c_yellow));
-        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('c', c_light_blue));
         vGlyphs.push_back(std::make_pair('*', c_yellow));
         vGlyphs.push_back(std::make_pair('C', c_white));
         vGlyphs.push_back(std::make_pair('+', c_yellow));
-        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('c', c_light_blue));
         vGlyphs.push_back(std::make_pair('.', c_brown));
         vGlyphs.push_back(std::make_pair(',', c_blue));
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4912,7 +4923,7 @@ void game::draw_sidebar()
     mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
 
     if (get_levz() < 0) {
-        mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
+        mvwprintz(w_location, 0, 18, c_light_gray, _("Underground"));
     } else {
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
@@ -4935,7 +4946,7 @@ void game::draw_sidebar()
     trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
+    mvwprintz(w_location, 1, 15, c_light_gray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
@@ -5111,7 +5122,7 @@ void game::draw_veh_dir_indicator( bool next )
 {
     tripoint indicator_offset = get_veh_dir_indicator_location( next );
     if( indicator_offset != tripoint_min ) {
-        auto col = next ? c_white : c_dkgray;
+        auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
                   POSX + indicator_offset.x - u.view_offset.x, col, 'X' );
     }
@@ -5154,7 +5165,7 @@ void game::draw_HP()
         if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
             //Limb is broken
             std::string limb = "~~%~~";
-            nc_color color = c_ltred;
+            nc_color color = c_light_red;
 
             const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
             if( u.worn_with_flag( "SPLINT", bp ) ) {
@@ -5212,17 +5223,17 @@ void game::draw_HP()
         wmove(w_HP, powy, powx);
         if (wide)
             for (int i = 0; i < 2; i++) {
-                wputch(w_HP, c_ltgray, LINE_OXOX);
+                wputch(w_HP, c_light_gray, LINE_OXOX);
             }
         else {
-            wprintz(w_HP, c_ltgray, " --   ");
+            wprintz(w_HP, c_light_gray, " --   ");
         }
     } else {
         nc_color color = c_red;
         if (u.power_level == u.max_power_level) {
             color = c_blue;
         } else if (u.power_level >= u.max_power_level * .5) {
-            color = c_ltblue;
+            color = c_light_blue;
         } else if (u.power_level > 0) {
             color = c_yellow;
         }
@@ -5313,22 +5324,22 @@ void game::draw_minimap()
                         if (sym == "br") {
                             ter_color = c_brown;
                         } else if (sym == "lg") {
-                            ter_color = c_ltgray;
+                            ter_color = c_light_gray;
                         } else if (sym == "dg") {
-                            ter_color = c_dkgray;
+                            ter_color = c_dark_gray;
                         }
                     } else {
                         char colorID = sym.c_str()[0];
                         if (colorID == 'r') {
-                            ter_color = c_ltred;
+                            ter_color = c_light_red;
                         } else if (colorID == 'R') {
                             ter_color = c_red;
                         } else if (colorID == 'g') {
-                            ter_color = c_ltgreen;
+                            ter_color = c_light_green;
                         } else if (colorID == 'G') {
                             ter_color = c_green;
                         } else if (colorID == 'b') {
-                            ter_color = c_ltblue;
+                            ter_color = c_light_blue;
                         } else if (colorID == 'B') {
                             ter_color = c_blue;
                         } else if (colorID == 'W') {
@@ -5336,7 +5347,7 @@ void game::draw_minimap()
                         } else if (colorID == 'C') {
                             ter_color = c_cyan;
                         } else if (colorID == 'c') {
-                            ter_color = c_ltcyan;
+                            ter_color = c_light_cyan;
                         } else if (colorID == 'P') {
                             ter_color = c_pink;
                         } else if (colorID == 'm') {
@@ -5354,7 +5365,7 @@ void game::draw_minimap()
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
                 ter_sym = cur_ter->get_sym();
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
-                    ter_color = c_dkgray;
+                    ter_color = c_dark_gray;
                 } else {
                     ter_color = cur_ter->get_color();
                 }
@@ -5755,8 +5766,8 @@ int game::mon_info(WINDOW *w)
     //for the alignment of the 1,2,3 rows on the right edge
     xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));
     for (int i = 0; i < 8; i++) {
-        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
-                     : (dangerous[i] ? c_ltred : c_ltgray);
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
+                     : (dangerous[i] ? c_light_red : c_light_gray);
         mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i].c_str());
     }
 
@@ -5783,7 +5794,7 @@ int game::mon_info(WINDOW *w)
                     c = c_red;
                     break;
                 case NPCATT_FOLLOW:
-                    c = c_ltgreen;
+                    c = c_light_green;
                     break;
                 default:
                     c = c_pink;
@@ -5839,15 +5850,15 @@ int game::mon_info(WINDOW *w)
                 lastrowprinted = pr.y;
                 mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
                 pr.x += 2; // symbol and space
-                nc_color danger = c_dkgray;
+                nc_color danger = c_dark_gray;
                 if (mt.difficulty >= 30) {
                     danger = c_red;
                 } else if (mt.difficulty >= 16) {
-                    danger = c_ltred;
+                    danger = c_light_red;
                 } else if (mt.difficulty >= 8) {
                     danger = c_white;
                 } else if (mt.agro > 0) {
-                    danger = c_ltgray;
+                    danger = c_light_gray;
                 }
                 mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
                 pr.x += utf8_width(name) + namesep;
@@ -7843,12 +7854,10 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         wprintz(w_look, ll.second, ll.first.c_str());
     }
 
-    std::string signage = m.get_signage( lp );
-    if (!signage.empty() && signage.size() < 36) {
-        mvwprintw(w_look, ++line, column, _("Sign: %s"), signage.c_str());
-    } else if (!signage.empty()) {
-        // Truncate to width of window as a guesstimate.
-        mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
+    const int max_width = getmaxx( w_look ) - column - 1;
+    std::string signage = u.has_trait( trait_ILLITERATE ) ? _( "???" ) : m.get_signage( lp );
+    if( !signage.empty() ) {
+        trim_and_print( w_look, ++line, column, max_width, c_light_gray, _( "Sign: %s" ), signage.c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -7923,11 +7932,11 @@ void game::print_visibility_indicator( visibility_type visibility )
             break;
         case VIS_DARK:
             visibility_indicator = '#';
-            visibility_indicator_color = c_dkgray;
+            visibility_indicator_color = c_dark_gray;
             break;
         case VIS_LIT:
             visibility_indicator = '#';
-            visibility_indicator_color = c_ltgray;
+            visibility_indicator_color = c_light_gray;
             break;
         case VIS_HIDDEN:
             visibility_indicator = 'x';
@@ -8004,17 +8013,17 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
     werase(w_info);
 
     int tmpx = 1;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<A>dd")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<R>emove")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<E>nable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_light_green, _("<D>isable")) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
-    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_light_green, _("<+-> Move up/down")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_light_green, _("<Enter>-Edit")) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_ltgreen, _("Show on <M>ap")) + 2;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_light_green, _("Show on <M>ap")) + 2;
 
     wrefresh(w_info);
 }
@@ -8024,37 +8033,37 @@ void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border,
 {
     for (int i = 1; i < TERMX; ++i) {
         if (i < width) {
-            mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_border, 0, i, c_light_gray, LINE_OXOX); // -
+            mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX); // -
         }
 
         if (i < TERMY - iInfoHeight - VIEW_OFFSET_Y * 2) {
-            mvwputch(w_border, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(w_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_border, i, 0, c_light_gray, LINE_XOXO); // |
+            mvwputch(w_border, i, width - 1, c_light_gray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(w_border, 0, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w_border, 0, 0, c_light_gray, LINE_OXXO); // |^
+    mvwputch(w_border, 0, width - 1, c_light_gray, LINE_OOXX); // ^|
 
-    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray,
+    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO); // |-
+    mvwputch(w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray,
              LINE_XOXX); // -|
 
     mvwprintz(w_border, 0, 2, c_white, _("Zones manager"));
     wrefresh(w_border);
 
     for (int j = 0; j < iInfoHeight - 1; ++j) {
-        mvwputch(w_info_border, j, 0, c_ltgray, LINE_XOXO);
-        mvwputch(w_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+        mvwputch(w_info_border, j, 0, c_light_gray, LINE_XOXO);
+        mvwputch(w_info_border, j, width - 1, c_light_gray, LINE_XOXO);
     }
 
     for (int j = 0; j < width - 1; ++j) {
-        mvwputch(w_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
+        mvwputch(w_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX);
     }
 
-    mvwputch(w_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-    mvwputch(w_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+    mvwputch(w_info_border, iInfoHeight - 1, 0, c_light_gray, LINE_XXOO);
+    mvwputch(w_info_border, iInfoHeight - 1, width - 1, c_light_gray, LINE_XOOX);
     wrefresh(w_info_border);
 }
 
@@ -8074,13 +8083,13 @@ void game::zones_manager()
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
 
-    WINDOW *w_zones = newwin(TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2,
+    catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2,
                              VIEW_OFFSET_Y + 1, offsetX + 1);
-    WINDOW *w_zones_border = newwin(TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
+    catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
                                     VIEW_OFFSET_Y, offsetX);
-    WINDOW *w_zones_info = newwin(zone_ui_height - 1, width - 2,
+    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - 1, width - 2,
                                   TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
-    WINDOW *w_zones_info_border = newwin(zone_ui_height, width,
+    catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
                                          TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
@@ -8299,11 +8308,11 @@ void game::zones_manager()
             //Display saved zones
             for (auto &i : zones.zones) {
                 if (iNum >= start_index && iNum < start_index + ((max_rows > zone_num) ? zone_num : max_rows)) {
-                    nc_color colorLine = (i.get_enabled()) ? c_white : c_ltgray;
+                    nc_color colorLine = (i.get_enabled()) ? c_white : c_light_gray;
 
                     if (iNum == active_index) {
                         mvwprintz(w_zones, iNum - start_index, 0, c_yellow, "%s", ">>");
-                        colorLine = (i.get_enabled()) ? c_ltgreen : c_green;
+                        colorLine = (i.get_enabled()) ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -8457,7 +8466,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     bool bNewWindow = false;
     if (w_info == nullptr) {
-        w_info = newwin(LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX);
+        w_info = catacurses::newwin( LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX );
         bNewWindow = true;
     }
 
@@ -8497,12 +8506,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (!select_zone) {
                 nc_color clr = c_white;
-                std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                std::string colored_key = string_format( "<color_light_green>%s</color>",
                                                          ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
                 print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr,
                                     string_format( _( "Press %s to view extended description" ),
                                                    colored_key.c_str() ) );
-                colored_key = string_format( "<color_ltgreen>%s</color>",
+                colored_key = string_format( "<color_light_green>%s</color>",
                                              ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
                 print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),
@@ -8559,11 +8568,11 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 }
 
                 //Draw first point
-                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'X');
+                mvwputch_inv(w_terrain, dy, dx, c_light_green, 'X');
             }
 
             //Draw select cursor
-            mvwputch_inv(w_terrain, POSY, POSX, c_ltgreen, 'X');
+            mvwputch_inv(w_terrain, POSY, POSX, c_light_green, 'X');
 
         } else {
             //Look around
@@ -8573,7 +8582,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (fast_scroll) {
                 //~ "Fast Scroll" mark below the top right corner of the info window
-                right_print( w_info, 1, 0, c_ltgreen, _( "F" ) );
+                right_print( w_info, 1, 0, c_light_green, _( "F" ) );
             }
 
             wrefresh(w_info);
@@ -8779,23 +8788,23 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++) {
         if (i < width) {
-            mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(window, 0, i, c_light_gray, LINE_OXOX); // -
+            mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX); // -
         }
 
         if (i < TERMY - height - VIEW_OFFSET_Y * 2) {
-            mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(window, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(window, i, 0, c_light_gray, LINE_XOXO); // |
+            mvwputch(window, i, width - 1, c_light_gray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(window, 0, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(window, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(window, 0, 0, c_light_gray, LINE_OXXO); // |^
+    mvwputch(window, 0, width - 1, c_light_gray, LINE_OOXX); // ^|
 
-    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray, LINE_XOXX); // -|
+    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO); // |-
+    mvwputch(window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray, LINE_XOXX); // -|
 
-    mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
+    mvwprintz(window, 0, 2, c_light_green, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
     std::string sSort;
@@ -8809,7 +8818,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 
     int letters = utf8_width(sSort);
 
-    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort);
+    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_light_green, sSort);
 
     std::vector<std::string> tokens;
     if (!sFilter.empty()) {
@@ -8835,7 +8844,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for (int i = 0; i < n; i++) {
-        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i]) + gap_spaces;
+        xpos += shortcut_print(window, ypos, xpos, c_white, c_light_green, tokens[i]) + gap_spaces;
     }
 
     refresh_all();
@@ -8978,13 +8987,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width : VIEW_OFFSET_X;
 
-    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1);
+    catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1 );
     WINDOW_PTR w_itemsptr( w_items );
 
-    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX );
     WINDOW_PTR w_items_borderptr( w_items_border );
 
-    WINDOW *w_item_info = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_item_info = catacurses::newwin( iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
     WINDOW_PTR w_item_infoptr( w_item_info );
 
     // use previously selected sorting method
@@ -9276,7 +9285,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
-                        nc_color col = c_ltgreen;
+                        nc_color col = c_light_green;
                         if( iNum != iActive ) {
                             if( high ) {
                                 col = c_yellow;
@@ -9290,7 +9299,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
-                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_ltgreen : c_ltgray,
+                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_light_green : c_light_gray,
                                    "%*d %s", numw, rl_dist( 0, 0, x, y ),
                                    direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
                         ++iter;
@@ -9307,7 +9316,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
             }
             mvwprintz( w_items_border, 0, ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ),
-                       c_ltgreen, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
+                       c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
             wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
             werase(w_item_info);
 
@@ -9345,16 +9354,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
 
-    WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
+    catacurses::window w_monsters = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
                                 VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_monstersptr( w_monsters );
-    WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
+    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
                                        VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monsters_borderptr( w_monsters_border );
-    WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2,
+    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
                                     TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
     WINDOW_PTR w_monster_infoptr( w_monster_info );
-    WINDOW *w_monster_info_border = newwin(iInfoHeight, width,
+    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width,
                                            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
@@ -9391,7 +9400,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
              LINE_XOXX); // -|
 
-    mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
+    mvwprintz(w_monsters_border, 0, 2, c_light_green, "<Tab> ");
     wprintz(w_monsters_border, c_white, _("Monsters"));
 
     std::string action;
@@ -9517,9 +9526,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 const npc*     p = dynamic_cast<npc*>( critter );
 
                 if ( m != nullptr ) {
-                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
+                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", m->name().c_str());
                 } else {
-                    mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
+                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", critter->disp_name().c_str());
                     is_npc = true;
                 }
 
@@ -9538,7 +9547,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
-                                   c_white, c_ltgreen, sSafemode);
+                                   c_white, c_light_green, sSafemode);
                 }
 
                 nc_color color = c_white;
@@ -9562,12 +9571,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
                 mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
-                mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_light_green : c_light_gray), "%*d %s",
                            numw, rl_dist( u.pos(), critter->pos() ),
                            direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
-            mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_ltgreen, " %*d", numw, iActive + 1 );
+            mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_light_green, " %*d", numw, iActive + 1 );
             wprintz( w_monsters_border, c_white, " / %*d ", numw, int( monster_list.size() ) );
 
             cCurMon = monster_list[iActive];
@@ -9576,13 +9585,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon->print_info(w_monster_info, 1, 11, 1);
 
             if (bVMonsterLookFire) {
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
+                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_light_green, "%s", ctxt.press_x( "look" ).c_str());
+                wprintz(w_monsters, c_light_gray, " %s", _("to look around"));
 
                 if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                    wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                    wprintz(w_monsters, c_light_gray, "%s", " ");
+                    wprintz(w_monsters, c_light_green, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz(w_monsters, c_light_gray, " %s", _("to shoot"));
                 }
             }
 
@@ -9599,16 +9608,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         for (int j = 0; j < iInfoHeight - 1; j++) {
-            mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+            mvwputch(w_monster_info_border, j, 0, c_light_gray, LINE_XOXO);
+            mvwputch(w_monster_info_border, j, width - 1, c_light_gray, LINE_XOXO);
         }
 
         for (int j = 0; j < width - 1; j++) {
-            mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
+            mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX);
         }
 
-        mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-        mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+        mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_light_gray, LINE_XXOO);
+        mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_light_gray, LINE_XOOX);
 
         wrefresh(w_monsters);
         wrefresh(w_monster_info_border);
@@ -13625,7 +13634,7 @@ void intro()
     int maxx = getmaxx( stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
-    WINDOW *tmp = newwin(minHeight, minWidth, 0, 0);
+    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
     WINDOW_PTR w_tmpptr( tmp );
 
     while (maxy < minHeight || maxx < minWidth) {

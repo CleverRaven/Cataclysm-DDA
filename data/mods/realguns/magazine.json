@@ -10,7 +10,7 @@
     "price": 10000,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo_type": "38_super",
     "capacity": 16,
     "reliability": 7,

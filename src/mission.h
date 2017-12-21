@@ -4,12 +4,14 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <iosfwd>
+#include <map>
 
-#include "omdata.h"
-#include "itype.h"
-#include "json.h"
+#include "enums.h"
 #include "npc_favor.h"
 
+class player;
 class mission;
 class game;
 class npc;
@@ -17,7 +19,10 @@ class Creature;
 class calendar;
 class npc_class;
 class JsonObject;
+class JsonIn;
+class JsonOut;
 struct mission_type;
+struct oter_type_t;
 
 enum npc_mission : int;
 
@@ -222,7 +227,7 @@ struct mission_type {
     void load( JsonObject &jo, const std::string &src );
 };
 
-class mission : public JsonSerializer, public JsonDeserializer
+class mission
 {
 public:
     enum class mission_status {
@@ -262,10 +267,8 @@ public:
 
         std::string name();
         mission_type_id mission_id();
-        using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         mission();
     /** Getters, they mostly return the member directly, mostly. */

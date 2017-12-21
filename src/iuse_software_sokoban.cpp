@@ -240,7 +240,7 @@ int sokoban_game::start_game()
     using namespace std::placeholders;
     read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
-    WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
     WINDOW_PTR w_sokobanptr( w_sokoban );
     draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt("SOKOBAN");
@@ -267,7 +267,7 @@ int sokoban_game::start_game()
 
     for (size_t i = 0; i < shortcuts.size(); i++) {
         shortcut_print(w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
-                       c_white, c_ltgreen, shortcuts[i]);
+                       c_white, c_light_green, shortcuts[i]);
     }
 
     int iPlayerY = 0;

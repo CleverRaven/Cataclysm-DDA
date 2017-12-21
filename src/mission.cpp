@@ -7,6 +7,7 @@
 #include "string_formatter.h"
 #include "overmap.h"
 #include "line.h"
+#include "io.h"
 #include "npc.h"
 #include "npc_class.h"
 

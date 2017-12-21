@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "game.h"
 #include "translations.h"
 #include "pldata.h"
