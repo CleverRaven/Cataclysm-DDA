@@ -4677,15 +4677,15 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     bool washing_machine_finished = false;
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            const int washing_time = MINUTES( 90 );
-            const int time_left = washing_time - n.age();
+            const time_duration washing_time = 2_hours;
+            const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0 ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
                 cur_veh->parts[part].enabled = false;
             } else if( calendar::once_every( MINUTES( 15 ) ) ) {
-                add_msg( _("It should take %d minutes to finish washing items in the %s."), time_left / MINUTES( 1 ) + 1, cur_veh->name.c_str() );
+                add_msg( _("It should take %d minutes to finish washing items in the %s."), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
                 break;
             }
         }
