@@ -4677,7 +4677,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     bool washing_machine_finished = false;
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            const time_duration washing_time = 2_hours;
+            const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0 ) {
