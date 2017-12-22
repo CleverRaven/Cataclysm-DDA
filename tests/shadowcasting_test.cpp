@@ -99,24 +99,24 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
 static void castLightAll( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                           const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                           const int offsetX, const int offsetY ) {
-        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+        castLight<0, 1, 1, 0, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, -1, 1, 0, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+        castLight<1, 0, 0, 1, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
 
-        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+        castLight<0, -1, 1, 0, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+        castLight<-1, 0, 0, 1, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
 
-        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+        castLight<0, 1, -1, 0, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+        castLight<1, 0, 0, -1, float, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+
+        castLight<0, -1, -1, 0, float, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, -1, float, sight_calc, sight_check>(
             output_cache, input_array, offsetX, offsetY, 0 );
 }
 
@@ -319,7 +319,7 @@ void shadowcasting_3d_2d( int iterations )
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
-        cast_zlight<sight_calc, sight_check>(
+        cast_zlight<float, sight_calc, sight_check>(
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
