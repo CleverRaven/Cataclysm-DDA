@@ -5,6 +5,8 @@
 #include "enums.h"
 #include "game_constants.h"
 
+#include <cmath>
+
 // Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
 // Beer-Lambert law says attenuation is going to be equal to
 // 1 / (e^al) where a = coefficient of absorption and l = length.
@@ -20,23 +22,23 @@ inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 }
 
 
-template<int xx, int xy, int yx, int yy,
+template<int xx, int xy, int yx, int yy, typename T,
          float( *calc )( const float &, const float &, const int & ),
          bool( *check )( const float &, const float & )>
 void castLight(
-    float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-    const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    T ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    const T ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const int offsetX, const int offsetY, const int offsetDistance,
-    const float numerator = 1.0, const int row = 1,
+    const T numerator = 1.0, const int row = 1,
     float start = 1.0f, const float end = 0.0f,
-    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+    T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
-template<float( *calc )( const float &, const float &, const int & ),
+template<typename T, float( *calc )( const float &, const float &, const int & ),
          bool( *check )( const float &, const float & )>
 void cast_zlight(
-    const std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &output_caches,
-    const std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &input_arrays,
+    const std::array<T ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &output_caches,
+    const std::array<const T ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &floor_caches,
     const tripoint &offset, const int offset_distance );
 
