@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-09 03:47-0500\n"
-"PO-Revision-Date: 2017-12-10 12:00+0000\n"
+"POT-Creation-Date: 2017-12-15 08:37-0500\n"
+"PO-Revision-Date: 2017-12-18 11:50+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28374,19 +28374,6 @@ msgstr[1] "briques"
 #: lang/json/GENERIC_from_json.py
 msgid "A fire hardened building block used in masonry construction."
 msgstr "Une brique cuite dans le feu. Utile pour la maçonnerie."
-
-#: lang/json/GENERIC_from_json.py
-msgid "unfired clay brick"
-msgid_plural "unfired clay bricks"
-msgstr[0] "brique en argile non cuite"
-msgstr[1] "briques en argile non cuites"
-
-#. ~ Description for unfired clay brick
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A soft, unfired clay brick.  Firing it in a brick kiln would harden it up, "
-"making it suitable for use in a construction project."
-msgstr "Une brique modelée dans de l'argile. La cuire dans un four à briques la fera durcir, elle pourra ensuite être utilisée pour diverses constructions."
 
 #: lang/json/GENERIC_from_json.py
 msgid "tanbark"
@@ -92058,10 +92045,10 @@ msgstr "<color_green>Retirer</color>  <color_yellow>!</color> pour activer, <col
 
 #: src/bionics_ui.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
 "<color_yellow>TAB</color> to switch tabs."
-msgstr "<color_green>Examiner</color>  <color_yellow>!</color> pour activer, <color_yellow>-</color> pour retirer, <color_yellow>=</color> pour réattribuer, <color_yellow>TAB</color> pour changer d'onglet."
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -92122,10 +92109,10 @@ msgstr "Aucun bionique activable installé."
 msgid "No passive bionics installed."
 msgstr "Aucun bionique passif installé."
 
-#: src/bionics_ui.cpp src/mutation_ui.cpp
+#: src/bionics_ui.cpp
 #, c-format
-msgid "%s; enter new letter."
-msgstr "%s; entrer la nouvelle lettre"
+msgid "%s; enter new letter. Space to clear. Esc to cancel."
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -92592,20 +92579,20 @@ msgid "brown"
 msgstr "marron"
 
 #: src/color.cpp
-msgid "lt gray"
-msgstr "gris clair"
+msgid "light_gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "dk gray"
-msgstr "gris foncé"
+msgid "dark gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt red"
-msgstr "rouge clair"
+msgid "light_red"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt green"
-msgstr "vert clair"
+msgid "light_green"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "red"
@@ -92616,8 +92603,8 @@ msgid "green"
 msgstr "vert"
 
 #: src/color.cpp
-msgid "lt blue"
-msgstr "bleu clair"
+msgid "light_blue"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "blue"
@@ -92632,8 +92619,8 @@ msgid "cyan"
 msgstr "cyan"
 
 #: src/color.cpp
-msgid "lt cyan"
-msgstr "cyan clair"
+msgid "light_cyan"
+msgstr ""
 
 #: src/color.cpp
 msgid "magenta"
@@ -99325,14 +99312,13 @@ msgid "Lighting: "
 msgstr "Éclairage: "
 
 #: src/game.cpp
-#, c-format
-msgid "Sign: %s"
-msgstr "Pancarte: %s"
+msgid "???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Sign: %s..."
-msgstr "Pancarte: %s..."
+msgid "Sign: %s"
+msgstr "Pancarte: %s"
 
 #: src/game.cpp
 #, c-format
@@ -100727,8 +100713,9 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid ""
-"Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
-msgstr "Raccourcis d'objets attribués: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
+"Item hotkeys assigned: "
+"<color_light_gray>%d</color>/<color_light_gray>%d</color>"
+msgstr ""
 
 #: src/game_inventory.cpp src/inventory_ui.cpp
 msgid "Your inventory is empty."
@@ -100933,7 +100920,7 @@ msgid "You don't have any guns to modify."
 msgstr ""
 
 #: src/game_inventory.cpp
-msgid "<color_dkgray>?</color>"
+msgid "<color_dark_gray>?</color>"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -102120,9 +102107,9 @@ msgstr "Couleurs: "
 
 #: src/help.cpp
 msgid ""
-"<color_ltgray>( Handguns</color>\n"
+"<color_light_gray>( Handguns</color>\n"
 "Handguns are small weapons held in one or both hands. They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy. However, their small size makes them appropriate for short-range combat, where larger guns fare poorly. They are also relatively quick to reload and use a very wide selection of ammunition. Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next once their ammo is spent."
-msgstr "<color_ltgray>( Pistolets</color>\nLes pistolets sont de petites armes portées à une ou deux mains. Ils sont beaucoup plus difficiles pour viser et à contrôler que les grosses armes et cela se reflète dans leur basse précision. Cependant leur petite taille les rend appropriés pour les combats à faible portée, là où les armes à feu plus imposantes sont moins efficaces. Ils sont aussi relativement rapides à recharger et utilisent un très large éventail de cartouches. Leur petite taille et faible poids font qu'il est possible de transporter plusieurs pistolets chargés, et de passer de l'un à l'autre lorsque vos munitions s'épuisent."
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -102166,9 +102153,9 @@ msgstr "<color_blue>( Fusils d'assaut</color>\nLes fusils d'assaut partagent de 
 
 #: src/help.cpp
 msgid ""
-"<color_ltred>( Machine Guns</color>\n"
+"<color_light_red>( Machine Guns</color>\n"
 "Machine guns are one of the most powerful firearms available. They are even larger than assault rifles, and make poor melee weapons; however, they are capable of holding 100 or more rounds of highly-damaging ammunition. They are not built for accuracy, and firing single rounds is not very effective. However, they also possess a very high rate of fire and somewhat low recoil, making them very good at clearing out large numbers of enemies."
-msgstr "<color_ltred>( Mitrailleuses</color>\nLes mitrailleuses sont l'un des types d'armes à feu les plus puissants disponibles. Elles sont encore plus grosses que les fusils d'assaut et font des armes de mêlée médiocres; cependant, elles peuvent contenir 100 (ou plus) balles provoquant des dommages importants. Elles n'ont pas été conçues pour la précision; ainsi tirer au coup par coup n'est guère efficace. Cependant les mitrailleuses sont aussi dotées d'une cadence de tir très élevée et un recul assez faible, faisant d'elles des armes excellentes pour supprimer un grand nombre d'ennemis rassemblés."
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -103254,6 +103241,10 @@ msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr "Vous démontez les rideaux et la tringle accrochée au cadre de la fenêtre."
 
 #: src/iexamine.cpp
+msgid "You're illiterate, and can't read the message on the sign."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Nothing legible on the sign."
 msgstr "Rien de lisible sur la pancarte."
 
@@ -103521,6 +103512,10 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Anatomies"
+msgstr ""
+
+#: src/init.cpp
+msgid "Tileset"
 msgstr ""
 
 #: src/init.cpp
@@ -112322,6 +112317,10 @@ msgid "<npcname> dodges the beam!"
 msgstr ""
 
 #: src/monattack.cpp
+msgid "Your armor protects you from the radiation!"
+msgstr ""
+
+#: src/monattack.cpp
 msgid "You get pins and needles all over."
 msgstr ""
 
@@ -114139,7 +114138,7 @@ msgstr ""
 
 #: src/mutation.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>=</color> to reassign."
 msgstr ""
 
@@ -114299,6 +114298,11 @@ msgstr ""
 #: src/mutation_ui.cpp
 msgid " - Active"
 msgstr " - Actif"
+
+#: src/mutation_ui.cpp
+#, c-format
+msgid "%s; enter new letter."
+msgstr "%s; entrer la nouvelle lettre"
 
 #: src/mutation_ui.cpp
 #, c-format
@@ -122699,36 +122703,36 @@ msgid "New label:"
 msgstr "Nouvelle étiquette:"
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>disabled</color>"
+msgid "<color_light_red>disabled</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>lack</color>"
-msgstr "<color_ltred>manquant</color>"
-
-#: src/veh_interact.cpp
-msgid "<color_ltred>unbalanced</color>"
+msgid "<color_light_red>lack</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>no steering</color>"
+msgid "<color_light_red>unbalanced</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>broken steering</color>"
+msgid "<color_light_red>no steering</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>poor steering</color>"
+msgid "<color_light_red>broken steering</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltgreen>enough</color>"
-msgstr "<color_ltgreen>suffisant</color>"
+msgid "<color_light_red>poor steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>leaks</color>"
-msgstr "<color_ltred>fuit</color>"
+msgid "<color_light_green>enough</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_light_red>leaks</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<color_blue>swims</color>"
@@ -122751,24 +122755,26 @@ msgstr "Roues: %s"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
-msgstr "Vitesse Sûre/Max: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
+msgid ""
+"Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> "
+"%s"
+msgstr ""
 
 #. ~ /t means per turn
 #: src/veh_interact.cpp
 #, c-format
-msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
-msgstr "Accélération: <color_ltblue>%3d</color> %s/t"
+msgid "Acceleration: <color_light_blue>%3d</color> %s/t"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Mass: <color_ltblue>%5.0f</color> %s"
-msgstr "Poids: <color_ltblue>%5.0f</color> %s"
+msgid "Mass: <color_light_blue>%5.0f</color> %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Cargo Volume: <color_ltgray>%s/%s</color> %s"
-msgstr "Volume de chargement: <color_ltgray>%s/%s</color> %s"
+msgid "Cargo Volume: <color_light_gray>%s/%s</color> %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Status:"
@@ -122788,23 +122794,23 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K aerodynamics: <color_ltblue>%3d</color>%%"
-msgstr "Aérodynamique:  <color_ltblue>%3d</color>%%"
+msgid "K aerodynamics: <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K friction:     <color_ltblue>%3d</color>%%"
-msgstr "Friction:       <color_ltblue>%3d</color>%%"
+msgid "K friction:     <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K mass:         <color_ltblue>%3d</color>%%"
-msgstr "Masse:          <color_ltblue>%3d</color>%%"
+msgid "K mass:         <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Offroad:        <color_ltblue>%3d</color>%%"
-msgstr "Tout terrain: <color_ltblue>%3d</color>%%"
+msgid "Offroad:        <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Name: "
@@ -122920,13 +122926,13 @@ msgstr "Bat"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Charge: <color_ltgray>%s</color>"
-msgstr "Charge: <color_ltgray>%s</color>"
+msgid "Charge: <color_light_gray>%s</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Power: <color_ltgray>%d</color>"
-msgstr "Énergie: <color_ltgray>%d</color>"
+msgid "Power: <color_light_gray>%d</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "boardable"

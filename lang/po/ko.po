@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-09 03:47-0500\n"
-"PO-Revision-Date: 2017-12-11 05:07+0000\n"
-"Last-Translator: T itan <un8214@naver.com>\n"
+"POT-Creation-Date: 2017-12-15 08:37-0500\n"
+"PO-Revision-Date: 2017-12-18 11:50+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26845,18 +26845,6 @@ msgstr[0] "벽돌"
 #: lang/json/GENERIC_from_json.py
 msgid "A fire hardened building block used in masonry construction."
 msgstr "불에 구워 만든 건축자재. 건설 작업에 사용된다."
-
-#: lang/json/GENERIC_from_json.py
-msgid "unfired clay brick"
-msgid_plural "unfired clay bricks"
-msgstr[0] "점토 벽돌 (굽지 않음)"
-
-#. ~ Description for unfired clay brick
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A soft, unfired clay brick.  Firing it in a brick kiln would harden it up, "
-"making it suitable for use in a construction project."
-msgstr "아직 굽지 않아 부드러운 점토 벽돌. 벽돌 가마에 넣고 구우면 단단해져서 건설 작업에 사용할 수 있게 된다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "tanbark"
@@ -89120,10 +89108,10 @@ msgstr "<color_red>제거</color>  <color_yellow>!</color> 키로 조작, <color
 
 #: src/bionics_ui.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
 "<color_yellow>TAB</color> to switch tabs."
-msgstr "<color_ltblue>정보</color>  <color_yellow>!</color> 키로 조작, <color_yellow>-</color> 키로 제거, <color_yellow>=</color> 키로 단축키 재설정, <color_yellow>TAB</color> 키로 탭 전환."
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -89184,10 +89172,10 @@ msgstr "설치된 발동형 바이오닉 없음."
 msgid "No passive bionics installed."
 msgstr "설치된 지속형 바이오닉 없음."
 
-#: src/bionics_ui.cpp src/mutation_ui.cpp
+#: src/bionics_ui.cpp
 #, c-format
-msgid "%s; enter new letter."
-msgstr "%s; 새로 지정할 단축키를 입력하십시오."
+msgid "%s; enter new letter. Space to clear. Esc to cancel."
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -89647,20 +89635,20 @@ msgid "brown"
 msgstr "갈색"
 
 #: src/color.cpp
-msgid "lt gray"
-msgstr "연회색"
+msgid "light_gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "dk gray"
-msgstr "진회색"
+msgid "dark gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt red"
-msgstr "연빨강"
+msgid "light_red"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt green"
-msgstr "연녹색"
+msgid "light_green"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "red"
@@ -89671,8 +89659,8 @@ msgid "green"
 msgstr "녹색"
 
 #: src/color.cpp
-msgid "lt blue"
-msgstr "연파랑"
+msgid "light_blue"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "blue"
@@ -89687,8 +89675,8 @@ msgid "cyan"
 msgstr "청록색"
 
 #: src/color.cpp
-msgid "lt cyan"
-msgstr "연청색"
+msgid "light_cyan"
+msgstr ""
 
 #: src/color.cpp
 msgid "magenta"
@@ -96369,14 +96357,13 @@ msgid "Lighting: "
 msgstr "밝기:"
 
 #: src/game.cpp
-#, c-format
-msgid "Sign: %s"
-msgstr "표지판: %s"
+msgid "???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Sign: %s..."
-msgstr "표지판: %s..."
+msgid "Sign: %s"
+msgstr "표지판: %s"
 
 #: src/game.cpp
 #, c-format
@@ -97769,8 +97756,9 @@ msgstr "필요한 물건을 손에 들고 있지 않다."
 #: src/game_inventory.cpp
 #, c-format
 msgid ""
-"Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
-msgstr "물품 단축키 상태: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
+"Item hotkeys assigned: "
+"<color_light_gray>%d</color>/<color_light_gray>%d</color>"
+msgstr ""
 
 #: src/game_inventory.cpp src/inventory_ui.cpp
 msgid "Your inventory is empty."
@@ -97975,7 +97963,7 @@ msgid "You don't have any guns to modify."
 msgstr "개조할 총기가 없다."
 
 #: src/game_inventory.cpp
-msgid "<color_dkgray>?</color>"
+msgid "<color_dark_gray>?</color>"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -99162,9 +99150,9 @@ msgstr "메모 색상:  "
 
 #: src/help.cpp
 msgid ""
-"<color_ltgray>( Handguns</color>\n"
+"<color_light_gray>( Handguns</color>\n"
 "Handguns are small weapons held in one or both hands. They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy. However, their small size makes them appropriate for short-range combat, where larger guns fare poorly. They are also relatively quick to reload and use a very wide selection of ammunition. Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next once their ammo is spent."
-msgstr "<color_ltgray>( 권총</color>\n권총은 한 손이나 양손으로 잡는 소형 무기입니다. 대형 화기보다 조준이 어렵고 다루기 힘든데 명중률이 낮아서 그렇습니다. 하지만 크기가 작아서 대형 화기류가 잘 대처하기 힘든 근거리 전투에 적절합니다. 또한 비교적 조준이 빠르고 탄약의 종류가 다양합니다. 작고 가벼워서 조준한 권총을 여러 개 들고 다닐 수 있으며 다 쏘고 나면 다른 권총으로 바꿔 들면서 차례로 사용할 수 있습니다."
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -99208,9 +99196,9 @@ msgstr "<color_blue>( 돌격소총</color>\n돌격소총은 많은 면에서 수
 
 #: src/help.cpp
 msgid ""
-"<color_ltred>( Machine Guns</color>\n"
+"<color_light_red>( Machine Guns</color>\n"
 "Machine guns are one of the most powerful firearms available. They are even larger than assault rifles, and make poor melee weapons; however, they are capable of holding 100 or more rounds of highly-damaging ammunition. They are not built for accuracy, and firing single rounds is not very effective. However, they also possess a very high rate of fire and somewhat low recoil, making them very good at clearing out large numbers of enemies."
-msgstr "<color_ltred>( 기관총</color>\n기관총은 가장 강력한 화기 중 하나입니다. 돌격소총보다도 크며, 큰 덩치 때문에 근접전투에는 적합하기 않지만, 기관총은 100발 이상의 고성능탄을 장전할 수 있습니다. 기관총은 처음부터 명중률을 염두에 두지 않았기에 단발 사격도 비효율적입니다. 하지만 엄청난 사격 속도와 다소 적은 반동 덕분에 기관총은 대규모의 적을 제거하는데 있어서는 최적의 선택입니다."
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -100291,6 +100279,10 @@ msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr "커튼을 뜯어내고 창틀에서 커튼 봉을 빼내었다."
 
 #: src/iexamine.cpp
+msgid "You're illiterate, and can't read the message on the sign."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Nothing legible on the sign."
 msgstr "표지판을 읽을 수 없다."
 
@@ -100556,6 +100548,10 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Anatomies"
+msgstr ""
+
+#: src/init.cpp
+msgid "Tileset"
 msgstr ""
 
 #: src/init.cpp
@@ -109333,6 +109329,10 @@ msgid "<npcname> dodges the beam!"
 msgstr "<npcname>이(가) 광선을 피했다!"
 
 #: src/monattack.cpp
+msgid "Your armor protects you from the radiation!"
+msgstr ""
+
+#: src/monattack.cpp
 msgid "You get pins and needles all over."
 msgstr "핀과 바늘이 온몸에 꽂혔다."
 
@@ -111150,9 +111150,9 @@ msgstr "<color_green></color>  <color_yellow>!</color> 로 확인, <color_yellow
 
 #: src/mutation.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>=</color> to reassign."
-msgstr "<color_ltblue></color>  <color_yellow>!</color> 로 작동 <color_yellow>=</color> 로 단축키 재지정."
+msgstr ""
 
 #: src/mutation.cpp
 msgid "Might need to use ? to assign the keys."
@@ -111310,6 +111310,11 @@ msgstr " - %d 턴"
 #: src/mutation_ui.cpp
 msgid " - Active"
 msgstr " - 작동"
+
+#: src/mutation_ui.cpp
+#, c-format
+msgid "%s; enter new letter."
+msgstr "%s; 새로 지정할 단축키를 입력하십시오."
 
 #: src/mutation_ui.cpp
 #, c-format
@@ -119683,36 +119688,36 @@ msgid "New label:"
 msgstr "새 라벨:"
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>disabled</color>"
-msgstr "<color_ltred>고장</color>"
+msgid "<color_light_red>disabled</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>lack</color>"
-msgstr "<color_ltred>없음</color>"
+msgid "<color_light_red>lack</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>unbalanced</color>"
-msgstr "<color_ltred>불균형</color>"
+msgid "<color_light_red>unbalanced</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>no steering</color>"
-msgstr "<color_ltred>조향장치 없음</color>"
+msgid "<color_light_red>no steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>broken steering</color>"
-msgstr "<color_ltred>조향장치 고장</color>"
+msgid "<color_light_red>broken steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>poor steering</color>"
-msgstr "<color_ltred>조향성능 부족</color>"
+msgid "<color_light_red>poor steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltgreen>enough</color>"
-msgstr "<color_ltgreen>충분</color>"
+msgid "<color_light_green>enough</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>leaks</color>"
-msgstr "<color_ltred>누유</color>"
+msgid "<color_light_red>leaks</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<color_blue>swims</color>"
@@ -119735,24 +119740,26 @@ msgstr "바퀴수: %s"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
-msgstr "안전/최고 속도: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
+msgid ""
+"Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> "
+"%s"
+msgstr ""
 
 #. ~ /t means per turn
 #: src/veh_interact.cpp
 #, c-format
-msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
-msgstr "가속력: <color_ltblue>%3d</color> %s/t"
+msgid "Acceleration: <color_light_blue>%3d</color> %s/t"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Mass: <color_ltblue>%5.0f</color> %s"
-msgstr "부피: <color_ltblue>%5.0f</color> %s"
+msgid "Mass: <color_light_blue>%5.0f</color> %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Cargo Volume: <color_ltgray>%s/%s</color> %s"
-msgstr "화물 부피: <color_ltgray>%s/%s</color> %s"
+msgid "Cargo Volume: <color_light_gray>%s/%s</color> %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Status:"
@@ -119772,23 +119779,23 @@ msgstr "수리 필요:"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K aerodynamics: <color_ltblue>%3d</color>%%"
-msgstr "공기저항: <color_ltblue>%3d</color>%%"
+msgid "K aerodynamics: <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K friction:     <color_ltblue>%3d</color>%%"
-msgstr "마찰계수: <color_ltblue>%3d</color>%%"
+msgid "K friction:     <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K mass:         <color_ltblue>%3d</color>%%"
-msgstr "중량계수: <color_ltblue>%3d</color>%%"
+msgid "K mass:         <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Offroad:        <color_ltblue>%3d</color>%%"
-msgstr "험지돌파력: <color_ltblue>%3d</color>%%"
+msgid "Offroad:        <color_light_blue>%3d</color>%%"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Name: "
@@ -119904,13 +119911,13 @@ msgstr "배터리"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Charge: <color_ltgray>%s</color>"
-msgstr "충전량: <color_ltgray>%s</color>"
+msgid "Charge: <color_light_gray>%s</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Power: <color_ltgray>%d</color>"
-msgstr "전력량: <color_ltgray>%d</color>"
+msgid "Power: <color_light_gray>%d</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "boardable"
