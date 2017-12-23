@@ -71,7 +71,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "subway" ]
+      "palettes": [ "subway", "subway_underground" ]
     }
   },
   {
