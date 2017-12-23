@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-09 03:47-0500\n"
-"PO-Revision-Date: 2017-12-10 12:00+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-12-15 08:37-0500\n"
+"PO-Revision-Date: 2017-12-20 11:02+0000\n"
+"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26854,18 +26854,6 @@ msgid "A fire hardened building block used in masonry construction."
 msgstr "一個燒製硬化的磚用以建造磚石建築。"
 
 #: lang/json/GENERIC_from_json.py
-msgid "unfired clay brick"
-msgid_plural "unfired clay bricks"
-msgstr[0] "未燒製的磚塊"
-
-#. ~ Description for unfired clay brick
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A soft, unfired clay brick.  Firing it in a brick kiln would harden it up, "
-"making it suitable for use in a construction project."
-msgstr "軟軟的黏土磚，在磚窯裡燒製將使它硬化，讓它可以在建築工程中使用。"
-
-#: lang/json/GENERIC_from_json.py
 msgid "tanbark"
 msgid_plural "tanbarks"
 msgstr[0] "鞣料樹皮"
@@ -52148,7 +52136,7 @@ msgstr[0] "AK-74M 突擊步槍"
 msgid ""
 "The successor to the well-known AK-47 rifle.  It combines the reliability of"
 " the AK series with the high-velocity, lightweight 5.45x39mm cartridge."
-msgstr ""
+msgstr "廣為人知的AK-47步槍的後繼型號。它結合了AK系列的可靠性，使用高彈速、輕量的5.45x39mm子彈。"
 
 #: lang/json/gun_from_json.py
 msgid "AN-94"
@@ -68163,7 +68151,7 @@ msgstr "辦公大樓"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mechanics garage"
-msgstr ""
+msgstr "汽車修理工房"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mechanic garage"
@@ -84556,7 +84544,7 @@ msgstr ""
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic SUV"
-msgstr ""
+msgstr "原子能休旅車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Car"
@@ -89127,10 +89115,10 @@ msgstr "<color_red>移除中</color>  <color_yellow>!</color> 來啟動, <color_
 
 #: src/bionics_ui.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
 "<color_yellow>TAB</color> to switch tabs."
-msgstr "<color_ltblue>檢視中</color>  <color_yellow>!</color> 來啟動, <color_yellow>-</color> 來移除, <color_yellow>=</color> 來重新指派按鍵, <color_yellow>TAB</color> 來切換分頁。"
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -89191,10 +89179,10 @@ msgstr "沒有安裝任何主動的生化插件。"
 msgid "No passive bionics installed."
 msgstr "沒有安裝任何被動的生化插件。"
 
-#: src/bionics_ui.cpp src/mutation_ui.cpp
+#: src/bionics_ui.cpp
 #, c-format
-msgid "%s; enter new letter."
-msgstr "%s; 輸入新字母。"
+msgid "%s; enter new letter. Space to clear. Esc to cancel."
+msgstr ""
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -89654,20 +89642,20 @@ msgid "brown"
 msgstr "棕色"
 
 #: src/color.cpp
-msgid "lt gray"
-msgstr "灰的"
+msgid "light_gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "dk gray"
-msgstr "暗灰色"
+msgid "dark gray"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt red"
-msgstr "紅的"
+msgid "light_red"
+msgstr ""
 
 #: src/color.cpp
-msgid "lt green"
-msgstr "綠的"
+msgid "light_green"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "red"
@@ -89678,8 +89666,8 @@ msgid "green"
 msgstr "綠"
 
 #: src/color.cpp
-msgid "lt blue"
-msgstr "藍的"
+msgid "light_blue"
+msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "blue"
@@ -89694,8 +89682,8 @@ msgid "cyan"
 msgstr "青色"
 
 #: src/color.cpp
-msgid "lt cyan"
-msgstr "青的"
+msgid "light_cyan"
+msgstr ""
 
 #: src/color.cpp
 msgid "magenta"
@@ -96376,14 +96364,13 @@ msgid "Lighting: "
 msgstr "光源:"
 
 #: src/game.cpp
-#, c-format
-msgid "Sign: %s"
-msgstr "告示牌: %s"
+msgid "???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Sign: %s..."
-msgstr "告示牌: %s..."
+msgid "Sign: %s"
+msgstr "告示牌: %s"
 
 #: src/game.cpp
 #, c-format
@@ -97776,8 +97763,9 @@ msgstr "你手上沒有所需的東西。"
 #: src/game_inventory.cpp
 #, c-format
 msgid ""
-"Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
-msgstr "已分配的物品熱鍵：<color_ltgray>%d</color>/<color_ltgray>%d</color>"
+"Item hotkeys assigned: "
+"<color_light_gray>%d</color>/<color_light_gray>%d</color>"
+msgstr ""
 
 #: src/game_inventory.cpp src/inventory_ui.cpp
 msgid "Your inventory is empty."
@@ -97982,8 +97970,8 @@ msgid "You don't have any guns to modify."
 msgstr "你並沒有槍可以修改。"
 
 #: src/game_inventory.cpp
-msgid "<color_dkgray>?</color>"
-msgstr "<color_dkgray>?</color>"
+msgid "<color_dark_gray>?</color>"
+msgstr ""
 
 #: src/game_inventory.cpp
 msgid "martial arts"
@@ -99169,9 +99157,9 @@ msgstr "註記顏色："
 
 #: src/help.cpp
 msgid ""
-"<color_ltgray>( Handguns</color>\n"
+"<color_light_gray>( Handguns</color>\n"
 "Handguns are small weapons held in one or both hands. They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy. However, their small size makes them appropriate for short-range combat, where larger guns fare poorly. They are also relatively quick to reload and use a very wide selection of ammunition. Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next once their ammo is spent."
-msgstr "<color_ltgray>( 手槍</color>\n手槍是一種可單雙手持的小型武器。它比較大的槍械更難瞄準及控制，反映在它孱弱的命中率上。然而，當其他較大的槍枝表現不佳時，因為手槍的的小尺寸讓他很適合使用在近距離戰鬥上。手槍同時也能進行快速的裝填，並且能使用許多種類的彈藥。小型的尺寸以及輕量，讓玩家能夠攜帶多把上膛的手槍，在一個種類的手槍子彈用完時就能夠換成用另外一種彈藥的手槍。"
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -99215,9 +99203,9 @@ msgstr "<color_blue>( 突擊步槍</color>\n突擊步槍與來福獵槍有許多
 
 #: src/help.cpp
 msgid ""
-"<color_ltred>( Machine Guns</color>\n"
+"<color_light_red>( Machine Guns</color>\n"
 "Machine guns are one of the most powerful firearms available. They are even larger than assault rifles, and make poor melee weapons; however, they are capable of holding 100 or more rounds of highly-damaging ammunition. They are not built for accuracy, and firing single rounds is not very effective. However, they also possess a very high rate of fire and somewhat low recoil, making them very good at clearing out large numbers of enemies."
-msgstr "<color_ltred>( 機槍</color>\n機槍是遊戲中其中一類強力的槍械。他們的體積比突擊步槍大很多，因此沒辦法拿來當近戰武器；但是他們能夠裝填高達 100 發以上的高傷害子彈。這種武器不是已高命中率來設計的，所以單發射擊沒什麼效率。然而，他們卻能以極高的射擊速度與低後座力，來達成掃除大量敵人的任務。"
+msgstr ""
 
 #: src/help.cpp
 msgid ""
@@ -100298,6 +100286,10 @@ msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr "你把窗簾以及窗簾橫桿從窗框上拆了下來。"
 
 #: src/iexamine.cpp
+msgid "You're illiterate, and can't read the message on the sign."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Nothing legible on the sign."
 msgstr "告示牌上沒什麼好看的。"
 
@@ -100563,6 +100555,10 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Anatomies"
+msgstr ""
+
+#: src/init.cpp
+msgid "Tileset"
 msgstr ""
 
 #: src/init.cpp
@@ -108984,7 +108980,7 @@ msgstr ""
 #: src/mission_start.cpp
 #, c-format
 msgid "%s has marked the only %s known to them on your map."
-msgstr ""
+msgstr "你的地圖上已經標記了 %s 所知唯一的 %s。"
 
 #: src/mission_start.cpp
 msgid "You don't know where the address could be..."
@@ -109338,6 +109334,10 @@ msgstr "你躲開光束了！"
 #: src/monattack.cpp
 msgid "<npcname> dodges the beam!"
 msgstr "<npcname> 躲開光束了！"
+
+#: src/monattack.cpp
+msgid "Your armor protects you from the radiation!"
+msgstr ""
 
 #: src/monattack.cpp
 msgid "You get pins and needles all over."
@@ -111157,7 +111157,7 @@ msgstr ""
 
 #: src/mutation.cpp
 msgid ""
-"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>=</color> to reassign."
 msgstr ""
 
@@ -111317,6 +111317,11 @@ msgstr " - %d 回合"
 #: src/mutation_ui.cpp
 msgid " - Active"
 msgstr " - 啟動"
+
+#: src/mutation_ui.cpp
+#, c-format
+msgid "%s; enter new letter."
+msgstr "%s; 輸入新字母。"
 
 #: src/mutation_ui.cpp
 #, c-format
@@ -119690,36 +119695,36 @@ msgid "New label:"
 msgstr "新標籤："
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>disabled</color>"
-msgstr "<color_ltred>損壞</color>"
+msgid "<color_light_red>disabled</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>lack</color>"
-msgstr "<color_ltred>不足</color>"
+msgid "<color_light_red>lack</color>"
+msgstr "<color_light_red>不足</color>"
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>unbalanced</color>"
-msgstr "<color_ltred>不平衡</color>"
+msgid "<color_light_red>unbalanced</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>no steering</color>"
-msgstr "<color_ltred>沒有轉向軸</color>"
+msgid "<color_light_red>no steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>broken steering</color>"
-msgstr "<color_ltred>轉向軸損壞</color>"
+msgid "<color_light_red>broken steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>poor steering</color>"
-msgstr "<color_ltred>轉向軸不良</color>"
+msgid "<color_light_red>poor steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_ltgreen>enough</color>"
-msgstr "<color_ltgreen>足夠</color>"
+msgid "<color_light_green>enough</color>"
+msgstr "<color_light_green>足夠</color>"
 
 #: src/veh_interact.cpp
-msgid "<color_ltred>leaks</color>"
-msgstr "<color_ltred>不足</color>"
+msgid "<color_light_red>leaks</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<color_blue>swims</color>"
@@ -119742,24 +119747,26 @@ msgstr "輪胎：%s"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
-msgstr "安全/最高速度：<color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"
+msgid ""
+"Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> "
+"%s"
+msgstr "安全/最高速度：<color_light_green>%3d</color>/<color_light_red>%3d</color>%s"
 
 #. ~ /t means per turn
 #: src/veh_interact.cpp
 #, c-format
-msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
-msgstr "加速：<color_ltblue>%3d</color> %s/t"
+msgid "Acceleration: <color_light_blue>%3d</color> %s/t"
+msgstr "加速：<color_light_blue>%3d</color>%s/t"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Mass: <color_ltblue>%5.0f</color> %s"
-msgstr "車重：<color_ltblue>%5.0f</color> %s"
+msgid "Mass: <color_light_blue>%5.0f</color> %s"
+msgstr "車重：<color_light_blue>%5.0f</color>%s"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Cargo Volume: <color_ltgray>%s/%s</color> %s"
-msgstr "載貨量：<color_ltgray>%s/%s</color> %s"
+msgid "Cargo Volume: <color_light_gray>%s/%s</color> %s"
+msgstr "載貨量：<color_light_gray>%s/%s</color>%s"
 
 #: src/veh_interact.cpp
 msgid "Status:"
@@ -119779,23 +119786,23 @@ msgstr "需要修理:"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K aerodynamics: <color_ltblue>%3d</color>%%"
-msgstr "氣體力學：<color_ltblue>%3d</color>%%"
+msgid "K aerodynamics: <color_light_blue>%3d</color>%%"
+msgstr "空氣動力學：<color_light_blue>%3d</color>%%"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K friction:     <color_ltblue>%3d</color>%%"
-msgstr "摩擦：<color_ltblue>%3d</color>%%"
+msgid "K friction:     <color_light_blue>%3d</color>%%"
+msgstr "摩擦：<color_light_blue>%3d</color>%%"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "K mass:         <color_ltblue>%3d</color>%%"
-msgstr "車重效率：<color_ltblue>%3d</color>%%"
+msgid "K mass:         <color_light_blue>%3d</color>%%"
+msgstr "車重效率：<color_light_blue>%3d</color>%%"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Offroad:        <color_ltblue>%3d</color>%%"
-msgstr "越野：<color_ltblue>%3d</color>%%"
+msgid "Offroad:        <color_light_blue>%3d</color>%%"
+msgstr "越野：<color_light_blue>%3d</color>%%"
 
 #: src/veh_interact.cpp
 msgid "Name: "
@@ -119911,13 +119918,13 @@ msgstr "電"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Charge: <color_ltgray>%s</color>"
-msgstr "電量：<color_ltgray>%s</color>"
+msgid "Charge: <color_light_gray>%s</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Power: <color_ltgray>%d</color>"
-msgstr "能量：<color_ltgray>%d</color>"
+msgid "Power: <color_light_gray>%d</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "boardable"
