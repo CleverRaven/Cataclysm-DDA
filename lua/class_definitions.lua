@@ -845,10 +845,10 @@ classes = {
             type = { type = "itype", writable = true },
         },
         functions = {
-            { name = "age", rval = "int", args = { } },
-            { name = "set_age", rval = nil, args = { "int" } },
-            { name = "birthday", rval = "int", args = { } },
-            { name = "set_birthday", rval = nil, args = { "int" } },
+            { name = "age", rval = "time_duration", args = { } },
+            { name = "set_age", rval = nil, args = { "time_duration" } },
+            { name = "birthday", rval = "time_point", args = { } },
+            { name = "set_birthday", rval = nil, args = { "time_point" } },
             { name = "acid_resist", rval = "int", args = { } },
             { name = "acid_resist", rval = "int", args = { "bool" } },
             { name = "add_rain_to_container", rval = nil, args = { "bool" } },
@@ -1872,6 +1872,20 @@ classes = {
         },
     },
     nc_color = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+        },
+    },
+    time_duration = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+        },
+    },
+    time_point = {
         by_value = true,
         attributes = {
         },

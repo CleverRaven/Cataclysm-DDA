@@ -405,5 +405,15 @@
     "id": "crude_brick",
     "type": "MIGRATION",
     "replace": "brick"
+  },
+  {
+    "id": "jam_blueberries",
+    "type": "MIGRATION",
+    "replace": "jam_fruit"
+  },
+  {
+    "id": "jam_strawberries",
+    "type": "MIGRATION",
+    "replace": "jam_fruit"
   }
 ]

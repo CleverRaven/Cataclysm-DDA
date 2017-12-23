@@ -26,6 +26,7 @@
 #include "submap.h"
 #include "monster.h"
 #include "overmap.h"
+#include "calendar.h"
 #include "field.h"
 #include "ui.h"
 #include "scent_map.h"
@@ -1338,7 +1339,7 @@ int editmap::edit_itm()
             imenu.w_height = TERMX - ilmenu.w_height;
             imenu.w_width = ilmenu.w_width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
-                            it->birthday() );
+                            to_turn<int>( it->birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1355,7 +1356,7 @@ int editmap::edit_itm()
                     int intval = -1;
                     switch( imenu.ret ) {
                         case imenu_bday:
-                            intval = it->birthday();
+                            intval = to_turn<int>( it->birthday() );
                             break;
                         case imenu_damage:
                             intval = it->damage();
@@ -1371,8 +1372,8 @@ int editmap::edit_itm()
                                  .query_int();
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
-                            it->set_birthday( retval );
-                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->birthday() );
+                            it->set_birthday( time_point::from_turn( retval ) );
+                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it->birthday() ) );
                         } else if( imenu.ret == imenu_damage ) {
                             it->set_damage( retval );
                             imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );

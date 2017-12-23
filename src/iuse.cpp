@@ -13,6 +13,7 @@
 #include "iexamine.h"
 #include "requirements.h"
 #include "rng.h"
+#include "calendar.h"
 #include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
@@ -2102,8 +2103,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             it->active = false;
             return 0;
         }
-        //after 3 hours.
-        if( it->age() > 1800 ) {
+        if( it->age() > 3_hours ) {
             it->active = false;
 
             if (!g->m.has_flag("FISHABLE", pos)) {
@@ -2161,7 +2161,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                         //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng(0, 1800) ) );
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns, 3_hours ) ) );
                         break; //this can happen only once
                     }
                 }
@@ -3484,8 +3484,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
 {
-    int timer = it->age();
-    if (timer < 2) {
+    time_duration timer = it->age();
+    if (timer < 2_turns) {
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
     } else if (it->charges > 0) {

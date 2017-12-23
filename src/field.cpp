@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "emit.h"
 #include "vehicle.h"
+#include "calendar.h"
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
@@ -1378,11 +1379,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
                             if( pushee->typeId() != "rock" ||
-                                pushee->age() < 1 ) {
+                                pushee->age() < 1_turns ) {
                                 pushee++;
                             } else {
                                 item tmp = *pushee;
-                                tmp.set_age( 0 );
+                                tmp.set_age( 0_turns );
                                 pushee = items.erase( pushee );
                                 std::vector<tripoint> valid;
                                 tripoint dst;

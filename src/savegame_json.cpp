@@ -27,6 +27,7 @@
 #include "crafting.h"
 #include "get_version.h"
 #include "scenario.h"
+#include "calendar.h"
 #include "monster.h"
 #include "monfaction.h"
 #include "morale.h"
@@ -1467,6 +1468,16 @@ void mon_special_attack::serialize(JsonOut &json) const
     json.end_object();
 }
 
+void time_point::serialize( JsonOut &jsout ) const
+{
+    jsout.write( turn_ );
+}
+
+void time_point::deserialize( JsonIn &jsin )
+{
+    turn_ = jsin.get_int();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
@@ -1505,7 +1516,7 @@ void item::io( Archive& archive )
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
     archive.io( "irridation", irridation, 0 );
-    archive.io( "bday", bday, 0 );
+    archive.io( "bday", bday, time_point( 0 ) );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );

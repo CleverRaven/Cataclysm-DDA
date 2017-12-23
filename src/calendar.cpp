@@ -10,6 +10,7 @@
 #include "string_formatter.h"
 #include "game.h"
 #include "debug.h"
+#include "rng.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -565,3 +566,7 @@ const std::string calendar::name_season( season_type s )
     return _( season_names_untranslated[ 4 ].c_str() );
 }
 
+time_duration rng( time_duration lo, time_duration hi )
+{
+    return time_duration( rng( lo.turns_, hi.turns_ ) );
+}

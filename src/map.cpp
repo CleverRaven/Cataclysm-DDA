@@ -27,6 +27,7 @@
 #include "monster.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "calendar.h"
 #include "artifact.h"
 #include "submap.h"
 #include "map_iterator.h"
@@ -4225,7 +4226,7 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
 
 void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     spawn_item( tripoint( x, y, abs_sub.z ), type_id,
                 quantity, charges, birthday, damlevel );
@@ -4368,7 +4369,7 @@ void map::spawn_natural_artifact(const tripoint &p, artifact_natural_property pr
 
 void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     if( type_id == "null" ) {
         return;
@@ -6685,40 +6686,44 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
-    // Destroy bugged no-part vehicles
-    auto &veh_vec = tmpsub->vehicles;
-    for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
-        auto *veh = *iter;
-        if( !veh->parts.empty() ) {
-            // Always fix submap coords for easier z-level-related operations
-            veh->smx = gridx;
-            veh->smy = gridy;
-            veh->smz = gridz;
-            iter++;
-        } else {
-            reset_vehicle_cache( gridz );
-            if( veh->tracking_on ) {
-                overmap_buffer.remove_vehicle( veh );
-            }
-            dirty_vehicle_list.erase( veh );
-            delete( veh );
-            iter = veh_vec.erase( iter );
-        }
-    }
-
-    // Update vehicle data
-    if( update_vehicles ) {
-        auto &map_cache = get_cache( gridz );
-        for( auto it : tmpsub->vehicles ) {
-            // Only add if not tracking already.
-            if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
-                map_cache.vehicle_list.insert( it );
-                add_vehicle_to_cache( it );
+    // Uniform submaps don't have vehicles and are always actual
+    // Skip this costly processing for them
+    if( !tmpsub->is_uniform ) {
+        // Destroy bugged no-part vehicles
+        auto &veh_vec = tmpsub->vehicles;
+        for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
+            auto *veh = *iter;
+            if( !veh->parts.empty() ) {
+                // Always fix submap coords for easier z-level-related operations
+                veh->smx = gridx;
+                veh->smy = gridy;
+                veh->smz = gridz;
+                iter++;
+            } else {
+                reset_vehicle_cache( gridz );
+                if( veh->tracking_on ) {
+                    overmap_buffer.remove_vehicle( veh );
+                }
+                dirty_vehicle_list.erase( veh );
+                delete( veh );
+                iter = veh_vec.erase( iter );
             }
         }
-    }
 
-    actualize( gridx, gridy, gridz );
+        // Update vehicle data
+        if( update_vehicles ) {
+            auto &map_cache = get_cache( gridz );
+            for( auto it : tmpsub->vehicles ) {
+                // Only add if not tracking already.
+                if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
+                    map_cache.vehicle_list.insert( it );
+                    add_vehicle_to_cache( it );
+                }
+            }
+        }
+
+        actualize( gridx, gridy, gridz );
+    }
 
     abs_sub.z = old_abs_z;
 }
@@ -6811,7 +6816,8 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    const int plantEpoch = seed.get_plant_epoch();
+    //@todo change get_plant_epoch to return time_duration
+    const time_duration plantEpoch = time_duration::from_turns( seed.get_plant_epoch() );
 
     if( seed.age() >= plantEpoch ) {
         if( seed.age() < plantEpoch * 2 ) {
@@ -7083,6 +7089,12 @@ void map::add_roofs( const int gridx, const int gridy, const int gridz )
     if( check_roof && sub_below == nullptr ) {
         debugmsg( "Tried to add roofs to sm at %d,%d,%d, but sm below doesn't exist",
                   gridx, gridy, gridz );
+        return;
+    }
+
+    if( sub_below != nullptr && sub_here->is_uniform && sub_below->is_uniform ) {
+        // The most common case (at least ~5 times more common than the other)
+        // Two layers of air or two layers of rock - neither case needs any new roofs
         return;
     }
 
@@ -7465,6 +7477,18 @@ void map::build_outside_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            if( cur_submap->is_uniform ) {
+                if( cur_submap->get_ter( 0, 0 ).obj().has_flag( TFLAG_INDOORS ) ||
+                    cur_submap->get_furn( 0, 0 ).obj().has_flag( TFLAG_INDOORS ) ) {
+                    // Note: filling on padded cache, meaning +2 width/height
+                    for( int sx = 0; sx < SEEX + 2; ++sx ) {
+                        const int x = sx + ( smx * SEEX );
+                        std::uninitialized_fill_n( &padded_cache[x][0], padded_h, false );
+                    }
+                }
+
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -7508,6 +7532,16 @@ void map::build_floor_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            if( cur_submap->is_uniform ) {
+                if( cur_submap->get_ter( 0, 0 ).obj().has_flag( TFLAG_NO_FLOOR ) ) {
+                    for( int sx = 0; sx < SEEX; ++sx ) {
+                        const int x = sx + ( smx * SEEX );
+                        std::uninitialized_fill_n( &floor_cache[x][0], MAPSIZE * SEEY, false );
+                    }
+                }
+
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {

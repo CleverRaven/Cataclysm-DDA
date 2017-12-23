@@ -7855,9 +7855,10 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     }
 
     const int max_width = getmaxx( w_look ) - column - 1;
-    std::string signage = u.has_trait( trait_ILLITERATE ) ? _( "???" ) : m.get_signage( lp );
+    std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++line, column, max_width, c_light_gray, _( "Sign: %s" ), signage.c_str() );
+        trim_and_print( w_look, ++line, column, max_width, c_light_gray,
+                    u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -10632,7 +10633,8 @@ void game::reload( item_location &loc, bool prompt )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            if( it->ammo_remaining() > 0 && it->ammo_remaining() == it->ammo_capacity() ) {
+            if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
+                    it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
                 return;
             }
@@ -10644,10 +10646,15 @@ void game::reload( item_location &loc, bool prompt )
                     return;
                 }
             }
+            if( it->is_watertight_container() && it->is_container_full() ) {
+                add_msg( m_info, _( "The %s is already full!" ), it->tname().c_str() );
+                return;
+            }
+
             // intentional fall-through
 
         case HINT_CANT:
-            add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+            add_msg( m_info, _( "You can't reload a %s!" ), it->tname().c_str() );
             return;
 
         case HINT_GOOD:
@@ -10662,7 +10669,8 @@ void game::reload( item_location &loc, bool prompt )
     }
 
     item::reload_option opt = u.select_ammo( *it, prompt );
-    if( opt ) {
+
+    if ( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
         u.activity.targets.push_back( std::move( opt.ammo ) );

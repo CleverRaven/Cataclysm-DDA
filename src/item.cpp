@@ -117,14 +117,13 @@ static const itype *nullitem()
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
-item::item()
+item::item() : bday( 0 )
 {
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, long qty ) : type( type )
+item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn >= 0 ? turn : calendar::turn )
 {
-    bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
@@ -170,28 +169,28 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, long qty )
+item::item( const itype_id& id, time_point turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
-item::item( const itype *type, int turn, default_charges_tag )
+item::item( const itype *type, time_point turn, default_charges_tag )
     : item( type, turn, type->charges_default() ) {}
 
-item::item( const itype_id& id, int turn, default_charges_tag tag )
+item::item( const itype_id& id, time_point turn, default_charges_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
-item::item( const itype *type, int turn, solitary_tag )
+item::item( const itype *type, time_point turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
 
-item::item( const itype_id& id, int turn, solitary_tag tag )
+item::item( const itype_id& id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
-item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
+item item::make_corpse( const mtype_id& mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn >= 0 ? turn : int( calendar::turn ) );
+    item result( "corpse", turn >= 0 ? turn : calendar::turn );
     result.corpse = &mt.obj();
 
     result.active = result.corpse->has_flag( MF_REVIVES );
@@ -802,12 +801,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
-                                          age() / ( 10 * 60 ), true, "", true, true ) );
+                                          to_hours<int>( age() ), true, "", true, true ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
-                                              food->age(), true, "", true, true ) );
+                                              to_turns<int>( food->age() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
@@ -2907,7 +2906,7 @@ void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
-        const int since = ( last_rot_check == 0 ? bday : last_rot_check );
+        const int since = ( last_rot_check == 0 ? to_turn<int>( bday ) : last_rot_check );
         const int until = ( fridge > 0 ? fridge : now );
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
@@ -3079,7 +3078,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = age() / HOURS( 1 );
+    int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int((float)burnt / ( volume() / 250_ml ) );
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
@@ -3760,6 +3759,9 @@ bool item::is_reloadable_helper( const itype_id& ammo, bool now ) const
 {
     if( !is_reloadable() ) {
         return false;
+    } else if( is_watertight_container() ) {
+        return ( now ? !is_container_full() : true ) &&
+            ( ammo.empty() || is_container_empty() || contents.front().typeId() == ammo );
     } else if( magazine_integral() ) {
         if( !ammo.empty() ) {
             if( ammo_data() ) {
@@ -4689,9 +4691,11 @@ item::reload_option::reload_option( const player *who, const item *target, const
     }
 
     // magazine, ammo or ammo container
-    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
+    item& tmp = ( this->ammo->is_ammo_container() || this->ammo->is_watertight_container() )
+        ? this->ammo->contents.front()
+        : *this->ammo;
 
-    if( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) {
+    if( this->ammo->is_watertight_container() || ( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) ) {
         qty( tmp.charges );
     } else {
         qty( 1 );
@@ -4719,13 +4723,24 @@ void item::reload_option::qty( long val )
         return;
     }
 
-    const item &obj = ammo->is_ammo_container() ? ammo->contents.front() : *ammo;
-    if( !obj.is_ammo() ) {
-        debugmsg( "Invalid reload option: %s", obj.tname().c_str() );
+    item* obj = nullptr;
+    bool is_ammo_container = ammo->is_ammo_container();
+    bool is_liquid_container = ammo->is_watertight_container();
+    if ( is_ammo_container || is_liquid_container ) {
+        obj = &( ammo->contents.front() );
+    } else {
+        obj = &*ammo;
+    }
+
+    if( ( is_ammo_container && !obj->is_ammo() ) ||
+            ( is_liquid_container && !obj->made_of( LIQUID ) ) ) {
+        debugmsg( "Invalid reload option: %s", obj->tname().c_str() );
         return;
     }
 
-    long limit = target->ammo_capacity() - target->ammo_remaining();
+    long limit = is_liquid_container
+            ? target->get_remaining_capacity_for_liquid( *obj, true )
+            : target->ammo_capacity() - target->ammo_remaining();
 
     if( target->ammo_type() == ammotype( "plutonium" ) ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
@@ -4733,10 +4748,11 @@ void item::reload_option::qty( long val )
 
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
-    qty_ = std::min( { val, obj.charges, limit, max_qty } );
+    qty_ = std::min( { val, obj->charges, limit, max_qty } );
 
     // always expect to reload at least one charge
     qty_ = std::max( qty_, 1L );
+
 }
 
 int item::casings_count() const
@@ -4784,7 +4800,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if ( ammo->is_ammo_container() ) {
+    if ( ammo->is_ammo_container() || ammo->is_watertight_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }
@@ -4794,7 +4810,9 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // limit quantity of ammo loaded to remaining capacity
-    long limit = ammo_capacity() - ammo_remaining();
+    long limit = is_watertight_container()
+        ? get_remaining_capacity_for_liquid( *ammo )
+        : ammo_capacity() - ammo_remaining();
 
     if( ammo_type() == ammotype( "plutonium" ) ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
@@ -4819,6 +4837,12 @@ bool item::reload( player &u, item_location loc, long qty )
         contents.back().charges = qty;
         ammo->charges -= qty;
 
+    } else if ( is_watertight_container() ) {
+        if( !ammo->made_of( LIQUID ) ) {
+            debugmsg( "Tried to reload liquid container with non-liquid." );
+            return false;
+        }
+        fill_with( *ammo, qty );
     } else if ( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -5059,7 +5083,9 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
     long remaining_capacity = 0;
 
-    if( is_reloadable_with( liquid.typeId() ) ) {
+    // TODO(sm): is_reloadable_with and this function call each other and can recurse for
+    // watertight containers.
+    if( !is_container() && is_reloadable_with( liquid.typeId() ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
@@ -5162,11 +5188,13 @@ void item::fill_with( item &liquid, long amount )
         return;
     }
 
-    if( is_reloadable_with( liquid.typeId() ) ) {
+    if( !is_container() ) {
+        if( !is_reloadable_with( liquid.typeId() ) ) {
+            debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
+                      tname().c_str(), liquid.tname().c_str() );
+            return;
+        }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
-    } else if( !is_container() ) {
-        debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
-                  tname().c_str(), liquid.tname().c_str() );
     } else if( !is_container_empty() ) {
         contents.front().mod_charges( amount );
     } else {
@@ -5907,6 +5935,9 @@ bool item::is_reloadable() const
     } else if( is_bandolier() ) {
         return true;
 
+    } else if( is_container() ) {
+        return true;
+
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
 
@@ -6057,22 +6088,22 @@ bool item::on_drop( const tripoint &pos )
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 
-int item::age() const
+time_duration item::age() const
 {
     return calendar::turn - birthday();
 }
 
-void item::set_age( const int age )
+void item::set_age( const time_duration age )
 {
-    set_birthday( calendar::turn - age );
+    set_birthday( time_point( calendar::turn ) - age );
 }
 
-int item::birthday() const
+time_point item::birthday() const
 {
     return bday;
 }
 
-void item::set_birthday( const int bday )
+void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
 }
