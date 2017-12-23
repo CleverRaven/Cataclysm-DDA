@@ -71,7 +71,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "subway", "subway_underground" ]
+      "palettes": [ "subway_underground" ]
     }
   },
   {
@@ -83,31 +83,31 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "#^X^^X^##########^X^^X^#",
-        "#txttxt#________#txttxt#",
+        "#-x--x-#________#-x--x-#",
         "#^X^^X^#_b____b_#^X^^X^#",
         "R^X^^X^__b____b__^X^^X^R",
-        "Rtxttxt__b____b__txttxtR",
+        "R-x--x-__b____b__-x--x-R",
         "G^X^^X^__&____&__^X^^X^G",
         "R^X^^X^__b____b__^X^^X^R",
-        "Rtxttxt__b____b__txttxtR",
+        "R-x--x-__b____b__-x--x-R",
         "R^X^^X^__b____b__^X^^X^R",
         "B^X^^X^__________^X^^X^B",
-        "Btxttxt__________txttxtB",
+        "B-x--x-__________-x--x-B",
         "B^X^^X^____<<____^X^^X^B",
         "B^X^^X^____<<____^X^^X^B",
-        "Btxttxt__________txttxtB",
+        "B-x--x-__________-x--x-B",
         "B^X^^X^__________^X^^X^B",
         "R^X^^X^__b____b__^X^^X^R",
-        "Rtxttxt__b____b__txttxtR",
+        "R-x--x-__b____b__-x--x-R",
         "R^X^^X^__b____b__^X^^X^R",
         "G^X^^X^__&____&__^X^^X^G",
-        "Rtxttxt__b____b__txttxtR",
+        "R-x--x-__b____b__-x--x-R",
         "R^X^^X^__b____b__^X^^X^R",
         "#^X^^X^#_b____b_#^X^^X^#",
-        "#txttxt#________#txttxt#",
+        "#-x--x-#________#-x--x-#",
         "#^X^^X^##########^X^^X^#"
       ],
-      "palettes": [ "subway" ]
+      "palettes": [ "subway_underground" ]
     }
   }
 ]
