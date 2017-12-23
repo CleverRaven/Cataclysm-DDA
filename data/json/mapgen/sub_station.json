@@ -5,7 +5,7 @@
     "om_terrain": [ "sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_floor",
       "rows": [
         " SSSSSSSSSSSSSSSSSSSSSS ",
         "  SSSSSSSSSSSSSSSSSSSS  ",
@@ -32,24 +32,7 @@
         "***   SSSSSSSSSSSS   ***",
         " *                    * "
       ],
-      "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
-        "|": "t_wall",
-        "-": "t_wall_glass",
-        ";": "t_door_glass_c",
-        "*": "t_shrub",
-        "&": "t_floor",
-        ".": "t_floor",
-        "1": "t_floor",
-        "2": "t_floor",
-        ">": "t_stairs_down",
-        "D": "t_floor",
-        "F": "t_floor",
-        "S": "t_sidewalk",
-        "_": "t_pavement",
-        "b": "t_floor"
-      },
-      "furniture": { "&": "f_trashcan", "1": "f_indoor_plant", "2": "f_indoor_plant_y", "b": "f_bench" },
+      "palettes": [ "subway" ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
     }
   },
@@ -59,7 +42,7 @@
     "om_terrain": [ "sewer_sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "########################",
         "########################",
@@ -88,15 +71,7 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        ">": "t_stairs_down",
-        "<": "t_stairs_up",
-        "R": [ "t_rock_red" ],
-        "G": [ "t_rock_green" ],
-        "B": [ "t_rock_blue" ],
-        "_": "t_thconc_floor"
-      }
+      "palettes": [ "subway" ]
     }
   },
   {
@@ -105,51 +80,34 @@
     "om_terrain": [ "underground_sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "#^X^^X^##########^X^^X^#",
-        "#-x--x-#________#-x--x-#",
+        "#txttxt#________#txttxt#",
         "#^X^^X^#_b____b_#^X^^X^#",
         "R^X^^X^__b____b__^X^^X^R",
-        "R-x--x-__b____b__-x--x-R",
+        "Rtxttxt__b____b__txttxtR",
         "G^X^^X^__&____&__^X^^X^G",
         "R^X^^X^__b____b__^X^^X^R",
-        "R-x--x-__b____b__-x--x-R",
+        "Rtxttxt__b____b__txttxtR",
         "R^X^^X^__b____b__^X^^X^R",
         "B^X^^X^__________^X^^X^B",
-        "B-x--x-__________-x--x-B",
+        "Btxttxt__________txttxtB",
         "B^X^^X^____<<____^X^^X^B",
         "B^X^^X^____<<____^X^^X^B",
-        "B-x--x-__________-x--x-B",
+        "Btxttxt__________txttxtB",
         "B^X^^X^__________^X^^X^B",
         "R^X^^X^__b____b__^X^^X^R",
-        "R-x--x-__b____b__-x--x-R",
+        "Rtxttxt__b____b__txttxtR",
         "R^X^^X^__b____b__^X^^X^R",
         "G^X^^X^__&____&__^X^^X^G",
-        "R-x--x-__b____b__-x--x-R",
+        "Rtxttxt__b____b__txttxtR",
         "R^X^^X^__b____b__^X^^X^R",
         "#^X^^X^#_b____b_#^X^^X^#",
-        "#-x--x-#________#-x--x-#",
+        "#txttxt#________#txttxt#",
         "#^X^^X^##########^X^^X^#"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "&": "t_thconc_floor",
-        "-": "t_railroad_tie",
-        ".": "t_rock_floor",
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "R": [ "t_rock_red" ],
-        "G": [ "t_rock_green" ],
-        "B": [ "t_rock_blue" ],
-        "X": "t_railroad_track",
-        "^": "t_rubble",
-        "_": "t_thconc_floor",
-        "b": "t_thconc_floor",
-        "x": "t_railroad_track_on_tie"
-      },
-      "furniture": { "&": "f_trashcan", "b": "f_bench" }
+      "palettes": [ "subway" ]
     }
   }
 ]
-
