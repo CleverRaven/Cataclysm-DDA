@@ -1719,7 +1719,7 @@
         "symbol": "O",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_empty",
         "deconstruct": {
@@ -1748,7 +1748,7 @@
         "symbol": "O",
         "color": "brown_cyan",
         "move_cost_mod": -1,
-        "required_str": 12,
+        "required_str": -1,
         "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_full",
         "deconstruct": {
@@ -1777,7 +1777,7 @@
         "symbol": "H",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
         "deconstruct": {
@@ -2023,7 +2023,7 @@
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "crafting_pseudo_item": "still",
         "deconstruct": {
             "items": [
@@ -2318,7 +2318,7 @@
         "symbol" : "O",
         "color": "light_gray",
         "move_cost_mod" : -1,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
         "deconstruct": {
             "items": [
@@ -2373,7 +2373,7 @@
         "symbol": "U",
         "color": "brown",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
@@ -2398,7 +2398,7 @@
         "symbol": "U",
         "color": "brown_red",
         "move_cost_mod": -1,
-        "required_str": 12,
+        "required_str": -1,
         "examine_action": "kiln_full",
         "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
@@ -2421,7 +2421,7 @@
         "symbol": "U",
         "color": "blue",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
@@ -2449,7 +2449,7 @@
         "symbol": "U",
         "color": "blue_red",
         "move_cost_mod": -1,
-        "required_str": 12,
+        "required_str": -1,
         "examine_action": "kiln_full",
         "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
         "deconstruct": {
@@ -2551,7 +2551,7 @@
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
-    "required_str": 8,
+    "required_str": -1,
     "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
@@ -2601,7 +2601,7 @@
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": -1,
         "crafting_pseudo_item": "brick_kiln",
         "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
