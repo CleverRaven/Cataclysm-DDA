@@ -5,7 +5,7 @@
     "terrain": {
       " ": [ "t_dirt", "t_dirt", "t_grass" ],
       "#": "t_rock",
-      "|": "t_wall",
+      "|": "t_rock_wall",
       "-": "t_wall_glass",
       "R": [ "t_rock_red" ],
       "G": [ "t_rock_green" ],
