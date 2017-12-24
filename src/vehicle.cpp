@@ -4624,28 +4624,32 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        if( critter == nullptr || !critter->is_hallucination() ) {
+            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
     // Apply special effects from collision.
     if( critter != nullptr ) {
-        if( pl_ctrl ) {
-            if( turns_stunned > 0 ) {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
-            } else {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+        if( !critter->is_hallucination() ) {
+            if( pl_ctrl ) {
+                if( turns_stunned > 0 ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                } else {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                }
             }
-        }
 
-        if( part_flag( ret.part, "SHARP" ) ) {
-            critter->bleed();
-        } else {
-            sounds::sound( p, 20, snd );
+            if( part_flag( ret.part, "SHARP" ) ) {
+                critter->bleed();
+            } else {
+                sounds::sound( p, 20, snd );
+            }
         }
     } else {
         if( pl_ctrl ) {
