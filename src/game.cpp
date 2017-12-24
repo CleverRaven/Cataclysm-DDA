@@ -12378,6 +12378,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         return;
     }
 
+    if( c->is_hallucination() ) {
+        // Don't fling hallucinations
+        return;
+    }
+
     int steps = 0;
     const bool is_u = (c == &u);
     // Don't animate critters getting bashed if animations are off
