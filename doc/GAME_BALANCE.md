@@ -189,6 +189,7 @@ Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determi
 
 Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
 -------------------|-----------------------------|-----------|-----|----------|-------------------------------
+.22 CB             | 18gr CB bullet              | 39        | 6   | 7.87in   |                              |
 .22LR              | 40gr unjacketed bullet      | 141       | 12  | 6in      |                              |
 .22LR FMJ          | 30gr FMJ bullet             | 277       | 17  | 6in      |                              |
 .32 ACP            | 60gr JHP bullet             | 218       | 15  | 4in      |                              |
