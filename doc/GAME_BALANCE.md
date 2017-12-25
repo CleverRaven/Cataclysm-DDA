@@ -223,7 +223,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 5.56x45mm M855A1   | 62gr copper core FMJBT bullet | 1843      | 43  | 20in     |                              |
 .308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
 7.62 NATO M80      | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
-7.62 NATO M62      | 147gr FMJ bullet            | 3304      | 57  | 24in     |  Belt with 1/5 tracer rounds |
+7.62 NATO M62      | 142gr tracer bullet         | 3232      | 57  | 24in     |  Belt with 1/5 tracer rounds |
 .270 Winchester    | 130gr soft point bullet     | 3663      | 61  | 24in     |                              |
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
