@@ -179,7 +179,7 @@ Police armory     | Mostly pistol magazines, especially 9mm, never extended   | 
 SWAT truck        | Police or military magazines, occasionally extended       | Sometimes | Rarely    | MP5 extended
 Survivor basement | Anything except milspec weighted towards common types     | Often     | Sometimes | Saiga mag, M1911 extended
 Military surplus  | Older military magazines that are not current issue       | Never     | Rarely    | M9 mag, STEN magazine
-Pawn showp        | Anything except milspec weighted towards unusual calibers | Never     | Rarely    | Makarov mag, AK-74 mag
+Pawn shop         | Anything except milspec weighted towards unusual calibers | Never     | Rarely    | Makarov mag, AK-74 mag
 Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | Often     | Sometimes | Ruger 223 mag, M1911 mag
 
 ## Ammo stats
