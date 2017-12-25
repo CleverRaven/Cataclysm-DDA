@@ -194,6 +194,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .22LR FMJ          | 30gr FMJ bullet             | 277       | 17  | 6in      |                              |
 .32 ACP            | 60gr JHP bullet             | 218       | 15  | 4in      |                              |
 7.62x25mm          | 85gr JHP bullet             | 544       | 23  | 4.7in    |                              |
+7.62x25mm Type P   | 120gr bullet                | 245       | 15  | 9.6in    | Fired from the Type 64 SMG; need more data here |
 9x19mm FMJ         | 115gr FMJ bullet            | 420       | 24  | 5.9in    |                              |
 9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
 9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
