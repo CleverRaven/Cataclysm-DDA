@@ -4166,74 +4166,43 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
+int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !p || t ) {
         return 0;
     }
 
     tripoint dirp = pos;
-    if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
-        return 0;
-    }
-    int &dirx = dirp.x;
-    int &diry = dirp.y;
-
-    if (dirx == p->posx() && diry == p->posy()) {
-        add_msg(m_info, _("Why would you do that?"));
-        add_msg(m_info, _("You're not even chained to a boiler."));
+    if( !choose_adjacent( _( "Cut up metal where?" ), dirp ) ) {
         return 0;
     }
 
-    if (g->m.furn(dirx, diry) == f_rack) {
-        p->moves -= 500;
-        g->m.furn_set(dirx, diry, f_null);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(p->posx(), p->posy(), "pipe", rng(1, 3));
-        g->m.spawn_item(p->posx(), p->posy(), "steel_chunk");
-        return it->type->charges_to_use();
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "Why would you do that?" ) );
+        add_msg( m_info, _( "You're not even chained to a boiler." ) );
+        return 0;
     }
 
-    const ter_id ter = g->m.ter( dirx, diry );
-    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-        g->m.spawn_item(dirx, diry, "wire", 20);
-    } else if( ter == t_chainfence_posts ) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-    } else if( ter == t_window_bars_alarm ) {
-        p->moves -= 500;
-        g->m.ter_set( dirx, diry, t_window_alarm );
-        sounds::sound( dirp, 15, _("grnd grnd grnd" ) );
-        g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
-    } else if( ter == t_window_bars ) {
-        p->moves -= 500;
-        g->m.ter_set( dirx, diry, t_window_empty );
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(p->pos(), "pipe", 6);
-    } else if( ter == t_bars ) {
-        if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
-            g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
-            g->m.ter_set(dirx, diry, t_sewage);
-            p->moves -= 1000;
-            sounds::sound(dirp, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", 3);
-        } else {
-            g->m.ter_set(dirx, diry, t_floor);
-            p->moves -= 500;
-            sounds::sound(dirp, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", 3);
-        }
+    const ter_id ter = g->m.ter( dirp );
+    int moves;
+
+    if( ter == t_chainfence_posts || g->m.furn( dirp ) == f_rack ) {
+        moves = 10000;
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+        moves = 30000;
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars ) {
+        moves = 60000;
+    } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
+        moves = 90000;
     } else {
-        add_msg(m_info, _("You can't cut that."));
+        add_msg( m_info, _( "You can't cut that." ) );
         return 0;
     }
+
+    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
     return it->type->charges_to_use();
 }
 
