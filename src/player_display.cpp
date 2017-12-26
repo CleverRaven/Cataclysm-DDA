@@ -697,7 +697,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
                     mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
-                    mvwprintz( w_stats, 8, 22, c_magenta, "+%3d", throw_dispersion_per_dodge( false ) );
+                    mvwprintz( w_stats, 8, 23, c_magenta, "%+3d", throw_dispersion_per_dodge( false ) );
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
