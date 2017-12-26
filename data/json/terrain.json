@@ -6533,7 +6533,7 @@
     "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL" ]
   },
   {
-    "id": "t_rubble",
+    "id": "t_railroad_rubble",
     "type": "terrain",
     "name": "railroad rubble",
     "symbol": "^",

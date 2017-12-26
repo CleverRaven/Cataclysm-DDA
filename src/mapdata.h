@@ -427,7 +427,7 @@ extern ter_id t_null,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_linoleum_white, t_linoleum_gray,
-    t_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
 
 /*
