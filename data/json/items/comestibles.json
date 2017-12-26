@@ -11292,5 +11292,48 @@
           "calories": 1.6,
           "vitamins": [ [ "vitA", 0.64 ] ]
         }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "jr_grape",
+        "name" : "hard candy (grape)",
+        "name_plural" : "hard candies (grape)",
+        "healthy" : -1,
+        "nutrition" : 1,
+        "fun" : 3,
+        "stim" : 3,
+        "color" : "magenta",
+        "comestible_type" : "FOOD",
+        "charges": 1,
+        "weight" : 46,
+        "container" : "wrapper",
+        "symbol" : "%",
+        "description" : "A sweet, somewhat tangy or sour hard candy.",
+        "price" : 180,
+        "material" : "junk",
+        "volume" : 0
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "lean",
+        "name" : "lean",
+        "weight" : 260,
+        "color" : "white",
+        "addiction_type" : "opiate",
+        "stim" : 7,
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "quench" : 18,
+        "healthy" : -3,
+        "addiction_potential" : 11,
+        "nutrition" : 3,
+        "description" : "Candy mixed with drugs, rappers claim to drink this stuff by the gallons.",
+        "price" : 95,
+        "material" : "junk",
+        "volume" : 1,
+        "phase" : "liquid",
+        "flags" : ["EATEN_COLD"],
+        "fun" : 23,
+        "charges": 1
     }
 ]
