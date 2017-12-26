@@ -5395,7 +5395,7 @@
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
@@ -8803,7 +8803,7 @@
     "encumbrance": 25,
     "storage": 20,
     "warmth": 35,
-    "material_thickness": 6,
+    "material_thickness": 7,
     "environmental_protection": 4,
     "flags": [ "POCKETS", "STURDY" ]
   },
