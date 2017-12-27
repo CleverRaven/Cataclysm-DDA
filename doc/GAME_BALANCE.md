@@ -217,8 +217,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
 4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
 7.62x39mm          | 123gr FMJ bullet            | 2179      | 46  | 16.3in   |                              |
-7.62x39mm M43      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 15  |
-7.62x39mm M67      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 9   |
+7.62x39mm 57-N-231 | 123gr steel core FMJ bullet | 2036      | 45  | 16.3in   |                              |
+7.62x39mm M67      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |         TODO                 |
 5.45x39mm 7N10     | 56gr FMJ bullet             | 1402      | 37  | 16.3in   |        damage increased by 3 |
 5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
 .223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
