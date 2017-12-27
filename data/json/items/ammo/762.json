@@ -2,8 +2,8 @@
   {
     "id": "762_m43",
     "type": "AMMO",
-    "name": "7.62x39mm M43",
-    "description": "7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only begining to yaw after 26cm.",
+    "name": "7.62x39mm 57-N-231",
+    "description": "7.62x39mm 57-N-231 ammunition with 123gr steel core FMJ bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only begining to yaw after 26cm.",
     "weight": 13,
     "volume": 1,
     "price": 5200,
@@ -15,10 +15,10 @@
     "ammo_type": "762",
     "casing": "762_casing",
     "range": 30,
-    "damage": 36,
+    "damage": 45,
     "pierce": 8,
     "dispersion": 35,
-    "recoil": 1600,
+    "recoil": 2036,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
