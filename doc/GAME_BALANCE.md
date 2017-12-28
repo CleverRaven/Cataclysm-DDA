@@ -195,13 +195,13 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .32 ACP            | 60gr JHP bullet             | 218       | 15  | 4in      |                              |
 7.62x25mm          | 85gr JHP bullet             | 544       | 23  | 4.7in    |                              |
 7.62x25mm Type P   | 120gr bullet                | 245       | 15  | 9.6in    | Fired from the Type 64 SMG; need more data here |
+9x18mm 57-N-181S   | 93gr FMJ bullet             | 251       | 16  | 3.8in    |                              |
+9x18mm SP-7        | 93gr bullet                 | 417       | 20  | 3.8in    |                              |
+9x18mm RG028       | 93gr hardened steel core bullet | 317   | 18  | 3.8in    |          damage reduced by 4 |
 9x19mm FMJ         | 115gr FMJ bullet            | 420       | 24  | 5.9in    |                              |
 9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
 9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
 9x19mm JHP         | 115gr JHP bullet            | 533       | 23  | 5.9in    |damage increased by 3         |
-9x18mm 57-N-181S   | 93gr FMJ bullet             | 251       | 16  | 3.8in    |                              |
-9x18mm SP-7        | 93gr bullet                 | 417       | 20  | 3.8in    |                              |
-9x18mm RG028       | 93gr hardened steel core bullet | 317   | 18  | 3.8in    |          damage reduced by 4 |
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
