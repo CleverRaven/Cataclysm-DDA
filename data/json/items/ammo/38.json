@@ -40,7 +40,7 @@
     "price": 2700,
     "count": 20,
     "relative": {
-      "damage": 10,
+      "damage": 5,
       "pierce": 4,
       "dispersion": -10
     },
