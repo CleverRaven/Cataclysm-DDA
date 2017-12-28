@@ -203,8 +203,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
 9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
-.38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
+.38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
 10mm auto          | 180gr FMJ bullet            | 575       | 24  | 4in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
