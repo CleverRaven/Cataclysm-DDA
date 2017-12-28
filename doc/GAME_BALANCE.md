@@ -214,8 +214,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .45 ACP +P         | 200gr JHP bullet            | 702       | 26  | 5in      |                              |
 .454 Casull        | 300gr JSP bullet            | 2459      | 50  | 7.5in    |                              |
 .500 S&W Magnum    | 500gr bullet                | 3056      | 55  | 8.4in    |                              |
-5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
 4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
+5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
 7.62x39mm          | 123gr FMJ bullet            | 2179      | 46  | 16.3in   |                              |
 7.62x39mm 57-N-231 | 121.9gr steel core FMJ bullet | 2036      | 45  | 16.3in   |                              |
 7.62x39mm M67      | 123gr FMJ bullet            | 2141      | 46  | 16.3in   |         TODO                 |
