@@ -5,7 +5,7 @@
 1. Edit `data/json/monsters.json` or create a new json file and insert the definition of your new monster there (probably copy an existing entry).
 2. Make sure the id value is unique among all other monster types.
 3. Your monster type is now valid, but won't be spawned.  If you want it to be spawned among similar monsters, edit monstergroups.json.  Find the appropriate array, and insert the identifier for your monster (e.g, `mon_zombie`).  `cost_multiplier`, makes it more expensive to spawn. The higher the cost, the more 'slots' it takes up, and freq is how frequent they spawn.  See `mongroupdef.cpp`
-4. If you want your monster to drop items, edit ёmonster_drops.jsonё.  Make a new array for your monster type with all the map item groups it may carry, and a chance value for each.
+4. If you want your monster to drop items, edit `monster_drops.json`.  Make a new array for your monster type with all the map item groups it may carry, and a chance value for each.
 5. Your monster may have a special attack, a `monattack::function` reference.  Edit `monattack.h` and include the function in the class definition; edit `monstergenerator.cpp` and add the translation, then edit `monattack.cpp` and define your function.  Functions may be shared among different monster types.  Be aware that the function should contain a statement that the monster uses to decide whether or not to use the attack, and if they do, should reset the monster's attack timer.
 6. Just like attacks, some monsters may have a special function called when they die.  This works the same as attacks, but the relevant files are `mondeath.h` and `mondeath.cpp`.
 7. If you add flags, document them in `JSON_FLAGS.md`, and `mtype.h`. Please. Or we will replace your blood with acid in the night.
