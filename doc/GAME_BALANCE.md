@@ -223,6 +223,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
 .223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
 5.56x45mm M855A1   | 62gr copper core FMJBT bullet | 1843      | 43  | 20in     |                              |
+7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
 7.62 NATO M80      | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
 7.62 NATO M62      | 142gr tracer bullet         | 3232      | 57  | 24in     |  Belt with 1/5 tracer rounds |
@@ -231,7 +232,6 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
-7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
