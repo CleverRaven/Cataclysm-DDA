@@ -22,7 +22,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -48,7 +48,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -74,7 +74,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -100,7 +100,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -153,7 +153,7 @@
     "magazine_well": 1,
     "magazines": [ [ "22", [ "smg_22_mag" ] ] ],
     "reload": 800,
-    "loudness" : 150,
+    "loudness" : 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -179,7 +179,7 @@
     "magazine_well": 1,
     "magazines": [ [ "38", [ "smg_38_mag" ] ] ],
     "reload": 800,
-    "loudness" : 150,
+    "loudness" : 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -205,7 +205,7 @@
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "smg_9mm_mag" ] ] ],
     "reload": 800,
-    "loudness" : 150,
+    "loudness" : 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -231,7 +231,7 @@
     "magazine_well": 1,
     "magazines": [ [ "40", [ "smg_40_mag" ] ] ],
     "reload": 800,
-    "loudness" : 150,
+    "loudness" : 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -257,7 +257,7 @@
     "magazine_well": 1,
     "magazines": [ [ "45", [ "smg_45_mag" ] ] ],
     "reload": 800,
-    "loudness" : 150,
+    "loudness" : 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   }
 ]
