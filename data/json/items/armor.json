@@ -3072,7 +3072,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER" ]
   },
   {
     "id": "glove_jackson",
