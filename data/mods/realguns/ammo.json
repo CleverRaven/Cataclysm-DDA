@@ -187,6 +187,55 @@
     "volume": "4ml"
   },
   {
+    "id": "50bmg",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": ".50 BMG Ball",
+    "damage": 134,
+    "recoil": 18013
+  },
+  {
+    "id": "50_incendiary",
+    "copy-from": "50_incendiary",
+    "type": "AMMO",
+    "name": ".50 BMG tracer",
+    "damage": 134,
+    "recoil": 18013
+  },
+  {
+    "id": "50ss",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": ".50 BMG AP",
+    "name_plural": ".50 BMG AP",
+    "damage": 131,
+    "recoil": 17097
+  },
+  {
+    "id": "reloaded_50bmg",
+    "copy-from": "reloaded_50bmg",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG Ball",
+    "damage": 121,
+    "recoil": 18013
+  },
+  {
+    "id": "reloaded_50_incendiary",
+    "copy-from": "reloaded_50_incendiary",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG tracer",
+    "damage": 121,
+    "recoil": 18013
+  },
+  {
+    "id": "reloaded_50ss",
+    "copy-from": "reloaded_50ss",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG AP",
+    "damage": 118,
+    "recoil": 17097
+  },
+  {
     "id": "45lc_casing",
     "copy-from": "casing",
     "type": "GENERIC",
