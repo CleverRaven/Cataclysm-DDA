@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-22 07:21-0500\n"
+"POT-Creation-Date: 2017-12-30 02:40-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4303,16 +4303,16 @@ msgid "reloaded .700 NX"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62x39mm M43"
+msgid "7.62x39mm 57-N-231"
 msgstr ""
 
-#. ~ Description for 7.62x39mm M43
+#. ~ Description for 7.62x39mm 57-N-231
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in "
-"WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular "
-"all over the world.  The bullet has poor wounding potential due to its "
-"stability, only begining to yaw after 26cm."
+"7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
+"Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
+"extremely popular all over the world.  The bullet has poor wounding "
+"potential due to its stability, only begining to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4322,10 +4322,10 @@ msgstr ""
 #. ~ Description for 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage."
+"7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics "
+"of the M43 round led to the development of the M67 round in Yugoslavia in "
+"the 1960s.  It destabilizes much faster than M43 after hitting a target "
+"leading to greater damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -47614,6 +47614,10 @@ msgstr ""
 msgid "Stop washing?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting the metal?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -89851,6 +89855,14 @@ msgstr ""
 msgid "You washed your clothing."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "grnd grnd grnd"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finished cutting the metal."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -106936,10 +106948,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "grnd grnd grnd"
 msgstr ""
 
 #: src/iuse.cpp
