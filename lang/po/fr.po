@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 08:37-0500\n"
-"PO-Revision-Date: 2017-12-18 11:50+0000\n"
+"POT-Creation-Date: 2017-12-22 07:21-0500\n"
+"PO-Revision-Date: 2017-12-23 12:32+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -22199,24 +22199,6 @@ msgid "It's like blueberry jam, only without sugar."
 msgstr "C'est comme de la confiture de myrtille, le sucre en moins."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "strawberry jam"
-msgstr "confiture de fraise"
-
-#. ~ Description for strawberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh strawberries, cooked with sugar to make them last longer."
-msgstr "Des fraises fraîches, cuisinées avec du sucre pour qu'elles se conservent plus longtemps."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "blueberry jam"
-msgstr "confiture de myrtille"
-
-#. ~ Description for blueberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh blueberries, cooked with sugar to make them last longer."
-msgstr "Des myrtilles fraîches, cuisinées avec du sucre pour qu'elles se conservent plus longtemps."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cheeseburger"
 msgstr "cheeseburger"
 
@@ -42986,25 +42968,6 @@ msgid ""
 msgstr "Une poche à chaleur chimique. Elle est utilisée pour soulager les maux liés au sport ou pour réchauffer de la nourriture. Ayant déjà été utilisée, elle est chimiquement inerte et de ce fait inutile."
 
 #: lang/json/TOOL_from_json.py
-msgid "heavy snare kit"
-msgid_plural "heavy snare kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action done_message for heavy snare kit.
-#. ~ Use action done_message for light snare kit.
-#: lang/json/TOOL_from_json.py
-msgid "You set the snare trap."
-msgstr ""
-
-#. ~ Description for heavy snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a rope noose and a snare "
-"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "hoe"
 msgid_plural "hoes"
 msgstr[0] "houe"
@@ -43446,20 +43409,6 @@ msgid ""
 "This is a small, leather funnel used to collect rainwater.  Use it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr "Un petit entonnoir en cuir pour collecter l'eau de pluie. Utilisez le à l'extérieur et placez un conteneur dessour pour collecter l'eau."
-
-#: lang/json/TOOL_from_json.py
-msgid "light snare kit"
-msgid_plural "light snare kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for light snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a string noose and a snare "
-"trigger.  It requires a young tree nearby.  It is effective at trapping and "
-"killing some small animals."
-msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "lighter"
@@ -44971,18 +44920,6 @@ msgid ""
 "and mask.  Commonly used in emergency situations, it provides immediate "
 "relief for asthma attacks or smoke inhalation, and can provide a brief burst"
 " of energy."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "snare trigger"
-msgid_plural "snare triggers"
-msgstr[0] "piège à collet"
-msgstr[1] "pièges à collet"
-
-#. ~ Description for snare trigger
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a stick that has been cut into a trigger mechanism for a snare trap."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -46796,6 +46733,51 @@ msgid ""
 "This is a simple combination of a small grindstone and a bowl-shaped stone."
 "  Used for grinding grain, but time-consuming compared to more complex "
 "methods."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "heavy snare kit"
+msgid_plural "heavy snare kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action done_message for heavy snare kit.
+#. ~ Use action done_message for light snare kit.
+#: lang/json/TOOL_from_json.py
+msgid "You set the snare trap."
+msgstr ""
+
+#. ~ Description for heavy snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a rope noose and a snare "
+"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "light snare kit"
+msgid_plural "light snare kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for light snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a string noose and a snare "
+"trigger.  It requires a young tree nearby.  It is effective at trapping and "
+"killing some small animals."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "snare trigger"
+msgid_plural "snare triggers"
+msgstr[0] "piège à collet"
+msgstr[1] "pièges à collet"
+
+#. ~ Description for snare trigger
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a stick that has been cut into a trigger mechanism for a snare trap."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -49153,12 +49135,28 @@ msgid "Build Fence Gate"
 msgstr "Construire un portail de clôture"
 
 #: lang/json/construction_from_json.py
+msgid "Build Rope Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Wire Fence"
 msgstr "Construire une clôture grillagée"
 
 #: lang/json/construction_from_json.py
-msgid "Build Wire Gate"
-msgstr "Construire une porte grillagée"
+msgid "Build Barbed Wire Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Realign Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Gate"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Needs to be supported on both sides by fencing, walls, etc."
@@ -50694,29 +50692,15 @@ msgid "You no longer feel nauseous."
 msgstr "Vous ne vous sentez plus nauséeux."
 
 #: lang/json/effects_from_json.py
-msgid "Stuck in a light snare"
-msgstr ""
+msgid "Stuck in beartrap"
+msgstr "Piégé(e) dans un piège à ours"
 
+#. ~ Description of effect 'Stuck in beartrap'.
 #. ~ Description of effect 'Stuck in a light snare'.
 #. ~ Description of effect 'Stuck in a heavy snare'.
-#. ~ Description of effect 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
 msgid "You can't move until you get free!"
 msgstr ""
-
-#. ~ Apply message for effect(s) 'Stuck in a light snare'.
-#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
-#: lang/json/effects_from_json.py
-msgid "You are snared!"
-msgstr "Vous êtes piégé!"
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in a heavy snare"
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in beartrap"
-msgstr "Piégé(e) dans un piège à ours"
 
 #. ~ Apply message for effect(s) 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
@@ -51950,6 +51934,20 @@ msgstr "Overdose de Stimulant"
 #: lang/json/effects_from_json.py
 msgid "You shake with the excess stimulation."
 msgstr "La stimulation excessive vous fait trembler."
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a light snare"
+msgstr ""
+
+#. ~ Apply message for effect(s) 'Stuck in a light snare'.
+#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
+#: lang/json/effects_from_json.py
+msgid "You are snared!"
+msgstr "Vous êtes piégé!"
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a heavy snare"
+msgstr ""
 
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
@@ -86815,14 +86813,6 @@ msgid "spinning blade"
 msgstr ""
 
 #: lang/json/trap_from_json.py
-msgid "light snare trap"
-msgstr ""
-
-#: lang/json/trap_from_json.py
-msgid "heavy snare trap"
-msgstr ""
-
-#: lang/json/trap_from_json.py
 msgid "buried land mine"
 msgstr "mine terrestre enterrée"
 
@@ -86848,6 +86838,14 @@ msgstr ""
 
 #: lang/json/trap_from_json.py
 msgid "raincatcher"
+msgstr ""
+
+#: lang/json/trap_from_json.py
+msgid "light snare trap"
+msgstr ""
+
+#: lang/json/trap_from_json.py
+msgid "heavy snare trap"
 msgstr ""
 
 #: lang/json/tutorial_messages_from_json.py
@@ -89401,9 +89399,9 @@ msgstr "Retour"
 
 #: src/action.cpp src/color.cpp src/crafting.cpp src/crafting.cpp
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
-#: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
-#: src/pickup.cpp src/turret.cpp src/vehicle.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
+#: src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -89671,6 +89669,11 @@ msgstr ""
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You insert a cartridge into the %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You refill the %s."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -99312,13 +99315,13 @@ msgid "Lighting: "
 msgstr "Éclairage: "
 
 #: src/game.cpp
-msgid "???"
-msgstr ""
-
-#: src/game.cpp
 #, c-format
 msgid "Sign: %s"
 msgstr "Pancarte: %s"
+
+#: src/game.cpp
+msgid "Sign: ???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -99774,8 +99777,13 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You can't reload a %s!."
-msgstr "Vous ne pouvez pas recharger un(e) %s!"
+msgid "The %s is already full!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You can't reload a %s!"
+msgstr ""
 
 #: src/game.cpp
 msgid "Reload item"
@@ -102532,39 +102540,6 @@ msgstr "Enlever la couverture?"
 #: src/iexamine.cpp
 msgid "You remove the plank."
 msgstr "Vous retirez la planche."
-
-#: src/iexamine.cpp
-msgid "Fence Construction:"
-msgstr "Construction d'une barrière:"
-
-#: src/iexamine.cpp
-msgid "Rope Fence"
-msgstr "Barrière en corde"
-
-#: src/iexamine.cpp
-msgid "Barbed Wire Fence"
-msgstr "Fil de fer barbelé"
-
-#: src/iexamine.cpp
-msgid "Wire Fence"
-msgstr "Grillage métallique"
-
-#: src/iexamine.cpp
-msgid "You need 2 six-foot lengths of rope to do that"
-msgstr "Vous avez besoin de 2 cordes de six pieds pour faire cela"
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of wire to do that!"
-msgstr "Vous avez besoin de 2 longueurs de câble pour faire cela!"
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of barbed wire to do that!"
-msgstr "Vous avez besoin de 2 longueurs de fil barbelé pour faire cela!"
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Remove %s?"
-msgstr "Enlever %s?"
 
 #: src/iexamine.cpp
 msgid "You need $10 to play."
@@ -114116,37 +114091,6 @@ msgid "we're a team, we've got this!"
 msgstr ""
 
 #: src/mutation.cpp
-msgid "MUTATIONS -"
-msgstr ""
-
-#: src/mutation.cpp src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr "Allumer : %d/%d"
-
-#: src/mutation.cpp
-msgid ""
-"Reassigning.\n"
-"Select a mutation to reassign or press SPACE to cancel."
-msgstr ""
-
-#: src/mutation.cpp
-msgid ""
-"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>=</color> to reassign."
-msgstr ""
-
-#: src/mutation.cpp
-msgid ""
-"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>=</color> to reassign."
-msgstr ""
-
-#: src/mutation.cpp
-msgid "Might need to use ? to assign the keys."
-msgstr ""
-
-#: src/mutation.cpp
 msgid "You feel something straining deep inside you, yearning to be free..."
 msgstr ""
 
@@ -118596,6 +118540,11 @@ msgid "Total bionics: %d"
 msgstr "Total bioniques: %d"
 
 #: src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr "Allumer : %d/%d"
+
+#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] "Arme:"
@@ -119561,11 +119510,21 @@ msgstr "%c - %d %s vide"
 msgid "You sink your roots into the soil."
 msgstr ""
 
+#: src/player.cpp src/veh_interact.cpp
+#, c-format
+msgid "Refill %s"
+msgstr ""
+
 #. ~ magazine with ammo (count)
 #: src/player.cpp
 #, c-format
 msgid "%s with %s (%d)"
 msgstr "%s avec %s (%d)"
+
+#: src/player.cpp
+#, c-format
+msgid "%s, %s"
+msgstr ""
 
 #: src/player.cpp
 msgid "| Location "
@@ -122565,11 +122524,6 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Select part to refill:"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "Refill %s"
 msgstr ""
 
 #: src/veh_interact.cpp
