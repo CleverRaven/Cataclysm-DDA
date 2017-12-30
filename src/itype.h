@@ -13,6 +13,7 @@
 #include "units.h"
 #include "damage.h"
 #include "translations.h"
+#include "calendar.h"
 
 #include <string>
 #include <vector>
@@ -145,8 +146,8 @@ struct islot_brewable {
     /** What are the results of fermenting this item? */
     std::vector<std::string> results;
 
-    /** How many turns for this brew to ferment */
-    int time = 0;
+    /** How long for this brew to ferment. */
+    time_duration time = 0;
 };
 
 struct islot_container {

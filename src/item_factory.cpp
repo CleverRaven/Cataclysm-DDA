@@ -766,6 +766,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->brewable != nullptr ) {
+            if( type->brewable->time < 1_turns ) {
+                msg << "brewable time is less than 1 turn\n";
+            }
+
             if( type->brewable->results.empty() ) {
                 msg << string_format( "empty product list" ) << "\n";
             }
@@ -1447,7 +1451,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
 {
-    slot.time = jo.get_int( "time" );
+    assign( jo, "time", slot.time, false, 1_turns );
     slot.results = jo.get_string_array( "results" );
 }
 

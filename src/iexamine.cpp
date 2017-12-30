@@ -2151,8 +2151,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
         //@todo change brew_time to return time_duration
-        time_duration brew_time = time_duration::from_turns( brew_i.brewing_time() );
-        time_duration progress = brew_i.age();
+        const time_duration brew_time = brew_i.brewing_time();
+        const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
             int hours = to_hours<int>( brew_time - progress );
             if( hours < 1 ) {

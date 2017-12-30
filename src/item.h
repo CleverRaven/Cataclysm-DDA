@@ -689,8 +689,8 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
-    /** Turns for this item to be fully fermented. */
-    int brewing_time() const;
+        /** Time for this item to be fully fermented. */
+        time_duration brewing_time() const;
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 

@@ -866,7 +866,7 @@ classes = {
             { name = "attack_time", rval = "int", args = { } },
             { name = "bash_resist", rval = "int", args = { } },
             { name = "bash_resist", rval = "int", args = { "bool" } },
-            { name = "brewing_time", rval = "int", args = { } },
+            { name = "brewing_time", rval = "time_duration", args = { } },
             { name = "calc_rot", rval = nil, args = { "tripoint" } },
             { name = "can_holster", rval = "bool", args = { "item" } },
             { name = "can_holster", rval = "bool", args = { "item", "bool" } },

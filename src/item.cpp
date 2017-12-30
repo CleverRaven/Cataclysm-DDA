@@ -1725,24 +1725,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         if( is_brewable() || ( !contents.empty() && contents.front().is_brewable() ) ) {
             const item &brewed = !is_brewable() ? contents.front() : *this;
-            int btime = brewed.brewing_time();
-            if( btime <= HOURS(48) )
+            const time_duration btime = brewed.brewing_time();
+            if( btime <= 2_days ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( ngettext( "* Once set in a vat, this will ferment in around %d hour.",
-                                                  "* Once set in a vat, this will ferment in around %d hours.", btime / HOURS(1) ),
-                                                  btime / HOURS(1) ) ) );
-            else {
-                btime = 0.5 + btime / HOURS(48); //Round down to 12-hour intervals
-                if( btime % 2 == 1 ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              string_format( _( "* Once set in a vat, this will ferment in around %d and a half days." ),
-                                                      btime / 2 ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              string_format( ngettext( "* Once set in a vat, this will ferment in around %d day.",
-                                                      "* Once set in a vat, this will ferment in around %d days.", btime / 2 ),
-                                                      btime / 2 ) ) );
-                }
+                                                  "* Once set in a vat, this will ferment in around %d hours.", to_hours<int>( btime ) ),
+                                                  to_hours<int>( btime ) ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( ngettext( "* Once set in a vat, this will ferment in around %d day.",
+                                                  "* Once set in a vat, this will ferment in around %d days.", to_days<int>( btime ) ),
+                                                  to_days<int>( btime ) ) ) );
             }
 
             for( const auto &res : brewed.brewing_results() ) {
@@ -3054,9 +3047,10 @@ int item::get_warmth() const
 }
 
 
-int item::brewing_time() const
+time_duration item::brewing_time() const
 {
-    return ( is_brewable() ? type->brewable->time : 0 ) * ( calendar::season_length() / 14.0 );
+    //@todo make a function that adjusts for season length.
+    return is_brewable() ? type->brewable->time * ( calendar::season_length() / 14.0 ) : 0_turns;
 }
 
 const std::vector<itype_id> &item::brewing_results() const
