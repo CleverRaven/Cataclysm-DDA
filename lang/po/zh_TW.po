@@ -27,7 +27,7 @@
 # Meat <zero330xd@gmail.com>, 2015
 # mist9 <daikyou@hotmail.com>, 2015
 # Mizok H <karasunohina@gmail.com>, 2016
-# okami katuski <okamikatuski@gmail.com>, 2016
+# wei-yu chang (かつき) <okamikatuski@gmail.com>, 2016
 # River Hw <rivermoo@gmail.com>, 2017
 # wei liu <mdonline2@hotmail.com>, 2015-2016
 # xap, 2015
@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 08:37-0500\n"
-"PO-Revision-Date: 2017-12-20 11:02+0000\n"
+"POT-Creation-Date: 2017-12-22 07:21-0500\n"
+"PO-Revision-Date: 2017-12-27 10:27+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21002,24 +21002,6 @@ msgid "It's like blueberry jam, only without sugar."
 msgstr "像是藍莓果醬，只是沒加糖。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "strawberry jam"
-msgstr "草莓果醬"
-
-#. ~ Description for strawberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh strawberries, cooked with sugar to make them last longer."
-msgstr "由新鮮的草莓煮熟後加上糖，能夠保存的更久。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "blueberry jam"
-msgstr "藍莓果醬"
-
-#. ~ Description for blueberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh blueberries, cooked with sugar to make them last longer."
-msgstr "由新鮮的藍莓煮熟後加上糖，能夠保存的更久。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cheeseburger"
 msgstr "起司漢堡"
 
@@ -40799,24 +40781,6 @@ msgid ""
 msgstr "這是一種化學發熱貼。能用於治療運動損傷和加熱食物。這已經被使用過了，沒辦法在用了。"
 
 #: lang/json/TOOL_from_json.py
-msgid "heavy snare kit"
-msgid_plural "heavy snare kits"
-msgstr[0] "重型繩套工具"
-
-#. ~ Use action done_message for heavy snare kit.
-#. ~ Use action done_message for light snare kit.
-#: lang/json/TOOL_from_json.py
-msgid "You set the snare trap."
-msgstr "你設置了繩套陷阱"
-
-#. ~ Description for heavy snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a rope noose and a snare "
-"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
-msgstr "這個陷阱包含一個繩索套與聯接繩，同時需要一棵樹才可以設置。能夠有效的困住怪物。"
-
-#: lang/json/TOOL_from_json.py
 msgid "hoe"
 msgid_plural "hoes"
 msgstr[0] "鋤頭"
@@ -41230,19 +41194,6 @@ msgid ""
 "This is a small, leather funnel used to collect rainwater.  Use it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr "這是一個小型粗製的漏斗可用來收集雨水。在室外使用後並且在下方放個容器就能夠收集雨水。"
-
-#: lang/json/TOOL_from_json.py
-msgid "light snare kit"
-msgid_plural "light snare kits"
-msgstr[0] "輕型繩套工具"
-
-#. ~ Description for light snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a string noose and a snare "
-"trigger.  It requires a young tree nearby.  It is effective at trapping and "
-"killing some small animals."
-msgstr "簡易陷阱工具箱，含有一個活結和繩套觸發器。需要附近有小樹。能夠有效的困住和殺死小動物。"
 
 #: lang/json/TOOL_from_json.py
 msgid "lighter"
@@ -42656,17 +42607,6 @@ msgid ""
 "relief for asthma attacks or smoke inhalation, and can provide a brief burst"
 " of energy."
 msgstr "一小罐醫用壓縮氧，附帶調節器和面罩。能夠迅速緩解氣喘症狀和吸入煙霧的影響，也能讓你在短時間內精神奕奕。"
-
-#: lang/json/TOOL_from_json.py
-msgid "snare trigger"
-msgid_plural "snare triggers"
-msgstr[0] "觸發陷阱"
-
-#. ~ Description for snare trigger
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a stick that has been cut into a trigger mechanism for a snare trap."
-msgstr "一根木材被削成繩套陷阱的觸發裝置。"
 
 #: lang/json/TOOL_from_json.py
 msgid "soldering iron"
@@ -44361,6 +44301,48 @@ msgid ""
 "  Used for grinding grain, but time-consuming compared to more complex "
 "methods."
 msgstr "這是一個小磨石和碗狀石的簡單組合。用於研磨穀物，但相比起其他複雜的方法較為耗時。"
+
+#: lang/json/TOOL_from_json.py
+msgid "heavy snare kit"
+msgid_plural "heavy snare kits"
+msgstr[0] "重型繩套工具"
+
+#. ~ Use action done_message for heavy snare kit.
+#. ~ Use action done_message for light snare kit.
+#: lang/json/TOOL_from_json.py
+msgid "You set the snare trap."
+msgstr "你設置了繩套陷阱"
+
+#. ~ Description for heavy snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a rope noose and a snare "
+"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
+msgstr "這個陷阱包含一個繩索套與聯接繩，同時需要一棵樹才可以設置。能夠有效的困住怪物。"
+
+#: lang/json/TOOL_from_json.py
+msgid "light snare kit"
+msgid_plural "light snare kits"
+msgstr[0] "輕型繩套工具"
+
+#. ~ Description for light snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a string noose and a snare "
+"trigger.  It requires a young tree nearby.  It is effective at trapping and "
+"killing some small animals."
+msgstr "簡易陷阱工具箱，含有一個活結和繩套觸發器。需要附近有小樹。能夠有效的困住和殺死小動物。"
+
+#: lang/json/TOOL_from_json.py
+msgid "snare trigger"
+msgid_plural "snare triggers"
+msgstr[0] "觸發陷阱"
+
+#. ~ Description for snare trigger
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a stick that has been cut into a trigger mechanism for a snare trap."
+msgstr "一根木材被削成繩套陷阱的觸發裝置。"
 
 #: lang/json/TOOL_from_json.py
 msgid "Laevateinn"
@@ -46663,12 +46645,28 @@ msgid "Build Fence Gate"
 msgstr "建設護欄門"
 
 #: lang/json/construction_from_json.py
+msgid "Build Rope Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Wire Fence"
 msgstr "建設鐵絲護欄"
 
 #: lang/json/construction_from_json.py
-msgid "Build Wire Gate"
-msgstr "建設鐵絲護欄門"
+msgid "Build Barbed Wire Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Realign Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Gate"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Needs to be supported on both sides by fencing, walls, etc."
@@ -48204,29 +48202,15 @@ msgid "You no longer feel nauseous."
 msgstr "你不再覺得噁心了。"
 
 #: lang/json/effects_from_json.py
-msgid "Stuck in a light snare"
-msgstr "被輕型繩套工具纏住"
+msgid "Stuck in beartrap"
+msgstr "卡在捕熊陷阱"
 
+#. ~ Description of effect 'Stuck in beartrap'.
 #. ~ Description of effect 'Stuck in a light snare'.
 #. ~ Description of effect 'Stuck in a heavy snare'.
-#. ~ Description of effect 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
 msgid "You can't move until you get free!"
 msgstr "你現在無法移動。"
-
-#. ~ Apply message for effect(s) 'Stuck in a light snare'.
-#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
-#: lang/json/effects_from_json.py
-msgid "You are snared!"
-msgstr "你被纏住了！"
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in a heavy snare"
-msgstr "被重型繩套工具纏住"
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in beartrap"
-msgstr "卡在捕熊陷阱"
 
 #. ~ Apply message for effect(s) 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
@@ -49460,6 +49444,20 @@ msgstr "興奮劑過量"
 #: lang/json/effects_from_json.py
 msgid "You shake with the excess stimulation."
 msgstr "過量的興奮劑使你不自主的發抖。 "
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a light snare"
+msgstr "被輕型繩套工具纏住"
+
+#. ~ Apply message for effect(s) 'Stuck in a light snare'.
+#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
+#: lang/json/effects_from_json.py
+msgid "You are snared!"
+msgstr "你被纏住了！"
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a heavy snare"
+msgstr "被重型繩套工具纏住"
 
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
@@ -67934,7 +67932,7 @@ msgstr "破產比薩店"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "municipal reactor"
-msgstr ""
+msgstr "市立反應爐"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "warehouse"
@@ -67962,15 +67960,15 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "thrift store"
-msgstr ""
+msgstr "舊貨店"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "daycare center"
-msgstr ""
+msgstr "托兒所"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "pet supply store"
-msgstr ""
+msgstr "寵物用品店"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "storage units"
@@ -68163,7 +68161,7 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "electric substation"
-msgstr ""
+msgstr "變電所"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -83625,7 +83623,7 @@ msgstr "焦土"
 
 #: lang/json/terrain_from_json.py
 msgid "nuclear reactor core"
-msgstr ""
+msgstr "核反應爐核心"
 
 #: lang/json/terrain_from_json.py
 msgid "electro furnace"
@@ -83896,14 +83894,6 @@ msgid "spinning blade"
 msgstr "旋轉的刀刃"
 
 #: lang/json/trap_from_json.py
-msgid "light snare trap"
-msgstr "輕型繩套陷阱"
-
-#: lang/json/trap_from_json.py
-msgid "heavy snare trap"
-msgstr "重型繩套陷阱"
-
-#: lang/json/trap_from_json.py
 msgid "buried land mine"
 msgstr "埋藏的地雷"
 
@@ -83930,6 +83920,14 @@ msgstr "窗台"
 #: lang/json/trap_from_json.py
 msgid "raincatcher"
 msgstr "集雨器"
+
+#: lang/json/trap_from_json.py
+msgid "light snare trap"
+msgstr "輕型繩套陷阱"
+
+#: lang/json/trap_from_json.py
+msgid "heavy snare trap"
+msgstr "重型繩套陷阱"
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -84548,7 +84546,7 @@ msgstr "原子能休旅車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Car"
-msgstr ""
+msgstr "原子能車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Atomic Mini-Tank"
@@ -86482,9 +86480,9 @@ msgstr "返回"
 
 #: src/action.cpp src/color.cpp src/crafting.cpp src/crafting.cpp
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
-#: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
-#: src/pickup.cpp src/turret.cpp src/vehicle.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
+#: src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "取消"
 
@@ -86751,6 +86749,11 @@ msgstr "你把弩箭裝入了 %s。"
 #, c-format
 msgid "You insert a cartridge into the %s."
 msgstr "你把彈藥裝入了 %s."
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You refill the %s."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You have lost the item you were using to start the fire."
@@ -96364,13 +96367,13 @@ msgid "Lighting: "
 msgstr "光源:"
 
 #: src/game.cpp
-msgid "???"
-msgstr ""
-
-#: src/game.cpp
 #, c-format
 msgid "Sign: %s"
 msgstr "告示牌: %s"
+
+#: src/game.cpp
+msgid "Sign: ???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -96826,8 +96829,13 @@ msgstr "你需要至少一個 %s 才能重新裝填 %s！"
 
 #: src/game.cpp
 #, c-format
-msgid "You can't reload a %s!."
-msgstr "你不能裝填 %s！"
+msgid "The %s is already full!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You can't reload a %s!"
+msgstr ""
 
 #: src/game.cpp
 msgid "Reload item"
@@ -99578,39 +99586,6 @@ msgstr "移除覆蓋物？"
 #: src/iexamine.cpp
 msgid "You remove the plank."
 msgstr "你移除了板子。"
-
-#: src/iexamine.cpp
-msgid "Fence Construction:"
-msgstr "柵欄建設:"
-
-#: src/iexamine.cpp
-msgid "Rope Fence"
-msgstr "繩護欄"
-
-#: src/iexamine.cpp
-msgid "Barbed Wire Fence"
-msgstr "鐵刺護欄"
-
-#: src/iexamine.cpp
-msgid "Wire Fence"
-msgstr "鐵絲護欄"
-
-#: src/iexamine.cpp
-msgid "You need 2 six-foot lengths of rope to do that"
-msgstr "你需要 2 段 6 英尺長的短繩索才能這樣做"
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of wire to do that!"
-msgstr "你需要 2 個 鐵絲線才能這樣做！"
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of barbed wire to do that!"
-msgstr "你需要 2 個 鐵刺線才能這樣做！"
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Remove %s?"
-msgstr "移除 %s？"
 
 #: src/iexamine.cpp
 msgid "You need $10 to play."
@@ -111135,37 +111110,6 @@ msgid "we're a team, we've got this!"
 msgstr "我們是個隊伍，我們行的！"
 
 #: src/mutation.cpp
-msgid "MUTATIONS -"
-msgstr ""
-
-#: src/mutation.cpp src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr "能量: %d/%d"
-
-#: src/mutation.cpp
-msgid ""
-"Reassigning.\n"
-"Select a mutation to reassign or press SPACE to cancel."
-msgstr ""
-
-#: src/mutation.cpp
-msgid ""
-"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>=</color> to reassign."
-msgstr ""
-
-#: src/mutation.cpp
-msgid ""
-"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>=</color> to reassign."
-msgstr ""
-
-#: src/mutation.cpp
-msgid "Might need to use ? to assign the keys."
-msgstr ""
-
-#: src/mutation.cpp
 msgid "You feel something straining deep inside you, yearning to be free..."
 msgstr "你感覺到有東西在你的體內深處掙扎，渴望被解放..."
 
@@ -115605,6 +115549,11 @@ msgid "Total bionics: %d"
 msgstr "生化插件總數: %d"
 
 #: src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr "能量: %d/%d"
+
+#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] "武器:"
@@ -116568,11 +116517,21 @@ msgstr "%c - %d 空的 %s"
 msgid "You sink your roots into the soil."
 msgstr "你把你的根埋入土壤中。"
 
+#: src/player.cpp src/veh_interact.cpp
+#, c-format
+msgid "Refill %s"
+msgstr "裝滿 %s"
+
 #. ~ magazine with ammo (count)
 #: src/player.cpp
 #, c-format
 msgid "%s with %s (%d)"
 msgstr "%s 含 %s (%d)"
+
+#: src/player.cpp
+#, c-format
+msgid "%s, %s"
+msgstr ""
 
 #: src/player.cpp
 msgid "| Location "
@@ -119558,11 +119517,6 @@ msgstr "現時沒有部件能裝填燃料"
 #: src/veh_interact.cpp
 msgid "Select part to refill:"
 msgstr "選擇要加滿的零件:"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "Refill %s"
-msgstr "裝滿 %s"
 
 #: src/veh_interact.cpp
 msgid "Engines"

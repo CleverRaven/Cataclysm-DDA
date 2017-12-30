@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 08:37-0500\n"
-"PO-Revision-Date: 2017-12-18 11:50+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-12-22 07:21-0500\n"
+"PO-Revision-Date: 2017-12-29 14:16+0000\n"
+"Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20995,24 +20995,6 @@ msgid "It's like blueberry jam, only without sugar."
 msgstr "설탕이 빠졌을 뿐, 블루베리 잼과 비슷합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "strawberry jam"
-msgstr "딸기잼"
-
-#. ~ Description for strawberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh strawberries, cooked with sugar to make them last longer."
-msgstr "설탕을 넣고 졸여, 장기보관이 가능한 딸기입니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "blueberry jam"
-msgstr "블루베리 잼"
-
-#. ~ Description for blueberry jam
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Fresh blueberries, cooked with sugar to make them last longer."
-msgstr "설탕과 함께 졸여, 장기보관이 가능한 블루베리입니다."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cheeseburger"
 msgstr "치즈버거"
 
@@ -40792,24 +40774,6 @@ msgid ""
 msgstr "화학반응을 통해 열을 내는 발열팩. 운동 중 생긴 부상을 치료하거나 음식을 데울 때 사용합니다. 이건 이미 사용되어서 더이상 화학반응을 일으킬 수 없으므로 쓸모가 없습니다."
 
 #: lang/json/TOOL_from_json.py
-msgid "heavy snare kit"
-msgid_plural "heavy snare kits"
-msgstr[0] "굵은 올가미"
-
-#. ~ Use action done_message for heavy snare kit.
-#. ~ Use action done_message for light snare kit.
-#: lang/json/TOOL_from_json.py
-msgid "You set the snare trap."
-msgstr "올가미 덫을 설치했다."
-
-#. ~ Description for heavy snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a rope noose and a snare "
-"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "hoe"
 msgid_plural "hoes"
 msgstr[0] "괭이"
@@ -41223,19 +41187,6 @@ msgid ""
 "This is a small, leather funnel used to collect rainwater.  Use it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr "빗물을 모으는데 사용하는 작은 가죽제 깔때기. 비가 내릴때 바깥에 통을 놔두고 그 위에 얹어두면 통안에 비를 모을 수 있습니다."
-
-#: lang/json/TOOL_from_json.py
-msgid "light snare kit"
-msgid_plural "light snare kits"
-msgstr[0] "가는 올가미"
-
-#. ~ Description for light snare kit
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a kit for a simple trap consisting of a string noose and a snare "
-"trigger.  It requires a young tree nearby.  It is effective at trapping and "
-"killing some small animals."
-msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "lighter"
@@ -42651,17 +42602,6 @@ msgid ""
 msgstr "마스크와 접을 수 있는 산소조절기가 같이 있는 압축된 의료용 산소 팩. 일반적으로 비상상황에 사용하여, 천식 발작이나 연기 흡입상태에서 회복할 수 있도록 도와주고 기운을 회복시켜줍니다."
 
 #: lang/json/TOOL_from_json.py
-msgid "snare trigger"
-msgid_plural "snare triggers"
-msgstr[0] "올가미 고정대"
-
-#. ~ Description for snare trigger
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a stick that has been cut into a trigger mechanism for a snare trap."
-msgstr "올가미 덫에 사용하기 위해 손질한 막대기."
-
-#: lang/json/TOOL_from_json.py
 msgid "soldering iron"
 msgid_plural "soldering irons"
 msgstr[0] "납땜용 인두"
@@ -43613,7 +43553,7 @@ msgstr "독일에서 전래된 거대한 양손검. 진정한 강타를 적에�
 #: lang/json/TOOL_from_json.py
 msgid "food processor"
 msgid_plural "food processors"
-msgstr[0] "식품 가공기"
+msgstr[0] "믹서"
 
 #. ~ Description for food processor
 #: lang/json/TOOL_from_json.py
@@ -44354,6 +44294,48 @@ msgid ""
 "  Used for grinding grain, but time-consuming compared to more complex "
 "methods."
 msgstr "오목한 그릇 모양 돌과 절굿공이용 돌을 합쳐놓은 것 뿐인 간단한 물건입니다. 곡식을 가는 데 쓰지만 더 복잡한 방식과 비교하면 시간이 오래 걸립니다."
+
+#: lang/json/TOOL_from_json.py
+msgid "heavy snare kit"
+msgid_plural "heavy snare kits"
+msgstr[0] "굵은 올가미"
+
+#. ~ Use action done_message for heavy snare kit.
+#. ~ Use action done_message for light snare kit.
+#: lang/json/TOOL_from_json.py
+msgid "You set the snare trap."
+msgstr "올가미 덫을 설치했다."
+
+#. ~ Description for heavy snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a rope noose and a snare "
+"trigger.  It requires a tree nearby.  It is effective at trapping monsters."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "light snare kit"
+msgid_plural "light snare kits"
+msgstr[0] "가는 올가미"
+
+#. ~ Description for light snare kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kit for a simple trap consisting of a string noose and a snare "
+"trigger.  It requires a young tree nearby.  It is effective at trapping and "
+"killing some small animals."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "snare trigger"
+msgid_plural "snare triggers"
+msgstr[0] "올가미 고정대"
+
+#. ~ Description for snare trigger
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a stick that has been cut into a trigger mechanism for a snare trap."
+msgstr "올가미 덫에 사용하기 위해 손질한 막대기."
 
 #: lang/json/TOOL_from_json.py
 msgid "Laevateinn"
@@ -46656,12 +46638,28 @@ msgid "Build Fence Gate"
 msgstr "울타리 문 만들기"
 
 #: lang/json/construction_from_json.py
+msgid "Build Rope Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Wire Fence"
 msgstr "철조망 만들기"
 
 #: lang/json/construction_from_json.py
-msgid "Build Wire Gate"
-msgstr "철사 문 만들기"
+msgid "Build Barbed Wire Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Realign Chainlink Fence"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Chainlink Gate"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Needs to be supported on both sides by fencing, walls, etc."
@@ -48197,29 +48195,15 @@ msgid "You no longer feel nauseous."
 msgstr "더이상 속이 메스껍지 않다."
 
 #: lang/json/effects_from_json.py
-msgid "Stuck in a light snare"
-msgstr "가는 올가미에 걸림"
+msgid "Stuck in beartrap"
+msgstr "곰 덫에 걸림"
 
+#. ~ Description of effect 'Stuck in beartrap'.
 #. ~ Description of effect 'Stuck in a light snare'.
 #. ~ Description of effect 'Stuck in a heavy snare'.
-#. ~ Description of effect 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
 msgid "You can't move until you get free!"
 msgstr "벗어날 때까지 움직일 수 없습니다!"
-
-#. ~ Apply message for effect(s) 'Stuck in a light snare'.
-#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
-#: lang/json/effects_from_json.py
-msgid "You are snared!"
-msgstr "올가미에 걸렸습니다!"
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in a heavy snare"
-msgstr "굵은 올가미에 걸림"
-
-#: lang/json/effects_from_json.py
-msgid "Stuck in beartrap"
-msgstr "곰 덫에 걸림"
 
 #. ~ Apply message for effect(s) 'Stuck in beartrap'.
 #: lang/json/effects_from_json.py
@@ -49453,6 +49437,20 @@ msgstr "각성제 과다복용"
 #: lang/json/effects_from_json.py
 msgid "You shake with the excess stimulation."
 msgstr "과도한 각성제 사용으로 몸이 떨린다."
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a light snare"
+msgstr "가는 올가미에 걸림"
+
+#. ~ Apply message for effect(s) 'Stuck in a light snare'.
+#. ~ Apply message for effect(s) 'Stuck in a heavy snare'.
+#: lang/json/effects_from_json.py
+msgid "You are snared!"
+msgstr "올가미에 걸렸습니다!"
+
+#: lang/json/effects_from_json.py
+msgid "Stuck in a heavy snare"
+msgstr "굵은 올가미에 걸림"
 
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
@@ -67807,7 +67805,7 @@ msgstr "과수원"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "dispensary"
-msgstr "진료소"
+msgstr "대마 가게"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "skate park"
@@ -78421,7 +78419,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid " <full_name>. Eaten by wolves."
-msgstr ""
+msgstr "<full_name>. 늑대에게 잡아먹혔다."
 
 #: lang/json/snippet_from_json.py
 msgid " <full_name>. Infected."
@@ -78433,7 +78431,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "RIP  <given_name> "
-msgstr ""
+msgstr "RIP <given_name>"
 
 #: lang/json/snippet_from_json.py
 msgid " <full_name>. Roasting in Hell."
@@ -78519,7 +78517,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "S.O.S."
-msgstr ""
+msgstr "S.O.S"
 
 #: lang/json/snippet_from_json.py
 msgid "No Power. No Food. Send Airdrops Please!"
@@ -78543,7 +78541,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "HELP!"
-msgstr ""
+msgstr "도와주세요!"
 
 #: lang/json/snippet_from_json.py
 msgid "STILL ALIVE.  for now."
@@ -79740,7 +79738,7 @@ msgstr "삐익-삐익-삐익!"
 
 #: lang/json/speech_from_json.py
 msgid "BEEP!"
-msgstr ""
+msgstr "삐-삑!"
 
 #: lang/json/speech_from_json.py
 msgid "a loud hiss."
@@ -80079,7 +80077,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "What's your point, anyway? Survival?"
-msgstr ""
+msgstr "그러니까 너의 논점이 도대체 뭐야? 생존이야?"
 
 #: lang/json/speech_from_json.py
 msgid ""
@@ -80128,7 +80126,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "Are you even listening to me?"
-msgstr ""
+msgstr "너 내 말을 듣고 있기는 한 거야?"
 
 #: lang/json/speech_from_json.py
 msgid "\"SQUEE!\""
@@ -83889,14 +83887,6 @@ msgid "spinning blade"
 msgstr "회전 칼날"
 
 #: lang/json/trap_from_json.py
-msgid "light snare trap"
-msgstr "가는 올가미 덫"
-
-#: lang/json/trap_from_json.py
-msgid "heavy snare trap"
-msgstr "굵은 올가미 덫"
-
-#: lang/json/trap_from_json.py
 msgid "buried land mine"
 msgstr "파묻힌 지뢰"
 
@@ -83923,6 +83913,14 @@ msgstr "허공"
 #: lang/json/trap_from_json.py
 msgid "raincatcher"
 msgstr "비받이"
+
+#: lang/json/trap_from_json.py
+msgid "light snare trap"
+msgstr "가는 올가미 덫"
+
+#: lang/json/trap_from_json.py
+msgid "heavy snare trap"
+msgstr "굵은 올가미 덫"
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -86475,9 +86473,9 @@ msgstr "뒤로"
 
 #: src/action.cpp src/color.cpp src/crafting.cpp src/crafting.cpp
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
-#: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
-#: src/pickup.cpp src/turret.cpp src/vehicle.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
+#: src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "취소"
 
@@ -86744,6 +86742,11 @@ msgstr "%s에 볼트를 장전했다."
 #, c-format
 msgid "You insert a cartridge into the %s."
 msgstr "%s에 카트리지를 넣었다."
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You refill the %s."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You have lost the item you were using to start the fire."
@@ -96357,13 +96360,13 @@ msgid "Lighting: "
 msgstr "밝기:"
 
 #: src/game.cpp
-msgid "???"
-msgstr ""
-
-#: src/game.cpp
 #, c-format
 msgid "Sign: %s"
 msgstr "표지판: %s"
+
+#: src/game.cpp
+msgid "Sign: ???"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -96819,8 +96822,13 @@ msgstr "최소한 %s이(가) 1개 있어야 %s을(를) 재장전할 수 있다!"
 
 #: src/game.cpp
 #, c-format
-msgid "You can't reload a %s!."
-msgstr "%s을(를) 재장전 할 수 없다!"
+msgid "The %s is already full!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You can't reload a %s!"
+msgstr ""
 
 #: src/game.cpp
 msgid "Reload item"
@@ -99571,39 +99579,6 @@ msgstr "덮힌 것을 제거합니까?"
 #: src/iexamine.cpp
 msgid "You remove the plank."
 msgstr "나무판을 치웠습니다."
-
-#: src/iexamine.cpp
-msgid "Fence Construction:"
-msgstr "울타리 건설 :"
-
-#: src/iexamine.cpp
-msgid "Rope Fence"
-msgstr "줄 울타리"
-
-#: src/iexamine.cpp
-msgid "Barbed Wire Fence"
-msgstr "철조망 울타리"
-
-#: src/iexamine.cpp
-msgid "Wire Fence"
-msgstr "철망 울타리"
-
-#: src/iexamine.cpp
-msgid "You need 2 six-foot lengths of rope to do that"
-msgstr "2개의 1.8 미터 짜리 줄이 필요합니다."
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of wire to do that!"
-msgstr "2개의 긴 철선이 필요합니다!"
-
-#: src/iexamine.cpp
-msgid "You need 2 lengths of barbed wire to do that!"
-msgstr "2개의 긴 철조망용 철선이 필요합니다!"
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Remove %s?"
-msgstr "%s을(를) 제거합니까?"
 
 #: src/iexamine.cpp
 msgid "You need $10 to play."
@@ -108218,7 +108193,7 @@ msgstr "%s 하지만 피해를 주지 못했다."
 #: src/melee.cpp
 #, c-format
 msgid "%s. Critical!"
-msgstr ""
+msgstr "%s. 치명타!"
 
 #. ~ someone hits something for %d damage (critical)
 #: src/melee.cpp
@@ -108230,7 +108205,7 @@ msgstr "%s %d 피해. 치명타!"
 #: src/melee.cpp
 #, c-format
 msgid "%s."
-msgstr ""
+msgstr "%s."
 
 #. ~ someone hits something for %d damage
 #: src/melee.cpp
@@ -108303,7 +108278,7 @@ msgstr "%s로 돌아가기"
 #: src/messages.cpp
 #, c-format
 msgid "%-3s%-10s"
-msgstr ""
+msgstr "%-3s%-10s"
 
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
@@ -111126,37 +111101,6 @@ msgstr "어서와, 거대한 나, 가자고!"
 #: src/mutation.cpp
 msgid "we're a team, we've got this!"
 msgstr "우린 한팀이야, 해낼 수 있어!"
-
-#: src/mutation.cpp
-msgid "MUTATIONS -"
-msgstr "변이 -"
-
-#: src/mutation.cpp src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr "내장전력: %d/%d"
-
-#: src/mutation.cpp
-msgid ""
-"Reassigning.\n"
-"Select a mutation to reassign or press SPACE to cancel."
-msgstr "재지정.\n단축키를 재지정할 변이를 선택하거나, 스페이스를 눌러 취소하세요."
-
-#: src/mutation.cpp
-msgid ""
-"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>=</color> to reassign."
-msgstr "<color_green></color>  <color_yellow>!</color> 로 확인, <color_yellow>=</color> 로 단축키 재지정."
-
-#: src/mutation.cpp
-msgid ""
-"<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>=</color> to reassign."
-msgstr ""
-
-#: src/mutation.cpp
-msgid "Might need to use ? to assign the keys."
-msgstr "? 로 재지정 할 수 있는 키를 확인할 수 있습니다."
 
 #: src/mutation.cpp
 msgid "You feel something straining deep inside you, yearning to be free..."
@@ -115598,6 +115542,11 @@ msgid "Total bionics: %d"
 msgstr "획득 바이오닉: %d"
 
 #: src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr "내장전력: %d/%d"
+
+#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] "무기:"
@@ -116561,11 +116510,21 @@ msgstr "%c-%d개 빈 %s"
 msgid "You sink your roots into the soil."
 msgstr "뿌리를 흙 속 깊이 내렸다."
 
+#: src/player.cpp src/veh_interact.cpp
+#, c-format
+msgid "Refill %s"
+msgstr "%s 재충전"
+
 #. ~ magazine with ammo (count)
 #: src/player.cpp
 #, c-format
 msgid "%s with %s (%d)"
 msgstr "%s-%s(%d)"
+
+#: src/player.cpp
+#, c-format
+msgid "%s, %s"
+msgstr "%s,%s"
 
 #: src/player.cpp
 msgid "| Location "
@@ -116673,7 +116632,7 @@ msgstr "사슴뿔"
 
 #: src/player.cpp
 msgid "Can't wield spilt liquids."
-msgstr ""
+msgstr "흘린 액체를 장비할 수 없습니다."
 
 #: src/player.cpp
 msgid "Something you are wearing hinders the use of both hands."
@@ -119553,11 +119512,6 @@ msgid "Select part to refill:"
 msgstr "충전할 부품:"
 
 #: src/veh_interact.cpp
-#, c-format
-msgid "Refill %s"
-msgstr "%s 재충전"
-
-#: src/veh_interact.cpp
 msgid "Engines"
 msgstr "엔진"
 
@@ -120702,13 +120656,13 @@ msgstr "%s... %s. 최고 %s. 최저 %s. "
 #, c-format
 msgctxt "temperature in Celsius"
 msgid "%sC"
-msgstr ""
+msgstr "%sC"
 
 #: src/weather.cpp
 #, c-format
 msgctxt "temperature in Fahrenheit"
 msgid "%sF"
-msgstr ""
+msgstr "%sF"
 
 #: src/weather.cpp
 #, c-format
