@@ -574,9 +574,9 @@ struct islot_bionic {
 
 struct islot_seed {
     /**
-     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
-    int grow = 0;
+    time_duration grow = 0;
     /**
      * Amount of harvested charges of fruits is divided by this number.
      */

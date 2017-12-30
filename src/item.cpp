@@ -5884,7 +5884,8 @@ time_duration item::get_plant_epoch() const
     // Note that it is converted based on the season_length option!
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
     // divied by 3 to get the time it takes from one plant state to the next.
-    return time_duration::from_days( type->seed->grow * calendar::season_length() / ( 91 * 3 ) );
+    //@todo move this into the islot_seed
+    return type->seed->grow * calendar::season_length() / ( 91 * 3 );
 }
 
 std::string item::get_plant_name() const
