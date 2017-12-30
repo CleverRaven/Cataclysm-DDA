@@ -902,7 +902,7 @@ classes = {
             { name = "get_gun_ups_drain", rval = "int", args = { } },
             { name = "get_layer", rval = "int", args = { } },
             { name = "get_mtype", rval = "mtype&", args = { } },
-            { name = "get_plant_epoch", rval = "int", args = { } },
+            { name = "get_plant_epoch", rval = "time_duration", args = { } },
             { name = "get_plant_name", rval = "string", args = { } },
             { name = "get_property_long", rval = "int", args = { "string" } },
             { name = "get_property_long", rval = "int", args = { "string", "int" } },

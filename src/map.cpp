@@ -6812,8 +6812,7 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    //@todo change get_plant_epoch to return time_duration
-    const time_duration plantEpoch = time_duration::from_turns( seed.get_plant_epoch() );
+    const time_duration plantEpoch = seed.get_plant_epoch();
 
     if( seed.age() >= plantEpoch ) {
         if( seed.age() < plantEpoch * 2 ) {

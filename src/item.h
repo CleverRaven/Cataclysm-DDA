@@ -1213,10 +1213,10 @@ public:
          */
         bool is_seed() const;
         /**
-         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        int get_plant_epoch() const;
+        time_duration get_plant_epoch() const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
