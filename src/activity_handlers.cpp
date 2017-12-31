@@ -114,7 +114,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -984,7 +984,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         game_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -1130,7 +1130,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
 {
     const tripoint &pos = act->placement;
-    if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -1416,7 +1416,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         p->mod_fatigue(1);
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
@@ -1497,7 +1497,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= int( charges_used );
 
-    if( calendar::once_every(2) ) {
+    if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
 }
@@ -2024,7 +2024,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
             p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
@@ -2092,7 +2092,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         sounds::sound( act->placement, 15, _( "CHK!" ) );
         if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
             p->add_msg_if_player( m_info, _( "About an hour left to go." ) );

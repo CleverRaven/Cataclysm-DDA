@@ -264,7 +264,7 @@ void event::per_turn()
          when -= 1_turns;
          return;
      }
-     if( calendar::once_every(3) ) {
+     if( calendar::once_every( 3_turns ) ) {
          add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
      }
      break;

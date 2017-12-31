@@ -1899,7 +1899,8 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     std::string desc = "";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
-    if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
+    //@todo change description_frequency to time_duration
+    if( morale_effect >= 0 && calendar::once_every( time_duration::from_turns( description_frequency ) ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( player_descriptions ).c_str() );
         } else if (!npc_descriptions.empty() && p.is_npc() ) {

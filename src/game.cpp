@@ -1428,7 +1428,7 @@ bool game::do_turn()
     }
 
     // Move hordes every 5 min
-    if( calendar::once_every(MINUTES(5)) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1438,8 +1438,8 @@ bool game::do_turn()
     u.update_body();
 
     // Auto-save if autosave is enabled
-    if (get_option<bool>( "AUTOSAVE" ) &&
-        calendar::once_every(get_option<int>( "AUTOSAVE_TURNS" ) ) &&
+    if( get_option<bool>( "AUTOSAVE" ) &&
+        calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
         !u.is_dead_state()) {
         autosave();
     }
@@ -1556,11 +1556,11 @@ bool game::do_turn()
     const bool player_is_sleeping = u.has_effect( effect_sleep );
 
     if( player_is_sleeping ) {
-        if( calendar::once_every( MINUTES( 30 ) ) || !player_was_sleeping ) {
+        if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
             draw();
         }
 
-        if( calendar::once_every( MINUTES( 1 ) ) ) {
+        if( calendar::once_every( 1_minutes ) ) {
             catacurses::window popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
 
             wrefresh( popup );
@@ -1577,11 +1577,11 @@ bool game::do_turn()
     u.apply_wetness_morale( temperature );
     rustCheck();
 
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
     }
 
-    if( calendar::once_every( SECONDS( 90 ) ) ) {
+    if( calendar::once_every( 9_turns ) ) {
         u.check_and_recover_morale();
     }
 
@@ -1652,7 +1652,7 @@ void game::process_activity()
         return;
     }
 
-    if( calendar::once_every(MINUTES(5)) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         draw();
         refresh_display();
     }

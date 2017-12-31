@@ -807,7 +807,7 @@ void player::reset_stats()
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
     }
 
@@ -840,7 +840,7 @@ void player::process_turn()
     last_item = itype_id( "null" );
 
     if( has_active_bionic( bio_metabolics ) && power_level + 25 <= max_power_level &&
-        get_hunger() < 100 && calendar::once_every( 5 ) ) {
+        get_hunger() < 100 && calendar::once_every( 5_turns ) ) {
         mod_hunger( 2 );
         charge_power( 25 );
     }
@@ -4680,11 +4680,11 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if( get_hunger() >= 5000 && calendar::once_every(HOURS(1)) ) {
+        } else if( get_hunger() >= 5000 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if( get_hunger() >= 4000 && calendar::once_every(HOURS(1)) ) {
+        } else if( get_hunger() >= 4000 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
-        } else if( calendar::once_every(HOURS(1)) ) {
+        } else if( calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
         }
     }
@@ -4696,11 +4696,11 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if( get_thirst() >= 1000 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if( get_thirst() >= 800 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
-        } else if( calendar::once_every(MINUTES(30)) ) {
+        } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
         }
     }
@@ -4713,9 +4713,9 @@ void player::check_needs_extremes()
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             mod_fatigue(-10);
             try_to_sleep();
-        } else if( get_fatigue() >= 800 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if( calendar::once_every(MINUTES(30)) ) {
+        } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
         }
     }
@@ -4724,7 +4724,7 @@ void player::check_needs_extremes()
     // Penalties start at Dead Tired and go from there
     if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
-            if( calendar::once_every(MINUTES(30)) ) {
+            if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
                 add_effect( effect_lack_sleep, MINUTES(30) + 1 );
             }
@@ -4734,7 +4734,7 @@ void player::check_needs_extremes()
                 fall_asleep(5);
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
-            if( calendar::once_every( MINUTES( 30 ) ) ) {
+            if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _("How much longer until bedtime?") );
                 add_effect( effect_lack_sleep, MINUTES( 30 ) + 1 );
             }
@@ -4742,7 +4742,7 @@ void player::check_needs_extremes()
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( MINUTES( 30 ) ) ) {
+        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
             add_effect( effect_lack_sleep, MINUTES( 30 ) + 1 );
         }
@@ -5958,7 +5958,7 @@ void player::suffer()
             rads *= 0.3f + 0.1f * rad_mut;
         }
 
-        if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic( bio_geiger ) ) {
+        if( rads > 0.0f && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
             add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
         }
 
@@ -6003,7 +6003,7 @@ void player::suffer()
         }
     }
 
-    if( calendar::once_every(MINUTES(15)) ) {
+    if( calendar::once_every( 15_minutes ) ) {
         if (radiation < 0) {
             radiation = 0;
         } else if (radiation > 2000) {
@@ -6210,13 +6210,13 @@ void player::suffer()
         }
     }
     if ( stim > 170 ) {
-        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
             add_msg(m_bad, _("You feel short of breath.") );
             add_effect( effect_winded, MINUTES(10) + 1 );
         }
     }
     if ( stim > 110 ) {
-        if ( !has_effect( effect_shakes ) && calendar::once_every( MINUTES(10) ) ) {
+        if ( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
             add_msg( _("You shake uncontrollably.") );
             add_effect( effect_shakes, MINUTES(15) + 1 );
         }
@@ -6239,7 +6239,7 @@ void player::suffer()
         }
     }
     if ( stim < -120 || pkill > 160 ) {
-        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
             add_msg(m_bad, _("Your breathing slows down.") );
             add_effect( effect_winded, MINUTES(10) + 1 );
         }
@@ -6255,7 +6255,7 @@ void player::suffer()
         }
     }
     if( stim < -60 || pkill > 130 ) {
-        if( calendar::once_every( MINUTES( 10 ) ) ) {
+        if( calendar::once_every( 10_minutes ) ) {
             add_msg( m_warning, _( "You feel tired..." ) );
             mod_fatigue( rng( 1, 2 ) );
         }

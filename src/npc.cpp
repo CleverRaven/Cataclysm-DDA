@@ -2292,7 +2292,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
-    if( is_following() && calendar::once_every( HOURS( 1 ) ) &&
+    if( is_following() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days

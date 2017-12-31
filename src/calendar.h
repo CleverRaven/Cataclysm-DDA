@@ -251,12 +251,9 @@ class calendar
         }
 
         /**
-         * Predicate to handle rate-limiting.
-         *
-         * @param event_frequency Number of turns between true returns
-         * @returns true after every 'event_frequency' turns
+         * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
          */
-        static bool once_every( int event_frequency );
+        static bool once_every( const time_duration &event_frequency );
 
     public:
         /**

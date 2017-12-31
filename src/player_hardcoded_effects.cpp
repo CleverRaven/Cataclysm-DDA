@@ -987,7 +987,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_sleep ) {
         set_moves( 0 );
 #ifdef TILES
-        if( is_player() && calendar::once_every( MINUTES( 10 ) ) ) {
+        if( is_player() && calendar::once_every( 10_minutes ) ) {
             SDL_PumpEvents();
         }
 #endif // TILES
@@ -1009,7 +1009,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        if( calendar::once_every( MINUTES( 10 ) ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
+        if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
             g->is_in_sunlight( pos() ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( get_hunger() >= -30 ) {
