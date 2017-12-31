@@ -5884,14 +5884,13 @@ time_duration item::get_plant_epoch() const
     if( !type->seed ) {
         return 0;
     }
-    // 91 days is the approximate length of a real world season
-    // Growing times have been based around 91 rather than the default of 14 to give
+    // Growing times have been based around real world season length rather than
+    // the default in-game season length to give
     // more accuracy for longer season lengths
-    // Note that it is converted based on the season_length option!
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
     // divied by 3 to get the time it takes from one plant state to the next.
     //@todo move this into the islot_seed
-    return type->seed->grow * calendar::season_length() / ( 91 * 3 );
+    return type->seed->grow * calendar::season_ratio() / 3;
 }
 
 std::string item::get_plant_name() const
