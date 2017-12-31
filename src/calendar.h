@@ -85,9 +85,6 @@ constexpr int TICKS_TO_SECONDS( int ticks )
 /** How much light is provided in full daylight */
 #define DAYLIGHT_LEVEL 100
 
-/** Approximate length of real-world seasons, for reference */
-#define REAL_WORLD_SEASON_LENGTH 91
-
 /** Real world seasons */
 enum season_type {
     SPRING = 0,

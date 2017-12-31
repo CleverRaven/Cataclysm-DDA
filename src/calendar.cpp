@@ -529,7 +529,8 @@ int calendar::season_length()
 
 float calendar::season_ratio()
 {
-    return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
+    static const int real_world_season_length = 91;
+    return static_cast<float>( season_length() ) / real_world_season_length;
 }
 
 int calendar::turn_of_year() const
