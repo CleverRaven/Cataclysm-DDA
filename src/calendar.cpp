@@ -515,11 +515,6 @@ int calendar::year_length()
     return to_days<int>( season_length() ) * 4;
 }
 
-int calendar::season_turns()
-{
-    return to_turns<int>( season_length() );
-}
-
 time_duration calendar::season_length()
 {
     static const std::string s = "SEASON_LENGTH";
@@ -541,7 +536,8 @@ float calendar::season_from_default_ratio()
 
 int calendar::turn_of_year() const
 {
-    return (season * season_turns()) + (turn_number % season_turns());
+    const int season_turns = to_turns<int>( season_length() );
+    return (season * season_turns) + (turn_number % season_turns);
 }
 
 int calendar::day_of_year() const
