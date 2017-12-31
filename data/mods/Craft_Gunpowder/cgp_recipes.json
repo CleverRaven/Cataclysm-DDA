@@ -7,7 +7,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
     "skills_required": [ [ "fabrication", 5 ], [ "gun", 2 ], [ "tailor", 1 ] ],
-    "book_learn": [ [ "manual_smg", 6 ], [ "textbook_anarch", 6 ]. [ "textbook_mechanics", 5 ], [ "welding_book", 5 ] ],
+    "book_learn": [ [ "manual_smg", 6 ], [ "textbook_anarch", 6 ], [ "textbook_mechanics", 5 ], [ "welding_book", 5 ] ],
     "difficulty": 5,
     "time": 360000,
     "using": [ [ "filament", 20 ], [ "welding_standard", 50 ], [ "forging_standard", 25 ] ],
