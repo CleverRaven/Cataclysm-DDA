@@ -78,7 +78,7 @@ calendar::calendar()
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
-    turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * season_length() + Year * year_turns();
+    turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * to_days<int>( season_length() ) + Year * year_turns();
     sync();
 }
 
@@ -191,7 +191,7 @@ int calendar::seconds_past_midnight() const
 moon_phase calendar::moon() const
 {
     //One full phase every 2 rl months = 2/3 season length
-    float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+    float phase_change_per_day = 1.0 / ((to_days<float>( season_length() ) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
 
     //Switch moon phase at noon so it stays the same all night
     const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
@@ -221,7 +221,7 @@ calendar calendar::sunrise() const
         end_hour   = SUNRISE_EQUINOX;
         break;
     }
-    double percent = double(double(day) / season_length());
+    double percent = double(double(day) / to_days<int>( season_length() ));
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     newhour = int(time);
@@ -252,7 +252,7 @@ calendar calendar::sunset() const
         end_hour   = SUNSET_EQUINOX;
         break;
     }
-    double percent = double(double(day) / season_length());
+    double percent = double(double(day) / to_days<int>( season_length() ));
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     newhour = int(time);
@@ -273,7 +273,7 @@ bool calendar::is_night() const
 
 double calendar::current_daylight_level() const
 {
-    double percent = double(double(day) / season_length());
+    double percent = double(double(day) / to_days<int>( season_length() ));
     double modifier = 1.0;
     // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
     static double deviation = 0.25;
@@ -512,31 +512,31 @@ int calendar::year_turns()
 
 int calendar::year_length()
 {
-    return season_length() * 4;
+    return to_days<int>( season_length() ) * 4;
 }
 
 int calendar::season_turns()
 {
-    return DAYS( season_length() );
+    return to_turns<int>( season_length() );
 }
 
-int calendar::season_length()
+time_duration calendar::season_length()
 {
     static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_option<int>( s ), 1 );
+    return time_duration::from_days( std::max( get_option<int>( s ), 1 ) );
 }
 
 float calendar::season_ratio()
 {
     static const int real_world_season_length = 91;
-    return static_cast<float>( season_length() ) / real_world_season_length;
+    return to_days<float>( season_length() ) / real_world_season_length;
 }
 
 float calendar::season_from_default_ratio()
 {
     static const int default_season_length = 14;
-    return static_cast<float>( season_length() ) / default_season_length;
+    return to_days<float>( season_length() ) / default_season_length;
 }
 
 int calendar::turn_of_year() const
@@ -546,7 +546,7 @@ int calendar::turn_of_year() const
 
 int calendar::day_of_year() const
 {
-    return day + season_length() * season;
+    return day + to_days<int>( season_length() ) * season;
 }
 
 int calendar::diurnal_time_before( int turn ) const
@@ -557,7 +557,7 @@ int calendar::diurnal_time_before( int turn ) const
 
 void calendar::sync()
 {
-    const int sl = season_length();
+    const int sl = to_days<int>( season_length() );
     year = turn_number / DAYS(sl * 4);
 
     static const std::string eternal = "ETERNAL_SEASON";

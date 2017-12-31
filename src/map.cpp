@@ -6849,7 +6849,7 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     // Make it harvestable again if the last actualization was during a different season or year.
     const calendar last_touched = calendar::turn - time_since_last_actualize;
     if( calendar::turn.get_season() != last_touched.get_season() ||
-        time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
+        time_since_last_actualize >= to_turns<int>( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }
 }
@@ -6868,7 +6868,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
-    const int turns_season = DAYS( calendar::season_length() );
+    const int turns_season = to_turns<int>( calendar::season_length() );
     const int producing_length = int( 0.75f * turns_season );
 
     const int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );

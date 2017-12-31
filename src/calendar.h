@@ -274,8 +274,8 @@ class calendar
         /** @returns Number of six-second turns in a season (configured in current world settings) */
         static int season_turns();
 
-        /** @returns Number of days in a season (configured in current world settings) */
-        static int season_length();
+        /** @returns Time of a season (configured in current world settings) */
+        static time_duration season_length();
 
         /// @returns relative length of game season to real life season.
         static float season_ratio();

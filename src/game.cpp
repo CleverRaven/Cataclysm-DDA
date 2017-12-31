@@ -4283,7 +4283,7 @@ void game::debug()
                         set_turn( calendar::turn.years(), DAYS( 1 ) * calendar::turn.year_length(), _( "Set year to?" ) );
                         break;
                     case 1:
-                        set_turn( int( calendar::turn.get_season() ), DAYS( 1 ) * calendar::turn.season_length(),
+                        set_turn( int( calendar::turn.get_season() ), to_turns<int>( calendar::turn.season_length() ),
                                   _( "Set season to? (0 = spring)" ) );
                         break;
                     case 2:
@@ -13806,16 +13806,16 @@ void game::start_calendar()
         calendar::initial_season = SPRING;
     } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
         calendar::initial_season = SUMMER;
-        calendar::start += DAYS( calendar::season_length() );
+        calendar::start += to_turns<int>( calendar::season_length() );
     } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
         calendar::initial_season = AUTUMN;
-        calendar::start += DAYS( calendar::season_length() * 2 );
+        calendar::start += to_turns<int>( calendar::season_length() * 2 );
     } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
         calendar::initial_season = WINTER;
-        calendar::start += DAYS( calendar::season_length() * 3 );
+        calendar::start += to_turns<int>( calendar::season_length() * 3 );
     } else if( scen->has_flag( "SUM_ADV_START" ) ) {
         calendar::initial_season = SUMMER;
-        calendar::start += DAYS( calendar::season_length() * 5 );
+        calendar::start += to_turns<int>( calendar::season_length() * 5 );
     } else {
         debugmsg( "The Unicorn" );
     }

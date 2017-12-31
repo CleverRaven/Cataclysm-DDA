@@ -1897,8 +1897,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            //@todo change season_length to return time_duration
-            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
+            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
             //@todo item should probably clamp the value on its own

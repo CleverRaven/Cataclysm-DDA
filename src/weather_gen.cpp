@@ -25,7 +25,7 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
                     2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( double( t.get_turn() + DAYS( t.season_length() ) ) /
+    const double z( double( t.get_turn() + to_turns<int>( calendar::season_length() ) ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
     const double dayFraction( ( double )t.minutes_past_midnight() / 1440 );
@@ -42,8 +42,8 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W;
 
-    const double now( double( t.turn_of_year() + DAYS( t.season_length() ) / 2 ) / double(
-                          t.year_turns() ) ); // [0,1)
+    const double now( double( t.turn_of_year() + to_turns<int>( calendar::season_length() ) / 2 ) /
+                      t.year_turns() ); // [0,1)
     const double ctn( cos( tau * now ) );
 
     // Temperature variation
@@ -146,7 +146,7 @@ int weather_generator::get_water_temperature() const
     source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
     **/
 
-    int season_length = calendar::turn.season_length();
+    int season_length = to_days<int>( calendar::season_length() );
     int day = calendar::turn.day_of_year();
     int hour = calendar::turn.hours();
     int water_temperature = 0;
