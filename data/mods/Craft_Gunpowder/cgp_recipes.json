@@ -1,4 +1,33 @@
 [
+  {
+    "type": "recipe",
+    "//": "Completely provisional.",
+    "result": "sten",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "fabrication", 5 ], [ "gun", 2 ], [ "tailor", 1 ] ],
+    "book_learn": [ [ "manual_smg", 6 ], [ "textbook_anarch", 6 ]. [ "textbook_mechanics", 5 ], [ "welding_book", 5 ] ],
+    "difficulty": 5,
+    "time": 360000,
+    "using": [ [ "filament", 20 ], [ "welding_standard", 50 ], [ "forging_standard", 25 ] ],
+    "tools": [ [ [ "small_repairkit", 300 ], [ "large_repairkit", 75 ] ], [ [ "cordless_drill", 300 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "leather", 4 ] ],
+      [ [ "steel_chunk", 8 ], [ "steel_lump", 2 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "wire", 3 ] ],
+      [ [ "sheet_metal", 2 ] ]
+    ]
+  },
 {
   "type" : "recipe",
   "result": "gunpowder",
