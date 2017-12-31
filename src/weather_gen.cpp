@@ -177,7 +177,7 @@ void weather_generator::test_weather() const
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
     for( calendar i( calendar::turn );
-         i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i += 200 ) {
+         i.get_turn() < calendar::turn + 14400 * 2 * to_days<int>( calendar::year_length() ); i += 200 ) {
         w_point w = get_weather( tripoint( 0, 0, 0 ), i, rand() );
         testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;

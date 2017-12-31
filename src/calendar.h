@@ -268,8 +268,8 @@ class calendar
         /** Number of six-second turns in a year, (configured in current world settings) */
         static int year_turns();
 
-        /** @returns Number of days in a year, (configured in current world settings) */
-        static int year_length();
+        /** @returns Time in a year, (configured in current world settings) */
+        static time_duration year_length();
 
         /** @returns Time of a season (configured in current world settings) */
         static time_duration season_length();

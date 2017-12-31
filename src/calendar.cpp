@@ -507,12 +507,12 @@ std::string calendar::day_of_week() const
 
 int calendar::year_turns()
 {
-    return DAYS( year_length() );
+    return to_days<int>( year_length() );
 }
 
-int calendar::year_length()
+time_duration calendar::year_length()
 {
-    return to_days<int>( season_length() ) * 4;
+    return season_length() * 4;
 }
 
 time_duration calendar::season_length()
