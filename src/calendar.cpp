@@ -325,22 +325,22 @@ float calendar::sunlight() const
 
 std::string to_string_clipped( const time_duration &d )
 {
-    const int turns = to_turns<int>( d );
-    if( turns >= calendar::INDEFINITELY_LONG ) {
+    //@todo change INDEFINITELY_LONG to time_duration
+    if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
         return _( "forever" );
     }
 
-    if( turns < MINUTES( 1 ) ) {
-        const int sec = FULL_SECONDS_IN( turns );
+    if( d < 1_minutes ) {
+        const int sec = FULL_SECONDS_IN( to_turns<int>( d ) );
         return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
-    } else if( turns < HOURS( 1 ) ) {
-        const int min = FULL_MINUTES_IN( turns );
+    } else if( d < 1_hours ) {
+        const int min = FULL_MINUTES_IN( to_turns<int>( d ) );
         return string_format( ngettext( "%d minute", "%d minutes", min ), min );
-    } else if( turns < DAYS( 1 ) ) {
-        const int hour = FULL_HOURS_IN( turns );
+    } else if( d < 1_days ) {
+        const int hour = FULL_HOURS_IN( to_turns<int>( d ) );
         return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
     }
-    const int day = FULL_DAYS_IN( turns );
+    const int day = FULL_DAYS_IN( to_turns<int>( d ) );
     return string_format( ngettext( "%d day", "%d days", day ), day );
 }
 
