@@ -505,11 +505,31 @@ std::string calendar::day_of_week() const
     return _( weekday_names[ current_day ].c_str() );
 }
 
+int calendar::year_turns()
+{
+    return DAYS( year_length() );
+}
+
+int calendar::year_length()
+{
+    return season_length() * 4;
+}
+
+int calendar::season_turns()
+{
+    return DAYS( season_length() );
+}
+
 int calendar::season_length()
 {
     static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
     return std::max( get_option<int>( s ), 1 );
+}
+
+float calendar::season_ratio()
+{
+    return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
 }
 
 int calendar::turn_of_year() const

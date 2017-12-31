@@ -269,26 +269,19 @@ class calendar
         static const int INDEFINITELY_LONG;
 
         /** Number of six-second turns in a year, (configured in current world settings) */
-        static int year_turns() {
-            return DAYS( year_length() );
-        }
+        static int year_turns();
 
         /** @returns Number of days in a year, (configured in current world settings) */
-        static int year_length() {
-            return season_length() * 4;
-        }
+        static int year_length();
 
         /** @returns Number of six-second turns in a season (configured in current world settings) */
-        static int season_turns() {
-            return DAYS( season_length() );
-        }
+        static int season_turns();
 
         /** @returns Number of days in a season (configured in current world settings) */
         static int season_length();
 
-        static float season_ratio() { //returns relative length of game season to irl season
-            return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
-        }
+        /// @returns relative length of game season to real life season.
+        static float season_ratio();
 
         /** @returns Number of turns elapsed in current year */
         int turn_of_year() const;
