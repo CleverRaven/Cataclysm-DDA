@@ -285,6 +285,12 @@ class calendar
 
         /** @returns Number of days elapsed in current year */
         int day_of_year() const;
+        /**
+         * @returns ratio of actual season length (a world option) to default season length. This
+         * should be used to convert JSON values (that assume the default for the season length
+         * option) to actual in-game length.
+         */
+        static float season_from_default_ratio();
 
         /**
          * Calculate number of turns until a specified time.

@@ -3050,8 +3050,7 @@ int item::get_warmth() const
 
 time_duration item::brewing_time() const
 {
-    //@todo make a function that adjusts for season length.
-    return is_brewable() ? type->brewable->time * ( calendar::season_length() / 14.0 ) : 0_turns;
+    return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
 const std::vector<itype_id> &item::brewing_results() const
