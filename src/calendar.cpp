@@ -78,7 +78,7 @@ calendar::calendar()
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
-    turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * to_days<int>( season_length() ) + Year * year_turns();
+    turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * to_days<int>( season_length() ) + Year * to_turns<int>( year_length() );
     sync();
 }
 
@@ -503,11 +503,6 @@ std::string calendar::day_of_week() const
     static const int start_day = 4; // Thursday is the start day
     const int current_day = ( turn_number / DAYS(1) + start_day ) % 7;
     return _( weekday_names[ current_day ].c_str() );
-}
-
-int calendar::year_turns()
-{
-    return to_days<int>( year_length() );
 }
 
 time_duration calendar::year_length()

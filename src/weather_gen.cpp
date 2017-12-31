@@ -43,7 +43,7 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
     double W;
 
     const double now( double( t.turn_of_year() + to_turns<int>( calendar::season_length() ) / 2 ) /
-                      t.year_turns() ); // [0,1)
+                      to_turns<int>( calendar::year_length() ) ); // [0,1)
     const double ctn( cos( tau * now ) );
 
     // Temperature variation

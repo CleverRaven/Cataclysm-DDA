@@ -265,9 +265,6 @@ class calendar
          */
         static const int INDEFINITELY_LONG;
 
-        /** Number of six-second turns in a year, (configured in current world settings) */
-        static int year_turns();
-
         /** @returns Time in a year, (configured in current world settings) */
         static time_duration year_length();
 

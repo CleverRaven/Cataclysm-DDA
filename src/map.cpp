@@ -6876,7 +6876,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
     int time_producing = 0;
 
-    if( time_since_last_actualize >= calendar::year_turns() ) {
+    if( time_since_last_actualize >= to_turns<int>( calendar::year_length() ) ) {
         time_producing = producing_length;
     } else {
         // We are only procuding sap on the intersection with the sap producing season.
@@ -6912,7 +6912,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             if( last_actualize_tof < early_spring_end ) {
                 time_producing = early_spring_end - last_actualize_tof;
             } else {
-                time_producing = calendar::year_turns() - last_actualize_tof + early_spring_end;
+                time_producing = to_turns<int>( calendar::year_length() ) - last_actualize_tof + early_spring_end;
             }
         } else if ( !last_producing && current_producing ) {
             // We hit the start of late winter
