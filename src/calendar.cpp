@@ -189,7 +189,7 @@ int calendar::seconds_past_midnight() const
 moon_phase calendar::moon() const
 {
     //One full phase every 2 rl months = 2/3 season length
-    static float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+    float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
 
     //Switch moon phase at noon so it stays the same all night
     const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
