@@ -494,12 +494,6 @@ float calendar::season_from_default_ratio()
     return to_days<float>( season_length() ) / default_season_length;
 }
 
-int calendar::turn_of_year() const
-{
-    const int season_turns = to_turns<int>( season_length() );
-    return (season * season_turns) + (turn_number % season_turns);
-}
-
 int calendar::day_of_year() const
 {
     return day + to_days<int>( season_length() ) * season;

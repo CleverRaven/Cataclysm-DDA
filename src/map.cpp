@@ -6878,16 +6878,16 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         time_producing = producing_length;
     } else {
         // We are only producing sap on the intersection with the sap producing season.
-        int early_spring_end = int( 0.5f * turns_season );
-        int late_winter_start = int( 3.75f * turns_season );
+        const time_duration early_spring_end = 0.5f * calendar::season_length();
+        const time_duration late_winter_start = 3.75f * calendar::season_length();
 
         calendar last_actualize = calendar::turn - time_since_last_actualize;
-        int last_actualize_tof = last_actualize.turn_of_year();
+        const time_duration last_actualize_tof = time_past_new_year( last_actualize );
         bool last_producing = (
             last_actualize_tof >= late_winter_start ||
             last_actualize_tof < early_spring_end
         );
-        int current_tof = calendar::turn.turn_of_year();
+        const time_duration current_tof = time_past_new_year( calendar::turn );
         bool current_producing = (
             current_tof >= late_winter_start ||
             current_tof < early_spring_end
@@ -6908,16 +6908,16 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         } else if ( last_producing && !current_producing ) {
             // We hit the end of early spring
             if( last_actualize_tof < early_spring_end ) {
-                time_producing = early_spring_end - last_actualize_tof;
+                time_producing = to_turns<int>( early_spring_end - last_actualize_tof );
             } else {
-                time_producing = to_turns<int>( calendar::year_length() ) - last_actualize_tof + early_spring_end;
+                time_producing = to_turns<int>( calendar::year_length() - last_actualize_tof + early_spring_end );
             }
         } else if ( !last_producing && current_producing ) {
             // We hit the start of late winter
             if( current_tof >= late_winter_start ) {
-                time_producing = current_tof - late_winter_start;
+                time_producing = to_turns<int>( current_tof - late_winter_start );
             } else {
-                time_producing = int( 0.25f * turns_season ) + current_tof;
+                time_producing = int( 0.25f * turns_season ) + to_turns<int>( current_tof );
             }
         }
     }

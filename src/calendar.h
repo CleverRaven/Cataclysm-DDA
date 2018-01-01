@@ -250,9 +250,6 @@ class calendar
         /// @returns relative length of game season to real life season.
         static float season_ratio();
 
-        /** @returns Number of turns elapsed in current year */
-        int turn_of_year() const;
-
         /** @returns Number of days elapsed in current year */
         int day_of_year() const;
         /**
@@ -609,6 +606,11 @@ time_point inline &operator-=( time_point &lhs, const time_duration rhs )
 inline time_duration time_past_midnight( const time_point &p )
 {
     return ( p - calendar::time_of_cataclysm ) % 1_days;
+}
+
+inline time_duration time_past_new_year( const time_point &p )
+{
+    return ( p - calendar::time_of_cataclysm ) % calendar::year_length();
 }
 
 template<typename T>
