@@ -234,10 +234,6 @@ class calendar
         int days() const {
             return day;
         }
-        /** Current season */
-        season_type get_season() const {
-            return season;
-        }
         /** Current year, with default game start as year 0 */
         int years() const {
             return year;
@@ -649,5 +645,9 @@ inline T day_of_season( const time_point &p )
 {
     return to_days<T>( ( p - calendar::time_of_cataclysm ) % calendar::season_length() );
 }
+
+/// @returns The season of the of the given time point. Returns the same season for
+/// any input if the ETERNAL_SEASON option is enabled.
+season_type season_of_year( const time_point &p );
 
 #endif

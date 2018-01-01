@@ -1324,7 +1324,7 @@ bool talk_function::forage_return( npc &p )
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
-            switch (calendar::turn.get_season() ) {
+            switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
                     itemlist = "forage_spring";
                     break;

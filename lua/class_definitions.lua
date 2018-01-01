@@ -101,7 +101,6 @@ classes = {
         functions = {
             { name = "day_of_week", rval = "string", args = { } },
             { name = "day_of_year", rval = "int", args = { } },
-            { name = "get_season", rval = "season_type", args = { } },
             { name = "get_turn", rval = "int", args = { } },
             { name = "increment", rval = nil, args = { } },
             { name = "print_time", rval = "string", args = { "bool" } },

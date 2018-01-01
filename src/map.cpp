@@ -6848,7 +6848,7 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     }
     // Make it harvestable again if the last actualization was during a different season or year.
     const calendar last_touched = calendar::turn - time_since_last_actualize;
-    if( calendar::turn.get_season() != last_touched.get_season() ||
+    if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
         time_since_last_actualize >= to_turns<int>( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }

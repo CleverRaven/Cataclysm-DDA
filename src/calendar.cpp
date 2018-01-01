@@ -544,3 +544,15 @@ time_duration rng( time_duration lo, time_duration hi )
 {
     return time_duration( rng( lo.turns_, hi.turns_ ) );
 }
+
+season_type season_of_year( const time_point &p )
+{
+    static const std::string eternal_seasons_option_name = "ETERNAL_SEASON";
+    if( get_option<bool>( eternal_seasons_option_name ) ) {
+        // If we use calendar::start to determine the initial season, and the user shortens the season length
+        // mid-game, the result could be the wrong season!
+        return calendar::initial_season;
+    }
+    const int season = to_turn<int>( p ) / to_turns<int>( calendar::season_length() );
+    return static_cast<season_type>( season % 4 );
+}

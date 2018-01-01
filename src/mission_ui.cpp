@@ -115,7 +115,7 @@ void game::list_missions()
             }
             if( miss->has_deadline() ) {
                 const calendar deadline( miss->get_deadline() );
-                std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
+                std::string dl = string_format( season_name_upper( season_of_year( deadline ) ) + ", day " +
                                                 to_string( day_of_season<int>( deadline ) + 1 ) + " " + deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 

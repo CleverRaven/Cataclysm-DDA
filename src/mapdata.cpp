@@ -344,17 +344,17 @@ void map_data_common_t::load_symbol( JsonObject &jo )
 
 long map_data_common_t::symbol() const
 {
-    return symbol_[calendar::turn.get_season()];
+    return symbol_[season_of_year( calendar::turn )];
 }
 
 nc_color map_data_common_t::color() const
 {
-    return color_[calendar::turn.get_season()];
+    return color_[season_of_year( calendar::turn )];
 }
 
 const harvest_id &map_data_common_t::get_harvest() const
 {
-    return harvest_by_season[calendar::turn.get_season()];
+    return harvest_by_season[season_of_year( calendar::turn )];
 }
 
 const std::set<std::string> &map_data_common_t::get_harvest_names() const

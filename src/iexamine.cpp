@@ -1365,7 +1365,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
  */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
             add_msg( m_info, _("This flower is dead. You can't get it.") );
         } else {
@@ -1585,7 +1585,7 @@ void iexamine::harvested_plant( player &p, const tripoint &examp )
 
 void iexamine::flower_marloss(player &p, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if( can_drink_nectar( p ) ) {

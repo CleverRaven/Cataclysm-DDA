@@ -919,7 +919,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     items_location loc;
     ter_str_id next_ter;
 
-    switch( calendar::turn.get_season() ) {
+    switch( season_of_year( calendar::turn ) ) {
     case SPRING:
         loc = "forage_spring";
         next_ter = ter_str_id( "t_underbrush_harvested_spring" );
