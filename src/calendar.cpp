@@ -42,8 +42,8 @@ const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
 /** Hour of setset at summer solstice */
 #define SUNSET_SUMMER   21
 
-// How long, in seconds, does sunrise/sunset last?
-#define TWILIGHT_SECONDS (60 * 60)
+// How long, does sunrise/sunset last?
+static const time_duration twilight_duration = 1_hours;
 
 calendar::calendar()
 {
@@ -156,11 +156,6 @@ void calendar::increment()
     sync();
 }
 
-int calendar::seconds_past_midnight() const
-{
-    return second + (minute * 60) + (hour * 60 * 60);
-}
-
 moon_phase calendar::moon() const
 {
     //One full phase every 2 rl months = 2/3 season length
@@ -237,11 +232,11 @@ calendar calendar::sunset() const
 
 bool calendar::is_night() const
 {
-    int seconds         = seconds_past_midnight();
-    int sunrise_seconds = sunrise().seconds_past_midnight();
-    int sunset_seconds  = sunset().seconds_past_midnight();
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunrise = time_past_midnight( this->sunrise() );
+    const time_duration sunset = time_past_midnight( this->sunset() );
 
-    return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
+    return now > sunset + twilight_duration || now < sunrise;
 }
 
 double calendar::current_daylight_level() const
@@ -271,9 +266,10 @@ double calendar::current_daylight_level() const
 
 float calendar::sunlight() const
 {
-    int seconds = seconds_past_midnight();
-    int sunrise_seconds = sunrise().seconds_past_midnight();
-    int sunset_seconds = sunset().seconds_past_midnight();
+    const time_duration now = time_past_midnight( *this );
+    const time_duration sunrise = time_past_midnight( this->sunrise() );
+    const time_duration sunset = time_past_midnight( this->sunset() );
+
     double daylight_level = current_daylight_level();
 
     int current_phase = int(moon());
@@ -283,13 +279,13 @@ float calendar::sunlight() const
 
     int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUARTER);
 
-    if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
+    if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
-    } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
-        double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
+    } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
+        const double percent = ( now - sunrise ) / twilight_duration;
         return double(moonlight) * (1. - percent) + daylight_level * percent;
-    } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
-        double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
+    } else if( now >= sunset && now <= sunset + twilight_duration ) {
+        const double percent = ( now - sunset ) / twilight_duration;
         return daylight_level * (1. - percent) + double(moonlight) * percent;
     } else {
         return daylight_level;

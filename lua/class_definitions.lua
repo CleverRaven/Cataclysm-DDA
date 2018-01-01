@@ -106,7 +106,6 @@ classes = {
             { name = "increment", rval = nil, args = { } },
             { name = "print_time", rval = "string", args = { "bool" } },
             { name = "print_time", rval = "string", args = { } },
-            { name = "seconds_past_midnight", rval = "int", args = { } },
             { name = "is_night", rval = "bool", args = { } },
             { name = "seconds", rval = "int", args = { } },
             { name = "minutes", rval = "int", args = { } },

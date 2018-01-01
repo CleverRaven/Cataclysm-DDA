@@ -205,8 +205,6 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the number of seconds past midnight. Used for sunrise/set calculations. */
-        int seconds_past_midnight() const;
         /** Returns the current light level of the moon. */
         moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
