@@ -28,7 +28,7 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
     const double z( double( t.get_turn() + to_turns<int>( calendar::season_length() ) ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
-    const double dayFraction( ( double )t.minutes_past_midnight() / 1440 );
+    const double dayFraction = time_past_midnight( t ) / 1_days;
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits

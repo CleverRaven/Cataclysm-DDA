@@ -205,8 +205,6 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the number of minutes past midnight. Used for weather calculations. */
-        int minutes_past_midnight() const;
         /** Returns the number of seconds past midnight. Used for sunrise/set calculations. */
         int seconds_past_midnight() const;
         /** Returns the current light level of the moon. */
@@ -628,6 +626,11 @@ constexpr inline time_point operator-( const time_point lhs, const time_duration
 time_point inline &operator-=( time_point &lhs, const time_duration rhs )
 {
     return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+}
+
+inline time_duration time_past_midnight( const time_point &p )
+{
+    return ( p - calendar::time_of_cataclysm ) % 1_days;
 }
 
 template<typename T>

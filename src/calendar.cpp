@@ -156,13 +156,6 @@ void calendar::increment()
     sync();
 }
 
-int calendar::minutes_past_midnight() const
-{
-    //debugmsg("minute: %d  hour: %d");
-    int ret = minute + hour * 60;
-    return ret;
-}
-
 int calendar::seconds_past_midnight() const
 {
     return second + (minute * 60) + (hour * 60 * 60);

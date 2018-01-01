@@ -104,7 +104,6 @@ classes = {
             { name = "get_season", rval = "season_type", args = { } },
             { name = "get_turn", rval = "int", args = { } },
             { name = "increment", rval = nil, args = { } },
-            { name = "minutes_past_midnight", rval = "int", args = { } },
             { name = "print_time", rval = "string", args = { "bool" } },
             { name = "print_time", rval = "string", args = { } },
             { name = "seconds_past_midnight", rval = "int", args = { } },
