@@ -6590,7 +6590,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
 
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
                   << "  gridn: " << gridn;
-    submap_to_save->turn_last_touched = int(calendar::turn);
+    submap_to_save->last_touched = calendar::turn;
     MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
 }
 
@@ -6630,7 +6630,7 @@ static void generate_uniform( const int x, const int y, const int z, const ter_i
             submap *sm = new submap();
             sm->is_uniform = true;
             std::uninitialized_fill_n( &sm->ter[0][0], block_size, terrain_type );
-            sm->turn_last_touched = int(calendar::turn);
+            sm->last_touched = calendar::turn;
             MAPBUFFER.add_submap( x + xd, y + yd, z, sm );
         }
     }
@@ -7023,7 +7023,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         return;
     }
 
-    const auto time_since_last_actualize = calendar::turn - tmpsub->turn_last_touched;
+    const auto time_since_last_actualize = to_turns<int>( time_point( calendar::turn ) - tmpsub->last_touched );
     const bool do_funnels = ( gridz >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
@@ -7047,7 +7047,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
 
             if( do_funnels ) {
-                fill_funnels( pnt, tmpsub->turn_last_touched );
+                fill_funnels( pnt, to_turn<int>( tmpsub->last_touched ) );
             }
 
             grow_plant( pnt );
@@ -7070,7 +7070,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
     }
 
     // the last time we touched the submap, is right now.
-    tmpsub->turn_last_touched = calendar::turn;
+    tmpsub->last_touched = calendar::turn;
 }
 
 void map::add_roofs( const int gridx, const int gridy, const int gridz )

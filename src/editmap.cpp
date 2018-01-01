@@ -1790,7 +1790,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         destsm->active_items = srcsm->active_items;
 
                         destsm->temperature = srcsm->temperature;
-                        destsm->turn_last_touched = int( calendar::turn );
+                        destsm->last_touched = calendar::turn;
                         destsm->comp = std::move( srcsm->comp );
                         destsm->camp = srcsm->camp;
 
