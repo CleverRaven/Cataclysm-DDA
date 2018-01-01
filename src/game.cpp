@@ -1416,14 +1416,13 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-    if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
-        calendar::turn.seconds() == 0) { // Midnight!
+    if( calendar::once_every( 1_days ) ) { // Midnight!
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
 
     // Run a LUA callback once per minute
-    if (calendar::turn.seconds() == 0) {
+    if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
 
@@ -13642,12 +13641,12 @@ void game::process_artifact(item *it, player *p)
                 break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {
+                if( calendar::once_every( 1_hours ) ) {
                     it->charges++;
                 }
                 break;
             case ARTC_SOLAR:
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() % 10 == 0 &&
+                if( calendar::once_every( 10_minutes ) &&
                     is_in_sunlight(p->pos())) {
                     it->charges++;
                 }
@@ -13656,14 +13655,14 @@ void game::process_artifact(item *it, player *p)
             // Some weird Lovecraftian thing.  ;P
             // (So DON'T route them through mod_pain!)
             case ARTC_PAIN:
-                if (calendar::turn.seconds() == 0) {
+                if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
                     p->mod_pain_noresist( 3 * rng(1, 3) );
                     it->charges++;
                 }
                 break;
             case ARTC_HP:
-                if (calendar::turn.seconds() == 0) {
+                if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You feel your body decaying."));
                     p->hurtall(1, nullptr);
                     it->charges++;
