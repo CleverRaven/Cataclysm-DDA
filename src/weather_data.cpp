@@ -36,22 +36,6 @@ weather_animation_t get_weather_animation(weather_type const type)
     return {0.0f, c_white, '?'};
 }
 
-const std::string season_name(int const season)
-{
-    switch( season ) {
-        case 0:
-            return pgettext( "season_name", "spring" );
-        case 1:
-            return pgettext( "season_name", "summer" );
-        case 2:
-            return pgettext( "season_name", "autumn" );
-        case 3:
-            return pgettext( "season_name", "winter" );
-        default:
-            return "bad season!";
-    }
-}
-
 weather_datum const weather_data(weather_type const type)
 {
     /**

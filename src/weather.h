@@ -126,7 +126,6 @@ struct weather_sum {
     float sunlight = 0.0f;
 };
 
-const std::string season_name( int season );
 weather_datum const weather_data( weather_type const type );
 
 std::string weather_forecast( point const &abs_sm_pos );
