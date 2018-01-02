@@ -683,8 +683,8 @@ private:
      * the item is rotten.
      */
     time_duration rot = 0;
-    /** Turn when the rot calculation was last performed */
-    int last_rot_check = 0;
+    /** Time when the rot calculation was last performed. */
+    time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
     int get_rot() const
