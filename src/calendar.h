@@ -343,6 +343,9 @@ class time_duration
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
 
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+
         /**
          * Named constructors to get a duration representing a multiple of the named time
          * units. Note that a duration is stored as integer number of turns, so

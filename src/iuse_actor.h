@@ -10,6 +10,8 @@
 #include "int_id.h"
 #include "explosion.h"
 #include "units.h"
+#include "calendar.h"
+
 #include <limits.h>
 #include <set>
 #include <map>
@@ -634,9 +636,9 @@ class musical_instrument_actor : public iuse_actor
         */
         std::vector< std::string > npc_descriptions;
         /**
-         * Display description once per this many turns
+         * Display description once per this duration (@ref calendar::once_every).
          */
-        int description_frequency;
+        time_duration description_frequency = 0;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 

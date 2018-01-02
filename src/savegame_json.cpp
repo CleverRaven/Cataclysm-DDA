@@ -1457,6 +1457,16 @@ void time_point::deserialize( JsonIn &jsin )
     turn_ = jsin.get_int();
 }
 
+void time_duration::serialize( JsonOut &jsout ) const
+{
+    jsout.write( turns_ );
+}
+
+void time_duration::deserialize( JsonIn &jsin )
+{
+    turns_ = jsin.get_int();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
