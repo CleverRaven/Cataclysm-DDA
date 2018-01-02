@@ -105,7 +105,7 @@ const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 bool connects_to(oter_id there, int dir_from_here);
 void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
-void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
+void set_science_room(map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 
@@ -114,10 +114,10 @@ void mtrap_set( map *m, int x, int y, trap_id t );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
-void map::generate(const int x, const int y, const int z, const int turn)
+void map::generate( const int x, const int y, const int z, const time_point &when )
 {
     dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
-                << "y[" << y << "], z[" << z <<"], turn[" << turn << "] )";
+                << "y[" << y << "], z[" << z <<"], when[" << to_string( when ) << "] )";
 
     set_abs_sub( x, y, z );
 
@@ -160,7 +160,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     density = density / 100;
 
     draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
-             t_above, turn, density, z, rsettings);
+             t_above, when, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -205,9 +205,9 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 }
 
-void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd, int i, float d )
+void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd, const time_point &i, float d )
 {
-    (*fptr)( m, o, mgd, i, d );
+    (*fptr)( m, o, mgd, to_turn<int>( i ), d );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1914,7 +1914,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md, int t, float d ) {
+void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md, const time_point &t, float d ) {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
@@ -1987,9 +1987,9 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, 
 // wip: need more bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d, const std::string & )
+int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_point &t, float d, const std::string & )
 {
-    mapgen_crater(m,id,md,t,d);
+    mapgen_crater( m, id, md, to_turn<int>( t ), d );
     mapf::formatted_set_simple(m, 0, 6,
 "\
     *   *  ***\n\
@@ -2008,7 +2008,7 @@ int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d,
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat, int t, float d ) {
+void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat, const time_point &t, float d ) {
     lua_mapgen( m, terrain_type, dat, t, d, scr );
 }
 
@@ -2021,7 +2021,7 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                   const oter_id t_above, const int turn, const float density,
+                   const oter_id t_above, const time_point &when, const float density,
                    const int zlevel, const regional_settings * rsettings)
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -2075,7 +2075,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int fidx = weightit->second.lower_bound( roll )->second;
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
+        fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
     // @todo: make these json or mappable functions
     } else if (terrain_type == "office_tower_1_entrance") {
 
@@ -7610,7 +7610,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
 }
 
-void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
+void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when )
 {
     // TODO: More types!
     int type = rng(0, 4);
@@ -7652,9 +7652,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 }
             }
         }
-        m->place_items("chem_lab", 80, x1, y1, x1, y2, false, turn - 50);
-        m->place_items("hydro", 92, x1 + 1, y1 + 1, x2 - 1, y1 + 1, false, turn);
-        m->place_items("hydro", 92, x1 + 1, y2 - 1, x2 - 1, y2 - 1, false, turn);
+        m->place_items("chem_lab", 80, x1, y1, x1, y2, false, when - 50_turns);
+        m->place_items("hydro", 92, x1 + 1, y1 + 1, x2 - 1, y1 + 1, false, when);
+        m->place_items("hydro", 92, x1 + 1, y2 - 1, x2 - 1, y2 - 1, false, when);
         break;
 
     case 3: // Electronics.
@@ -7670,9 +7670,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 }
             }
         }
-        m->place_items("electronics", 85, x1 + 1, y1, x2 - 1, y1, false, turn - 50);
-        m->place_items("electronics", 85, x1 + 1, y2, x2 - 1, y2, false, turn - 50);
-        m->place_items("electronics", 85, x1, y1 + 1, x1, y2 - 1, false, turn - 50);
+        m->place_items("electronics", 85, x1 + 1, y1, x2 - 1, y1, false, when - 50_turns);
+        m->place_items("electronics", 85, x1 + 1, y2, x2 - 1, y2, false, when - 50_turns);
+        m->place_items("electronics", 85, x1, y1 + 1, x1, y2 - 1, false, when - 50_turns);
         break;
 
     case 4: // Monster research.
@@ -7693,8 +7693,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
             }
         }
         // TODO: Place a monster in the sealed areas.
-        m->place_items("monparts", 70, x1 + 3, y1, 2 - 1, y1, false, turn - 100);
-        m->place_items("monparts", 70, x1 + 3, y2, 2 - 1, y2, false, turn - 100);
+        m->place_items("monparts", 70, x1 + 3, y1, 2 - 1, y1, false, when - 100_turns);
+        m->place_items("monparts", 70, x1 + 3, y2, 2 - 1, y2, false, when - 100_turns);
         break;
     }
 
