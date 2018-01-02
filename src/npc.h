@@ -5,6 +5,7 @@
 #include "player.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "calendar.h"
 
 #include <vector>
 #include <string>
@@ -767,7 +768,7 @@ class npc : public player
          */
         point submap_coords;
         // Type of complaint->last time we complained about this type
-        std::map<std::string, int> complaints;
+        std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
     public:

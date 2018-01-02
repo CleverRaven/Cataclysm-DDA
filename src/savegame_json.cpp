@@ -1137,8 +1137,15 @@ void npc::load(JsonObject &data)
     }
 
     last_updated = data.get_int( "last_updated", calendar::turn );
-    if( data.has_object( "complaints" ) ) {
-        data.read( "complaints", complaints );
+    //@todo time_point does not have a default constructor, need to read in the map manually
+    {
+        complaints.clear();
+        JsonObject jo = data.get_object( "complaints" );
+        for( const std::string &key : jo.get_member_names() ) {
+            time_point p = 0;
+            jo.read( key, p );
+            complaints.emplace( key, p );
+        }
     }
 }
 
