@@ -816,7 +816,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              food->type->comestible->spoils, true, "", true, true ) );
+                                              to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               ( int )food->fridge, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
@@ -884,7 +884,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( food_item->goes_bad() ) {
-            const std::string rot_time = to_string_clipped( time_duration::from_turns( food_item->type->comestible->spoils ) );
+            const std::string rot_time = to_string_clipped( food_item->type->comestible->spoils );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -2863,18 +2863,18 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils;
+    return is_food() && type->comestible->spoils != 0;
 }
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / double( type->comestible->spoils ) : 0;
+    return goes_bad() ? rot / to_turns<double>( type->comestible->spoils ) : 0;
 }
 
 void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
-        rot = type->comestible->spoils * val;
+        rot = to_turns<int>( type->comestible->spoils * val );
         // calc_rot uses last_rot_check (when it's not 0) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
@@ -2898,7 +2898,7 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->goes_bad() ) {
-        return subject->type->comestible->spoils - subject->rot;
+        return to_turns<int>( subject->type->comestible->spoils ) - subject->rot;
     }
 
     if ( subject->type->comestible ) {
