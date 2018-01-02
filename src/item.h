@@ -677,14 +677,19 @@ class item : public visitable<item>
     bool has_rotten_away() const { return get_relative_rot() > 2.0; }
 
 private:
-    int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
+    /**
+     * Accumulated rot, expressed as time the item has been in standard temperature.
+     * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+     * the item is rotten.
+     */
+    time_duration rot = 0;
     /** Turn when the rot calculation was last performed */
     int last_rot_check = 0;
 
 public:
     int get_rot() const
     {
-        return rot;
+        return to_turns<int>( rot );
     }
 
     /** Turn item was put into a fridge or 0 if not in any fridge. */

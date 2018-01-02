@@ -530,7 +530,7 @@ bool item::stacks_with( const item &rhs ) const
         // Because spoiling items are only processed every processing_speed()-th turn
         // the rotting value becomes slightly different for items that have
         // been created at the same time and place and with the same initial rot.
-        if( std::abs( rot - rhs.rot ) > processing_speed() ) {
+        if( std::abs( to_turns<int>( rot - rhs.rot ) ) > processing_speed() ) {
             return false;
         } else if( rotten() != rhs.rotten() ) {
             // just to be save that rotten and unrotten food is *never* stacked.
@@ -814,7 +814,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
                                               to_turns<int>( food->age() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
-                                              ( int )food->rot, true, "", true, true ) );
+                                              to_turns<int>( food->rot ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
@@ -2868,13 +2868,13 @@ bool item::goes_bad() const
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / to_turns<double>( type->comestible->spoils ) : 0;
+    return goes_bad() ? rot / type->comestible->spoils : 0;
 }
 
 void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
-        rot = to_turns<int>( type->comestible->spoils * val );
+        rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not 0) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
@@ -2898,7 +2898,7 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->goes_bad() ) {
-        return to_turns<int>( subject->type->comestible->spoils ) - subject->rot;
+        return to_turns<int>( subject->type->comestible->spoils - subject->rot );
     }
 
     if ( subject->type->comestible ) {
@@ -2921,15 +2921,13 @@ void item::calc_rot(const tripoint &location)
         const int until = ( fridge > 0 ? fridge : now );
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
-            int old = rot;
-            rot += get_rot_since( time_point::from_turn( since ), time_point::from_turn( until ), location );
-            add_msg( m_debug, "r: %s %d,%d %d->%d", typeId().c_str(), since, until, old, rot );
+            rot += time_duration::from_turns( get_rot_since( time_point::from_turn( since ), time_point::from_turn( until ), location ) );
         }
         last_rot_check = now;
 
         if (fridge > 0) {
             // Flat 20%, rot from time of putting it into fridge up to now
-            rot += (now - fridge) * 0.2;
+            rot += time_duration::from_turns( ( now - fridge ) * 0.2 );
             fridge = 0;
         }
         // item stays active to let the item counter work

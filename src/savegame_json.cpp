@@ -1515,7 +1515,7 @@ void item::io( Archive& archive )
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, 0 );
-    archive.io( "rot", rot, 0 );
+    archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, 0 );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
