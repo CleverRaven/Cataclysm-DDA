@@ -110,8 +110,9 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         npc iterated_npc = model_npc;
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
-        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
-            iterated_npc.update_body( turn, turn + 1 );
+        for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
+            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
+                                      calendar::time_of_cataclysm + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -127,8 +128,9 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         npc iterated_npc = model_npc;
         const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
         on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
-        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
-            iterated_npc.update_body( turn, turn + 1 );
+        for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
+            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
+                                      calendar::time_of_cataclysm + turn + 1_turns );
         }
 
         const int margin = 10;

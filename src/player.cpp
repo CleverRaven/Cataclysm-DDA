@@ -3946,21 +3946,22 @@ int player::hp_percentage() const
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_between( int from, int to, int tick_length )
+inline int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
-    return (to / tick_length) - (from / tick_length);
+    return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
+            ( from ) / to_turns<int>( tick_length ) );
 }
 
 void player::update_body()
 {
-    const int now = calendar::turn;
-    update_body( now - 1, now );
+    update_body( calendar::turn - 1_turns, calendar::turn );
 }
 
-void player::update_body( int from, int to )
+void player::update_body( const time_point &from, const time_point &to )
 {
-    update_stamina( to - from );
-    const int five_mins = ticks_between( from, to, MINUTES(5) );
+    update_stamina( to_turns<int>( to - from ) );
+    const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
         update_needs( five_mins );
@@ -3969,7 +3970,7 @@ void player::update_body( int from, int to )
         mend( five_mins * MINUTES( 5 ) );
     }
 
-    const int thirty_mins = ticks_between( from, to, MINUTES(30) );
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
@@ -3979,14 +3980,14 @@ void player::update_body( int from, int to )
     for( const auto& v : vitamin::all() ) {
         int rate = vitamin_rate( v.first );
         if( rate > 0 ) {
-            int qty = ticks_between( from, to, rate );
+            int qty = ticks_between( from, to, time_duration::from_turns( rate ) );
             if( qty > 0 ) {
                 vitamin_mod( v.first, 0 - qty );
             }
 
         } else if ( rate < 0 ) {
             // mutations can result in vitamins being generated (but never accumulated)
-            int qty = ticks_between( from, to, std::abs( rate ) );
+            int qty = ticks_between( from, to, time_duration::from_turns( std::abs( rate ) ) );
             if( qty > 0 ) {
                 vitamin_mod( v.first, qty );
             }
