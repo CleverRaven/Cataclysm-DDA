@@ -279,7 +279,7 @@ bool player::can_make( const recipe *r, int batch_size )
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
-        && cached_turn == calendar::turn.get_turn()
+        && cached_time == calendar::turn
         && cached_position == pos() ) {
         return cached_crafting_inventory;
     }
@@ -297,14 +297,14 @@ const inventory &player::crafting_inventory()
     }
 
     cached_moves = moves;
-    cached_turn = calendar::turn.get_turn();
+    cached_time = calendar::turn;
     cached_position = pos();
     return cached_crafting_inventory;
 }
 
 void player::invalidate_crafting_inventory()
 {
-    cached_turn = -1;
+    cached_time = time_point::from_turn( -1 );
 }
 
 void player::make_craft( const std::string &id_to_make, int batch_size )

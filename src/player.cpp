@@ -548,6 +548,7 @@ stat_mod player::get_pain_penalty() const
 }
 
 player::player() : Character()
+, cached_time( time_point::from_turn( -1 ) )
 {
     id = -1; // -1 is invalid
     str_cur = 8;
@@ -578,7 +579,6 @@ player::player() : Character()
     start_location = start_location_id( "shelter" );
     moves = 100;
     movecounter = 0;
-    cached_turn = -1;
     oxygen = 0;
     next_climate_control_check = 0;
     last_climate_control_ret = false;

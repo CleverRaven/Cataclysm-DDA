@@ -12,6 +12,7 @@
 #include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
+#include "calendar.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -1653,7 +1654,7 @@ class player : public Character
 
         inventory cached_crafting_inventory;
         int cached_moves;
-        int cached_turn;
+        time_point cached_time;
         tripoint cached_position;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
