@@ -71,7 +71,7 @@ void weather_effect::glare()
 
 int get_hourly_rotpoints_at_temp( int temp );
 
-int get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
+time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
     // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
@@ -82,11 +82,11 @@ int get_rot_since( const time_point &start, const time_point &end, const tripoin
         return 0;
     }
     // TODO: maybe have different rotting speed when underground?
-    int ret = 0;
+    time_duration ret = 0;
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature );
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature ) * 1_turns;
     }
     return ret;
 }

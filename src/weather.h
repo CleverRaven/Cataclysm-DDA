@@ -26,6 +26,7 @@
 #include <vector>
 #include <utility>
 
+class time_duration;
 class time_point;
 class item;
 struct point;
@@ -158,9 +159,9 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  * locations.
  * The location is in absolute maps squares (the system which the @ref map uses),
  * but absolute (@ref map::getabs).
- * The returned value is in turns (at standard conditions it is endturn-startturn).
+ * The returned value is in time at standard conditions it is `end - start`.
  */
-int get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
+time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
 /**
  * Is it warm enough to plant seeds?

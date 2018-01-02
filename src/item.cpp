@@ -2921,7 +2921,7 @@ void item::calc_rot(const tripoint &location)
         const time_point until = fridge != calendar::before_time_starts ? fridge : now;
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
-            rot += time_duration::from_turns( get_rot_since( since, until, location ) );
+            rot += get_rot_since( since, until, location );
         }
         last_rot_check = now;
 
