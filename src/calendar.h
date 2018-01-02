@@ -260,7 +260,8 @@ class calendar
         static float season_from_default_ratio();
 
         /** Returns the current time in a string according to the options set */
-        std::string print_time( bool just_hour = false ) const;
+        std::string print_time() const;
+        std::string print_time_just_hour() const;
         /**
          * Returns the name of the current day of the week
          *

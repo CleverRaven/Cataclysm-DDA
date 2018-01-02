@@ -533,7 +533,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
-                       calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
+                       calendar::turn.print_time().c_str(), calendar::turn.print_time_just_hour().c_str(),
                        city_name.c_str(),
                        weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );
