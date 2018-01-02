@@ -85,12 +85,12 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
-        const calendar &t, unsigned seed ) const
+        const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && t.is_night() ) {
+    if( wt == WEATHER_SUNNY && calendar( to_turn<int>( t ) ).is_night() ) {
         return WEATHER_CLEAR;
     }
     return wt;
