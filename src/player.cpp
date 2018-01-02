@@ -5458,7 +5458,7 @@ void player::suffer()
     }
 
     const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
         if( x_in_y( radiation, 200 ) ) {
             healall( 1 );
@@ -5478,7 +5478,7 @@ void player::suffer()
         }
     }
 
-    if( radiation > 200 && ( int(calendar::turn) % MINUTES(10) == 0 ) && x_in_y( radiation, 1000 ) ) {
+    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
         hurtall( 1, nullptr );
         radiation -= 5;
     }

@@ -1040,7 +1040,7 @@ void player::hardcoded_effects( effect &it )
         // Get a dream if category strength is high enough.
         if( strength != 0 ) {
             //Once every 6 / 3 / 2 hours, with a bit of randomness
-            if( ( int( calendar::turn ) % ( 3600 / strength ) == 0 ) && one_in( 3 ) ) {
+            if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
                 // Select a dream
                 std::string dream = get_category_dream( highcat, strength );
                 if( !dream.empty() ) {
