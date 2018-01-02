@@ -3844,7 +3844,7 @@ void vehicle::on_move(){
         operate_reaper();
     }
 
-    occupied_cache_turn = -1;
+    occupied_cache_time = time_point::from_turn( -1 );
 }
 
 void vehicle::operate_plow(){
@@ -5927,8 +5927,8 @@ int vehicle::obstacle_at_part( int p ) const
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_turn != calendar::turn ) {
-        occupied_cache_turn = calendar::turn;
+    if( force_refresh || occupied_cache_time != calendar::turn ) {
+        occupied_cache_time = calendar::turn;
         occupied_points.clear();
         tripoint pos = global_pos3();
         for( const auto &p : parts ) {

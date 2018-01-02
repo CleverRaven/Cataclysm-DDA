@@ -1243,7 +1243,8 @@ public:
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
-    calendar occupied_cache_turn = -1; // Turn occupied points were calculated
+    /// Time occupied points were calculated.
+    time_point occupied_cache_time = time_point::from_turn( -1 );
 
     // Turn the vehicle was last processed
     time_point last_update = time_point::from_turn( -1 );
