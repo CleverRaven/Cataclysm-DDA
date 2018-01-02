@@ -1066,7 +1066,7 @@ private:
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
-        int remoteveh_cache_turn;
+        time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;

@@ -273,12 +273,12 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
+    remoteveh_cache_time( time_point::from_turn( -1 ) ),
     gamemode(),
     user_action_counter(0),
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
-    remoteveh_cache_turn = INT_MIN;
     temperature = 0;
     player_was_sleeping = false;
     reset_light_level();
@@ -778,7 +778,7 @@ void game::setup()
     npc_kills.clear();
     scent.reset();
 
-    remoteveh_cache_turn = INT_MIN;
+    remoteveh_cache_time = time_point::from_turn( -1 );
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
@@ -2461,10 +2461,10 @@ void game::rcdrive(int dx, int dy)
 
 vehicle *game::remoteveh()
 {
-    if( calendar::turn == remoteveh_cache_turn ) {
+    if( calendar::turn == remoteveh_cache_time ) {
         return remoteveh_cache;
     }
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
@@ -2484,7 +2484,7 @@ vehicle *game::remoteveh()
 
 void game::setremoteveh(vehicle *veh)
 {
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
