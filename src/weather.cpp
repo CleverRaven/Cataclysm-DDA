@@ -497,6 +497,16 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
+static std::string print_time_just_hour( const time_point &p )
+{
+    const int hour = to_hours<int>( time_past_midnight( p ) );
+    int hour_param = hour % 12;
+    if( hour_param == 0 ) {
+        hour_param = 12;
+    }
+    return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
+}
+
 // Script from Wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
@@ -533,7 +543,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
-                       calendar::turn.print_time().c_str(), calendar::turn.print_time_just_hour().c_str(),
+                       calendar::turn.print_time().c_str(), print_time_just_hour( calendar::turn ),
                        city_name.c_str(),
                        weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );

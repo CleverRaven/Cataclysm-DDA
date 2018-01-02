@@ -261,7 +261,6 @@ class calendar
 
         /** Returns the current time in a string according to the options set */
         std::string print_time() const;
-        std::string print_time_just_hour() const;
         /**
          * Returns the name of the current day of the week
          *

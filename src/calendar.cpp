@@ -420,29 +420,6 @@ std::string calendar::print_time() const
     return time_string.str();
 }
 
-std::string calendar::print_time_just_hour() const
-{
-    std::ostringstream time_string;
-
-    if( get_option<std::string>( "24_HOUR" ) == "military" ) {
-        time_string << string_format( "%02d%02d.%02d", hour % 24, minute, second );
-    } else if( get_option<std::string>( "24_HOUR" ) == "24h" ) {
-        time_string << hour % 24;
-    } else {
-        int hour_param = hour % 12;
-        if( hour_param == 0 ) {
-            hour_param = 12;
-        }
-        if( hour < 12 ) {
-            time_string << string_format( _( "%d AM" ), hour_param );
-        } else {
-            time_string << string_format( _( "%d PM" ), hour_param );
-        }
-    }
-
-    return time_string.str();
-}
-
 std::string calendar::day_of_week() const
 {
     /* Design rationale:
