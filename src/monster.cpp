@@ -168,7 +168,6 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
 }
 
 monster::monster( const mtype_id& id ) : monster()
@@ -2232,7 +2231,7 @@ void monster::on_unload()
 void monster::on_load()
 {
     // Possible TODO: Integrate monster upgrade
-    const int dt = calendar::turn - last_updated;
+    const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0 ) {
         return;
@@ -2250,7 +2249,7 @@ void monster::on_load()
         regen = 0.25f / HOURS(1);
     }
 
-    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {
@@ -2260,7 +2259,7 @@ void monster::on_load()
     }
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name().c_str(), dt, healed, healed_speed );
+             name().c_str(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

@@ -1393,7 +1393,9 @@ void monster::load(JsonObject &data)
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
-    last_updated = data.get_int( "last_updated", calendar::turn );
+    if( !data.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
 
     data.read( "path", path );
 }
@@ -1439,7 +1441,7 @@ void monster::store(JsonOut &json) const
     json.member( "underwater", underwater );
     json.member("upgrades", upgrades);
     json.member("upgrade_time", upgrade_time);
-    json.member("last_updated", last_updated);
+    json.member( "last_updated", last_updated );
 
     json.member( "inv", inv );
 

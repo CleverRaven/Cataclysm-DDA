@@ -1531,7 +1531,7 @@ classes = {
             friendly = { type = "int", writable = true },
             hallucination = { type = "bool", writable = true },
             ignoring = { type = "int", writable = true },
-            last_updated = { type = "int", writable = true },
+            last_updated = { type = "time_point", writable = true },
             made_footstep = { type = "bool", writable = true },
             mission_id = { type = "int", writable = true },
             morale = { type = "int", writable = true },
