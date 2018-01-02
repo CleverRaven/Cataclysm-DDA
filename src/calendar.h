@@ -466,6 +466,9 @@ class time_duration
         friend time_duration rng( time_duration lo, time_duration hi );
 };
 
+/// @see x_in_y(int,int)
+bool x_in_y( const time_duration &a, const time_duration &b );
+
 /**
  * Convert the given number into an duration by calling the matching
  * `time_duration::from_*` function.

@@ -537,6 +537,11 @@ time_duration rng( time_duration lo, time_duration hi )
     return time_duration( rng( lo.turns_, hi.turns_ ) );
 }
 
+bool x_in_y( const time_duration &a, const time_duration &b )
+{
+    return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
+}
+
 season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;

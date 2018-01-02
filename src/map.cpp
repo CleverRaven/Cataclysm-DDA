@@ -6838,21 +6838,21 @@ void map::grow_plant( const tripoint &p )
     }
 }
 
-void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
+void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
     // Make it harvestable again if the last actualization was during a different season or year.
-    const calendar last_touched = calendar::turn - time_since_last_actualize;
+    const time_point last_touched = calendar::turn - time_since_last_actualize;
     if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
-        time_since_last_actualize >= to_turns<int>( calendar::season_length() ) ) {
+        time_since_last_actualize >= calendar::season_length() ) {
         ter_set( p, ter.transforms_into );
     }
 }
 
-void map::produce_sap( const tripoint &p, int time_since_last_actualize )
+void map::produce_sap( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     if( time_since_last_actualize <= 0 ) {
         return;
@@ -6866,22 +6866,21 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
-    const int turns_season = to_turns<int>( calendar::season_length() );
-    const int producing_length = int( 0.75f * turns_season );
+    const time_duration producing_length = 0.75 * calendar::season_length();
 
-    const int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
+    const time_duration turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
 
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
-    int time_producing = 0;
+    time_duration time_producing = 0;
 
-    if( time_since_last_actualize >= to_turns<int>( calendar::year_length() ) ) {
+    if( time_since_last_actualize >= calendar::year_length() ) {
         time_producing = producing_length;
     } else {
         // We are only producing sap on the intersection with the sap producing season.
         const time_duration early_spring_end = 0.5f * calendar::season_length();
         const time_duration late_winter_start = 3.75f * calendar::season_length();
 
-        calendar last_actualize = calendar::turn - time_since_last_actualize;
+        const time_point last_actualize = calendar::turn - time_since_last_actualize;
         const time_duration last_actualize_tof = time_past_new_year( last_actualize );
         bool last_producing = (
             last_actualize_tof >= late_winter_start ||
@@ -6893,7 +6892,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             current_tof < early_spring_end
         );
 
-        int non_producing_length = int( 3.25f * turns_season );
+        const time_duration non_producing_length = 3.25 * calendar::season_length();
 
         if( last_producing && current_producing ) {
             if( time_since_last_actualize < non_producing_length ) {
@@ -6908,21 +6907,21 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         } else if ( last_producing && !current_producing ) {
             // We hit the end of early spring
             if( last_actualize_tof < early_spring_end ) {
-                time_producing = to_turns<int>( early_spring_end - last_actualize_tof );
+                time_producing = early_spring_end - last_actualize_tof;
             } else {
-                time_producing = to_turns<int>( calendar::year_length() - last_actualize_tof + early_spring_end );
+                time_producing = calendar::year_length() - last_actualize_tof + early_spring_end;
             }
         } else if ( !last_producing && current_producing ) {
             // We hit the start of late winter
             if( current_tof >= late_winter_start ) {
-                time_producing = to_turns<int>( current_tof - late_winter_start );
+                time_producing = current_tof - late_winter_start;
             } else {
-                time_producing = int( 0.25f * turns_season ) + to_turns<int>( current_tof );
+                time_producing = 0.25f * calendar::season_length() + current_tof;
             }
         }
     }
 
-    long new_charges = roll_remainder( (double)time_producing / turns_to_produce );
+    long new_charges = roll_remainder( time_producing / turns_to_produce );
     // Not enough time to produce 1 charge of sap
     if( new_charges <= 0 ) {
         return;
@@ -6950,7 +6949,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
+void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const int rads = get_radiation( p );
     if( rads == 0 ) {
@@ -6958,7 +6957,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 
     // TODO: More interesting rad scorch chance - base on season length?
-    if( !x_in_y( 1.0 * rads * rads * time_since_last_actualize, DAYS(91) ) ) {
+    if( !x_in_y( 1.0 * rads * rads * time_since_last_actualize, 91_days ) ) {
         return;
     }
 
@@ -6996,7 +6995,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize )
+void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     for( auto &pr : field_at( p ) ) {
         auto &fd = pr.second;
@@ -7004,8 +7003,8 @@ void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualiz
             continue;
         }
 
-        const int added_age = 2 * time_since_last_actualize / rng( 2, 4 );
-        fd.mod_age( added_age );
+        const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
+        fd.mod_age( to_turns<int>( added_age ) );
         const int hl = fieldlist[ fd.getFieldType() ].halflife;
         const int density_drop = fd.getFieldAge() / hl;
         if( density_drop > 0 ) {
@@ -7023,7 +7022,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         return;
     }
 
-    const auto time_since_last_actualize = to_turns<int>( time_point( calendar::turn ) - tmpsub->last_touched );
+    const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
     const bool do_funnels = ( gridz >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it

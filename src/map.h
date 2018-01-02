@@ -1304,22 +1304,22 @@ class map
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void restock_fruits( const tripoint &p, int time_since_last_actualize );
+        void restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Produce sap on tapped maple trees
          * @param p Location of tapped tree
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void produce_sap( const tripoint &p, int time_since_last_actualize );
+        void produce_sap( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Radiation-related plant (and fungus?) death.
          */
-        void rad_scorch( const tripoint &p, int time_since_last_actualize );
-        void decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize );
+        void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
+        void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
         void player_in_field( player &u );
         void monster_in_field( monster &z );
