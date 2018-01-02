@@ -22,12 +22,11 @@
 #define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
 ///@}
 
-#include "calendar.h"
-
 #include <string>
 #include <vector>
 #include <utility>
 
+class time_point;
 class item;
 struct point;
 struct tripoint;

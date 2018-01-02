@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "options.h"
 #include "output.h"
+#include "calendar.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
