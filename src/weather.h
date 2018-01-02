@@ -162,7 +162,7 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  * but absolute (@ref map::getabs).
  * The returned value is in turns (at standard conditions it is endturn-startturn).
  */
-int get_rot_since( int startturn, int endturn, const tripoint &pos );
+int get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
 /**
  * Is it warm enough to plant seeds?

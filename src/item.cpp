@@ -2922,7 +2922,7 @@ void item::calc_rot(const tripoint &location)
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
-            rot += get_rot_since( since, until, location );
+            rot += get_rot_since( time_point::from_turn( since ), time_point::from_turn( until ), location );
             add_msg( m_debug, "r: %s %d,%d %d->%d", typeId().c_str(), since, until, old, rot );
         }
         last_rot_check = now;
