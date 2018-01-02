@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "cursesdef.h"
+#include "calendar.h"
 
 #include <array>
 
@@ -19,7 +20,7 @@ class scent_map
 
         scent_array<int> grscent;
         tripoint player_last_position = tripoint_min;
-        int player_last_moved = -1;
+        time_point player_last_moved = time_point::from_turn( -1 );
 
         const game &gm;
 
