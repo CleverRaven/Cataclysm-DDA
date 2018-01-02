@@ -1131,7 +1131,7 @@ int HandleDPad()
  * allows the input_manager to only consider those.
  * @return 0 if the input can not be translated (unknown key?),
  * -1 when a ALT+number sequence has been started,
- * or somthing that a call to ncurses getch would return.
+ * or something that a call to ncurses getch would return.
  */
 long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
