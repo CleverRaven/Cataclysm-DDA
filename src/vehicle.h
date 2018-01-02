@@ -1250,7 +1250,7 @@ public:
     time_point last_update = time_point::from_turn( -1 );
     // Retroactively pass time spent outside bubble
     // Funnels, solars
-    void update_time( const calendar &update_to );
+    void update_time( const time_point &update_to );
 
     // save values
     /**

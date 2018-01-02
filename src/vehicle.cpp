@@ -5968,9 +5968,8 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
         sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
 }
 
-void vehicle::update_time( const calendar &update_to_ )
+void vehicle::update_time( const time_point &update_to )
 {
-    const time_point update_to = update_to_;
     if( smz < 0 ) {
         return;
     }
