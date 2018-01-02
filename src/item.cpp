@@ -818,7 +818,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
-                                              ( int )food->fridge, true, "", true, true ) );
+                                              to_turn<int>( food->fridge ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
@@ -2878,7 +2878,7 @@ void item::set_relative_rot( double val )
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
-        fridge = 0;
+        fridge = calendar::before_time_starts;
         active = !rotten();
     }
 }
@@ -2918,17 +2918,17 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-        const time_point until = fridge > 0 ? time_point::from_turn( fridge ) : now;
+        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             rot += time_duration::from_turns( get_rot_since( since, until, location ) );
         }
         last_rot_check = now;
 
-        if (fridge > 0) {
+        if( fridge != calendar::before_time_starts ) {
             // Flat 20%, rot from time of putting it into fridge up to now
-            rot += time_duration::from_turns( ( to_turn<int>( now ) - fridge ) * 0.2 );
-            fridge = 0;
+            rot += ( now - fridge ) * 0.2;
+            fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
         if( item_counter == 0 && rotten() ) {

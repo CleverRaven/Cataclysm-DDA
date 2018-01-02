@@ -822,7 +822,7 @@ classes = {
             burnt = { type = "int", writable = true },
             charges = { type = "int", writable = true },
             frequency = { type = "int", writable = true },
-            fridge = { type = "int", writable = true },
+            fridge = { type = "time_point", writable = true },
             invlet = { type = "int", writable = true },
             irridation = { type = "int", writable = true },
             item_counter = { type = "int", writable = true },

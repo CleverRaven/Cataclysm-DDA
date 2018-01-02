@@ -692,8 +692,8 @@ public:
         return to_turns<int>( rot );
     }
 
-    /** Turn item was put into a fridge or 0 if not in any fridge. */
-    int fridge = 0;
+    /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
+    time_point fridge = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;

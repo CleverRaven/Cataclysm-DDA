@@ -4591,8 +4591,8 @@ void map::make_active( item_location &loc )
 static void apply_in_fridge(item &it)
 {
     if (it.is_food()) {
-        if (it.fridge == 0) {
-            it.fridge = (int) calendar::turn;
+        if( it.fridge == calendar::before_time_starts ) {
+            it.fridge = calendar::turn;
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
         if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
