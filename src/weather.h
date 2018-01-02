@@ -147,11 +147,9 @@ weather_sum sum_conditions( const time_point &start,
  * @param pos The absolute position of the funnel (in the map square system, the one used
  * by the @ref map, but absolute).
  * @param tr The funnel (trap which acts as a funnel).
- * @param startturn First turn of the retroactive filling.
- * @param endturn Last turn of the retroactive filling.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
-                                     const tripoint &pos );
+void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
+                                     const time_point &end, const tripoint &pos );
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 

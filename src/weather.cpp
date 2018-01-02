@@ -146,15 +146,15 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
-                                     const tripoint &location )
+void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
+                                     const time_point &end, const tripoint &location )
 {
-    if( startturn > endturn || !tr.is_funnel() ) {
+    if( start > end || !tr.is_funnel() ) {
         return;
     }
 
-    it.set_birthday( endturn ); // bday == last fill check
-    auto data = sum_conditions( startturn, endturn, location );
+    it.set_birthday( end ); // bday == last fill check
+    auto data = sum_conditions( start, end, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
