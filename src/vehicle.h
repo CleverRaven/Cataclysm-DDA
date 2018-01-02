@@ -1246,7 +1246,7 @@ public:
     calendar occupied_cache_turn = -1; // Turn occupied points were calculated
 
     // Turn the vehicle was last processed
-    calendar last_update_turn = -1;
+    time_point last_update = time_point::from_turn( -1 );
     // Retroactively pass time spent outside bubble
     // Funnels, solars
     void update_time( const calendar &update_to );

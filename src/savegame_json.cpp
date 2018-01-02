@@ -1884,9 +1884,9 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    int last_updated = calendar::turn;
-    data.read( "last_update_turn", last_updated );
-    last_update_turn = last_updated;
+    if( !data.read( "last_update_turn", last_update ) ) {
+        last_update = calendar::turn;
+    }
 
     face.init (fdir);
     move.init (mdir);
@@ -1990,7 +1990,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
-    json.member( "last_update_turn", last_update_turn.get_turn() );
+    json.member( "last_update_turn", last_update );
     json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }

@@ -278,7 +278,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update_turn = 0;
+    last_update = 0;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -5968,24 +5968,25 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
         sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
 }
 
-void vehicle::update_time( const calendar &update_to )
+void vehicle::update_time( const calendar &update_to_ )
 {
+    const time_point update_to = update_to_;
     if( smz < 0 ) {
         return;
     }
 
-    const auto update_from = last_update_turn;
+    const time_point update_from = last_update;
     if( update_to < update_from ) {
         // Special case going backwards in time - that happens
-        last_update_turn = update_to;
+        last_update = update_to;
         return;
     }
 
-    if( update_to >= update_from && update_to - update_from < MINUTES(1) ) {
+    if( update_to >= update_from && update_to - update_from < 1_minutes ) {
         // We don't need to check every turn
         return;
     }
-    last_update_turn = update_to;
+    last_update = update_to;
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
