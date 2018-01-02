@@ -127,10 +127,8 @@ weather_sum sum_conditions( const calendar &startturn,
 
     const auto wgen = g->get_cur_weather_gen();
     for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
-        const int diff = endturn - startturn;
-        if( diff <= 0 ) {
-            return data;
-        } else if( diff < 10 ) {
+        const int diff = endturn - turn;
+        if( diff < 10 ) {
             tick_size = 1;
         } else if( diff > DAYS(7) ) {
             tick_size = HOURS(1);
