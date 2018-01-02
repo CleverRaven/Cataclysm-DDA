@@ -6779,7 +6779,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
     }
 }
 
-void map::fill_funnels( const tripoint &p, int since_turn )
+void map::fill_funnels( const tripoint &p, const time_point &since )
 {
     const auto &tr = tr_at( p );
     if( !tr.is_funnel() ) {
@@ -6798,7 +6798,7 @@ void map::fill_funnels( const tripoint &p, int since_turn )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( *biggest_container, tr, since_turn, calendar::turn, getabs( p ) );
+        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getabs( p ) );
     }
 }
 
@@ -7046,7 +7046,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
 
             if( do_funnels ) {
-                fill_funnels( pnt, to_turn<int>( tmpsub->last_touched ) );
+                fill_funnels( pnt, tmpsub->last_touched );
             }
 
             grow_plant( pnt );
