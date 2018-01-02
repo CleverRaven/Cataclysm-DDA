@@ -1135,6 +1135,34 @@ int HandleDPad()
  */
 long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
+
+    //Shift + Arrow (diagonal clockwise)
+    if( keysym.mod & KMOD_SHIFT ){
+        switch (keysym.sym) {
+            case SDLK_LEFT:
+                return '7'; //LEFTUP;
+            case SDLK_RIGHT:
+                return '3'; //RIGHTDOWN;
+            case SDLK_UP:
+                return '9'; //RIGHTUP;
+            case SDLK_DOWN:
+                return '1'; //LEFTDOWN;
+        }
+    }
+    //Ctrl + Arrow (diagonal counter-clockwise)
+    if( keysym.mod & KMOD_CTRL ){
+        switch (keysym.sym) {
+            case SDLK_LEFT:
+                return '1'; //LEFTDOWN;
+            case SDLK_RIGHT:
+                return '9'; //RIGHTUP;
+            case SDLK_UP:
+                return '7'; //LEFTUP;
+            case SDLK_DOWN:
+                return '3'; //RIGHTDOWN;
+        }
+    }
+
     switch (keysym.sym) {
         // This is special: allow entering a unicode character with ALT+number
         case SDLK_RALT:
