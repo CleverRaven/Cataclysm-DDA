@@ -18,14 +18,14 @@ constexpr double tau = 2 * PI;
 
 weather_generator::weather_generator() = default;
 
-w_point weather_generator::get_weather( const tripoint &location, const calendar &t,
+w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
     const double x( location.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
                     2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( double( t.get_turn() + to_turns<int>( calendar::season_length() ) ) /
+    const double z( to_turn<int>( t + calendar::season_length() ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
