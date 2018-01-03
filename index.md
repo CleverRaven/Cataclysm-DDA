@@ -65,3 +65,7 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 #### I've found a bug / I would like to make a suggestion. What should I do?
 
 Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/). If you're not able to, send an email to `kevin.granade@gmail.com`.  In either case, please consider reading our [issue guidelines]({{ site.baseurl }}{% link pages/issues.md %}) first.
+
+#### I'd like to contribute financially to Cataclysm: Dark Days Ahead
+
+Check out [our page on BountySource](https://www.bountysource.com/teams/cataclysm-dda) and consider sponsoring an issue.
