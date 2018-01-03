@@ -5352,7 +5352,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "MOUTH" ],
+    "covers": [ "HEAD", "MOUTH" ],
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 30,
