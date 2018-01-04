@@ -324,9 +324,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker",
-        "farm",
-        "farm_field"
+        "bunker", "farm", "farm_field", "subway_station"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -378,12 +376,12 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
+        } else if( old == "subway_station" ) {
+            new_id = oter_id( "underground_sub_station" );
         } else if( old == "bridge_ew" ) {
             new_id = oter_id( "bridge_east" );
-
         } else if( old == "bridge_ns" ) {
             new_id = oter_id( "bridge_north" );
-
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";
             const std::string other = "public_works";
