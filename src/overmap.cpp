@@ -1723,6 +1723,9 @@ bool overmap::generate_sub(int const z)
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
             oter_id oter_above = ter(i, j, z + 1);
+            oter_id oter_ground = ter(i, j, 0);
+            //oter_id oter_sewer = ter(i, j, -1);
+            //oter_id oter_underground = ter(i, j, -2);
 
             // implicitly skip skip_above oter_ids
             bool skipme = false;
@@ -1737,9 +1740,13 @@ bool overmap::generate_sub(int const z)
                 continue;
             }
 
-            if (is_ot_type("sub_station", oter_above)) {
+            if (is_ot_type("sub_station", oter_ground) && z == -1) {
+                ter(i, j, z) = oter_id( "sewer_sub_station" );
+            } else if (is_ot_type("sub_station", oter_ground) && z == -2) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
+                subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
+                subway_points.emplace_back( i, j + 1 );
             } else if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = oter_id( "sewer_isolated" );
                 sewer_points.emplace_back( i, j );
@@ -1809,9 +1816,12 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
     connect_closest_points( subway_points, z, *subway_tunnel );
 
-    for (auto &i : subway_points) {
-        ter(i.x, i.y, z) = oter_id( "subway_station" );
+    for( auto &i : subway_points ) {
+        if( is_ot_type( "sub_station", ter( i.x, i.y, z + 2 ) ) ) {
+            ter( i.x, i.y, z ) = oter_id( "underground_sub_station" );
+        }
     }
+
     for (auto &i : lab_points) {
         bool lab = build_lab(i.x, i.y, z, i.s);
         requires_sub |= lab;
