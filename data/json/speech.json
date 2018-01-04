@@ -1164,6 +1164,11 @@
         "speaker" : "mon_mi_go",
         "sound" : "a static hissing sound.",
         "volume" : 30
+    },,{
+        "type" : "speech",
+        "speaker" : "mon_mi_go",
+        "sound" : "Me go, you stay.",
+        "volume" : 30
     },{
         "type" : "speech",
         "speaker" : "mon_shoggoth",
