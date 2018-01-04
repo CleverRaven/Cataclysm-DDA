@@ -12,6 +12,8 @@
       "+": "t_door_c",
       ".": "t_floor",
       "0": "t_window_alarm",
+      "D": "t_floor",
+      "F": "t_floor",
       "5": "t_console",
       "6": "t_console",
       "9": "t_window_domestic",
