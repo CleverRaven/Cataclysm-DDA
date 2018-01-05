@@ -2680,8 +2680,7 @@
       "type": "firestarter",
       "moves": 500,
       "moves_slow": 25000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "fire_drill_large",
@@ -2698,8 +2697,7 @@
       "type": "firestarter",
       "moves": 200,
       "moves_slow": 10000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "firecracker",
