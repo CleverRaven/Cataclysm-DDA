@@ -746,7 +746,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```LENS``` Lens items can make fires via focusing light rays.
 - ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
 - ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
 - ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
