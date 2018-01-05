@@ -94,10 +94,10 @@
     "id" : "mags_pistol_common",
     "//" : "Factory specification pistol magazines commonly owned by citizens.",
     "items": [
-      ["glock17_17", 20],
-      ["glock17_22", 10],
-      ["glockmag", 50],
-      ["glock40mag", 10],
+      ["glock17_17", 14],
+      ["glock17_22", 6],
+      ["glockmag", 33],
+      ["glock40mag", 7],
       ["m1911mag", 25],
       ["mosquitomag", 10],
       ["sw22mag", 10]
