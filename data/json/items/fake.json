@@ -12,7 +12,7 @@
         "copy-from": "fake_item",
         "type": "TOOL",
         "name": "integrated toolset",
-        "flags": "TRADER_AVOID",
+        "flags": [ "FIRESTARTER", "TRADER_AVOID" ],
         "max_charges": 10000,
         "use_action": [ "HAMMER", "CROWBAR" ],
         "qualities": [
@@ -22,8 +22,7 @@
             [ "SCREW", 1 ], [ "SCREW_FINE", 1 ],
             [ "CUT", 2 ], [ "PRY", 1 ], ["DRILL", 1 ],
             [ "BUTCHER", -38 ]
-        ],
-        "flags": [ "FIRESTARTER" ]
+        ]
     },
     {
         "id": "fake_goggles",
