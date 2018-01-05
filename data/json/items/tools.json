@@ -5313,7 +5313,7 @@
     "volume": 1,
     "price": 4000,
     "to_hit": -1,
-    "material": [ "flesh", "plastic" ],
+    "material": "flesh",
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
