@@ -957,7 +957,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.
-- ```JACQUESHAMMER``` Mr. Gorbachev, tear down this wall!
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```KNIFE``` Cut things up.
 - ```LAW``` Unpack the LAW for firing.
