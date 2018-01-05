@@ -39,7 +39,7 @@
     "loudness": 7,
     "reload": 500,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "bio_lightning",
