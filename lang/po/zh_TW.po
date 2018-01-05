@@ -1,6 +1,6 @@
 # 
 # Translators:
-# Aenima <kk19870706@gmail.com>, 2015
+# Maynard <kk19870706@gmail.com>, 2015
 # Brett Dong <brett.browning.dong@gmail.com>, 2016
 # cabalist, 2015
 # cainiao <cainiaowu@hotmail.com>, 2016
@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-22 07:21-0500\n"
-"PO-Revision-Date: 2017-12-27 10:27+0000\n"
-"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
+"POT-Creation-Date: 2017-12-30 02:40-0500\n"
+"PO-Revision-Date: 2017-12-30 13:12+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4272,17 +4272,17 @@ msgid "reloaded .700 NX"
 msgstr ".700 NX（重填彈）"
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62x39mm M43"
-msgstr "7.62x39mm M43 子彈"
+msgid "7.62x39mm 57-N-231"
+msgstr ""
 
-#. ~ Description for 7.62x39mm M43
+#. ~ Description for 7.62x39mm 57-N-231
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in "
-"WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular"
-" all over the world.  The bullet has poor wounding potential due to its "
-"stability, only begining to yaw after 26cm."
-msgstr "7.62x39mm M43 子彈使用 123 格令彈頭，全彈以金屬包覆。在第二次世界大戰時蘇聯設計了 7.62x39mm 彈，並在短時間內風行世界。由於子彈在擊中目標後仍保持穩定，在 26cm 之後才開始偏航，導致破壞力有限。"
+"7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
+"Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
+"extremely popular all over the world.  The bullet has poor wounding "
+"potential due to its stability, only begining to yaw after 26cm."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M67"
@@ -4291,11 +4291,11 @@ msgstr "7.62x39mm M67 子彈"
 #. ~ Description for 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage."
-msgstr "7.62x39mm M67 子彈。由於 M43 子彈在終端彈道表現未如理想，南斯拉夫在六十年代研發了 M67 子彈。M67 子彈在命中目標後會快速變形解體，造成更嚴重的傷害。"
+"7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics"
+" of the M43 round led to the development of the M67 round in Yugoslavia in "
+"the 1960s.  It destabilizes much faster than M43 after hitting a target "
+"leading to greater damage."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
@@ -45161,6 +45161,10 @@ msgstr "停止冥想？"
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop washing?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting the metal?"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -86935,6 +86939,14 @@ msgstr "你感覺好多了。"
 msgid "You washed your clothing."
 msgstr "你清洗了你的衣服。"
 
+#: src/activity_handlers.cpp
+msgid "grnd grnd grnd"
+msgstr "嘎嘎嘎"
+
+#: src/activity_handlers.cpp
+msgid "You finished cutting the metal."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -103861,10 +103873,6 @@ msgstr "你為啥這樣做？"
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
 msgstr "你尚未連結該裝置至鍋爐。"
-
-#: src/iuse.cpp
-msgid "grnd grnd grnd"
-msgstr "嘎嘎嘎"
 
 #: src/iuse.cpp
 #, c-format
