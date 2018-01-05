@@ -54,5 +54,12 @@
         "artifact_data": {
            "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ]
         }
+    },
+    {
+        "id": "fake_firestarter",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "bionic firestarter",
+        "flags": [ "FIRESTARTER" ]
     }
 ]

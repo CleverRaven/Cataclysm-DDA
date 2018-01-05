@@ -638,7 +638,8 @@
       [ "HAND_L", 1 ],
       [ "HAND_R", 1 ]
     ],
-    "act_cost": 75
+    "act_cost": 75,
+    "fake_item": "fake_firestarter"
   },
   {
     "id": "bio_lockpick",
