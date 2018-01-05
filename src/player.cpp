@@ -449,6 +449,7 @@ static const trait_id trait_THIRST3( "THIRST3" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -2783,19 +2784,79 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         col_morale = c_red;
     }
     const char *morale_str;
-    if( morale_cur >= 200 ) {
-        morale_str = "8D";
+    if ( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
+        if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
+            if( morale_cur >= 200) {
+                morale_str = "@W@";
+            } else if( morale_cur >= 100 ) {
+                morale_str = "OWO";
+            } else if( morale_cur >= 50 ) {
+                morale_str = "owo";
+            } else if( morale_cur >= 10 ) {
+                morale_str = "^w^";
+            } else if( morale_cur >= -10 ) {
+                morale_str = "-w-";
+            } else if( morale_cur >= -50 ) {
+                morale_str = "-m-";
+            } else if( morale_cur >= -100 ) {
+                morale_str = "TmT";
+            } else if( morale_cur >= -200 ) {
+                morale_str = "XmX";
+            } else {
+                morale_str = "@m@";
+            }  
+        } else if( has_trait( trait_THRESH_BIRD ) ) {
+            if( morale_cur >= 200) {
+                morale_str = "@v@";
+            } else if( morale_cur >= 100 ) {
+                morale_str = "OvO";
+            } else if( morale_cur >= 50 ) {
+                morale_str = "ovo";
+            } else if( morale_cur >= 10 ) {
+                morale_str = "^v^";
+            } else if( morale_cur >= -10 ) {
+                morale_str = "-v-";
+            } else if( morale_cur >= -50 ) {
+                morale_str = ".v.";
+            } else if( morale_cur >= -100 ) {
+                morale_str = "TvT";
+            } else if( morale_cur >= -200 ) {
+                morale_str = "XvX";
+            } else {
+                morale_str = "@v@";
+            }  
+        } else if( morale_cur >= 200) {
+            morale_str = "@U@";
+        } else if( morale_cur >= 100 ) {
+            morale_str = "OuO";
+        } else if( morale_cur >= 50 ) {
+            morale_str = "^u^";
+        } else if( morale_cur >= 10 ) {
+            morale_str = "n_n";
+        } else if( morale_cur >= -10 ) {
+            morale_str = "-_-";
+        } else if( morale_cur >= -50 ) {
+            morale_str = "-n-";
+        } else if( morale_cur >= -100 ) {
+            morale_str = "TnT";
+        } else if( morale_cur >= -200 ) {
+            morale_str = "XnX";
+        } else {
+            morale_str = "@n@";
+        }
     } else if( morale_cur >= 100 ) {
+        morale_str = "8D";
+    } else if( morale_cur >= 50 ) {
         morale_str = ":D";
     } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
         morale_str = ":3";
     } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
         morale_str = ":)";
-    } else if( morale_cur > -10 ) {
+    } else if( morale_cur >= -10 ) {
         morale_str = ":|";
-    } else if( morale_cur > -100 ) {
+    } else if( morale_cur >= -50 ) {
         morale_str = "):";
-    } else if( morale_cur > -200 ) {
+    } else if( morale_cur >= -100 ) {
         morale_str = "D:";
     } else {
         morale_str = "D8";
@@ -6134,6 +6195,70 @@ void player::suffer()
     // Artifact effects
     if (has_artifact_with(AEP_ATTENTION)) {
         add_effect( effect_attention, 3 );
+    }
+
+    // Stim +250 kills
+    if ( stim > 210 ) {
+        if ( one_in( 20 ) && !has_effect( effect_downed ) ) {
+            add_msg_if_player(m_bad, _("Your muscles spasm!"));
+            if( !has_effect( effect_downed ) ) {
+                add_msg_if_player(m_bad, _("You fall to the ground!"));
+                add_effect( effect_downed, rng(6, 20) );
+            }
+        }
+    }
+    if ( stim > 170 ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
+            add_msg(m_bad, _("You feel short of breath.") );
+            add_effect( effect_winded, MINUTES(10) + 1 );
+        }
+    }
+    if ( stim > 110 ) {
+        if ( !has_effect( effect_shakes ) && calendar::once_every( MINUTES(10) ) ) {
+            add_msg( _("You shake uncontrollably.") );
+            add_effect( effect_shakes, MINUTES(15) + 1 );
+        }
+    }
+    if ( stim > 75 ) {
+        if ( !one_in( 20 ) && !has_effect( effect_nausea ) ) {
+            add_msg( _("You feel nauseous...") );
+            add_effect( effect_nausea, 50 );
+        }
+    }
+
+    // Stim -200 or painkillers 240 kills
+    if ( stim < -160 || pkill > 200 ) {
+        if ( one_in(30) && !in_sleep_state() ) {
+            add_msg_if_player(m_bad, _("You black out!") );
+            int dur = rng(300, 600);
+            add_effect( effect_downed, dur );
+            add_effect( effect_blind, dur );
+            fall_asleep( dur );
+        }
+    }
+    if ( stim < -120 || pkill > 160 ) {
+        if ( !has_effect( effect_winded ) && calendar::once_every( MINUTES(10) ) ) {
+            add_msg(m_bad, _("Your breathing slows down.") );
+            add_effect( effect_winded, MINUTES(10) + 1 );
+        }
+    }
+    if ( stim < -85 || pkill > 145 ) {
+        if ( one_in( 15 ) ) {
+            add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
+            mod_moves( -rng(10, 30) );
+            if ( one_in(3) && !has_effect( effect_downed ) ) {
+                add_msg_if_player(m_bad, _("You stumble and fall over!"));
+                add_effect( effect_downed, rng(3, 10) );
+            }
+        }
+    }
+    if ( stim < -60 || pkill > 130 ) {
+        if( calendar::once_every( MINUTES( 10 ) ) ) {
+            add_msg(m_warning, _("You feel tired...") );
+            // Proportional "distance" to deadly levels, whichever is greater
+            auto prop = std::max((-stim - 60)/140.0, (pkill - 130)/110.0);
+            mod_fatigue( rng(1, 2) );
+        }
     }
 }
 

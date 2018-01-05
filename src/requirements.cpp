@@ -256,12 +256,6 @@ void requirement_data::save_requirement( const requirement_data &req, const std:
         dup.id_ = requirement_id( id );
     }
 
-    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
-        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
-    }
-
     requirements_all[ dup.id_ ] = dup;
 }
 

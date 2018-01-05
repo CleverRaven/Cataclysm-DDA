@@ -90,8 +90,6 @@ void Skill::load_skill( JsonObject &jsobj )
                     _( jsobj.get_string( "description" ).c_str() ),
                     jsobj.get_tags( "tags" ) );
 
-    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << sk.name();
-
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
     } else {
