@@ -1029,7 +1029,8 @@
             "moves": 1000,
             "moves_slow": 30000,
             "need_sunlight": true
-        }
+        },
+        "flags" : [ "FIRESTARTER" ]
     },
     {
         "type":"GENERIC",

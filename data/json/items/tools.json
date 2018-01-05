@@ -1078,7 +1078,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "broadsword",
@@ -2073,7 +2073,8 @@
     "ammo": "battery",
     "max_charges": 100,
     "charges_per_use": 5,
-    "use_action": { "type": "firestarter" }
+    "use_action": { "type": "firestarter" },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "crude_picklock",
@@ -2681,7 +2682,7 @@
       "moves": 500,
       "moves_slow": 25000
     },
-    "flags": [ "FIRE_DRILL" ]
+    "flags": [ "FIRE_DRILL", "FIRESTARTER" ]
   },
   {
     "id": "fire_drill_large",
@@ -2699,7 +2700,7 @@
       "moves": 200,
       "moves_slow": 10000
     },
-    "flags": [ "FIRE_DRILL" ]
+    "flags": [ "FIRE_DRILL", "FIRESTARTER" ]
   },
   {
     "id": "firecracker",
@@ -2833,7 +2834,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "firemachete_off",
@@ -2905,7 +2906,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "fish_trap",
@@ -4348,7 +4349,8 @@
     "use_action": {
       "type": "firestarter",
       "moves": 50
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "lightstrip",
@@ -4464,7 +4466,8 @@
       "moves": 1000,
       "moves_slow": 25000,
       "need_sunlight": true
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "makeshift_crowbar",
@@ -4660,7 +4663,8 @@
       "type": "firestarter",
       "moves": 40,
       "moves_slow": 1000
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "mess_kit",
@@ -5872,7 +5876,8 @@
         "type": "firestarter",
         "moves": 50
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "ref_lighter_on",
@@ -5906,7 +5911,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "restaurantmap",
@@ -6372,7 +6377,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "shock_staff",
@@ -6801,7 +6806,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "ZOOM" ]
+    "flags": [ "ZOOM", "FIRESTARTER" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -8272,7 +8277,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "zweihander",

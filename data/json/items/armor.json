@@ -2982,7 +2982,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER" ]
   },
   {
     "id": "glasses_eye",
@@ -3026,7 +3026,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "FIRESTARTER" ]
   },
   {
     "id": "glasses_reading",
@@ -3051,7 +3051,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER" ]
   },
   {
     "id": "glasses_safety",

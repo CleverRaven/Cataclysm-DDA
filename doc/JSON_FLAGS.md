@@ -745,6 +745,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
+- ```FIRESTARTER``` Item will start fire.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 - ```LENS``` Lens items can make fires via focusing light rays.
