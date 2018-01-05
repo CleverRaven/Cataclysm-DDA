@@ -6806,8 +6806,6 @@ bool player::use_charges_if_avail(itype_id it, long quantity)
 
 bool player::has_fire( const int quantity ) const
 {
-// TODO: Replace this with a "tool produces fire" flag.
-
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
     } else if( has_item_with_flag( "FIRE" ) ) {
