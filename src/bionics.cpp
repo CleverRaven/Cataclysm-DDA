@@ -1434,7 +1434,10 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.description = _( jsobj.get_string( "description" ).c_str() );
     new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
-    new_bionic.toggled = jsobj.get_bool_or_flag( "toggled", "BIONIC_TOGGLED" , false );
+    std::set<std::string> flags = jsobj.get_tags( "flags" );
+
+    new_bionic.toggled = flags.count( "BIONIC_TOGGLED" );
+
     // Requires ability to toggle
     new_bionic.power_deactivate = jsobj.get_int( "deact_cost", 0 );
 
@@ -1444,12 +1447,11 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
-    new_bionic.faulty = jsobj.get_bool_or_flag( "faulty", "BIONIC_FAULTY" , false );
-    new_bionic.power_source = jsobj.get_bool_or_flag( "power_source", "BIONIC_POWER_SOURCE" , false );
-
-    new_bionic.gun_bionic = jsobj.get_bool_or_flag( "gun_bionic", "BIONIC_GUN" , false );
-    new_bionic.weapon_bionic = jsobj.get_bool_or_flag( "weapon_bionic", "BIONIC_WEAPON" , false );
-    new_bionic.armor_interface = jsobj.get_bool_or_flag( "armor_interface", "BIONIC_ARMOR_INTERFACE" , false );
+    new_bionic.faulty = flags.count( "BIONIC_FAULTY" );
+    new_bionic.power_source = flags.count( "BIONIC_POWER_SOURCE" );  
+    new_bionic.gun_bionic = flags.count( "BIONIC_GUN" );
+    new_bionic.weapon_bionic = flags.count( "BIONIC_WEAPON" );
+    new_bionic.armor_interface = flags.count( "BIONIC_ARMOR_INTERFACE" );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
