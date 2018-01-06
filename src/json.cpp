@@ -219,10 +219,8 @@ bool JsonObject::get_bool_or_flag( const std::string &name, const std::string &f
     const std::set<std::string> flags = get_tags( flags_node );
     bool value = fallback;
     if( has_bool( name ) ) {
-        std::stringstream err;
-        err << "JsonObject contains legacy node `" << name << "`.  Consider replacing it with `" << flag << "` flag in `" << flags_node << "` node.";
-        JsonObject::throw_error( err.str() );
         value = get_bool( name, fallback );
+        throw_error( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" + flag + "` flag in `" + flags_node + "` node." );      
     } else {
         value = flags.count( flag );
     }
