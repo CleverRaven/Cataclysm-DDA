@@ -1,5 +1,4 @@
 #include "json.h"
-#include "debug.h"
 
 #include <cmath> // pow
 #include <cstdlib> // strtoul
