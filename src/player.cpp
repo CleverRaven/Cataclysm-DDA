@@ -2804,7 +2804,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                 morale_str = "XmX";
             } else {
                 morale_str = "@m@";
-            }  
+            }
         } else if( has_trait( trait_THRESH_BIRD ) ) {
             if( morale_cur >= 200) {
                 morale_str = "@v@";
@@ -2824,7 +2824,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                 morale_str = "XvX";
             } else {
                 morale_str = "@v@";
-            }  
+            }
         } else if( morale_cur >= 200) {
             morale_str = "@U@";
         } else if( morale_cur >= 100 ) {
@@ -7123,27 +7123,25 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
 bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
 {
-    std::bitset<num_bp> covered = 0;
+    if( parts.none() ) {
+        return true;
+    }
 
-    for (auto armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-        std::bitset<num_bp> cover = armorPiece->get_covered_body_parts() & parts;
+    std::bitset<num_bp> to_cover( parts );
 
-        if (cover.none()) {
-            continue; // For our purposes, this piece covers nothing.
+    for( const auto &elem : worn ) {
+        if( !elem.has_flag( flag ) ) {
+            continue;
         }
-        if ((cover & covered).any()) {
-            continue; // the body part(s) is already covered.
-        }
 
-        bool hasFlag = armorPiece->has_flag(flag);
-        if (!hasFlag) {
-            return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
-        } else {
-            covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
+        to_cover &= ~elem.get_covered_body_parts();
+
+        if( to_cover.none() ) {
+            return true;    // Allows early exit.
         }
     }
 
-    return (covered == parts);
+    return to_cover.none();
 }
 
 bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
