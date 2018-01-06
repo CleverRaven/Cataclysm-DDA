@@ -115,7 +115,7 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": [],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
     "id": "heavy_flashlight",
