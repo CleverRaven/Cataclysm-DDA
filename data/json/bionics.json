@@ -20,7 +20,7 @@
       [ "LEG_L", 2 ],
       [ "LEG_R", 2 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
@@ -31,8 +31,7 @@
     "name": "Advanced Microreactor System",
     "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
-    "power_source": true,
-    "toggled": true,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
     "included_bionics": [ "bio_plutdump" ]
   },
   {
@@ -44,7 +43,7 @@
       [ "TORSO", 2 ],
       [ "HEAD", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 16
@@ -58,7 +57,7 @@
       [ "LEG_L", 3 ],
       [ "LEG_R", 3 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_armor_arms",
@@ -106,10 +105,9 @@
     "type": "bionic",
     "name": "Battery System",
     "capacity": 10,
-    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will.",
+    "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be BIONIC_TOGGLED on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
-    "power_source": true,
-    "toggled": true
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_blade",
@@ -120,10 +118,9 @@
       [ "ARM_R", 5 ],
       [ "HAND_R", 2 ]
     ],
-    "toggled": true,
     "act_cost": 200,
     "fake_item": "bio_blade_weapon",
-    "weapon_bionic": true
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_blaster",
@@ -136,14 +133,14 @@
     ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "gun_bionic": true
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_blindfold",
     "type": "bionic",
     "name": "Optical Dampers",
     "description": "The lenses installed over your eyes can be tinted to block out incoming light.",
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_blood_anal",
@@ -168,8 +165,7 @@
     "capacity": 10,
     "description": "You have a complex port mounted above your hip.  While active, it will drain power through a jumper cable held on your person.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "power_source": true,
-    "toggled": true
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_carbon",
@@ -201,7 +197,7 @@
     ],
     "act_cost": 125,
     "fake_item": "bio_lightning",
-    "gun_bionic": true
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_claws",
@@ -212,10 +208,9 @@
       [ "HAND_L", 5 ],
       [ "HAND_R", 5 ]
     ],
-    "toggled": true,
     "act_cost": 100,
     "fake_item": "bio_claws_weapon",
-    "weapon_bionic": true
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_climate",
@@ -234,10 +229,10 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
-    "time": 4
+    "time": 4,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_cloak",
@@ -256,10 +251,10 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
     "act_cost": 50,
     "react_cost": 50,
-    "time": 1
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_cqb",
@@ -267,10 +262,10 @@
     "name": "Close Quarters Battle",
     "description": "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills.",
     "occupied_bodyparts": [ [ "HEAD", 4 ] ],
-    "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
-    "time": 1
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_deformity",
@@ -281,7 +276,7 @@
       [ "HEAD", 4 ],
       [ "MOUTH", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_dex_enhancer",
@@ -315,7 +310,7 @@
       [ "LEG_L", 2 ],
       [ "LEG_R", 2 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_dis_shock",
@@ -323,7 +318,7 @@
     "name": "Electrical Discharge",
     "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage.",
     "occupied_bodyparts": [ [ "TORSO", 6 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_drain",
@@ -331,14 +326,14 @@
     "name": "Electrical Drain",
     "description": "A malfunctioning bionic.  It doesn't perform any useful function, but will occasionally draw power from your batteries.",
     "occupied_bodyparts": [ [ "TORSO", 2 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_earplugs",
     "type": "bionic",
     "name": "Sound Dampeners",
     "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated).",
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_ears",
@@ -346,7 +341,7 @@
     "name": "Enhanced Hearing",
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {
@@ -366,7 +361,7 @@
     "name": "Ethanol Burner",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "occupied_bodyparts": [ [ "TORSO", 26 ] ],
-    "power_source": true
+    "flags": [ "BIONIC_POWER_SOURCE" ]
   },
   {
     "id": "bio_evap",
@@ -424,7 +419,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
@@ -456,10 +451,10 @@
     "name": "Cranial Flashlight",
     "description": "Mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
-    "time": 25
+    "time": 25,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_furnace",
@@ -467,8 +462,7 @@
     "name": "Internal Furnace",
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "occupied_bodyparts": [ [ "TORSO", 40 ] ],
-    "power_source": true,
-    "toggled": true
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_geiger",
@@ -495,7 +489,7 @@
       [ "HEAD", 2 ],
       [ "MOUTH", 2 ]
     ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_ground_sonar",
@@ -506,7 +500,7 @@
       [ "FOOT_L", 3 ],
       [ "FOOT_R", 3 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
     "react_cost": 5,
     "time": 1
@@ -528,7 +522,7 @@
       [ "FOOT_L", 2 ],
       [ "FOOT_R", 2 ]
     ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_heatsink",
@@ -547,7 +541,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 4,
     "react_cost": 4,
     "time": 1
@@ -564,7 +558,7 @@
       [ "LEG_L", 14 ],
       [ "LEG_R", 14 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 17,
     "react_cost": 17,
     "time": 1
@@ -575,7 +569,7 @@
     "name": "Infrared Vision",
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
     "react_cost": 5,
     "time": 1
@@ -598,7 +592,7 @@
       [ "HAND_L", 1 ],
       [ "HAND_R", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_laser",
@@ -608,7 +602,7 @@
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
     "act_cost": 50,
     "fake_item": "bio_laser_gun",
-    "gun_bionic": true
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_leaky",
@@ -616,7 +610,7 @@
     "name": "Leaky Bionic",
     "description": "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream.  Needless to say, this is not good for your health.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_leukocyte",
@@ -624,7 +618,7 @@
     "name": "Leukocyte Breeder System",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 600
@@ -669,16 +663,15 @@
     "name": "Enhanced Memory Banks",
     "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_metabolics",
     "type": "bionic",
     "name": "Metabolic Interchange",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be BIONIC_TOGGLED on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
-    "power_source": true,
-    "toggled": true
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_meteorologist",
@@ -697,7 +690,7 @@
     "name": "Repair Nanobots",
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_night",
@@ -705,7 +698,7 @@
     "name": "Artificial Night Generator",
     "description": "Destructive interference eliminates all light within a 15 tile radius.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 15,
     "react_cost": 15,
     "time": 1
@@ -716,7 +709,7 @@
     "name": "Implanted Night Vision",
     "description": "Your eyes have been modified to amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 1
@@ -733,7 +726,7 @@
       [ "LEG_L", 1 ],
       [ "LEG_R", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_nostril",
@@ -744,7 +737,7 @@
       [ "HEAD", 2 ],
       [ "MOUTH", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_ods",
@@ -759,7 +752,7 @@
       [ "LEG_L", 2 ],
       [ "LEG_R", 2 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
@@ -770,7 +763,7 @@
     "name": "Sensory Dulling",
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
     "occupied_bodyparts": [ [ "HEAD", 2 ] ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_plut_filter",
@@ -778,7 +771,7 @@
     "name": "Plutonium Filter",
     "description": "This set of tanks and filters allows you to more rapidly extract usable plutonium from slurry for a microreactor.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
@@ -796,7 +789,7 @@
     "name": "Bionic Visual Impairment",
     "description": "Due to a badly misplaced dielectric stylette you are now suffering from mild optic neuropathy.  Increases eye encumbrance by one.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_power_armor_interface",
@@ -807,8 +800,7 @@
       [ "TORSO", 4 ],
       [ "HEAD", 1 ]
     ],
-    "armor_interface": true,
-    "toggled": true,
+    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
     "time": 1
   },
@@ -821,8 +813,7 @@
       [ "TORSO", 3 ],
       [ "HEAD", 2 ]
     ],
-    "armor_interface": true,
-    "toggled": true,
+    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
     "time": 2
   },
@@ -852,7 +843,7 @@
       [ "LEG_L", 2 ],
       [ "LEG_R", 2 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_probability_travel",
@@ -868,7 +859,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 1
@@ -908,7 +899,7 @@
       [ "HAND_L", 1 ],
       [ "HAND_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 1
@@ -930,8 +921,7 @@
     "name": "Microreactor System",
     "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
-    "power_source": true,
-    "toggled": true,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
     "included_bionics": [ "bio_plutdump" ]
   },
   {
@@ -953,7 +943,7 @@
     "name": "Remote Controller",
     "description": "A small module connected to your brain allows you to interface with nearby devices with wireless capabilities.",
     "occupied_bodyparts": [ [ "HEAD", 2 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "react_cost": 1,
     "time": 4
   },
@@ -985,7 +975,7 @@
       [ "LEG_L", 1 ],
       [ "LEG_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
@@ -996,7 +986,7 @@
     "name": "Scent Vision",
     "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even if you can't see it.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 1
@@ -1013,7 +1003,7 @@
       [ "LEG_L", 3 ],
       [ "LEG_R", 3 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_shock",
@@ -1027,7 +1017,7 @@
       [ "HAND_L", 1 ],
       [ "HAND_R", 1 ]
     ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_shockwave",
@@ -1043,7 +1033,7 @@
     "name": "Endocrine Enervator",
     "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue.  You will find yourself tiring a bit faster than before.",
     "occupied_bodyparts": [ [ "HEAD", 2 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_solar",
@@ -1051,7 +1041,7 @@
     "name": "Solar Panels",
     "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge.",
     "occupied_bodyparts": [ [ "TORSO", 20 ] ],
-    "power_source": true
+    "flags": [ "BIONIC_POWER_SOURCE" ]
   },
   {
     "id": "bio_spasm",
@@ -1059,7 +1049,7 @@
     "name": "Motor Control Overstimulator",
     "description": "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_speed",
@@ -1092,7 +1082,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_storage",
@@ -1159,7 +1149,7 @@
       [ "HAND_L", 1 ],
       [ "HAND_R", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_time_freeze",
@@ -1189,7 +1179,7 @@
       [ "HAND_L", 3 ],
       [ "HAND_R", 3 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "fake_item": "toolset"
   },
   {
@@ -1203,7 +1193,7 @@
       [ "LEG_L", 12 ],
       [ "LEG_R", 12 ]
     ],
-    "power_source": true
+    "flags": [ "BIONIC_POWER_SOURCE" ]
   },
   {
     "id": "bio_trip",
@@ -1211,7 +1201,7 @@
     "name": "Visual Disruptor",
     "description": "A malfunctioning bionic which causes occasional visual distortion and pixelation.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_uncanny_dodge",
@@ -1227,7 +1217,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "toggled": true,
+    "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 10
@@ -1238,7 +1228,7 @@
     "name": "Internal Unified Power System",
     "description": "You have a unified power system wired into your power banks.  Objects that run on a UPS can now draw directly from your internal power supply.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
-    "toggled": true
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_voice",
@@ -1249,7 +1239,7 @@
       [ "TORSO", 2 ],
       [ "MOUTH", 1 ]
     ],
-    "faulty": true
+    "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_watch",
