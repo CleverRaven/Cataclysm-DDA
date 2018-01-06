@@ -320,7 +320,7 @@
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
+    "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
     "pseudo": true
   },
   {
