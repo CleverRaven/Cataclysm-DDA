@@ -1,4 +1,5 @@
 #include "json.h"
+#include "debug.h"
 
 #include <cmath> // pow
 #include <cstdlib> // strtoul
@@ -212,6 +213,19 @@ bool JsonObject::get_bool(const std::string &name, const bool fallback)
     }
     jsin->seek(pos);
     return jsin->get_bool();
+}
+
+bool JsonObject::get_bool_or_flag( const std::string &name, const std::string &flag, const bool fallback, const std::string &flags_node )
+{
+    const std::set<std::string> flags = get_tags( flags_node );
+    bool value = fallback;
+    if( has_bool( name ) ) {
+        DebugLog( D_WARNING, DC_ALL ) << "JsonObject contains legacy node `" << name << "`.  Consider replacing it with `" << flag << "` flag in `" << flags_node << "` node.";
+        value = get_bool( name, fallback );
+    } else {
+        value = flags.count( flag );
+    }
+    return value;
 }
 
 int JsonObject::get_int(const std::string &name)
