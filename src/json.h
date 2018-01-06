@@ -1,8 +1,6 @@
 #ifndef JSON_H
 #define JSON_H
 
-#include "debug.h"
-
 #include <type_traits>
 #include <iostream>
 #include <string>
