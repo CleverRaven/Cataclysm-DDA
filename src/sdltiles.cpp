@@ -1137,8 +1137,8 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
 
     //Shift + Arrow (diagonal clockwise)
-    if( keysym.mod & KMOD_SHIFT ){
-        switch (keysym.sym) {
+    if( keysym.mod & KMOD_SHIFT ) {
+        switch( keysym.sym ) {
             case SDLK_LEFT:
                 return '7'; //LEFTUP;
             case SDLK_RIGHT:
@@ -1150,8 +1150,8 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
         }
     }
     //Ctrl + Arrow (diagonal counter-clockwise)
-    if( keysym.mod & KMOD_CTRL ){
-        switch (keysym.sym) {
+    if( keysym.mod & KMOD_CTRL ) {
+        switch( keysym.sym ) {
             case SDLK_LEFT:
                 return '1'; //LEFTDOWN;
             case SDLK_RIGHT:
