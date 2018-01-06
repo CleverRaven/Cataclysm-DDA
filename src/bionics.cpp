@@ -1449,6 +1449,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.faulty = flags.count( "BIONIC_FAULTY" );
     new_bionic.power_source = flags.count( "BIONIC_POWER_SOURCE" );
+
     new_bionic.gun_bionic = flags.count( "BIONIC_GUN" );
     new_bionic.weapon_bionic = flags.count( "BIONIC_WEAPON" );
     new_bionic.armor_interface = flags.count( "BIONIC_ARMOR_INTERFACE" );
