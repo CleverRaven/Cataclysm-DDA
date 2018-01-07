@@ -1024,7 +1024,7 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
     // mod multiplies the overall percentage chances
 
     // has to be an && here to avoid undefined behavior of turn % 0
-    if(tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0) {
+    if( tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0 ) {
         if(bot_base != 0 && bot_scale != 0) {
             if (bot_base + bot_scale == 0) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
