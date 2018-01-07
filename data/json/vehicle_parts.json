@@ -474,22 +474,6 @@
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
-        "id" : "door_hd",
-        "name" : "heavy duty door",
-        "symbol" : "+",
-        "color" : "light_gray",
-        "broken_symbol" : "&",
-        "broken_color" : "gray",
-        "damage_modifier" : 80,
-        "durability" : 500,
-        "size" : 10,
-        "item" : "hdframe",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_WRENCH"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
         "id" : "door_opaque",
         "name" : "opaque door",
         "symbol" : "+",
@@ -504,22 +488,6 @@
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_WRENCH"],
         "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "door_opaque_hd",
-        "name" : "opaque heavy duty door",
-        "symbol" : "+",
-        "color" : "light_gray",
-        "broken_symbol" : "&",
-        "broken_color" : "gray",
-        "damage_modifier" : 80,
-        "durability" : 500,
-        "size" : 10,
-        "item" : "hdframe",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_WRENCH"],
-        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "door_internal",
