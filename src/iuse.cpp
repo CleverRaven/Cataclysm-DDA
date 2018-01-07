@@ -423,24 +423,24 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
 
     item cig;
     if (it->typeId() == "cig") {
-        cig = item("cig_lit", int(calendar::turn));
+        cig = item( "cig_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_hunger(-3);
         p->mod_thirst(2);
     } else if (it->typeId() == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
-        cig = item("cig_lit", int(calendar::turn));
+        cig = item( "cig_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_thirst(2);
         p->mod_hunger(-3);
     } else if (it->typeId() == "cigar") {
-        cig = item("cigar_lit", int(calendar::turn));
+        cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = 120;
         p->mod_thirst(3);
         p->mod_hunger(-4);
     } else if (it->typeId() == "joint") {
-        cig = item("joint_lit", int(calendar::turn));
+        cig = item( "joint_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_hunger(4);
         p->mod_thirst(6);
@@ -4078,8 +4078,8 @@ void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
     p.add_msg_if_player(_("You cut the log into planks."));
-    item plank("2x4", int(calendar::turn));
-    item scrap("splinter", int(calendar::turn));
+    item plank( "2x4", calendar::turn );
+    item scrap( "splinter", calendar::turn );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );

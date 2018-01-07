@@ -1272,7 +1272,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
-        item result( mat_name, int(calendar::turn) );
+        item result( mat_name, calendar::turn );
         if (amount > 0) {
             add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
                      amount, result.display_name( amount ).c_str() );
