@@ -5843,7 +5843,7 @@ void player::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, 0 );
+        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
                                              dummy_nausea.get_int_dur_factor() ) );
     }
@@ -9448,7 +9448,7 @@ void player::fall_asleep(int duration)
 void player::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
-        if(calendar::turn - get_effect( effect_sleep ).get_start_turn() > HOURS(2) ) {
+        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
             print_health();
         }
         if( has_effect( effect_slept_through_alarm ) ) {

@@ -686,9 +686,9 @@ void effect::mult_duration( double dur, bool alert )
     set_duration( duration * dur, alert );
 }
 
-int effect::get_start_turn() const
+time_point effect::get_start_time() const
 {
-    return start_turn;
+    return start_time;
 }
 
 body_part effect::get_bp() const
@@ -967,7 +967,7 @@ double effect::get_percentage(std::string arg, int val, bool reduced) const
     return ret;
 }
 
-bool effect::activated(int turn, std::string arg, int val, bool reduced, double mod) const
+bool effect::activated( const time_point &when, std::string arg, int val, bool reduced, double mod ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
@@ -1024,7 +1024,7 @@ bool effect::activated(int turn, std::string arg, int val, bool reduced, double 
     // mod multiplies the overall percentage chances
 
     // has to be an && here to avoid undefined behavior of turn % 0
-    if(tick > 0 && turn % tick == 0) {
+    if(tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0) {
         if(bot_base != 0 && bot_scale != 0) {
             if (bot_base + bot_scale == 0) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
@@ -1232,7 +1232,7 @@ void effect::serialize(JsonOut &json) const
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
     json.member("intensity", intensity);
-    json.member("start_turn", start_turn);
+    json.member( "start_turn", start_time );
     json.end_object();
 }
 void effect::deserialize(JsonIn &jsin)
@@ -1244,5 +1244,6 @@ void effect::deserialize(JsonIn &jsin)
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");
     intensity = jo.get_int("intensity");
-    start_turn = jo.get_int("start_turn", 0);
+    start_time = calendar::time_of_cataclysm;
+    jo.read( "start_turn", start_time );
 }

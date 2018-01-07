@@ -431,7 +431,7 @@ void player::hardcoded_effects( effect &it )
         return;
     }
 
-    int start = it.get_start_turn();
+    const time_point start = it.get_start_time();
     int dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -1114,7 +1114,7 @@ void player::hardcoded_effects( effect &it )
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
         if( it.get_duration() == 1 || woke_up ) {
-            if( calendar::turn - start > HOURS( 2 ) ) {
+            if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
             if( has_effect( effect_slept_through_alarm ) ) {

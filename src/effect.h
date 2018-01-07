@@ -3,6 +3,7 @@
 #define EFFECT_H
 
 #include "pldata.h"
+#include "calendar.h"
 #include "enums.h"
 #include "string_id.h"
 #include <unordered_map>
@@ -134,12 +135,12 @@ class effect
 {
     public:
         effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_turn( 0 ) {
+            permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
         }
         effect( const effect_type *peff_type, int dur, body_part part,
-                bool perm, int nintensity, int nstart_turn ) :
+                bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_turn( nstart_turn ) {
+            permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -178,7 +179,7 @@ class effect
         void mult_duration( double dur, bool alert = false );
 
         /** Returns the turn the effect was applied. */
-        int get_start_turn() const;
+        time_point get_start_time() const;
 
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         body_part get_bp() const;
@@ -275,7 +276,7 @@ class effect
         body_part bp;
         bool permanent;
         int intensity;
-        int start_turn;
+        time_point start_time;
 
 };
 
