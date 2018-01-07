@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-22 07:21-0500\n"
-"PO-Revision-Date: 2017-12-23 12:33+0000\n"
+"POT-Creation-Date: 2017-12-30 02:40-0500\n"
+"PO-Revision-Date: 2017-12-30 13:11+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -4301,16 +4301,16 @@ msgid "reloaded .700 NX"
 msgstr "wiedergeladene .700 NX"
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62x39mm M43"
-msgstr "7,62×39mm M43"
+msgid "7.62x39mm 57-N-231"
+msgstr ""
 
-#. ~ Description for 7.62x39mm M43
+#. ~ Description for 7.62x39mm 57-N-231
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in "
-"WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular"
-" all over the world.  The bullet has poor wounding potential due to its "
-"stability, only begining to yaw after 26cm."
+"7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
+"Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
+"extremely popular all over the world.  The bullet has poor wounding "
+"potential due to its stability, only begining to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4320,10 +4320,10 @@ msgstr "7,62×39mm M67"
 #. ~ Description for 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage."
+"7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics"
+" of the M43 round led to the development of the M67 round in Yugoslavia in "
+"the 1960s.  It destabilizes much faster than M43 after hitting a target "
+"leading to greater damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -47641,6 +47641,10 @@ msgstr ""
 msgid "Stop washing?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting the metal?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ".700 Nitro Express"
@@ -89863,6 +89867,14 @@ msgstr "Dir geht es viel besser."
 msgid "You washed your clothing."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "grnd grnd grnd"
+msgstr "»Ritsch-ratsch, ritsch-ratsch, ritsch-ratsch!«"
+
+#: src/activity_handlers.cpp
+msgid "You finished cutting the metal."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -106837,10 +106849,6 @@ msgstr "Warum solltest du so etwas tun wollen?"
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
 msgstr "Du bist noch nicht mal an einem Boiler angekettet."
-
-#: src/iuse.cpp
-msgid "grnd grnd grnd"
-msgstr "»Ritsch-ratsch, ritsch-ratsch, ritsch-ratsch!«"
 
 #: src/iuse.cpp
 #, c-format

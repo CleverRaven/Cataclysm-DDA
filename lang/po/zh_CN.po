@@ -28,15 +28,15 @@
 # Vimsucks Ho <me@vimsucks.com>, 2017
 # iopop, 2016-2017
 # zy h <hzy2980426@163.com>, 2016
-# 何方神圣 何 <1366003560@qq.com>, 2016-2017
+# 何方神圣 何 <1366003560@qq.com>, 2016-2018
 # 晨光 马 <448367875@qq.com>, 2017
 # 曾泰瑋 <tavid0000@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-22 07:21-0500\n"
-"PO-Revision-Date: 2017-12-27 05:07+0000\n"
+"POT-Creation-Date: 2017-12-30 02:40-0500\n"
+"PO-Revision-Date: 2018-01-03 13:03+0000\n"
 "Last-Translator: 何方神圣 何 <1366003560@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4266,17 +4266,17 @@ msgid "reloaded .700 NX"
 msgstr "复装.700 NX弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62x39mm M43"
+msgid "7.62x39mm 57-N-231"
 msgstr "7.62x39mm M43弹"
 
-#. ~ Description for 7.62x39mm M43
+#. ~ Description for 7.62x39mm 57-N-231
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in "
-"WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular"
-" all over the world.  The bullet has poor wounding potential due to its "
-"stability, only begining to yaw after 26cm."
-msgstr "123格令的7.62x39mm M43 型全金属被甲钢芯弹。由二战时期的苏联研发，7.62x39mm口径弹药迅速地流行全世界。由于弹道稳定性过好，导致其破坏力很差。据实验，该型号子弹在射入目标内26厘米后才开始明显翻滚。"
+"7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
+"Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
+"extremely popular all over the world.  The bullet has poor wounding "
+"potential due to its stability, only begining to yaw after 26cm."
+msgstr "121.9格令的7.62x39mm M43 型全金属被甲钢芯弹。由二战时期的苏联研发，7.62x39mm口径弹药迅速地流行全世界。由于弹道稳定性过好，导致其破坏力很差。据实验，该型号子弹在射入目标内26厘米后才开始明显翻滚。"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M67"
@@ -4285,11 +4285,11 @@ msgstr "7.62x39mm M67弹"
 #. ~ Description for 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage."
-msgstr "7.62x39mm M67 型弹。由于7.62x39mm M43型子弹的终端弹道性能不足，于是在20世纪60年代，7.62x39mm M67型子弹在南斯拉夫被研发出来。它在击中目标之后会比M43型子弹更快地出现弹头翻滚，给目标造成更大的伤害。"
+"7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics"
+" of the M43 round led to the development of the M67 round in Yugoslavia in "
+"the 1960s.  It destabilizes much faster than M43 after hitting a target "
+"leading to greater damage."
+msgstr "123格令的7.62x39mm M67 型弹。由于7.62x39mm M43型子弹的终端弹道性能不足，于是在20世纪60年代，7.62x39mm M67型子弹在南斯拉夫被研发出来。它在击中目标之后会比M43型子弹更快地出现弹头翻滚，给目标造成更大的伤害。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
@@ -8724,7 +8724,7 @@ msgstr[0] "连帽衫"
 #. ~ Description for hoodie
 #: lang/json/ARMOR_from_json.py
 msgid "A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage."
-msgstr "一件带有兜帽和前置口袋的卫衣。\n\"为什么低调的戴上兜帽感觉反而更引人注意呢，好在丧尸不在意这些。\""
+msgstr "一件带有兜帽和前置口袋的卫衣。\n\"戴上兜帽无法使人低调，反而会更引人注目。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "hot pants"
@@ -45156,6 +45156,10 @@ msgstr "停止冥想？"
 #: lang/json/activity_type_from_json.py
 msgid "Stop washing?"
 msgstr " 是否停止洗涤？"
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting the metal?"
+msgstr "停止切割金属？"
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
@@ -86929,6 +86933,14 @@ msgstr "你感觉自己好多了。"
 msgid "You washed your clothing."
 msgstr "你把衣服洗了。"
 
+#: src/activity_handlers.cpp
+msgid "grnd grnd grnd"
+msgstr "咯啷 咯啷 咯啷"
+
+#: src/activity_handlers.cpp
+msgid "You finished cutting the metal."
+msgstr "你停止切割金属。"
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -103855,10 +103867,6 @@ msgstr "你为什么要这样做？"
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
 msgstr "你甚至都没有链接锅炉。"
-
-#: src/iuse.cpp
-msgid "grnd grnd grnd"
-msgstr "咯啷 咯啷 咯啷"
 
 #: src/iuse.cpp
 #, c-format

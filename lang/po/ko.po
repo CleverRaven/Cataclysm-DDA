@@ -17,7 +17,7 @@
 # Kim Hyongwan <romanticroma@naver.com>, 2016
 # 건욱 김 <ksgh1234@gmail.com>, 2017
 # 구민준 <ku6318@gmail.com>, 2016
-# 탯새 <lazakul@gmail.com>, 2017
+# 탯새 <lazakul@gmail.com>, 2017-2018
 # Miyu, 2015
 # mcmilan tac <hrqa12@gmail.com>, 2016
 # Miyu, 2015
@@ -26,7 +26,7 @@
 # mcmilan tac <hrqa12@gmail.com>, 2015-2016
 # Sail Recycle <sailrecycle@gmail.com>, 2017
 # Soonhwan Kim <tnsghks852@naver.com>, 2016
-# T itan <un8214@naver.com>, 2016-2017
+# T itan <un8214@naver.com>, 2016-2018
 # YM Lee <lymtwin@gmail.com>, 2016
 # YM Lee <lymtwin@gmail.com>, 2016
 # Yougbin Jo <oocc10@naver.com>, 2016
@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-22 07:21-0500\n"
-"PO-Revision-Date: 2017-12-29 14:16+0000\n"
+"POT-Creation-Date: 2017-12-30 02:40-0500\n"
+"PO-Revision-Date: 2018-01-04 01:06+0000\n"
 "Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -2416,12 +2416,12 @@ msgstr "가정용 세척제로 만든 독성 화합물을 화학 약품 살포�
 
 #: lang/json/AMMO_from_json.py
 msgid "chain link"
-msgstr ""
+msgstr "금속 고리"
 
 #. ~ Description for chain link
 #: lang/json/AMMO_from_json.py
 msgid "Small metal rings, suitable for constructing chainmail."
-msgstr ""
+msgstr "작은 금속 고리. 쇠사슬 갑옷을 만드는데 적합하다."
 
 #: lang/json/AMMO_from_json.py
 msgid "fire-hardened wooden arrow"
@@ -4265,17 +4265,17 @@ msgid "reloaded .700 NX"
 msgstr ".700 NX (재생)"
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62x39mm M43"
-msgstr "7.62x39mm M43"
+msgid "7.62x39mm 57-N-231"
+msgstr "7.62x39mm 57-N-231"
 
-#. ~ Description for 7.62x39mm M43
+#. ~ Description for 7.62x39mm 57-N-231
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M43 ammunition with 123gr steel core FMJ bullets.  Developed in "
-"WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular"
-" all over the world.  The bullet has poor wounding potential due to its "
-"stability, only begining to yaw after 26cm."
-msgstr "123gr 무게의 탄두를 사용한 7.62x39mm M43 FMJ 탄. 제2차 세계대전 당시 소련에서 개발된 7.62x39mm탄은 얼마 지나지 않아 전세계적으로 널리 쓰이게 되었습니다. 탄두가 관통 후 안정성이 높아 인체나 탄도학 젤라틴에 박혔을 때 26cm 를 관통 한 후부터 흔들리기 시작하기 때문에 상대적으로 작은 상처만 남깁니다."
+"7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
+"Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
+"extremely popular all over the world.  The bullet has poor wounding "
+"potential due to its stability, only begining to yaw after 26cm."
+msgstr "121.9gr 무게의 탄두를 사용한 7.62x39mm 57-N-231 FMJ 탄. 제2차 세계대전 당시 소련에서 개발된 7.62x39mm탄은 얼마 지나지 않아 전세계적으로 널리 쓰이게 되었습니다. 탄두가 관통 후 안정성이 높아 인체나 탄도학 젤라틴에 박혔을 때 26cm 를 관통 한 후부터 흔들리기 시작하기 때문에 상대적으로 작은 상처만 남깁니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M67"
@@ -4284,11 +4284,11 @@ msgstr "7.62x39mm M67"
 #. ~ Description for 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage."
-msgstr "7.62x39mm M67 탄. M43 탄의 종말탄도학적으로 부족한 부분을 보완하고자 유고슬라비아에서 1960년대에 개발했습니다. M67은 M43에 비해 표적에 닿은 직후 탄두가 빠르게 불안정해지기 때문에 강력한 파괴력을 지닙니다."
+"7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics"
+" of the M43 round led to the development of the M67 round in Yugoslavia in "
+"the 1960s.  It destabilizes much faster than M43 after hitting a target "
+"leading to greater damage."
+msgstr "123gr 무게의 탄두를 사용한 7.62x39mm M67 탄. M43 탄의 종말탄도학적으로 부족한 부분을 보완하고자 유고슬라비아에서 1960년대에 개발했습니다. M67은 M43에 비해 표적에 닿은 직후 탄두가 빠르게 불안정해지기 때문에 강력한 파괴력을 지닙니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
@@ -4310,7 +4310,7 @@ msgid ""
 "Mosin-Nagant rifle.  Although it has not been used by militaries for several"
 " decades it remains popular with civilians.  It is a powerful cartridge "
 "capable of killing most targets with one shot."
-msgstr ""
+msgstr "150gr 무게의 탄두를 사용한 7.62x54mmR FMJ 탄. 7.62x54mmR 탄은 현재까지 사용되는 탄약 중에서 가장 오래된 탄환 중 하나이며, 이는 모신나강 소총의 인기 때문입니다. 수십년간 군대에서는 사용되지 않았지만, 민간에서는 아직까지도 많이 사용합니다. 이 탄환은 거의 모든 목표를 단 한번의 사격으로 무력화 할 수 있을 정도로 강력합니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x54mmR"
@@ -7143,7 +7143,7 @@ msgstr[0] "흉갑"
 msgid ""
 "A steel breastplate, and a vital part of plate armor.  Even as full armor "
 "went into decline, cuirasses remained in use among cavalry in Europe."
-msgstr ""
+msgstr "강철로된 상체 갑옷. 플레이트 갑옷의 중요한 부위입니다. 전신 갑옷이 도태되던 유럽에서조차 이 상부를 보호하는 갑옷은 남아 있었습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "salvaged power armor"
@@ -7720,7 +7720,7 @@ msgid ""
 "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
 "with a layer of aluminium coating.  They allow safely staring at extremely "
 "bright and harmful sources of light like the sun during a solar eclipse."
-msgstr ""
+msgstr " 자외선과 가시광선 필터 기능이 있으며 겉에 알루미늄 코팅이 된 렌즈와 카드보드지 테로 된 안경. 일식 때의 햇빛처럼 아주 밝고 해로운 빛을 안전하게 바라볼 수 있게 해준다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bifocal glasses"
@@ -14114,7 +14114,7 @@ msgstr "손바닥에 나노튜브가 탑재되어, 시체에서 액체를 추출
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "EMP Projector CBM"
 msgid_plural "EMP Projector CBMs"
-msgstr[0] ""
+msgstr[0] "EMP 프로젝터 CBM"
 
 #. ~ Description for EMP Projector CBM
 #. ~ Description for EMP Projector
@@ -14125,12 +14125,12 @@ msgid ""
 "hand and arm.  Fires super-concentrated electric pulses for a short "
 "distance.  Extremely effective against electronic targets but mostly useless"
 " otherwise."
-msgstr ""
+msgstr "원거리 emp 생성기 시스템이 사용자의 오른쪽 손바닥과 팔에 이식됩니다.  가까운 거리에 강력한 전기 펄스를 일으킬 수 있습니다.  전자제품에 매우 효과적이지만 그 이외에는 별로 효과적이지 않습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Ionic Overload Generator CBM"
 msgid_plural "Ionic Overload Generator CBMs"
-msgstr[0] ""
+msgstr[0] "이온 과부하 발생기 CBM"
 
 #. ~ Description for Ionic Overload Generator CBM
 #. ~ Description for Ionic Overload Generator
@@ -14140,7 +14140,7 @@ msgid ""
 "powerful, ever-expanding energy blast.  The resulting blast ignites oxygen "
 "creating fires as it moves and an explosion on impact. Close range use is "
 "highly discouraged."
-msgstr ""
+msgstr "강력한 이온화 에너지 발생기가 몸속에 설치되었다. 강력하고, 끊임없이 팽창하는 에너지 폭발을 일으킨다. 그 결과 충격파는 주변으로 번져나가면서 산소를 발화시키고 충돌시 폭발을 일으킨다. 목표물 근처에서 공격하는 것은 정말 권장하지 않습니다. "
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Autonomous Surgical Razors CBM"
@@ -18853,7 +18853,7 @@ msgstr "방사선에 조사된 딸기. 거의 영원히 상하지 않고 그대�
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "juice pulp"
-msgstr "으갠 과육"
+msgstr "으깬 과육"
 
 #. ~ Description for juice pulp
 #: lang/json/COMESTIBLE_from_json.py
@@ -40934,7 +40934,7 @@ msgstr[0] "목탄 가마 (가득참)"
 #. ~ Use action menu_text for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
 msgid "Light wood"
-msgstr ""
+msgstr "불 붙이기"
 
 #. ~ Use action msg for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
@@ -41483,7 +41483,7 @@ msgstr ""
 msgid ""
 "This miniature nuclear bomb has a light blinking on the side, showing that "
 "it will soon explode.  You should probably get far, far away from it."
-msgstr ""
+msgstr "이 소형 핵폭탄은 측면에서 빛이 깜빡이며 곧 폭발할 것임을 보여줍니다. 당신은 이 폭탄으로부터 멀리 떨어져야 합니다."
 
 #: lang/json/TOOL_from_json.py
 msgid "basic repair kit"
@@ -41544,7 +41544,7 @@ msgid ""
 "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will "
 "cause the bottle to break, spreading fire.  The flame may go out shortly if "
 "you do not throw it.  Dropping it while lit is not safe."
-msgstr ""
+msgstr "병 안에 인화성 액체와 불에 잘 붙는 천이 들어가 있습니다. 던지면 병이 깨질 것이고, 불이 확산할 것입니다. 당신이 던지지 않으면 불이 꺼질 것입니다. 불붙은 상태로 버리는 것은 안전하지 않습니다."
 
 #: lang/json/TOOL_from_json.py
 msgid "mop"
@@ -45155,6 +45155,10 @@ msgstr "명상을 중단합니까?"
 #: lang/json/activity_type_from_json.py
 msgid "Stop washing?"
 msgstr "세탁을 멈춥니까?"
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting the metal?"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
@@ -53770,7 +53774,7 @@ msgstr "자벨린을 손으로 던질때보다 더 효과적으로 투척하기 
 #: lang/json/gun_from_json.py
 msgid "makeshift crossbow"
 msgid_plural "makeshift crossbows"
-msgstr[0] ""
+msgstr[0] "간이 쇠뇌"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -77014,7 +77018,7 @@ msgid ""
 "READY FOR THE WORST: The government has proven it is ready to deal with "
 "China's threats.  In the event of an actual attack, we have established "
 "evacuation centers, within a short distance of most towns."
-msgstr ""
+msgstr "최악을 대비해 준비하자: 정부는 중국의 위협에 대처할 준비가 되어있다는 것을 보여주었다. 중국 측의 공격에 대비하여, 우리는 대부분 마을과 가까운 거리에 피난소를 설치했습니다."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -78681,7 +78685,7 @@ msgstr "\"말 그대로 차가 다듬지 않은 다이아몬드가 됐군...\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"M249 TURRET NODDED.  IS TURRET ALIVE? FINALLY, SOMEBODY TO TALK TO!\""
-msgstr "\"M249 터렛이 끄덕였다. 터렛이 살아있나? 드디어 누군가 말 할 것이 생겼다!\""
+msgstr "\"M249 터렛이 끄덕였다. 내 말을 알아들은 건가? 드디어 말상대가 생겼어!\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"Added so many things to my taxi that it went a-blaze.  Whoops.\""
@@ -80031,7 +80035,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "It's not too late to turn back."
-msgstr ""
+msgstr "되돌리기에는 너무 늦지 않았다고. "
 
 #: lang/json/speech_from_json.py
 msgid "Someone is going to get badly hurt."
@@ -80041,7 +80045,7 @@ msgstr ""
 msgid ""
 "Uh oh. Somebody cut the cake.  I told them to wait for you, but they did it "
 "anyway."
-msgstr ""
+msgstr "이런. 누군가가 케이크를 잘랐어. 나는 너가 올 때까지 기다리라고 했지만, 그들은 그냥 잘라버렸어."
 
 #: lang/json/speech_from_json.py
 msgid "This is your fault.  It didn't have to be like this."
@@ -86928,6 +86932,14 @@ msgstr "기분이 훨씬 나아졌다."
 msgid "You washed your clothing."
 msgstr "옷을 깨끗이 빨았다."
 
+#: src/activity_handlers.cpp
+msgid "grnd grnd grnd"
+msgstr "그릉 그릉 그릉"
+
+#: src/activity_handlers.cpp
+msgid "You finished cutting the metal."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -90741,7 +90753,7 @@ msgstr "아직 어지럽고 다시 토할 것 같다."
 
 #: src/consumption.cpp
 msgid "Your stomach won't be happy (allergy)."
-msgstr "뱃속이 별로 안좋다 (알러지),"
+msgstr "속이 안 좋아질 것입니다. (알러지)"
 
 #. ~ No, we don't eat "rotten" food. We eat properly aged food, like a normal
 #. person.
@@ -90749,7 +90761,7 @@ msgstr "뱃속이 별로 안좋다 (알러지),"
 #. character.
 #: src/consumption.cpp
 msgid "Your stomach won't be happy (not rotten enough)."
-msgstr ""
+msgstr "속이 안 좋아질 것입니다. (음식이 덜 썩음)"
 
 #: src/consumption.cpp
 msgid "You're full already and will be forcing yourself to eat."
@@ -90904,7 +90916,7 @@ msgstr "구멍을 메웠다! 이제 자러가자..."
 
 #: src/consumption.cpp
 msgid "You feel as though you're going to split open!  In a good way?"
-msgstr ""
+msgstr "찢어지는 듯한 기분이다! 긍정적인 의미로."
 
 #. ~slimespawns have *small voices* which may be the Nice equivalent
 #. ~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
@@ -91562,7 +91574,7 @@ msgstr "[i]아이템 주기"
 
 #: src/debug_menu.cpp
 msgid "[d]elete (all) items"
-msgstr ""
+msgstr "[d]모든 아이템 삭제"
 
 #: src/debug_menu.cpp
 msgid "[w]ear/[w]ield an item from player's inventory"
@@ -91598,7 +91610,7 @@ msgstr "[e]순간이동"
 
 #: src/debug_menu.cpp
 msgid "Edit [M]issions (WARNING: Unstable!)"
-msgstr ""
+msgstr "[M]임무 편집 (경고:불안정 함!)"
 
 #: src/debug_menu.cpp
 msgid "Add [m]ission"
@@ -91635,7 +91647,7 @@ msgstr ""
 
 #: src/debug_menu.cpp
 msgid "Delete all items from the target?"
-msgstr ""
+msgstr "대상에게서 모든 아이템을 삭제 시키겠습니까?"
 
 #: src/debug_menu.cpp
 msgid "Make target equip"
@@ -92211,7 +92223,7 @@ msgstr "%s의 복수!"
 #: src/defense.cpp
 #, c-format
 msgid "Rise of the %s!"
-msgstr ""
+msgstr "%s이(가) 몰려온다!"
 
 #: src/descriptions.cpp
 msgid ""
@@ -95539,7 +95551,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Overmap editor"
-msgstr ""
+msgstr "오버맵 에디터"
 
 #: src/game.cpp
 msgid "Draw benchmark (5 seconds)"
@@ -96784,7 +96796,7 @@ msgstr "덤불을 먹었다."
 
 #: src/game.cpp
 msgid "You're too full to graze."
-msgstr ""
+msgstr "너무 배불러서 풀을 뜯어 먹을 수 없다."
 
 #: src/game.cpp
 msgid "You eat the grass."
@@ -97972,7 +97984,7 @@ msgstr "개조할 총기가 없다."
 
 #: src/game_inventory.cpp
 msgid "<color_dark_gray>?</color>"
-msgstr ""
+msgstr "<color_dark_gray>?</color>"
 
 #: src/game_inventory.cpp
 msgid "martial arts"
@@ -98119,7 +98131,7 @@ msgstr ""
 #: src/gates.cpp
 #, c-format
 msgid "That %s can only be closed from the inside."
-msgstr ""
+msgstr "%s은(는) 반드시 건물 안쪽에서 닫아야 한다."
 
 #: src/gates.cpp
 #, c-format
@@ -98139,7 +98151,7 @@ msgstr "상자를 봉하려면 건설에서 봉인하기를 선택해야 한다.
 #, c-format
 msgid ""
 "You cannot close the %s from outside.  You must be inside the building."
-msgstr ""
+msgstr "바깥에서 %s을(를) 닫을 수 없다. 건물 안에서 닫아야 한다."
 
 #: src/gates.cpp
 #, c-format
@@ -99784,7 +99796,7 @@ msgstr "삽이라도 있었다면 뿌리를 파내겠지만..."
 
 #: src/iexamine.cpp
 msgid "Nothing can be harvested from this plant in current season"
-msgstr ""
+msgstr "이 계절에는 식물에서 수확할 수 있는 것이 없다."
 
 #: src/iexamine.cpp
 msgid "You couldn't harvest anything."
@@ -99875,7 +99887,7 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "This %s has already been fertilized."
-msgstr ""
+msgstr "%s에 이미 비료를 주었다."
 
 #: src/iexamine.cpp
 #, c-format
@@ -99885,7 +99897,7 @@ msgstr "%s에 뿌릴 비료가 없다."
 #: src/iexamine.cpp
 #, c-format
 msgid "Fertilize the %s"
-msgstr ""
+msgstr "%s에 비료주기"
 
 #: src/iexamine.cpp
 msgid "Use which fertilizer?"
@@ -102405,12 +102417,12 @@ msgstr ""
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Destroyed a harmful invader."
-msgstr ""
+msgstr "해로운 칩입자를 제거했다."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Destroyed a harmful invader."
-msgstr ""
+msgstr "해로운 칩입자를 제거했다."
 
 #: src/iuse.cpp
 msgid "We must eliminate this contaminant at the earliest opportunity."
@@ -102560,7 +102572,7 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "It tastes extremely strange!"
-msgstr ""
+msgstr "무지무지 이상한 맛이 난다!"
 
 #: src/iuse.cpp
 msgid "You feel better all over."
@@ -102568,7 +102580,7 @@ msgstr "기분이 매우 좋아졌다."
 
 #: src/iuse.cpp
 msgid "It is delicious, and very filling!"
-msgstr ""
+msgstr "달콤하고 포만감도 준다!"
 
 #: src/iuse.cpp
 msgid "You take one bite, and immediately vomit!"
@@ -102737,18 +102749,18 @@ msgstr "%s을(를) 어디에 둡니까?"
 
 #: src/iuse.cpp
 msgid "Are you sure you want to feed a person the dog food?"
-msgstr ""
+msgstr "정말 사람에게 개 사료를 먹이시겠습니까?"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You put your %1$s into %2$s's mouth!"
-msgstr ""
+msgstr "%1$s을(를) %2$s의 입에 넣었다!"
 
 #: src/iuse.cpp
 msgid ""
 "Okay, but please, don't give me this again.  I don't want to eat dog food in"
 " the cataclysm all day."
-msgstr ""
+msgstr "알겠어. 하지만 제발 앞으로 이걸 주지는 말아줘. 아무리 세상이 망해도 개 사료만큼은 먹고 싶지가 않아. "
 
 #: src/iuse.cpp
 #, c-format
@@ -102757,7 +102769,7 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You want to feed it the dog food, but it bites your fingers!"
-msgstr ""
+msgstr "개 사료를 먹이려고 했지만, 손을 물려버렸다!"
 
 #: src/iuse.cpp
 msgid ""
@@ -103141,7 +103153,7 @@ msgstr "이미 이 책의 내용을 모두 이해했다."
 
 #: src/iuse.cpp
 msgid "You learn the essential elements of the style."
-msgstr ""
+msgstr "그 무술의 핵심적인 요소들을 배웠다."
 
 #: src/iuse.cpp
 msgid "You pry out the fence post."
@@ -103181,7 +103193,7 @@ msgstr "지갑을 비집어 열어 보려 했지만,"
 
 #: src/iuse.cpp
 msgid "but alas.  You are just too miserly."
-msgstr ""
+msgstr "너무 구두쇠라 차마 그러지 못했다."
 
 #: src/iuse.cpp
 msgid "You pry open the door."
@@ -103854,10 +103866,6 @@ msgstr "왜 그러려는 거지?"
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
 msgstr "보일러에 사슬로 묶인 것도 아니잖아."
-
-#: src/iuse.cpp
-msgid "grnd grnd grnd"
-msgstr "그릉 그릉 그릉"
 
 #: src/iuse.cpp
 #, c-format
@@ -110681,11 +110689,11 @@ msgstr ""
 
 #: src/monster.cpp
 msgid "Tracking."
-msgstr ""
+msgstr "추적중 "
 
 #: src/monster.cpp
 msgid "Ignoring."
-msgstr ""
+msgstr "무시중"
 
 #: src/monster.cpp
 msgid "Zombie slave."
@@ -113658,7 +113666,7 @@ msgstr "니가 나보다 더 많이 보게 될지도 몰라..."
 
 #: src/npctalk.cpp
 msgid "Why cornmeal, jerky, and fruit wine?"
-msgstr "왜 옥수수 가루, 육포, 과일주가 필요한데?"
+msgstr "왜 하필이면 옥수수 가루, 육포, 과일주를 우선으로 보관해?"
 
 #: src/npctalk.cpp
 msgid "Are you looking to buy anything else?"
@@ -114674,11 +114682,11 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Message log flow"
-msgstr ""
+msgstr "메세지 로그 표시위치"
 
 #: src/options.cpp
 msgid "Where new log messages should show."
-msgstr ""
+msgstr "새로운 로그 메세지가 표시 될 곳을 정합니다."
 
 #: src/options.cpp
 msgid "Pixel Minimap drawing mode"
