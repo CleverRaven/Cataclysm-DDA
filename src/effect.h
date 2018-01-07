@@ -165,7 +165,7 @@ class effect
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
         void decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
-                    unsigned int turn, bool player );
+                    const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
         int get_duration() const;
