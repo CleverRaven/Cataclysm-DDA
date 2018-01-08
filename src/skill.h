@@ -112,10 +112,6 @@ class SkillLevel
             return level() * level() * 100 + exercise();
         }
 
-        const time_point &lastPracticed() const {
-            return _lastPracticed;
-        }
-
         void train( int amount, bool skip_scaling = false );
         bool isRusting() const;
         bool rust( bool charged_bio_mem );
