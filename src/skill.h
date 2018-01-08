@@ -74,15 +74,14 @@ class Skill
 
 class SkillLevel
 {
-        int _level;
-        int _exercise;
-        time_point _lastPracticed;
-        bool _isTraining;
-        int _highestLevel;
+        int _level = 0;
+        int _exercise = 0;
+        time_point _lastPracticed = calendar::time_of_cataclysm;
+        bool _isTraining = true;
+        int _highestLevel = 0;
 
     public:
-        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true,
-                    const time_point &lastPracticed = calendar::time_of_cataclysm, int highestLevel = 0 );
+        SkillLevel() = default;
         SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
                     const time_point &lastPracticed, int highestLevel );
 

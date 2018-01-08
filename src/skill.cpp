@@ -137,10 +137,11 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
-SkillLevel::SkillLevel( int level, int exercise, bool isTraining, const time_point &lastPracticed,
-                        int highestLevel )
-    : _level( level ), _exercise( exercise ), _lastPracticed( lastPracticed ),
-      _isTraining( isTraining ), _highestLevel( highestLevel )
+SkillLevel::SkillLevel( const int minLevel, const int maxLevel, const int minExercise,
+                        const int maxExercise, const bool isTraining, const time_point &lastPracticed,
+                        const int highestLevel ) : _level( rng( minLevel, maxLevel ) ), _exercise( rng( minExercise,
+                                    maxExercise ) ), _lastPracticed( lastPracticed ), _isTraining( isTraining ),
+    _highestLevel( highestLevel )
 {
     if( _lastPracticed == calendar::time_of_cataclysm ) {
         //@todo shouldn't that be calendar::start?
@@ -150,15 +151,6 @@ SkillLevel::SkillLevel( int level, int exercise, bool isTraining, const time_poi
     if( _highestLevel < _level ) {
         _highestLevel = _level;
     }
-}
-
-SkillLevel::SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise,
-                        bool isTraining,
-                        const time_point &lastPracticed, int highestLevel )
-    : SkillLevel( rng( minLevel, maxLevel ), rng( minExercise, maxExercise ), isTraining,
-                  lastPracticed, highestLevel )
-
-{
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )
