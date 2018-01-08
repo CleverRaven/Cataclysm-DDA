@@ -11297,7 +11297,7 @@
         "id": "brownie_weed",
         "type": "COMESTIBLE",
         "comestible_type": "FOOD",
-        "name": "special brownie",
+        "name": "'special' brownie",
         "description": "This is definitely not how grandma used to bake them.",
         "weight": 56,
         "volume": 3,
