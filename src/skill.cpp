@@ -137,22 +137,6 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
-SkillLevel::SkillLevel( const int minLevel, const int maxLevel, const int minExercise,
-                        const int maxExercise, const bool isTraining, const time_point &lastPracticed,
-                        const int highestLevel ) : _level( rng( minLevel, maxLevel ) ), _exercise( rng( minExercise,
-                                    maxExercise ) ), _lastPracticed( lastPracticed ), _isTraining( isTraining ),
-    _highestLevel( highestLevel )
-{
-    if( _lastPracticed == calendar::time_of_cataclysm ) {
-        //@todo shouldn't that be calendar::start?
-        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
-                             get_option<int>( "INITIAL_TIME" ) );
-    }
-    if( _highestLevel < _level ) {
-        _highestLevel = _level;
-    }
-}
-
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place

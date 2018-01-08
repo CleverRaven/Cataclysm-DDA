@@ -82,8 +82,6 @@ class SkillLevel
 
     public:
         SkillLevel() = default;
-        SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
-                    const time_point &lastPracticed, int highestLevel );
 
         bool isTraining() const {
             return _isTraining;
