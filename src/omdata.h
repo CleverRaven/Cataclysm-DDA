@@ -383,7 +383,7 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
-overmap_special_batch get_default_batch( point origin );
+overmap_special_batch get_default_batch( const point &origin );
 /**
  * Generates a simple special from a building id.
  */
