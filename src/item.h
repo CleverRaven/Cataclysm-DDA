@@ -805,7 +805,7 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
-    
+
     /** Precise damage */
     double precise_damage() const { return damage_; }
 
@@ -943,6 +943,7 @@ public:
     bool is_toolmod() const;
 
     bool is_faulty() const;
+    bool is_irremovable() const;
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;

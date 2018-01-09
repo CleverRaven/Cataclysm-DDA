@@ -3325,20 +3325,11 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-namespace
-{
-    bool is_irremovable_gunmod( const item *it )
-    {
-        assert( it );
-        return it->has_flag( "IRREMOVABLE" );
-    }
-}
-
 long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto mods = it.gunmods();
 
-    mods.erase( std::remove_if( mods.begin(), mods.end(), is_irremovable_gunmod ), mods.end() );
+    mods.erase( std::remove_if( mods.begin(), mods.end(), std::bind( &item::is_irremovable, std::placeholders::_1 ) ), mods.end() );
 
     uimenu prompt;
     prompt.selected = 0;
@@ -3371,7 +3362,7 @@ ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    const bool no_removables = std::all_of( mods.begin(), mods.end(), is_irremovable_gunmod );
+    const bool no_removables = std::all_of( mods.begin(), mods.end(), std::bind( &item::is_irremovable, std::placeholders::_1 ) );
 
     if( no_removables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be removed." ) );

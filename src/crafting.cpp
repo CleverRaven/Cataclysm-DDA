@@ -1377,7 +1377,7 @@ void drop_or_handle( const item &newit, player &p )
 void remove_ammo( item *dis_item, player &p )
 {
     for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
-        if( iter->has_flag( "IRREMOVABLE" ) ) {
+        if( iter->is_irremovable() ) {
             iter++;
             continue;
         }

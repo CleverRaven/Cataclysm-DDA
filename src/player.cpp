@@ -8820,7 +8820,7 @@ void player::gunmod_add( item &gun, item &mod )
     std::string tool;
     int qty = 0;
 
-    if( mod.has_flag( "IRREMOVABLE" ) ) {
+    if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
                        gun.tname().c_str() ) ) {
             add_msg_if_player( _( "Never mind." ) );
