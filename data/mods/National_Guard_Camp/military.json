@@ -55,16 +55,23 @@
     "color": "green",
     "vision_night": 10,
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 4,
-        "gun_type": "m14ebr",
-        "ammo_type": "762_51",
-        "fake_skills": [ [ "gun", 3 ], [ "rifle", 4 ] ],
-        "fake_dex": 8,
-        "range": 18,
-        "ranges": [ [ 0, 30, "DEFAULT" ] ]
-      }
+     {
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "m14ebr",
+       "ammo_type": "762_51",
+       "fake_skills": [ [ "gun", 3 ], [ "rifle", 4 ] ],
+       "fake_dex": 8,
+       "ranges": [ [ 0, 26, "DEFAULT" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": false,
+       "laser_lock": true,
+       "targeting_cost": 200,
+       "targeting_timeout_extend": -10,
+       "targeting_sound": "\"HOSTILE DETECTED.\"",
+       "targeting_volume": 20,
+       "no_ammo_sound": "a chk!"
+     }
     ],
     "death_drops": { "groups": [ [ "sniper_bot", 30 ] ] }
   },
