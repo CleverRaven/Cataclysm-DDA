@@ -2,8 +2,8 @@
   {
     "id": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W11B10",
-    "description": "Wraitheon (11B) Infantry 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
+    "name": "rifle bot",
+    "description": "Wraitheon (11B) Infantry 10 Level, armed with a SCAR-H.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 25,
@@ -23,22 +23,26 @@
     "armor_cut": 25,
     "vision_night": 5,
     "starting_ammo": { "762_51": 220 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "scar_h",
-        "ammo_type": "762_51",
-        "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
-        "fake_dex": 8,
-        "range": 18,
-        "ranges": [
-          [ 0, 5, "AUTO" ],
-          [ 6, 20, "DEFAULT" ]
-        ]
-      }
+	"special_attacks": [
+     {
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "scar_h",
+       "ammo_type": "762_51",
+       "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
+       "fake_dex": 8,
+       "ranges": [ [ 5, 18, "DEFAULT" ], [ 0, 5, "AUTO" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": false,
+       "laser_lock": true,
+       "targeting_cost": 200,
+       "targeting_timeout_extend": -10,
+       "targeting_sound": "\"HOSTILE DETECTED.\"",
+       "targeting_volume": 20,
+       "no_ammo_sound": "a chk!"
+     }
     ],
-    "death_drops": { "groups": [ [ "wraitheon_infantry", 30 ] ] },
+    "death_drops": { "groups": [ [ "rifle_bot", 30 ] ] },
     "death_function": [ "DISINTEGRATE" ],
     "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
@@ -46,8 +50,8 @@
     "id": "mon_w11b20b4",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W11B10B4",
-    "description": "Wraitheon (11B) Infantry 20 Level (B4) Sniper.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
+    "name": "sniper bot",
+    "description": "Wraitheon (11B) Infantry 20 Level (B4) Sniper, armed with an M14EBR.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
     "color": "green",
     "vision_night": 10,
     "special_attacks": [
@@ -61,54 +65,71 @@
         "range": 18,
         "ranges": [ [ 0, 30, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "death_drops": { "groups": [ [ "sniper_bot", 30 ] ] }
   },
   {
     "id": "mon_w12b10",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W12B10",
-    "description": "Wraitheon (12B) Combat Engineer 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
-    "starting_ammo": { "gasoline": 120 },
+    "name": "flamer bot",
+    "description": "Wraitheon (12B) Combat Engineer 10 Level, armed with a flamethrower.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
+    "starting_ammo": { "napalm": 120 },
     "special_attacks": [
       {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "flamethrower",
-        "ammo_type": "gasoline",
-        "fake_skills": [ [ "gun", 1 ] ],
-        "fake_dex": 8,
-        "range": 5,
-        "ranges": [ [ 0, 8, "DEFAULT" ] ]
-      }
-    ]
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "flamethrower",
+       "ammo_type": "napalm",
+       "fake_skills": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+       "fake_dex": 8,
+       "ranges": [ [ 0, 8, "DEFAULT" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": false,
+       "laser_lock": true,
+       "targeting_cost": 200,
+       "targeting_timeout_extend": -10,
+       "targeting_sound": "\"HOSTILE DETECTED.\"",
+       "targeting_volume": 20,
+       "no_ammo_sound": "a chk!"
+     }
+    ],
+    "death_drops": { "groups": [ [ "flamer_bot", 30 ] ] }
   },
   {
     "id": "mon_w11h10",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W11H10",
-    "description": "Wraitheon (11H) Anti-Tank Infantry 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
+    "name": "grenade bot",
+    "description": "Wraitheon (11H) Anti-Tank Infantry 10 Level, armed with a 40mm incendiary grenade launcher.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
     "starting_ammo": { "40mm_incendiary": 8 },
     "special_attacks": [
       {
-        "type": "gun",
-        "cooldown": 3,
-        "gun_type": "m320",
-        "ammo_type": "40mm_incendiary",
-        "fake_skills": [ [ "gun", 1 ], [ "launcher", 1 ] ],
-        "fake_dex": 8,
-        "range": 20,
-        "ranges": [ [ 5, 20, "DEFAULT" ] ]
-      }
-    ]
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "m320",
+       "ammo_type": "40mm_incendiary",
+       "fake_skills": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+       "fake_dex": 8,
+       "ranges": [ [ 5, 20, "DEFAULT" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": false,
+       "laser_lock": true,
+       "targeting_cost": 200,
+       "targeting_timeout_extend": -10,
+       "targeting_sound": "\"HOSTILE DETECTED.\"",
+       "targeting_volume": 20,
+       "no_ammo_sound": "a chk!"
+     }
+    ],
+    "death_drops": { "groups": [ [ "grenade_bot", 30 ] ] }
   },
   {
     "id": "mon_w12n10",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W12N10",
-    "description": "Wraitheon (12N) Construction Engineer 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
+    "name": "light rifle bot",
+    "description": "Wraitheon (12N) Construction Engineer 10 Level, armed with a SCAR-L.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
     "hp": 30,
     "speed": 80,
     "material": [ "steel" ],
@@ -117,20 +138,25 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "starting_ammo": { "223": 220 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "scar_l",
-        "ammo_type": "223",
-        "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
-        "fake_dex": 6,
-        "range": 20,
-        "ranges": [
-          [ 0, 5, "AUTO" ],
-          [ 6, 20, "DEFAULT" ]
-        ]
-      }
-    ]
+	"special_attacks": [
+     {
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "scar_l",
+       "ammo_type": "556",
+       "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+       "fake_dex": 6,
+       "ranges": [ [ 5, 18, "DEFAULT" ], [ 0, 5, "AUTO" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": false,
+       "laser_lock": true,
+       "targeting_cost": 200,
+       "targeting_timeout_extend": -10,
+       "targeting_sound": "\"HOSTILE DETECTED.\"",
+       "targeting_volume": 20,
+       "no_ammo_sound": "a chk!"
+     }
+    ],
+    "death_drops": { "groups": [ [ "light_rifle_bot", 30 ] ] }
   }
 ]

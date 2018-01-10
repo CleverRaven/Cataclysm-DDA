@@ -56,13 +56,15 @@
     "id": "weapon_testing_lab",
     "type": "item_group",
     "items": [
-      { "group": "tools_gunsmith", "prob": 60 },
-      { "group": "gunmod_common", "prob": 10 },
-      { "group": "gunmod_milspec", "prob": 10 },
-      { "group": "gunmod_rare", "prob": 10 },
-      { "group": "guns_milspec", "prob": 10 },
-      { "group": "mags_milspec", "prob": 10 },
-      { "group": "mil_armor", "prob": 20 }
+      { "group": "tools_gunsmith", "prob": 65 },
+      { "group": "gunmod_common", "prob": 20 },
+      { "group": "gunmod_milspec", "prob": 20 },
+      { "group": "gunmod_rare", "prob": 17 },
+      { "group": "guns_milspec", "prob": 20 },
+      { "group": "mags_milspec", "prob": 20 },
+      { "group": "energy_weapon_armory", "prob": 17 },
+      { "group": "hightec_guns", "prob": 3 },
+      { "group": "mil_armor", "prob": 30 }
     ]
   },
   {
@@ -136,6 +138,29 @@
     ]
   },
   {
+    "id": "hightec_guns",
+    "type": "item_group",
+    "items": [
+      [ "hk_g80", 2 ],
+      [ "ftk93", 2 ],
+      [ "plasma_rifle", 2 ],
+	  [ "emp_gun", 5 ],
+	  [ "laser_rifle", 6 ],
+	  [ "v29", 8 ]
+    ]
+  },
+  {
+    "id": "hightec_ammo",
+    "type": "item_group",
+    "items": [
+      [ "12mm", 5 ],
+      [ "plasma", 5 ],
+      [ "laser_pack", 5 ],
+	  [ "adv_UPS_off", 5 ],
+	  [ "UPS_off", 10 ]
+    ]
+  },
+  {
     "id": "rocketry_lab",
     "type": "item_group",
     "items": [
@@ -163,13 +188,53 @@
     ]
   },
   {
-    "id": "wraitheon_infantry",
+    "id": "rifle_bot",
     "type": "item_group",
     "items": [
       { "group": "robots", "prob": 100 },
       { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
-      { "item": "223", "prob": 20, "charges-min": 10, "charges-max": 30 },
-      { "item": "scar_l", "prob": 20, "damage": [ 1, 2 ] }
+      { "item": "762_51", "prob": 20, "charges-min": 10, "charges-max": 30 },
+      { "item": "scar_h", "prob": 20, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "sniper_bot",
+    "type": "item_group",
+    "items": [
+      { "group": "robots", "prob": 100 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
+      { "item": "762_51", "prob": 20, "charges-min": 10, "charges-max": 30 },
+      { "item": "m14ebr", "prob": 20, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "light_rifle_bot",
+    "type": "item_group",
+    "items": [
+      { "group": "robots", "prob": 100 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
+      { "item": "556", "prob": 20, "charges-min": 10, "charges-max": 30 },
+      { "item": "scar_l", "prob": 20, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "flamer_bot",
+    "type": "item_group",
+    "items": [
+      { "group": "robots", "prob": 100 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
+      { "item": "flamethrower", "prob": 20, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "grenade_bot",
+    "type": "item_group",
+    "items": [
+      { "group": "robots", "prob": 100 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
+      { "item": "40mm_incendiary", "prob": 20, "charges-min": 2, "charges-max": 4 },
+      { "item": "m320", "prob": 20, "damage": [ 1, 3 ] }
     ]
   }
+]
 ]

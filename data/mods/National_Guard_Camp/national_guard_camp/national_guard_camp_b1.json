@@ -128,9 +128,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -337,9 +337,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -546,9 +546,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -755,9 +755,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -964,9 +964,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -1173,9 +1173,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -1382,9 +1382,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -1591,9 +1591,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -1800,9 +1800,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -2009,9 +2009,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -2218,9 +2218,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -2427,9 +2427,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -2636,9 +2636,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -2845,9 +2845,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -3054,9 +3054,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -3263,9 +3263,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -3392,7 +3392,7 @@
                 "~~~~~~~~eBBL  e         ",
                 "~~~~~~~~eeeeeee  eGGGe  ",
                 "~~~~~~~~~~~~ere  G666G  ",
-                "~~~~~~~~~~~~e +  G6h =  ",
+                "~~~~~~~~~~~~e +  G6h 9  ",
                 "~~~~~~~~~~~~ere  G666G  ",
                 "~~~~~~~~~~~~eee  eGGGe  ",
                 "~~~~~~~~~~~~~~e         ",
@@ -3410,7 +3410,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 50 },
@@ -3483,9 +3483,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -3630,7 +3630,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
       "toilets": {
         "t": {}
@@ -3704,9 +3704,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -3913,9 +3913,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -4122,9 +4122,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -4331,9 +4331,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -4540,9 +4540,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -4749,9 +4749,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -4958,9 +4958,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -5167,9 +5167,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -5379,9 +5379,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -5591,9 +5591,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -5738,7 +5738,7 @@
                 "~```````````~``~~~Z`````"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -5806,9 +5806,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -5953,7 +5953,7 @@
                 "``~~~~e9ee e~e          "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               " ": { "item": "fuel_gasoline", "chance": 1 },
@@ -6027,9 +6027,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -6174,7 +6174,7 @@
                 "         e~e            "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "supplies_spares_vehicle", "chance": 40 },
@@ -6246,9 +6246,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -6393,7 +6393,7 @@
                 "e~~eeeee~e  Ne~eeeeee~ee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "electronics", "chance": 40 }
@@ -6461,9 +6461,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -6608,7 +6608,7 @@
                 " eeeeeee~e eeee9ee~~~~e "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "sewage_plant", "chance": 45 }
@@ -6676,9 +6676,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -6823,7 +6823,7 @@
                 " `(((((`e~~~~~~~e____e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 20, 22 ], "y": [ 0, 2 ], "age": 0, "density": 1, "repeat": 8 }
@@ -6894,9 +6894,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -7041,7 +7041,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 16, 18 ], "y": [ 0, 2 ], "age": 0, "density": 1, "repeat": 8 }
@@ -7112,9 +7112,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -7259,7 +7259,7 @@
                 "~~~~~~~~~~((~~~~~~~~~e e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "(": { "item": "sewer", "chance": 1 }
@@ -7327,9 +7327,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -7474,7 +7474,7 @@
                 "eeeeeee 22222e~e     4  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "place_vehicles": [
               { "vehicle": "golf_cart", "x": [3,18], "y": 1, "chance": 15, "rotation": 0 }
@@ -7542,9 +7542,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -7689,7 +7689,7 @@
                 "e~eeeeeeee  61112e~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "reactor_equipment", "chance": 45 }
@@ -7757,9 +7757,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -7897,14 +7897,14 @@
                 "        9               ",
                 "eeeeeeeee               ",
                 "Le~~~~~~eeGGeeee   eeeeG",
-                "Le~~~~~eeeGGeeee===eeeeG",
+                "Le~~~~~eeeGGeeee999eeeeG",
                 "Le~~~~ee!!!!!!!Gu uG!!!!",
                 "ee~eeeee!!!!!!!Gu uG!!!!",
                 "~~~e!!!!!!!!!!!Gu uG!!!!",
-                "~eee!!!!!!!!!!!e===e!!!!"
+                "~eee!!!!!!!!!!!e999e!!!!"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
       "fields": {
         "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 }
@@ -8123,7 +8123,7 @@
                 "!$$!ree  e~~~~~~~~~~e   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 
       "fields": {
@@ -8198,9 +8198,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -8345,7 +8345,7 @@
                 "         e   er rer re~e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "d": { "item": "office", "chance": 30 },
@@ -8416,9 +8416,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -8563,7 +8563,7 @@
                 "    e~~~~~~((~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "(": { "item": "sewer", "chance": 1 }
@@ -8631,9 +8631,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -8778,7 +8778,7 @@
                 "~~~e____e~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "place_vehicles": [
               { "vehicle": "golf_cart", "x": 5, "y": [6,12], "chance": 50, "rotation": 90 }
@@ -8846,9 +8846,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -9055,9 +9055,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -9264,9 +9264,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -9473,9 +9473,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -9682,9 +9682,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -9829,7 +9829,7 @@
                 "~~~~~~~~e_______________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -9897,9 +9897,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -10044,7 +10044,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -10112,9 +10112,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -10259,7 +10259,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -10327,9 +10327,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -10474,7 +10474,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -10542,9 +10542,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -10689,7 +10689,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 },
@@ -10893,7 +10893,7 @@
                 "____e~~~~~~~~~e9e~~~~e  ",
                 "____eeeeeee~~~e e~~~~e e",
                 "____G6    eeeee eeeeee e",
-                "____G6    =            e",
+                "____G6    9            e",
                 "____G6    eeeeeeeeeeeeee",
                 "____eeeeeee~~~~~~~~~~~~~",
                 "_____e~~~~~~~~~~~~~~~~~~",
@@ -10905,7 +10905,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               " ": { "item": "fuel_gasoline", "chance": 1 },
@@ -11121,7 +11121,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "d": { "item": "office", "chance": 35 },
@@ -11188,12 +11188,7 @@
                     "t_door_metal_o"
                 ],
                 "<": "t_stairs_up",
-                "=": [
-                    "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
-                ],
+                "=": "t_door_metal_locked",
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
                 "A": "t_thconc_floor",
@@ -11313,7 +11308,7 @@
             "rows": [
                 " e~~~~~~~e9e~~e e~~~~~e ",
                 " eeeeeeeee ee~e e~~~~~e ",
-                "   ec       eee=eeeeeee ",
+                "   ec       eee9eeeeeee ",
                 "   Gc       e    LLLLLe ",
                 "   G6       e         9 ",
                 "   G6h      G        be ",
@@ -11337,7 +11332,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "office", "chance": 35 },
@@ -11410,9 +11405,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -11557,7 +11552,7 @@
                 "_____________________e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 2, 4 ], "y": [ 21, 23 ], "age": 0, "density": 1, "repeat": 8 }
@@ -11628,9 +11623,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -11775,7 +11770,7 @@
                 "~~~e eeeeeeeeeeeeeeeee e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "sewage_plant", "chance": 40 }
@@ -11843,9 +11838,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -11990,7 +11985,7 @@
                 "~~~~~~~~~~((~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -12055,9 +12050,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -12202,7 +12197,7 @@
                 "~~~~~~e   8  eeeeeeeeee "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -12267,9 +12262,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -12414,7 +12409,7 @@
                 "e~~~~~~~~~~~~~~~~~~~~e  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 
       "fields": {
@@ -12488,9 +12483,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -12635,7 +12630,7 @@
                 "7777  e~~~~~~~er   e~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
       "fields": {
         "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 }
@@ -12709,9 +12704,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -12856,7 +12851,7 @@
                 "~~~~e 1116 eeeee~~~~e   "
                ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
       "fields": {
         "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 }
@@ -12930,9 +12925,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -13077,7 +13072,7 @@
                 "         9       9  re~e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "reactor_equipment", "chance": 5 },
@@ -13147,9 +13142,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -13359,9 +13354,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -13506,7 +13501,7 @@
                 "~~~~~~~~~e____e~~~~~~~~`"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -13574,9 +13569,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -13721,7 +13716,7 @@
                 "```````~~`~`````````````"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -13789,9 +13784,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -13936,7 +13931,7 @@
                 "`````````^`````` e``~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -14004,9 +13999,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -14213,9 +14208,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -14422,9 +14417,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -14569,7 +14564,7 @@
                 "~~~~~~~e____e~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "place_vehicles": [
               { "vehicle": "golf_cart", "x": 9, "y": [6,19], "chance": 25, "rotation": 270 }
@@ -14637,9 +14632,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -14849,9 +14844,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -14996,7 +14991,7 @@
                 "~eeeeee e~ee          ee"
             ],
             "items": {
-              "r": { "item": "weapon_testing_lab", "chance": 35 },
+              "r": { "item": "weapon_testing_lab", "chance": 24 },
               "(": { "item": "sewer", "chance": 1 }
             },
             "terrain": {
@@ -15062,9 +15057,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -15209,7 +15204,7 @@
                 "~~~e``````````````e~e`k "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 8, 10 ], "y": [ 19, 21 ], "age": 0, "density": 1, "repeat": 8 }
@@ -15281,9 +15276,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -15428,7 +15423,7 @@
                 "               c    =  e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
@@ -15499,9 +15494,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -15646,7 +15641,7 @@
                 "~ec      ec   e~~~~~~e@ "
             ],
             "items": {
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "(": { "item": "sewer", "chance": 1 }
             },
             "terrain": {
@@ -15712,9 +15707,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -15861,7 +15856,7 @@
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
               "L": { "item": "army_personal_locker", "chance": 30 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "(": { "item": "sewer", "chance": 1 }
             },
             "terrain": {
@@ -15927,9 +15922,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -16074,7 +16069,7 @@
                 "  e~~e                  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -16145,9 +16140,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -16292,7 +16287,7 @@
                 "e~~e        e~~~e____e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -16366,9 +16361,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -16513,7 +16508,7 @@
                 "~~~er   rr   rr  rr  re "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "chem_lab", "chance": 40 },
@@ -16582,9 +16577,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -16729,7 +16724,7 @@
                 "     eeee   eeeeeeeeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "(": { "item": "sewer", "chance": 1 }
@@ -16797,9 +16792,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -17009,9 +17004,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -17222,9 +17217,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -17435,9 +17430,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -17648,9 +17643,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -17861,9 +17856,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -18074,9 +18069,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -18221,7 +18216,7 @@
                 "~~~~~~~~~e____e~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -18292,9 +18287,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -18439,7 +18434,7 @@
                 "~```````````````~~`~`~``"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -18507,9 +18502,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -18654,7 +18649,7 @@
                 "```~~``~~`````````````~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -18722,9 +18717,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -18931,9 +18926,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -19140,9 +19135,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -19287,7 +19282,7 @@
                 "~~~~~~~e____e~~~~~eee   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
@@ -19359,9 +19354,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -19573,9 +19568,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -19720,7 +19715,7 @@
                 "~~~~~~~~~e@     @e~~~~ec"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "mechanics", "chance": 1 }
@@ -19788,9 +19783,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -19935,13 +19930,13 @@
                 "ccce~~~~~~~~e           "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
               "c": { "item": "mags_milspec", "chance": 20 },
               "L": { "item": "ammo_milspec", "chance": 50 },
-              "r": { "item": "weapon_testing_lab", "chance": 30 }
+              "r": { "item": "weapon_testing_lab", "chance": 20 }
             },
             "terrain": {
                 " ": "t_thconc_floor",
@@ -20006,9 +20001,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -20127,7 +20122,7 @@
                 "z": "f_trashcan"
             },
             "rows": [
-                "               c    =  e",
+                "               c    9  e",
                 "               ec  ^Y  e",
                 "               c    Y  e",
                 "               c    e  e",
@@ -20153,13 +20148,13 @@
                 "  ek      eeeeYYe9eYYeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
-              "L": { "item": "ammo_milspec", "chance": 50 },
+              "L": [ { "item": "ammo_milspec", "chance": 50 }, { "item": "hightec_ammo", "chance": 1 } ],
               "c": { "item": "bionics", "chance": 100 },
-              "r": { "item": "guns_milspec", "chance": 45 }
+              "r": [ { "item": "guns_milspec", "chance": 45 }, { "item": "hightec_guns", "chance": 1 } ]
             },
              "place_loot": [
               { "group": "bionics", "x": 4, "y": 9, "chance": 100},
@@ -20372,12 +20367,12 @@
                 "eeee   ee~~~~ecScce~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
-              "L": { "item": "weapon_testing_lab", "chance": 30 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "L": { "item": "weapon_testing_lab", "chance": 24 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "ammo_parts", "chance": 45 }
             },
             "terrain": {
@@ -20443,9 +20438,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -20590,7 +20585,7 @@
                 "~~~~~~~~e e((`~~~eL     "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -20661,9 +20656,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -20808,7 +20803,7 @@
                 " Le~eBB e            e B"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -20878,9 +20873,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -21025,7 +21020,7 @@
                 "Be~eL      Le~~~e____e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -21095,9 +21090,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -21242,7 +21237,7 @@
                 "e e rec         ceeeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 17, 19 ], "y": [ 19, 21 ], "age": 0, "density": 1, "repeat": 8 }
@@ -21315,9 +21310,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -21462,7 +21457,7 @@
                 "eeeeeeeeeeeeeeee  eeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 8, 11 ], "y": [ 2,4 ], "age": 0, "density": 1, "repeat": 8 }
@@ -21536,9 +21531,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -21749,9 +21744,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -21896,7 +21891,7 @@
                 "e           e~~~~e      "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 20, 22 ], "y": [ 18, 20 ], "age": 0, "density": 1, "repeat": 8 }
@@ -21967,9 +21962,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -22114,7 +22109,7 @@
                 "   e~~~~~~~eeeeeee~~~~e "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 8, 10 ], "y": [ 12,14 ], "age": 0, "density": 1, "repeat": 8 }
@@ -22185,9 +22180,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -22332,7 +22327,7 @@
                 "e~~~~e e~~e7   7c  c7   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "robots", "chance": 25 },
@@ -22401,9 +22396,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -22548,7 +22543,7 @@
                 "7erre  erre6   6c ^c6   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "robots", "chance": 25 },
@@ -22617,9 +22612,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -22829,9 +22824,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -22976,7 +22971,7 @@
                 "~e_____ee~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "`": { "item": "cavern", "chance": 1 }
@@ -23044,9 +23039,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -23191,7 +23186,7 @@
                 "eeee  ec6ccccc6ceg     h"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -23261,9 +23256,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -23408,7 +23403,7 @@
                 "   11e~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -23477,9 +23472,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -23686,9 +23681,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -23895,9 +23890,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -24042,11 +24037,11 @@
                 "~~~~~~~e____,         e "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
-              "L": { "item": "weapon_testing_lab", "chance": 30 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 }
+              "L": { "item": "weapon_testing_lab", "chance": 24 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 }
             },
             "place_vehicles": [
               { "vehicle": "golf_cart", "x": [13,14], "y": [16,19], "chance": 75, "rotation": 180 }
@@ -24114,9 +24109,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -24261,12 +24256,12 @@
                 "   Gc              6e~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
-              "L": { "item": "weapon_testing_lab", "chance": 30 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 }
+              "L": { "item": "weapon_testing_lab", "chance": 24 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 }
             },
             "terrain": {
                 " ": "t_thconc_floor",
@@ -24331,9 +24326,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -24478,10 +24473,10 @@
                 "~~~~e1     e~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "ammo_parts", "chance": 45 }
             },
             "terrain": {
@@ -24547,9 +24542,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -24694,12 +24689,12 @@
                 "~~~eeeedh       h  h  h "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "k": { "item": "mil_armor_torso", "chance": 100 },
               "L": { "item": "ammo_parts", "chance": 45 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "ammo_parts", "chance": 45 }
             },
             "terrain": {
@@ -24765,9 +24760,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -24912,11 +24907,11 @@
                 "     hdeeeeeeeeeeeeeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "ammo_parts", "chance": 45 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "ammo_parts", "chance": 45 }
             },
             "terrain": {
@@ -24982,9 +24977,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -25129,11 +25124,11 @@
                 "eeeeeeeeeeeeeeeeeeeeeee "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "ammo_parts", "chance": 45 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "ammo_parts", "chance": 45 }
             },
             "terrain": {
@@ -25199,9 +25194,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -25414,9 +25409,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -25561,7 +25556,7 @@
                 " Le~eBB e            e B"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -25630,9 +25625,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -25777,7 +25772,7 @@
                 "Be~eL      Le~~~e____e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -25847,9 +25842,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -25994,7 +25989,7 @@
                 "~~~~~~~~~~~~~~~eL b  eGG"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "chem_lab", "chance": 40 },
@@ -26066,9 +26061,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -26213,7 +26208,7 @@
                 "Ge  eg                  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "chem_lab", "chance": 40 },
@@ -26283,9 +26278,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -26430,7 +26425,7 @@
                 "e~~~~~~~~~~(((~~~~~~~~~e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "chem_lab", "chance": 40 },
@@ -26502,9 +26497,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -26649,7 +26644,7 @@
                 " e~eeeeeeeeeeeeee~e     "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "d": { "item": "office", "chance": 40 },
@@ -26718,9 +26713,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -26865,7 +26860,7 @@
                 "c  c     e~~~~~~~~e7  e~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
       "toilets": {
         "t": {}
@@ -26939,9 +26934,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -27086,7 +27081,7 @@
                 "~~e       rrrer   h     "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "electronics", "chance": 40 },
@@ -27156,9 +27151,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -27303,7 +27298,7 @@
                 " 9   9              ^   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 
 
@@ -27377,9 +27372,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -27524,7 +27519,7 @@
                 "         e~(((~~~~~~~~~e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "(": { "item": "sewer", "chance": 1 },
@@ -27594,9 +27589,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -27741,7 +27736,7 @@
                 "____e~~~~~~~~~eP     ce "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -27811,9 +27806,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -27958,7 +27953,7 @@
                 "  ec    ce    G     1e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -28029,9 +28024,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -28241,9 +28236,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -28450,9 +28445,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -28659,9 +28654,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -28806,7 +28801,7 @@
                 "~~~~~~~~eee_____________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "place_vehicles": [
               { "vehicle": "golf_cart", "x": 9, "y": [4,20], "chance": 25, "rotation": 90 }
@@ -28874,9 +28869,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -29021,10 +29016,10 @@
                 "____________________e~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "(": { "item": "sewer", "chance": 1 }
             },
             "place_vehicles": [
@@ -29093,9 +29088,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -29240,11 +29235,11 @@
                 "~~~e  e~~~~~~~~~~~e  ce "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "ammo_parts", "chance": 45 },
-              "c": { "item": "weapon_testing_lab", "chance": 20 },
+              "c": { "item": "weapon_testing_lab", "chance": 24 },
               "r": { "item": "mechanics", "chance": 45 },
               "(": { "item": "sewer", "chance": 1 }
             },
@@ -29311,9 +29306,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -29520,9 +29515,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -29729,9 +29724,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -29876,7 +29871,7 @@
                 "                        "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -29941,9 +29936,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -30088,7 +30083,7 @@
                 "          $$$$$$3a   e~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "mechanics", "chance": 80 }
@@ -30156,9 +30151,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -30303,7 +30298,7 @@
                 "~~~~~~e_________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -30374,9 +30369,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -30521,7 +30516,7 @@
                 "____,___,_______________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -30592,9 +30587,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -30739,7 +30734,7 @@
                 "____________,___,_______"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "sewage_plant", "chance": 40 },
@@ -30808,9 +30803,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -31021,9 +31016,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -31233,9 +31228,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -31445,9 +31440,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -31659,9 +31654,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -31806,7 +31801,7 @@
                 "~~~e              ee    "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "T": { "item": "robots", "chance": 20 },
@@ -31876,9 +31871,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -32023,7 +32018,7 @@
                 "          e~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "robots", "chance": 20 },
@@ -32095,9 +32090,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -32309,9 +32304,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -32456,7 +32451,7 @@
                 "____e             e     "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -32527,9 +32522,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -32674,7 +32669,7 @@
                 "     ce@   Qe~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "virology_lab", "chance": 20 },
@@ -32745,9 +32740,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -32954,9 +32949,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -33163,9 +33158,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -33372,9 +33367,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -33519,7 +33514,7 @@
                 "~~~e                 G  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "chem_lab", "chance": 25 },
@@ -33588,9 +33583,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -33735,7 +33730,7 @@
                 " e  e~~~e      ,____,   "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "office", "chance": 25 },
@@ -33808,9 +33803,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -33936,7 +33931,7 @@
                 "~~~e  e~~~e e~~~~~eeeee ",
                 "eeee  e~eee9eeeee~er    ",
                 "   e  e~eL   LLLe~er    ",
-                "   =  e~eL      e~er    ",
+                "   9  e~eL      e~er    ",
                 "6cce  e~eL      e~er    ",
                 "GGeeeeeeeeGGGGe9eeer    ",
                 "   e                    ",
@@ -33955,7 +33950,7 @@
                 "   e                    "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "office", "chance": 25 },
@@ -34027,12 +34022,7 @@
                     "t_door_metal_o"
                 ],
                 "<": "t_stairs_up",
-                "=": [
-                    "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
-                ],
+                "=": "t_door_metal_locked",
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
                 "A": "t_thconc_floor",
@@ -34176,7 +34166,7 @@
                 "             e~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "L": { "item": "tools_common", "chance": 45 }
@@ -34244,9 +34234,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -34391,7 +34381,7 @@
                 "~~~~~~~~e  3e~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -34456,9 +34446,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -34669,9 +34659,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -34816,7 +34806,7 @@
                 "~~~~~e                 e"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
              "place_loot": [
               { "item": "e_scrap", "x": [6,7], "y": [14,15], "chance": 75, "repeat": [ 1, 6 ] },
@@ -34888,12 +34878,7 @@
                     "t_door_metal_o"
                 ],
                 "<": "t_stairs_up",
-                "=": [
-                    "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
-                ],
+                "=": "t_door_metal_locked",
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
                 "A": "t_thconc_floor",
@@ -35037,7 +35022,7 @@
                 "     ,____e~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -35102,9 +35087,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -35249,7 +35234,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -35318,9 +35303,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -35465,7 +35450,7 @@
                 "eeeeeeeeeeeeeeeeeeeeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -35535,9 +35520,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -35682,7 +35667,7 @@
                 "eeeee~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -35751,9 +35736,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -35965,9 +35950,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -36112,7 +36097,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -36177,9 +36162,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -36392,9 +36377,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -36604,9 +36589,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -36816,9 +36801,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -37031,9 +37016,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -37178,7 +37163,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
 {"field": "fd_blood", "x": [ 19, 21 ], "y": [ 14, 16 ], "age": 0, "density": 1, "repeat": 8 },
@@ -37253,9 +37238,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -37400,7 +37385,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
 "place_fields": [
   {"field": "fd_blood", "x": [ 2, 4 ], "y": [ 3, 5 ], "age": 0, "density": 1, "repeat": 8 }
@@ -37474,9 +37459,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -37683,9 +37668,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -37892,9 +37877,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -38039,7 +38024,7 @@
                 "~~~~~~~~~~~~~~~~~~~e22  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "chem_lab", "chance": 25 },
@@ -38108,9 +38093,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -38255,7 +38240,7 @@
                 "  22e~eeeeeeeeee  e~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "chem_lab", "chance": 25 },
@@ -38324,9 +38309,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -38471,7 +38456,7 @@
                 "~~~~~~~~~~~~~~~~e       "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "T": { "item": "office_breakroom", "chance": 25 },
@@ -38542,9 +38527,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -38689,7 +38674,7 @@
                 "      cc       cc      G"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "chem_lab", "chance": 25 },
@@ -38758,9 +38743,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -38905,7 +38890,7 @@
                 "G=GG e~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "tools_common", "chance": 45 }
@@ -38973,9 +38958,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -39182,9 +39167,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -39329,7 +39314,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -39394,9 +39379,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -39541,7 +39526,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -39606,9 +39591,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -39818,9 +39803,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -40032,9 +40017,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -40244,9 +40229,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -40456,9 +40441,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -40668,9 +40653,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -40880,9 +40865,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -41089,9 +41074,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -41298,9 +41283,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -41507,9 +41492,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -41716,9 +41701,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -41925,9 +41910,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -42134,9 +42119,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -42343,9 +42328,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -42552,9 +42537,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -42699,7 +42684,7 @@
                 "~~~~~~~~~~~eeeeeeeeeeeee"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "rocketry_lab", "chance": 40 },
@@ -42768,9 +42753,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -42915,7 +42900,7 @@
                 "eeeeee~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "rocketry_lab", "chance": 40 },
@@ -42985,9 +42970,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -43132,7 +43117,7 @@
                 "~~~~~~~~~~~~~~~~~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "c": { "item": "chem_lab", "chance": 25 }
@@ -43200,9 +43185,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -43347,7 +43332,7 @@
                 "~~~~~~~~eeeeeeee~~~~~~~~"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.016 }
 ],
             "items": {
               "r": { "item": "rocketry_lab", "chance": 40 },
@@ -43416,9 +43401,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -43625,9 +43610,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -43834,9 +43819,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -44043,9 +44028,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -44252,9 +44237,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -44461,9 +44446,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -44670,9 +44655,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -44879,9 +44864,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -45088,9 +45073,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -45297,9 +45282,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -45506,9 +45491,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -45715,9 +45700,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -45924,9 +45909,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -46133,9 +46118,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -46342,9 +46327,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -46551,9 +46536,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -46760,9 +46745,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",
@@ -46969,9 +46954,9 @@
                 "<": "t_stairs_up",
                 "=": [
                     "t_door_metal_c",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked",
-                    "t_door_metal_locked"
+                    "t_door_metal_c",
+                    "t_door_metal_c",
+                    "t_door_metal_c"
                 ],
                 ">": "t_stairs_down",
                 "@": "t_sai_box",

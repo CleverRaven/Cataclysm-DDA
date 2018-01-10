@@ -66,7 +66,7 @@
                 "..%I..%.1111111..2222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
 
             "items": {
@@ -296,7 +296,7 @@
                 "222222222222222222......"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -524,7 +524,7 @@
                 "%......................."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -752,7 +752,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -980,7 +980,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -1211,7 +1211,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -1439,7 +1439,7 @@
                 "...%...................."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -1667,7 +1667,7 @@
                 "...................%...."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -1895,7 +1895,7 @@
                 "...................^...."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -2123,7 +2123,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -2351,7 +2351,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -2579,7 +2579,7 @@
                 ".............^.........%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -2807,7 +2807,7 @@
                 ".....22222222222222222.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -3035,7 +3035,7 @@
                 "............^..........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -3706,7 +3706,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "O": { "item": "mechanics", "chance": 50 },
@@ -3936,7 +3936,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
 
       "gaspumps": {
@@ -4168,7 +4168,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "_": { "item": "road", "chance": 1 }
@@ -4396,7 +4396,7 @@
                 "...........2222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -4624,7 +4624,7 @@
                 "222222222222222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -4852,7 +4852,7 @@
                 "22222...111111...%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -5081,7 +5081,7 @@
                 "..%I..%..11111111....222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -5530,7 +5530,7 @@
                 "%.s_____________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -5759,7 +5759,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -5980,7 +5980,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.012 }
 ],
             "place_vehicles": [
               { "vehicle": "humvee", "x": 5, "y": 14, "chance": 25, "rotation": 180},
@@ -6207,7 +6207,7 @@
                 "_______________________s"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -6428,7 +6428,7 @@
                 "s=                      "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -6658,7 +6658,7 @@
                 "                     =ss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -6890,7 +6890,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -7111,7 +7111,7 @@
                 "__________z__zzzzzzYzz__"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 25 },
@@ -7342,7 +7342,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -7563,7 +7563,7 @@
                 "_____________________s.%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -7792,7 +7792,7 @@
                 ".|                  |.ss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "office", "chance": 40 },
@@ -8019,7 +8019,7 @@
                 "_____,____________,_____"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "suburban_home", "x": 21, "y": 11, "chance": 75, "rotation": 270 },
@@ -8246,7 +8246,7 @@
                 "ss.|                  |."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -8471,7 +8471,7 @@
                 "ss_____________,______,_"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "pickup", "x": 5, "y": 6, "chance": 75, "rotation": 90},
@@ -8697,7 +8697,7 @@
                 "_____,______,______,____"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "motorcycle", "x": 2, "y": 5, "chance": 75, "rotation": 90},
@@ -8924,7 +8924,7 @@
                 "__,______,______,______,"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "pickup", "x": 5, "y": 5, "chance": 75, "rotation": 270},
@@ -9151,7 +9151,7 @@
                 "___________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "_": { "item": "road", "chance": 1 }
@@ -9821,7 +9821,7 @@
                 "22222..1111111...%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -10049,7 +10049,7 @@
                 "..%I..%..11111111.222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -10498,7 +10498,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -10726,7 +10726,7 @@
                 "%%%__________________%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -10950,7 +10950,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -11178,7 +11178,7 @@
                 "%%%__________________%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -11402,7 +11402,7 @@
                 "%%%%...................."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -11645,7 +11645,7 @@
                 "....................%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -11888,7 +11888,7 @@
                 "%%%__________________%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -12112,7 +12112,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 25 },
@@ -12339,7 +12339,7 @@
                 "%%%__________________%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 25 },
@@ -12566,7 +12566,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -12794,7 +12794,7 @@
                 "..........ss............"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -13022,7 +13022,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "suburban_home", "x": 2, "y": 14, "chance": 75, "rotation": 90 },
@@ -13249,7 +13249,7 @@
                 "............ss.........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -13479,7 +13479,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "superbike", "x": 4, "y": 16, "chance": 75, "rotation": 270},
@@ -13706,7 +13706,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "pickup", "x": 2, "y": 16, "chance": 75, "rotation": 270},
@@ -13934,7 +13934,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "hippie_van", "x": 5, "y": 16, "chance": 75, "rotation": 270},
@@ -14160,7 +14160,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "_": { "item": "road", "chance": 1 }
@@ -14830,7 +14830,7 @@
                 "..1111111111111..%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -15058,7 +15058,7 @@
                 "..%I..%..11111111.1.22.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -15286,7 +15286,7 @@
                 "................ssss...."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "car_sports", "x": 6, "y": 5, "chance": 75, "rotation": 270},
@@ -15511,7 +15511,7 @@
                 ".zzzzz.................."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 1 }
@@ -15739,7 +15739,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "_": { "item": "road", "chance": 1 }
@@ -15967,7 +15967,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -16188,7 +16188,7 @@
                 "sss________,,________ss^"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "humvee", "x": 16, "y": 18, "chance": 100, "rotation": 315}
@@ -16412,7 +16412,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -16637,7 +16637,7 @@
                 "....ssss................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -16862,7 +16862,7 @@
                 "^ss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "_": { "item": "road", "chance": 1 }
@@ -17091,7 +17091,7 @@
                 "...................ssss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "suburban_home", "x": 6, "y": 6, "chance": 75, "rotation": 180 },
@@ -17318,7 +17318,7 @@
                 "...........ssssss......."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -17543,7 +17543,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 5, 19 ], "y": [ 6, 12 ], "chance": 75, "rotation": 180 },
@@ -17769,7 +17769,7 @@
                 "..........ssss.........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 5, 19 ], "y": [ 6, 12 ], "chance": 75, "rotation": 180 },
@@ -17994,7 +17994,7 @@
                 "sss_a______,,_a______sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -18219,7 +18219,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -18444,7 +18444,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -18669,7 +18669,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -18894,7 +18894,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -19119,7 +19119,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -19345,7 +19345,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "gaspumps": {
         "&": {}
@@ -19794,7 +19794,7 @@
                 "2...11111111111..%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -20022,7 +20022,7 @@
                 "..%I..%.1111111.22222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -20250,7 +20250,7 @@
                 "..|t|t|t|t|ScScS|  +ssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -20486,7 +20486,7 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -20727,7 +20727,7 @@
                 "sss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -20952,7 +20952,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "L": { "item": "guns_rifle_milspec", "chance": 20 }
@@ -21176,7 +21176,7 @@
                 ".ss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -21401,7 +21401,7 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 }
@@ -21638,7 +21638,7 @@
                 "ssss+  |ScScS|t|t|t|t|.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -21872,7 +21872,7 @@
                 ".ss________,,_______zzY8"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 60 },
@@ -22101,7 +22101,7 @@
                 "8ZZZZZZZZZZZZ88YYY    cc"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "c": { "item": "dining", "chance": 50 },
@@ -22329,7 +22329,7 @@
                 "    |cScgg  +r|S S|t|t|."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
       "toilets": {
         "t": {}
@@ -22561,7 +22561,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 25 },
@@ -22790,7 +22790,7 @@
                 "..|                  |.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -23015,7 +23015,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -23236,7 +23236,7 @@
                 "...............ee  e +  "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -23462,7 +23462,7 @@
                 "        e               "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -23673,8 +23673,8 @@
                 "ecccccccccccc ce      W ",
                 "e     ^        ehh    e ",
                 "eeWWe+eWWe+eWWeeeee+eee ",
-                "               =      9 ",
-                "               =      9 ",
+                "               +      9 ",
+                "               +      9 ",
                 "eeeeee  eeeeeeee  ee9ee ",
                 "    #e  eo     e  e   e ",
                 "     e  eo  d  e  e  >e ",
@@ -23688,7 +23688,7 @@
                 "     e  e   d  e  e   e "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
       "toilets": {
         "t": {}
@@ -23918,7 +23918,7 @@
                 "                     ee."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 }
@@ -24142,7 +24142,7 @@
                 ".QQaa__aa__,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "portable_generator", "x": 3, "y": 10, "chance": 85, "rotation": 0},
@@ -24809,7 +24809,7 @@
                 "..........111111.%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -25037,7 +25037,7 @@
                 "..%I..%..1111111.2222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -25265,7 +25265,7 @@
                 "22........|---|..ss..|--"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -25499,7 +25499,7 @@
                 "----------------------|."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 }
@@ -25736,7 +25736,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "apc", "x": 5, "y": 12, "chance": 75, "rotation": 90},
@@ -25961,7 +25961,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "L": { "item": "guns_rifle_milspec", "chance": 30 }
@@ -26185,7 +26185,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -26410,7 +26410,7 @@
                 ".|----YYY--YYYYYYYY--YY-"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -26647,7 +26647,7 @@
                 "--|..ss..|---|QQ11111QQ."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -26879,7 +26879,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "pickup", "x": 9, "y": 8, "chance": 75, "rotation": 195},
@@ -27105,7 +27105,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "c": { "item": "dining", "chance": 50 },
@@ -27333,7 +27333,7 @@
                 ".........ssss..........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -27564,7 +27564,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -27789,7 +27789,7 @@
                 "...........ss..........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -28020,7 +28020,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -28228,7 +28228,7 @@
                 "...%sssss%...eet  +  e  ",
                 "...%s$$$s%...ee   e  eee",
                 "...%s$$$s%...eeeeee  e r",
-                "...%s$$$s%...ee  Se  =  ",
+                "...%s$$$s%...ee  Se  9  ",
                 "...%sssss%...eet  +  e6 ",
                 "...%%%%%%%...ee   e  e66",
                 ".............eeeeee  eee",
@@ -28245,7 +28245,7 @@
                 "....................QQQs"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -28455,12 +28455,12 @@
                 "hTTTTh  +^              ",
                 "hTTTTh  +               ",
                 "hTTTTh  e  eeeeeeWWWeeeW",
-                "        e  =EEEe        ",
-                "        e  =EEEe d6d   d",
+                "        e  9EEEe        ",
+                "        e  9EEEe d6d   d",
                 "eeeeeeeee  eEEEe  h     ",
                 "rr  rrr e  eeeee        ",
-                "        e  =EEEe d6d   d",
-                "h  h h 6e  =EEEe  h     ",
+                "        e  9EEEe d6d   d",
+                "h  h h 6e  9EEEe  h     ",
                 "66666666e  eEEEe        ",
                 "eeeeeeeee  eeeee d6d   d",
                 "              #e  h     ",
@@ -28470,13 +28470,13 @@
                 "                        ",
                 "               eeeeeeeee",
                 "           bbb#eeeeeeeee",
-                "==ee==eeeeeeeeeee.......",
+                "99ee99eeeeeeeeeee.......",
                 "sseesseeeeeeeeeee.......",
                 "sssssss..Q..............",
                 "sssssssQQQ.............."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "b": { "item": "waitingroom", "chance": 20 },
@@ -28682,8 +28682,8 @@
             "rows": [
                 "    #e  eoo    e  eeeeee",
                 "eeeeee  eeeeeeee  errre ",
-                "            q =   e   + ",
-                "            q =   e   eo",
+                "            q 9   e   + ",
+                "            q 9   e   eo",
                 "WWeeeeeeeeeeeeee  errreo",
                 "   e  d   oo   e  eeeeee",
                 "6d e hd        +        ",
@@ -28695,7 +28695,7 @@
                 "6d et+   Seeeeeeee+eeeee",
                 "h  eee   ce             ",
                 "   et+   Se ^           ",
-                "eeeeeeee+ee  ee==e+eee99",
+                "eeeeeeee+ee  ee99e+eee99",
                 "             eEEEe re   ",
                 "             eEEEe re   ",
                 "eeeeeeee+ee  eeeeeeee   ",
@@ -28706,7 +28706,7 @@
                 "..eet+   Se  e      er r"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -28918,7 +28918,7 @@
                 "           W  hTTTh  ee.",
                 "           e#        ee.",
                 "Weeee+eee  eeeeeeeeeeee.",
-                " 7ed   de==eeeeeeeeeeee.",
+                " 7ed   de99eeeeeeeeeeee.",
                 " 7e6 h 6e  ee...........",
                 " 7e66666e  ee...........",
                 "eeeeeeeee  ee...........",
@@ -28930,12 +28930,12 @@
                 " e      e  ee...........",
                 "ee      +  ee...........",
                 "re      e  ee...........",
-                " =    hde  ee...........",
+                " 9    hde  ee...........",
                 "ee#  dd6e  ee...........",
                 "eeeeeeeee  ee..........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "r": { "item": "electronics", "chance": 40 },
@@ -29161,7 +29161,7 @@
                 ".ss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "schoolbus", "x": 4, "y": 15, "chance": 75, "rotation": 125}
@@ -29385,7 +29385,7 @@
                 "..|  h6W11.........33333"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -29831,7 +29831,7 @@
                 "33338e2...111111.%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -30059,7 +30059,7 @@
                 "..%I..%.1111111...222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -30287,7 +30287,7 @@
                 ".sssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "flatbed_truck", "x": 5, "y": 17, "chance": 75, "rotation": 270},
@@ -30512,7 +30512,7 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "motorcycle", "x": 3, "y": 18, "chance": 75, "rotation": 270},
@@ -30738,7 +30738,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -30963,7 +30963,7 @@
                 ".................ssss..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -31188,7 +31188,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -31413,7 +31413,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "humvee", "x": 18, "y": 6, "chance": 100, "rotation": 180}
@@ -31637,7 +31637,7 @@
                 "....ssss................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -31862,7 +31862,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 19 ], "chance": 75},
@@ -32087,7 +32087,7 @@
                 "^......................."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -32312,7 +32312,7 @@
                 ".................ssss..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -32537,7 +32537,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -32763,7 +32763,7 @@
                 "...........ss..........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -32988,7 +32988,7 @@
                 "sss________,,________sss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 19 ], "chance": 75},
@@ -33213,7 +33213,7 @@
                 "^.........ssss.........."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 10 ], "chance": 75, "rotation": 180 },
@@ -33438,7 +33438,7 @@
                 "sss________,,________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 19 ], "y": [ 3, 19 ], "chance": 75}
@@ -33662,7 +33662,7 @@
                 "..eeee__________eeeeee__"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 30 },
@@ -33874,8 +33874,8 @@
                 "Se hd  he  eeeeeee......",
                 "ce  d   e  eeeeeee......",
                 "eeeeeeeee  e    ee......",
-                "           =    ee......",
-                "          ^=    ee......",
+                "           9    ee......",
+                "          ^9    ee......",
                 "ee++eeeeeeee  > ee......",
                 "     6   ^eeeeeeee......",
                 "E    EEE  eeeeeeee......",
@@ -33892,7 +33892,7 @@
                 "________eeee............"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 30 },
@@ -34117,7 +34117,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 10 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -34342,7 +34342,7 @@
                 ".....2222222222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 }
@@ -34787,7 +34787,7 @@
                 "222222222.111111.%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -35015,7 +35015,7 @@
                 "..%I..%..1111111...22222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -35464,7 +35464,7 @@
                 "       |   |       cw..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -35698,7 +35698,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 10 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -35918,12 +35918,12 @@
                 "..%sss$$$sssw   |  h  |.",
                 "..%sss$$$sssY   |-----|.",
                 "..%sssssssssYYY YcScD |.",
-                "..%%%%%%%%%YYYYY      =s",
+                "..%%%%%%%%%YYYYY      9s",
                 "..........zz888YY-YY---.",
                 ".........zz88Z88zz......"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
       "toilets": {
         "t": {}
@@ -36154,7 +36154,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "8": { "item": "building_rubble", "chance": 80 },
@@ -36383,7 +36383,7 @@
                 "...|-qqq---www---www-|--"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "office", "chance": 35 },
@@ -36608,7 +36608,7 @@
                 "-|......................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -36837,7 +36837,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 10 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -37062,7 +37062,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -37277,7 +37277,7 @@
                 "...|+|   rrr OOrrr OOO|.",
                 "...|S|               O|.",
                 "...|t|     OOO    OOOO|.",
-                "...|-|-=--------------|.",
+                "...|-|-9--------------|.",
                 ".......sssssssssssssssss",
                 "........................",
                 "........................"
@@ -37510,7 +37510,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 4, 10 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90 },
@@ -37735,7 +37735,7 @@
                 "......................z."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "place_vendingmachines": [
         { "x": 11, "y": 20 },
@@ -37972,7 +37972,7 @@
                 "zss_z________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "building_rubble", "chance": 60 },
@@ -38201,7 +38201,7 @@
                 "..q      Y           |.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "building_rubble", "chance": 60 },
@@ -38429,7 +38429,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 13, 18 ], "y": [ 3, 19 ], "chance": 75}
@@ -38653,7 +38653,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 18 ], "y": [ 13, 19 ], "chance": 75, "rotation": 0}
@@ -38877,7 +38877,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 18 ], "y": [ 13, 19 ], "chance": 75}
@@ -39101,7 +39101,7 @@
                 "sss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 13], "y": [ 4, 19 ], "chance": 75}
@@ -39767,7 +39767,7 @@
                 "22222...1111111..%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -39995,7 +39995,7 @@
                 "..%I..%.1111111.22222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -40668,7 +40668,7 @@
                 "2.......ssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 }
@@ -40895,7 +40895,7 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -41125,7 +41125,7 @@
                 "ssssssss11111111111111ss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -41354,7 +41354,7 @@
                 "sss________,______,_____"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "car_sports", "x": 8, "y": 8, "chance": 75, "rotation": 90},
@@ -41580,7 +41580,7 @@
                 "_,_______ss.2222.%...%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -41811,7 +41811,7 @@
                 "...__________________..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -42035,7 +42035,7 @@
                 "..%...%..2222222........"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "c": { "item": "dining", "chance": 10 },
@@ -42495,7 +42495,7 @@
                 ".....................^.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "beetle", "x": 5, "y": 11, "chance": 75, "rotation": 90}
@@ -42719,7 +42719,7 @@
                 "111111111111111111111111"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 18 ], "y": [ 4, 12 ], "chance": 75, "rotation": 180},
@@ -42944,7 +42944,7 @@
                 "...................22222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 }
@@ -43171,7 +43171,7 @@
                 "222222222222222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -44044,7 +44044,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%",
                 "ww|__________________...",
                 "6dw__________________...",
-                "h =__________________...",
+                "h 9__________________...",
                 "ww|__________________...",
                 "...__________________...",
                 "...__________________..2",
@@ -44067,7 +44067,7 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "d": { "item": "office", "chance": 30 },
@@ -44742,7 +44742,7 @@
                 "22222222.1111111.%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.04 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -44970,7 +44970,7 @@
                 "..%I..%.11111111.2222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -45637,7 +45637,7 @@
                 "ssssssssssssssssssG  cG1",
                 "!ss.ss!ss.ss!ss.ssG h6G1",
                 "!!s.s!!!s.s!!!s.ssG  cG1",
-                "!ss.ss!ss.ss!ss.ssee=Ge1",
+                "!ss.ss!ss.ss!ss.ssee9Ge1",
                 "ss...sss...sss..ss.F1111",
                 "ffffffF.........ss.F1111"
             ],
@@ -46086,7 +46086,7 @@
                 "222222222222222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 }
@@ -46535,7 +46535,7 @@
                 "...1111111111111.%...%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -46766,7 +46766,7 @@
                 "...__zzzzz_,,________..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -46992,7 +46992,7 @@
                 "..%...%22...11111111...2"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -48993,7 +48993,7 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -49664,7 +49664,7 @@
                 "222222..1111111..%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.04 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -49892,7 +49892,7 @@
                 "..%...%.11111111..2.2222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -51448,7 +51448,7 @@
                 "22......11111111.%...%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -51676,7 +51676,7 @@
                 "...________,,________..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 9 ], "y": [ 3, 19 ], "chance": 75, "rotation": 90},
@@ -51901,7 +51901,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -52133,7 +52133,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -52361,7 +52361,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -52589,7 +52589,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -52817,7 +52817,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -53045,7 +53045,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -53273,7 +53273,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -53501,7 +53501,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -53729,7 +53729,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -53957,7 +53957,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -54185,7 +54185,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -54413,7 +54413,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -54641,7 +54641,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -54870,7 +54870,7 @@
                 "..%...%.111111..2.222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -55099,7 +55099,7 @@
                 "2222222222222222222.2.22"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -55327,7 +55327,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -55555,7 +55555,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -55783,7 +55783,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -56011,7 +56011,7 @@
                 "....zzzzz2.2...222...222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -56239,7 +56239,7 @@
                 "22222222211111122%...%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -56468,7 +56468,7 @@
                 "..%...%..11111...2222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -56917,7 +56917,7 @@
                 "s%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -57141,7 +57141,7 @@
                 "sssssssssssssssssseeeee9"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -57365,7 +57365,7 @@
                 "eeeeqqqeeeGGGee%%%%%%%s."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -57592,7 +57592,7 @@
                 ".ss__________________ss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -57822,7 +57822,7 @@
                 "22222.2...11111..%...%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -58050,7 +58050,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -58279,7 +58279,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -58507,7 +58507,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -58735,7 +58735,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -58963,7 +58963,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -59191,7 +59191,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -59419,7 +59419,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
@@ -59647,7 +59647,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
