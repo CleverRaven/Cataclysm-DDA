@@ -141,9 +141,9 @@
     "id": "hightec_guns",
     "type": "item_group",
     "items": [
-      [ "hk_g80", 2 ],
-      [ "ftk93", 2 ],
-      [ "plasma_rifle", 2 ],
+	  [ "hk_g80", 2 ],
+	  [ "ftk93", 2 ],
+	  [ "plasma_rifle", 2 ],
 	  [ "emp_gun", 5 ],
 	  [ "laser_rifle", 6 ],
 	  [ "v29", 8 ]
@@ -153,9 +153,9 @@
     "id": "hightec_ammo",
     "type": "item_group",
     "items": [
-      [ "12mm", 5 ],
-      [ "plasma", 5 ],
-      [ "laser_pack", 5 ],
+	  [ "12mm", 5 ],
+	  [ "plasma", 5 ],
+	  [ "laser_pack", 5 ],
 	  [ "adv_UPS_off", 5 ],
 	  [ "UPS_off", 10 ]
     ]
