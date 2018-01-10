@@ -1742,6 +1742,7 @@ bool overmap::generate_sub(int const z)
 
             if (is_ot_type("sub_station", oter_ground) && z == -1) {
                 ter(i, j, z) = oter_id( "sewer_sub_station" );
+                requires_sub = true;
             } else if (is_ot_type("sub_station", oter_ground) && z == -2) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
                 subway_points.emplace_back( i, j - 1 );
