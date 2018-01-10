@@ -22,7 +22,7 @@ class JsonObject;
 struct mapgendata;
 struct tripoint;
 class map;
-typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,const time_point &,float);
 struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////

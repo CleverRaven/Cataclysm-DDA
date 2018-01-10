@@ -207,7 +207,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
 
 void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd, const time_point &i, float d )
 {
-    (*fptr)( m, o, mgd, to_turn<int>( i ), d );
+    (*fptr)( m, o, mgd, i, d );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
