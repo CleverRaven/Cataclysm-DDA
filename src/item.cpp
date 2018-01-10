@@ -117,12 +117,12 @@ static const itype *nullitem()
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
-item::item() : bday( 0 )
+item::item() : bday( calendar::time_of_cataclysm )
 {
     type = nullitem();
 }
 
-item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn >= 0 ? turn : calendar::turn )
+item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn )
 {
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -190,7 +190,7 @@ item item::make_corpse( const mtype_id& mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn >= 0 ? turn : calendar::turn );
+    item result( "corpse", turn );
     result.corpse = &mt.obj();
 
     result.active = result.corpse->has_flag( MF_REVIVES );

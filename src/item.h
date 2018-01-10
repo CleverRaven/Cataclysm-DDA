@@ -213,8 +213,8 @@ class item : public visitable<item>
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
 
-        explicit item( const itype_id& id, time_point turn = -1, long qty = -1 );
-        explicit item( const itype *type, time_point turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -290,7 +290,7 @@ class item : public visitable<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = calendar::turn, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
