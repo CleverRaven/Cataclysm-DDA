@@ -212,7 +212,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                 g->u.consume_items( detergent );
 
                 add_msg( m_good,
-                         _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
+                         _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
             }
             return DONE;
         }
