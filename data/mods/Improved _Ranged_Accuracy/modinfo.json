@@ -1,0 +1,15 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "improved_ranged_accuracy",
+    "name": "Improved firearm accuracy",
+    "authors": [ "Firestorm_01" ],
+    "description": "Improves accuracy of firearm.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "IMPROVED_RANGED_ACCURACY" ]
+  }
+]

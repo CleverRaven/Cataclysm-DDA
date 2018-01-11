@@ -1491,6 +1491,14 @@ void options_manager::init()
         false, COPT_ALWAYS_HIDE
         );
 
+    mOptionsSort["world_default"]++;
+
+    add( "IMPROVED_RANGED_ACCURACY", "world_default",
+        translate_marker( "Improves accuracy of ranged weapons." ),
+        translate_marker( "If true, ranged shots will have a much higher chance to reliably hit targets at a great distance." ),
+        false, COPT_ALWAYS_HIDE
+        );
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
