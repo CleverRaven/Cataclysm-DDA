@@ -138,6 +138,7 @@ public:
     int blood_draw          ( player*, item*, bool, const tripoint& );
     static void cut_log_into_planks(player *);
     int lumber              ( player*, item*, bool, const tripoint& );
+    int chop_tree           ( player*, item*, bool, const tripoint& );
     int oxytorch            ( player*, item*, bool, const tripoint& );
     int hacksaw             ( player*, item*, bool, const tripoint& );
     int portable_structure  ( player*, item*, bool, const tripoint& );
