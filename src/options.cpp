@@ -1494,8 +1494,8 @@ void options_manager::init()
     mOptionsSort["world_default"]++;
 
     add( "IMPROVED_RANGED_ACCURACY", "world_default",
-        translate_marker( "Improves accuracy of ranged weapons" ),
         translate_marker( "Improves accuracy of ranged weapons." ),
+        translate_marker( "If true, ranged shots will have a much higher chance to reliably hit targets at a great distance." ),
         false, COPT_ALWAYS_HIDE
         );
 
