@@ -797,7 +797,7 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_log_half",
-        "name": "half-built wall",
+        "name": "half-built log wall",
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
