@@ -4426,6 +4426,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
             return _( "Here we go..." );
         }
     }
