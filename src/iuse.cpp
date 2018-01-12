@@ -4027,6 +4027,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
+        p->mod_hunger( 10 );
+        p->mod_thirst( 10 );
+        p->mod_pain( 3 );
     }
 
     if( acid_blood ) {
