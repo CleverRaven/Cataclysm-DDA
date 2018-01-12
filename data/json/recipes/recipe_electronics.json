@@ -1972,7 +1972,7 @@
   "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 2]],
   "using": [ [ "soldering_standard", 5 ] ],
   "difficulty": 4,
-  "time": 1000,
+  "time": 15000,
   "reversible": true,
   "autolearn": true,
   "qualities" : [ {"id":"SCREW","level":1} ],
