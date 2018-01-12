@@ -8,6 +8,7 @@
 #include "json.h"
 #include "mtype.h"
 #include "calendar.h"
+#include "assign.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -58,9 +59,10 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 {
     const MonsterGroup *groupptr = &group.obj();
     if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-        const int replace_time = DAYS( groupptr->monster_group_time *
-                                       get_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
-        while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
+        const time_duration replace_time = groupptr->monster_group_time *
+                                           get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+        while( groupptr->replace_monster_group &&
+               calendar::turn - calendar::time_of_cataclysm > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -368,7 +370,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
     g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
                                        mongroup_id::NULL_ID().str() ) );
-    g.monster_group_time = jo.get_int( "replacement_time", 0 );
+    assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
     monsterGroupMap[g.name] = g;

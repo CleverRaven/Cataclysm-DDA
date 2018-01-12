@@ -1750,7 +1750,7 @@ classes = {
         attributes = {
             defaultMonster = { type = "mtype_id", writable = true },
             is_safe = { type = "bool", writable = true },
-            monster_group_time = { type = "int", writable = true },
+            monster_group_time = { type = "time_duration", writable = true },
             name = { type = "mongroup_id", writable = true },
             new_monster_group = { type = "mongroup_id", writable = true },
             replace_monster_group = { type = "bool", writable = true },
