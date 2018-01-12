@@ -40,6 +40,7 @@
     "type": "GUN",
     "name": "Calico M960",
     "name_plural": "Calico M960",
+	"//": "Automatic variant.  Cyclic fire rate: 750 rpm",
     "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
     "weight": 1680,
     "volume": 4,
@@ -54,7 +55,7 @@
     "ranged_damage": 2,
     "dispersion": 280,
     "durability": 6,
-    "burst": 20,
+    "burst": 13,
     "reload_noise_volume": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -143,7 +144,7 @@
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "BURST", "3 rd.", 3 ],
-      [ "AUTO", "auto", 8 ]
+      [ "AUTO", "auto", 13 ]
     ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
@@ -308,7 +309,7 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 5,
-    "modes": [ [ "DEFAULT", "auto", 3 ] ],
+    "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
@@ -392,7 +393,7 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 7,
-    "burst": 12,
+    "burst": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
