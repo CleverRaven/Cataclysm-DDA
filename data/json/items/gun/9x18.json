@@ -38,6 +38,7 @@
     "name": "Skorpion Vz. 82",
     "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
     "ammo": "9x18",
+    "burst": 15,
     "magazines": [ [ "9x18", [ "skorpion82mag" ] ], [ "9mm", [ "m9bigmag" ] ] ]
   }
 ]
