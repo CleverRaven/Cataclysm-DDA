@@ -118,26 +118,25 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 }
 
 ////// Funnels.
-weather_sum sum_conditions( const calendar &startturn,
-                            const calendar &endturn,
+weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
-    int tick_size = MINUTES(1);
+    time_duration tick_size = 0;
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
-    for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
-        const int diff = endturn - turn;
-        if( diff < 10 ) {
-            tick_size = 1;
-        } else if( diff > DAYS(7) ) {
-            tick_size = HOURS(1);
+    for( time_point t = start; t < end; t += tick_size ) {
+        const time_duration diff = end - t;
+        if( diff < 10_turns ) {
+            tick_size = 1_turns;
+        } else if( diff > 7_days ) {
+            tick_size = 1_hours;
         } else {
-            tick_size = MINUTES(1);
+            tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, turn, g->get_seed() );
-        proc_weather_sum( wtype, data, turn, tick_size );
+        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        proc_weather_sum( wtype, data, to_turn<int>( t ), to_turn<int>( tick_size ) );
     }
 
     return data;

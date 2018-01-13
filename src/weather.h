@@ -147,8 +147,8 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered = 
 int get_local_windpower( double windpower, const oter_id &omter,
                          bool sheltered = false );
 
-weather_sum sum_conditions( const calendar &startturn,
-                            const calendar &endturn,
+weather_sum sum_conditions( const time_point &start,
+                            const time_point &end,
                             const tripoint &location );
 
 /**
