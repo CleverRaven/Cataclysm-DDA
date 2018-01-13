@@ -1018,5 +1018,17 @@
         "weight": 500,
         "volume": 1,
         "price": 800
+    },{
+        "id": "turret_mount",
+        "type":"GENERIC",
+        "name": "turret mount",
+        "description": "A universal mount for weapons intended to be installed as a turrets.",
+        "color": "cyan",
+        "symbol": "X",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 10000,
+        "volume": 10,
+        "price": 5500
     }
 ]
