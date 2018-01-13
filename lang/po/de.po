@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-30 02:40-0500\n"
-"PO-Revision-Date: 2017-12-30 13:11+0000\n"
+"POT-Creation-Date: 2018-01-05 07:26-0500\n"
+"PO-Revision-Date: 2018-01-07 11:36+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -3707,10 +3707,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "7.62 NATO tracer"
-msgstr "7.62 NATO Leuchtspur"
+msgid "7.62x51mm NATO tracer"
+msgstr ""
 
-#. ~ Description for 7.62 NATO tracer
+#. ~ Description for 7.62x51mm NATO tracer
 #: lang/json/AMMO_from_json.py
 msgid ""
 "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help "
@@ -4120,7 +4120,9 @@ msgstr "Die .50 BMG ist eine sehr starke Gewehrpatrone, die für für hohe Reich
 
 #: lang/json/AMMO_from_json.py
 msgid ".50 BMG AP"
-msgstr ".50 BMG AP"
+msgid_plural ".50 BMG AP"
+msgstr[0] ""
+msgstr[1] ""
 
 #. ~ Description for .50 BMG AP
 #: lang/json/AMMO_from_json.py
@@ -7356,12 +7358,12 @@ msgstr[1] "ausgeschlachtete Energierüstungen"
 #. ~ Description for salvaged power armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, "
+"The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, "
 "offering very good protection against attacks, but hard to move in.  This "
 "suit has had its servos and cooling system stripped out, meaning it no "
 "longer requires power, but also encumbers you greatly and doesn't provide "
 "internal thermal regulation."
-msgstr "Die DoubleTech-Energierüstung Modell Mk. I: Ein schwerer Anzug aus einfacher Energierüstung, welche sehr guten Schutz vor Angriffen bietet, aber das Bewegen in ihr erschwert. Aus diesem Anzug wurden die Servos und das Kühlsystem entfernt, was bedeutet, dass sie keinen Strom mehr benötigt, aber sie hindert dich auch stark und bietet keine interne Temperaturregulierung."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "salvaged power armor helmet"
@@ -7372,12 +7374,12 @@ msgstr[1] "ausgeschlachtete Energierüstungshelme"
 #. ~ Description for salvaged power armor helmet
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  "
+"A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  "
 "Offers excellent protection from both attacks and environmental hazards.  "
 "This suit has had its internal computer and cooling system stripped out, "
 "meaning it no longer requires power, but it has no internal chronometer and "
 "doesn't provide internal thermal regulation."
-msgstr "Ein grundlegender Helm, der für die Benutzung mit der DoubleTech-Energierüstung Mk. I gemacht wurde. Bietet ausgezeichneten Schutz sowohl for Angriffen als auch Umweltgefahren. Aus dieser Rüstung wurden der interne Computer sowie das Kühlsystem hinausgerissen, was bedeutet, dass sie keinen Strom mehr benötigt, aber sie hat keinen internen Chronometer und bietet keine interne Temperaturregulierung."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "diamond dental grill"
@@ -10796,12 +10798,12 @@ msgstr "Deine Energierüstung aktiviert sich."
 #. ~ Description for basic power armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, "
+"The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, "
 "offering very good protection against attacks, but hard to move in.  The UPS"
 " compartment can store other things if you don't mind powering the suit "
 "yourself.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr "Die DoubleTech-Energierüstung Mk. I: Ein schwerer Anzug aus einfacher Energierüstung, welche sehr guten Schutz vor Angriffen bietet, aber es fällt schwer, sich in ihr zu bewegen. Der Esz.-Einsatz kann andere Dinge lagern, wenn du den Anzug nicht selbst bestromen willst. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "power armor hauling frame"
@@ -10823,11 +10825,11 @@ msgstr[1] "schwere Energierüstungen"
 #. ~ Description for heavy power armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A suit of DoubleTech Power Armor, Mk.  II-H.  This model offers several "
-"improvements over the Mk.  I, most notably the improved environmental "
+"A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several "
+"improvements over the Mk. I, most notably the improved environmental "
 "protection.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr "Ein Anzug der DoubleTech-Energierüstung Mk. II-H. Dieses Modell bietet zahlreiche Verbesserungen gegenüber der Mk. I, vorallem dem Schutz vor Umweltgefahren. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "basic power armor helmet"
@@ -10838,11 +10840,11 @@ msgstr[1] "einfache Energierüstungshelme"
 #. ~ Description for basic power armor helmet
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  "
+"A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  "
 "Offers excellent protection from both attacks and environmental hazards.  "
 "Like all DoubleTech power armor, the control and climate-regulation systems "
 "require direct skin contact."
-msgstr "Ein grundlegender Helm, der für die Benutzung mit der DoubleTech-Energierüstung Mk. I gemacht wurde. Bietet ausgezeichneten Schutz sowohl for Angriffen als auch Umweltgefahren. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "heavy power armor helmet"
@@ -10853,12 +10855,12 @@ msgstr[1] "schwere Energierüstungshelme"
 #. ~ Description for heavy power armor helmet
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  "
-"II-H.  This improved design is heavier than the Mk.  I helmet, but cooler, "
+"A power armor helmet designed for use with the DoubleTech Power Armor, Mk. "
+"II-H.  This improved design is heavier than the Mk. I helmet, but cooler, "
 "and offers better environmental protection.  Like all DoubleTech power "
 "armor, the control and climate-regulation systems require direct skin "
 "contact."
-msgstr "Ein Energierüstungshelm, der für die Benutzung mit der DoubleTech-Energierüstung Mk. II-H gemacht wurde. Das verbesserte Design ist schwerer, aber kühler als der Helm des Modells Mk. I und bietet besseren Schutz vor Umweltgefahren. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "light power armor helmet"
@@ -10869,11 +10871,11 @@ msgstr[1] "leichte Energierüstungshelme"
 #. ~ Description for light power armor helmet
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  "
-"II-L.  This improved design is lighter and cooler than the Mk.  I helmet.  "
+"A power armor helmet designed for use with the DoubleTech Power Armor, Mk. "
+"II-L.  This improved design is lighter and cooler than the Mk. I helmet.  "
 "Like all DoubleTech power armor, the control and climate-regulation systems "
 "require direct skin contact."
-msgstr "Ein Energierüstungshelm, der für die Benutzung mit der DoubleTech-Energierüstung Mk. II-L gemacht wurde. Das verbesserte Design ist leicher und kühler als der Helm des Modells Mk. I. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "light power armor"
@@ -10884,11 +10886,11 @@ msgstr[1] "leichte Energierüstungen"
 #. ~ Description for light power armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A suit of DoubleTech Power Armor, Mk.  II-L.  This model offers several "
-"improvements over the Mk.  I, most notably the reduced weight.  Like all "
+"A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several "
+"improvements over the Mk. I, most notably the reduced weight.  Like all "
 "DoubleTech power armor, the control and climate-regulation systems require "
 "direct skin contact."
-msgstr "Ein Anzug der DoubleTech-Energierüstung Mk. II-L. Dieses Modell bietet zahlreiche Verbesserungen gegenüber der Mk. I, vorallem das Gewicht. Wie alle DoubleTech-Energierüstungen erfordern die Steuerungs- und Klimaregulierungssysteme direkten Hautkontakt."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "purse"
@@ -33777,10 +33779,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "Ruger 223 magazine"
-msgstr "Ruger-223-Magazin"
+msgid "Ruger .223 magazine"
+msgstr ""
 
-#. ~ Description for Ruger 223 magazine
+#. ~ Description for Ruger .223 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A compact 10-round magazine commonly used with semi-automatic STANAG "
@@ -33808,10 +33810,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "makeshift 223 magazine"
+msgid "makeshift .223 magazine"
 msgstr ""
 
-#. ~ Description for makeshift 223 magazine
+#. ~ Description for makeshift .223 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An improvised magazine consisting of little more than a bent sheet of rusted"
@@ -34366,6 +34368,42 @@ msgstr "Glock-Magazin"
 msgid ""
 "A compact light-weight polymer magazine for use with Glock compatible "
 "firearms."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Glock 17 magazine - 17 rd"
+msgstr ""
+
+#. ~ Description for Glock 17 magazine - 17 rd
+#: lang/json/MAGAZINE_from_json.py
+msgid "Made for the Glock 17, this magazine holds 17 rounds."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Glock 17 magazine - 22 rd"
+msgstr ""
+
+#. ~ Description for Glock 17 magazine - 22 rd
+#: lang/json/MAGAZINE_from_json.py
+msgid "Made for the Glock 17, this magazine holds 22 rounds."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Glock Drum magazine - 50 rd"
+msgstr ""
+
+#. ~ Description for Glock Drum magazine - 50 rd
+#: lang/json/MAGAZINE_from_json.py
+msgid "Made to fit most Glock pistols.  This drum magazine holds 50 rounds."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Glock Drum magazine - 100 rd"
+msgstr ""
+
+#. ~ Description for Glock Drum magazine - 100 rd
+#: lang/json/MAGAZINE_from_json.py
+msgid "Made to fit most Glock pistols.  This drum magazine holds 100 rounds."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -39379,7 +39417,7 @@ msgstr "Ein Fernglas mit einem Halsband. Nützlich um in weite Entfernung zu sch
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "head torch"
-msgid_plural "head torchs"
+msgid_plural "head torches"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -39416,7 +39454,7 @@ msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "survivor head torch"
-msgid_plural "survivor head torchs"
+msgid_plural "survivor head torches"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -52135,6 +52173,11 @@ msgstr ""
 msgid "hay"
 msgstr "Heu"
 
+#. ~ Description for hay
+#: lang/json/furniture_from_json.py
+msgid "A bale of hay.  You could sleep on it, if desperate."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "whish!"
 msgstr "»Wisch!«."
@@ -52147,21 +52190,48 @@ msgstr "»Wisch.«."
 msgid "pile of rubble"
 msgstr "Schutthaufen"
 
+#. ~ Description for pile of rubble
+#: lang/json/furniture_from_json.py
+msgid ""
+"Pile of various metals, bricks, and other building materials.  You could "
+"clear it with a shovel."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "pile of rocky rubble"
 msgstr "steiniger Schutthaufen"
+
+#. ~ Description for pile of rocky rubble
+#: lang/json/furniture_from_json.py
+msgid "Pile of rocks.  Useless."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "metal wreckage"
 msgstr "Metalltrümmer"
 
+#. ~ Description for metal wreckage
+#: lang/json/furniture_from_json.py
+msgid "Pile of various bent and twisted metals."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "pile of ash"
 msgstr "Aschehaufen"
 
+#. ~ Description for pile of ash
+#: lang/json/furniture_from_json.py
+msgid "Some ash, from wood or possibly bodies."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "road barricade"
 msgstr "Straßenbarrikade"
+
+#. ~ Description for road barricade
+#: lang/json/furniture_from_json.py
+msgid "A road barricade.  For barricading roads."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
 #: src/mapdata.cpp
@@ -52176,6 +52246,11 @@ msgstr "»Wumms!«."
 msgid "sandbag barricade"
 msgstr "Sandsackbarrikade"
 
+#. ~ Description for sandbag barricade
+#: lang/json/furniture_from_json.py
+msgid "A sandbag, typically used for blocking bullets."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "rrrip!"
 msgstr "»Rrrratsch!«."
@@ -52184,9 +52259,19 @@ msgstr "»Rrrratsch!«."
 msgid "sandbag wall"
 msgstr "Sandsackwand"
 
+#. ~ Description for sandbag wall
+#: lang/json/furniture_from_json.py
+msgid "A few stacked sandbags."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "bulletin board"
 msgstr "Pinnwand"
+
+#. ~ Description for bulletin board
+#: lang/json/furniture_from_json.py
+msgid "Pin some notes for other survivors to read."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py src/iuse.cpp
@@ -52197,13 +52282,28 @@ msgstr "»Knirsch!«"
 msgid "indoor plant"
 msgstr "Topfplanze"
 
+#. ~ Description for indoor plant
+#: lang/json/furniture_from_json.py
+msgid "A variety of plant, used for decoration."
+msgstr ""
+
 #: lang/json/furniture_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bed"
 msgstr "Bett"
 
+#. ~ Description for bed
+#: lang/json/furniture_from_json.py
+msgid "Quite comfortable to sleep in."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "toilet"
 msgstr "Toilette"
+
+#. ~ Description for toilet
+#: lang/json/furniture_from_json.py
+msgid "Emergency water source, from the tank, and provider of relief."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "porcelain breaking!"
@@ -52217,17 +52317,39 @@ msgstr "»Bumms!«."
 msgid "makeshift bed"
 msgstr "Notbett"
 
+#. ~ Description for makeshift bed
+#: lang/json/furniture_from_json.py
+msgid "Not as comfortable as a real bed, but it will suffice."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "straw bed"
 msgstr "Strohbett"
+
+#. ~ Description for straw bed
+#: lang/json/furniture_from_json.py
+msgid "Kinda itches when you lay on it."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "sink"
 msgstr "Waschbecken"
 
+#. ~ Description for sink
+#: lang/json/furniture_from_json.py
+msgid "Emergency relief provider.  Water isn't running, so no water."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "oven"
 msgstr "Ofen"
+
+#. ~ Description for oven
+#: lang/json/furniture_from_json.py
+msgid ""
+"Used for heating and cooking food with eletricity.  Doesn't look like it's "
+"working, although it stil has parts."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -52243,9 +52365,22 @@ msgstr "»Kläng!«."
 msgid "wood stove"
 msgstr "Holzherd"
 
+#. ~ Description for wood stove
+#: lang/json/furniture_from_json.py
+msgid ""
+"Wood stove for heating and cooking.  Much more effective than an open flame."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "fireplace"
 msgstr "Kamin"
+
+#. ~ Description for fireplace
+#: lang/json/furniture_from_json.py
+msgid ""
+"Ah.  The relaxation of sitting in front of a fire as the world around you "
+"crumbles."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -52262,101 +52397,228 @@ msgstr "»Wumm!«."
 msgid "shower"
 msgstr "Dusche"
 
+#. ~ Description for shower
+#: lang/json/furniture_from_json.py
+msgid "You would be able to clean yourself if water was running."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "bathtub"
 msgstr "Badewanne"
+
+#. ~ Description for bathtub
+#: lang/json/furniture_from_json.py
+msgid "You could lay in and take a soothing bath.  Only if water was running."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "chair"
 msgstr "Stuhl"
 
+#. ~ Description for chair
+#: lang/json/furniture_from_json.py
+msgid "Sit down, have a drink."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "arm chair"
 msgstr "Sessel"
+
+#. ~ Description for arm chair
+#: lang/json/furniture_from_json.py
+msgid "A more comfortable way of sitting down."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "sofa"
 msgstr "Sofa"
 
+#. ~ Description for sofa
+#: lang/json/furniture_from_json.py
+msgid "Lay down OR sit down!  Perfect!"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "cupboard"
 msgstr "Schrank"
+
+#. ~ Description for cupboard
+#: lang/json/furniture_from_json.py
+msgid "Store your cups."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "trash can"
 msgstr "Mülleimer"
 
+#. ~ Description for trash can
+#: lang/json/furniture_from_json.py
+msgid "One man's trash is another mans dinner."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "desk"
 msgstr "Schreibtisch"
+
+#. ~ Description for desk
+#: lang/json/furniture_from_json.py
+msgid "Sit down at it, and, if up to, work on it."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "exercise machine"
 msgstr "Fitness-Gerät"
 
+#. ~ Description for exercise machine
+#: lang/json/furniture_from_json.py
+msgid "Typically used for, well, excercising.  You're not up for it."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "ball machine"
 msgstr "Kugelmaschine"
+
+#. ~ Description for ball machine
+#: lang/json/furniture_from_json.py
+msgid "Remember when baseball was a thing?"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "bench"
 msgstr "Bank"
 
+#. ~ Description for bench
+#: lang/json/furniture_from_json.py
+msgid "Hobo bed.  Use at your own risk."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "lane guard"
 msgstr "Rinne"
+
+#. ~ Description for lane guard
+#: lang/json/furniture_from_json.py
+msgid "Used to be used for keeping traffic."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/vehicle_part_from_json.py
 msgid "table"
 msgstr "Tisch"
 
+#. ~ Description for table
+#: lang/json/furniture_from_json.py
+msgid "Sit down when you eat!"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "sign"
 msgstr "Schild"
+
+#. ~ Description for sign
+#: lang/json/furniture_from_json.py
+msgid "Read it.  Warnings ahead."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "pool table"
 msgstr "Billardtisch"
 
+#. ~ Description for pool table
+#: lang/json/furniture_from_json.py
+msgid "A good-looking pool table.  You wish you learned how to play."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "counter"
 msgstr "Theke"
+
+#. ~ Description for counter
+#: lang/json/furniture_from_json.py
+msgid "Affixed to the wall or found in kitchens or stores."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "refrigerator"
 msgstr "Kühlschrank"
 
+#. ~ Description for refrigerator
+#: lang/json/furniture_from_json.py
+msgid ""
+"Freeze your food with the amazing science of electricity!  Oh wait, none is "
+"flowing."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "glass door fridge"
 msgstr "Glastür-Kühlschrank"
+
+#. ~ Description for glass door fridge
+#: lang/json/furniture_from_json.py
+msgid "Wow!  See INTO your fridge before you open it!"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "dresser"
 msgstr "Kleiderschrank"
 
+#. ~ Description for dresser
+#: lang/json/furniture_from_json.py
+msgid "Dress yourself for the prom, or other occasions."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "locker"
 msgstr "Schrank"
 
+#. ~ Description for locker
+#: lang/json/furniture_from_json.py
+msgid "Usually used for storing equipment or items."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "display rack"
 msgstr "Gestell"
+
+#. ~ Description for display rack
+#: lang/json/furniture_from_json.py
+msgid "Display your items."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "book case"
 msgstr "Bücherregal"
 
+#. ~ Description for book case
+#: lang/json/furniture_from_json.py
+msgid "Stores books.  Y'know, Those things.  Who reads books anymore?"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "washing machine"
 msgstr "Waschmaschine"
+
+#. ~ Description for washing machine
+#: lang/json/furniture_from_json.py
+msgid "You could wash your dirty clothes if electricity was running."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "dryer"
 msgstr "Trockner"
 
+#. ~ Description for dryer
+#: lang/json/furniture_from_json.py
+msgid "Dry your clothes!"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "standing mirror"
+msgstr ""
+
+#. ~ Description for standing mirror
+#: lang/json/furniture_from_json.py
+msgid "Lookin' good- is that blood?"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -52371,9 +52633,21 @@ msgstr "»Bonk!«"
 msgid "broken standing mirror"
 msgstr ""
 
+#. ~ Description for broken standing mirror
+#: lang/json/furniture_from_json.py
+msgid ""
+"You could look at yourself, if the mirror wasnt covered in cracks and "
+"fractures."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "vending machine"
 msgstr "Verkaufsautomat"
+
+#. ~ Description for vending machine
+#: lang/json/furniture_from_json.py
+msgid "Buy stuff with a cash card."
+msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -52385,16 +52659,36 @@ msgstr "Glas scheppern."
 msgid "broken vending machine"
 msgstr "kaputter Verkaufsautomat"
 
+#. ~ Description for broken vending machine
+#: lang/json/furniture_from_json.py
+msgid "Ponder if you could buy stuff, as it's broken."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "dumpster"
 msgstr "Müllcontainer"
+
+#. ~ Description for dumpster
+#: lang/json/furniture_from_json.py
+msgid "Stores your trash."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "diving block"
 msgstr "Startblock"
 
+#. ~ Description for diving block
+#: lang/json/furniture_from_json.py
+msgid "Jump!  Jump!  Dive!"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "coffin"
+msgstr ""
+
+#. ~ Description for coffin
+#: lang/json/furniture_from_json.py
+msgid "Holds the bodies of the countless you kill."
 msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
@@ -52405,13 +52699,28 @@ msgstr "»Bonk!«."
 msgid "open coffin"
 msgstr ""
 
+#. ~ Description for open coffin
+#: lang/json/furniture_from_json.py
+msgid "Look at the bodies of the countless you've killed."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "crate"
 msgstr "Kiste"
 
+#. ~ Description for crate
+#: lang/json/furniture_from_json.py
+msgid "What's inside?  Find out!"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "open crate"
 msgstr "offene Kiste"
+
+#. ~ Description for open crate
+#: lang/json/furniture_from_json.py
+msgid "What's inside?  Look in it!"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "canvas wall"
@@ -52441,6 +52750,11 @@ msgstr "Unterlegplane"
 #: lang/json/furniture_from_json.py
 msgid "animalskin wall"
 msgstr "Tierhaut-Wand"
+
+#. ~ Description for animalskin wall
+#: lang/json/furniture_from_json.py
+msgid "Wall made out of animal skin.  Either an amazing or horrifying sight."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "animalskin flap"
@@ -52479,25 +52793,55 @@ msgstr "Fungusklumpen"
 msgid "safe"
 msgstr "Tresor"
 
+#. ~ Description for safe
+#: lang/json/furniture_from_json.py
+msgid "Holds items.  Securely."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "screeching metal!"
 msgstr "Metall knirschen!"
+
+#. ~ Description for safe
+#: lang/json/furniture_from_json.py
+msgid "What needs protection like this?"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "gun safe"
 msgstr "Waffentresor"
 
+#. ~ Description for gun safe
+#: lang/json/furniture_from_json.py
+msgid "Oooooohhhh.  Shiny."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "jammed gun safe"
 msgstr "blockierter Waffentresor"
+
+#. ~ Description for jammed gun safe
+#: lang/json/furniture_from_json.py
+msgid "Does it have guns in it?  You won't find out.  It's jammed."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "electronic gun safe"
 msgstr "elektronischer Waffentresor"
 
+#. ~ Description for electronic gun safe
+#: lang/json/furniture_from_json.py
+msgid "Can you hack it open to get the firearms?"
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "open safe"
 msgstr "offener Tresor"
+
+#. ~ Description for open safe
+#: lang/json/furniture_from_json.py
+msgid "Grab the firearms!"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "seedling"
@@ -52527,9 +52871,19 @@ msgstr "Holzfässchen"
 msgid "yellow indoor plant"
 msgstr "gelbe Zimmerpflanze"
 
+#. ~ Description for yellow indoor plant
+#: lang/json/furniture_from_json.py
+msgid "A variety of plant for decoration.  It's yellow."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "statue"
 msgstr "Statue"
+
+#. ~ Description for statue
+#: lang/json/furniture_from_json.py
+msgid "A carved statue made of stone.."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "thump."
@@ -52538,6 +52892,11 @@ msgstr "»Bums.«."
 #: lang/json/furniture_from_json.py
 msgid "mannequin"
 msgstr "Mannequin"
+
+#. ~ Description for mannequin
+#: lang/json/furniture_from_json.py
+msgid "Put clothes on it and wish you looked as good."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "marloss flower"
@@ -52555,6 +52914,16 @@ msgstr ""
 msgid "forge"
 msgstr "Schmiede"
 
+#. ~ Description for forge
+#: lang/json/furniture_from_json.py
+msgid "Typically used in combination with an anvil."
+msgstr ""
+
+#. ~ Description for anvil
+#: lang/json/furniture_from_json.py
+msgid "Used in metalworking."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "spider egg sack"
 msgstr "Spinneneiernest"
@@ -52571,13 +52940,30 @@ msgstr "geplündertes Eiernest"
 msgid "reinforced vending machine"
 msgstr "verstärkter Verkaufsautomat"
 
+#. ~ Description for reinforced vending machine
+#: lang/json/furniture_from_json.py
+msgid "A bit tougher to crack open than regular vending machines."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "arcade machine"
 msgstr "Arcade-Automat"
 
+#. ~ Description for arcade machine
+#: lang/json/furniture_from_json.py
+msgid "Play stupid games, win stupid prizes."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "pinball machine"
 msgstr "Flipperautomat"
+
+#. ~ Description for pinball machine
+#: lang/json/furniture_from_json.py
+msgid ""
+"Most underrated game of the 20th century.  Press buttons so it doesn't go in"
+" the hole."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "ergometer"
@@ -52592,13 +52978,28 @@ msgstr "»Bums!«"
 msgid "treadmill"
 msgstr "Laufband"
 
+#. ~ Description for treadmill
+#: lang/json/furniture_from_json.py
+msgid "Used for training leg muscles.  It'll be hard without power."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "display case"
 msgstr "Schaukasten"
 
+#. ~ Description for display case
+#: lang/json/furniture_from_json.py
+msgid "Display your stuff.  Securely."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "broken display case"
 msgstr "zerbrochener Schaukasten."
+
+#. ~ Description for broken display case
+#: lang/json/furniture_from_json.py
+msgid "Display your stuff.  It'll get stolen."
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "standing tank"
@@ -52607,6 +53008,11 @@ msgstr "Stehtank"
 #: lang/json/furniture_from_json.py
 msgid "heavy punching bag"
 msgstr "schwerer Sandsack"
+
+#. ~ Description for heavy punching bag
+#: lang/json/furniture_from_json.py
+msgid "Punch Punch!  Excercise those arms!"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "whud."
@@ -52656,13 +53062,28 @@ msgstr ""
 msgid "small boulder"
 msgstr "kleiner Felsbrocken"
 
+#. ~ Description for small boulder
+#: lang/json/furniture_from_json.py
+msgid "Blocking your path.  Should be easy to move."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "medium boulder"
 msgstr "mittelgroßer Felsbrocken"
 
+#. ~ Description for medium boulder
+#: lang/json/furniture_from_json.py
+msgid "Blocking your path.  It'll be a struggle to move."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "large boulder"
 msgstr "großer Felsbrocken"
+
+#. ~ Description for large boulder
+#: lang/json/furniture_from_json.py
+msgid "Now how are you going to move this?"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "stone slab"
@@ -52681,12 +53102,27 @@ msgstr "»Knack.«."
 msgid "headstone"
 msgstr ""
 
+#. ~ Description for headstone
+#: lang/json/furniture_from_json.py
+msgid "Keeps the bodies."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "gravestone"
 msgstr ""
 
+#. ~ Description for gravestone
+#: lang/json/furniture_from_json.py
+msgid "Keeps the bodies.  More fancy."
+msgstr ""
+
 #: lang/json/furniture_from_json.py
 msgid "worn gravestone"
+msgstr ""
+
+#. ~ Description for worn gravestone
+#: lang/json/furniture_from_json.py
+msgid "A worn-out gravestone."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -55292,6 +55728,18 @@ msgid ""
 "other submachine gun.  It is widely used as a personal defense weapon, or as"
 " a primary weapon by elite frontline forces."
 msgstr "The Uzi 9mm has enjoyed immense popularity, selling more units than any other submachine gun. It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces."
+
+#: lang/json/gun_from_json.py
+msgid "Glock 17"
+msgid_plural "Glock 17s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"Designed for all shooters, the Glock 17 is marketed towards law-enforcement "
+"and military."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Makarov PM"
@@ -70435,6 +70883,14 @@ msgid "hellmouth"
 msgstr "Höllenschlund"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "subway station (sewer level)"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "subway station (underground level)"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "subway"
 msgstr "U-Bahn"
 
@@ -70788,6 +71244,30 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "small cemetery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "lumberyard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "construction site"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "post office"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "candy shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bakery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "icecream shop"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -82646,6 +83126,10 @@ msgid "\"Mom, I miss you.\""
 msgstr "»Mama, ich vermisse dich.«"
 
 #: lang/json/speech_from_json.py
+msgid "\"Me go, you stay.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Please, God.\""
 msgstr "»Bitte, Gott!«"
 
@@ -83123,7 +83607,8 @@ msgstr "Buchladen"
 msgid "Cabin"
 msgstr "Blockhaus"
 
-#: lang/json/start_location_from_json.py src/defense.cpp
+#: lang/json/start_location_from_json.py lang/json/start_location_from_json.py
+#: src/defense.cpp
 msgid "Hospital"
 msgstr "Krankenhaus"
 
@@ -86539,6 +87024,18 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "bulk tank"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "railroad rubble"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "railroad track"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "railroad tie"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -110641,22 +111138,6 @@ msgid "COMMAND: SEAL SRCF [4423]"
 msgstr "BEFEHL: SRCF VERSIEGELN (4423)"
 
 #: src/mapgen.cpp
-msgid "Centrifuge"
-msgstr "Zentrifuge"
-
-#: src/mapgen.cpp
-msgid "Analyze blood"
-msgstr "Blut analysieren"
-
-#: src/mapgen.cpp
-msgid "Mr. Stem Cell"
-msgstr "Mister Stammzelle"
-
-#: src/mapgen.cpp
-msgid "Stem Cell Treatment"
-msgstr "Stammzellenbehandlung"
-
-#: src/mapgen.cpp
 msgid "Wreckage"
 msgstr "Trümmerhaufen"
 
@@ -114474,7 +114955,7 @@ msgstr "Ges. weiter zu erhöhen, kostet 2 Punkte."
 msgid "Melee to-hit bonus: +%.2f"
 msgstr ""
 
-#: src/newcharacter.cpp src/player_display.cpp
+#: src/newcharacter.cpp
 #, c-format
 msgid "Throwing penalty per target's dodge: +%d"
 msgstr ""
@@ -117692,6 +118173,23 @@ msgid "Where new log messages should show."
 msgstr ""
 
 #: src/options.cpp
+msgid "Morale style"
+msgstr ""
+
+#: src/options.cpp
+msgid "Morale display style in sidebar."
+msgstr ""
+
+#: src/options.cpp
+msgid "Horizontal"
+msgstr ""
+
+#. ~ aim bar style - bars or numbers
+#: src/options.cpp
+msgid "Vertical"
+msgstr ""
+
+#: src/options.cpp
 msgid "Pixel Minimap drawing mode"
 msgstr ""
 
@@ -119440,6 +119938,42 @@ msgstr "Deine Bioniken haben einen Kurzschluss, was dich zum Zittern bringt."
 msgid "Your malfunctioning bionic itches!"
 msgstr "Dein defektes Bionik tut weh."
 
+#: src/player.cpp
+msgid "Your muscles spasm!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You fall to the ground!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You feel short of breath."
+msgstr ""
+
+#: src/player.cpp
+msgid "You shake uncontrollably."
+msgstr ""
+
+#: src/player.cpp
+msgid "You feel nauseous..."
+msgstr ""
+
+#: src/player.cpp
+msgid "You black out!"
+msgstr ""
+
+#: src/player.cpp
+msgid "Your breathing slows down."
+msgstr ""
+
+#: src/player.cpp
+msgid "You stumble and fall over!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You feel tired..."
+msgstr ""
+
 #. ~ %s is bodypart
 #: src/player.cpp
 #, c-format
@@ -120558,6 +121092,10 @@ msgstr "Nahkampftreffbonus:"
 #: src/player_display.cpp
 msgid "Ranged penalty:"
 msgstr "Fernkampfstrafe:"
+
+#: src/player_display.cpp
+msgid "Throwing penalty per target's dodge:"
+msgstr ""
 
 #: src/player_display.cpp
 msgid ""
