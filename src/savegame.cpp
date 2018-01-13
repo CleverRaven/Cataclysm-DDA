@@ -82,7 +82,7 @@ void game::serialize(std::ostream & fout) {
         }
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
-        json.member( "nextspawn", (int)nextspawn );
+        json.member( "nextspawn", nextspawn );
         // current map coordinates
         tripoint pos_sm = m.get_abs_sub();
         const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
@@ -176,7 +176,7 @@ void game::unserialize(std::istream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -188,7 +188,7 @@ void game::unserialize(std::istream & fin)
         data.read( "last_target_type", tmptartyp );
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
-        data.read("nextspawn",tmpspawn);
+        data.read( "nextspawn", nextspawn );
         data.read("levx",levx);
         data.read("levy",levy);
         data.read("levz",levz);
@@ -197,7 +197,6 @@ void game::unserialize(std::istream & fin)
 
         calendar::turn = tmpturn;
         calendar::start = tmpcalstart;
-        nextspawn = tmpspawn;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 

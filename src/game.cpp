@@ -273,6 +273,7 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
+    nextspawn( time_point::from_turn( -1 ) ),
     remoteveh_cache_time( time_point::from_turn( -1 ) ),
     gamemode(),
     user_action_counter(0),
@@ -852,7 +853,7 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = int(calendar::turn);
+    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
@@ -1450,8 +1451,8 @@ bool game::do_turn()
     reset_light_level();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400)) {
+    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
+        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -4086,7 +4087,7 @@ void game::debug()
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), int( nextspawn ),
+                int( calendar::turn ), to_turn<int>( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures(), events.size() );
@@ -13043,7 +13044,7 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if (calendar::turn >= nextspawn) {
+    if( calendar::turn >= nextspawn ) {
         spawn_mon(shiftx, shifty);
     }
 
