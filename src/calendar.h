@@ -4,6 +4,11 @@
 
 #include <string>
 
+class time_duration;
+class time_point;
+class JsonOut;
+class JsonIn;
+
 /**
  * Convert turns to ticks
  *
@@ -340,12 +345,13 @@ class calendar
         static   calendar start;
         static   calendar turn;
         static season_type initial_season;
-};
 
-class time_duration;
-class time_point;
-class JsonOut;
-class JsonIn;
+        /**
+         * Represents time point 0.
+         */
+        //@todo flesh out the documentation
+        static const time_point time_of_cataclysm;
+};
 
 template<typename T>
 constexpr T to_turns( const time_duration duration );

@@ -1900,7 +1900,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
 
             item &seed = g->m.i_at( examp ).front();
             //@todo item should probably clamp the value on its own
-            seed.set_birthday( std::max( time_point( 0 ), seed.birthday() - fertilizerEpoch ) );
+            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
