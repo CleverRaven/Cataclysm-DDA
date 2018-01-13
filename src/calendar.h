@@ -580,25 +580,6 @@ class time_point
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        constexpr bool operator<( const time_point rhs ) const {
-            return turn_ < rhs.turn_;
-        }
-        constexpr bool operator<=( const time_point rhs ) const {
-            return turn_ <= rhs.turn_;
-        }
-        constexpr bool operator>( const time_point rhs ) const {
-            return turn_ > rhs.turn_;
-        }
-        constexpr bool operator>=( const time_point rhs ) const {
-            return turn_ >= rhs.turn_;
-        }
-        constexpr bool operator==( const time_point rhs ) const {
-            return turn_ == rhs.turn_;
-        }
-        constexpr bool operator!=( const time_point rhs ) const {
-            return turn_ != rhs.turn_;
-        }
-
         //@todo try to get rid of this
         template<typename T>
         friend constexpr T to_turn( const time_point point ) {
@@ -623,5 +604,30 @@ class time_point
             return lhs = time_point( lhs.turn_ - to_turns<int>( rhs ) );
         }
 };
+
+constexpr inline bool operator<( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) < to_turn<int>( rhs );
+}
+constexpr inline bool operator<=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+}
+constexpr inline bool operator>( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) > to_turn<int>( rhs );
+}
+constexpr inline bool operator>=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+}
+constexpr inline bool operator==( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) == to_turn<int>( rhs );
+}
+constexpr inline bool operator!=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) != to_turn<int>( rhs );
+}
 
 #endif
