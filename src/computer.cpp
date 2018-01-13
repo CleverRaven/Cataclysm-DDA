@@ -1039,8 +1039,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Atlanta, GA 30329\n\
   \n\
   EPA Region 8 Laboratory\n\
-  16194 W. 45th\n\
-  Drive Golden, Colorado 80403\n\
+  16194 W. 45th Drive\n\
+  Golden, Colorado 80403\n\
   \n\
   These samples must be accurate and any attempts to cover\n\
   incompetencies will result in charges of Federal Corruption\n\
