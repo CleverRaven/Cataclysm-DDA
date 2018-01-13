@@ -273,9 +273,9 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    nextspawn( time_point::from_turn( -1 ) ),
-    nextweather( time_point::from_turn( -1 ) ),
-    remoteveh_cache_time( time_point::from_turn( -1 ) ),
+    nextspawn( calendar::before_time_starts ),
+    nextweather( calendar::before_time_starts ),
+    remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter(0),
     tileset_zoom(16),
@@ -781,7 +781,7 @@ void game::setup()
     npc_kills.clear();
     scent.reset();
 
-    remoteveh_cache_time = time_point::from_turn( -1 );
+    remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
@@ -858,7 +858,7 @@ bool game::start_game(std::string worldname)
     nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
-    u.next_climate_control_check = time_point::from_turn( -1 );  // Force recheck at startup
+    u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
     //Reset character safe mode/pickup rules

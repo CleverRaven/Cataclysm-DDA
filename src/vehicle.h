@@ -1244,10 +1244,10 @@ public:
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
     /// Time occupied points were calculated.
-    time_point occupied_cache_time = time_point::from_turn( -1 );
+    time_point occupied_cache_time = calendar::before_time_starts;
 
     // Turn the vehicle was last processed
-    time_point last_update = time_point::from_turn( -1 );
+    time_point last_update = calendar::before_time_starts;
     // Retroactively pass time spent outside bubble
     // Funnels, solars
     void update_time( const time_point &update_to );

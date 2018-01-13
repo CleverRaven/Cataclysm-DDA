@@ -3844,7 +3844,7 @@ void vehicle::on_move(){
         operate_reaper();
     }
 
-    occupied_cache_time = time_point::from_turn( -1 );
+    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::operate_plow(){

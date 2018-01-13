@@ -20,7 +20,7 @@ class scent_map
 
         scent_array<int> grscent;
         tripoint player_last_position = tripoint_min;
-        time_point player_last_moved = time_point::from_turn( -1 );
+        time_point player_last_moved = calendar::before_time_starts;
 
         const game &gm;
 

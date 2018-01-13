@@ -19,6 +19,7 @@ calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
 
+const time_point calendar::before_time_starts = time_point::from_turn( -1 );
 const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
 
 // Internal constants, not part of the calendar interface.

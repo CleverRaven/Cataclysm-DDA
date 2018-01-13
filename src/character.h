@@ -535,7 +535,7 @@ class Character : public Creature, public visitable<Character>
         }
         /** set the turn the turn the character died if not already done */
         void set_time_died( const time_point &time ) {
-            if( time_died != time_point::from_turn( -1 ) ) {
+            if( time_died != calendar::before_time_starts ) {
                 time_died = time;
             }
         }
@@ -683,9 +683,9 @@ class Character : public Creature, public visitable<Character>
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max;
 
-        // turn the character expired, if time_point::from_turn( -1 ) it has not been set yet.
+        // turn the character expired, if calendar::before_time_starts it has not been set yet.
         //@todo change into an optional<time_point>
-        time_point time_died = time_point::from_turn( -1 );
+        time_point time_died = calendar::before_time_starts;
 
         /**
          * Cache for pathfinding settings.

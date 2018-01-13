@@ -548,8 +548,8 @@ stat_mod player::get_pain_penalty() const
 }
 
 player::player() : Character()
-, next_climate_control_check( time_point::from_turn( -1 ) )
-, cached_time( time_point::from_turn( -1 ) )
+, next_climate_control_check( calendar::before_time_starts )
+, cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid
     str_cur = 8;

@@ -347,6 +347,13 @@ class calendar
         static season_type initial_season;
 
         /**
+         * A time point that is always before the current turn, even when the game has
+         * just started. This implies `before_time_starts < calendar::turn` is always
+         * true. It can be used to initialize `time_point` values that denote that last
+         * time a cache was update.
+         */
+        static const time_point before_time_starts;
+        /**
          * Represents time point 0.
          */
         //@todo flesh out the documentation

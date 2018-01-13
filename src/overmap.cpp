@@ -1935,7 +1935,7 @@ static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &t
 {
     // Weather calculation is a bit expensive, so it's cached here.
     static std::map<tripoint, weather_type> weather_cache;
-    static time_point last_weather_display = time_point::from_turn( -1 );
+    static time_point last_weather_display = calendar::before_time_starts;
     if( last_weather_display != calendar::turn ) {
         last_weather_display = calendar::turn;
         weather_cache.clear();

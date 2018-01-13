@@ -304,7 +304,7 @@ const inventory &player::crafting_inventory()
 
 void player::invalidate_crafting_inventory()
 {
-    cached_time = time_point::from_turn( -1 );
+    cached_time = calendar::before_time_starts;
 }
 
 void player::make_craft( const std::string &id_to_make, int batch_size )
