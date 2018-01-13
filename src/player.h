@@ -1354,7 +1354,7 @@ class player : public Character
 
         std::map<std::string, int> mutation_category_level;
 
-        int next_climate_control_check;
+        time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;

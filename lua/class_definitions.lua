@@ -440,7 +440,7 @@ classes = {
             max_power_level = { type = "int", writable = true },
             move_mode = { type = "string", writable = true },
             movecounter = { type = "int", writable = true },
-            next_climate_control_check = { type = "int", writable = true },
+            next_climate_control_check = { type = "time_point", writable = true },
             oxygen = { type = "int", writable = true },
             power_level = { type = "int", writable = true },
             radiation = { type = "int", writable = true },

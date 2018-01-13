@@ -858,7 +858,7 @@ bool game::start_game(std::string worldname)
     nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
-    u.next_climate_control_check = 0;  // Force recheck at startup
+    u.next_climate_control_check = time_point::from_turn( -1 );  // Force recheck at startup
     u.last_climate_control_ret = false;
 
     //Reset character safe mode/pickup rules

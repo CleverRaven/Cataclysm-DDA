@@ -548,6 +548,7 @@ stat_mod player::get_pain_penalty() const
 }
 
 player::player() : Character()
+, next_climate_control_check( time_point::from_turn( -1 ) )
 , cached_time( time_point::from_turn( -1 ) )
 {
     id = -1; // -1 is invalid
@@ -580,7 +581,6 @@ player::player() : Character()
     moves = 100;
     movecounter = 0;
     oxygen = 0;
-    next_climate_control_check = 0;
     last_climate_control_ret = false;
     active_mission = nullptr;
     in_vehicle = false;
@@ -3146,9 +3146,9 @@ bool player::in_climate_control()
             return true;
         }
     }
-    if( int( calendar::turn ) >= next_climate_control_check ) {
+    if( calendar::turn >= next_climate_control_check ) {
         // save cpu and simulate acclimation.
-        next_climate_control_check = int( calendar::turn ) + 20;
+        next_climate_control_check = calendar::turn + 20_turns;
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
@@ -3161,7 +3161,7 @@ bool player::in_climate_control()
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-            next_climate_control_check += 40;
+            next_climate_control_check += 40_turns;
         }
     } else {
         return last_climate_control_ret;
