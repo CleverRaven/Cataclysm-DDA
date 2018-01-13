@@ -2397,5 +2397,38 @@
             {"item": "clockworks", "count": [0,2]},
             {"item": "scrap", "count": [2,6]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "turret_mount",
+        "name" : "turret mount",
+        "symbol" : "X",
+        "color" : "light_gray",
+        "broken_symbol" : "X",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "turret_mount",
+        "difficulty" : 2,
+        "location" : "on_roof",
+        "requirements": {
+          "install": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 120000,
+            "using": [ [ "welding_standard", 10 ] ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "using": "vehicle_weld_removal"
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 30000,
+            "using": [ [ "welding_standard", 5 ] ]
+          }
+        },
+        "flags": [ "TURRET_MOUNT" ],
+        "breaks_into" : [
+            { "item": "scrap", "count": [ 1, 4 ] }
+        ]
     }
 ]
