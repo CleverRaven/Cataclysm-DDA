@@ -91,30 +91,30 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
-                              const calendar &turn, const int tick_size )
+                              const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
     case WEATHER_DRIZZLE:
-        data.rain_amount += 4 * tick_size;
+        data.rain_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_RAINY:
     case WEATHER_THUNDER:
     case WEATHER_LIGHTNING:
-        data.rain_amount += 8 * tick_size;
+        data.rain_amount += 8 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_DRIZZLE:
-        data.acid_amount += 4 * tick_size;
+        data.acid_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_RAIN:
-        data.acid_amount += 8 * tick_size;
+        data.acid_amount += 8 * to_turns<int>( tick_size );
         break;
     default:
         break;
     }
 
-    // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = turn.sunlight() + weather_data( wtype ).light_modifier;
-    data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
+    // TODO: Change this sunlight "sampling" here into a proper interpolation
+    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather_data( wtype ).light_modifier;
+    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
 }
 
 ////// Funnels.
@@ -136,7 +136,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         }
 
         const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
-        proc_weather_sum( wtype, data, to_turn<int>( t ), to_turn<int>( tick_size ) );
+        proc_weather_sum( wtype, data, t, tick_size );
     }
 
     return data;
