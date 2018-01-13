@@ -1057,7 +1057,7 @@ private:
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
         time_point nextspawn; // The time on which monsters will spawn next.
-        calendar nextweather; // The turn on which weather will shift next.
+        time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count

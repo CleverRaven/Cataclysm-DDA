@@ -274,6 +274,7 @@ game::game() :
     safe_mode_warning_logged(false),
     mostseen(0),
     nextspawn( time_point::from_turn( -1 ) ),
+    nextweather( time_point::from_turn( -1 ) ),
     remoteveh_cache_time( time_point::from_turn( -1 ) ),
     gamemode(),
     user_action_counter(0),
@@ -759,7 +760,8 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
+    //@todo shouln't that use calendar::start instead of INITIAL_TIME?
+    nextweather = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -1776,7 +1778,9 @@ void game::update_weather()
 
         temperature = w.temperature;
         lightning_active = false;
-        nextweather = calendar::turn + 50; // Check weather each 50 turns.
+        // Check weather every few turns, instead of every turn.
+        //@todo predict when the weather changes and use that time.
+        nextweather = calendar::turn + 50_turns;
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -3696,7 +3700,7 @@ void game::load(std::string worldname, const save_t &name)
     }
 
     read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather, this, _1 ) );
-    nextweather = int(calendar::turn);
+    nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
 
