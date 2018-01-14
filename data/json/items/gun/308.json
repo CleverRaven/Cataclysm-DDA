@@ -112,7 +112,7 @@
     "color": "brown",
     "ammo": "308",
     "ranged_damage": -1,
-    "range" 14,
+    "range": 14,
     "dispersion": 110,
     "durability": 8,
     "barrel_length": 2,
