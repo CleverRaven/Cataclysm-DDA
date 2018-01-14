@@ -198,7 +198,7 @@
     "bashing": 12,
     "to_hit": -1,
     "ranged_damage": 5,
-    "range": 14
+    "range": 14,
     "dispersion": 60,
     "durability": 8,
     "burst": 5,
@@ -561,7 +561,7 @@
   "volume": 18,
   "bashing": 12,
   "to_hit": -3,
-  "range: 6,
+  "range": 6,
   "dispersion": 150,
   "durability": 6,
   "burst": 5,
