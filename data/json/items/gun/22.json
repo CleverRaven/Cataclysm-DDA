@@ -203,7 +203,7 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "22",
-    "range" 4,
+    "range": 4,
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,
