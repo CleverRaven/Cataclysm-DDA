@@ -73,7 +73,6 @@
     "ammo": "40mm",
     "range": 30,
     "ranged_damage": 1,
-    "range": 25,
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
