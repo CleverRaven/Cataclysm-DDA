@@ -12,6 +12,7 @@
     "color": "light_red",
     "ammo": "signal_flare",
     "skill": "pistol",
+    "range": 14,
     "dispersion": 600,
     "durability": 7,
     "loudness": 40,
