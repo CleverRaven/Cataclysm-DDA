@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "addiction.h"
 #include "inventory.h"
+#include "skill.h"
 #include "options.h"
 #include "weather.h"
 #include "item.h"
@@ -9639,13 +9640,13 @@ bool player::studied_all_recipes(const itype &book) const
 const recipe_subset &player::get_learned_recipes() const
 {
     // Cache validity check
-    if( _skills != valid_autolearn_skills ) {
+    if( *_skills != *valid_autolearn_skills ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
             if( meets_skill_requirements( r->autolearn_requirements ) ) {
                 learned_recipes.include( r );
             }
         }
-        valid_autolearn_skills = _skills; // Reassign the validity stamp
+        *valid_autolearn_skills = *_skills; // Reassign the validity stamp
     }
 
     return learned_recipes;

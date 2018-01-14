@@ -20,6 +20,7 @@
 #include "material.h"
 #include "translations.h"
 #include "vitamin.h"
+#include "skill.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -760,7 +761,7 @@ void player::deserialize(JsonIn &jsin)
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
         learned_recipes.clear();
-        valid_autolearn_skills.clear(); // Invalidates the cache
+        valid_autolearn_skills->clear(); // Invalidates the cache
 
         std::string pstr;
         while ( parray.has_more() ) {

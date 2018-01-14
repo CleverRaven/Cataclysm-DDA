@@ -10,6 +10,8 @@
 #include "effect.h"
 #include "input.h"
 #include "addiction.h"
+#include "skill.h"
+
 #include <algorithm>
 
 const skill_id skill_swimming( "swimming" );

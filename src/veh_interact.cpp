@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
+#include "skill.h"
 #include "messages.h"
 #include "translations.h"
 #include "veh_type.h"

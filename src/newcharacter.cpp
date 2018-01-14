@@ -13,6 +13,7 @@
 #include "name.h"
 #include "string_formatter.h"
 #include "options.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
@@ -2399,7 +2400,7 @@ void Character::empty_traits()
 
 void Character::empty_skills()
 {
-    for( auto &sk : _skills ) {
+    for( auto &sk : *_skills ) {
         sk.second.level( 0 );
     }
 }

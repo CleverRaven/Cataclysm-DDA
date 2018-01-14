@@ -10,6 +10,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "skill.h"
 #include "mission.h"
 #include "output.h"
 #include "monfaction.h"
@@ -842,7 +843,7 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : _skills ) {
+    for( auto const &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             int const level = p.second;
             if( level > highest_level ) {

@@ -10,6 +10,7 @@
 #include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "output.h"
 #include "json.h"

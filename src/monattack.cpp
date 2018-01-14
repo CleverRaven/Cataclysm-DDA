@@ -24,6 +24,7 @@
 #include "mongroup.h"
 #include "translations.h"
 #include "morale_types.h"
+#include "skill.h"
 #include "npc.h"
 #include "event.h"
 #include "ui.h"

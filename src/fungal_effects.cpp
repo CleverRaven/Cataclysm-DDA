@@ -2,6 +2,7 @@
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
+#include "skill.h"
 #include "creature.h"
 #include "monster.h"
 #include "field.h"

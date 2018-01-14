@@ -11,6 +11,7 @@
 #include "input.h"
 #include "monster.h"
 #include "ui.h"
+#include "skill.h"
 #include "mutation.h"
 #include "mtype.h"
 #include "player.h"

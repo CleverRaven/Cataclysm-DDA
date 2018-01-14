@@ -17,6 +17,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "skill.h"
 #include "vehicle.h"
 #include "output.h"
 #include "veh_interact.h"
@@ -1156,7 +1157,7 @@ SkillLevel& Character::get_skill_level( const skill_id &ident )
         debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
                   get_name().c_str() );
     } else {
-        return _skills[ident];
+        return (*_skills)[ident];
     }
 
     null_skill.level( 0 );
@@ -1171,9 +1172,9 @@ SkillLevel const& Character::get_skill_level( const skill_id &ident, const item 
         return null_skill;
     }
 
-    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    const auto iter = _skills->find( context.is_null() ? ident : context.contextualize_skill( ident ) );
 
-    if( iter != _skills.end() ) {
+    if( iter != _skills->end() ) {
         return iter->second;
     }
 

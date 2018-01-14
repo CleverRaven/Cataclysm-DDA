@@ -8,6 +8,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "input.h"
 #include "ui.h"
 #include "harvest.h"

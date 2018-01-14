@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "itype.h"
 #include "damage.h"
+#include "skill.h"
+
 #include <map>
 #include <string>
 #include <algorithm>

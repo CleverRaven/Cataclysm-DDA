@@ -14,6 +14,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "event.h"
+#include "skill.h"
 #include "trap.h"
 #include "mapdata.h"
 #include "mtype.h"

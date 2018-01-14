@@ -169,6 +169,9 @@ class SkillLevel
         }
 };
 
+class SkillLevelMap : public std::map<skill_id, SkillLevel> {
+};
+
 double price_adjustment( int );
 
 #endif

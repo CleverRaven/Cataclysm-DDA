@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "line.h"
 #include "json.h"
+#include "skill.h"
 #include "map.h"
 #include "debug.h"
 #include "translations.h"

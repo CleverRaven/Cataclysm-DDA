@@ -26,6 +26,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "crafting.h"
+#include "skill.h"
 #include "recipe_dictionary.h"
 #include "sounds.h"
 #include "monattack.h"

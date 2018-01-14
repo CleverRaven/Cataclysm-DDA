@@ -6,7 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
 #include "bodypart.h"
@@ -16,7 +15,10 @@
 #include <map>
 #include <vector>
 
+class Skill;
 using skill_id = string_id<Skill>;
+class SkillLevel;
+class SkillLevelMap;
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -677,7 +679,7 @@ class Character : public Creature, public visitable<Character>
         void load( JsonObject &jsin );
 
         // --------------- Values ---------------
-        std::map<skill_id, SkillLevel> _skills;
+        pimpl<SkillLevelMap> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;

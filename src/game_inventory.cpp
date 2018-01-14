@@ -11,6 +11,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "skill.h"
 
 #include <algorithm>
 #include <functional>

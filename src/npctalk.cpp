@@ -27,6 +27,7 @@
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "skill.h"
 #include "ui.h"
 
 #include "string_formatter.h"

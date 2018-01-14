@@ -14,6 +14,7 @@
 #include "ammo.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "skill.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
