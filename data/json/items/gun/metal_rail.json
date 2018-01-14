@@ -41,6 +41,7 @@
     "color": "brown",
     "ammo": "metal_rail",
     "skill": "rifle",
+    "range": 20,
     "dispersion": 90,
     "durability": 6,
     "clip_size": 1,
