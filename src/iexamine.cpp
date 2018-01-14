@@ -669,7 +669,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
     itype_id card_type = ( g->m.ter(examp) == t_card_science ? "id_science" :
                           "id_military" );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
-        p.moves -= 100;
+        p.mod_moves( -100 );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
                 g->m.ter_set( tmp, t_floor );
