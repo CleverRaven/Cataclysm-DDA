@@ -146,7 +146,7 @@
     "color": "dark_gray",
     "ammo": "44",
     "ranged_damage": -1,
-    "range" 4,
+    "range": 4,
     "dispersion": 280,
     "durability": 8,
     "clip_size": 6,
