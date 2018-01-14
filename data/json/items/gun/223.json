@@ -122,7 +122,6 @@
     "ammo": "223",
     "range": -8,
     "ranged_damage": -4,
-    "range": 4,
     "dispersion": 380,
     "durability": 8,
     "clip_size": 5,
