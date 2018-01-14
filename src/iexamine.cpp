@@ -665,6 +665,7 @@ void iexamine::controls_gate(player &p, const tripoint &examp)
  */
 void iexamine::cardreader(player &p, const tripoint &examp)
 {
+    bool open = false;
     itype_id card_type = (g->m.ter(examp) == t_card_science ? "id_science" :
                           "id_military");
     if (p.has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
@@ -672,6 +673,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
         for(const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if (g->m.ter(tmp) == t_door_metal_locked) {
                 g->m.ter_set(tmp, t_floor);
+                open = true;
             }
         }
         //TODO only despawn turrets "behind" the door
@@ -681,9 +683,14 @@ void iexamine::cardreader(player &p, const tripoint &examp)
                 g->remove_zombie( critter );
             }
         }
-        add_msg(_("You insert your ID card."));
-        add_msg(m_good, _("The nearby doors slide into the floor."));
-        p.use_amount(card_type, 1);
+        if( open ) {
+            add_msg(_("You insert your ID card."));
+            add_msg(m_good, _("The nearby doors slide into the floor."));
+            p.use_amount(card_type, 1);
+            //return;
+        } else {
+            add_msg( _( "The nearby doors are already opened." ) );
+        }
     } else {
         switch( hack_attempt( p ) ) {
             case HACK_FAIL:
