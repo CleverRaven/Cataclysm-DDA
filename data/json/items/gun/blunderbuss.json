@@ -15,6 +15,7 @@
     "color": "brown",
     "ammo": "blunderbuss",
     "skill": "shotgun",
+    "range": 6,
     "dispersion": 555,
     "durability": 3,
     "loudness": 200,
