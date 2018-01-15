@@ -314,8 +314,8 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    const auto comest = food.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = food.type->comestible;
+    if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
@@ -384,7 +384,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-    const auto comest = food.type->comestible.get();
+    const auto &comest = food.type->comestible;
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
@@ -722,7 +722,7 @@ void player::consume_effects( const item &food )
         debugmsg( "called player::consume_effects with non-comestible" );
         return;
     }
-    const auto comest = *food.type->comestible.get();
+    const auto &comest = *food.type->comestible;
 
     const int capacity = stomach_capacity();
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {

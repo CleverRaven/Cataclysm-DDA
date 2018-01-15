@@ -119,7 +119,7 @@ bool player::handle_gun_damage( item &it )
     }
 
     const auto &curammo_effects = it.ammo_effects();
-    const islot_gun *firing = it.type->gun.get();
+    const cata::optional<islot_gun> &firing = it.type->gun;
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -1365,7 +1365,7 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        const auto ammo = gun.ammo_data()->ammo.get();
+        const auto &ammo = gun.ammo_data()->ammo;
         if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
@@ -1401,7 +1401,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun.get()->skill_used;
+    const skill_id &skill_used = firingt.gun->skill_used;
     auto const it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };
@@ -1582,7 +1582,7 @@ double player::gun_value( const item &weap, long ammo ) const
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default
-    if( weap.type->gun.get() == nullptr ) {
+    if( !weap.type->gun ) {
         return 0.0;
     }
 
@@ -1590,7 +1590,7 @@ double player::gun_value( const item &weap, long ammo ) const
         return 0.0;
     }
 
-    const islot_gun& gun = *weap.type->gun.get();
+    const islot_gun& gun = *weap.type->gun;
     const itype_id ammo_type = weap.ammo_default( true );
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
@@ -1604,7 +1604,7 @@ double player::gun_value( const item &weap, long ammo ) const
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
       effective_dispersion( tmp.sight_dispersion() );
 
-    if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
+    if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;

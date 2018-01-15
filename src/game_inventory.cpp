@@ -688,7 +688,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
     private:
         const islot_book &get_book( const item_location &loc ) const {
-            return *loc->type->book.get();
+            return *loc->type->book;
         }
 
         bool is_known( const item_location &loc ) const {

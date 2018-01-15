@@ -2348,8 +2348,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    const auto comest = it.type->comestible;
-    if( comest != nullptr ) {
+    if( const auto &comest = it.type->comestible ) {
         if( comest->quench < 0 || it.poison > 0 ) {
             return false;
         }

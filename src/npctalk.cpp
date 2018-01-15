@@ -4329,8 +4329,8 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     // @todo Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_food_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto comest = to_eat.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = to_eat.type->comestible;
+    if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
     }

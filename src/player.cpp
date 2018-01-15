@@ -9062,7 +9062,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    auto type = book.type->book.get();
+    const auto &type = book.type->book;
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
@@ -9137,7 +9137,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
 
 int player::time_to_read( const item &book, const player &reader, const player *learner ) const
 {
-    auto type = book.type->book.get();
+    const auto &type = book.type->book;
     const skill_id &skill = type->skill;
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
@@ -9170,7 +9170,7 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book.type->book.get()->fun > 0;
+        return book.type->book->fun > 0;
     }
 }
 
@@ -9229,7 +9229,7 @@ bool player::read( int inventory_position, const bool continuous )
         return false;
     }
 
-    auto type = it.type->book.get();
+    const auto &type = it.type->book;
     const skill_id &skill = type->skill;
     const std::string skill_name = skill ? skill.obj().name() : "";
 
@@ -9435,8 +9435,8 @@ bool player::read( int inventory_position, const bool continuous )
 
 void player::do_read( item *book )
 {
-    auto reading = book->type->book.get();
-    if( reading == nullptr ) {
+    const auto &reading = book->type->book;
+    if( !reading ) {
         activity.set_to_null();
         return;
     }
