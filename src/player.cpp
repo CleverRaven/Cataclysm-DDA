@@ -10608,19 +10608,19 @@ void player::practice( const skill_id &id, int amount, int cap )
         return;
     }
 
-    bool isSavant = has_trait( trait_SAVANT );
-
-    skill_id savantSkill( skill_id::NULL_ID() );
-    SkillLevel savantSkillLevel = SkillLevel();
-
-    if (isSavant) {
-        for( auto const &skill : Skill::skills ) {
-            if( get_skill_level( skill.ident() ) > savantSkillLevel.level() ) {
-                savantSkill = skill.ident();
-                savantSkillLevel = get_skill_level( skill.ident() );
+    const auto highest_skill = [&]() {
+        std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
+        for( const auto &pair : *_skills ) {
+            const SkillLevel &lobj = pair.second;
+            if( lobj.level() > result.second ) {
+                result = std::make_pair( pair.first, lobj.level() );
             }
         }
-    }
+        return result.first;
+    };
+
+    const bool isSavant = has_trait( trait_SAVANT );
+    const skill_id savantSkill = isSavant ? highest_skill() : skill_id::NULL_ID();
 
     amount = adjust_for_focus(amount);
 
