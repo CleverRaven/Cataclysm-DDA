@@ -164,11 +164,11 @@ void uimenu::init()
     desc_lines = 6;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
-    text_color = c_ltgray;  // text color
+    text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
-    hotkey_color = c_ltgreen; // hotkey text to the right of menu entry's text
-    disabled_color = c_dkgray; // disabled menu entry
+    hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
+    disabled_color = c_dark_gray; // disabled menu entry
     return_invalid = false;  // return 0-(int)invalidKeyCode
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
@@ -188,7 +188,7 @@ void uimenu::init()
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height
     scrollbar_nopage_color =
-        c_ltgray;    // color of '|' line for the entire area that isn't current page.
+        c_light_gray;    // color of '|' line for the entire area that isn't current page.
     scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
@@ -479,15 +479,8 @@ void uimenu::setup()
     if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
-    window = newwin(w_height, w_width, w_y, w_x);
+    window = catacurses::newwin( w_height, w_width, w_y, w_x );
 
-    werase(window);
-    draw_border(window, border_color);
-    if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
-    }
     fselected = selected;
     if(fselected < 0) {
         fselected = selected = 0;
@@ -567,6 +560,15 @@ void uimenu::show()
     if (!started) {
         setup();
     }
+
+    werase(window);
+    draw_border(window, border_color);
+    if( !title.empty() ) {
+        mvwprintz(window, 0, 1, border_color, "< ");
+        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz(window, border_color, " >");
+    }
+
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     int estart = 1;
@@ -582,7 +584,6 @@ void uimenu::show()
         mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
         estart += text_lines + 1; // +1 for the horizontal line.
     }
-
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
@@ -625,7 +626,7 @@ void uimenu::show()
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
+            mvwprintz(window, estart + si, pad_left + 1, c_light_gray , "%s", padspaces.c_str());
         }
     }
 

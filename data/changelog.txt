@@ -1,3 +1,139 @@
+0.D (ea948079e998361156fa6642be7df123eeefb87e)
+
+Features:
+Power transmission between vehicles.
+Books need to be read to know what they contain.
+Extend Stamina burn.
+Explosions can create craters.
+Zombies push each other.
+Overhauled shadowcasting to also provide dynamic lighting.
+Gun mods can be built-in to the gun and irremovable.
+Gun mods extended to draw power from UPS.
+Player can set zone instructing friendly NPCs to avoid picking up items.
+Unsupported items/fields/monsters/etc fall to lower z-levels.
+Mods can override overmap specials.
+Display hints about health upon waking.
+Experimental 3D vision and interaction between levels.
+
+Content:
+Minefield signs
+Lots of improvised tools (stone hand tools, forge, cooking furniture, clay and pottery).
+Extensive wilderness foraging.
+Super secret underground facility.
+Gunmod crafting recipes.
+More zombies: Elite grenadiers, runners, ferals, predators.
+Buildings.
+Spawn more items in vehicles.
+Ranch and Ranch-related missions.
+Monster grab and pull attacks.
+Recipes based on offal and corpse waste.
+Cheesemaking.
+biodiesel
+Alchohol stoves.
+Vehicle based tools, street sweepers, tractors, plows, planters.
+Seasonal variation in foliage.
+Expanded tree variety.
+Allow city-less mapgen.
+Many preserved food recipes.
+Cleanup of archery crafting items.
+Farm vehicles and tool attachments.  Plow, reaper, seed drill.
+
+Interface:
+Bionics menu tabbed for better visibility.
+Steamlined reload menu.
+Bundled a square font.
+Separate zombies better by color.
+Many menus are resizeable.
+"Isometric" tileset mode.
+Search feature added to many menus.
+Lots of dialogs allow use or consumption of items from immediate surroundings as well as inventory.
+Enhancements to AIM.
+Improved explosion animation.
+Ambient sound effects.
+Added vehicle direction indicator in tiles mode.
+Prevented spam about player being tired.
+Removed inability for vehicles to drive over fungal beds.
+Fixed a number of issues around monster spawning: Wraith, ants spawning in sight of player, animals spawning underground.
+Enhanced medical menu.
+
+Mods:
+More Survival Tools
+Tanks Mod
+Mshock Modded Tileset.
+ChestHole tileset covering all entities.
+Double monster HP mod.
+Mods dynamically enabled/disabled if they require lua and lua is present/absent.
+
+Balance:
+Unify crafting and construction xp gain.
+Removed flaming eye annihilation beam.
+Overhauled encumbrance system for finer degrees of encumbrance.
+Tuned up wilderness crafting a great deal.
+Removed inventory overcapacity penalty, items are dropped instead.
+Ensured that skills can be bootstrapped with practice.
+Zombie stumbling is more pervasive and random.
+
+Bugfixes:
+Fix inability to repair modified clothing.
+Fix charge consumption when invoking tools.
+Fix grenades not exploding.
+Cleanup drivability rules for vehicles.
+Prevent application of traps to players in vehicles.
+Menu crash fixes.
+Fix crash when player moves while remotely controlling a vehicle
+Fix gasoline in automated gas station mapgen
+Force HOT/COLD/WET items to be active on save load
+Make reinforced glass interact with projectiles.
+Prevent display of messages the player shouldn't know about.
+Prevent windows from thinking the game has hung.
+Prevent turrets from damaging source vehicle.
+Don't drop skeleton meat.
+Don't automatically shoot neutral creatures with autofire.
+Fixup behavior of frightened monsters.
+Optimized fire spread.
+Fixed disarm technique.
+Crash fixes for item handling.
+Stumbling monsters no longer move at different effective speeds based on direction of movement.
+Numerous bugfixes in NPC AI.
+Fixed some interactions between various inventories when they are present in the same tile.
+Made blacklisting operate more consistently.
+
+Performance:
+Optimized mapgen when generating homogenous tiles (empty air or all rock).
+Shadowcasting optimizations for ~10% performance speedup.
+
+Infrastructure:
+Allow multifunctions containing both iuse_actor and cpp iuse_method.
+Overhauled mapgen to allow more flexible specification of map features.
+Windows build cleanup.
+Better help menu for command line invocation.
+Moved mutation definitions to json.
+3D map infrastructure.
+Move NPC dialogue to json.
+Use lightmap consistently in both curses and tiles.
+More flexible menu filtering system.
+Moved special tool items to json.
+Moved vehicle spawns to json.
+Methods to transform buildings after generation, i.e. to make them looted or barricaded.
+Cleanup and extension of sound system.
+Unified bullet disassembly handling.
+Overmap saves moved to json.
+Removed a lot of redundant default json entries.
+
+Build:
+Support for finding alternate versions of build tools.
+Lots of forward declaration and #include cleanup to speed up compilation.
+Addition of many unit tests.
+string_id, a typesafe and efficient wrapper for string identifiers.
+
+I18N and A11Y:
+Localizable HP bars.
+
+Statistics:
+2488 files changed, 2324607 insertions(+), 1681578 deletions(-)
+~25,000 commits
+~400 contributors
+
 0.C
 
 Features:

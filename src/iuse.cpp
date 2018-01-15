@@ -7,11 +7,13 @@
 #include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
+#include "effect.h" // for weed_msg
 #include "debug.h"
 #include "options.h"
 #include "iexamine.h"
 #include "requirements.h"
 #include "rng.h"
+#include "calendar.h"
 #include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
@@ -22,7 +24,6 @@
 #include "monstergenerator.h"
 #include "speech.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "messages.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
@@ -48,6 +49,7 @@
 
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
@@ -2101,8 +2103,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             it->active = false;
             return 0;
         }
-        //after 3 hours.
-        if( it->age() > 1800 ) {
+        if( it->age() > 3_hours ) {
             it->active = false;
 
             if (!g->m.has_flag("FISHABLE", pos)) {
@@ -2160,7 +2161,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                         //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng(0, 1800) ) );
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns, 3_hours ) ) );
                         break; //this can happen only once
                     }
                 }
@@ -3220,7 +3221,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos, 100, _("BUGFIXES!!"));
-                g->draw_explosion( pos, explosion_radius, c_ltcyan );
+                g->draw_explosion( pos, explosion_radius, c_light_cyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
@@ -3483,8 +3484,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
 {
-    int timer = it->age();
-    if (timer < 2) {
+    time_duration timer = it->age();
+    if (timer < 2_turns) {
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
     } else if (it->charges > 0) {
@@ -4165,74 +4166,43 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
+int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !p || t ) {
         return 0;
     }
 
     tripoint dirp = pos;
-    if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
-        return 0;
-    }
-    int &dirx = dirp.x;
-    int &diry = dirp.y;
-
-    if (dirx == p->posx() && diry == p->posy()) {
-        add_msg(m_info, _("Why would you do that?"));
-        add_msg(m_info, _("You're not even chained to a boiler."));
+    if( !choose_adjacent( _( "Cut up metal where?" ), dirp ) ) {
         return 0;
     }
 
-    if (g->m.furn(dirx, diry) == f_rack) {
-        p->moves -= 500;
-        g->m.furn_set(dirx, diry, f_null);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(p->posx(), p->posy(), "pipe", rng(1, 3));
-        g->m.spawn_item(p->posx(), p->posy(), "steel_chunk");
-        return it->type->charges_to_use();
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "Why would you do that?" ) );
+        add_msg( m_info, _( "You're not even chained to a boiler." ) );
+        return 0;
     }
 
-    const ter_id ter = g->m.ter( dirx, diry );
-    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-        g->m.spawn_item(dirx, diry, "wire", 20);
-    } else if( ter == t_chainfence_posts ) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-    } else if( ter == t_window_bars_alarm ) {
-        p->moves -= 500;
-        g->m.ter_set( dirx, diry, t_window_alarm );
-        sounds::sound( dirp, 15, _("grnd grnd grnd" ) );
-        g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
-    } else if( ter == t_window_bars ) {
-        p->moves -= 500;
-        g->m.ter_set( dirx, diry, t_window_empty );
-        sounds::sound(dirp, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(p->pos(), "pipe", 6);
-    } else if( ter == t_bars ) {
-        if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
-            g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
-            g->m.ter_set(dirx, diry, t_sewage);
-            p->moves -= 1000;
-            sounds::sound(dirp, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", 3);
-        } else {
-            g->m.ter_set(dirx, diry, t_floor);
-            p->moves -= 500;
-            sounds::sound(dirp, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", 3);
-        }
+    const ter_id ter = g->m.ter( dirp );
+    int moves;
+
+    if( ter == t_chainfence_posts || g->m.furn( dirp ) == f_rack ) {
+        moves = 10000;
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+        moves = 30000;
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars ) {
+        moves = 60000;
+    } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
+        moves = 90000;
     } else {
-        add_msg(m_info, _("You can't cut that."));
+        add_msg( m_info, _( "You can't cut that." ) );
         return 0;
     }
+
+    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
     return it->type->charges_to_use();
 }
 
@@ -7453,9 +7423,9 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
         monster new_monster;
         try {
-            new_monster.deserialize( it->get_var("contained_json","") );
-        } catch( const JsonError &e ) {
-            debugmsg( _("Error restoring monster: %s"), e.c_str() );
+            deserialize( new_monster, it->get_var( "contained_json", "" ) );
+        } catch( const std::exception &e ) {
+            debugmsg( _( "Error restoring monster: %s" ), e.what() );
             return 0;
         }
         new_monster.spawn( target );
@@ -7497,14 +7467,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                std::string serialized_monster;
-                try {
-                    serialized_monster = f.serialize();
-                } catch( const JsonError &e ) {
-                    debugmsg( _("Error serializing monster: %s"), e.c_str() );
-                    return 0;
-                }
-                it->set_var( "contained_json", serialized_monster );
+                it->set_var( "contained_json", serialize( f ) );
                 it->set_var( "contained_name", f.type->nname() );
                 it->set_var( "name", string_format(_("%s holding %s"), it->type->nname(1).c_str(),
                                                    f.type->nname().c_str()));

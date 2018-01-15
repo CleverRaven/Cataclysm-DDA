@@ -2,14 +2,16 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
-#include "json.h"
 #include "enums.h"
-#include "translations.h"
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <map>
 #include <unordered_set>
 #include <utility>
+
+class JsonIn;
+class JsonOut;
 
 /**
  * These are zones the player can designate.
@@ -17,7 +19,7 @@
  * They currently don't serve much use, other than to designate
  * where to auto-pickup and where not to and restricting friendly npc pickup.
  */
-class zone_manager : public JsonSerializer, public JsonDeserializer
+class zone_manager
 {
 private:
     std::map<std::string, std::string> types;
@@ -25,7 +27,7 @@ private:
 
 public:
     zone_manager();
-    ~zone_manager() override {};
+    ~zone_manager() = default;
     zone_manager( zone_manager && ) = default;
     zone_manager( const zone_manager & ) = default;
     zone_manager &operator=( zone_manager && ) = default;
@@ -124,9 +126,8 @@ public:
 
     bool save_zones();
     void load_zones();
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &json ) const override;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 #endif

@@ -104,7 +104,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage();
 
-    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
+    inventory map_inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( map_inv ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name().c_str() );
         return false;
@@ -113,7 +114,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( e ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }
@@ -121,7 +122,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     for( const auto &e : reqs.get_tools() ) {
-        who.consume_tools( e );
+        who.consume_tools( who.select_tool_component( e, 1, map_inv ), 1 );
     }
 
     who.invalidate_crafting_inventory();

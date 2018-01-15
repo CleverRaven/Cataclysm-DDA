@@ -3,19 +3,19 @@
 #define TRAP_H
 
 #include "color.h"
-#include "json.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "units.h"
 #include <string>
 #include <functional>
+#include <vector>
 
 class Creature;
 class item;
 class player;
 struct trap;
 struct tripoint;
-
+class JsonObject;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
@@ -223,8 +223,6 @@ tr_shotgun_2,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
-tr_light_snare,
-tr_heavy_snare,
 tr_landmine,
 tr_landmine_buried,
 tr_telepad,

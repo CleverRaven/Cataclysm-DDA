@@ -11,6 +11,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "morale_types.h"
+#include "vitamin.h"
 #include "messages.h"
 #include "material.h"
 #include "event.h"
@@ -25,6 +26,7 @@
 #include "field.h"
 #include "weather.h"
 #include "trap.h"
+#include "calendar.h"
 #include "pldata.h"
 #include "requirements.h"
 #include "recipe_dictionary.h"
@@ -606,7 +608,8 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    return transform_age - it.age();
+    //@todo change return type to time_duration
+    return transform_age - to_turns<int>( it.age() );
 }
 
 long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const

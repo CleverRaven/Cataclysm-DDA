@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "options.h"
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 
 #include <algorithm>
@@ -88,8 +89,6 @@ void Skill::load_skill( JsonObject &jsobj )
     const Skill sk( ident, _( jsobj.get_string( "name" ).c_str() ),
                     _( jsobj.get_string( "description" ).c_str() ),
                     jsobj.get_tags( "tags" ) );
-
-    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << sk.name();
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;

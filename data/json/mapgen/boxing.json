@@ -94,7 +94,7 @@
             "  qqqqqqqqqqqqqqqqqqqq  "
           ],
           "terrain": {
-            " ": "t_null",
+            " ": "t_grass",
             "#": "t_floor",
             "$": "t_fence_rope",
             "'": "t_door_c",

@@ -4005,8 +4005,6 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
       [ "irradiated_strawberries", 1 ],
       [ "strawberries", 1 ],
@@ -4182,8 +4180,6 @@
     [
       [ "sweet_fruit_like", 1, "LIST" ],
       [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -4363,9 +4359,7 @@
     ],
     [
       ["sweet_fruit_like", 1, "LIST"],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -4539,9 +4533,7 @@
     ],
     [
       ["sweet_fruit_like", 1, "LIST"],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -4660,9 +4652,7 @@
       ["sweet_fruit_like", 1, "LIST"],
       ["choco_coffee_beans", 5],
       ["chocolate", 1],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -7405,9 +7395,7 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_fruit", 1 ]
     ],
     [
       [ "peanutbutter", 1 ]
@@ -8927,9 +8915,7 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_fruit", 1 ]
     ]
   ]
 },

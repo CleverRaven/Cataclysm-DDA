@@ -2,8 +2,6 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "pldata.h"
-#include "json.h"
 #include "string_id.h"
 #include "bonuses.h"
 #include <string>
@@ -11,6 +9,8 @@
 #include <map>
 #include <set>
 
+enum damage_type : int;
+class JsonObject;
 class effect;
 class player;
 class item;

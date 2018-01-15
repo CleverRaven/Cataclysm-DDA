@@ -28,6 +28,7 @@
 #include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
+#include "calendar.h"
 #include "weather.h"
 #include "sounds.h"
 #include "cata_utility.h"
@@ -478,9 +479,9 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
-    WINDOW_PTR const w_item_info_ptr {
-        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+    catacurses::WINDOW_PTR const w_ptr {catacurses::newwin( window_h, w_items_w, padding_y, padding_x )};
+    catacurses::WINDOW_PTR const w_item_info_ptr {
+        catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
 
     WINDOW *w           = w_ptr.get();
     WINDOW *w_item_info = w_item_info_ptr.get();
@@ -530,7 +531,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
 
-        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
+        mvwprintz(w, 1, 2, c_light_gray, title.c_str());
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -545,7 +546,7 @@ void iexamine::vending(player &p, const tripoint &examp)
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
             auto const &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
@@ -562,7 +563,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         werase(w_item_info);
         // | {line}|
         // 12      3
-        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -996,105 +997,6 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
     } else if( g->m.ter(examp) == t_pit_glass_covered ) {
         g->m.ter_set(examp, t_pit_glass);
     }
-}
-
-/**
- * Put fencing on fenceposts.
- */
-void iexamine::fence_post(player &p, const tripoint &examp)
-{
-
-    int ch = menu(true, _("Fence Construction:"), _("Rope Fence"),
-                  _("Wire Fence"), _("Barbed Wire Fence"), _("Cancel"), NULL);
-    switch (ch) {
-    case 1: {
-        if (p.has_amount("rope_6", 2)) {
-            p.use_amount("rope_6", 2);
-            g->m.ter_set(examp, t_fence_rope);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 six-foot lengths of rope to do that"));
-        }
-    }
-    break;
-
-    case 2: {
-        if (p.has_amount("wire", 2)) {
-            p.use_amount("wire", 2);
-            g->m.ter_set(examp, t_fence_wire);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of wire to do that!"));
-        }
-    }
-    break;
-
-    case 3: {
-        if (p.has_amount("wire_barbed", 2)) {
-            p.use_amount("wire_barbed", 2);
-            g->m.ter_set(examp, t_fence_barbed);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of barbed wire to do that!"));
-        }
-    }
-    break;
-
-    case 4:
-    default:
-        break;
-    }
-}
-
-/**
- * Prompt removing the rope from rope fence. Leaves the posts.
- */
-void iexamine::remove_fence_rope(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-    item rope("rope_6", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-
-}
-
-/**
- * Prompt removing the wire from wire fence. Leaves the posts.
- */
-void iexamine::remove_fence_wire(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-
-    item rope("wire", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-}
-
-/**
- * Prompt removing the wire from wire fence. Leaves the posts.
- */
-void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-
-    item rope("wire_barbed", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
 }
 
 /**
@@ -1993,10 +1895,12 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
+            //@todo change season_length to return time_duration
+            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
 
             item &seed = g->m.i_at( examp ).front();
-            seed.set_birthday( std::max( 0, seed.birthday() - fertilizerEpoch ) );
+            //@todo item should probably clamp the value on its own
+            seed.set_birthday( std::max( time_point( 0 ), seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -2097,10 +2001,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
-    const int firing_time = HOURS(6); // 5 days in real life
-    int time_left = firing_time - items[0].age();
+    const time_duration firing_time = 6_hours; // 5 days in real life
+    const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
+        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
         return;
     }
 
@@ -2246,10 +2150,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     if( brew_i.is_brewable() ) {
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
-        int brew_time = brew_i.brewing_time();
-        int progress = brew_i.age();
+        //@todo change brew_time to return time_duration
+        time_duration brew_time = time_duration::from_turns( brew_i.brewing_time() );
+        time_duration progress = brew_i.age();
         if( progress < brew_time ) {
-            int hours = ( brew_time - progress ) / HOURS(1);
+            int hours = to_hours<int>( brew_time - progress );
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
@@ -2274,7 +2179,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             }
 
             p.moves -= 500;
-            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
+            p.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
         return;
@@ -3048,10 +2953,12 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if (previous_signage_exists) {
-        popup(existing_signage.c_str());
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+    } else if( previous_signage_exists ) {
+        popup( existing_signage.c_str() );
     } else {
-        p.add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+        p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
 
     // Allow chance to modify message.
@@ -3614,10 +3521,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "portable_structure", &iexamine::portable_structure },
         { "pit", &iexamine::pit },
         { "pit_covered", &iexamine::pit_covered },
-        { "fence_post", &iexamine::fence_post },
-        { "remove_fence_rope", &iexamine::remove_fence_rope },
-        { "remove_fence_wire", &iexamine::remove_fence_wire },
-        { "remove_fence_barbed", &iexamine::remove_fence_barbed },
         { "slot_machine", &iexamine::slot_machine },
         { "safe", &iexamine::safe },
         { "bulletin_board", &iexamine::bulletin_board },

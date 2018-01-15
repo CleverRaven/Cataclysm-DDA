@@ -845,10 +845,10 @@ classes = {
             type = { type = "itype", writable = true },
         },
         functions = {
-            { name = "age", rval = "int", args = { } },
-            { name = "set_age", rval = nil, args = { "int" } },
-            { name = "birthday", rval = "int", args = { } },
-            { name = "set_birthday", rval = nil, args = { "int" } },
+            { name = "age", rval = "time_duration", args = { } },
+            { name = "set_age", rval = nil, args = { "time_duration" } },
+            { name = "birthday", rval = "time_point", args = { } },
+            { name = "set_birthday", rval = nil, args = { "time_point" } },
             { name = "acid_resist", rval = "int", args = { } },
             { name = "acid_resist", rval = "int", args = { "bool" } },
             { name = "add_rain_to_container", rval = nil, args = { "bool" } },
@@ -886,7 +886,6 @@ classes = {
             { name = "cut_resist", rval = "int", args = { } },
             { name = "cut_resist", rval = "int", args = { "bool" } },
             { name = "damage", rval = "int", args = { } },
-            { name = "deserialize", rval = nil, args = { "string" } },
             { name = "destroyed_at_zero_charges", rval = "bool", args = { } },
             { name = "display_name", rval = "string", args = { "int" } },
             { name = "display_name", rval = "string", args = { } },
@@ -1018,7 +1017,6 @@ classes = {
             { name = "mod_charges", rval = nil, args = { "int" } },
             { name = "reset_cable", rval = nil, args = { "player" } },
             { name = "rotten", rval = "bool", args = { } },
-            { name = "serialize", rval = "string", args = { } },
             { name = "set_mtype", rval = nil, args = { "mtype" } },
             { name = "set_relative_rot", rval = nil, args = { "float" } },
             { name = "set_snippet", rval = nil, args = { "string" } },
@@ -1634,7 +1632,6 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_warm", rval = "bool", args = { } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
-            { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "make_ally", rval = nil, args = { "monster" } },
@@ -1878,6 +1875,20 @@ You can get reference to current overmap with `g:get_cur_om()`.
         },
     },
     nc_color = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+        },
+    },
+    time_duration = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+        },
+    },
+    time_point = {
         by_value = true,
         attributes = {
         },

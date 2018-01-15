@@ -4,18 +4,20 @@
 
 #include <string>
 #include <array>
+#include <map>
+#include <vector>
 
 #include "game_constants.h"
-#include "damage.h" // damage_type
-#include "enums.h"
-#include "json.h"
 #include "string_id.h"
-#include "vitamin.h"
 #include "fire.h"
 
+enum damage_type : int;
 class material_type;
 using material_id = string_id<material_type>;
 using itype_id = std::string;
+class JsonObject;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 
 class material_type
 {

@@ -139,8 +139,7 @@
         "t": "t_linoleum_white"
       },
       "furniture": {
-        "R": "f_rack",
-        "W": "f_null"
+        "R": "f_rack"
       },
       "toilets": {
         "T": {}

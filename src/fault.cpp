@@ -1,6 +1,7 @@
 #include "fault.h"
 
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 #include "requirements.h"
 
@@ -56,7 +57,6 @@ void fault::load_fault( JsonObject &jo )
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
     } else {
         faults_all[ f.id_ ] = f;
-        DebugLog( D_INFO, DC_ALL ) << "Loaded fault: " << f.name_;
     }
 }
 

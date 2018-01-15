@@ -8,7 +8,7 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
-Visit [our website](http://en.cataclysmdda.com/) for download links to all stable and experimental releases.
+Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
