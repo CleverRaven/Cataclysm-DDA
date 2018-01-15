@@ -2166,8 +2166,8 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
 
             auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-                int const level_a = u->get_skill_level(a.ident()).exercised_level();
-                int const level_b = u->get_skill_level(b.ident()).exercised_level();
+                int const level_a = u->get_skill_level_object( a.ident() ).exercised_level();
+                int const level_b = u->get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || (level_a == level_b && a.name() < b.name());
             });
 

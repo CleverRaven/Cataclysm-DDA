@@ -1149,6 +1149,11 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+{
+    return get_skill_level( ident );
+}
+
 SkillLevel& Character::get_skill_level( const skill_id &ident )
 {
     static SkillLevel null_skill;
@@ -1162,6 +1167,11 @@ SkillLevel& Character::get_skill_level( const skill_id &ident )
 
     null_skill.level( 0 );
     return null_skill;
+}
+
+const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
+{
+    return get_skill_level( ident );
 }
 
 SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
@@ -1193,12 +1203,13 @@ SkillLevel const& Character::get_skill_level( const skill_id &ident, const item 
 
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
-    get_skill_level( ident ).level( level );
+    get_skill_level_object( ident ).level( level );
 }
 
 void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
-    set_skill_level( ident, delta + get_skill_level( ident ) );
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.level( obj.level() + delta );
 }
 
 std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const

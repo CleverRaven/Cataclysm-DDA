@@ -509,6 +509,10 @@ class Character : public Creature, public visitable<Character>
 
         /** for serialization */
         SkillLevel const &get_skill_level( const skill_id &ident, const item &context = item() ) const;
+
+        SkillLevel &get_skill_level_object( const skill_id &ident );
+        const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
+
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
 

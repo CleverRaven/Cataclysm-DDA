@@ -958,7 +958,7 @@ int player::calc_focus_equilibrium() const
         if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
-            const auto &skill_level = get_skill_level( bt.skill );
+            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
                 focus_gain_rate -= 50;
             }
@@ -2347,7 +2347,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Skills
     memorial_file << _( "Skills:" ) << eol;
     for( auto &skill : Skill::skills ) {
-        SkillLevel next_skill_level = get_skill_level( skill.ident() );
+        const SkillLevel &next_skill_level = get_skill_level_object( skill.ident() );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
                       << next_skill_level.exercise() << "%)" << eol;
     }
@@ -9415,7 +9415,7 @@ void player::do_read( item *book )
         items_identified.insert( book->typeId() );
 
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
-        if( skill && get_skill_level( skill ).can_train() ) {
+        if( skill && get_skill_level_object( skill ).can_train() ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
                     skill.obj().name().c_str(), reading->level);
             if( reading->req != 0 ){
@@ -9511,8 +9511,8 @@ void player::do_read( item *book )
         book->mark_chapter_as_read( *learner );
 
         if( skill && learner->get_skill_level( skill ) < reading->level &&
-            learner->get_skill_level( skill ).can_train() ) {
-            auto &skill_level = learner->get_skill_level( skill );
+            learner->get_skill_level_object( skill ).can_train() ) {
+            SkillLevel &skill_level = learner->get_skill_level_object( skill );
             const int originalSkillLevel = skill_level;
 
             // Calculate experience gained
@@ -10597,7 +10597,7 @@ int player::adjust_for_focus(int amount) const
 
 void player::practice( const skill_id &id, int amount, int cap )
 {
-    SkillLevel &level = get_skill_level( id );
+    SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
 
     if( !level.can_train() ) {
@@ -10657,7 +10657,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if (amount > 0 && level.isTraining()) {
         int oldLevel = get_skill_level( id );
-        get_skill_level( id ).train(amount);
+        get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
@@ -10679,7 +10679,7 @@ void player::practice( const skill_id &id, int amount, int cap )
         }
     }
 
-    get_skill_level( id ).practice();
+    get_skill_level_object( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const

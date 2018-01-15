@@ -495,13 +495,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, c_light_gray, title_SKILLS );
 
     auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-        int const level_a = get_skill_level( a.ident() ).exercised_level();
-        int const level_b = get_skill_level( b.ident() ).exercised_level();
+        int const level_a = get_skill_level_object( a.ident() ).exercised_level();
+        int const level_b = get_skill_level_object( b.ident() ).exercised_level();
         return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
     } );
 
     for( auto &elem : skillslist ) {
-        SkillLevel level = get_skill_level( elem->ident() );
+        const SkillLevel &level = get_skill_level_object( elem->ident() );
 
         // Default to not training and not rusting
         nc_color text_color = c_blue;
@@ -958,7 +958,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 for( size_t i = min; i < max; i++ ) {
                     const Skill *aSkill = skillslist[i];
-                    SkillLevel level = get_skill_level( aSkill->ident() );
+                    const SkillLevel &level = get_skill_level_object( aSkill->ident() );
 
                     const bool can_train = level.can_train();
                     const bool training = level.isTraining();
@@ -1017,7 +1017,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, c_light_gray, title_SKILLS );
                     for( size_t i = 0; i < skillslist.size() && i < size_t( skill_win_size_y ); i++ ) {
                         const Skill *thisSkill = skillslist[i];
-                        SkillLevel level = get_skill_level( thisSkill->ident() );
+                        const SkillLevel &level = get_skill_level_object( thisSkill->ident() );
                         bool can_train = level.can_train();
                         bool isLearning = level.isTraining();
                         bool rusting = level.isRusting();
@@ -1039,7 +1039,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     line = 0;
                     curtab++;
                 } else if( action == "CONFIRM" ) {
-                    get_skill_level( selectedSkill->ident() ).toggleTraining();
+                    get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
