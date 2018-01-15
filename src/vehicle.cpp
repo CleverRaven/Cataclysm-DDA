@@ -1654,6 +1654,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if( !anchor_found ) {
