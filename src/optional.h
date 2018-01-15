@@ -136,11 +136,13 @@ class optional
         T &emplace( Args &&... args ) {
             reset();
             construct( std::forward<Args>( args )... );
+            return get();
         }
         template<class U, class... Args>
         T &emplace( std::initializer_list<U> ilist, Args &&... args ) {
             reset();
             construct( ilist, std::forward<Args>( args )... );
+            return get();
         }
 
         void reset() noexcept {
