@@ -195,6 +195,7 @@ static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_ods( "bio_ods" );
@@ -11777,4 +11778,49 @@ bool player::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
+}
+
+void player::do_skill_rust()
+{
+    const int rate = rust_rate();
+    if( rate <= 0 ) {
+        return;
+    }
+    for( const Skill &aSkill : Skill::skills ) {
+        if( rate <= rng( 0, 1000 ) ) {
+            continue;
+        }
+
+        if( aSkill.is_combat_skill() &&
+            ( ( has_trait( trait_PRED2 ) && one_in( 4 ) ) ||
+              ( has_trait( trait_PRED3 ) && one_in( 2 ) ) ||
+              ( has_trait( trait_PRED4 ) && x_in_y( 2, 3 ) ) ) ) {
+            // Their brain is optimized to remember this
+            if( one_in( 15600 ) ) {
+                // They've already passed the roll to avoid rust at
+                // this point, but print a message about it now and
+                // then.
+                //
+                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
+                // This means PRED2/PRED3/PRED4 think of hunting on
+                // average every 8/4/3 hours, enough for immersion
+                // without becoming an annoyance.
+                //
+                add_msg_if_player( _( "Your heart races as you recall your most recent hunt." ) );
+                stim++;
+            }
+            continue;
+        }
+
+        SkillLevel &skill_level_obj = get_skill_level_object( aSkill.ident() );
+        const bool charged_bio_mem = power_level > 25 && has_active_bionic( bio_memory );
+        const int oldSkillLevel = skill_level_obj.level();
+        if( skill_level_obj.rust( charged_bio_mem ) ) {
+            charge_power( -25 );
+        }
+        const int newSkill = skill_level_obj.level();
+        if( newSkill < oldSkillLevel ) {
+            add_msg_if_player( m_bad, _( "Your skill in %s has reduced to %d!" ), aSkill.name(), newSkill );
+        }
+    }
 }

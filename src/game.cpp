@@ -193,9 +193,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -1574,7 +1571,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness( *weather_precise );
     u.apply_wetness_morale( temperature );
-    rustCheck();
+    u.do_skill_rust();
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
@@ -1601,48 +1598,6 @@ void game::set_driving_view_offset(const point &p)
     driving_view_offset.y = p.y;
     u.view_offset.x += driving_view_offset.x;
     u.view_offset.y += driving_view_offset.y;
-}
-
-void game::rustCheck()
-{
-    for (auto const &aSkill : Skill::skills) {
-        if (u.rust_rate() <= rng(0, 1000)) {
-            continue;
-        }
-
-        if (aSkill.is_combat_skill() &&
-            ((u.has_trait( trait_id( "PRED2" ) ) && one_in(4)) ||
-             (u.has_trait( trait_id( "PRED3" ) ) && one_in(2)) ||
-             (u.has_trait( trait_id( "PRED4" ) ) && x_in_y(2, 3)))) {
-            // Their brain is optimized to remember this
-            if (one_in(15600)) {
-                // They've already passed the roll to avoid rust at
-                // this point, but print a message about it now and
-                // then.
-                //
-                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
-                // This means PRED2/PRED3/PRED4 think of hunting on
-                // average every 8/4/3 hours, enough for immersion
-                // without becoming an annoyance.
-                //
-                add_msg(_("Your heart races as you recall your most recent hunt."));
-                u.stim++;
-            }
-            continue;
-        }
-
-        bool charged_bio_mem = u.has_active_bionic( bionic_id( "bio_memory" ) ) && u.power_level > 25;
-        int oldSkillLevel = u.get_skill_level(aSkill.ident());
-
-        if( u.get_skill_level_object( aSkill.ident() ).rust( charged_bio_mem ) ) {
-            u.charge_power(-25);
-        }
-        int newSkill = u.get_skill_level(aSkill.ident());
-        if (newSkill < oldSkillLevel) {
-            add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
-                    aSkill.name().c_str(), newSkill);
-        }
-    }
 }
 
 void game::process_activity()

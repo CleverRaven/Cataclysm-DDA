@@ -951,7 +951,6 @@ private:
         // Routine loop functions, approximately in order of execution
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
-        void rustCheck();        // Degrades practice levels
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
