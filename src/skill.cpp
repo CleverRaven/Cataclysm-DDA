@@ -116,11 +116,6 @@ skill_id Skill::random_skill()
     return skills[rng( 0, skills.size() - 1 )].ident();
 }
 
-size_t Skill::skill_count()
-{
-    return Skill::skills.size();
-}
-
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {

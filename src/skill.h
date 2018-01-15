@@ -35,7 +35,6 @@ class Skill
         static skill_id from_legacy_int( int legacy_id );
         static skill_id random_skill();
 
-        static size_t skill_count();
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
