@@ -4,7 +4,7 @@
 
 #include "player.h"
 #include "faction.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 
 #include <vector>
 #include <string>
@@ -187,7 +187,7 @@ struct npc_follower_rules {
 
     bool close_doors;
 
-    copyable_unique_ptr<auto_pickup> pickup_whitelist;
+    pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
     ~npc_follower_rules();

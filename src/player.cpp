@@ -631,7 +631,6 @@ player::player() : Character()
     reset_encumbrance();
 
     morale.reset( new player_morale() );
-    last_craft.reset( new craft_command() );
 
     ma_styles = {{
         style_none, style_kicks

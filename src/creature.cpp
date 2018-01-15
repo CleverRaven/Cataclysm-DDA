@@ -47,7 +47,6 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
-    effects.reset( new effects_map() );
 }
 
 Creature::~Creature() = default;

@@ -4,6 +4,7 @@
 
 #include "character.h"
 #include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
@@ -1390,7 +1391,7 @@ class player : public Character
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
-        copyable_unique_ptr<craft_command> last_craft;
+        pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
         int last_batch;

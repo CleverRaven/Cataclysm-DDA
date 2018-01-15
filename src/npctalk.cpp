@@ -4546,8 +4546,6 @@ npc_follower_rules::npc_follower_rules()
     allow_pulp = true;
 
     close_doors = false;
-
-    pickup_whitelist.reset( new auto_pickup() );
 };
 
 npc_follower_rules::~npc_follower_rules() = default;
