@@ -62,8 +62,7 @@
       { "group": "gunmod_rare", "prob": 17 },
       { "group": "guns_milspec", "prob": 20 },
       { "group": "mags_milspec", "prob": 20 },
-      { "group": "energy_weapon_armory", "prob": 17 },
-      { "group": "hightec_guns", "prob": 3 },
+      { "group": "hightec_guns", "prob": 17 },
       { "group": "mil_armor", "prob": 30 }
     ]
   },
@@ -141,12 +140,15 @@
     "id": "hightec_guns",
     "type": "item_group",
     "items": [
-	  [ "hk_g80", 2 ],
-	  [ "ftk93", 2 ],
-	  [ "plasma_rifle", 2 ],
-	  [ "emp_gun", 5 ],
-	  [ "laser_rifle", 6 ],
-	  [ "v29", 8 ]
+	  [ "hk_g80", 3 ],
+	  [ "ftk93", 3 ],
+	  [ "plasma_rifle", 3 ],
+	  [ "emp_gun", 6 ],
+	  [ "laser_rifle", 12 ],
+	  [ "v29", 14 ],
+	  [ "electrolaser_conversion", 8 ],
+	  [ "high_density_capacitor", 8 ],
+	  [ "beam_scatterer", 8 ]
     ]
   },
   {
