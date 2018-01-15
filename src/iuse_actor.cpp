@@ -1603,10 +1603,10 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
-        int moraleMalus = -50 * (5.0 / (float) p.get_skill_level( skill_survival ));
-        int maxMalus = -250 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / (float)p.get_skill_level( skill_survival ));
+        int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
+        int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
+        int duration = 300 * (5.0 / p.get_skill_level( skill_survival ));
+        int decayDelay = 30 * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;

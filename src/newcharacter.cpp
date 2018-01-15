@@ -1695,7 +1695,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                           thisSkill->name() );
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                        " (%d)", int(u->get_skill_level(thisSkill->ident())));
+                        " (%d)", u->get_skill_level(thisSkill->ident()));
             }
             for( auto &prof_skill : u->prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {

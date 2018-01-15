@@ -869,12 +869,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-        if( food_item->has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
+        if( food_item->has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
             info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
         }
 
         ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-        if( food_item->has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
+        if( food_item->has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
             info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
         }
 
@@ -2090,9 +2090,9 @@ void item::on_wield( player &p, int mv )
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
+            d /= std::max( p.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
-            d /= std::max( (float)p.get_skill_level( melee_skill() ), 1.0f );
+            d /= std::max( p.get_skill_level( melee_skill() ), 1 );
         }
 
         int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;

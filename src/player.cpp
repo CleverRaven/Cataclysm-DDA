@@ -8214,7 +8214,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1.0f + std::min( float( get_skill_level( sk ) ) * 0.1f, 1.0f ) );
+    mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
         /** @EFFECT_STR reduces reload time of some weapons */
@@ -9037,7 +9037,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         return nullptr;
     }
     const skill_id &skill = type->skill;
-    const auto &skill_level = get_skill_level( skill );
+    const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
         reasons.push_back( string_format( _( "You don't know enough about %s to understand the jargon!" ),
                                           skill.obj().name().c_str() ) );
@@ -9277,7 +9277,7 @@ bool player::read( int inventory_position, const bool continuous )
                                         skill_name.c_str(), type->req, type->level );
 
             if( skill ) {
-                const int lvl = ( int )get_skill_level( skill );
+                const int lvl = get_skill_level( skill );
                 menu.addentry( getID(), lvl < type->level, '0',
                                string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
             } else {
@@ -9680,7 +9680,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
 const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv, const recipe *r ) const
 {
     std::set<itype_id> book_ids;
-    auto &skill_level = get_skill_level( r->skill_used );
+    const int skill_level = get_skill_level( r->skill_used );
     for( auto &book_lvl : r->booksets ) {
         itype_id book_id = book_lvl.first;
         int required_skill_level = book_lvl.second;

@@ -505,10 +505,8 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &get_skill_level( const skill_id &ident );
-
-        /** for serialization */
-        SkillLevel const &get_skill_level( const skill_id &ident, const item &context = item() ) const;
+        int get_skill_level( const skill_id &ident ) const;
+        int get_skill_level( const skill_id &ident, const item &context ) const;
 
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;

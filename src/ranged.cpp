@@ -212,7 +212,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     /** @EFFECT_SMG delays effects of recoil during automatic fire */
     /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
     /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
-    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+    double absorb = std::min( get_skill_level( gun.gun_skill() ), MAX_SKILL ) / double( MAX_SKILL * 2 );
 
     tripoint aim = target;
     int curshot = 0;
@@ -324,7 +324,7 @@ int throw_cost( const player &c, const item &to_throw )
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
     const int base_move_cost = to_throw.attack_time() / 2;
-    const int throw_skill = std::min<int>( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = ( int )( base_move_cost * ( 20 - throw_skill ) / 20 );
     ///\EFFECT_DEX increases throwing speed
@@ -384,7 +384,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
-    const int throw_skill = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
+    const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
     // If the target is a creature, it moves around and ruins aim
     // @todo Inform projectile functions if the attacker actually aims for the critter or just the tile
@@ -415,7 +415,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
-    const int skill_level = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
+    const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
 
     // We'll be constructing a projectile
     projectile proj;
@@ -1549,7 +1549,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 3 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
+    dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
 
     dispersion.add_range( ranged_dex_mod() );
 

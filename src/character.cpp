@@ -234,7 +234,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
 }
 
 double Character::aim_speed_dex_modifier() const
@@ -1151,11 +1151,6 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
 
 SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 {
-    return get_skill_level( ident );
-}
-
-SkillLevel& Character::get_skill_level( const skill_id &ident )
-{
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
@@ -1169,36 +1164,33 @@ SkillLevel& Character::get_skill_level( const skill_id &ident )
     return null_skill;
 }
 
-const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
+int Character::get_skill_level( const skill_id &ident ) const
 {
-    return get_skill_level( ident );
+    return get_skill_level_object( ident );
 }
 
-SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
+const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
     static const SkillLevel null_skill;
 
-    if( !ident ) {
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
+                  get_name().c_str() );
         return null_skill;
     }
 
-    const auto iter = _skills->find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    const auto iter = _skills->find( ident );
 
     if( iter != _skills->end() ) {
         return iter->second;
     }
 
-    if( ident->is_contextual_skill() ) {
-        if( context.is_null() ) {
-            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
-                      get_name().c_str() );
-        } else {
-            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
-                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
-        }
-    }
-
     return null_skill;
+}
+
+int Character::get_skill_level( const skill_id &ident, const item &context ) const
+{
+    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) );
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )

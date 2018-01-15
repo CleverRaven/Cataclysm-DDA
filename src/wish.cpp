@@ -536,7 +536,7 @@ void debug_menu::wishskill( player *p )
     origskills.reserve( Skill::skills.size() );
 
     for( auto const &s : Skill::skills ) {
-        auto const level = static_cast<int>( p->get_skill_level( s.ident() ) );
+        const int level = p->get_skill_level( s.ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
                          s.name().c_str() );
         origskills.push_back( level );
@@ -550,7 +550,7 @@ void debug_menu::wishskill( player *p )
         if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
                 skill_id = sksel;
-                skset = ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) +
+                skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
@@ -563,7 +563,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.return_invalid = true;
             sksetmenu.settext( string_format( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() ) );
-            int skcur = ( int )p->get_skill_level( Skill::skills[skill_id].ident() );
+            int skcur = p->get_skill_level( Skill::skills[skill_id].ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
@@ -576,12 +576,12 @@ void debug_menu::wishskill( player *p )
             p->set_skill_level( Skill::skills[skill_id].ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       Skill::skills[skill_id].name().c_str(),
-                                      ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) ).substr( 0, skmenu.w_width - 4 );
+                                      p->get_skill_level( Skill::skills[skill_id].ident() ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                    ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
+                    p->get_skill_level( Skill::skills[skill_id].ident() ),
                     Skill::skills[skill_id].name().c_str() );
             skmenu.entries[skill_id + skoffset].text_color =
-                ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                ( p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
@@ -600,10 +600,10 @@ void debug_menu::wishskill( player *p )
                                      ( skset != -1 ? skset : origskills[skill_id] ) );
                     p->set_skill_level( Skill::skills[skill_id].ident(), changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                            ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
+                            p->get_skill_level( Skill::skills[skill_id].ident() ),
                             Skill::skills[skill_id].name().c_str() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                        ( p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
                 }
             }
