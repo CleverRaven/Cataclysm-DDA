@@ -1196,7 +1196,7 @@ void Character::set_skill_level( const skill_id &ident, const int level )
     get_skill_level( ident ).level( level );
 }
 
-void Character::boost_skill_level( const skill_id &ident, const int delta )
+void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
     set_skill_level( ident, delta + get_skill_level( ident ) );
 }

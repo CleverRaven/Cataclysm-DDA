@@ -510,7 +510,7 @@ class Character : public Creature, public visitable<Character>
         /** for serialization */
         SkillLevel const &get_skill_level( const skill_id &ident, const item &context = item() ) const;
         void set_skill_level( const skill_id &ident, int level );
-        void boost_skill_level( const skill_id &ident, int delta );
+        void mod_skill_level( const skill_id &ident, int delta );
 
         /** Calculates skill difference
          * @param req Required skills to be compared with.
