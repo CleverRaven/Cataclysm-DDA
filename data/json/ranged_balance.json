@@ -19,5 +19,5 @@
         "description": "Value that adds to weapon dispersion per weapon damage level.",
         "stype": "int",
         "value": 60
-	},
+	}
 ]
