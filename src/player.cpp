@@ -484,36 +484,6 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
-player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
-    std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
-{
-}
-
-player_morale_ptr::player_morale_ptr( player_morale_ptr &&rhs ) :
-    std::unique_ptr<player_morale>( rhs ? rhs.release() : nullptr )
-{
-}
-
-player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs )
-{
-    if( this != &rhs ) {
-        reset( rhs ? new player_morale( *rhs ) : nullptr );
-    }
-    return *this;
-}
-
-player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
-{
-    if( this != &rhs ) {
-        reset( rhs ? rhs.release() : nullptr );
-    }
-    return *this;
-}
-
-player_morale_ptr::~player_morale_ptr()
-{
-}
-
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -629,8 +599,6 @@ player::player() : Character()
 
     recalc_sight_limits();
     reset_encumbrance();
-
-    morale.reset( new player_morale() );
 
     ma_styles = {{
         style_none, style_kicks
@@ -6706,7 +6674,7 @@ void player::check_and_recover_morale()
     apply_persistent_morale();
 
     if( !morale->consistent_with( test_morale ) ) {
-        morale.reset( new player_morale( test_morale ) ); // Recover consistency
+        *morale = player_morale( test_morale ); // Recover consistency
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ).c_str() );
     }
 }
