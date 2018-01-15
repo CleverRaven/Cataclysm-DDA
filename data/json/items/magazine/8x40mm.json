@@ -39,7 +39,7 @@
     "name": "RMGD250 8x40mm drum magazine",
     "description": "A 250 round drum magazine for use with Rivtech 8x40mm caseless firearms.",
     "weight": 340,
-    "volume": 6,
+    "volume": 8,
     "price": 70000,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
