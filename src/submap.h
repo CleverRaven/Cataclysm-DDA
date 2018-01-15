@@ -9,7 +9,6 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
-#include "copyable_unique_ptr.h"
 
 #include <vector>
 #include <list>
@@ -178,7 +177,7 @@ struct submap {
      * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
-    copyable_unique_ptr<computer> comp;
+    std::unique_ptr<computer> comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();

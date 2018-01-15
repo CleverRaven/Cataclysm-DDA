@@ -1794,7 +1794,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                         destsm->temperature = srcsm->temperature;
                         destsm->turn_last_touched = int( calendar::turn );
-                        destsm->comp = srcsm->comp;
+                        destsm->comp = std::move( srcsm->comp );
                         destsm->camp = srcsm->camp;
 
                         if( spawns_todo > 0 ) {                               // trigger spawnpoints
