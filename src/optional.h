@@ -60,12 +60,12 @@ class optional
         constexpr optional() noexcept : dummy(), full( false ) { }
         constexpr optional( const nullopt_t ) noexcept : dummy(), full( false ) { }
 
-        optional( const optional &other ) {
+        optional( const optional &other ) : full( false ) {
             if( other.full ) {
                 construct( other.get() );
             }
         }
-        optional( optional &&other ) {
+        optional( optional &&other ) : full( false ) {
             if( other.full ) {
                 construct( std::move( other.get() ) );
             }
