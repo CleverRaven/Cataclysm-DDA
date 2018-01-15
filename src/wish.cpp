@@ -556,14 +556,15 @@ void debug_menu::wishskill( player *p )
             skmenu.ret = -2;
         } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
             skill_id = sksel;
+            const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uimenu sksetmenu;
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( string_format( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() ) );
-            int skcur = p->get_skill_level( Skill::skills[skill_id].ident() );
+            sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
+            int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
@@ -573,15 +574,16 @@ void debug_menu::wishskill( player *p )
         }
 
         if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
-            p->set_skill_level( Skill::skills[skill_id].ident(), skset );
+            const Skill &skill = Skill::skills[skill_id];
+            p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      Skill::skills[skill_id].name().c_str(),
-                                      p->get_skill_level( Skill::skills[skill_id].ident() ) ).substr( 0, skmenu.w_width - 4 );
+                                      skill.name(),
+                                      p->get_skill_level( skill.ident() ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                    p->get_skill_level( Skill::skills[skill_id].ident() ),
-                    Skill::skills[skill_id].name().c_str() );
+                    p->get_skill_level( skill.ident() ),
+                    skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                ( p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
@@ -596,14 +598,15 @@ void debug_menu::wishskill( player *p )
                     skset = ( ( ret - 5 ) * 5 );
                 }
                 for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
-                    int changeto = ( skmod != 0 ? p->get_skill_level( Skill::skills[skill_id].ident() ) + skmod :
+                    const Skill &skill = Skill::skills[skill_id];
+                    int changeto = ( skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
                                      ( skset != -1 ? skset : origskills[skill_id] ) );
-                    p->set_skill_level( Skill::skills[skill_id].ident(), changeto );
+                    p->set_skill_level( skill.ident(), changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                            p->get_skill_level( Skill::skills[skill_id].ident() ),
-                            Skill::skills[skill_id].name().c_str() );
+                            p->get_skill_level( skill.ident() ),
+                            skill.name() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        ( p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                        ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
                 }
             }
