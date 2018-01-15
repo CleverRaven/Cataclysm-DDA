@@ -14,16 +14,18 @@ std::map<skill_id, Skill> Skill::contextual_skills;
 
 static const Skill invalid_skill;
 
-const Skill &Skill::get( const skill_id &id )
+/** @relates string_id */
+template<>
+const Skill &string_id<Skill>::obj() const
 {
     for( const Skill &skill : Skill::skills ) {
-        if( skill.ident() == id ) {
+        if( skill.ident() == *this ) {
             return skill;
         }
     }
 
-    const auto iter = contextual_skills.find( id );
-    if( iter != contextual_skills.end() ) {
+    const auto iter = Skill::contextual_skills.find( *this );
+    if( iter != Skill::contextual_skills.end() ) {
         return iter->second;
     }
 
@@ -32,16 +34,9 @@ const Skill &Skill::get( const skill_id &id )
 
 /** @relates string_id */
 template<>
-const Skill &string_id<Skill>::obj() const
-{
-    return Skill::get( *this );
-}
-
-/** @relates string_id */
-template<>
 bool string_id<Skill>::is_valid() const
 {
-    return Skill::get( *this ) != invalid_skill;
+    return &obj() != &invalid_skill;
 }
 
 Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
