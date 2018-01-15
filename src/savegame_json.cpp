@@ -344,17 +344,10 @@ void Character::load(JsonObject &data)
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    if (data.has_object("skills")) {
-        JsonObject pmap = data.get_object("skills");
-        for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), get_skill_level_object( skill.ident() ) );
-            } else {
-                debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
-            }
-        }
-    } else {
-        debugmsg("Skills[] no bueno");
+    _skills->clear();
+    JsonObject pmap = data.get_object( "skills" );
+    for( const std::string &member : pmap.get_member_names() ) {
+        pmap.read( member, (*_skills)[skill_id( member )] );
     }
 
     visit_items( [&] ( item *it ) {
@@ -412,8 +405,8 @@ void Character::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident().str(), get_skill_level_object( skill.ident() ) );
+    for( const auto &pair : *_skills ) {
+        json.member( pair.first.str(), pair.second );
     }
     json.end_object();
 }
