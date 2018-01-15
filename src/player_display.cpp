@@ -267,9 +267,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     std::vector<trait_id> traitslist = get_mutations();
 
+    const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
+        int const level_a = get_skill_level_object( a.ident() ).exercised_level();
+        int const level_b = get_skill_level_object( b.ident() ).exercised_level();
+        return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+    } );
+
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
-    unsigned skill_win_size_y = 1 + unsigned( Skill::skill_count() );
+    unsigned skill_win_size_y = 1 + skillslist.size();
     unsigned info_win_size_y = 4;
 
     unsigned infooffsetytop = 11;
@@ -493,12 +499,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     const char *title_SKILLS = _( "SKILLS" );
     mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, c_light_gray, title_SKILLS );
-
-    auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-        int const level_a = get_skill_level_object( a.ident() ).exercised_level();
-        int const level_b = get_skill_level_object( b.ident() ).exercised_level();
-        return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
-    } );
 
     for( auto &elem : skillslist ) {
         const SkillLevel &level = get_skill_level_object( elem->ident() );
