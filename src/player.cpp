@@ -2347,10 +2347,11 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Skills
     memorial_file << _( "Skills:" ) << eol;
-    for( auto &skill : Skill::skills ) {
-        const SkillLevel &next_skill_level = get_skill_level_object( skill.ident() );
-        memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
-                      << next_skill_level.exercise() << "%)" << eol;
+    for( auto &pair : *_skills ) {
+        const SkillLevel &lobj = pair.second;
+        //~ 1. skill name, 2. skill level, 3. exercise percentage to next level
+        memorial_file << indent << string_format( _( "%s: %d (%d %%)" ), pair.first->name(), lobj.level(),
+                      lobj.exercise() ) << eol;
     }
     memorial_file << eol;
 
