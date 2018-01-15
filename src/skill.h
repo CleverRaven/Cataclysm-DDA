@@ -162,11 +162,6 @@ class SkillLevel
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
-
-        // Make skillLevel act like a raw level by default.
-        operator int() const {
-            return _level;
-        }
 };
 
 class SkillLevelMap : public std::map<skill_id, SkillLevel> {

@@ -1165,7 +1165,7 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 
 int Character::get_skill_level( const skill_id &ident ) const
 {
-    return get_skill_level_object( ident );
+    return get_skill_level_object( ident ).level();
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
@@ -1188,7 +1188,7 @@ const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) con
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) ).level();
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )

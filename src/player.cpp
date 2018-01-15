@@ -9513,7 +9513,7 @@ void player::do_read( item *book )
         if( skill && learner->get_skill_level( skill ) < reading->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
             SkillLevel &skill_level = learner->get_skill_level_object( skill );
-            const int originalSkillLevel = skill_level;
+            const int originalSkillLevel = skill_level.level();
 
             // Calculate experience gained
             /** @EFFECT_INT increases reading comprehension */
@@ -9540,11 +9540,11 @@ void player::do_read( item *book )
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name().c_str(),
                              originalSkillLevel + 1 );
-                    if( skill_level % 4 == 0 ) {
+                    if( skill_level.level() % 4 == 0 ) {
                         //~ %s is skill name. %d is skill level
                         add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
                                           pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                          ( int )skill_level, skill.obj().name().c_str() );
+                                          skill_level.level(), skill->name() );
                     }
                     lua_callback( "on_skill_increased" );
                 } else {
@@ -10613,7 +10613,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if (isSavant) {
         for( auto const &skill : Skill::skills ) {
-            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
+            if( get_skill_level( skill.ident() ) > savantSkillLevel.level() ) {
                 savantSkill = skill.ident();
                 savantSkillLevel = get_skill_level( skill.ident() );
             }

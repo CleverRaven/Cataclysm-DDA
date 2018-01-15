@@ -845,7 +845,7 @@ skill_id npc::best_skill() const
 
     for( auto const &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second;
+            int const level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;

@@ -519,7 +519,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             text_color = c_white;
         }
 
-        int level_num = ( int )level;
+        int level_num = level.level();
         int exercise = level.exercise();
 
         // TODO: this skill list here is used in other places as well. Useless redundancy and
@@ -988,7 +988,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     mvwprintz( w_skills, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     mvwprintz( w_skills, int( 1 + i - min ), 1, cstatus, "%s:", aSkill->name().c_str() );
-                    mvwprintz( w_skills, int( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", ( int )level,
+                    mvwprintz( w_skills, int( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level.level(),
                                ( exercise <  0 ? 0 : exercise ) );
                 }
 
@@ -1032,7 +1032,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         }
 
                         mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str() );
-                        mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", ( int )level,
+                        mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level.level(),
                                    ( level.exercise() <  0 ? 0 : level.exercise() ) );
                     }
                     wrefresh( w_skills );
