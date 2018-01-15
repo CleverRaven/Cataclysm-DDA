@@ -687,7 +687,6 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "You insert your ID card." ) );
             add_msg( m_good, _( "The nearby doors slide into the floor." ) );
             p.use_amount( card_type, 1 );
-            //return;
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
         }
