@@ -1265,9 +1265,9 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
-    for( auto const &skill : Skill::skills ) {
-        const auto &id = skill.ident();
-        if( p.get_skill_level( id ) < get_skill_level( id ) ) {
+    for( const auto &pair : *_skills ) {
+        const skill_id &id = pair.first;
+        if( p.get_skill_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
