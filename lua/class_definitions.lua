@@ -2173,8 +2173,8 @@ global_functions = {
         rval = "calendar&"
     },
 --[[
-Returns overmap terrain id of overmap.
-Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return overmap terrain id of current location.
+Returns id of overmap terrain.
+Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return id of overmap terrain of current player location.
 --]]
     get_omt_id = {
         cpp_name = "get_omt_id",
@@ -2182,8 +2182,8 @@ Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return o
         rval = "string"
     },
 --[[
-Returns enum, indicating direction of overmap. Possible values are in `om_direction_type` in `enums` section above.
-Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return overmap direction of current location.
+Returns enum, indicating direction of overmap terrain. Possible values are in `om_direction_type` in `enums` section above.
+Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
 --]]
     get_omt_dir = {
         cpp_name = "get_omt_dir",
