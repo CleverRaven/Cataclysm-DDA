@@ -9,7 +9,6 @@
 #include "messages.h"
 #include "mutation.h"
 #include "sounds.h"
-#include "skill.h"
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"

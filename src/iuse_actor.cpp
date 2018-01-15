@@ -26,7 +26,6 @@
 #include "mtype.h"
 #include "mapdata.h"
 #include "ammo.h"
-#include "skill.h"
 #include "field.h"
 #include "weather.h"
 #include "trap.h"

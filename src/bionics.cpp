@@ -20,7 +20,6 @@
 #include "translations.h"
 #include "monster.h"
 #include "overmap.h"
-#include "skill.h"
 #include "effect.h"
 #include "json.h"
 #include "itype.h"

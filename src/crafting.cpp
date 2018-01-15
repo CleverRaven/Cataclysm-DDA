@@ -19,7 +19,6 @@
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"

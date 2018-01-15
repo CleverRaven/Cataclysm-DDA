@@ -8,7 +8,6 @@
 #include "debug.h"
 #include "output.h"
 #include "line.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "rng.h"
 #include "item.h"

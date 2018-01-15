@@ -13,7 +13,6 @@
 #include "init.h"
 #include "output.h"
 #include "generic_factory.h"
-#include "skill.h"
 #include "character.h"
 
 #include <unordered_map>

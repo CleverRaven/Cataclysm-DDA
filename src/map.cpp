@@ -15,7 +15,6 @@
 #include "iexamine.h"
 #include "string_formatter.h"
 #include "sounds.h"
-#include "skill.h"
 #include "debug.h"
 #include "trap.h"
 #include "item.h"

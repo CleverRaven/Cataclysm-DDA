@@ -22,7 +22,6 @@
 #include "ammo.h"
 #include "options.h"
 #include "material.h"
-#include "skill.h"
 #include "monster.h"
 #include "npc.h"
 #include "veh_type.h"

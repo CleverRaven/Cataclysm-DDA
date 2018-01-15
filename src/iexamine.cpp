@@ -11,7 +11,6 @@
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
-#include "skill.h"
 #include "line.h"
 #include "player.h"
 #include "string_formatter.h"

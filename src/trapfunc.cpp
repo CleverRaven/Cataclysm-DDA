@@ -10,7 +10,6 @@
 #include "translations.h"
 #include "event.h"
 #include "npc.h"
-#include "skill.h"
 #include "monster.h"
 #include "mapdata.h"
 #include "mtype.h"
