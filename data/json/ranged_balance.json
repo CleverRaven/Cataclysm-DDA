@@ -1,23 +1,23 @@
 [
     {
-        "type" : "game_constant",
-		"id" : "GUN_DISPERSION_MULTIPLIER",
-        "description" : "Scales ranged weapon accuracy. Game multiplies final weapon despersion on this value.",
+        "type": "game_constant",
+        "id": "GUN_DISPERSION_MULTIPLIER",
+        "description": "Scales ranged weapon accuracy. Game multiplies final weapon dispersion by this value.",
         "stype": "float",
-		"value" : 0.333333
-    },
-    {
-        "type" : "game_constant",
-		"id" : "MIN_GUN_DISPERSION",
-        "description" : "Absolute minimum gun dispersion.",
-        "stype": "int",
-		"value" : 45
+        "value": 0.333333
     },
 	{
-        "type" : "game_constant",
-		"id" : "DISPERSION_PER_GUN_DAMAGE",
-        "description" : "Value that adds to weapon dispersion per weapon damage level.",
+        "type": "game_constant",
+        "id": "MIN_GUN_DISPERSION",
+        "description": "Absolute minimum gun dispersion.",
         "stype": "int",
-        "value" : 60
-    }
+        "value": 45
+	},
+	{
+        "type": "game_constant",
+        "id": "DISPERSION_PER_GUN_DAMAGE",
+        "description": "Value that adds to weapon dispersion per weapon damage level.",
+        "stype": "int",
+        "value": 60
+	},
 ]
