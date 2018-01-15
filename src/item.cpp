@@ -47,6 +47,7 @@
 #include "vehicle_selector.h"
 #include "units.h"
 #include "ret_val.h"
+#include "constants_manager.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -4018,7 +4019,8 @@ int item::gun_dispersion( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage() * 60;
+    int dispPerDamage = get_constant< int >( "DISPERSION_PER_GUN_DAMAGE" );
+    dispersion_sum += damage() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -4026,7 +4028,10 @@ int item::gun_dispersion( bool with_ammo ) const
     // Dividing dispersion by 3 temporarally as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
     // Absolute minimum gun dispersion is 45.
-    dispersion_sum = std::max( dispersion_sum / 3, 45 );
+    // Now this values are in JSON
+    float dispMult = get_constant< float >( "GUN_DISPERSION_MULTIPLIER" );
+    int minDisp = get_constant< int >( "MIN_GUN_DISPERSION" );
+    dispersion_sum = std::max( int ( dispersion_sum *dispMult ), minDisp );
     return dispersion_sum;
 }
 
