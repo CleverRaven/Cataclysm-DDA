@@ -103,7 +103,7 @@
     "id": "rm298",
     "type": "GUN",
     "name": "RM298 HMG",
-    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Needs to be mounted because of extreme recoil.  Accepts RMXB500 box and RMGD250 drum magazines.",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Needs to be mounted because of its massive magazine.  Accepts RMXB500 box and RMGD250 drum magazines.",
     "weight": 24500,
     "volume": 18,
     "price": 7500000,
@@ -123,7 +123,7 @@
     "barrel_length": 6,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazine_well": 6,
-    "magazines": [ [ "8x40mm", [ "8x40_250_mag", "8x40_500_mag" ] ] ],
+    "magazines": [ [ "8x40mm", [ "8x40_500_mag", "8x40_250_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
