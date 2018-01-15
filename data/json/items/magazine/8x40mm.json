@@ -69,7 +69,7 @@
   {
     "id": "8x40_500_mag",
     "type": "MAGAZINE",
-    "name": "RMGB500 8x40mm extended magazine",
+    "name": "RMGB500 8x40mm drum magazine",
     "description": "A 500 round box magazine for use with Rivtech 8x40mm caseless firearms.",
     "weight": 1400,
     "volume": 16,
