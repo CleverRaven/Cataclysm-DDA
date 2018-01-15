@@ -11786,10 +11786,13 @@ void player::do_skill_rust()
     if( rate <= 0 ) {
         return;
     }
-    for( const Skill &aSkill : Skill::skills ) {
+    for( auto &pair : *_skills ) {
         if( rate <= rng( 0, 1000 ) ) {
             continue;
         }
+
+        const Skill &aSkill = *pair.first;
+        SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
             ( ( has_trait( trait_PRED2 ) && one_in( 4 ) ) ||
@@ -11812,7 +11815,6 @@ void player::do_skill_rust()
             continue;
         }
 
-        SkillLevel &skill_level_obj = get_skill_level_object( aSkill.ident() );
         const bool charged_bio_mem = power_level > 25 && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem ) ) {
