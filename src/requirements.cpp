@@ -868,9 +868,6 @@ requirement_data requirement_data::disassembly_requirements() const
 
     auto &qualities = ret.qualities[0];
     qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
-
-    
-
     // Remove duplicate qualities
     {
         auto itr = std::unique( qualities.begin(), qualities.end(),
