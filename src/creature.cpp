@@ -467,11 +467,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Bounce applies whether it does damage or not.
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect( effect_bounced, 1);
+        add_effect( effect_bounced, 1 );
     }
 
     body_part bp_hit;
-    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;

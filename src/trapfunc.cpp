@@ -227,6 +227,19 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
     }
 }
 
+// This represents a kind of conductive wire attached to a sensor
+// that is monitoring the electrical properties of the wire.
+// Any disturbance above some threshold will trigger the sensor.
+// This is modeled as a web of trigger wires, when one is disturbed,
+// it triggers all adjacent trigger wires as well as compatible traps.
+// Trigger wire itself resets the next turn, but other traps are likely to destroy nearby wires.
+/*void trapfunc::electric_trigger_wire( Creature *c, const tripoint &p )
+{
+    // Transform wire into "activated wire",
+    // Trigger adjacent traps and wires.
+}
+*/
+
 void trapfunc::crossbow( Creature *c, const tripoint &p )
 {
     bool add_bolt = true;

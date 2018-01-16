@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "projectile.h"
+#include "shadowcasting.h"
 #include "json.h"
 #include "creature.h"
 #include "character.h"
@@ -20,6 +21,7 @@
 
 static const itype_id null_itype( "null" );
 
+// TODO: Delete me
 tripoint random_perimeter( const tripoint &src, const int radius )
 {
     tripoint dst;
@@ -311,8 +313,8 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
             for( const auto &e : shrapnel_locations ) {
-                if( g->m.passable( e.first ) && e.second >= 0 ) {
-                    tiles.push_back( e.first );
+                if( g->m.passable( e ) ) {
+                    tiles.push_back( e );
                 }
             }
 
@@ -328,15 +330,23 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
     }
 }
 
-std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power, int count,
+std::vector<tripoint> game::shrapnel( const tripoint &src, int power, int count,
         int mass, int range )
 {
-    if( range < 0 ) {
-        range = std::max( ( 2 * log( power / 2 ) ) + 2, 0.0 );
+    // TODO: Calculate range based on max effective range for projectiles.
+    // Basically bisect between 0 and map diameter using shrapnel_calc().
+    int effective_range = 0;
+    for( effective_range = 0; effective_range < 60; ++effective_range ) {
+        fragment_cloud cloud = shrapnel_calc( { 2150.0, count }, { 1.2, 1.0 }, effective_range );
+        float damage = ballistic_damage( cloud.velocity, mass );
+        if( damage * cloud.density == 0.0 ) {
+            break;
+        }
     }
 
-    // contains of all tiles considered with value being sum of damage received (if any)
-    std::unordered_map<tripoint, int> distrib;
+    add_msg( m_debug, "Shrapnel range calculated at %d.", effective_range );
+    // Contains of all tiles where damage was dealt.
+    std::vector<tripoint> distrib;
 
     projectile proj;
     proj.speed = 1000; // no dodging shrapnel
@@ -344,64 +354,74 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
     proj.proj_effects.insert( "NULL_SOURCE" );
     proj.proj_effects.insert( "WIDE" ); // suppress MF_HARDTOSHOOT
 
-    auto func = [this, &distrib, &mass, &proj]( const tripoint & e, int &kinetic ) {
-        distrib[ e ] += 0; // add this tile to the distribution
+    std::array<fragment_cloud (*)[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ], OVERMAP_LAYERS> obstacle_caches;
+    std::array<fragment_cloud (*)[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ], OVERMAP_LAYERS> visited_caches;
+    std::array<const bool (*)[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ], OVERMAP_LAYERS> floor_caches;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        const level_cache &cur_cache = m.get_cache_ref( z );
+        // Have to fake out the allocation since you can't 'new' a 2D array whose first dimension is dynamic.
+        obstacle_caches[z + OVERMAP_DEPTH] = (fragment_cloud (*)[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ]) new fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
+        visited_caches[z + OVERMAP_DEPTH] = (fragment_cloud (*)[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ]) new fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
+        floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+    }
+    // TODO: Truncate these to map bounds.
+    tripoint start( std::max( 0, src.x - effective_range ), std::max( 0, src.y - effective_range ),
+                    std::max( -OVERMAP_DEPTH, src.z - effective_range ) );
+    tripoint end( std::min( MAPSIZE * SEEX, src.x + effective_range ),
+                  std::min( MAPSIZE * SEEY, src.y + effective_range ),
+                  std::min( OVERMAP_HEIGHT, src.z + effective_range ) );
+    m.build_obstacle_cache( start, end, obstacle_caches );
 
-        auto critter = critter_at( e );
-        if( critter && !critter->is_dead_state() ) {
-            dealt_projectile_attack frag;
-            frag.proj = proj;
-            frag.missed_by = rng_float( 0.2, 0.6 );
-            frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
+    std::array<const fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> *readonly_obstacle_caches =
+      (std::array<const fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> *) &obstacle_caches;
 
-            distrib[ e ] += kinetic; // increase received damage for tile in distribution
+    cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>( visited_caches, *readonly_obstacle_caches,
+                                                                                           floor_caches, src, 60 - effective_range, { 2150.0, count } );
 
-            critter->deal_projectile_attack( nullptr, frag );
-            return false;
-        }
+    // Now visited_caches are populated with density and velocity of fragments.
+    for( int z = start.z; z <= end.z; z++ ) {
+        for( int x = start.x; x <= end.x; x++ ) {
+            for( int y = start.y; y <= end.y; y++ ) {
+                fragment_cloud &cloud = (*visited_caches[z + OVERMAP_DEPTH])[x][y];
+                if( cloud.density <= MIN_FRAGMENT_DENSITY || cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
+                    continue;
+                }
+                distrib.emplace_back( x, y, z );
+                tripoint target( x, y, z );
+                int damage = ballistic_damage( cloud.velocity, mass );
+                auto critter = critter_at( target );
+                if( critter && !critter->is_dead_state() ) {
+                    dealt_projectile_attack frag;
+                    frag.proj = proj;
+                    frag.proj.speed = cloud.velocity;
+                    // TODO: bias this distribution to avoid so many headshots etc.
+                    frag.missed_by = rng_float( 0.0, 1.0 );
+                    // TODO: adjust these numbers.
+		    // Damage for other ranged weapons is sqrt of energy, so sqrt( velocity * velocity * mass / 2 )
+                    frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
 
-        if( m.impassable( e ) ) {
-            // massive shrapnel can smash a path through obstacles
-            int force = std::min( kinetic, mass );
-            int resistance;
+                    critter->deal_projectile_attack( nullptr, frag );
+		    add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d", critter->disp_name().c_str(), frag.proj.speed, rl_dist( src, target ) );
+		    add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
 
-            int vpart;
-            vehicle *veh = m.veh_at( e, vpart );
-            if( veh != nullptr && vpart >= 0 ) {
-                resistance = force - veh->damage( vpart, force );
-
-            } else {
-                resistance = std::max( m.bash_resistance( e ), 0 );
-                m.bash( e, force, true );
+                }
+                if( m.impassable( target ) ) {
+                    int vpart;
+                    vehicle *veh = m.veh_at( target, vpart );
+                    if( veh != nullptr && vpart >= 0 ) {
+                        veh->damage( vpart, damage );
+                    } else {
+                        m.bash( target, damage, true );
+                    }
+                }
             }
-
-            if( m.passable( e ) ) {
-                distrib[ e ] += resistance; // obstacle absorbed only some of the force
-                kinetic -= resistance;
-            } else {
-                distrib[ e ] += kinetic; // obstacle absorbed all of the force
-                return false;
-            }
         }
-
-        // @todo apply effects of soft cover
-        return kinetic > 0;
-    };
-
-    for( auto i = 0; i != count; ++i ) {
-        int kinetic = power;
-
-        // special case critter at epicenter to have equivalent chance to adjacent tile
-        if( one_in( 8 ) && !func( src, kinetic ) ) {
-            continue;
-        }
-
-        // shrapnel otherwise expands randomly in all directions
-        bresenham( src, random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
-            return func( e, kinetic );
-        } );
     }
 
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        delete [] obstacle_caches[z + OVERMAP_DEPTH];
+        delete [] visited_caches[z + OVERMAP_DEPTH];
+    }
     return distrib;
 }
 
