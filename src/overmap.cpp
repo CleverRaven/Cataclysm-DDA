@@ -349,16 +349,22 @@ void overmap_specials::reset()
     specials.reset();
 }
 
-overmap_special_batch overmap_specials::get_default_batch( point origin )
+overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
     const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
-    for( const auto &elem : specials.get_all() ) {
-        if( !elem.locations.empty() && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
-            res.push_back( &elem );
+    for( const overmap_special &elem : specials.get_all() ) {
+        if( elem.locations.empty() || elem.occurrences.empty() ) {
+            continue;
         }
+
+        if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
+            continue;
+        }
+
+        res.push_back( &elem );
     }
 
     return overmap_special_batch( origin, res );
@@ -1179,16 +1185,29 @@ void overmap::populate()
     populate( enabled_specials );
 }
 
+oter_id overmap::get_default_terrain( int z ) const
+{
+    if( z == 0 ) {
+        return settings.default_oter.id();
+    } else {
+        // // @todo Get rid of the hard-coded ids.
+        static const oter_str_id open_air( "open_air" );
+        static const oter_str_id empty_rock( "empty_rock" );
+
+        return z > 0 ? open_air.id() : empty_rock.id();
+    }
+}
+
 void overmap::init_layers()
 {
-    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        oter_str_id default_type( (z < OVERMAP_DEPTH) ? oter_str_id( "empty_rock" ) : (z == OVERMAP_DEPTH) ? settings.default_oter :
-                               oter_str_id( "open_air" ) );
-        for(int i = 0; i < OMAPX; ++i) {
-            for(int j = 0; j < OMAPY; ++j) {
-                layer[z].terrain[i][j] = default_type.id();
-                layer[z].visible[i][j] = false;
-                layer[z].explored[i][j] = false;
+    for( int k = 0; k < OVERMAP_LAYERS; ++k ) {
+        const oter_id tid = get_default_terrain( k - OVERMAP_DEPTH );
+
+        for( int i = 0; i < OMAPX; ++i ) {
+            for( int j = 0; j < OMAPY; ++j ) {
+                layer[k].terrain[i][j] = tid;
+                layer[k].visible[i][j] = false;
+                layer[k].explored[i][j] = false;
             }
         }
     }
@@ -1742,6 +1761,7 @@ bool overmap::generate_sub(int const z)
 
             if (is_ot_type("sub_station", oter_ground) && z == -1) {
                 ter(i, j, z) = oter_id( "sewer_sub_station" );
+                requires_sub = true;
             } else if (is_ot_type("sub_station", oter_ground) && z == -2) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
                 subway_points.emplace_back( i, j - 1 );
@@ -3384,80 +3404,31 @@ void overmap::place_cities()
     }
 }
 
-building_size overmap::find_max_size( const tripoint &center, const building_size &limits ) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
 {
-    // Open air above and solid rock below is fine
-    // Default terrain at the spot is fine
-    // Nothing else is
-    const auto &tid = get_ter( center );
-    building_size ret;
-    // @todo Should be a flag or a property, not id comparison
-    if( tid != settings.default_oter ) {
-        return ret;
+    if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
+        return settings.city_spec.pick_shop();
+    } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
+        return settings.city_spec.pick_park();
+    } else {
+        return settings.city_spec.pick_house();
     }
-
-    tripoint current = center;
-    ret.height = 0;
-    static const oter_str_id open_air( "open_air" );
-    while( ret.height < limits.height ) {
-        current.z++;
-        if( get_ter( current ) != open_air ) {
-            break;
-        }
-        ret.height++;
-    }
-    current.z = center.z;
-    ret.depth = 0;
-    static const oter_str_id empty_rock( "empty_rock" );
-    while( ret.depth < limits.depth ) {
-        current.z--;
-        if( get_ter( current ) != empty_rock ) {
-            break;
-        }
-        ret.depth++;
-    }
-    return ret;
 }
 
-building_size find_special_size( const overmap_special &sp )
+void overmap::place_building( const tripoint &p, om_direction::type dir, const city &town )
 {
-    building_size ret;
-    for( const overmap_special_terrain &ter : sp.terrains ) {
-        const tripoint &p = ter.p;
-        if( p.x != 0 || p.y != 0 ) {
-            debugmsg( "Tried to add city building %s, but it has a part with non-zero x or y coords (not supported yet)",
-                      sp.id.c_str() );
+    const tripoint building_pos = p + om_direction::displace( dir );
+    const om_direction::type building_dir = om_direction::opposite( dir );
+
+    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.x, town.y ) / std::max( town.s, 1 );
+
+    for( size_t retries = 10; retries > 0; --retries ) {
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
+
+        if( can_place_special( *building_tid, building_pos, building_dir ) ) {
+            place_special( *building_tid, building_pos, building_dir, town );
             break;
         }
-        ret.height = std::max( p.z, ret.height );
-        ret.depth = std::max( -p.z, ret.depth );
-    }
-    return ret;
-}
-
-void overmap::put_building( const tripoint &p, om_direction::type dir, const city &town )
-{
-    const point offset = om_direction::displace( dir );
-    const tripoint building_pos = p + offset;
-
-    const int town_dist = trig_dist( p.x, p.y, town.x, town.y ) / ( town.s > 0 ? town.s : 1 );
-    overmap_special_id building_tid = overmap_special_id::NULL_ID();
-    for( size_t retries = 10; retries > 0; retries-- ) {
-        if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
-            building_tid = settings.city_spec.pick_shop();
-        } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
-            building_tid = settings.city_spec.pick_park();
-        } else {
-            building_tid = settings.city_spec.pick_house();
-        }
-        building_size special_size = find_special_size( building_tid.obj() );
-        if( find_max_size( p, special_size ) == special_size ) {
-            break;
-        }
-    }
-
-    if( !building_tid.is_null() ) {
-        place_special( building_tid.obj(), building_pos, om_direction::opposite( dir ), town );
     }
 }
 
@@ -3483,11 +3454,13 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     const auto to = street_path.nodes.end();
 
     for( auto iter = from; iter != to; ++iter ) {
+        const tripoint rp( iter->x, iter->y, 0 );
+
         if( !one_in( STREETCHANCE ) ) {
-            put_building( { iter->x, iter->y, 0 }, om_direction::turn_left( dir ), town );
+            place_building( rp, om_direction::turn_left( dir ), town );
         }
         if( !one_in( STREETCHANCE ) ) {
-            put_building( { iter->x, iter->y, 0 }, om_direction::turn_right( dir ), town );
+            place_building( rp, om_direction::turn_right( dir ), town );
         }
 
         --c;
@@ -4229,17 +4202,37 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     }
     // Pick first valid rotation at random.
     std::random_shuffle( first, last );
-    const auto rotation = find_if( first, last, [&]( om_direction::type r ) {
-        for( const auto &elem : special.terrains ) {
-            const tripoint rp = p + om_direction::rotate( elem.p, r );
-            if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp ) ) ) ) {
-                return false;
-            }
-        }
-        return true;
+    const auto rotation = std::find_if( first, last, [&]( om_direction::type elem ) {
+        return can_place_special( special, p, elem );
     } );
 
     return rotation != last ? *rotation : om_direction::type::invalid;
+}
+
+bool overmap::can_place_special( const overmap_special &special, const tripoint &p, om_direction::type dir ) const
+{
+    assert( p != invalid_tripoint );
+    assert( dir != om_direction::type::invalid );
+
+    if( !special.id ) {
+        return false;
+    }
+
+    return std::all_of( special.terrains.begin(), special.terrains.end(), [&]( const overmap_special_terrain &elem ) {
+        const tripoint rp = p + om_direction::rotate( elem.p, dir );
+
+        if( !inbounds( rp, 1 ) ) {
+            return false;
+        }
+
+        const oter_id tid = get_ter( rp );
+
+        if( rp.z == 0 ) {
+            return special.can_be_placed_on( tid );
+        } else {
+            return tid == get_default_terrain( rp.z );
+        }
+    } );
 }
 
 // checks around the selected point to see if the special can be placed there
@@ -4247,6 +4240,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
 {
     assert( p != invalid_tripoint );
     assert( dir != om_direction::type::invalid );
+    assert( can_place_special( special, p, dir ) );
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
@@ -4764,11 +4758,6 @@ void city_settings::finalize()
     parks.finalize();
 }
 
-building_size building_size::max( const building_size &a, const building_size &b )
-{
-    return building_size{ std::max( a.height, b.height ), std::max( a.depth, b.depth ) };
-}
-
 void building_bin::add( const overmap_special_id &building, int weight )
 {
     if( finalized ) {
@@ -4841,11 +4830,20 @@ void building_bin::finalize()
 
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
 {
+    // @todo Get rid of the hard-coded ids.
+    static const string_id<overmap_location> land( "land" );
+    static const string_id<overmap_location> swamp( "swamp" );
+
     overmap_special new_special;
+
     new_special.id = overmap_special_id( "FakeSpecial_" + base.str() );
+    new_special.locations.insert( land );
+    new_special.locations.insert( swamp );
+
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();
     new_special.terrains.push_back( ter );
+
     return specials.insert( new_special ).id;
 }
 

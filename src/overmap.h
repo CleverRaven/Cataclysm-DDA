@@ -11,6 +11,7 @@
 #include "weather_gen.h"
 
 #include <array>
+#include <algorithm>
 #include <iosfwd>
 #include <list>
 #include <map>
@@ -32,21 +33,6 @@ namespace pf
 {
     struct path;
 }
-
-struct building_size {
-    int height = -1;
-    int depth = -1;
-    building_size() : building_size( -1, -1 ) {}
-    building_size( int h, int d ) : height( h ), depth( d ) {}
-    bool operator==( const building_size &other ) const {
-        return height == other.height && depth == other.depth;
-    };
-    bool operator!=( const building_size &other ) const {
-        return !( *this == other );
-    };
-    building_size &operator=( const building_size & ) = default;
-    static building_size max( const building_size &a, const building_size &b );
-};
 
 class building_bin {
     private:
@@ -220,14 +206,15 @@ struct overmap_special_placement {
 };
 
 // A batch of overmap specials to place.
-class overmap_special_batch {
-    public:
-    overmap_special_batch( point origin ) : origin_overmap( origin ) {}
-    overmap_special_batch( point origin, std::vector<const overmap_special *> &specials ) :
+class overmap_special_batch
+{
+public:
+    overmap_special_batch( const point &origin ) : origin_overmap( origin ) {}
+    overmap_special_batch( const point &origin, const std::vector<const overmap_special *> &specials ) :
             origin_overmap( origin ) {
-        for( auto special : specials ) {
-            placements.push_back( { 0, special } );
-        }
+        std::transform( specials.begin(), specials.end(), std::back_inserter( placements ), []( const overmap_special *elem ) {
+            return overmap_special_placement{ 0, elem };
+        } );
     }
 
     // Wrapper methods that make overmap_special_batch act like
@@ -248,7 +235,8 @@ class overmap_special_batch {
     point get_origin() const {
         return origin_overmap;
     }
-    private:
+
+private:
     std::vector<overmap_special_placement> placements;
     point origin_overmap;
 };
@@ -432,6 +420,8 @@ public:
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
+    oter_id get_default_terrain( int z ) const;
+
     // Initialise
     void init_layers();
     // open existing overmap, or generate a new one
@@ -495,16 +485,17 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
-    building_size find_max_size( const tripoint &center, const building_size &limits ) const;
-
     static void draw_city_labels(WINDOW *w, const tripoint &center);
 
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
+
   // City Building
+  overmap_special_id pick_random_building_to_place( int town_dist ) const;
+
   void place_cities();
-  void put_building( const tripoint &p, om_direction::type dir, const city &town );
+  void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
@@ -534,6 +525,9 @@ public:
   std::vector<point> get_sectors() const;
 
     om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+
+    bool can_place_special( const overmap_special &special, const tripoint &p, om_direction::type dir ) const;
+
     void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
     /**
      * Iterate over the overmap and place the quota of specials.
