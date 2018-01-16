@@ -1022,7 +1022,7 @@
         "id": "turret_mount",
         "type":"GENERIC",
         "name": "turret mount",
-        "description": "A universal mount for weapons intended to be installed as a turrets.",
+        "description": "A universal mount for weapons intended to be installed as turrets.",
         "color": "cyan",
         "symbol": "X",
         "material": "steel",
