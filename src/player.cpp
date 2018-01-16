@@ -3584,32 +3584,30 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    const int z = posz();
     for( int xd = -5; xd <= 5; xd++ ) {
         for( int yd = -5; yd <= 5; yd++ ) {
-            const int x = posx() + xd;
-            const int y = posy() + yd;
-            const trap &tr = g->m.tr_at( tripoint( x, y, z ) );
-            if( tr.is_null() || (x == posx() && y == posy() ) ) {
+            const tripoint tp = pos() + tripoint( xd, yd, 0 );
+            const trap &tr = g->m.tr_at( tp );
+            if( tr.is_null() || tp == pos() ) {
                 continue;
             }
-            if( !sees( x, y ) ) {
+            if( !sees( tp ) ) {
                 continue;
             }
-            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tp, *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
             // Chance to detect traps we haven't yet seen.
-            if (tr.detect_trap( tripoint( x, y, z ), *this )) {
+            if (tr.detect_trap( tp, *this )) {
                 if( tr.get_visibility() > 0 ) {
                     // Only bug player about traps that aren't trivial to spot.
                     const std::string direction = direction_name(
-                        direction_from(posx(), posy(), x, y));
+                        direction_from( pos(), tp ) );
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
                                       tr.name().c_str(), direction.c_str());
                 }
-                add_known_trap( tripoint( x, y, z ), tr);
+                add_known_trap( tp, tr);
             }
         }
     }

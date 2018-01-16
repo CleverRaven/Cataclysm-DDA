@@ -574,13 +574,13 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                     if (spore_count == 0) {
                         break;
                     }
-                    if (i == p->posx() && j == p->posy()) {
+                    if( dest == p->pos()) {
                         continue;
                     }
-                    if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
+                    if (g->m.passable( dest ) && x_in_y(spore_count, 8)) {
                         if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                             monster &critter = *mon_ptr;
-                            if (g->u.sees(i, j) &&
+                            if( g->u.sees( dest ) &&
                                 !critter.type->in_species( FUNGUS ) ) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         critter.name().c_str() );
@@ -4027,6 +4027,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
+        p->mod_hunger( 10 );
+        p->mod_thirst( 10 );
+        p->mod_pain( 3 );
     }
 
     if( acid_blood ) {
@@ -4518,7 +4521,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
                     for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
                         if (!one_in(4) && g->m.add_field({x, y, p->posz()}, fd_blood, 3, 0 ) &&
-                            (blood || g->u.sees(x, y))) {
+                            (blood || g->u.sees(tripoint(x, y, p->posz())))) {
                             blood = true;
                         }
                     }

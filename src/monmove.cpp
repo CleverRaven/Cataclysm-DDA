@@ -756,12 +756,12 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
         if( g->m.has_flag( "SWIMMABLE", f ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
         if( g->m.has_flag( "SWIMMABLE", t ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }

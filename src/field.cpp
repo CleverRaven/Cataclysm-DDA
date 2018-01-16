@@ -928,16 +928,25 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     destroy( p, false );
                                 }
 
-                            } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_ASH ) ) {
+                            } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 5 - cur->getFieldDensity();
                                 smoke += 2;
                                 if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
+                                }
+
+                            } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                                // The fire feeds on the ground itself until max density.
+                                time_added += 5 - cur->getFieldDensity();
+                                smoke += 2;
+                                if( cur->getFieldDensity() > 1 &&
+                                    one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     furn_set( p, f_ash );
                                     add_item_or_charges( p, item( "ash" ) );
                                 }
+
                             } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                                 // We're hanging in the air - let's fall down
                                 tripoint dst{p.x, p.y, p.z - 1};

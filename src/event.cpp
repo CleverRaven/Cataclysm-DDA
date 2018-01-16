@@ -148,7 +148,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u.sees(x, y))
+      if (!saw_grate && g->u.sees(tripoint(x, y,g->get_levz())))
        saw_grate = true;
      }
     }
@@ -250,7 +250,7 @@ void event::per_turn()
                 return; // We're safely indoors!
             }
             g->summon_mon(mon_eyebot, tripoint(place.x, place.y, g->u.posz()));
-            if (g->u.sees( place )) {
+            if (g->u.sees( tripoint(place.x, place.y, g->u.posz()) )) {
                 add_msg(m_warning, _("An eyebot swoops down nearby!"));
             }
             // One eyebot per trigger is enough, really

@@ -1509,8 +1509,6 @@ classes = {
             { name = "reset_bonuses", rval = nil, args = { } },
             { name = "reset_stats", rval = nil, args = { } },
             { name = "sees", rval = "bool", args = { "Creature" } },
-            { name = "sees", rval = "bool", args = { "int", "int" } },
-            { name = "sees", rval = "bool", args = { "point" } },
             { name = "sees", rval = "bool", args = { "tripoint" } },
             { name = "sees", rval = "bool", args = { "tripoint", "bool" } },
             { name = "set_armor_bash_bonus", rval = nil, args = { "int" } },

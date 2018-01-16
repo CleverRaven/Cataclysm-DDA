@@ -165,16 +165,6 @@ bool Creature::sees( const Creature &critter ) const
     return sees( critter.pos(), critter.is_player() );
 }
 
-bool Creature::sees( const int tx, const int ty ) const
-{
-    return sees( tripoint( tx, ty, posz() ) );
-}
-
-bool Creature::sees( const point t ) const
-{
-    return sees( tripoint( t, posz() ) );
-}
-
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
     if( !fov_3d && posz() != t.z ) {
