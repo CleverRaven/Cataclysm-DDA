@@ -141,6 +141,9 @@ At high skill, bashing damage is generally the strongest, but still suffers from
 Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
+## Automatic Fire
+Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every six seconds.  Rates of fire less than 1 shot every six seconds are increased to 2.
+
 ## Magazines
 ### Reload times
 The overall balance is that magazines themselves are slow to reload whereas changing a magazine should be fast. For standard box magazines a default `reload_time` of 100 (per round) is appropriate with this value increasing for poor quality or extended magazines. Guns themselves should also specify `reload` of 100 (per magazine) unless their magazines are particularly awkward to reload (eg. ammo belts). The game logic intrinsically handles higher volume magazines consuming more time to attach to a gun so you need not consider this.
