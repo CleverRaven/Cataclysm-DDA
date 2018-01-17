@@ -146,7 +146,7 @@
             "str_min": 120, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
                 { "item": "rock", "count": [10, 22] },
                 { "item": "scrap", "count": [4, 12] },
@@ -166,7 +166,7 @@
             "str_min": 60, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
                 { "item": "rock", "count": [5, 11] },
                 { "item": "scrap", "count": [4, 12] },
