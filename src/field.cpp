@@ -130,7 +130,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_sludge",
         {translate_marker( "thin sludge trail" ), translate_marker( "sludge trail" ), translate_marker( "thick sludge trail" )}, '5', 2,
-        {def_c_light_gray,def_c_dark_gray,def_c_black}, {true, true, true}, {true, true, true}, HOURS( 6 ),
+        {def_c_light_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true}, {true, true, true}, HOURS( 6 ),
         {0,0,0},
         LIQUID,
         false
