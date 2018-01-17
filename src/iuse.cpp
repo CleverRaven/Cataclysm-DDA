@@ -4191,7 +4191,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 30000;
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars ) {
+        ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
         moves = 60000;
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = 90000;
