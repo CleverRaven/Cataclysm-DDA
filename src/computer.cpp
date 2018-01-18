@@ -136,7 +136,7 @@ void computer::use()
     // Login
     print_line(_("Logging into %s..."), name.c_str());
     if (security > 0) {
-        if (int(calendar::turn) < next_attempt) {
+        if( calendar::turn < next_attempt ) {
             print_error( _("Access is temporary blocked for security purposes.") );
             query_any(_("Please contact the system administrator."));
             reset_terminal();
@@ -1201,7 +1201,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = int(calendar::turn) + 450;
+    next_attempt = calendar::turn + 450_turns;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );

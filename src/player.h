@@ -12,6 +12,7 @@
 #include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
+#include "calendar.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -1352,7 +1353,7 @@ class player : public Character
 
         std::map<std::string, int> mutation_category_level;
 
-        int next_climate_control_check;
+        time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
@@ -1652,7 +1653,7 @@ class player : public Character
 
         inventory cached_crafting_inventory;
         int cached_moves;
-        int cached_turn;
+        time_point cached_time;
         tripoint cached_position;
 
         struct weighted_int_list<std::string> melee_miss_reasons;

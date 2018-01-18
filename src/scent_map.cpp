@@ -121,7 +121,7 @@ void scent_map::update( const tripoint &center, map &m )
     if( center != player_last_position ) {
         player_last_position = center;
         player_last_moved = calendar::turn;
-    } else if( player_last_moved + 1000 < calendar::turn ) {
+    } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
     }
 

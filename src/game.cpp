@@ -273,12 +273,14 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
+    nextspawn( calendar::before_time_starts ),
+    nextweather( calendar::before_time_starts ),
+    remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter(0),
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
-    remoteveh_cache_turn = INT_MIN;
     temperature = 0;
     player_was_sleeping = false;
     reset_light_level();
@@ -758,7 +760,8 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
+    //@todo shouln't that use calendar::start instead of INITIAL_TIME?
+    nextweather = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -778,7 +781,7 @@ void game::setup()
     npc_kills.clear();
     scent.reset();
 
-    remoteveh_cache_turn = INT_MIN;
+    remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
@@ -852,10 +855,10 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = int(calendar::turn);
+    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
-    u.next_climate_control_check = 0;  // Force recheck at startup
+    u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
     //Reset character safe mode/pickup rules
@@ -1450,8 +1453,8 @@ bool game::do_turn()
     reset_light_level();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400)) {
+    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
+        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -1775,7 +1778,9 @@ void game::update_weather()
 
         temperature = w.temperature;
         lightning_active = false;
-        nextweather = calendar::turn + 50; // Check weather each 50 turns.
+        // Check weather every few turns, instead of every turn.
+        //@todo predict when the weather changes and use that time.
+        nextweather = calendar::turn + 50_turns;
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -2461,10 +2466,10 @@ void game::rcdrive(int dx, int dy)
 
 vehicle *game::remoteveh()
 {
-    if( calendar::turn == remoteveh_cache_turn ) {
+    if( calendar::turn == remoteveh_cache_time ) {
         return remoteveh_cache;
     }
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
@@ -2484,7 +2489,7 @@ vehicle *game::remoteveh()
 
 void game::setremoteveh(vehicle *veh)
 {
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
@@ -3695,7 +3700,7 @@ void game::load(std::string worldname, const save_t &name)
     }
 
     read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather, this, _1 ) );
-    nextweather = int(calendar::turn);
+    nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
 
@@ -4086,7 +4091,7 @@ void game::debug()
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), int( nextspawn ),
+                int( calendar::turn ), to_turn<int>( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures(), events.size() );
@@ -13043,7 +13048,7 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if (calendar::turn >= nextspawn) {
+    if( calendar::turn >= nextspawn ) {
         spawn_mon(shiftx, shifty);
     }
 

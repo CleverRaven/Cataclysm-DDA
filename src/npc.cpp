@@ -1470,7 +1470,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ) {
         // Live grenade or something similar
         return -1000;
     }

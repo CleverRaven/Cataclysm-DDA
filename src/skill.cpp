@@ -137,13 +137,15 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
-SkillLevel::SkillLevel( int level, int exercise, bool isTraining, int lastPracticed,
+SkillLevel::SkillLevel( int level, int exercise, bool isTraining, const time_point &lastPracticed,
                         int highestLevel )
     : _level( level ), _exercise( exercise ), _lastPracticed( lastPracticed ),
       _isTraining( isTraining ), _highestLevel( highestLevel )
 {
-    if( lastPracticed <= 0 ) {
-        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
+    if( _lastPracticed == calendar::time_of_cataclysm ) {
+        //@todo shouldn't that be calendar::start?
+        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
+                             get_option<int>( "INITIAL_TIME" ) );
     }
     if( _highestLevel < _level ) {
         _highestLevel = _level;
@@ -152,7 +154,7 @@ SkillLevel::SkillLevel( int level, int exercise, bool isTraining, int lastPracti
 
 SkillLevel::SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise,
                         bool isTraining,
-                        int lastPracticed, int highestLevel )
+                        const time_point &lastPracticed, int highestLevel )
     : SkillLevel( rng( minLevel, maxLevel ), rng( minExercise, maxExercise ), isTraining,
                   lastPracticed, highestLevel )
 
@@ -202,13 +204,13 @@ int rustRate( int level )
 bool SkillLevel::isRusting() const
 {
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           ( calendar::turn - _lastPracticed ) > rustRate( _level );
+           to_turns<int>( calendar::turn - _lastPracticed ) > rustRate( _level );
 }
 
 bool SkillLevel::rust( bool charged_bio_mem )
 {
-    calendar const delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) ) {
+    const time_duration delta = calendar::turn - _lastPracticed;
+    if( _level <= 0 || delta <= 0 || to_turns<int>( delta ) % rustRate( _level ) ) {
         return false;
     }
 

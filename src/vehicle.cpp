@@ -278,7 +278,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update_turn = 0;
+    last_update = 0;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -3844,7 +3844,7 @@ void vehicle::on_move(){
         operate_reaper();
     }
 
-    occupied_cache_turn = -1;
+    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::operate_plow(){
@@ -5927,8 +5927,8 @@ int vehicle::obstacle_at_part( int p ) const
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_turn != calendar::turn ) {
-        occupied_cache_turn = calendar::turn;
+    if( force_refresh || occupied_cache_time != calendar::turn ) {
+        occupied_cache_time = calendar::turn;
         occupied_points.clear();
         tripoint pos = global_pos3();
         for( const auto &p : parts ) {
@@ -5968,24 +5968,24 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
         sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
 }
 
-void vehicle::update_time( const calendar &update_to )
+void vehicle::update_time( const time_point &update_to )
 {
     if( smz < 0 ) {
         return;
     }
 
-    const auto update_from = last_update_turn;
+    const time_point update_from = last_update;
     if( update_to < update_from ) {
         // Special case going backwards in time - that happens
-        last_update_turn = update_to;
+        last_update = update_to;
         return;
     }
 
-    if( update_to >= update_from && update_to - update_from < MINUTES(1) ) {
+    if( update_to >= update_from && update_to - update_from < 1_minutes ) {
         // We don't need to check every turn
         return;
     }
-    last_update_turn = update_to;
+    last_update = update_to;
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?

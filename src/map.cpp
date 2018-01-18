@@ -1364,7 +1364,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->posy = dst_offset_y;
     veh->smz = p2.z;
     // Invalidate vehicle's point cache
-    veh->occupied_cache_turn = -1;
+    veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
         dst_submap->vehicles.push_back( veh );
@@ -6803,8 +6803,7 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    //@todo change get_plant_epoch to return time_duration
-    const time_duration plantEpoch = time_duration::from_turns( seed.get_plant_epoch() );
+    const time_duration plantEpoch = seed.get_plant_epoch();
 
     if( seed.age() >= plantEpoch ) {
         if( seed.age() < plantEpoch * 2 ) {

@@ -7,6 +7,7 @@
 #include <memory>
 #include "cursesdef.h" // WINDOW
 #include "enums.h"
+#include "calendar.h"
 #include "string_id.h"
 
 enum action_id : int;
@@ -162,7 +163,7 @@ struct defense_game : public special_game {
         int initial_difficulty; // Total "level" of monsters in first wave
         int wave_difficulty;    // Increased "level" of monsters per wave
 
-        int time_between_waves;     // Cooldown / building / healing time
+        time_duration time_between_waves;     // Cooldown / building / healing time
         int waves_between_caravans; // How many waves until we get to trade?
 
         unsigned long initial_cash;  // How much cash do we start with?

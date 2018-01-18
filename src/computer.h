@@ -3,6 +3,7 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
+#include "calendar.h"
 #include <vector>
 #include <string>
 
@@ -129,7 +130,7 @@ class computer
         // Difficulty of simply logging in
         int security;
         // Date of next attempt
-        int next_attempt = 0;
+        time_point next_attempt = calendar::before_time_starts;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack

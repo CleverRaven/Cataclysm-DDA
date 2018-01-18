@@ -4,6 +4,11 @@
 
 #include <string>
 
+class time_duration;
+class time_point;
+class JsonOut;
+class JsonIn;
+
 /**
  * Convert turns to ticks
  *
@@ -340,12 +345,20 @@ class calendar
         static   calendar start;
         static   calendar turn;
         static season_type initial_season;
-};
 
-class time_duration;
-class time_point;
-class JsonOut;
-class JsonIn;
+        /**
+         * A time point that is always before the current turn, even when the game has
+         * just started. This implies `before_time_starts < calendar::turn` is always
+         * true. It can be used to initialize `time_point` values that denote that last
+         * time a cache was update.
+         */
+        static const time_point before_time_starts;
+        /**
+         * Represents time point 0.
+         */
+        //@todo flesh out the documentation
+        static const time_point time_of_cataclysm;
+};
 
 template<typename T>
 constexpr T to_turns( const time_duration duration );
@@ -580,25 +593,6 @@ class time_point
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        constexpr bool operator<( const time_point rhs ) const {
-            return turn_ < rhs.turn_;
-        }
-        constexpr bool operator<=( const time_point rhs ) const {
-            return turn_ <= rhs.turn_;
-        }
-        constexpr bool operator>( const time_point rhs ) const {
-            return turn_ > rhs.turn_;
-        }
-        constexpr bool operator>=( const time_point rhs ) const {
-            return turn_ >= rhs.turn_;
-        }
-        constexpr bool operator==( const time_point rhs ) const {
-            return turn_ == rhs.turn_;
-        }
-        constexpr bool operator!=( const time_point rhs ) const {
-            return turn_ != rhs.turn_;
-        }
-
         //@todo try to get rid of this
         template<typename T>
         friend constexpr T to_turn( const time_point point ) {
@@ -606,22 +600,52 @@ class time_point
         }
 
         //@todo implement minutes_of_hour and so on and use it.
-
-        friend constexpr time_duration operator-( const time_point lhs, const time_point rhs ) {
-            return time_duration::from_turns( lhs.turn_ - rhs.turn_ );
-        }
-        friend constexpr time_point operator+( const time_point lhs, const time_duration rhs ) {
-            return time_point( lhs.turn_ + to_turns<int>( rhs ) );
-        }
-        friend time_point &operator+=( time_point &lhs, const time_duration rhs ) {
-            return lhs = time_point( lhs.turn_ + to_turns<int>( rhs ) );
-        }
-        friend constexpr time_point operator-( const time_point lhs, const time_duration rhs ) {
-            return time_point( lhs.turn_ - to_turns<int>( rhs ) );
-        }
-        friend time_point &operator-=( time_point &lhs, const time_duration rhs ) {
-            return lhs = time_point( lhs.turn_ - to_turns<int>( rhs ) );
-        }
 };
+
+constexpr inline bool operator<( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) < to_turn<int>( rhs );
+}
+constexpr inline bool operator<=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+}
+constexpr inline bool operator>( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) > to_turn<int>( rhs );
+}
+constexpr inline bool operator>=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+}
+constexpr inline bool operator==( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) == to_turn<int>( rhs );
+}
+constexpr inline bool operator!=( const time_point lhs, const time_point rhs )
+{
+    return to_turn<int>( lhs ) != to_turn<int>( rhs );
+}
+
+constexpr inline time_duration operator-( const time_point lhs, const time_point rhs )
+{
+    return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
+}
+constexpr inline time_point operator+( const time_point lhs, const time_duration rhs )
+{
+    return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+}
+time_point inline &operator+=( time_point &lhs, const time_duration rhs )
+{
+    return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+}
+constexpr inline time_point operator-( const time_point lhs, const time_duration rhs )
+{
+    return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+}
+time_point inline &operator-=( time_point &lhs, const time_duration rhs )
+{
+    return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+}
 
 #endif

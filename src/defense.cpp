@@ -57,6 +57,7 @@ std::string defense_location_name(defense_location location);
 std::string defense_location_description(defense_location location);
 
 defense_game::defense_game()
+: time_between_waves( 0_turns )
 {
     current_wave = 0;
     hunger = false;
@@ -117,7 +118,7 @@ void defense_game::per_turn()
     if (!sleep) {
         g->u.set_fatigue(0);
     }
-    if (int(calendar::turn) % (time_between_waves * 10) == 0) {
+    if( calendar::once_every( to_turns<int>( time_between_waves ) ) ) {
         current_wave++;
         if (current_wave > 1 && current_wave % waves_between_caravans == 0) {
             popup(_("A caravan approaches!  Press spacebar..."));
@@ -324,7 +325,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 15;
         wave_difficulty = 10;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 3;
         initial_cash = 1000000;
         cash_per_wave = 100000;
@@ -338,7 +339,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 30;
         wave_difficulty = 15;
-        time_between_waves = 20;
+        time_between_waves = 20_minutes;
         waves_between_caravans = 4;
         initial_cash = 600000;
         cash_per_wave = 80000;
@@ -355,7 +356,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_BAR;
         initial_difficulty = 50;
         wave_difficulty = 20;
-        time_between_waves = 10;
+        time_between_waves = 10_minutes;
         waves_between_caravans = 5;
         initial_cash = 200000;
         cash_per_wave = 60000;
@@ -373,7 +374,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_BAR;
         initial_difficulty = 30;
         wave_difficulty = 15;
-        time_between_waves = 5;
+        time_between_waves = 5_minutes;
         waves_between_caravans = 6;
         initial_cash = 500000;
         cash_per_wave = 50000;
@@ -385,7 +386,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 60;
         wave_difficulty = 20;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 4;
         initial_cash = 800000;
         cash_per_wave = 50000;
@@ -400,7 +401,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 60;
         wave_difficulty = 10;
-        time_between_waves = 10;
+        time_between_waves = 10_minutes;
         waves_between_caravans = 4;
         initial_cash = 600000;
         cash_per_wave = 50000;
@@ -412,7 +413,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MANSION;
         initial_difficulty = 60;
         wave_difficulty = 20;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 2;
         initial_cash = 1000000;
         cash_per_wave = 60000;
@@ -428,7 +429,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 20;
         wave_difficulty = 20;
-        time_between_waves = 20;
+        time_between_waves = 20_minutes;
         waves_between_caravans = 6;
         initial_cash = 1200000;
         cash_per_wave = 100000;
@@ -443,7 +444,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MANSION;
         initial_difficulty = 20;
         wave_difficulty = 20;
-        time_between_waves = 120;
+        time_between_waves = 120_minutes;
         waves_between_caravans = 8;
         initial_cash = 400000;
         cash_per_wave = 100000;
@@ -574,15 +575,15 @@ void defense_game::setup()
                 break;
 
             case 5:
-                if (action == "LEFT" && time_between_waves > 5) {
-                    time_between_waves -= 5;
+                if( action == "LEFT" && time_between_waves > 5_minutes ) {
+                    time_between_waves -= 5_minutes;
                 }
-                if (action == "RIGHT" && time_between_waves < 995) {
-                    time_between_waves += 5;
+                if( action == "RIGHT" && time_between_waves < 995_minutes ) {
+                    time_between_waves += 5_minutes;
                 }
                 mvwprintz(w, 10, 22, c_black, "xxx");
-                mvwprintz(w, 10, NUMALIGN(time_between_waves), c_yellow, "%d",
-                          time_between_waves);
+                mvwprintz( w, 10, NUMALIGN( to_minutes<int>( time_between_waves ) ), c_yellow, "%d",
+                           to_minutes<int>( time_between_waves ) );
                 break;
 
             case 6:
@@ -731,8 +732,8 @@ void defense_game::refresh_setup(WINDOW *w, int selection)
     mvwprintz(w,  8, 28, c_light_gray, _("The increase of difficulty with each wave."));
 
     mvwprintz(w, 10,  2, c_light_gray, _("Time b/w Waves:"));
-    mvwprintz(w, 10, NUMALIGN(time_between_waves), SELCOL(5), "%d",
-              time_between_waves);
+    mvwprintz( w, 10, NUMALIGN( to_minutes<int>( time_between_waves ) ), SELCOL( 5 ), "%d",
+               to_minutes<int>( time_between_waves ) );
     mvwprintz(w, 10, 28, c_light_gray, _("The time, in minutes, between waves."));
     mvwprintz(w, 11,  2, c_light_gray, _("Waves b/w Caravans:"));
     mvwprintz(w, 11, NUMALIGN(waves_between_caravans), SELCOL(6), "%d",

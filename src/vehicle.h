@@ -1243,13 +1243,14 @@ public:
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
-    calendar occupied_cache_turn = -1; // Turn occupied points were calculated
+    /// Time occupied points were calculated.
+    time_point occupied_cache_time = calendar::before_time_starts;
 
     // Turn the vehicle was last processed
-    calendar last_update_turn = -1;
+    time_point last_update = calendar::before_time_starts;
     // Retroactively pass time spent outside bubble
     // Funnels, solars
-    void update_time( const calendar &update_to );
+    void update_time( const time_point &update_to );
 
     // save values
     /**

@@ -766,6 +766,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->brewable != nullptr ) {
+            if( type->brewable->time < 1_turns ) {
+                msg << "brewable time is less than 1 turn\n";
+            }
+
             if( type->brewable->results.empty() ) {
                 msg << string_format( "empty product list" ) << "\n";
             }
@@ -777,6 +781,9 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->seed ) {
+            if( type->seed->grow < 1_turns ) {
+                msg << "seed growing time is less than 1 turn\n";
+            }
             if( !has_template( type->seed->fruit_id ) ) {
                 msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
             }
@@ -1447,7 +1454,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
 {
-    slot.time = jo.get_int( "time" );
+    assign( jo, "time", slot.time, false, 1_turns );
     slot.results = jo.get_string_array( "results" );
 }
 
@@ -1472,7 +1479,7 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
-    slot.grow = jo.get_int( "grow" );
+    assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.fruit_id = jo.get_string( "fruit" );

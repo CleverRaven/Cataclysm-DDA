@@ -1906,7 +1906,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
 
             item &seed = g->m.i_at( examp ).front();
             //@todo item should probably clamp the value on its own
-            seed.set_birthday( std::max( time_point( 0 ), seed.birthday() - fertilizerEpoch ) );
+            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -2157,8 +2157,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
         //@todo change brew_time to return time_duration
-        time_duration brew_time = time_duration::from_turns( brew_i.brewing_time() );
-        time_duration progress = brew_i.age();
+        const time_duration brew_time = brew_i.brewing_time();
+        const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
             int hours = to_hours<int>( brew_time - progress );
             if( hours < 1 ) {

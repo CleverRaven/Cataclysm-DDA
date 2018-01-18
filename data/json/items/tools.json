@@ -110,24 +110,6 @@
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
-    "id": "acidbomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "acid bomb",
-    "name_plural": "acid bombs",
-    "description": "This is a glass vial, with two chemicals mixing inside.  The vial feels colder and the contents are frothing.  If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
-    "weight": 1268,
-    "volume": 2,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "glass",
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": "ACIDBOMB_ACT",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN" ]
-  },
-  {
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": "advanced UPS",
@@ -2680,8 +2662,7 @@
       "type": "firestarter",
       "moves": 500,
       "moves_slow": 25000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "fire_drill_large",
@@ -2698,8 +2679,7 @@
       "type": "firestarter",
       "moves": 200,
       "moves_slow": 10000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "firecracker",
