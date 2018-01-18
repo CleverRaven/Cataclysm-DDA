@@ -196,7 +196,7 @@
     "type": "GUN",
     "name": "L2032 Lookout",
     "name_plural": "L2032 Lookout",
-    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released in 2032, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
+    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released in 2015, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
     "ammo": "9mm",
     "clip_size": 7
   },
