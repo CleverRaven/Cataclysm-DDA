@@ -11,7 +11,7 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": "Active Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of more energy.  Melee attacks will be stopped more often than bullets.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
     "occupied_bodyparts": [
       [ "TORSO", 10 ],
       [ "HEAD", 1 ],
@@ -47,7 +47,7 @@
     "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
-    "time": 16
+    "time": 100
   },
   {
     "id": "bio_ankles",
@@ -719,7 +719,7 @@
     "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
-    "time": 1
+    "time": 10
   },
   {
     "id": "bio_noise",
@@ -750,7 +750,7 @@
     "id": "bio_ods",
     "type": "bionic",
     "name": "Offensive Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [
       [ "TORSO", 10 ],
       [ "HEAD", 1 ],
@@ -986,9 +986,9 @@
       [ "LEG_R", 1 ]
     ],
     "toggled": true,
-    "act_cost": 10,
-    "react_cost": 10,
-    "time": 1
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 10
   },
   {
     "id": "bio_scent_vision",

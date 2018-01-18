@@ -3766,22 +3766,26 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if (has_active_bionic( bio_ods ) ) {
-        if (is_player()) {
-            add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
-                            source->disp_name().c_str());
-        } else if (u_see) {
-            add_msg(_("%1$s's offensive defense system shocks %2$s in mid-attack!"),
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && power_level > 5 ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
+                             source->disp_name().c_str());
+        } else if( u_see ) {
+            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
                         disp_name().c_str(),
-                        source->disp_name().c_str());
+                        source->disp_name().c_str() );
         }
+        int shock = rng( 1, 4 );
+        charge_power( -shock );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
-        source->deal_damage(this, bp_torso, ods_shock_damage);
+        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bp_torso, ods_shock_damage );
     }
-    if ((!(wearing_something_on(bp_hit))) && (has_trait( trait_SPINES ) || has_trait( trait_QUILLS ))) {
-        int spine = rng(1, (has_trait( trait_QUILLS ) ? 20 : 8));
-        if (!is_player()) {
+    if( !wearing_something_on( bp_hit ) &&
+        ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
+        int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
+        if( !is_player() ) {
             if( u_see ) {
                 add_msg(_("%1$s's %2$s puncture %3$s in mid-attack!"), name.c_str(),
                             (has_trait( trait_QUILLS ) ? _("quills") : _("spines")),
@@ -10353,54 +10357,48 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     if( has_bionic( bio_carbon ) ) {
         if( dt == DT_BASH ) {
             result += 2;
-        } else if( dt == DT_CUT ) {
+        } else if( dt == DT_CUT || dt == DT_STAB ) {
             result += 4;
-        } else if( dt == DT_STAB ) {
-            result += 3.2;
         }
     }
-    //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
+    // All the other bionic armors reduce bash/cut/stab by 3
     // Map body parts to a set of bionics that protect it
     // @todo: JSONize passive bionic armor instead of hardcoding it
     static const std::map< body_part, bionic_id > armor_bionics = {
-    { bp_head, { bio_armor_head } },
-    { bp_arm_l, { bio_armor_arms } },
-    { bp_arm_r, { bio_armor_arms } },
-    { bp_torso, { bio_armor_torso } },
-    { bp_leg_l, { bio_armor_legs } },
-    { bp_leg_r, { bio_armor_legs } },
-    { bp_eyes, { bio_armor_eyes } }
+        { bp_head, { bio_armor_head } },
+        { bp_arm_l, { bio_armor_arms } },
+        { bp_arm_r, { bio_armor_arms } },
+        { bp_torso, { bio_armor_torso } },
+        { bp_leg_l, { bio_armor_legs } },
+        { bp_leg_r, { bio_armor_legs } },
+        { bp_eyes, { bio_armor_eyes } }
     };
     auto iter = armor_bionics.find( bp );
-    if( iter != armor_bionics.end() ) {
-        if( has_bionic( iter->second ) ) {
-            if( dt == DT_BASH || dt == DT_CUT ) {
-                result += 3;
-            } else if( dt == DT_STAB ) {
-                result += 2.4;
-            }
-        }
+    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
+        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
+        result += 3;
     }
     return result;
 }
 
 void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
 {
-    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     // >0 check because some mutations provide negative armor
-        if( du.amount > 0.0f ) {
-            // Horrible hack warning!
-            // Get rid of this as soon as CUT and STAB are split
-            if( du.type == DT_STAB ) {
-                damage_unit du_copy = du;
-                du_copy.type = DT_CUT;
-                du.amount -= 0.8f * mutation_armor( bp, du_copy );
-            } else {
-                du.amount -= mutation_armor( bp, du );
-            }
+    // Thin skin check goes before subdermal armor plates because SUBdermal
+    if( du.amount > 0.0f ) {
+        // Horrible hack warning!
+        // Get rid of this as soon as CUT and STAB are split
+        if( du.type == DT_STAB ) {
+            damage_unit du_copy = du;
+            du_copy.type = DT_CUT;
+            du.amount -= mutation_armor( bp, du_copy );
+        } else {
+            du.amount -= mutation_armor( bp, du );
         }
-        du.amount -= mabuff_armor_bonus( du.type );
-        du.amount = std::max( 0.0f, du.amount );
+    }
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    du.amount -= mabuff_armor_bonus( du.type );
+    du.amount = std::max( 0.0f, du.amount );
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
