@@ -153,7 +153,7 @@ void uimenu::init()
     textalign = MENU_ALIGN_LEFT; // todo
     title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
-    window = NULL;         // our window
+    window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
@@ -869,11 +869,11 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if (window != NULL) {
+    if( window ) {
         werase(window);
         wrefresh(window);
         delwin(window);
-        window = NULL;
+        window = catacurses::window();
     }
 
     init();

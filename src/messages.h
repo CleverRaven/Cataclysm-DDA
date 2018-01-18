@@ -2,7 +2,6 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "cursesdef.h" // WINDOW
 #include "string_formatter.h"
 
 #include <memory>
@@ -14,6 +13,10 @@ class JsonOut;
 class JsonObject;
 
 enum game_message_type : int;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class Messages
 {
@@ -28,7 +31,8 @@ class Messages
         static size_t size();
         static bool has_undisplayed_messages();
         static void display_messages();
-        static void display_messages( WINDOW *ipk_target, int left, int top, int right, int bottom );
+        static void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
+                                      int bottom );
         static void serialize( JsonOut &jsout );
         static void deserialize( JsonObject &json );
     private:

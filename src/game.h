@@ -545,18 +545,14 @@ class game
 
         bool check_zone( const std::string &type, const tripoint &where ) const;
         void zones_manager();
-        void zones_manager_shortcuts(WINDOW *w_info);
-        void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
-                                        const int width);
+        void zones_manager_shortcuts( const catacurses::window &w_info );
+        void zones_manager_draw_borders( const catacurses::window &w_border, const catacurses::window &w_info_border, const int iInfoHeight, const int width );
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
-        tripoint look_around( WINDOW *w_info, const tripoint &start_point,
-                              bool has_first_point, bool select_zone );
+        tripoint look_around( catacurses::window w_info, const tripoint &start_point, bool has_first_point, bool select_zone );
 
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
-                                  int last_line, bool draw_terrain_indicators,
-                                  const visibility_variables &cache );
+        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -644,20 +640,20 @@ class game
         WINDOW_PTR w_status2_ptr;
 
     public:
-        WINDOW *w_terrain;
-        WINDOW *w_overmap;
-        WINDOW *w_omlegend;
-        WINDOW *w_minimap;
-        WINDOW *w_pixel_minimap;
-        WINDOW *w_HP;
+        catacurses::window w_terrain;
+        catacurses::window w_overmap;
+        catacurses::window w_omlegend;
+        catacurses::window w_minimap;
+        catacurses::window w_pixel_minimap;
+        catacurses::window w_HP;
         //only a pointer, can refer to w_messages_short or w_messages_long
-        WINDOW *w_messages;
-        WINDOW *w_messages_short;
-        WINDOW *w_messages_long;
-        WINDOW *w_location;
-        WINDOW *w_status;
-        WINDOW *w_status2;
-        WINDOW *w_blackspace;
+        catacurses::window w_messages;
+        catacurses::window w_messages_short;
+        catacurses::window w_messages_long;
+        catacurses::window w_location;
+        catacurses::window w_status;
+        catacurses::window w_status2;
+        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -865,7 +861,7 @@ class game
 
         game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
         std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( WINDOW *window, int height, bool bRadiusSort );
+        void reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort );
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
@@ -949,19 +945,19 @@ private:
         void plthrow(int pos = INT_MIN); // Throw an item  't'
 
         // Internal methods to show "look around" info
-        void print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
-        void print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
-        void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
-        void print_creature_info( const Creature *creature, WINDOW *w_look, int column,
+        void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line );
+        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line );
+        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line );
+        void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line );
-        void print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+        void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                  int column, int &line, int last_line );
-        void print_visibility_info( WINDOW *w_look, int column, int &line,
+        void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
         void print_visibility_indicator( visibility_type visibility );
-        void print_items_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+        void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                int last_line );
-        void print_graffiti_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+        void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                   int last_line );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
@@ -995,7 +991,7 @@ private:
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        int  mon_info(WINDOW *); // Prints a list of nearby monsters
+        int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );

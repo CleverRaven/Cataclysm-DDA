@@ -35,8 +35,8 @@ class nc_color;
  */
 //Currently this namespace is automatically exported into the global namespace to
 //allow existing code (that called global ncurses functions) to remain unchanged.
-//The compiler will translate `WINDOW *win = newwin(...)` into
-//`catacurses::WINDOW *win = catacurses::newwin(...)`
+//The compiler will translate `window win = newwin(...)` into
+//`catacurses::window win = catacurses::newwin(...)`
 namespace catacurses
 {
 
@@ -44,13 +44,8 @@ namespace catacurses
 /// and abort the program. Only continue the program when this returned normally.
 void init_interface();
 
-// it's void because than it's compatible with ncurses and with our own curses
-// library becaue void* can be converted to either
-//@todo phase this out. Store window objects everywhere instead of WINDOW pointers
-using WINDOW = void;
-
 /**
- * A simple wrapper over `WINDOW*`.
+ * A simple wrapper over `void*`.
  * Currently it does not do anything at all. It is implicitly constructed
  * from a pointer and implicitly converted to it.
  * Because all curses function here receive/return a `window` (and not a
@@ -62,33 +57,33 @@ using WINDOW = void;
 class window
 {
     private:
-        WINDOW *native_window;
+        void *native_window;
 
     public:
         window() : native_window( nullptr ) { }
         template<typename T>
-        window( T *const ptr ) : native_window( static_cast<WINDOW *>( ptr ) ) {
+        window( T *const ptr ) : native_window( static_cast<void *>( ptr ) ) {
         }
         ~window() {
         }
-        template<typename T = WINDOW>
+        template<typename T = void>
         T * get() const {
             return static_cast<T *>( native_window );
         }
-        operator WINDOW *() const {
+        operator void *() const {
             return get();
         }
 };
 
 struct delwin_functor {
-    void operator()( WINDOW *w ) const;
+    void operator()( void *w ) const;
 };
 /**
- * A Wrapper around the WINDOW pointer, it automatically deletes the
+ * A Wrapper around the window pointer, it automatically deletes the
  * window (see delwin_functor) when the variable gets out of scope.
  * This includes calling werase, wrefresh and delwin.
  * Usage:
- * 1. Acquire a WINDOW pointer via @ref newwin like normal, store it in a pointer variable.
+ * 1. Acquire a window pointer via @ref newwin like normal, store it in a pointer variable.
  * 2. Create a variable of type WINDOW_PTR *on the stack*, initialize it with the pointer from 1.
  * 3. Do the usual stuff with window, print, update, etc. but do *not* call delwin on it.
  * 4. When the function is left, the WINDOW_PTR variable is destroyed, and its destructor is called,
@@ -97,7 +92,7 @@ struct delwin_functor {
  * To prevent the delwin call when the function is left (because the window is already deleted or, it should
  * not be deleted), call some_window_ptr.release().
  */
-using WINDOW_PTR = std::unique_ptr<WINDOW, delwin_functor>;
+using WINDOW_PTR = std::unique_ptr<void, delwin_functor>;
 
 enum base_color : short {
     black = 0x00,    // RGB{0, 0, 0}

@@ -2581,7 +2581,7 @@ static std::string print_gun_mode( const player &p )
     }
 }
 
-void player::print_stamina_bar( WINDOW *w ) const
+void player::print_stamina_bar( const catacurses::window &w ) const
 {
     std::string sta_bar;
     nc_color sta_color;
@@ -2589,10 +2589,10 @@ void player::print_stamina_bar( WINDOW *w ) const
     wprintz( w, sta_color, sta_bar.c_str() );
 }
 
-void player::disp_status( WINDOW *w, WINDOW *w2 )
+void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
 {
     bool sideStyle = use_narrow_sidebar();
-    WINDOW *weapwin = sideStyle ? w2 : w;
+    const catacurses::window &weapwin = sideStyle ? w2 : w;
 
     {
         const int y = sideStyle ? 1 : 0;
@@ -11473,7 +11473,7 @@ float player::hearing_ability() const
     return volume_multiplier;
 }
 
-int player::print_info(WINDOW* w, int vStart, int, int column) const
+int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
     return vStart;

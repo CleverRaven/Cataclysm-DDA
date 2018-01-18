@@ -12,7 +12,6 @@
 #include <utility>
 
 #include "game_constants.h"
-#include "cursesdef.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "int_id.h"
@@ -24,6 +23,10 @@
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class emit;
 using emit_id = string_id<emit>;
 class player;
@@ -245,7 +248,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( WINDOW *w, lit_level ll,
+        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
                                    const visibility_variables &cache ) const;
 
         /** Draw a visible part of the map into `w`.
@@ -259,7 +262,7 @@ class map
          * @param center The coordinate of the center of the viewport, this can
          *               be different from the player coordinate.
          */
-        void draw( WINDOW *w, const tripoint &center );
+        void draw( const catacurses::window &w, const tripoint &center );
 
         /** Draw the map tile at the given coordinate. Called by `map::draw()`.
         *
@@ -270,9 +273,9 @@ class map
         * @param show_items Draw items in tile if this flag is true
         *        see `center` in `map::draw()`
         */
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert = false, const bool show_items = true ) const;
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert, const bool show_items,
                      const tripoint &view_center,
                      const bool low_light = false, const bool bright_level = false,
@@ -1420,7 +1423,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( WINDOW *w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1428,7 +1431,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( WINDOW *w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;

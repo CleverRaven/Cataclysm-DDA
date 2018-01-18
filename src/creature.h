@@ -6,7 +6,6 @@
 #include "bodypart.h"
 #include "output.h"
 #include "string_id.h"
-#include "cursesdef.h" // WINDOW
 #include "string_formatter.h"
 
 #include <string>
@@ -15,6 +14,10 @@
 
 class effect;
 class effects_map;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class field;
 class field_entry;
 class game;
@@ -479,8 +482,8 @@ class Creature
         int moves;
         bool underwater;
 
-        void draw(WINDOW *w, int plx, int ply, bool inv) const;
-        void draw(WINDOW *w, const tripoint &plp, bool inv) const;
+        void draw( const catacurses::window &w, int plx, int ply, bool inv ) const;
+        void draw( const catacurses::window &w, const tripoint &plp, bool inv ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.
@@ -492,7 +495,7 @@ class Creature
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
          */
-        virtual int print_info(WINDOW *w, int vStart, int vLines, int column) const = 0;
+        virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
         // Message related stuff
         template<typename ...Args>

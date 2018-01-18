@@ -535,9 +535,7 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
-                                  input_context &ctxt, const std::vector<aim_type> &aim_types,
-                                  bool switch_mode, bool switch_ammo, bool tiny )
+static int draw_targeting_window( const catacurses::window &w_target, const std::string &name, player &p, target_mode mode, input_context &ctxt, const std::vector<aim_type> &aim_types, bool switch_mode, bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -660,7 +658,7 @@ struct confidence_rating {
     std::string label;
 };
 
-static int print_steadiness( WINDOW *w, int line_number, double steadiness )
+static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
 
@@ -695,10 +693,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number, target_mode mode,
-                                const item &ranged_weapon, dispersion_sources dispersion,
-                                const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -765,8 +760,7 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, tar
     return line_number;
 }
 
-static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
-                      Creature &target, double predicted_recoil ) {
+static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon, Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -798,7 +792,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                                 range, target_size, predicted_recoil );
 }
 
-static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
+static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
     vehicle *veh = g->m.veh_at( p.pos() );
     if( veh == nullptr ) {
@@ -817,8 +811,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
-                           const item *weapon, const tripoint &target_pos )
+static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number, const item *weapon, const tripoint &target_pos )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {

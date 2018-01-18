@@ -483,8 +483,8 @@ void iexamine::vending(player &p, const tripoint &examp)
     catacurses::WINDOW_PTR const w_item_info_ptr {
         catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
 
-    WINDOW *w           = w_ptr.get();
-    WINDOW *w_item_info = w_item_info_ptr.get();
+    catacurses::window w           = w_ptr.get();
+    catacurses::window w_item_info = w_item_info_ptr.get();
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");

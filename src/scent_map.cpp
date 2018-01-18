@@ -58,7 +58,7 @@ void scent_map::decay()
     }
 }
 
-void scent_map::draw( WINDOW *const win, const int div, const tripoint &center ) const
+void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
     assert( div != 0 );
     const int maxx = getmaxx( win );

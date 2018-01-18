@@ -26,7 +26,10 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 struct mongroup;
 
 namespace pf
@@ -468,24 +471,24 @@ public:
         int iZoneIndex = -1;
     };
     static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
-  /**
-   * Draws the overmap terrain.
-   * @param w The window to draw map in.
-   * @param wbar Window containing status bar
-   * @param center The global overmap terrain coordinate of the center
-   * of the view. The z-component is used to determine the z-level.
-   * @param orig The global overmap terrain coordinates of the player.
-   * It will be marked specially.
-   * @param blink Whether blinking is enabled
-   * @param showExplored Whether display of explored territory is enabled
-   * @param inp_ctxt Input context in this screen
-   * @param data Various other drawing flags, largely regarding debug information
-   */
-  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
-            const tripoint &orig, bool blink, bool showExplored,
-            input_context* inp_ctxt, const draw_data_t &data);
+    /**
+     * Draws the overmap terrain.
+     * @param w The window to draw map in.
+     * @param wbar Window containing status bar
+     * @param center The global overmap terrain coordinate of the center
+     * of the view. The z-component is used to determine the z-level.
+     * @param orig The global overmap terrain coordinates of the player.
+     * It will be marked specially.
+     * @param blink Whether blinking is enabled
+     * @param showExplored Whether display of explored territory is enabled
+     * @param inp_ctxt Input context in this screen
+     * @param data Various other drawing flags, largely regarding debug information
+     */
+    static void draw( const catacurses::window &w, const catacurses::window &wbar,
+                      const tripoint &center, const tripoint &orig, bool blink, bool showExplored,
+                      input_context *inp_ctxt, const draw_data_t &data );
 
-    static void draw_city_labels(WINDOW *w, const tripoint &center);
+    static void draw_city_labels( const catacurses::window &w, const tripoint &center );
 
   // Overall terrain
   void place_river(point pa, point pb);

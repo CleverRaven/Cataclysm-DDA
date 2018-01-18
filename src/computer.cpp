@@ -52,8 +52,8 @@ computer_option::computer_option( std::string N, computer_action A, int S )
 computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
     security = new_security;
-    w_terminal = NULL;
-    w_border = NULL;
+    w_terminal = catacurses::window();
+    w_border = catacurses::window();
     mission_id = -1;
 }
 
@@ -74,8 +74,8 @@ computer &computer::operator=(const computer &rhs)
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
-    w_terminal = NULL;
-    w_border = NULL;
+    w_terminal = catacurses::window();
+    w_border = catacurses::window();
     return *this;
 }
 
@@ -113,10 +113,10 @@ void computer::shutdown_terminal()
     alerts = 0;
     werase(w_terminal);
     delwin(w_terminal);
-    w_terminal = NULL;
+    w_terminal = catacurses::window();
     werase(w_border);
     delwin(w_border);
-    w_border = NULL;
+    w_border = catacurses::window();
 }
 
 void computer::use()

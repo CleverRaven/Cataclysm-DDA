@@ -44,12 +44,9 @@ std::set<m_flag> monflags_to_add;
 
 int caravan_price(player &u, int price);
 
-void draw_caravan_borders(WINDOW *w, int current_window);
-void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
-                             unsigned long cash);
-void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
-                        int item_selected);
+void draw_caravan_borders( const catacurses::window &w, int current_window );
+void draw_caravan_categories( const catacurses::window &w, int category_selected, unsigned total_price, unsigned long cash );
+void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items, std::vector<int> *counts, int offset, int item_selected );
 
 std::string defense_style_name(defense_style style);
 std::string defense_style_description(defense_style style);
@@ -710,7 +707,7 @@ void defense_game::setup()
     }
 }
 
-void defense_game::refresh_setup(WINDOW *w, int selection)
+void defense_game::refresh_setup( const catacurses::window &w, int selection )
 {
     werase(w);
     mvwprintz(w,  0,  1, c_light_red, _("DEFENSE MODE"));
@@ -1208,7 +1205,7 @@ std::vector<itype_id> caravan_items(caravan_category cat)
     return ret;
 }
 
-void draw_caravan_borders(WINDOW *w, int current_window)
+void draw_caravan_borders( const catacurses::window &w, int current_window )
 {
     // First, do the borders for the category window
     nc_color col = c_light_gray;
@@ -1262,8 +1259,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     wrefresh(w);
 }
 
-void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
-                             unsigned long cash)
+void draw_caravan_categories( const catacurses::window &w, int category_selected, unsigned total_price, unsigned long cash )
 {
     // Clear the window
     for (int i = 1; i <= 10; i++) {
@@ -1279,9 +1275,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_pr
     wrefresh(w);
 }
 
-void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
-                        int item_selected)
+void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items, std::vector<int> *counts, int offset, int item_selected )
 {
     // Print the item info first.  This is important, because it contains \n which
     // will corrupt the item list.
