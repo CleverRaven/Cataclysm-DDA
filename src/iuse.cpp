@@ -4775,12 +4775,21 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::spray_can(player *p, item *it, bool, const tripoint& )
+int iuse::spray_can(player *p, item *it, bool, const tripoint &loc)
 {
+    //TODO: add check to see if at home base. If so allow write npc comands like "NO_NPC"
     bool ismarker = (it->typeId() == "permanent_marker" || it->typeId() == "survival_marker");
     if (ismarker) {
-        int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL);
-
+        if (p->global_omt_location() == p->home){//check if at player base
+            int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("The base") _("Cancel"), NULL);
+            if (ret == 3) {
+                bool cancled = !g->get_base_by_owner(p->id).make_mark(*p, loc, ismarker);
+                if (cancled) return 0;
+                return it->type->charges_to_use();
+            }
+        } else {
+            int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL);
+        }
         if (ret == 2) {
             // inscribe_item returns false if the action fails or is canceled somehow.
             bool canceled_inscription = !inscribe_item(p, _("Write"), _("Written"), false);
@@ -4790,6 +4799,12 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
             return it->type->charges_to_use();
         } else if (ret != 1) { // User chose cancel or some other undefined key.
             return 0;
+        }
+    } else if (p->global_omt_location() == p->home){//check if at player base
+        if (query_yn( _("Spray base markings?")){
+            bool cancled = !g->get_base_by_owner(p->id).make_mark(*p, loc, ismarker);
+                if (cancled) return 0;
+                return it->type->charges_to_use();
         }
     }
 

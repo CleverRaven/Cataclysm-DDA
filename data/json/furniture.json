@@ -2895,5 +2895,74 @@
                 { "item": "sheet_metal", "count": [0, 2] }
             ]
         }
+    },{
+        "type:" : "furniture",
+        "id" : "f_base_cmd1",
+        "name" : "basic command desk",
+        "symbol" : "#",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 2000,
+        "flags" : [ "BASE_CMD1", "BASE_CORE", "CMD_SYS", "FLAMMABLE", "ORGANIC" ]
+    },{
+        "type:" : "furniture",
+        "id" : "f_base_cmd3",
+        "name" : "base command console",
+        "symbol" : "6",
+        "bgcolor" : "ltred",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 100,
+        "flags" : [ "BASE_CMD3", "BASE_CORE", "CMD_SYS", "NOITEM" ]
+    },{
+        "type:" : "furniture",
+        "id" : "f_base_cmd3_net",
+        "name" : "networked command console",
+        "symbol" : "6",
+        "bgcolor" : "red",
+        "move_cost_mod" : -1,
+        "required_str" : -1,
+        "examine_action" : "base_cmd",
+        "max_volume" : 50,
+        "flags" : [ "BASE_CMD3", "BASE_CORE", "CMD_SYS", "NETWORKED", "NOITEM" ]
+    },{
+        "type" : "furniture",
+        "id" : "f_base_notice1",
+        "name" : "notice board",
+        "symbol": "6",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["FLAMMABLE", "NOITEM", "ORGANIC"],
+        "examine_action": "base_view",
+        "deconstruct" : {
+            "items": [
+                { "item": "2x4", "count": 4 },
+                { "item": "nail", "charges": [4, 8] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_base_notice2",
+        "name" : "notification display screen",
+        "symbol": "6",
+        "bgcolor": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action" : "base_view_ele",
+        "flags" : [ "NOITEM", "CMD_SYS"]
+    },{
+        "type" : "furniture",
+        "id" : "f_base_notice2_net",
+        "name" : "networked display screen",
+        "symbol": "6",
+        "bgcolor": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action" : "base_view_ele",
+        "flags" : [ "NOITEM", "BASE_AUX", "CMD_SYS", "NETWORKED"]
     }
 ]

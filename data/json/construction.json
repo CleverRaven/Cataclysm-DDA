@@ -2418,5 +2418,111 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command Core", "//" : "Level 1 : Basic Command Desk",
+        "category" : "OTHER",
+        "required_skills" : [ [ "fabrication", 3 ] ],
+        "time" : 30,
+        "qualities" : [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_new_base",
+        "pre_flags" : "INDOORS",
+        "post_special" : "done_new_base",
+        "post_terrain" : "f_base_cmd1"
+    },{
+        "type" : "construction",
+        "description" : "Build Base Command Core", "//" : "Level 3: Base Command Console",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 5 ],
+            [ "electronics", 5 ],
+            [ "computers", 4]
+        ],
+        "time" : 240,
+        "qualities" : [
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "tools" : [
+            [ [ "soldering_iron", 60 ], [ "toolset", 60 ] ]
+        ],
+        "components" : [
+            [ [ "processor", 4] ],
+            [ [ "RAM", 16 ] ],
+            [ [ "e_scrap", 10 ] ],
+            [ [ "cable", 25 ] ],
+            [ [ "amplifier", 4 ] ],
+            [ [ "power_supply", 4 ] ],
+            [ [ "small_lcd_screen", 8 ] ],
+            [ [ "storage_battery", 1 ] ],
+            [ [ "sheet_metal", 6 ] ],
+            [ [ "scrap", 10 ] ]
+        ],
+        "pre_flags" : "BASE_CMD",
+        "post_special" : "done_base_lv3"
+    },{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Pin Board",
+        "category" : "OTHER",
+        "required_skills" : [ [ "fabrication", 2 ] ],
+        "time" : 20,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_base_notice1"
+    },{
+        "type" : "construction",
+        "description" : "Build Notice Board", "//" : "Display Screen",
+        "category" : "OTHER",
+        "required_skills" : [ 
+            [ "fabrication", 2 ],
+            [ "electronics", 2]
+         ],
+        "time" : 30,
+        "qualities": [
+            [ { "id" : "HAMMER", "level": 2 } ],
+            [ { "id" : "SCREW", "level": 1 } ]
+        ],
+        "tools": [
+            [
+              [ "soldering_iron", 20 ],
+              [ "toolset", 20 ]
+            ]
+          ],
+        "components" : [
+            [ "television", 1 ],
+            [ "cable", 30 ],
+            [ "plastic_chunk", 4 ],
+            [ [ "2x4", 2 ] ],
+            [ [ "nail", 4 ] ]
+        ],
+        "pre_special" : "check_base_connect",
+        "post_terrain" : "f_base_notice2"
+    },{
+        "type" : "construction",
+        "description" : "Install Network Module",
+        "category" : "OTHER",
+        "required_skills" : [ [ "electronics", 4 ] ],
+        "time" : 15,
+        "qualities" :[
+            [ { "id" : "SCREW", "level" : 2} ]
+        ],
+        "components" : [
+            [ [ "network_mod", 1 ] ]
+        ],
+        "pre_flags" : "CONNECTABLE",
+        "post_special" : "done_base_connect"
     }
 ]

@@ -1564,6 +1564,8 @@ class player : public Character
          */
         void set_targeting_data( const targeting_data &td );
 
+        /**Pointer to player's home base*/
+        cata::optional<tripoint> home;
     protected:
         // The player's position on the local map.
         tripoint position;

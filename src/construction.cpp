@@ -867,6 +867,87 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
+/**
+ * TODO: Checks if designation of new base is allowed.
+ * 
+ * TODO: Check if player already has a base.
+ * TODO: Check if there are mosters nearby.
+ */
+bool construct::check_new_base( const tripoint & )
+{
+
+}
+
+/**
+ * TODO: Check if component is connected to base control system.
+ */
+bool construct::check_base_connect( const tripoint &)
+{
+
+}
+
+/**
+ * TODO: Launches initialization of player's base.
+ */
+void construct::done_new_base( const tripoint &p )
+{
+
+}
+
+/**
+ * TODO Upgrade base command level.
+ * 
+ * TODO: Change command furniture.
+ * TODO: Calls base_home::change_lv( );
+ */
+void construct::done_base_lv2) const tripoint &p )
+{
+
+}
+
+/**
+ * TODO Upgrade base command level.
+ * 
+ * TODO: Change command furniture.
+ * TODO: Calls base_home::change_lv( );
+ */
+void construct::done_base_lv3) const tripoint &p )
+{
+
+}
+
+/**
+ * TODO Upgrade base command level.
+ * 
+ * TODO: Change command furniture.
+ * TODO: Calls base_home::change_lv( );
+ */
+void construct::done_base_lv4) const tripoint &p )
+{
+
+}
+
+/**
+ * TODO Upgrade base command level.
+ * 
+ * TODO: Change command furniture.
+ * TODO: Calls base_home::change_lv( );
+ */
+void construct::done_base_lv5) const tripoint &p )
+{
+
+}
+
+/**
+ * TODO: Network base component.
+ * 
+ * TODO: Change base component into networked version
+ */
+void construct::done_base_connect( const tripoint &p )
+{
+
+}
+
 void construct::done_tree( const tripoint &p )
 {
     tripoint dirp;
@@ -1197,6 +1278,8 @@ void load_construction(JsonObject &jo)
         { "check_deconstruct", construct::check_deconstruct },
         { "check_up_OK", construct::check_up_OK },
         { "check_down_OK", construct::check_down_OK },
+        { "check_new_base", construct::check_new_base },
+        { "check_base_connect", construct::check_base_connect},
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
@@ -1211,6 +1294,8 @@ void load_construction(JsonObject &jo)
         { "done_window_curtains", construct::done_window_curtains },
         { "done_extract_sand", construct::done_extract_sand },
         { "done_extract_clay", construct::done_extract_clay },
+        { "done_new_base", construct::done_new_base },
+        { "done_base_connect", construct::done_base_connect },
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
         { "", construct::failure_standard },

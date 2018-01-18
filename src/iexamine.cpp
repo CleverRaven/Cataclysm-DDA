@@ -33,6 +33,8 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "base_home.h"
+#include "npc_based.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3502,6 +3504,190 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 /**
+ * Use base command to edit options and utalize base functions.
+ * 
+ * TODO: Finish writting. Change to uimenu.
+ */
+void iexamine::base_control(player &p, const tripoint &examp)
+{
+    auto *base = g->m->get_base_by_loc(p.home);
+    if (base == nullptr)//TODO:add check that p.home = current location
+    {
+        add_msg( _("Either destroy it or leave it but don't alter other base's rules.") );
+        return;
+    }
+
+    // uimenu desktop;
+    desktop.text = _("Base Command Options:");
+    desktop.addentry(1, true, MENU_AUTOASSIGN, _("Ration Supplies."));
+    desktop.addentry(2, true, MENU_AUTOASSIGN, _("Ammunition Type Prefrences."));
+    desktop.addentry(3, true, MENU_AUTOASSIGN, _("Crafting Priorities."));
+    desktop.addentry(4, true, MENU_AUTOASSIGN, _("View Status.")); //not sure if this should actually be included.
+    desktop.addentry(5, true, MENU_AUTOASSIGN, _("Personel Managment."));
+    desktop.addentry(6, true, MENU_AUTOASSIGN, _("Base Planner.")) if (base.get_level() > 1)
+    { //Having a computer grants more functions. Only levels 1 and 3 implemented.
+        if (base.get_level() > 2)
+        { //Having a console alows access to aux system features
+        }
+    }
+    desktop.addentry(0, true, MENU_AUTOASSIGN, _("Cancel")); //cancel always 0 and at bottom
+    //desktop.addentry( , true, MENU_AUTOASSIGN,  );
+
+    int topchoice = 0;
+    desktop.query();
+
+    //.addentry( , true, MENU_AUTOASSIGN,  );
+    do{
+        switch (desktop.ret){
+            case 0: return; //cancel -> done
+            case 1:{//rationing rules
+                uimenu ratmenu;
+                ratmenu.text = _("Set Rationing Levels:");
+                ratmenu.addentry(1, true, MENU_AUTOASSIGN, string_format(_("Food Rationing: %s"), home_base::ration_enum::base.get_food_ration()));
+                ratmenu.addentry(2, true, MENU_AUTOASSIGN, string_format(_("Water/Drink Rationing: %s"), home_base::ration_enum::base.get_ammo_ration()));
+                ratmenu.addentry(3, true, MENU_AUTOASSIGN, string_format(_("Ammunition Rationing: %s"), home_base::ration_enum::base.get_ammo_ration()));
+                ratmenu.addentry(4, true, MENU_AUTOASSIGN, string_format(_("Medicine/First Aid Rationing: %s"), home_base::ration_enum::base.get_med_ration()));
+                ratmenu.addentry(0, true, MENU_AUTOASSIGN, _("Back"));
+
+                do{
+                    ratmenu.query();
+                    switch (ratmenu.ret){
+                        case 0: //"Back" don't do anything and loop will end
+                        case 1:{ //food
+                            int lv = menu(true, _("Food Rationing Level:"),
+                                _("None: Eat anything and everything whenever you want."),
+                                _("Light: Eat when hungry. Pay some attention to food use."),
+                                _("Moderate: Eat when hungry. Always cook nutritious food."),
+                                _("Heavy: Eat only when very hungry. Optimize food usage."), NULL);
+                            p.home.set_food_ration(lv - 1);
+                        }
+                        case 2:{
+                            int lv = menu(true, _("Water Rationing Level:"),
+                                _("None: Drink anything and everything whenever you want."),
+                                _("Light: Drink when your thursty.  Don't overdo the salt or liquor."),
+                                _("Moderate: Water is for drinking and vital crafts only."),
+                                _("Heavy: Drink only when very Thursty.  \"Become the camel.\""), NULL);
+                            p.home.set_food_ration(lv - 1);
+                        }
+                        case 3:{ //ammo
+                            int lv = menu(true, _("Amunition Rationing Level:"),
+                                _("None: Use anything and everything you want."),
+                                _("Light: Don't shoot if you don't think you'll hit them."),
+                                _("Moderate: \"Don't shoot until you see decay of their eyes."),//instead of "whites of.."
+                                _("Heavy: Only shoot as an absolute last resort. I.e. we're over run."), NULL);
+                            p.home.set_ammo_ration(lv - 1);
+                        }
+                        case 4:{ //meds
+                            int lv = menu(true, _("Medicine Rationing Level:"),
+                                _("None: Use/take anything and everything you want."),
+                                _("Light: Use medicine to treat apropriate injuries/illness only."),//no recreational use and use a bandage not a first aid kit for that scratch.
+                                _("Moderate: \"It's just a flesh wound.\"  Tough out minor wounds."),
+                                _("Heavy: \"Tis But a scratch!\"  Ignore all but the most serious wounds."), NULL);//switched quotation with med. For MP refrence.
+                            p.home.set_med_ration(lv - 1);
+                        }
+                    } //ratmenu switch
+                } while (ratmenu.ret != 0);//loop rationing options
+            } //desktop case 1 rationing
+            case 2:{ //ammo type prefrences
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+                //TODO: Menu assign prefrence (weight) to ammo types.  Prefrence to be refrenced by NPC choosing weapon
+                //Use relayering UI?
+            }
+            case 3:{ //crafting priorities
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+                //TODO: Menu assign priorities (weight) to craft recipies.  NPCs to refrence priorities when crafting.
+            }
+            case 4:{ //view status.
+                if (base.get_level == 1) iexamine::base_view(p, examp);
+                else iexamine::base_view_ele(p, examp);
+            }
+            case 5:{ //base planner
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            }
+            case 6:{ //personel managment
+                add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+            }
+        } //desktop switch
+        desktop.query();
+    } while (desktop.ret); //desktop loop
+}
+
+/**
+ * View base status/information from a bulletin board. (limited info)
+ * 
+ * This is supposed to represent viewing stuff posted on a bulletin board so,
+ * displaying the info in a whole bunch of small frames like they are diffrent notes should
+ * be a future goal.
+ */
+void iexamine::base_view( player &p, const tripoint &examp) {
+    auto *base = g->m->get_base_by_loc(p.home);
+    if (base == nullptr){
+        p.add_msg_if_player( _("No information is displayed.") );
+        return;
+    }
+    //Window size values are currently arbitrary but window shouldn't be full screen if possible
+    //This function is in the source but no header refrence...
+    //static WINDOW_PTR board = output::create_popup_window( 40, 40, output::PopupFlags::PF_GET_KEY);
+    
+    //Simple implementation for now
+    std::list<std::string> basicInfo;
+    basicInfo.push_back( string_format( _("%s's Home Sweet Base"), p.get_name() );
+    //TODO add len '~'s as an underline 
+    basicInfo.push_back("");//add blank line.
+    basicInfo.push_back( string_format( _("Command System Level: %d"), base->get_level() ) );
+    basicInfo.push_back( string_format( _("Base Ocupency: %d (%d Max)", base->num_personnel(), base->get_max_pop() );
+    basicInfo.push_back( string_format( _("Open Bunks: %d"), base->num_bunks() ) );
+    basicInfo.push_back( string_format( _("Open Storage: %d"), base->num_storage_open()));
+    basicInfo.push_back( string_format( _("Communal Storage Locations: %d"), base->num_comm_storage() ) );
+    std::list<std::string> rationInfo;
+    rationInfo.push_back( _("Supply Rationing") );
+    rationInfo.push_back( string_format( _("Food: %s"), base_home::ration_levels::base->get_food_ration() );
+    rationInfo.push_back( string_format( _("Water: %s"), base_home::ration_levels::base->get_water_ration() );
+    rationInfo.push_back( string_format( _("Ammunition: %s"), base_home::ration_levels::base->get_ammo_ration() );
+    rationInfo.push_back( string_format( _("Medicine: %s"), base_home::ration_levels::base->get_med_ration() );
+    std::list<std::string> resInfo
+    auto &peeps = base->get_personnel();
+    resInfo.push_back( _("Base Residents") );
+    for ( int 1 = 0; i < peeps.length() ){
+        resInfo.push_back( string_format( _("%d. %s: Some Information."), i, peeps[i].get_name() ) );
+    }
+
+    popup_getkey( basicInfo );
+    popup_getkey( rationInfo );
+    popup_getkey( resInfo );
+}
+
+/**
+ * View base status/information from a monator. (iexamine::base_view with extra info)
+ */
+void iexamine::base_view_ele( player &p, const tripoint &examp) {
+    base_view( p, examp );
+    )
+}
+
+/**
+ * Mannage basic and security remote systems.  (Lights! Cammera! Action...of connected turrets!) 
+ */
+void iexamine::base_sec( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+/**
+ * Give instructions to all NPCs in earshot of connected PA speakers.  Music works too.
+ */
+void iexamine::base_pa( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+ 
+/**
+ * Manage/use base' communication system. (bassically limited cell phone infustructure.)
+ */
+void iexamine::base_com( player &p, const tripoint &examp ) {
+    add_msg("Not implemented yet.\n(╮°-°)╮┳━━┳ ( ╯°□°)╯ ┻━━┻");
+}
+
+
+/**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
  * debug message as a warning.
@@ -3571,7 +3757,13 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "base_cmd", &iexamine::base_control},
+        { "base_view", &iexamine::base_view}
+        { "base_view_ele", &iexamine::base_view_ele},
+        { "base_pa", &iexamine::base_pa},
+        { "base_com", &iexamine::base_com},
+        { "base_sec", &iexamine::base_sec},
     }};
 
     auto iter = function_map.find( function_name );

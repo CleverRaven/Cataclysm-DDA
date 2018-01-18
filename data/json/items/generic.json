@@ -2347,5 +2347,42 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
+    },{
+        "id" : "notice_screen",
+        "type" : "GENERIC",
+        "name" : "notification screen",
+        "description" : "An oversized computer monitor.  Effectively it's just a TV modified for the zombie apocalypse.  All the required connectors and cables are contained in reels on the back to prevent creating cable jumbles.  Unfortunately, the only type of cable that a long piece is impossible to fine, is the one needed to connect it to a base command system.",
+        "symbol" : ";",
+        "color" : "dark_gray",
+        "flags" : "TRADER_AVOID",
+        "price" : 0,
+        "weight" : 22600,
+        "volume" : 12,
+        "bashing" : 5,
+        "to_hit" : -5
+    },{
+        "id" : "notice_screen_net",
+        "type" : "GENERIC",
+        "name" : "networked notification screen",
+        "description" : "An oversized computer monitor.  Effectively it's just a TV modified for the zombie apocalypse.  The issues caused by cables have all been overcome with the addition of a wireless network module.",
+        "symbol" : ";",
+        "color" : "dark_gray",
+        "flags" : "TRADER_AVOID",
+        "price" : 0,
+        "weight" : 22600,
+        "volume" : 12,
+        "bashing" : 5,
+        "to_hit" : -5
+    },{
+        "id" : "network_mod",
+        "type" : "GENERIC",
+        "name" : "network module",
+        "description" : "A wireless adapter that can be connected to a wide array of stuff. Could possibly allow one to connect remote systems to a base command system.",
+        "symbol" : ",",
+        "color" : "dark_gray",
+        "flags" : "TRADER_AVOID",
+        "price" : 0,
+        "weight" : 15,
+        "volume" : 2
     }
 ]
