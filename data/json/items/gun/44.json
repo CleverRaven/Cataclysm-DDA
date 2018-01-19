@@ -16,7 +16,7 @@
     "ammo": "44",
     "skill": "pistol",
     "ranged_damage": -1,
-    "range": 4,
+    "range": 6,
     "dispersion": 480,
     "durability": 7,
     "valid_mod_locations": [
@@ -51,7 +51,7 @@
     "color": "dark_gray",
     "ammo": "44",
     "ranged_damage": 2,
-    "range": 23,
+    "range": 16,
     "dispersion": 180,
     "durability": 8,
     "clip_size": 10,
