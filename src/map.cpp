@@ -3924,7 +3924,7 @@ bool map::hit_with_acid( const tripoint &p )
         if( one_in( 3 ) ) {
             ter_set( p, t_door_b );
         }
-    } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ) {
+    } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars || t == t_reb_cage ) {
         ter_set( p, t_floor );
         add_msg( m_warning, _( "The metal bars melt!" ) );
     } else if( t == t_door_b ) {
