@@ -398,7 +398,7 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "ranged_damage": 1,
-    "range": 7
+    "range": 7,
     "dispersion": 360,
     "durability": 7,
     "burst": 12,
