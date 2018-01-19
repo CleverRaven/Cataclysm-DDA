@@ -59,6 +59,7 @@ class WINDOW_PTR;
 class window
 {
     private:
+        friend class WINDOW_PTR;
         void *native_window;
 
     public:
@@ -83,9 +84,6 @@ class window
         operator WINDOW_PTR() const;
 };
 
-struct delwin_functor {
-    void operator()( void *w ) const;
-};
 /**
  * A Wrapper around the void pointer, it automatically deletes the
  * window (see delwin_functor) when the variable gets out of scope.
@@ -100,21 +98,29 @@ struct delwin_functor {
  * To prevent the delwin call when the function is left (because the window is already deleted or, it should
  * not be deleted), call some_window_ptr.release().
  */
-class WINDOW_PTR : public std::unique_ptr<void, delwin_functor>
+class WINDOW_PTR
 {
+    private:
+        struct delwin_functor {
+            void operator()( void *w ) const;
+        };
+
+        friend class window;
+        std::unique_ptr<void, delwin_functor> ptr;
+
     public:
         WINDOW_PTR() = default;
-        WINDOW_PTR( const window &w ) : WINDOW_PTR( w.get<void>() ) {
+        WINDOW_PTR( const window &w ) : ptr( w.get<void>() ) {
         }
-        WINDOW_PTR( void *const ptr ) : unique_ptr( ptr ) {
+        WINDOW_PTR( void *const ptr ) : ptr( ptr ) {
         }
 
         explicit operator bool() const {
-            return unique_ptr::operator bool();
+            return ptr.operator bool();
         }
 };
 
-inline window::window( const WINDOW_PTR &ptr ) : window( ptr.get() )
+inline window::window( const WINDOW_PTR &ptr ) : window( ptr.ptr.get() )
 {
 }
 
@@ -144,6 +150,12 @@ void delwin( const window &win );
 // Explicitly deleted because calling it is nearly always wrong.
 // Just let the WINDOW_PTR go out of scope, or reset it.
 void delwin( const WINDOW_PTR & ) = delete;
+inline void WINDOW_PTR::delwin_functor::operator()( void *const w ) const
+{
+    window dummy;
+    dummy.native_window = w;
+    delwin( dummy );
+}
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
 void mvwhline( const window &win, int y, int x, chtype ch, int n );

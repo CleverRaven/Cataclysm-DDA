@@ -56,13 +56,6 @@ extern bool use_tiles;
 
 extern bool test_mode;
 
-void delwin_functor::operator()( void *w ) const
-{
-    if( w != nullptr ) {
-        delwin( window( w ) );
-    }
-}
-
 // utf8 version
 std::vector<std::string> foldstring( std::string str, int width )
 {
