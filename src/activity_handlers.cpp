@@ -950,7 +950,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-    // 10% to drop a item/items from this group. 
+    // 10% to drop a item/items from this group.
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -1419,12 +1419,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         p->mod_fatigue(1);
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
-            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40);
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
         }
-        else { 
+        else {
             p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
         }
     }
@@ -1530,6 +1530,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "sheet_metal", rng(1, 3) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", rng(1, 19) );
+        g->m.spawn_item( pos, "scrap", rng(1, 8) );
     } else if( ter == t_bars ) {
         if (g->m.ter( {pos.x + 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y + 1, pos.z} ) == t_sewage ||
             g->m.ter( {pos.x - 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y - 1, pos.z} ) == t_sewage) {
@@ -2068,6 +2072,10 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
         g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", 19);
+        g->m.spawn_item( pos, "scrap", 8);
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } ) == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) == t_sewage ) {
