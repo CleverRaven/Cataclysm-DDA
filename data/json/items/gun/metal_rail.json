@@ -15,7 +15,7 @@
     "color": "dark_gray",
     "ammo": "metal_rail",
     "skill": "rifle",
-    "range": 40,
+    "range": 30,
     "ranged_damage": 40,
     "dispersion": 100,
     "durability": 7,
