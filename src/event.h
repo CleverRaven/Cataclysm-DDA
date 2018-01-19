@@ -3,12 +3,10 @@
 #define EVENT_H
 
 #include "calendar.h"
-#include "faction.h"
-#include "line.h"
+#include "enums.h"
+
 #include <climits>
 #include <list>
-
-class game;
 
 enum event_type : int {
     EVENT_NULL,
