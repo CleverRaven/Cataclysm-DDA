@@ -2660,8 +2660,7 @@ bool mattack::photograph(monster *z)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->events.add( EVENT_ROBOT_ATTACK, int( calendar::turn ) + rng( 15, 30 ), 0,
-                 g->u.global_sm_location());
+    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0, g->u.global_sm_location() );
 
     return true;
 }

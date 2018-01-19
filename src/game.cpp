@@ -5436,13 +5436,13 @@ float game::natural_light_level( const int zlev ) const
     // will trump a lower one.
     if( const event *e = events.get( EVENT_DIM ) ) {
         // EVENT_DIM slowly dims the natural sky level, then relights it.
-        int turns_left = e->turn - int( calendar::turn );
+        const time_duration left = e->when - calendar::turn;
         // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
-        if (turns_left > 25) {
-            mod_ret = std::max(mod_ret, (ret * (turns_left - 25)) / 25);
+        if( left > 25_turns ) {
+            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( left - 25_turns ) ) / 25_turns );
             // and the last 25 scale back towards normal.
         } else {
-            mod_ret = std::max(mod_ret, (ret * (25 - turns_left)) / 25);
+            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( 25_turns - left ) ) / 25_turns );
         }
     }
     if( events.queued( EVENT_ARTIFACT_LIGHT ) ) {

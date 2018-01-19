@@ -24,9 +24,9 @@ const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
-event::event( event_type e_t, int t, int f_id, tripoint p )
+event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
 : type( e_t )
-, turn( t )
+, when( w )
 , faction_id( f_id )
 , map_point( p )
 {
@@ -82,7 +82,7 @@ void event::actualize()
             }
         }
         if (!one_in(25)) { // They just keep coming!
-            g->events.add( EVENT_SPAWN_WYRMS, int( calendar::turn ) + rng( 15, 25 ) );
+            g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 15_turns, 25_turns ) );
         }
     } break;
 
@@ -214,7 +214,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->events.add( EVENT_TEMPLE_FLOOD, int( calendar::turn ) + rng( 2, 3 ) );
+   g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + rng( 2_turns, 3_turns ) );
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
@@ -254,13 +254,13 @@ void event::per_turn()
                 add_msg(m_warning, _("An eyebot swoops down nearby!"));
             }
             // One eyebot per trigger is enough, really
-            turn = int(calendar::turn);
+            when = calendar::turn;
         }
     } break;
 
   case EVENT_SPAWN_WYRMS:
      if (g->get_levz() >= 0) {
-         turn--;
+         when -= 1_turns;
          return;
      }
      if( calendar::once_every(3) ) {
@@ -285,7 +285,7 @@ void event_manager::process()
 {
     for( auto it = events.begin(); it != events.end(); ) {
         it->per_turn();
-        if( it->turn <= int( calendar::turn ) ) {
+        if( it->when <= calendar::turn ) {
             it->actualize();
             it = events.erase( it );
         } else {
@@ -294,15 +294,15 @@ void event_manager::process()
     }
 }
 
-void event_manager::add( const event_type type, const int on_turn, const int faction_id )
+void event_manager::add( const event_type type, const time_point &when, const int faction_id )
 {
-    add( type, on_turn, faction_id, g->u.global_sm_location() );
+    add( type, when, faction_id, g->u.global_sm_location() );
 }
 
-void event_manager::add( const event_type type, const int on_turn, const int faction_id,
+void event_manager::add( const event_type type, const time_point &when, const int faction_id,
                          const tripoint center )
 {
-    event tmp( type, on_turn, faction_id, center );
+    event tmp( type, when, faction_id, center );
     events.push_back( tmp );
 }
 
