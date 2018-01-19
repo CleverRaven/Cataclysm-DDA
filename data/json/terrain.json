@@ -179,8 +179,9 @@
         "name": "rebar cage",
         "symbol": "#",
         "color": "dark_gray",
-        "move_cost": 5,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 20, "str_max": 100,
             "sound": "metal screeching!",
