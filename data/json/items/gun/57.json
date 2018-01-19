@@ -47,7 +47,7 @@
     "color": "light_gray",
     "ammo": "57",
     "skill": "smg",
-    "range": 6,
+    "range": 8,
     "dispersion": 260,
     "durability": 8,
     "burst": 20,
