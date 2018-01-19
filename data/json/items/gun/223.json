@@ -15,7 +15,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": -1,
-    "range": 14,
+    "range": 20,
     "dispersion": 150,
     "durability": 8,
     "burst": 3,
@@ -42,7 +42,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "range": 14,
+    "range": 20,
     "dispersion": 150,
     "durability": 7,
     "magazines": [
@@ -68,7 +68,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": -2,
-    "range": 14,
+    "range": 13,
     "dispersion": 180,
     "durability": 8,
     "burst": 6,
@@ -93,7 +93,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "range": 14,
+    "range": 20,
     "dispersion": 150,
     "durability": 8,
     "burst": 15,
@@ -120,7 +120,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "223",
-    "range": -8,
+    "range": 2,
     "ranged_damage": -4,
     "dispersion": 380,
     "durability": 8,
@@ -142,7 +142,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "range": 14,
+    "range": 20,
     "dispersion": 90,
     "durability": 3,
     "burst": 3,
@@ -178,7 +178,7 @@
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
       "weight": 1200,
       "volume": 4,
-      "range": 3,
+      "range": 6,
       "ranged_damage": 3
     }
   },
@@ -195,6 +195,7 @@
     "relative": {
       "weight": 2000,
       "volume": 7,
+      "range": 3,
       "ranged_damage": 2,
       "dispersion": 60
     }
@@ -227,7 +228,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "range": 10,
+    "range": 25,
     "dispersion": 200,
     "durability": 7,
     "reload": 400,
@@ -253,6 +254,7 @@
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "relative": {
+      "range": -3,
       "ranged_damage": 1,
       "durability": 1
     }
@@ -272,7 +274,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "range": 14,
+    "range":20,
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 6,
@@ -298,7 +300,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "range": 19,
+    "range": 14,
     "ranged_damage": 1,
     "dispersion": 100,
     "durability": 8,
@@ -325,7 +327,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "range": 14,
+    "range": 20,
     "ranged_damage": -2,
     "dispersion": 150,
     "durability": 8,
