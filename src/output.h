@@ -26,7 +26,13 @@ template<typename V, typename U>
 class quantity;
 class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
-}
+} // namespace units
+namespace catacurses
+{
+class window;
+using WINDOW_PTR = window;
+using chtype = int;
+} // namespace catacurses
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502

@@ -92,17 +92,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, int begin_y, int b
         newwindow->line[j].chars.resize(ncols);
         newwindow->line[j].touched = true; //Touch them all !?
     }
-    return window( newwindow );
-}
-
-//Deletes the window and marks it as free. Clears it just in case.
-void catacurses::delwin( const window &win )
-{
-    if( !win ) {
-        //@todo log this
-        return;
-    }
-    delete win.get<cata_cursesport::WINDOW>();
+    return std::shared_ptr<void>( newwindow, []( void *const w ) { delete static_cast<cata_cursesport::WINDOW *>( w ); } );
 }
 
 inline int newline(cata_cursesport::WINDOW *win)

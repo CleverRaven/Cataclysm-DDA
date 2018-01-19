@@ -44,90 +44,38 @@ namespace catacurses
 /// and abort the program. Only continue the program when this returned normally.
 void init_interface();
 
-class WINDOW_PTR;
-
 /**
- * A simple wrapper over `void*`.
- * Currently it does not do anything at all. It is implicitly constructed
- * from a pointer and implicitly converted to it.
- * Because all curses function here receive/return a `window` (and not a
- * pointer), it allows callers to store the `window` as pointer (like
- * it's done all over the place), and it allows to forward a pointer to
- * the functions.
- * The implementation of the curses interface can cast the pointer as they need.
+ * A wrapper over a pointer to a curses window.
+ * All curses functions here receive/return and operate on such a @ref window.
+ * The objects have shared ownership of the contained pointer (behaves like a
+ * shared pointer).
+ *
+ * Use @ref newwin to get a new instance. Use the default constructor to get
+ * an invalid window pointer (test for this via @ref operator bool()).
+ * Use the @ref operator= to reset the pointer.
  */
 class window
 {
     private:
-        friend class WINDOW_PTR;
-        void *native_window;
+        std::shared_ptr<void> native_window;
 
     public:
-        window() : native_window( nullptr ) { }
-        template<typename T>
-        window( T *const ptr ) : native_window( static_cast<void *>( ptr ) ) {
-        }
-        window( const WINDOW_PTR &ptr );
-        ~window() {
+        window() = default;
+        window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
         }
         template<typename T = void>
         T * get() const {
-            return static_cast<T *>( native_window );
+            return static_cast<T *>( native_window.get() );
         }
-        operator void *() const {
-            return get();
-        }
-
         explicit operator bool() const {
-            return native_window != nullptr;
+            return native_window.operator bool();
         }
-        operator WINDOW_PTR() const;
-};
-
-/**
- * A Wrapper around the void pointer, it automatically deletes the
- * window (see delwin_functor) when the variable gets out of scope.
- * This includes calling werase, wrefresh and delwin.
- * Usage:
- * 1. Acquire a void pointer via @ref newwin like normal, store it in a pointer variable.
- * 2. Create a variable of type WINDOW_PTR *on the stack*, initialize it with the pointer from 1.
- * 3. Do the usual stuff with window, print, update, etc. but do *not* call delwin on it.
- * 4. When the function is left, the WINDOW_PTR variable is destroyed, and its destructor is called,
- *    it calls werase, wrefresh and most importantly delwin to free the memory associated wit the pointer.
- * To trigger the delwin call earlier call some_window_ptr.reset().
- * To prevent the delwin call when the function is left (because the window is already deleted or, it should
- * not be deleted), call some_window_ptr.release().
- */
-class WINDOW_PTR
-{
-    private:
-        struct delwin_functor {
-            void operator()( void *w ) const;
-        };
-
-        friend class window;
-        std::unique_ptr<void, delwin_functor> ptr;
-
-    public:
-        WINDOW_PTR() = default;
-        WINDOW_PTR( const window &w ) : ptr( w.get<void>() ) {
-        }
-        WINDOW_PTR( void *const ptr ) : ptr( ptr ) {
-        }
-
-        explicit operator bool() const {
-            return ptr.operator bool();
+        bool operator==( const window &rhs ) const {
+            return native_window.get() == rhs.native_window.get();
         }
 };
 
-inline window::window( const WINDOW_PTR &ptr ) : window( ptr.ptr.get() )
-{
-}
-
-inline window::operator WINDOW_PTR() const
-{
-    return WINDOW_PTR( get() );
-}
+using WINDOW_PTR = window; //@todo change all places to refere to window instead of WINDOW_PTR
 
 enum base_color : short {
     black = 0x00,    // RGB{0, 0, 0}
@@ -146,15 +94,9 @@ using attr_t = unsigned short;
 extern window stdscr;
 
 window newwin( int nlines, int ncols, int begin_y, int begin_x );
-void delwin( const window &win );
-// Explicitly deleted because calling it is nearly always wrong.
-// Just let the WINDOW_PTR go out of scope, or reset it.
-void delwin( const WINDOW_PTR & ) = delete;
-inline void WINDOW_PTR::delwin_functor::operator()( void *const w ) const
+inline void delwin( window &win )
 {
-    window dummy;
-    dummy.native_window = w;
-    delwin( dummy );
+    win = window();    //@todo get rid of this
 }
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );

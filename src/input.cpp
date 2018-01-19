@@ -1086,7 +1086,6 @@ void input_context::display_help()
     }
     werase( w_help );
     wrefresh( w_help );
-    delwin( w_help );
 }
 
 input_event input_context::get_raw_input()
