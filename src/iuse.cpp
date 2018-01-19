@@ -4140,7 +4140,7 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         moves = 500;
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars ) {
+               ter == t_window_bars || ter == t_reb_cage ) {
         moves = 1000;
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
