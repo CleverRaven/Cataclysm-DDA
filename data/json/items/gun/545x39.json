@@ -42,7 +42,7 @@
     "color": "brown",
     "ammo": "545x39",
     "skill": "rifle",
-    "range": 14,
+    "range": 16,
     "dispersion": 150,
     "durability": 7,
     "barrel_length": 1,
