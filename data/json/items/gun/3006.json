@@ -16,7 +16,7 @@
     "ammo": "3006",
     "skill": "rifle",
     "ranged_damage": -1,
-    "range": 19,
+    "range": 20,
     "dispersion": 90,
     "durability": 7,
     "barrel_length": 2,
@@ -42,7 +42,7 @@
     "color": "brown",
     "ammo": "3006",
     "skill": "rifle",
-    "range": 19,
+    "range": 13,
     "dispersion": 150,
     "durability": 8,
     "reload": 150,
@@ -67,7 +67,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "3006",
-    "range": 19,
+    "range": 25,
     "dispersion": 120,
     "durability": 8,
     "clip_size": 5,
@@ -90,7 +90,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "3006",
-    "range": 14,
+    "range": 25,
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
@@ -117,7 +117,7 @@
     "material": [ "steel", "plastic" ],
     "color": "brown",
     "ammo": "3006",
-    "range": 23,
+    "range": 25,
     "dispersion": 90,
     "durability": 8,
     "clip_size": 4,
@@ -163,7 +163,10 @@
     "range": 14,
     "clip_size": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
-    "relative": { "durability": -3 },
+    "relative": {
+        "durability": -3,
+        "range": -5
+        },
     "proportional": { "reload": 4 }
   }
 ]
