@@ -196,7 +196,7 @@
     "type": "GUN",
     "name": "L2032 Lookout",
     "name_plural": "L2032 Lookout",
-    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released in 2015, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
+    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released during the early 21st century, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
     "ammo": "9mm",
     "clip_size": 7
   },
@@ -206,7 +206,7 @@
     "type": "GUN",
     "name": "L39B",
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "description": "A selective-firing 9mm handgun introduced in 2015, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A selective-firing 9mm handgun introduced in the early 21st century, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 95000,
     "burst": 3,
     "relative": {
@@ -220,7 +220,7 @@
     "type": "GUN",
     "name": "L39",
     "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
-    "description": "A semiautomatic 9mm handgun introduced in 2017, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A semiautomatic 9mm handgun introduced in the early 21st century, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 935,
     "volume": 2,
     "price": 70000,
