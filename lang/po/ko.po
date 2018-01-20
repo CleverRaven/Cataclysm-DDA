@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 07:26-0500\n"
-"PO-Revision-Date: 2018-01-07 11:36+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2018-01-12 07:16-0500\n"
+"PO-Revision-Date: 2018-01-19 02:46+0000\n"
+"Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3681,7 +3681,7 @@ msgstr "147gr 무게의 탄두를 사용한 7.62x51mm NATO FMJ 탄약. 높은 �
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x51mm NATO tracer"
-msgstr ""
+msgstr "7.62x51mm NATO 예광탄"
 
 #. ~ Description for 7.62x51mm NATO tracer
 #: lang/json/AMMO_from_json.py
@@ -4085,7 +4085,7 @@ msgstr ".50 BMG탄. 장거리 사격용으로 제작된 매우 강력한 소총�
 #: lang/json/AMMO_from_json.py
 msgid ".50 BMG AP"
 msgid_plural ".50 BMG AP"
-msgstr[0] ""
+msgstr[0] ".50 BMG AP"
 
 #. ~ Description for .50 BMG AP
 #: lang/json/AMMO_from_json.py
@@ -5714,13 +5714,13 @@ msgstr "작은 금속 파편입니다. 도저히 사용할 방법이 보이지 �
 #: lang/json/AMMO_from_json.py
 msgid "liquified blob feed"
 msgid_plural "bfeedfuel"
-msgstr[0] ""
+msgstr[0] "덩어리 액체 먹이"
 
 #. ~ Description for liquified blob feed
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Liquified blob feed, useful for fueling certain blob based vehicle parts"
-msgstr ""
+msgstr "덩어리에게 먹일 액체화된 먹이다. 덩어리로 이루어진 차량 부품에 연료로 사용된다."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "blob feed"
@@ -9376,7 +9376,7 @@ msgstr[0] "강철 다리 보호구"
 #. ~ Description for pair of steel leg guards
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, "
+"A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
 msgstr "완전한 중세 다리 보호구 한세트, 골반부, 다리 상부, 다리 하부 보호대와 각 부분이 가죽끈으로 고정되었고, 연결되어 한 세트로 되어 있습니다."
 
@@ -10332,7 +10332,7 @@ msgid ""
 " compartment can store other things if you don't mind powering the suit "
 "yourself.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. I: 기본형 중장갑 파워 아머. 공격에 대해 훌륭한 방어력을 제공하지만, 움직이기 어려워집니다. 파워 아머에 전원을 쓰지 않으면 UPS 전원을 다른곳에 쓸 수 있습니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "power armor hauling frame"
@@ -10356,7 +10356,7 @@ msgid ""
 "improvements over the Mk. I, most notably the improved environmental "
 "protection.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. II-H: 이 모델은 Mk. I보다 발전되었으며, 무엇보다도 환경 방호력이 향상되었습니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "basic power armor helmet"
@@ -10370,7 +10370,7 @@ msgid ""
 "Offers excellent protection from both attacks and environmental hazards.  "
 "Like all DoubleTech power armor, the control and climate-regulation systems "
 "require direct skin contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. I 용 파워아머 헬멧. 공격과 환경적인 위험 양쪽 모두에 대해 훌륭한 방어력을 제공합니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "heavy power armor helmet"
@@ -10385,7 +10385,7 @@ msgid ""
 "and offers better environmental protection.  Like all DoubleTech power "
 "armor, the control and climate-regulation systems require direct skin "
 "contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. II-H 용 파워아머 헬멧. 이 개선된 디자인은 Mk. I 헬멧보다 무겁지만 더 시원하며 환경 방호력이 향상되었습니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "light power armor helmet"
@@ -10399,7 +10399,7 @@ msgid ""
 "II-L.  This improved design is lighter and cooler than the Mk. I helmet.  "
 "Like all DoubleTech power armor, the control and climate-regulation systems "
 "require direct skin contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. II-L 용 파워아머 헬멧. 향상된 설계 덕분에 Mk. I 헬멧보다 더 가볍고 시원합니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "light power armor"
@@ -10413,7 +10413,7 @@ msgid ""
 "improvements over the Mk. I, most notably the reduced weight.  Like all "
 "DoubleTech power armor, the control and climate-regulation systems require "
 "direct skin contact."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. II-L: 이 모델은 Mk. I보다 발전되었으며, 무엇보다도 무게가 가벼워졌습니다. 모든 더블테크 파워 아머는, 조종과 공기 조절 시스템에 직접적인 피부 접촉이 필요합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "purse"
@@ -16123,7 +16123,7 @@ msgstr "이 작은 책은 사형집행 전 사형수가 본 예언에 대한 것
 #: lang/json/BOOK_from_json.py
 msgid "Hávamál"
 msgid_plural "copies of Hávamál"
-msgstr[0] ""
+msgstr[0] "높으신 분이 말하기를"
 
 #. ~ Description for Hávamál
 #: lang/json/BOOK_from_json.py
@@ -16131,7 +16131,7 @@ msgid ""
 "An English translation of several Old Norse poems.  The poems contain "
 "proverbs and stories attributed to the god Odin, many transcribed from oral "
 "history."
-msgstr ""
+msgstr "고대 노르드어 시집의 영어 번역본. 이 시집에는 오딘 신에 관한 이야기와 속담이 담겨있는데, 구술 역사의 많은 부분이 기록되어있다."
 
 #: lang/json/BOOK_from_json.py
 msgid "Tactical Handgun Digest"
@@ -16597,7 +16597,7 @@ msgstr[0] "쉽게 배우는 핵 물리학"
 msgid ""
 "A book detailing the workings of state of the art atomic technology, and the"
 " physics behind it"
-msgstr ""
+msgstr "첨단 원자기술에 대한 원리와 기술의 기반이 되는 물리학이 상세하게 쓰여진 책."
 
 #: lang/json/BOOK_from_json.py
 msgid "Case #5846, Illegal Gun Modification"
@@ -20000,7 +20000,7 @@ msgstr "뼛가루"
 #. ~ Description for bone meal
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This bone meal can be used to craft fertilizer and some other things."
-msgstr ""
+msgstr "이 뼛가루는 비료와 다른 것들을 만드는 데 사용될 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted bone meal"
@@ -20020,7 +20020,7 @@ msgstr[0] "키틴질 가루"
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "This chitin powder can be used to craft fertilizer and some other things."
-msgstr ""
+msgstr "이 키틴질 가루는 비료와 다른 것들을 만드는 데 사용될 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wild herbs"
@@ -22747,6 +22747,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "'special' brownie"
+msgstr ""
+
+#. ~ Description for 'special' brownie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "This is definitely not how grandma used to bake them."
+msgstr "이것은 할머니가 구워주시던 브라우니와 완전히 다르다고 확언할 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Spice"
 msgstr "향신료"
 
@@ -23255,15 +23264,6 @@ msgid ""
 "A powdered form of chemical disinfectant, this bismuth formic iodide cleans "
 "wounds quickly and painlessly."
 msgstr "가루형 소독제. 비스무트 요오드포름은 상처를 빠르고 고통 없이 치료하는데 쓰인다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "special brownie"
-msgstr "특제 브라우니"
-
-#. ~ Description for special brownie
-#: lang/json/COMESTIBLE_from_json.py
-msgid "This is definitely not how grandma used to bake them."
-msgstr "이것은 할머니가 구워주시던 브라우니와 완전히 다르다고 확언할 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "caffeinated chewing gum"
@@ -31846,7 +31846,7 @@ msgstr "레드웍스 LLC 223 화기에 사용되는 32발들이 폴리머 탄창
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Ruger .223 magazine"
-msgstr ""
+msgstr "루거 .223 탄창"
 
 #. ~ Description for Ruger .223 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -31877,7 +31877,7 @@ msgstr "STANAG 규격 소총에 사용되는 부피가 큰 50발들이 초록색
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "makeshift .223 magazine"
-msgstr ""
+msgstr "수제 .223 탄창"
 
 #. ~ Description for makeshift .223 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -45381,7 +45381,7 @@ msgstr "부품"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "93mm RPG-7"
-msgstr ""
+msgstr "93mm RPG-7"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "rebreather filter"
@@ -45469,7 +45469,7 @@ msgstr "회오리 동력"
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".410 bore"
-msgstr ""
+msgstr ".410 bore"
 
 #: lang/json/bionic_from_json.py
 msgid "Adrenaline Pump"
@@ -46218,7 +46218,7 @@ msgstr[0] "EMP 프로젝터"
 #: lang/json/gun_from_json.py
 msgid "Ionic Overload Generator"
 msgid_plural "Ionic Overload Generators"
-msgstr[0] ""
+msgstr[0] "이온 과부하 발생기"
 
 #: lang/json/bionic_from_json.py
 msgid "Autonomous Surgical Razors"
@@ -46680,7 +46680,7 @@ msgstr "울타리 문 만들기"
 
 #: lang/json/construction_from_json.py
 msgid "Build Rope Fence"
-msgstr ""
+msgstr "줄 울타리 만들기"
 
 #: lang/json/construction_from_json.py
 msgid "Build Wire Fence"
@@ -50856,7 +50856,7 @@ msgstr ""
 #. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "You pull the lever..."
-msgstr ""
+msgstr "레버를 당겼습니다..."
 
 #: lang/json/gun_from_json.py
 msgid "self bow"
@@ -56716,9 +56716,9 @@ msgstr "* 이 장비는 가죽으로 덧댄 부분이 있어 <good>방어력이 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-" This clothing has a wool lining sewn into it to <good>increase</good> its "
+"This clothing has a wool lining sewn into it to <good>increase</good> its "
 "overall <info>warmth</info>."
-msgstr "* 이 의류는 안감이 양모로 되어있어 <info>보온력</info>이 <good>높다</good>."
+msgstr ""
 
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -62179,7 +62179,7 @@ msgstr "몸과 마음이 느긋해지더니 평화로운 기분이 든다."
 #. ~ Mutation class: Cattle iv_message
 #: lang/json/mutation_category_from_json.py
 msgid "You wonder if this is what rBGH feels like..."
-msgstr "이게 rBGH의 느낌인가..."
+msgstr "온몸으로 젖소 호르몬이 흐르는 듯하다."
 
 #. ~ Mutation class: Cattle Male memorial messsage
 #: lang/json/mutation_category_from_json.py
@@ -76691,11 +76691,11 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "\"CHINA DID THIS\""
-msgstr ""
+msgstr "\"중국이 해냈어\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"RUSSIA DID THIS\""
-msgstr ""
+msgstr "\"러시아가 해냈어\""
 
 #: lang/json/snippet_from_json.py
 msgid ""
