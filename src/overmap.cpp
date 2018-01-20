@@ -1468,7 +1468,6 @@ point overmap::display_notes(int z)
             }
         }
     } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    delwin(w_notes);
     return result;
 }
 
@@ -2581,14 +2580,11 @@ tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, in
 //Start drawing the overmap on the screen using the (m)ap command.
 tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
-    delwin(g->w_omlegend);
     g->w_omlegend = catacurses::newwin( TERMY, 28, 0, TERMX - 28 );
-    delwin(g->w_overmap);
     g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0 );
 
     // Draw black padding space to avoid gap between map and legend
     // also clears the pixel minimap in TILES
-    delwin(g->w_blackspace);
     g->w_blackspace = catacurses::newwin( TERMY, TERMX, 0, 0 );
     mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);

@@ -249,8 +249,6 @@ void main_menu::display_credits()
     wrefresh( w_credits_border );
     refresh();
     multipage( w_credits, mmenu_credits );
-    delwin( w_credits );
-    delwin( w_credits_border );
     refresh();
 }
 

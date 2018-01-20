@@ -186,7 +186,5 @@ void game::list_missions()
         }
     }
 
-    werase( w_missions );
-    delwin( w_missions );
     refresh_all();
 }

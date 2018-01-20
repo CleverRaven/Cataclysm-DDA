@@ -4453,9 +4453,6 @@ void game::disp_kills()
     }
     display_table( w, buffer.str(), 3, data );
 
-    werase( w );
-    wrefresh( w );
-    delwin( w );
     refresh_all();
 }
 
@@ -4482,9 +4479,6 @@ void game::disp_NPC_epilogues()
         data.clear();
     }
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
     refresh_all();
 }
 
@@ -4659,9 +4653,6 @@ void game::disp_faction_ends()
         data.clear();
     }
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
     refresh_all();
 }
 
@@ -4702,9 +4693,6 @@ void game::disp_NPCs()
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
-    werase(w);
-    wrefresh(w);
-    delwin(w);
 }
 
 faction *game::list_factions(std::string title)
@@ -4793,10 +4781,6 @@ faction *game::list_factions(std::string title)
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     refresh_all();
     return cur_frac;
 }
@@ -8393,16 +8377,6 @@ void game::zones_manager()
     } while (action != "QUIT");
     inp_mngr.reset_timeout();
 
-    werase(w_zones);
-    werase(w_zones_border);
-    werase(w_zones_info);
-    werase(w_zones_info_border);
-
-    delwin(w_zones);
-    delwin(w_zones_border);
-    delwin(w_zones_info);
-    delwin(w_zones_info_border);
-
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
         if( query_yn( _("Save changes?") ) ) {
@@ -8691,8 +8665,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     inp_mngr.reset_timeout();
 
     if (bNewWindow) {
-        werase(w_info);
-        delwin(w_info);
+        w_info = catacurses::window();
     }
     reenter_fullscreen();
     bVMonsterLookFire = true;

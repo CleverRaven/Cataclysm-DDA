@@ -592,7 +592,6 @@ void npc::talk_to_u()
             d.add_topic( next );
         }
     } while( !d.done );
-    delwin( d.win );
     g->refresh_all();
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
@@ -3878,8 +3877,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 wrefresh( w_tmp );
                 // TODO: use input context
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
-                werase( w_tmp );
-                delwin( w_tmp );
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
                 update = true;
@@ -3998,15 +3995,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             g->u.practice( skill_barter, practice / 2 );
         }
     }
-    werase( w_head );
-    werase( w_you );
-    werase( w_them );
-    wrefresh( w_head );
-    wrefresh( w_you );
-    wrefresh( w_them );
-    delwin( w_head );
-    delwin( w_you );
-    delwin( w_them );
     g->refresh_all();
     return traded;
 }

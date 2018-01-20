@@ -92,10 +92,6 @@ using attr_t = unsigned short;
 extern window stdscr;
 
 window newwin( int nlines, int ncols, int begin_y, int begin_x );
-inline void delwin( window &win )
-{
-    win = window();    //@todo get rid of this
-}
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
 void mvwhline( const window &win, int y, int x, chtype ch, int n );

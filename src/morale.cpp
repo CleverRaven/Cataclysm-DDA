@@ -427,9 +427,6 @@ void player_morale::display( double focus_gain )
     wrefresh( w );
 
     inp_mngr.wait_for_any_key();
-
-    werase( w );
-    delwin( w );
 }
 
 bool player_morale::consistent_with( const player_morale &morale ) const

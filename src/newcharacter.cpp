@@ -519,7 +519,6 @@ bool player::create(character_type type, std::string tempname)
         }
 
     } while( true );
-    delwin(w);
 
     if( tab < 0 ) {
         return false;
@@ -790,7 +789,6 @@ Scenarios and professions affect skill point pool" ) );
         }
     } while( retval == tab_direction::NONE );
 
-    delwin( w_description );
     return retval;
 }
 
@@ -989,16 +987,13 @@ tab_direction set_stats( const catacurses::window &w, player *u, points_left &po
                 u->per_max++;
             }
         } else if (action == "PREV_TAB") {
-            delwin(w_description);
             return tab_direction::BACKWARD;
         } else if (action == "NEXT_TAB") {
-            delwin(w_description);
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
             draw_tabs( w, _("STATS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
             return tab_direction::QUIT;
         }
     } while (true);
@@ -1238,16 +1233,13 @@ tab_direction set_traits( const catacurses::window &w, player *u, points_left &p
                 }
             }
         } else if (action == "PREV_TAB") {
-            delwin(w_description);
             return tab_direction::BACKWARD;
         } else if (action == "NEXT_TAB") {
-            delwin(w_description);
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
             draw_tabs( w, _("TRAITS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
             return tab_direction::QUIT;
         }
     } while (true);
@@ -1566,10 +1558,6 @@ tab_direction set_profession( const catacurses::window &w, player *u, points_lef
 
     } while( retval == tab_direction::NONE );
 
-    delwin(w_description);
-    delwin(w_sorting);
-    delwin(w_items);
-    delwin(w_genderswap);
     return retval;
 }
 
@@ -1755,16 +1743,13 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
         } else if (action == "SCROLL_UP") {
             selected--;
         } else if (action == "PREV_TAB") {
-            delwin(w_description);
             return tab_direction::BACKWARD;
         } else if (action == "NEXT_TAB") {
-            delwin(w_description);
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
             draw_tabs( w, _("SKILLS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
             return tab_direction::QUIT;
         }
     } while (true);

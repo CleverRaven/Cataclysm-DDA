@@ -422,10 +422,6 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     g->refresh_all();
 
     if (cur_key == "Caravan Commune-Refugee Center"){

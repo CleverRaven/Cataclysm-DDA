@@ -1043,32 +1043,5 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         }
     } while( !done );
 
-    werase( w_info );
-    werase( w_tip );
-    werase( w_stats );
-    werase( w_encumb );
-    werase( w_traits );
-    werase( w_effects );
-    werase( w_skills );
-    werase( w_speed );
-    werase( w_info );
-    werase( w_grid_top );
-    werase( w_grid_effect );
-    werase( w_grid_skill );
-    werase( w_grid_trait );
-
-    delwin( w_info );
-    delwin( w_tip );
-    delwin( w_stats );
-    delwin( w_encumb );
-    delwin( w_traits );
-    delwin( w_effects );
-    delwin( w_skills );
-    delwin( w_speed );
-    delwin( w_grid_top );
-    delwin( w_grid_effect );
-    delwin( w_grid_skill );
-    delwin( w_grid_trait );
-
     g->refresh_all();
 }

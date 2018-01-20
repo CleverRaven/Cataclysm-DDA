@@ -1079,19 +1079,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
         // end RESOLVE INPUTS
     }
-    werase(w_header1);
-    werase(w_header2);
-    werase(w_shift);
-    werase(w_list);
-    werase(w_active);
-    werase(w_description);
-
-    delwin(w_header1);
-    delwin(w_header2);
-    delwin(w_shift);
-    delwin(w_list);
-    delwin(w_active);
-    delwin(w_description);
     return tab_output;
 }
 

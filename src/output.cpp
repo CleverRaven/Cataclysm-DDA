@@ -603,9 +603,6 @@ bool query_yn( const std::string &text )
         ch = inp_mngr.get_input_event().get_first_input();
     };
 
-    werase( w );
-    wrefresh( w );
-    delwin( w );
     refresh();
     return ( ( ch != KEY_ESCAPE ) && result );
 }
@@ -769,7 +766,6 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
-    delwin( win );
     return result;
 }
 
@@ -1309,9 +1305,6 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    if( w_hit_animation ) {
-        delwin( w_hit_animation );
     }
     w_hit_animation = w_hit;
 

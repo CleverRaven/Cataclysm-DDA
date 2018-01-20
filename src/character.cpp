@@ -2035,9 +2035,6 @@ hp_part Character::body_window( const std::string &menu_header,
             break;
         }
     } while (ch < '1' || ch > '7');
-    werase(hp_window);
-    wrefresh(hp_window);
-    delwin(hp_window);
     refresh();
 
     return healed_part;
