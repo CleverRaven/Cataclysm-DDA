@@ -1807,13 +1807,13 @@ tab_direction set_scenario( const catacurses::window &w, player *u, points_left 
     const int iContentHeight = TERMY - 10;
     int iStartPos = 0;
 
-    catacurses::WINDOW_PTR w_description = catacurses::newwin( 4, TERMX - 2, TERMY - 5 + getbegy( w ), 1 + getbegx( w ) );
-    catacurses::WINDOW_PTR w_sorting = catacurses::newwin( 2, ( TERMX / 2 ) - 1, 5 + getbegy( w ),  ( TERMX / 2 ) + getbegx( w ) );
-    catacurses::WINDOW_PTR w_profession = catacurses::newwin(4, (TERMX / 2) - 1, 7 + getbegy(w),  (TERMX / 2) + getbegx(w));
-    catacurses::WINDOW_PTR w_location = catacurses::newwin(3, (TERMX / 2) - 1, 11 + getbegy(w), (TERMX / 2) + getbegx(w));
+    catacurses::window w_description = catacurses::newwin( 4, TERMX - 2, TERMY - 5 + getbegy( w ), 1 + getbegx( w ) );
+    catacurses::window w_sorting = catacurses::newwin( 2, ( TERMX / 2 ) - 1, 5 + getbegy( w ),  ( TERMX / 2 ) + getbegx( w ) );
+    catacurses::window w_profession = catacurses::newwin(4, (TERMX / 2) - 1, 7 + getbegy(w),  (TERMX / 2) + getbegx(w));
+    catacurses::window w_location = catacurses::newwin(3, (TERMX / 2) - 1, 11 + getbegy(w), (TERMX / 2) + getbegx(w));
 
     // 9 = 2 + 4 + 3, so we use rest of space for flags
-    catacurses::WINDOW_PTR w_flags = catacurses::newwin(iContentHeight - 9, (TERMX / 2) - 1, 14 + getbegy(w), (TERMX / 2) + getbegx(w));
+    catacurses::window w_flags = catacurses::newwin(iContentHeight - 9, (TERMX / 2) - 1, 14 + getbegy(w), (TERMX / 2) + getbegx(w));
 
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
@@ -2080,15 +2080,15 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
 {
     draw_tabs( w, _("DESCRIPTION") );
 
-    catacurses::WINDOW_PTR w_name = catacurses::newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
-    catacurses::WINDOW_PTR w_gender = catacurses::newwin(2, 33, getbegy(w) + 5, getbegx(w) + 46);
-    catacurses::WINDOW_PTR w_location = catacurses::newwin(1, 76, getbegy(w) + 7, getbegx(w) + 2);
-    catacurses::WINDOW_PTR w_stats = catacurses::newwin(6, 20, getbegy(w) + 9, getbegx(w) + 2);
-    catacurses::WINDOW_PTR w_traits = catacurses::newwin(13, 24, getbegy(w) + 9, getbegx(w) + 22);
-    catacurses::WINDOW_PTR w_scenario = catacurses::newwin(1, 33, getbegy(w) + 9, getbegx(w) + 46);
-    catacurses::WINDOW_PTR w_profession = catacurses::newwin(1, 33, getbegy(w) + 10, getbegx(w) + 46);
-    catacurses::WINDOW_PTR w_skills = catacurses::newwin(9, 33, getbegy(w) + 11, getbegx(w) + 46);
-    catacurses::WINDOW_PTR w_guide = catacurses::newwin(TERMY - getbegy(w) - 19 - 1, TERMX - 3, getbegy(w) + 19, getbegx(w) + 2);
+    catacurses::window w_name = catacurses::newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
+    catacurses::window w_gender = catacurses::newwin(2, 33, getbegy(w) + 5, getbegx(w) + 46);
+    catacurses::window w_location = catacurses::newwin(1, 76, getbegy(w) + 7, getbegx(w) + 2);
+    catacurses::window w_stats = catacurses::newwin(6, 20, getbegy(w) + 9, getbegx(w) + 2);
+    catacurses::window w_traits = catacurses::newwin(13, 24, getbegy(w) + 9, getbegx(w) + 22);
+    catacurses::window w_scenario = catacurses::newwin(1, 33, getbegy(w) + 9, getbegx(w) + 46);
+    catacurses::window w_profession = catacurses::newwin(1, 33, getbegy(w) + 10, getbegx(w) + 46);
+    catacurses::window w_skills = catacurses::newwin(9, 33, getbegy(w) + 11, getbegx(w) + 46);
+    catacurses::window w_guide = catacurses::newwin(TERMY - getbegy(w) - 19 - 1, TERMX - 3, getbegy(w) + 19, getbegx(w) + 2);
 
     draw_points( w, points );
 

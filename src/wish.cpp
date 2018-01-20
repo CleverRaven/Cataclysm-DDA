@@ -268,7 +268,7 @@ class wish_monster_callback: public uimenu_callback
         bool friendly;         // spawn friendly critter?
         bool hallucination;
         int group;             // Number of monsters to spawn.
-        catacurses::WINDOW_PTR w_info;        // ui_parent menu's padding area
+        catacurses::window w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width

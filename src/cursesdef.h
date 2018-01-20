@@ -75,8 +75,6 @@ class window
         }
 };
 
-using WINDOW_PTR = window; //@todo change all places to refere to window instead of WINDOW_PTR
-
 enum base_color : short {
     black = 0x00,    // RGB{0, 0, 0}
     red = 0x01,      // RGB{196, 0, 0}

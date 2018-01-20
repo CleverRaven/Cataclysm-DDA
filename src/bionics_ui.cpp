@@ -319,7 +319,7 @@ void player::power_bionics()
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
     //wBio is the entire bionic window
-    catacurses::WINDOW_PTR wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
+    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
 
     const int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
 
@@ -327,19 +327,19 @@ void player::power_bionics()
     const int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
     const int DESCRIPTION_START_X = START_X + 1 + 40;
     //w_description is the description panel that is controlled with ! key
-    catacurses::WINDOW_PTR w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
-                                           DESCRIPTION_START_Y, DESCRIPTION_START_X );
+    catacurses::window w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
+                                       DESCRIPTION_START_Y, DESCRIPTION_START_X );
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
     const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-    catacurses::WINDOW_PTR w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
-                                     START_X + 1 );
+    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
+                                 START_X + 1 );
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
-    catacurses::WINDOW_PTR w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y,
-                                    START_X + 1 );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y,
+                                START_X + 1 );
 
     int scroll_position = 0;
     int cursor = 0;

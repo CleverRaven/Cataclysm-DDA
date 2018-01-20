@@ -629,15 +629,15 @@ class game
         int ter_view_x, ter_view_y, ter_view_z;
 
     private:
-        catacurses::WINDOW_PTR w_terrain_ptr;
-        catacurses::WINDOW_PTR w_minimap_ptr;
-        catacurses::WINDOW_PTR w_pixel_minimap_ptr;
-        catacurses::WINDOW_PTR w_HP_ptr;
-        catacurses::WINDOW_PTR w_messages_short_ptr;
-        catacurses::WINDOW_PTR w_messages_long_ptr;
-        catacurses::WINDOW_PTR w_location_ptr;
-        catacurses::WINDOW_PTR w_status_ptr;
-        catacurses::WINDOW_PTR w_status2_ptr;
+        catacurses::window w_terrain_ptr;
+        catacurses::window w_minimap_ptr;
+        catacurses::window w_pixel_minimap_ptr;
+        catacurses::window w_HP_ptr;
+        catacurses::window w_messages_short_ptr;
+        catacurses::window w_messages_long_ptr;
+        catacurses::window w_location_ptr;
+        catacurses::window w_status_ptr;
+        catacurses::window w_status2_ptr;
 
     public:
         catacurses::window w_terrain;

@@ -1618,7 +1618,7 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_grid()
 {
     // border window
-    catacurses::WINDOW_PTR w_border = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, 0, 0 );
     draw_border( w_border );
 
     // match grid lines

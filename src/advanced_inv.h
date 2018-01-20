@@ -347,8 +347,8 @@ class advanced_inventory
         void swap_panes();
 
         // minimap that displays things around character
-        catacurses::WINDOW_PTR minimap;
-        catacurses::WINDOW_PTR mm_border;
+        catacurses::window minimap;
+        catacurses::window mm_border;
         const int minimap_width  = 3;
         const int minimap_height = 3;
         void draw_minimap();
@@ -387,9 +387,9 @@ class advanced_inventory
         static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
-        catacurses::WINDOW_PTR head;
-        catacurses::WINDOW_PTR left_window;
-        catacurses::WINDOW_PTR right_window;
+        catacurses::window head;
+        catacurses::window left_window;
+        catacurses::window right_window;
 
         bool exit;
 

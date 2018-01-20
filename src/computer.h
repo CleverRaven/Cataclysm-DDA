@@ -137,9 +137,9 @@ class computer
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
         // Output window
-        catacurses::WINDOW_PTR w_terminal;
+        catacurses::window w_terminal;
         // Pretty border
-        catacurses::WINDOW_PTR w_border;
+        catacurses::window w_border;
         // Misc research notes from json
         static std::vector<std::string> lab_notes;
 

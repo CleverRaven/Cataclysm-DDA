@@ -650,30 +650,30 @@ int menu( bool const cancelable, const char *const mes, ... )
     return ( uimenu( cancelable, mes, options ) );
 }
 
-static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+static window create_popup_window( int width, int height, PopupFlags flags )
 {
     if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
-                               std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                           std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+                           std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+                       ) );
     } else if( ( flags & PF_ON_TOP ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               0,
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           height, width,
+                           0,
+                           std::max( ( TERMX - width ) / 2, 0 )
+                       ) );
     } else {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           height, width,
+                           std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+                           std::max( ( TERMX - width ) / 2, 0 )
+                       ) );
     }
 }
 
-WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+window create_popup_window( const std::string &text, PopupFlags flags )
 {
     const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
 
@@ -685,7 +685,7 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
     const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
     const int width = text_width + 2;
 
-    WINDOW_PTR result = create_popup_window( width, height, flags );
+    window result = create_popup_window( width, height, flags );
 
     draw_border( result );
 
@@ -696,7 +696,7 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
     return result;
 }
 
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+window create_wait_popup_window( const std::string &text, nc_color bar_color )
 {
     static size_t phase = 0;
 
@@ -719,7 +719,7 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    WINDOW_PTR w = create_popup_window( text, flags );
+    window w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {

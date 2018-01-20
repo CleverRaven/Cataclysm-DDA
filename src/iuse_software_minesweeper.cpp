@@ -149,8 +149,8 @@ int minesweeper_game::start_game()
     const int iCenterX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iCenterY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    catacurses::WINDOW_PTR w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX );
-    catacurses::WINDOW_PTR w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1 );
+    catacurses::window w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX );
+    catacurses::window w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1 );
 
     draw_border(w_minesweeper_border);
 
