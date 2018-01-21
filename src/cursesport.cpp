@@ -142,71 +142,71 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 
     if (ls) {
         for (j = 1; j < win->height - 1; j++) {
-            mvwaddch(win, j, 0, ls);
+            mvwaddch(win_, j, 0, ls);
         }
     } else {
         for (j = 1; j < win->height - 1; j++) {
-            mvwaddch(win, j, 0, LINE_XOXO);
+            mvwaddch(win_, j, 0, LINE_XOXO);
         }
     }
 
     if (rs) {
         for (j = 1; j < win->height - 1; j++) {
-            mvwaddch(win, j, win->width - 1, rs);
+            mvwaddch(win_, j, win->width - 1, rs);
         }
     } else {
         for (j = 1; j < win->height - 1; j++) {
-            mvwaddch(win, j, win->width - 1, LINE_XOXO);
+            mvwaddch(win_, j, win->width - 1, LINE_XOXO);
         }
     }
 
     if (ts) {
         for (i = 1; i < win->width - 1; i++) {
-            mvwaddch(win, 0, i, ts);
+            mvwaddch(win_, 0, i, ts);
         }
     } else {
         for (i = 1; i < win->width - 1; i++) {
-            mvwaddch(win, 0, i, LINE_OXOX);
+            mvwaddch(win_, 0, i, LINE_OXOX);
         }
     }
 
     if (bs) {
         for (i = 1; i < win->width - 1; i++) {
-            mvwaddch(win, win->height - 1, i, bs);
+            mvwaddch(win_, win->height - 1, i, bs);
         }
     } else {
         for (i = 1; i < win->width - 1; i++) {
-            mvwaddch(win, win->height - 1, i, LINE_OXOX);
+            mvwaddch(win_, win->height - 1, i, LINE_OXOX);
         }
     }
 
     if (tl) {
-        mvwaddch(win, 0, 0, tl);
+        mvwaddch(win_, 0, 0, tl);
     } else {
-        mvwaddch(win, 0, 0, LINE_OXXO);
+        mvwaddch(win_, 0, 0, LINE_OXXO);
     }
 
     if (tr) {
-        mvwaddch(win, 0, win->width - 1, tr);
+        mvwaddch(win_, 0, win->width - 1, tr);
     } else {
-        mvwaddch(win, 0, win->width - 1, LINE_OOXX);
+        mvwaddch(win_, 0, win->width - 1, LINE_OOXX);
     }
 
     if (bl) {
-        mvwaddch(win, win->height - 1, 0, bl);
+        mvwaddch(win_, win->height - 1, 0, bl);
     } else {
-        mvwaddch(win, win->height - 1, 0, LINE_XXOO);
+        mvwaddch(win_, win->height - 1, 0, LINE_XXOO);
     }
 
     if (br) {
-        mvwaddch(win, win->height - 1, win->width - 1, br);
+        mvwaddch(win_, win->height - 1, win->width - 1, br);
     } else {
-        mvwaddch(win, win->height - 1, win->width - 1, LINE_XOOX);
+        mvwaddch(win_, win->height - 1, win->width - 1, LINE_XOOX);
     }
 
     //methods above move the cursor, put it back
-    wmove(win, oldy, oldx);
-    wattroff(win, c_white);
+    wmove(win_, oldy, oldx);
+    wattroff(win_, c_white);
 }
 
 void catacurses::mvwhline( const window &win, int y, int x, chtype ch, int n )
@@ -431,7 +431,7 @@ void catacurses::werase(const window &win_)
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove(win, 0, 0);
+    wmove(win_, 0, 0);
     //    wrefresh(win);
     handle_additional_window_clear( win );
 }
@@ -479,7 +479,7 @@ void catacurses::mvwaddch(const window &win, int y, int x, const chtype ch)
 void catacurses::wclear( const window &win_)
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    werase(win);
+    werase(win_);
     if( win == nullptr ) {
         //@todo log this
         return;
