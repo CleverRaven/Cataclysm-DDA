@@ -303,8 +303,7 @@ void event_manager::add( const event_type type, const time_point &when, const in
 void event_manager::add( const event_type type, const time_point &when, const int faction_id,
                          const tripoint center )
 {
-    event tmp( type, when, faction_id, center );
-    events.push_back( tmp );
+    events.emplace_back( type, when, faction_id, center );
 }
 
 bool event_manager::queued( const event_type type ) const
