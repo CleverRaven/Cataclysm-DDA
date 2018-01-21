@@ -14,6 +14,7 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
