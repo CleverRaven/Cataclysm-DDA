@@ -1458,57 +1458,36 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     target = t.disp_name();
 
-    // Bonus attacks!
-    bool shock_them = (has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
-                       (weap.has_flag( "UNARMED_WEAPON" ) || weap.made_of( material_id( "iron" ) ) ||
-                        weap.made_of( material_id( "steel" ) ) || weap.made_of( material_id( "silver" ) ) ||
-                        weap.made_of( material_id( "gold" ) ) || weap.made_of( material_id( "superalloy" ) )) && one_in(3));
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
+        ( !is_armed() || weapon.conductive() ) ) {
+        charge_power( -2 );
+        d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
-    bool drain_them = (has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && power_level >= 1 &&
-                       weap.is_null() && t.is_warm());
-    drain_them &= one_in(2); // Only works half the time
-
-    bool burn_them = weap.has_flag("FLAMING");
-
-
-    if (shock_them) { // bionics only
-        charge_power(-2);
-        int shock = rng(2, 5);
-        d.add_damage(DT_ELECTRIC, shock * rng(1, 3));
-
-        if (is_player()) {
-            dump << string_format(_("You shock %s."), target.c_str()) << std::endl;
-        } else
-            add_msg_player_or_npc(m_good, _("You shock %s."),
-                                          _("<npcname> shocks %s."),
-                                          target.c_str());
-    }
-
-    if (drain_them) { // bionics only
-        power_level--;
-        charge_power(rng(0, 2));
-        d.add_damage(DT_COLD, 1);
-        if (t.is_player()) {
-            add_msg_if_npc(m_bad, _("<npcname> drains your body heat!"));
+        if( is_player() ) {
+            dump << string_format( _("You shock %s."), target.c_str() ) << std::endl;
         } else {
-            if (is_player()) {
-                dump << string_format(_("You drain %s's body heat."), target.c_str()) << std::endl;
-            } else
-                add_msg_player_or_npc(m_good, _("You drain %s's body heat!"),
-                                              _("<npcname> drains %s's body heat!"),
-                                              target.c_str());
+            add_msg_if_npc( _("<npcname> shocks %s."), target.c_str() );
         }
     }
 
-    if (burn_them) { // for flaming weapons
-        d.add_damage(DT_HEAT, rng(1, 8));
+    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
+        charge_power( 3 );
+        d.add_damage( DT_COLD, 3 );
+        if( is_player() ) {
+            dump << string_format( _("You drain %s's body heat."), target.c_str() ) << std::endl;
+        } else {
+            add_msg_if_npc( _("<npcname> drains %s's body heat!"), target.c_str() );
+        }
+    }
 
-        if (is_player()) {
-            dump << string_format(_("You burn %s."), target.c_str()) << std::endl;
-        } else
-            add_msg_player_or_npc(m_good, _("You burn %s."),
-                                     _("<npcname> burns %s."),
-                                     target.c_str());
+    if( weapon.has_flag( "FLAMING" ) ) {
+        d.add_damage( DT_HEAT, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump << string_format( _("You burn %s."), target.c_str() ) << std::endl;
+        } else {
+            add_msg_player_or_npc( _("<npcname> burns %s."), target.c_str());
+        }
     }
 
     //Hurting the wielder from poorly-chosen weapons

@@ -99,7 +99,6 @@ public:
     int combatsaw_off       ( player*, item*, bool, const tripoint& );
     int combatsaw_on        ( player*, item*, bool, const tripoint& );
     int jackhammer          ( player*, item*, bool, const tripoint& );
-    int jacqueshammer       ( player*, item*, bool, const tripoint& );
     int pickaxe             ( player*, item*, bool, const tripoint& );
     int geiger              ( player*, item*, bool, const tripoint& );
     int teleport            ( player*, item*, bool, const tripoint& );

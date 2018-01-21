@@ -127,7 +127,7 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( WINDOW *w, const int list_width )
+void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
     mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
@@ -198,13 +198,13 @@ void construction_menu()
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
     catacurses::WINDOW_PTR w_con_ptr {catacurses::newwin( w_height, w_width, w_y0, w_x0 )};
-    WINDOW *const w_con = w_con_ptr.get();
+    catacurses::window const w_con = w_con_ptr.get();
 
     const int w_list_width = int( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::WINDOW_PTR w_list_ptr {catacurses::newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
-    WINDOW *const w_list = w_list_ptr.get();
+    catacurses::window const w_list = w_list_ptr.get();
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -1272,8 +1272,7 @@ void check_constructions()
     }
 }
 
-int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
-                              nc_color col ) const
+int construction::print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const
 {
     std::string text = get_time_string();
     return fold_and_print( w, ypos, xpos, width, col, text );

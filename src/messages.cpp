@@ -246,7 +246,7 @@ void Messages::display_messages()
                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
 
-    WINDOW *const w = w_ptr.get();
+    const catacurses::window w = w_ptr.get();
 
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
@@ -387,8 +387,8 @@ void Messages::display_messages()
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void Messages::display_messages( WINDOW *const ipk_target, int const left, int const top,
-                                 int const right, int const bottom )
+void Messages::display_messages( const catacurses::window &ipk_target, int const left,
+                                 int const top, int const right, int const bottom )
 {
     if( !size() ) {
         return;

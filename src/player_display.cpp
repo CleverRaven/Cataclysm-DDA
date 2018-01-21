@@ -29,7 +29,8 @@ bool should_combine_bps( const player &p, size_t l, size_t r )
            temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
 }
 
-void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
+void player::print_encumbrance( const catacurses::window &win, int line,
+                                item *selected_clothing ) const
 {
     const int height = getmaxy( win );
     int orig_line = line;
@@ -696,8 +697,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 6, 21, c_magenta, "%+.1lf", get_hit_base() );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
-                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge: +%d" ) );
-                    mvwprintz( w_stats, 8, 22, c_magenta, "%3d", throw_dispersion_per_dodge( false ) );
+                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
+                    mvwprintz( w_stats, 8, 23, c_magenta, "%+3d", throw_dispersion_per_dodge( false ) );
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "

@@ -26,7 +26,7 @@ minesweeper_game::minesweeper_game()
     iOffsetY = 0;
 }
 
-void minesweeper_game::new_level(WINDOW *w_minesweeper)
+void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 {
     iMaxY = getmaxy(w_minesweeper) - 2;
     iMaxX = getmaxx(w_minesweeper) - 2;

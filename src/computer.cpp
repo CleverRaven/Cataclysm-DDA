@@ -52,8 +52,8 @@ computer_option::computer_option( std::string N, computer_action A, int S )
 computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
     security = new_security;
-    w_terminal = NULL;
-    w_border = NULL;
+    w_terminal = catacurses::window();
+    w_border = catacurses::window();
     mission_id = -1;
 }
 
@@ -74,8 +74,8 @@ computer &computer::operator=(const computer &rhs)
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
-    w_terminal = NULL;
-    w_border = NULL;
+    w_terminal = catacurses::window();
+    w_border = catacurses::window();
     return *this;
 }
 
@@ -113,10 +113,10 @@ void computer::shutdown_terminal()
     alerts = 0;
     werase(w_terminal);
     delwin(w_terminal);
-    w_terminal = NULL;
+    w_terminal = catacurses::window();
     werase(w_border);
     delwin(w_border);
-    w_border = NULL;
+    w_border = catacurses::window();
 }
 
 void computer::use()
@@ -136,7 +136,7 @@ void computer::use()
     // Login
     print_line(_("Logging into %s..."), name.c_str());
     if (security > 0) {
-        if (int(calendar::turn) < next_attempt) {
+        if( calendar::turn < next_attempt ) {
             print_error( _("Access is temporary blocked for security purposes.") );
             query_any(_("Please contact the system administrator."));
             reset_terminal();
@@ -1039,8 +1039,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Atlanta, GA 30329\n\
   \n\
   EPA Region 8 Laboratory\n\
-  16194 W. 45th\n\
-  Drive Golden, Colorado 80403\n\
+  16194 W. 45th Drive\n\
+  Golden, Colorado 80403\n\
   \n\
   These samples must be accurate and any attempts to cover\n\
   incompetencies will result in charges of Federal Corruption\n\
@@ -1201,7 +1201,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = int(calendar::turn) + 450;
+    next_attempt = calendar::turn + 450_turns;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );

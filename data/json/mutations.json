@@ -691,10 +691,10 @@
     },{
         "type" : "mutation",
         "id" : "ANTIWHEAT",
-        "name" : "Wheat Allergy",
+        "name" : "Grain Intolerance",
         "points" : -2,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",

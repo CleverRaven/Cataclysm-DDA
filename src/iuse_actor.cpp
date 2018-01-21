@@ -1881,7 +1881,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         } else if (!npc_descriptions.empty() && p.is_npc() ) {
             desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( npc_descriptions ).c_str() );
         }
-    } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
+    } else if( morale_effect < 0 && ( int(calendar::turn) % 10 ) == 0 ) {
         // No musical skills = possible morale penalty
         if ( p.is_player() ) {
             desc = _("You produce an annoying sound");

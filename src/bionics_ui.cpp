@@ -55,7 +55,7 @@ char get_free_invlet( player &p )
     return ' ';
 }
 
-void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
+void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
@@ -115,8 +115,8 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
     return power_desc.str();
 }
 
-void draw_bionics_tabs( WINDOW *win, const size_t active_num, const size_t passive_num,
-                        const bionic_tab_mode current_mode )
+void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
+                        const size_t passive_num, const bionic_tab_mode current_mode )
 {
     werase( win );
 
@@ -134,7 +134,7 @@ void draw_bionics_tabs( WINDOW *win, const size_t active_num, const size_t passi
     wrefresh( win );
 }
 
-void draw_description( WINDOW *win, bionic const &bio )
+void draw_description( const catacurses::window &win, bionic const &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -156,8 +156,8 @@ void draw_description( WINDOW *win, bionic const &bio )
     wrefresh( win );
 }
 
-void draw_connectors( WINDOW *win, const int start_y, const int start_x, const int last_x,
-                      const bionic_id &bio_id )
+void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
+                      const int last_x, const bionic_id &bio_id )
 {
     const int LIST_START_Y = 6;
     // first: pos_y, second: occupied slots

@@ -584,7 +584,7 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 #endif
 
 namespace {
-void draw_weather_curses(WINDOW *const win, weather_printable const &w)
+void draw_weather_curses( const catacurses::window &win, weather_printable const &w )
 {
     for (auto const &drop : w.vdrops) {
         mvwputch(win, drop.second, drop.first, w.colGlyph, w.cGlyph);
@@ -678,7 +678,7 @@ void game::draw_sct()
 #endif
 
 namespace {
-void draw_zones_curses( WINDOW *const w, const tripoint &start, const tripoint &end, const tripoint &offset )
+void draw_zones_curses( const catacurses::window &w, const tripoint &start, const tripoint &end, const tripoint &offset )
 {
     if( end.x < start.x || end.y < start.y || end.z < start.z ) {
         return;

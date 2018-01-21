@@ -11,7 +11,7 @@
 #include <cmath>  // max in help_main
 #include <vector>
 
-void help_draw_dir( WINDOW *win, int line_y )
+void help_draw_dir( const catacurses::window &win, int line_y )
 {
     std::array<action_id, 9> movearray = {{
             ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
@@ -38,7 +38,7 @@ void help_draw_dir( WINDOW *win, int line_y )
     }
 }
 
-void help_main( WINDOW *win )
+void help_main( const catacurses::window &win )
 {
     werase( win );
     int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
@@ -88,7 +88,7 @@ Press q or ESC to return to the game." ) ) + 1;
     wrefresh( win );
 }
 
-void help_movement( WINDOW *win )
+void help_movement( const catacurses::window &win )
 {
     werase( win );
     std::vector<std::string> text;
@@ -131,7 +131,7 @@ monsters enter the player's view." ),
     multipage( win, remained_text, "", pos_y );
 }
 
-void help_driving( WINDOW *win )
+void help_driving( const catacurses::window &win )
 {
     std::vector<std::string> text;
     werase( win );
@@ -784,7 +784,7 @@ contain useful crafting recipes." ),
     return text;
 }
 
-void help_map( WINDOW *win )
+void help_map( const catacurses::window &win )
 {
     werase( win );
     mvwprintz( win, 0, 0, c_light_gray,  _( "MAP SYMBOLS:" ) );

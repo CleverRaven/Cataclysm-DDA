@@ -29,7 +29,7 @@ void live_view::init()
     hide();
 }
 
-int live_view::draw( WINDOW *win, int const max_height )
+int live_view::draw( const catacurses::window &win, int const max_height )
 {
     if( !enabled ) {
         return 0;
@@ -52,8 +52,8 @@ int live_view::draw( WINDOW *win, int const max_height )
     // window tall enough. Won't work for ncurses in Linux, but that doesn't
     // currently support the mouse. If and when it does, there'll need to
     // be a different code path here that works for ncurses.
-    const int original_height = window( win ).get<cata_cursesport::WINDOW>()->height;
-    window( win ).get<cata_cursesport::WINDOW>()->height = live_view_box_height;
+    const int original_height = win.get<cata_cursesport::WINDOW>()->height;
+    win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;
 #endif
 
     draw_border( win );
@@ -67,7 +67,7 @@ int live_view::draw( WINDOW *win, int const max_height )
     wprintz( win, c_white, title_suffix );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    window( win ).get<cata_cursesport::WINDOW>()->height = original_height;
+    win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
 
     return live_view_box_height;

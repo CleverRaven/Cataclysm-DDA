@@ -28,9 +28,6 @@ Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/m
 
 ## Community
 
-Cataclysm: Dark Days Ahead main site, includes links to forum, wiki, and GitHub repo:
-http://en.cataclysmdda.com/
-
 Forums:
 https://discourse.cataclysmdda.org
 

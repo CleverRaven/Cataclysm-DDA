@@ -11,7 +11,7 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": "Active Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of more energy.  Melee attacks will be stopped more often than bullets.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
@@ -36,7 +36,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 16
+    "time": 100
   },
   {
     "id": "bio_ankles",
@@ -616,7 +616,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 1
+    "time": 10
   },
   {
     "id": "bio_noise",
@@ -638,7 +638,7 @@
     "id": "bio_ods",
     "type": "bionic",
     "name": "Offensive Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 10,
@@ -813,9 +813,9 @@
     "description": "While this system is powered, your body will produce very little odor, making it nearly impossible for creatures to track you by scent.",
     "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 10,
-    "react_cost": 10,
-    "time": 1
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 10
   },
   {
     "id": "bio_scent_vision",

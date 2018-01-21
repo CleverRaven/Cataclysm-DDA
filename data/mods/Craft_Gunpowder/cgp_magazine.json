@@ -13,7 +13,7 @@
     "ammo_type": "22",
     "capacity": 30,
     "reliability": 5,
-    "reload_time": 200
+    "reload_time": 500
   },
   {
     "id": "smg_38_mag",

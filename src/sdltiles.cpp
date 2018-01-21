@@ -1691,7 +1691,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         return false;
     }
 
-    cata_cursesport::WINDOW *const capture_win = catacurses::window( capture_win_.get() ? capture_win_.get() : g->w_terrain ).get<cata_cursesport::WINDOW>();
+    cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ : g->w_terrain ).get<cata_cursesport::WINDOW>();
 
     // this contains the font dimensions of the capture_win,
     // not necessarily the global standard font dimensions.

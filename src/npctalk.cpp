@@ -184,7 +184,7 @@ struct dialogue {
          * TODO: make it a reference, not a pointer.
          */
         npc *beta = nullptr;
-        WINDOW *win = nullptr;
+        catacurses::window win;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -3677,7 +3677,7 @@ bool trade( npc &p, int cost, const std::string &deal )
     const int win_they_w = TERMX / 2;
     catacurses::window w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
     catacurses::window w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
-    WINDOW *w_tmp;
+    catacurses::window w_tmp;
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
@@ -4426,6 +4426,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
             return _( "Here we go..." );
         }
     }

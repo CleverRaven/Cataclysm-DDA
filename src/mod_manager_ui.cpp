@@ -12,7 +12,6 @@ mod_ui::mod_ui( mod_manager *mman )
         active_manager = mman;
         mm_tree = &active_manager->get_tree();
         set_usable_mods();
-        DebugLog( D_INFO, DC_ALL ) << "mod_ui initialized";
     } else {
         DebugLog( D_ERROR, DC_ALL ) << "mod_ui initialized with NULL mod_manager pointer";
     }

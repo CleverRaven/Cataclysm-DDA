@@ -223,7 +223,7 @@ std::string robot_finds_kitten::getmessage(int idx)
     }
 }
 
-robot_finds_kitten::robot_finds_kitten(WINDOW *w)
+robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
     ret = false;
     char ktile[83] =
@@ -349,7 +349,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
 }
 
-void robot_finds_kitten::instructions(WINDOW *w)
+void robot_finds_kitten::instructions( const catacurses::window &w )
 {
     int pos = 1;
     pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_light_gray, _("robotfindskitten v22July2008"));
@@ -372,7 +372,7 @@ The game ends when robotfindskitten. Alternatively, you may end the game by hitt
     inp_mngr.wait_for_any_key();
 }
 
-void robot_finds_kitten::process_input(int input, WINDOW *w)
+void robot_finds_kitten::process_input( int input, const catacurses::window &w )
 {
     timespec ts;
     ts.tv_sec = 1;
@@ -484,12 +484,12 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     robot.y = check_y;
 }
 
-void robot_finds_kitten::draw_robot(WINDOW *w)  /* Draws robot at current position */
+void robot_finds_kitten::draw_robot( const catacurses::window &w )  /* Draws robot at current position */
 {
     wputch(w, robot.color, robot.character);
 }
 
-void robot_finds_kitten::draw_kitten(WINDOW *w)  /* Draws kitten at current position */
+void robot_finds_kitten::draw_kitten( const catacurses::window &w )  /* Draws kitten at current position */
 {
     wputch(w, kitten.color, kitten.character);
 }

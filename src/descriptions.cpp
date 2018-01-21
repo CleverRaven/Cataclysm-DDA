@@ -21,7 +21,7 @@ enum class description_target : int {
 
 const Creature *seen_critter( const game &g, const tripoint &p )
 {
-    const Creature *critter = g.critter_at( p );
+    const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {
         return critter;
     }

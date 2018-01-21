@@ -667,7 +667,7 @@ long inventory_column::reassign_custom_invlets( const player &p, long min_invlet
     return cur_invlet;
 }
 
-void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
+void inventory_column::draw( const catacurses::window &win, size_t x, size_t y ) const
 {
     if( !visible() ) {
         return;
@@ -1138,7 +1138,7 @@ size_t inventory_selector::get_footer_min_width() const
     return result;
 }
 
-void inventory_selector::draw_header( WINDOW *w ) const
+void inventory_selector::draw_header( const catacurses::window &w ) const
 {
     trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, "%s", title.c_str() );
     trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, "%s", hint.c_str() );
@@ -1271,7 +1271,7 @@ void inventory_selector::update()
     refresh_window();
 }
 
-void inventory_selector::draw_columns( WINDOW *w ) const
+void inventory_selector::draw_columns( const catacurses::window &w ) const
 {
     const auto columns = get_visible_columns();
 
@@ -1308,7 +1308,7 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     }
 }
 
-void inventory_selector::draw_frame( WINDOW *w ) const
+void inventory_selector::draw_frame( const catacurses::window &w ) const
 {
     draw_border( w );
 
@@ -1326,7 +1326,7 @@ std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode
     return std::make_pair( _( "There are no available choices" ), i_red );
 }
 
-void inventory_selector::draw_footer( WINDOW *w ) const
+void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {

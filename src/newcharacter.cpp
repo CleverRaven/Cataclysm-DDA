@@ -61,8 +61,8 @@
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
-void draw_tabs(WINDOW *w, std::string sTab);
-void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
+void draw_tabs( const catacurses::window &w, std::string sTab );
+void draw_points( const catacurses::window &w, points_left &points, int netPointCost = 0 );
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
 struct points_left {
@@ -167,13 +167,13 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( WINDOW *w, player *u, points_left &points );
-tab_direction set_stats( WINDOW *w, player *u, points_left &points );
-tab_direction set_traits( WINDOW *w, player *u, points_left &points );
-tab_direction set_scenario( WINDOW *w, player *u, points_left &points );
-tab_direction set_profession( WINDOW *w, player *u, points_left &points );
-tab_direction set_skills( WINDOW *w, player *u, points_left &points );
-tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_left &points);
+tab_direction set_points( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_stats( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_traits( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_scenario( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_profession( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_skills( const catacurses::window &w, player *u, points_left &points );
+tab_direction set_description( const catacurses::window &w, player *u, bool allow_reroll, points_left &points );
 
 void save_template( player *u, std::string name = "" );
 void reset_scenario( player *u, const scenario *scen );
@@ -421,7 +421,7 @@ bool player::create(character_type type, std::string tempname)
     g->scen = scenario::generic();
 
 
-    WINDOW *w = nullptr;
+    catacurses::window w;
     if( type != PLTYPE_NOW ) {
         w = catacurses::newwin( TERMY, TERMX, 0, 0 );
     }
@@ -618,7 +618,7 @@ bool player::create(character_type type, std::string tempname)
     return true;
 }
 
-void draw_tabs(WINDOW *w, std::string sTab)
+void draw_tabs( const catacurses::window &w, std::string sTab )
 {
     for (int i = 1; i < TERMX - 1; i++) {
         mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
@@ -673,7 +673,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, TERMY - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, TERMY - 1, TERMX - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
-void draw_points( WINDOW *w, points_left &points, int netPointCost )
+void draw_points( const catacurses::window &w, points_left &points, int netPointCost )
 {
     // Clear line (except borders)
     mvwprintz( w, 3, 2, c_black, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
@@ -689,7 +689,7 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
 }
 
 template <class Compare>
-void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorter)
+void draw_sorting_indicator( const catacurses::window &w_sorting, input_context ctxt, Compare sorter )
 {
     auto const sort_order = sorter.sort_by_points ? _("points") : _("name");
     auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
@@ -699,7 +699,7 @@ void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorte
     fold_and_print(w_sorting, 0, 16, (TERMX / 2), c_light_gray, sort_help);
 }
 
-tab_direction set_points( WINDOW *w, player *, points_left &points )
+tab_direction set_points( const catacurses::window &w, player *, points_left &points )
 {
     tab_direction retval = tab_direction::NONE;
     const int content_height = TERMY - 6;
@@ -794,7 +794,7 @@ Scenarios and professions affect skill point pool" ) );
     return retval;
 }
 
-tab_direction set_stats(WINDOW *w, player *u, points_left &points)
+tab_direction set_stats( const catacurses::window &w, player *u, points_left &points )
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
@@ -1004,7 +1004,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
     } while (true);
 }
 
-tab_direction set_traits(WINDOW *w, player *u, points_left &points)
+tab_direction set_traits( const catacurses::window &w, player *u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
@@ -1277,7 +1277,7 @@ struct {
 } profession_sorter;
 
 /** Handle the profession tab of teh character generation menu */
-tab_direction set_profession(WINDOW *w, player *u, points_left &points)
+tab_direction set_profession( const catacurses::window &w, player *u, points_left &points )
 {
     draw_tabs( w, _("PROFESSION") );
     int cur_id = 0;
@@ -1584,7 +1584,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
-tab_direction set_skills(WINDOW *w, player *u, points_left &points)
+tab_direction set_skills( const catacurses::window &w, player *u, points_left &points )
 {
     draw_tabs( w, _("SKILLS") );
     const int iContentHeight = TERMY - 6;
@@ -1798,7 +1798,7 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
+tab_direction set_scenario( const catacurses::window &w, player *u, points_left &points )
 {
     draw_tabs( w, _("SCENARIO") );
 
@@ -2091,7 +2091,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
     return retval;
 }
 
-tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, points_left &points)
+tab_direction set_description( const catacurses::window &w, player *u, const bool allow_reroll, points_left &points )
 {
     draw_tabs( w, _("DESCRIPTION") );
 

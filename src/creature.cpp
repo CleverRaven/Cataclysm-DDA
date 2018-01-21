@@ -165,16 +165,6 @@ bool Creature::sees( const Creature &critter ) const
     return sees( critter.pos(), critter.is_player() );
 }
 
-bool Creature::sees( const int tx, const int ty ) const
-{
-    return sees( tripoint( tx, ty, posz() ) );
-}
-
-bool Creature::sees( const point t ) const
-{
-    return sees( tripoint( t, posz() ) );
-}
-
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
     if( !fov_3d && posz() != t.z ) {
@@ -1384,12 +1374,12 @@ units::mass Creature::get_weight() const
 /*
  * Drawing-related functions
  */
-void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
+void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
 {
     draw( w, tripoint( player_x, player_y, posz() ), inverted );
 }
 
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
 {
     if (is_draw_tiles_mode()) {
         return;
