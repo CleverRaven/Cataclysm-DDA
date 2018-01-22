@@ -27,9 +27,6 @@ struct overmap_location {
         bool was_loaded = false;
 
     private:
-        enum class mode_t { allow, prohibit };
-
-        mode_t mode;
         std::vector<string_id<oter_type_t>> terrains;
 };
 

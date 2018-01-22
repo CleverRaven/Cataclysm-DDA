@@ -98,7 +98,7 @@ class monster : public Creature
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
-        int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
@@ -119,7 +119,6 @@ class monster : public Creature
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
-        using Creature::sees;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 

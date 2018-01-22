@@ -146,7 +146,7 @@
             "str_min": 120, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
                 { "item": "rock", "count": [10, 22] },
                 { "item": "scrap", "count": [4, 12] },
@@ -166,7 +166,7 @@
             "str_min": 60, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
                 { "item": "rock", "count": [5, 11] },
                 { "item": "scrap", "count": [4, 12] },
@@ -179,8 +179,9 @@
         "name": "rebar cage",
         "symbol": "#",
         "color": "dark_gray",
-        "move_cost": 5,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 20, "str_max": 100,
             "sound": "metal screeching!",
@@ -797,7 +798,7 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_log_half",
-        "name": "half-built wall",
+        "name": "half-built log wall",
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,

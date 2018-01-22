@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 07:26-0500\n"
+"POT-Creation-Date: 2018-01-19 08:34-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9757,7 +9757,7 @@ msgstr[1] ""
 #. ~ Description for pair of steel leg guards
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, "
+"A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
 msgstr ""
 
@@ -13592,8 +13592,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything "
 "attempting to penetrate this field has a chance of being deflected at the "
@@ -14378,8 +14377,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock, "
@@ -15463,12 +15461,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -15500,7 +15498,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -15571,12 +15569,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -23997,6 +23995,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "'special' brownie"
+msgstr ""
+
+#. ~ Description for 'special' brownie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "This is definitely not how grandma used to bake them."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Spice"
 msgstr ""
 
@@ -24523,15 +24530,6 @@ msgstr[1] ""
 msgid ""
 "A powdered form of chemical disinfectant, this bismuth formic iodide cleans "
 "wounds quickly and painlessly."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "special brownie"
-msgstr ""
-
-#. ~ Description for special brownie
-#: lang/json/COMESTIBLE_from_json.py
-msgid "This is definitely not how grandma used to bake them."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -36139,17 +36137,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr ""
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "eyebot"
 msgstr ""
 
@@ -40622,15 +40609,6 @@ msgstr[1] ""
 msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
-msgstr ""
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as "
-"could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47939,6 +47917,15 @@ msgstr ""
 msgid "Active Defense System"
 msgstr ""
 
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything "
+"attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in "
+"turn more often than massive objects."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr ""
@@ -48345,6 +48332,14 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
+msgstr ""
+
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -59642,7 +59637,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-" This clothing has a wool lining sewn into it to <good>increase</good> its "
+"This clothing has a wool lining sewn into it to <good>increase</good> its "
 "overall <info>warmth</info>."
 msgstr ""
 
@@ -64682,7 +64677,7 @@ msgstr ""
 msgid "Ate Junk Food"
 msgstr ""
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr ""
 
@@ -66190,11 +66185,16 @@ msgid ""
 "nausea."
 msgstr ""
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -86102,7 +86102,7 @@ msgid "Utility Light"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
+msgid "half-built log wall"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86123,6 +86123,10 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -93726,8 +93730,8 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
@@ -103071,6 +103075,10 @@ msgid "The nearby doors slide into the floor."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr ""
 
@@ -105177,11 +105185,6 @@ msgstr[1] ""
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr ""
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] ""
@@ -105887,7 +105890,8 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
 msgstr ""
 
 #: src/iuse.cpp
@@ -111497,17 +111501,8 @@ msgid "<npcname> shocks %s."
 msgstr ""
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr ""
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
 msgstr ""
 
 #: src/melee.cpp

@@ -478,7 +478,7 @@ class npc : public player
 
         // Display
         nc_color basic_symbol_color() const override;
-        int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string short_description() const;
         std::string opinion_text() const;
 

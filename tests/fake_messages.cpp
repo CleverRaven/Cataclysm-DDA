@@ -25,7 +25,7 @@ bool Messages::has_undisplayed_messages()
     return false;
 }
 void Messages::display_messages() {}
-void Messages::display_messages( WINDOW *, int, int, int, int ) {}
+void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( JsonObject & ) {}
 

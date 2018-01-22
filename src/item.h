@@ -213,8 +213,8 @@ class item : public visitable<item>
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
 
-        explicit item( const itype_id& id, time_point turn = -1, long qty = -1 );
-        explicit item( const itype *type, time_point turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -290,7 +290,7 @@ class item : public visitable<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = calendar::turn, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -689,8 +689,8 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
-    /** Turns for this item to be fully fermented. */
-    int brewing_time() const;
+        /** Time for this item to be fully fermented. */
+        time_duration brewing_time() const;
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
@@ -1213,10 +1213,10 @@ public:
          */
         bool is_seed() const;
         /**
-         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        int get_plant_epoch() const;
+        time_duration get_plant_epoch() const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.

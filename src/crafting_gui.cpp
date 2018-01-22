@@ -32,9 +32,11 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec );
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec );
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+                              TAB_MODE mode = NORMAL );
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
 
 std::string get_cat_name( std::string prefixed_name )
@@ -95,7 +97,8 @@ void reset_recipe_categories()
 }
 
 
-int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, int batch )
+int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
+                 int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
@@ -632,7 +635,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 }
 
 // Anchors top-right
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec )
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec )
 {
     // Erase previous text
     // @fixme replace this hack by proper solution (based on max width of possible content)
@@ -651,7 +655,7 @@ static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recip
     }
 }
 
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -683,7 +687,8 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab, TAB_MODE mode )
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+                                 TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );

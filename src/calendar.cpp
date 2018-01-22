@@ -19,6 +19,9 @@ calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
 
+const time_point calendar::before_time_starts = time_point::from_turn( -1 );
+const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
+
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
 
@@ -189,7 +192,7 @@ int calendar::seconds_past_midnight() const
 moon_phase calendar::moon() const
 {
     //One full phase every 2 rl months = 2/3 season length
-    static float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+    float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
 
     //Switch moon phase at noon so it stays the same all night
     const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );

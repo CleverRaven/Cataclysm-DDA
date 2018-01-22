@@ -548,6 +548,8 @@ stat_mod player::get_pain_penalty() const
 }
 
 player::player() : Character()
+, next_climate_control_check( calendar::before_time_starts )
+, cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid
     str_cur = 8;
@@ -578,9 +580,7 @@ player::player() : Character()
     start_location = start_location_id( "shelter" );
     moves = 100;
     movecounter = 0;
-    cached_turn = -1;
     oxygen = 0;
-    next_climate_control_check = 0;
     last_climate_control_ret = false;
     active_mission = nullptr;
     in_vehicle = false;
@@ -2581,7 +2581,7 @@ static std::string print_gun_mode( const player &p )
     }
 }
 
-void player::print_stamina_bar( WINDOW *w ) const
+void player::print_stamina_bar( const catacurses::window &w ) const
 {
     std::string sta_bar;
     nc_color sta_color;
@@ -2589,10 +2589,10 @@ void player::print_stamina_bar( WINDOW *w ) const
     wprintz( w, sta_color, sta_bar.c_str() );
 }
 
-void player::disp_status( WINDOW *w, WINDOW *w2 )
+void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
 {
     bool sideStyle = use_narrow_sidebar();
-    WINDOW *weapwin = sideStyle ? w2 : w;
+    const catacurses::window &weapwin = sideStyle ? w2 : w;
 
     {
         const int y = sideStyle ? 1 : 0;
@@ -3146,9 +3146,9 @@ bool player::in_climate_control()
             return true;
         }
     }
-    if( int( calendar::turn ) >= next_climate_control_check ) {
+    if( calendar::turn >= next_climate_control_check ) {
         // save cpu and simulate acclimation.
-        next_climate_control_check = int( calendar::turn ) + 20;
+        next_climate_control_check = calendar::turn + 20_turns;
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
@@ -3161,7 +3161,7 @@ bool player::in_climate_control()
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-            next_climate_control_check += 40;
+            next_climate_control_check += 40_turns;
         }
     } else {
         return last_climate_control_ret;
@@ -3584,32 +3584,30 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    const int z = posz();
     for( int xd = -5; xd <= 5; xd++ ) {
         for( int yd = -5; yd <= 5; yd++ ) {
-            const int x = posx() + xd;
-            const int y = posy() + yd;
-            const trap &tr = g->m.tr_at( tripoint( x, y, z ) );
-            if( tr.is_null() || (x == posx() && y == posy() ) ) {
+            const tripoint tp = pos() + tripoint( xd, yd, 0 );
+            const trap &tr = g->m.tr_at( tp );
+            if( tr.is_null() || tp == pos() ) {
                 continue;
             }
-            if( !sees( x, y ) ) {
+            if( !sees( tp ) ) {
                 continue;
             }
-            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tp, *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
             // Chance to detect traps we haven't yet seen.
-            if (tr.detect_trap( tripoint( x, y, z ), *this )) {
+            if (tr.detect_trap( tp, *this )) {
                 if( tr.get_visibility() > 0 ) {
                     // Only bug player about traps that aren't trivial to spot.
                     const std::string direction = direction_name(
-                        direction_from(posx(), posy(), x, y));
+                        direction_from( pos(), tp ) );
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
                                       tr.name().c_str(), direction.c_str());
                 }
-                add_known_trap( tripoint( x, y, z ), tr);
+                add_known_trap( tp, tr);
             }
         }
     }
@@ -3768,22 +3766,26 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if (has_active_bionic( bio_ods ) ) {
-        if (is_player()) {
-            add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
-                            source->disp_name().c_str());
-        } else if (u_see) {
-            add_msg(_("%1$s's offensive defense system shocks %2$s in mid-attack!"),
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && power_level > 5 ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
+                             source->disp_name().c_str());
+        } else if( u_see ) {
+            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
                         disp_name().c_str(),
-                        source->disp_name().c_str());
+                        source->disp_name().c_str() );
         }
+        int shock = rng( 1, 4 );
+        charge_power( -shock );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
-        source->deal_damage(this, bp_torso, ods_shock_damage);
+        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bp_torso, ods_shock_damage );
     }
-    if ((!(wearing_something_on(bp_hit))) && (has_trait( trait_SPINES ) || has_trait( trait_QUILLS ))) {
-        int spine = rng(1, (has_trait( trait_QUILLS ) ? 20 : 8));
-        if (!is_player()) {
+    if( !wearing_something_on( bp_hit ) &&
+        ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
+        int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
+        if( !is_player() ) {
             if( u_see ) {
                 add_msg(_("%1$s's %2$s puncture %3$s in mid-attack!"), name.c_str(),
                             (has_trait( trait_QUILLS ) ? _("quills") : _("spines")),
@@ -10355,54 +10357,48 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     if( has_bionic( bio_carbon ) ) {
         if( dt == DT_BASH ) {
             result += 2;
-        } else if( dt == DT_CUT ) {
+        } else if( dt == DT_CUT || dt == DT_STAB ) {
             result += 4;
-        } else if( dt == DT_STAB ) {
-            result += 3.2;
         }
     }
-    //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
+    // All the other bionic armors reduce bash/cut/stab by 3
     // Map body parts to a set of bionics that protect it
     // @todo: JSONize passive bionic armor instead of hardcoding it
     static const std::map< body_part, bionic_id > armor_bionics = {
-    { bp_head, { bio_armor_head } },
-    { bp_arm_l, { bio_armor_arms } },
-    { bp_arm_r, { bio_armor_arms } },
-    { bp_torso, { bio_armor_torso } },
-    { bp_leg_l, { bio_armor_legs } },
-    { bp_leg_r, { bio_armor_legs } },
-    { bp_eyes, { bio_armor_eyes } }
+        { bp_head, { bio_armor_head } },
+        { bp_arm_l, { bio_armor_arms } },
+        { bp_arm_r, { bio_armor_arms } },
+        { bp_torso, { bio_armor_torso } },
+        { bp_leg_l, { bio_armor_legs } },
+        { bp_leg_r, { bio_armor_legs } },
+        { bp_eyes, { bio_armor_eyes } }
     };
     auto iter = armor_bionics.find( bp );
-    if( iter != armor_bionics.end() ) {
-        if( has_bionic( iter->second ) ) {
-            if( dt == DT_BASH || dt == DT_CUT ) {
-                result += 3;
-            } else if( dt == DT_STAB ) {
-                result += 2.4;
-            }
-        }
+    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
+        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
+        result += 3;
     }
     return result;
 }
 
 void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
 {
-    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     // >0 check because some mutations provide negative armor
-        if( du.amount > 0.0f ) {
-            // Horrible hack warning!
-            // Get rid of this as soon as CUT and STAB are split
-            if( du.type == DT_STAB ) {
-                damage_unit du_copy = du;
-                du_copy.type = DT_CUT;
-                du.amount -= 0.8f * mutation_armor( bp, du_copy );
-            } else {
-                du.amount -= mutation_armor( bp, du );
-            }
+    // Thin skin check goes before subdermal armor plates because SUBdermal
+    if( du.amount > 0.0f ) {
+        // Horrible hack warning!
+        // Get rid of this as soon as CUT and STAB are split
+        if( du.type == DT_STAB ) {
+            damage_unit du_copy = du;
+            du_copy.type = DT_CUT;
+            du.amount -= mutation_armor( bp, du_copy );
+        } else {
+            du.amount -= mutation_armor( bp, du );
         }
-        du.amount -= mabuff_armor_bonus( du.type );
-        du.amount = std::max( 0.0f, du.amount );
+    }
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    du.amount -= mabuff_armor_bonus( du.type );
+    du.amount = std::max( 0.0f, du.amount );
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
@@ -11475,7 +11471,7 @@ float player::hearing_ability() const
     return volume_multiplier;
 }
 
-int player::print_info(WINDOW* w, int vStart, int, int column) const
+int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
     return vStart;

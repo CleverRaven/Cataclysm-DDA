@@ -415,5 +415,10 @@
     "id": "jam_strawberries",
     "type": "MIGRATION",
     "replace": "jam_fruit"
+  },
+  {
+    "id": "acidbomb_act",
+    "type": "MIGRATION",
+    "replace": "acidbomb"
   }
 ]

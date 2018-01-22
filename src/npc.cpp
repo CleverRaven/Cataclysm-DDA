@@ -1470,7 +1470,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ) {
         // Live grenade or something similar
         return -1000;
     }
@@ -1747,7 +1747,7 @@ nc_color npc::basic_symbol_color() const
     return c_pink;
 }
 
-int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
+int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
     const unsigned int iWidth = getmaxx( w ) - 2;

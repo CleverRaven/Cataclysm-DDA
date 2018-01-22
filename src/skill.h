@@ -76,15 +76,15 @@ class SkillLevel
 {
         int _level;
         int _exercise;
-        calendar _lastPracticed;
+        time_point _lastPracticed;
         bool _isTraining;
         int _highestLevel;
 
     public:
-        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0,
-                    int highestLevel = 0 );
+        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true,
+                    const time_point &lastPracticed = calendar::time_of_cataclysm, int highestLevel = 0 );
         SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
-                    int lastPracticed, int highestLevel );
+                    const time_point &lastPracticed, int highestLevel );
 
         bool isTraining() const {
             return _isTraining;
@@ -117,7 +117,7 @@ class SkillLevel
             return level() * level() * 100 + exercise();
         }
 
-        int lastPracticed() const {
+        const time_point &lastPracticed() const {
             return _lastPracticed;
         }
 

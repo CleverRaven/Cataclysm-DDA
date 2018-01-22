@@ -8597,26 +8597,26 @@
     "type": "item_group",
     "id": "bionics_subs",
     "subtype": "distribution",
-    "//": "Bionics dropped by substation mini-boss.",
-    "items": [
-      [ "bio_power_storage", 20 ],
-      [ "bio_batteries", 20 ],
-      [ "bio_ups", 15 ],
-      [ "bio_torsionratchet", 20 ],
-      [ "bio_sunglasses", 25 ],
-      [ "bio_dex_enhancer", 12 ],
-      [ "bio_str_enhancer", 12 ],
-      [ "bio_infrared", 25 ],
-      [ "bio_targeting", 20 ],
-      [ "bio_blaster", 15 ],
-      [ "bio_emp", 20 ],
-      [ "bio_chain_lightning", 15 ],
-      [ "bio_adrenaline", 20 ]
+    "//" : "Bionics dropped by substation mini-boss.",
+    "items":[
+      ["bio_power_storage", 20],
+      ["bio_batteries", 20],
+      ["bio_ups", 15],
+      ["bio_torsionratchet", 20],
+      ["bio_sunglasses", 25],
+      ["bio_dex_enhancer", 12],
+      ["bio_str_enhancer", 12],
+      ["bio_infrared", 25],
+      ["bio_targeting", 20],
+      ["bio_blaster", 15],
+      ["bio_emp", 20],
+      ["bio_chain_lightning", 15],
+      ["bio_adrenaline", 20],
+      ["bio_ods", 10]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "vault_wanderer",
+  },{
+    "type" : "item_group",
+    "id" : "vault_wanderer",
     "magazine": 100,
     "ammo": 20,
     "items": [

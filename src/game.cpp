@@ -258,27 +258,29 @@ game::game() :
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
     weather_precise( new w_point() ),
-    w_terrain(nullptr),
-    w_overmap(nullptr),
-    w_omlegend(nullptr),
-    w_minimap(nullptr),
-    w_pixel_minimap(nullptr),
-    w_HP(nullptr),
-    w_messages(nullptr),
-    w_location(nullptr),
-    w_status(nullptr),
-    w_status2(nullptr),
-    w_blackspace(nullptr),
+    w_terrain(),
+    w_overmap(),
+    w_omlegend(),
+    w_minimap(),
+    w_pixel_minimap(),
+    w_HP(),
+    w_messages(),
+    w_location(),
+    w_status(),
+    w_status2(),
+    w_blackspace(),
     pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
+    nextspawn( calendar::before_time_starts ),
+    nextweather( calendar::before_time_starts ),
+    remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter(0),
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
-    remoteveh_cache_turn = INT_MIN;
     temperature = 0;
     player_was_sleeping = false;
     reset_light_level();
@@ -758,7 +760,8 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
+    //@todo shouln't that use calendar::start instead of INITIAL_TIME?
+    nextweather = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -778,7 +781,7 @@ void game::setup()
     npc_kills.clear();
     scent.reset();
 
-    remoteveh_cache_turn = INT_MIN;
+    remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
 }
@@ -852,10 +855,10 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = int(calendar::turn);
+    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
-    u.next_climate_control_check = 0;  // Force recheck at startup
+    u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
     //Reset character safe mode/pickup rules
@@ -1450,8 +1453,8 @@ bool game::do_turn()
     reset_light_level();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400)) {
+    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
+        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -1775,7 +1778,9 @@ void game::update_weather()
 
         temperature = w.temperature;
         lightning_active = false;
-        nextweather = calendar::turn + 50; // Check weather each 50 turns.
+        // Check weather every few turns, instead of every turn.
+        //@todo predict when the weather changes and use that time.
+        nextweather = calendar::turn + 50_turns;
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -2461,10 +2466,10 @@ void game::rcdrive(int dx, int dy)
 
 vehicle *game::remoteveh()
 {
-    if( calendar::turn == remoteveh_cache_turn ) {
+    if( calendar::turn == remoteveh_cache_time ) {
         return remoteveh_cache;
     }
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
@@ -2484,7 +2489,7 @@ vehicle *game::remoteveh()
 
 void game::setremoteveh(vehicle *veh)
 {
-    remoteveh_cache_turn = calendar::turn;
+    remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
@@ -2569,7 +2574,7 @@ bool game::handle_action()
             }
 
             int mx, my;
-            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
+            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
@@ -3695,7 +3700,7 @@ void game::load(std::string worldname, const save_t &name)
     }
 
     read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather, this, _1 ) );
-    nextweather = int(calendar::turn);
+    nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
 
@@ -4086,7 +4091,7 @@ void game::debug()
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), int( nextspawn ),
+                int( calendar::turn ), to_turn<int>( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures(), events.size() );
@@ -4806,7 +4811,7 @@ faction *game::list_factions(std::string title)
 }
 
 // A little helper to draw footstep glyphs.
-static void draw_footsteps( WINDOW *window, const tripoint &offset )
+static void draw_footsteps( const catacurses::window &window, const tripoint &offset )
 {
     for( const auto &footstep : sounds::get_footstep_markers() ) {
         char glyph = '?';
@@ -4868,7 +4873,7 @@ void game::draw_sidebar()
     }
     u.disp_status(w_status, w_status2);
 
-    WINDOW *time_window = sideStyle ? w_status2 : w_status;
+    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
         wprintz(time_window, c_white, "%s", calendar::turn.print_time().c_str());
@@ -4952,7 +4957,7 @@ void game::draw_sidebar()
     wrefresh(w_location);
 
     //Safemode coloring
-    WINDOW *day_window = sideStyle ? w_status2 : w_status;
+    catacurses::window day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
@@ -5155,7 +5160,7 @@ void game::draw_HP()
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
 
-        static auto print_symbol_num = []( WINDOW *w, int num, const std::string &sym,
+        static auto print_symbol_num = []( const catacurses::window &w, int num, const std::string &sym,
                                            const nc_color color ) {
             while( num-- > 0 ) {
                 wprintz( w, color, sym.c_str() );
@@ -5571,7 +5576,7 @@ std::vector<monster*> game::get_fishable(int distance)
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.
-int game::mon_info(WINDOW *w)
+int game::mon_info( const catacurses::window &w )
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
@@ -7081,7 +7086,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
         }
     }
     const tripoint kbp( kbx, kby, p.z );
-    const bool can_see = u.sees(x, y);
+    const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ) );
     if (npc_or_player != nullptr) {
         if (bash_dmg <= 0) {
@@ -7744,7 +7749,7 @@ tripoint game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
@@ -7806,7 +7811,7 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
     }
 }
 
-void game::print_visibility_info( WINDOW *w_look, int column, int &line,
+void game::print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                   visibility_type visibility )
 {
     const char* visibility_message = nullptr;
@@ -7835,7 +7840,7 @@ void game::print_visibility_info( WINDOW *w_look, int column, int &line,
     line += 2;
 }
 
-void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line)
+void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
     int ending_line = line + 3;
     std::string tile = m.tername( lp );
@@ -7882,7 +7887,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     }
 }
 
-void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line)
+void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
@@ -7893,7 +7898,7 @@ void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, in
     }
 }
 
-void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line)
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line )
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
@@ -7901,7 +7906,7 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
     }
 }
 
-void game::print_creature_info( const Creature *creature, WINDOW *w_look,
+void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
                                 const int column, int &line )
 {
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
@@ -7909,7 +7914,7 @@ void game::print_creature_info( const Creature *creature, WINDOW *w_look,
     }
 }
 
-void game::print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                const int column, int &line, const int last_line )
 {
     if (veh) {
@@ -7948,7 +7953,7 @@ void game::print_visibility_indicator( visibility_type visibility )
     mvwputch(w_terrain, POSY, POSX, visibility_indicator_color, visibility_indicator);
 }
 
-void game::print_items_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line,
                              const int last_line )
 {
     if( !m.sees_some_items( lp, u ) ) {
@@ -7983,7 +7988,7 @@ void game::print_items_info( const tripoint &lp, WINDOW *w_look, const int colum
     }
 }
 
-void game::print_graffiti_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line,
                              const int last_line )
 {
     if (line > last_line) {
@@ -8009,7 +8014,7 @@ bool game::check_zone( const std::string &type, const tripoint &where ) const
     return zone_manager::get_manager().has( type, m.getabs( where ) );
 }
 
-void game::zones_manager_shortcuts(WINDOW *w_info)
+void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
 
@@ -8029,7 +8034,7 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
     wrefresh(w_info);
 }
 
-void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border,
+void game::zones_manager_draw_borders( const catacurses::window &w_border, const catacurses::window &w_info_border,
                                       const int iInfoHeight, const int width)
 {
     for (int i = 1; i < TERMX; ++i) {
@@ -8361,7 +8366,7 @@ void game::zones_manager()
 #endif
                     for (int iY = start.y; iY <= end.y; ++iY) {
                         for (int iX = start.x; iX <= end.x; ++iX) {
-                            if (u.sees(iX, iY)) {
+                            if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
                                 m.drawsq(w_terrain, u,
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
@@ -8425,10 +8430,10 @@ void game::zones_manager()
 
 tripoint game::look_around()
 {
-    return look_around( nullptr, u.pos() + u.view_offset, false, false );
+    return look_around( catacurses::window(), u.pos() + u.view_offset, false, false );
 }
 
-tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
+tripoint game::look_around( catacurses::window w_info, const tripoint &start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
@@ -8547,7 +8552,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 #endif
                         for (int iY = std::min(start_point.y, ly); iY <= std::max(start_point.y, ly); ++iY) {
                             for (int iX = std::min(start_point.x, lx); iX <= std::max(start_point.x, lx); ++iX) {
-                                if (u.sees(iX, iY)) {
+                                if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
                                     m.drawsq(w_terrain, u,
                                              tripoint( iX, iY, lp.z ),
                                              false,
@@ -8784,7 +8789,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 }
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
+void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
     const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++) {
@@ -13043,7 +13048,7 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if (calendar::turn >= nextspawn) {
+    if( calendar::turn >= nextspawn ) {
         spawn_mon(shiftx, shifty);
     }
 
