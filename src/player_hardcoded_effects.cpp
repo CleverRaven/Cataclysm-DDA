@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 #include "fungal_effects.h"
 #include "sounds.h"
 #include "martialarts.h"
@@ -21,6 +22,18 @@
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
+const efftype_id effect_add_cig( "add_cig" );
+const efftype_id effect_add_caffeine( "add_caffeine" );
+const efftype_id effect_add_alcohol( "add_alcohol" );
+const efftype_id effect_add_diazepam( "add_diazepam" );
+const efftype_id effect_add_pkiller( "add_pkiller" );
+const efftype_id effect_add_speed( "add_speed" );
+const efftype_id effect_add_coke( "add_coke" );
+const efftype_id effect_add_crack( "add_crack" );
+const efftype_id effect_add_mutagen( "add_mutagen" );
+const efftype_id effect_add_marloss_r( "add_marloss_r" );
+const efftype_id effect_add_marloss_b( "add_marloss_b" );
+const efftype_id effect_add_marloss_y( "add_marloss_y" );
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_asthma( "asthma" );
@@ -404,6 +417,204 @@ static void eff_fun_frostbite( player &u, effect &it )
     }
 }
 
+
+static void eff_fun_add_cig( player &u, effect &it )
+{
+    int in = it.get_intensity();
+    if( !one_in( 2000 - 20 * in ) ) {
+        return;
+    }
+
+    u.add_msg_if_player( rng( 0, 6 ) < in ?
+                         _( "You need some nicotine." ) :
+                         _( "You could use some nicotine." ) );
+    u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
+    if( one_in( 800 - 50 * in ) ) {
+        u.mod_fatigue( 1 );
+    }
+    if( u.stim > -5 * in && one_in( 400 - 20 * in ) ) {
+        u.stim--;
+    }
+}
+
+static void eff_fun_add_caffeine( player &u, effect &it )
+{
+    int in = it.get_intensity();
+    if( !one_in( 2000 - 20 * in ) ) {
+        return;
+    }
+
+    u.add_msg_if_player( m_warning, _( "You want some caffeine." ) );
+    u.add_morale( MORALE_CRAVING_CAFFEINE, -5, -30 );
+    if( u.stim > -10 * in && rng( 0, 10 ) < in ) {
+        u.stim--;
+    }
+    if( rng( 8, 400 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need it bad!" ) );
+        u.add_effect( effect_shakes, 20 );
+    }
+}
+
+static void add_alcohol_or_diazepam( player &u, effect &it, const std::string &msg_1,
+                                     const std::string &msg_2, morale_type mt )
+{
+    int in = it.get_intensity();
+    if( x_in_y( in, HOURS( 2 ) ) ) {
+        u.mod_healthy_mod( -1, -in * 10 );
+    }
+    if( one_in( 20 ) && rng( 0, 20 ) < in ) {
+        u.add_msg_if_player( m_warning, _( msg_1.c_str() ) );
+        u.add_morale( mt, -35, -10 * in );
+    } else if( rng( 8, 300 ) < in ) {
+        u.add_msg_if_player( m_bad, _( msg_2.c_str() ) );
+        u.add_morale( mt, -35, -10 * in );
+        u.add_effect( effect_shakes, 50 );
+    } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
+        u.add_effect( effect_hallu, 3600 );
+    }
+}
+
+static void eff_fun_add_alcohol( player &u, effect &it )
+{
+    add_alcohol_or_diazepam( u, it, translate_marker( "You could use a drink." ),
+                             translate_marker( "Your hands start shaking... you need a drink bad!" ), MORALE_CRAVING_ALCOHOL );
+}
+
+static void eff_fun_add_diazepam( player &u, effect &it )
+{
+    add_alcohol_or_diazepam( u, it, translate_marker( "You could use some diazepam." ),
+                             translate_marker( "You're shaking... you need some diazepam!" ), MORALE_CRAVING_DIAZEPAM );
+}
+
+static void eff_fun_add_pkiller( player &u, effect &it )
+{
+    int in = it.get_intensity();
+    if( calendar::once_every( 100 - in * 4 ) && u.get_painkiller() > 20 - in ) {
+        u.mod_painkiller( -1 );    // Tolerance increases!
+    }
+
+    if( u.get_pain() < in * 2 ) {
+        u.mod_pain( 1 );
+    }
+    if( one_in( 1200 - 30 * in ) ) {
+        u.mod_healthy_mod( -1, -in * 30 );
+    }
+    if( one_in( 20 ) && dice( 2, 20 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need some painkillers." ) );
+        u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
+        u.add_effect( effect_shakes, 20 + in * 5 );
+    } else if( one_in( 20 ) && dice( 2, 30 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "You feel anxious.  You need your painkillers!" ) );
+        u.add_morale( MORALE_CRAVING_OPIATE, -30, -10 * in );
+    } else if( one_in( 50 ) && dice( 3, 50 ) < in ) {
+        u.vomit();
+    }
+}
+
+static void eff_fun_add_speed( player &u, effect &it )
+{
+    int in = it.get_intensity();
+    if( u.stim > -100 && x_in_y( in, 20 ) ) {
+        u.stim--;
+    }
+    if( rng( 0, 150 ) <= in ) {
+        u.mod_healthy_mod( -1, -in );
+    }
+    if( dice( 2, 100 ) < in ) {
+        u.add_msg_if_player( m_warning, _( "You feel depressed.  Speed would help." ) );
+        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+    } else if( one_in( 10 ) && dice( 2, 80 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need a pick-me-up." ) );
+        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+        u.add_effect( effect_shakes, in * 20 );
+    } else if( one_in( 50 ) && dice( 2, 100 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "You stop suddenly, feeling bewildered." ) );
+        u.moves -= 300;
+    } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {
+        u.add_effect( effect_hallu, 3600 );
+    }
+}
+
+static void add_coke_or_crack( player &u, effect &it, const std::string &msg, morale_type mt )
+{
+    int in = it.get_intensity();
+    if( one_in( 900 - 30 * in ) ) {
+        u.add_msg_if_player( m_warning, _( msg.c_str() ) );
+        u.add_morale( mt, -20, -15 * in );
+    }
+    if( dice( 2, 80 ) <= in ) {
+        u.add_msg_if_player( m_warning, _( msg.c_str() ) );
+        u.add_morale( mt, -20, -15 * in );
+        if( u.stim > -150 ) {
+            u.stim -= 3;
+        }
+    }
+}
+
+static void eff_fun_add_coke( player &u, effect &it )
+{
+    add_coke_or_crack( u, it, translate_marker( "You feel like you need a bump." ),
+                       MORALE_CRAVING_COCAINE );
+}
+
+static void eff_fun_add_crack( player &u, effect &it )
+{
+    add_coke_or_crack( u, it, translate_marker( "You're shivering, you need some crack." ),
+                       MORALE_CRAVING_CRACK );
+}
+
+static void eff_fun_add_mutagen( player &u, effect &it )
+{
+    int in = it.get_intensity();
+    if( u.has_trait( trait_id( "MUT_JUNKIE" ) ) ) {
+        if( one_in( 600 - 50 * in ) ) {
+            u.add_msg_if_player( m_warning, rng( 0,
+                                                 6 ) < in ? _( "You so miss the exquisite rainbow of post-humanity." ) :
+                                 _( "Your body is SOO booorrrring.  Just a little sip to liven things up?" ) );
+            u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
+        }
+        if( u.focus_pool > 40 && one_in( 800 - 20 * in ) ) {
+            u.focus_pool -= ( in );
+            u.add_msg_if_player( m_warning,
+                                 _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
+        }
+    } else if( in > 5 || one_in( ( 500 - 15 * in ) ) ) {
+        u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
+                             _( "You could use some new parts..." ) );
+        u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );
+    }
+}
+
+static void add_marloss( player &u, effect &it, const std::string &msg )
+{
+    int in = it.get_intensity();
+    if( one_in( 800 - 20 * in ) ) {
+        u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );
+        u.add_msg_if_player( m_info, _( msg.c_str() ) );
+        if( u.focus_pool > 40 ) {
+            u.focus_pool -= in;
+        }
+    }
+}
+
+static void eff_fun_add_marloss_r( player &u, effect &it )
+{
+    add_marloss( u, it,
+                 translate_marker( "You daydream about luscious pink berries as big as your fist." ) );
+}
+
+static void eff_fun_add_marloss_b( player &u, effect &it )
+{
+    add_marloss( u, it,
+                 translate_marker( "You daydream about nutty cyan seeds as big as your hand." ) );
+}
+
+static void eff_fun_add_marloss_y( player &u, effect &it )
+{
+    add_marloss( u, it,
+                 translate_marker( "You daydream about succulent, pale golden gel, sweet but light." ) );
+}
+
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
@@ -425,6 +636,18 @@ void player::hardcoded_effects( effect &it )
             { effect_cold, eff_fun_cold },
             { effect_hot, eff_fun_hot },
             { effect_frostbite, eff_fun_frostbite },
+            { effect_add_cig, eff_fun_add_cig },
+            { effect_add_caffeine, eff_fun_add_caffeine },
+            { effect_add_alcohol, eff_fun_add_alcohol },
+            { effect_add_diazepam, eff_fun_add_diazepam },
+            { effect_add_pkiller, eff_fun_add_pkiller },
+            { effect_add_speed, eff_fun_add_speed },
+            { effect_add_coke, eff_fun_add_coke },
+            { effect_add_crack, eff_fun_add_crack },
+            { effect_add_mutagen, eff_fun_add_mutagen },
+            { effect_add_marloss_r, eff_fun_add_marloss_r },
+            { effect_add_marloss_b, eff_fun_add_marloss_b },
+            { effect_add_marloss_y, eff_fun_add_marloss_y },
         }
     };
     const efftype_id &id = it.get_id();

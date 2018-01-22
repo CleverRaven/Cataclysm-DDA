@@ -1,0 +1,124 @@
+[
+  {
+    "type": "effect_type",
+    "id": "add_cig",
+    "name": ["Nicotine Withdrawal"],
+    "desc": ["Causes occasional cravings."],
+    "max_intensity": 20,
+    "base_mods": {
+      "int_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_caffeine",
+    "name": ["Caffeine Withdrawal"],
+    "desc": ["Causes slight sluggishness and occasional cravings."],
+    "max_intensity": 20,
+    "base_mods": {
+      "str_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_alcohol",
+    "name": ["Alcohol Withdrawal"],
+    "desc": ["Causes occasional cravings and risk of delirium tremens."],
+    "max_intensity": 20,
+    "base_mods": {
+      "int_mod": [-1],
+      "per_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_sleep",
+    "name": ["Sleeping Pill Dependence"],
+    "desc": ["You may find it difficult to sleep without medication."],
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
+    "id": "add_diazepam",
+    "name": ["Diazepam Withdrawal"],
+    "desc": ["Causes anxiety, nausea, hallucinations, and general malaise."],
+    "max_intensity": 20,
+    "base_mods": {
+      "int_mod": [-1],
+      "per_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_pkiller",
+    "name": ["Opiate Withdrawal"],
+    "desc": ["Causes depression, physical pain to some degree, frequent cravings and vomiting."],
+    "max_intensity": 20,
+    "base_mods": {
+      "str_mod": [-1],
+      "dex_mod": [-1],
+      "per_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_speed",
+    "name": ["Amphetamine Withdrawal"],
+    "desc": ["Causes movement rate reduction, depression, immune system weakness and frequent cravings."],
+    "max_intensity": 20,
+    "base_mods": {
+      "str_mod": [-1],
+      "int_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_coke",
+    "name": ["Cocaine Withdrawal"],
+    "desc": ["Causes frequent cravings."],
+    "max_intensity": 20,
+    "base_mods": {
+      "int_mod": [-1],
+      "per_mod": [-1]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_crack",
+    "name": ["Crack Cocaine Withdrawal"],
+    "desc": ["Causes frequent cravings."],
+    "max_intensity": 20,
+    "base_mods": {
+      "int_mod": [-2],
+      "per_mod": [-2]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "add_mutagen",
+    "name": ["Mutation Withdrawal"],
+    "desc": ["You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want."],
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
+    "id": "add_marloss_r",
+    "name": ["Marloss Longing"],
+    "desc": ["You should try some of those pink berries."],
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
+    "id": "add_marloss_b",
+    "name": ["Marloss Desire"],
+    "desc": ["You should try some of those cyan seeds."],
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
+    "id": "add_marloss_y",
+    "name": ["Marloss Cravings"],
+    "desc": ["You should try some of that golden gel."],
+    "max_intensity": 20
+  }
+]

@@ -1416,8 +1416,10 @@ tab_direction set_profession( const catacurses::window &w, player *u, points_lef
         if( !prof_addictions.empty() ) {
             buffer << "<color_light_blue>" << _( "Addictions:" ) << "</color>\n";
             for( const auto &a : prof_addictions ) {
-                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
+                // Kind of a hack: create a "hanging" effect, with no owner
+                // Bonus: This allows using different names for addictions at different intensities
+                const effect add_eff( &addiction_effect( a.type ).obj(), 1, num_bp, true, a.intensity, 0 );
+                buffer << add_eff.disp_name().c_str() << "\n";
             }
         }
 

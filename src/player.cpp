@@ -5026,6 +5026,10 @@ void player::rem_addiction( add_type type )
                     addiction_type_name(type).c_str());
         addictions.erase( iter );
     }
+
+    // Clear effect regardless of addiction - just to be sure
+    const efftype_id &addict_effect = addiction_effect( type );
+    remove_effect( addict_effect );
 }
 
 int player::addiction_level( add_type type ) const
@@ -5561,10 +5565,25 @@ void player::suffer()
         } else if( has_trait( trait_NONADDICTIVE ) ) {
             timer = -HOURS( 3 );
         }
+
         for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0 &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
+            const efftype_id &addict_effect = addiction_effect( cur_addiction.type );
+            if( !addict_effect.is_null() ) {
+                effect &ef = get_effect( addict_effect );
+                int cur_intensity = ef.get_intensity();
+                // Need 3 cases: remove effect, add effect, update effect to proper intensity
+                // Could be simplified to just remove or remove+add, but then it would be "less proper"
+                if( cur_addiction.sated > 0 && cur_intensity > 0 ) {
+                    remove_effect( addict_effect );
+                } else if( cur_addiction.sated <= 0 &&
+                           cur_addiction.intensity >= MIN_ADDICTION_LEVEL &&
+                           cur_addiction.intensity != cur_intensity ) {
+                    if( ef.is_null() ) {
+                        add_effect( addict_effect, 1, num_bp, true, cur_addiction.intensity );
+                    } else {
+                        ef.set_intensity( cur_addiction.intensity, true );
+                    }
+                }
             }
             cur_addiction.sated--;
             // Higher intensity addictions heal faster
