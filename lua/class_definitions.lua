@@ -435,7 +435,7 @@ classes = {
             last_batch = { type = "int", writable = true },
             last_climate_control_ret = { type = "bool", writable = true },
             lastconsumed = { type = "string", writable = true },
-            lastrecipe = { type = "string", writable = true },
+            lastrecipe = { type = "recipe_id", writable = true },
             lifetime_stats = { type = "stats", writable = true },
             max_power_level = { type = "int", writable = true },
             move_mode = { type = "string", writable = true },
@@ -663,11 +663,11 @@ classes = {
             { name = "mabuff_dodge_bonus", rval = "int", args = { } },
             { name = "mabuff_speed_bonus", rval = "int", args = { } },
             { name = "mabuff_tohit_bonus", rval = "int", args = { } },
-            { name = "make_all_craft", rval = nil, args = { "string", "int" } },
-            { name = "make_craft", rval = nil, args = { "string", "int" } },
-            { name = "make_craft_with_command", rval = nil, args = { "string", "int" } },
-            { name = "make_craft_with_command", rval = nil, args = { "string", "int", "bool" } },
-            { name = "making_would_work", rval = "bool", args = { "string", "int" } },
+            { name = "make_all_craft", rval = nil, args = { "recipe_id", "int" } },
+            { name = "make_craft", rval = nil, args = { "recipe_id", "int" } },
+            { name = "make_craft_with_command", rval = nil, args = { "recipe_id", "int" } },
+            { name = "make_craft_with_command", rval = nil, args = { "recipe_id", "int", "bool" } },
+            { name = "making_would_work", rval = "bool", args = { "recipe_id", "int" } },
             { name = "max_quality", rval = "int", args = { "quality_id" } },
             { name = "melee_attack", rval = nil, args = { "Creature", "bool", "matec_id" } },
             { name = "melee_value", rval = "float", args = { "item" } },
@@ -1687,6 +1687,13 @@ classes = {
             { name = "wander", rval = "bool", args = { } },
             { name = "wander_to", rval = nil, args = { "tripoint", "int" } },
             { name = "will_reach", rval = "bool", args = { "int", "int" } },
+        }
+    },
+    recipe = {
+        string_id = "recipe_id",
+        attributes = {
+        },
+        functions = {
         }
     },
     martialart = {

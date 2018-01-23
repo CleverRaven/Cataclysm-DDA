@@ -2397,7 +2397,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     int min = 5;
     for( const auto &e : recipe_dict ) {
         const auto r = e.second;
-        if( type != r.result ) {
+        if( type != r.result() ) {
             continue;
         }
 

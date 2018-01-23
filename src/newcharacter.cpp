@@ -1645,7 +1645,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
                 prof_u.has_recipe_requirements( r ) )  {
 
                 recipes[r.skill_used->name()].emplace_back(
-                    item::nname( r.result ),
+                    r.result_name(),
                     (skill > 0) ? skill : r.difficulty
                 );
             }
