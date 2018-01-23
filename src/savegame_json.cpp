@@ -765,7 +765,7 @@ void player::deserialize(JsonIn &jsin)
         std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_dict[ pstr ] );
+                learned_recipes.include( &recipe_id( pstr ).obj() );
             }
         }
     }

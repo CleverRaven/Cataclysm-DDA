@@ -35,8 +35,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 07:26-0500\n"
-"PO-Revision-Date: 2018-01-08 05:20+0000\n"
+"POT-Creation-Date: 2018-01-12 07:16-0500\n"
+"PO-Revision-Date: 2018-01-19 03:07+0000\n"
 "Last-Translator: cainiao <cainiaowu@hotmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -9377,9 +9377,9 @@ msgstr[0] "钢制护腿"
 #. ~ Description for pair of steel leg guards
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, "
+"A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
-msgstr "一套完美复刻的中世纪式腿部防具，用皮革条把大腿甲片，膝弯甲片，护胫甲片连结成一体，一双完美坚实的战争工艺品。"
+msgstr "一套完美复刻的中世纪式腿部防具，用皮革条把护腿甲片，护膝甲片，护胫甲片连结成一体，一双完美坚实的战争工艺品。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of iron greaves"
@@ -19098,22 +19098,22 @@ msgstr "一些西兰花种子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini"
-msgstr "青瓜"
+msgstr "西葫芦"
 
 #. ~ Description for zucchini
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty summer squash."
-msgstr "看上去挺好吃的夏日青瓜。"
+msgstr "一个看上去挺好吃的夏日瓜类蔬菜，皮薄、肉厚、汁多，含有较多维生素、葡萄糖等营养物质。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini seed"
 msgid_plural "zucchini seeds"
-msgstr[0] "青瓜种子"
+msgstr[0] "西葫芦种子"
 
 #. ~ Description for zucchini seed
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some zucchini seeds."
-msgstr "一些青瓜种子。"
+msgstr "一些西葫芦种子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion"
@@ -19270,14 +19270,14 @@ msgstr "经过辐照消毒的西兰花。已经没有放射性了，所以它可
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated zucchini"
-msgstr "辐照青瓜"
+msgstr "辐照西葫芦"
 
 #. ~ Description for irradiated zucchini
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated zucchini will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
-msgstr "经过辐照消毒的青瓜。已经没有放射性了，所以它可以保存很长时间，同时也很安全卫生。"
+msgstr "经过辐照消毒的西葫芦。已经没有放射性了，所以它可以保存很长时间，同时也很安全卫生。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated onion"
@@ -22748,6 +22748,15 @@ msgid ""
 msgstr "用盐腌过的内脏制成的细长条香肠，带着天然肠衣。勤俭节约，吃穿不缺。"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "'special' brownie"
+msgstr "特制布朗尼蛋糕"
+
+#. ~ Description for 'special' brownie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "This is definitely not how grandma used to bake them."
+msgstr "一份包括坚果、霜状白糖、生奶油、巧克力的蛋糕，发源于19世纪末的美国。\n\"这个和外婆做的完全不一样。\""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Spice"
 msgstr "香料"
 
@@ -23256,15 +23265,6 @@ msgid ""
 "A powdered form of chemical disinfectant, this bismuth formic iodide cleans "
 "wounds quickly and painlessly."
 msgstr "一些粉末形式的化学消毒剂，这些碘化铋甲酸消毒粉可以轻松无痛的清洁伤口。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "special brownie"
-msgstr "特制布朗尼蛋糕"
-
-#. ~ Description for special brownie
-#: lang/json/COMESTIBLE_from_json.py
-msgid "This is definitely not how grandma used to bake them."
-msgstr "一份包括坚果、霜状白糖、生奶油、巧克力的蛋糕，发源于19世纪末的美国。\n\"这个和外婆做的完全不一样。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "caffeinated chewing gum"
@@ -46745,7 +46745,7 @@ msgstr "建造金属支架"
 
 #: lang/json/construction_from_json.py
 msgid "Build Cupboard"
-msgstr "建造碗柜"
+msgstr "建造橱柜"
 
 #: lang/json/construction_from_json.py
 msgid "Build Counter"
@@ -49710,7 +49710,7 @@ msgstr "金属残骸"
 #. ~ Description for metal wreckage
 #: lang/json/furniture_from_json.py
 msgid "Pile of various bent and twisted metals."
-msgstr ""
+msgstr "一堆各种各样的弯曲变形的废金属。"
 
 #: lang/json/furniture_from_json.py
 msgid "pile of ash"
@@ -49719,7 +49719,7 @@ msgstr "灰烬"
 #. ~ Description for pile of ash
 #: lang/json/furniture_from_json.py
 msgid "Some ash, from wood or possibly bodies."
-msgstr ""
+msgstr "一堆木头或尸体焚烧后留下的灰烬。"
 
 #: lang/json/furniture_from_json.py
 msgid "road barricade"
@@ -49728,7 +49728,7 @@ msgstr "路障"
 #. ~ Description for road barricade
 #: lang/json/furniture_from_json.py
 msgid "A road barricade.  For barricading roads."
-msgstr ""
+msgstr "一块用于截断交通的路障。"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
 #: src/mapdata.cpp
@@ -49746,7 +49746,7 @@ msgstr "沙包路障"
 #. ~ Description for sandbag barricade
 #: lang/json/furniture_from_json.py
 msgid "A sandbag, typically used for blocking bullets."
-msgstr ""
+msgstr "一个能用来抵挡子弹的沙包路障。"
 
 #: lang/json/furniture_from_json.py
 msgid "rrrip!"
@@ -49759,7 +49759,7 @@ msgstr "沙袋墙"
 #. ~ Description for sandbag wall
 #: lang/json/furniture_from_json.py
 msgid "A few stacked sandbags."
-msgstr ""
+msgstr "一面用几个沙包堆起来的墙。"
 
 #: lang/json/furniture_from_json.py
 msgid "bulletin board"
@@ -49768,7 +49768,7 @@ msgstr "公告板"
 #. ~ Description for bulletin board
 #: lang/json/furniture_from_json.py
 msgid "Pin some notes for other survivors to read."
-msgstr ""
+msgstr "一块用于给其他幸存者留言的留言板。"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py src/iuse.cpp
@@ -49782,7 +49782,7 @@ msgstr "室内植物"
 #. ~ Description for indoor plant
 #: lang/json/furniture_from_json.py
 msgid "A variety of plant, used for decoration."
-msgstr ""
+msgstr "一盆用于室内装饰的植物。"
 
 #: lang/json/furniture_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bed"
@@ -49791,7 +49791,7 @@ msgstr "床铺"
 #. ~ Description for bed
 #: lang/json/furniture_from_json.py
 msgid "Quite comfortable to sleep in."
-msgstr ""
+msgstr "睡觉的好地方。"
 
 #: lang/json/furniture_from_json.py
 msgid "toilet"
@@ -49800,7 +49800,7 @@ msgstr "坐便器"
 #. ~ Description for toilet
 #: lang/json/furniture_from_json.py
 msgid "Emergency water source, from the tank, and provider of relief."
-msgstr ""
+msgstr "水箱里的水能当作紧急水源使用，平时只是用来嘘嘘。"
 
 #: lang/json/furniture_from_json.py
 msgid "porcelain breaking!"
@@ -49817,7 +49817,7 @@ msgstr "简易床"
 #. ~ Description for makeshift bed
 #: lang/json/furniture_from_json.py
 msgid "Not as comfortable as a real bed, but it will suffice."
-msgstr ""
+msgstr "不如真床一般舒适，但足够你休息使用。"
 
 #: lang/json/furniture_from_json.py
 msgid "straw bed"
@@ -49826,7 +49826,7 @@ msgstr "稻草床"
 #. ~ Description for straw bed
 #: lang/json/furniture_from_json.py
 msgid "Kinda itches when you lay on it."
-msgstr ""
+msgstr "躺上去扎的你很痒。"
 
 #: lang/json/furniture_from_json.py
 msgid "sink"
@@ -49835,7 +49835,7 @@ msgstr "水槽"
 #. ~ Description for sink
 #: lang/json/furniture_from_json.py
 msgid "Emergency relief provider.  Water isn't running, so no water."
-msgstr ""
+msgstr "紧急时能当作尿盆。但是水早就停了，没水。"
 
 #: lang/json/furniture_from_json.py
 msgid "oven"
@@ -49846,7 +49846,7 @@ msgstr "烤箱"
 msgid ""
 "Used for heating and cooking food with eletricity.  Doesn't look like it's "
 "working, although it stil has parts."
-msgstr ""
+msgstr "在灾变前用来加热和烹饪食物。现在已经缺电无法使用了，但至少各个部件还是完好的。"
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -49866,7 +49866,7 @@ msgstr "火炉"
 #: lang/json/furniture_from_json.py
 msgid ""
 "Wood stove for heating and cooking.  Much more effective than an open flame."
-msgstr ""
+msgstr "用于加热和烹饪食物的火炉。比直接在空地点火要好点。"
 
 #: lang/json/furniture_from_json.py
 msgid "fireplace"
@@ -49877,7 +49877,7 @@ msgstr "壁炉"
 msgid ""
 "Ah.  The relaxation of sitting in front of a fire as the world around you "
 "crumbles."
-msgstr ""
+msgstr "啊，没什么能比在火堆前安静坐下看着周围世界在你眼前崩塌更让人放松的了。"
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -49897,7 +49897,7 @@ msgstr "淋浴器"
 #. ~ Description for shower
 #: lang/json/furniture_from_json.py
 msgid "You would be able to clean yourself if water was running."
-msgstr ""
+msgstr "如果不是水已经停了的话，你可以在这里洗个澡。"
 
 #: lang/json/furniture_from_json.py
 msgid "bathtub"
@@ -49906,7 +49906,7 @@ msgstr "浴盆"
 #. ~ Description for bathtub
 #: lang/json/furniture_from_json.py
 msgid "You could lay in and take a soothing bath.  Only if water was running."
-msgstr ""
+msgstr "如果不是水已经停了的话，你可以在这里洗个泡泡澡。"
 
 #: lang/json/furniture_from_json.py
 msgid "chair"
@@ -49915,7 +49915,7 @@ msgstr "椅子"
 #. ~ Description for chair
 #: lang/json/furniture_from_json.py
 msgid "Sit down, have a drink."
-msgstr ""
+msgstr "坐下来，喝一杯。"
 
 #: lang/json/furniture_from_json.py
 msgid "arm chair"
@@ -49924,7 +49924,7 @@ msgstr "扶手椅"
 #. ~ Description for arm chair
 #: lang/json/furniture_from_json.py
 msgid "A more comfortable way of sitting down."
-msgstr ""
+msgstr "一种更加舒适的坐下来的方式。"
 
 #: lang/json/furniture_from_json.py
 msgid "sofa"
@@ -49933,7 +49933,7 @@ msgstr "沙发"
 #. ~ Description for sofa
 #: lang/json/furniture_from_json.py
 msgid "Lay down OR sit down!  Perfect!"
-msgstr ""
+msgstr "躺下或坐下！ 真乖！"
 
 #: lang/json/furniture_from_json.py
 msgid "cupboard"
@@ -49942,7 +49942,7 @@ msgstr "橱柜"
 #. ~ Description for cupboard
 #: lang/json/furniture_from_json.py
 msgid "Store your cups."
-msgstr ""
+msgstr "储存杯子的地方。"
 
 #: lang/json/furniture_from_json.py
 msgid "trash can"
@@ -49951,7 +49951,7 @@ msgstr "垃圾桶"
 #. ~ Description for trash can
 #: lang/json/furniture_from_json.py
 msgid "One man's trash is another mans dinner."
-msgstr ""
+msgstr "一个人的垃圾是另外一个人的晚餐。"
 
 #: lang/json/furniture_from_json.py
 msgid "desk"
@@ -49969,7 +49969,7 @@ msgstr "健身器"
 #. ~ Description for exercise machine
 #: lang/json/furniture_from_json.py
 msgid "Typically used for, well, excercising.  You're not up for it."
-msgstr ""
+msgstr "通常用于，呃，健身。但你现在用不了它。"
 
 #: lang/json/furniture_from_json.py
 msgid "ball machine"
@@ -49978,7 +49978,7 @@ msgstr "发球机"
 #. ~ Description for ball machine
 #: lang/json/furniture_from_json.py
 msgid "Remember when baseball was a thing?"
-msgstr ""
+msgstr "还记得棒球赛还在的那些日子吗？"
 
 #: lang/json/furniture_from_json.py
 msgid "bench"
@@ -49987,7 +49987,7 @@ msgstr "长椅"
 #. ~ Description for bench
 #: lang/json/furniture_from_json.py
 msgid "Hobo bed.  Use at your own risk."
-msgstr ""
+msgstr "流浪汉的床。使用后果自负。"
 
 #: lang/json/furniture_from_json.py
 msgid "lane guard"
@@ -50005,7 +50005,7 @@ msgstr "桌子"
 #. ~ Description for table
 #: lang/json/furniture_from_json.py
 msgid "Sit down when you eat!"
-msgstr ""
+msgstr "吃饭要坐着吃！"
 
 #: lang/json/furniture_from_json.py
 msgid "sign"
@@ -50014,7 +50014,7 @@ msgstr "标志"
 #. ~ Description for sign
 #: lang/json/furniture_from_json.py
 msgid "Read it.  Warnings ahead."
-msgstr ""
+msgstr "读读它。前方可能有危险。"
 
 #: lang/json/furniture_from_json.py
 msgid "pool table"
@@ -50144,7 +50144,7 @@ msgstr "自动售货机"
 #. ~ Description for vending machine
 #: lang/json/furniture_from_json.py
 msgid "Buy stuff with a cash card."
-msgstr ""
+msgstr "使用现金卡购买物品。"
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
@@ -50159,7 +50159,7 @@ msgstr "自动售货机（损坏）"
 #. ~ Description for broken vending machine
 #: lang/json/furniture_from_json.py
 msgid "Ponder if you could buy stuff, as it's broken."
-msgstr ""
+msgstr "已经损坏了的自动售货机，估计是买不了了。"
 
 #: lang/json/furniture_from_json.py
 msgid "dumpster"
@@ -50602,7 +50602,7 @@ msgstr "墓石"
 #. ~ Description for headstone
 #: lang/json/furniture_from_json.py
 msgid "Keeps the bodies."
-msgstr ""
+msgstr "某人的安息之处。"
 
 #: lang/json/furniture_from_json.py
 msgid "gravestone"
@@ -50611,7 +50611,7 @@ msgstr "墓碑"
 #. ~ Description for gravestone
 #: lang/json/furniture_from_json.py
 msgid "Keeps the bodies.  More fancy."
-msgstr ""
+msgstr "某人的安息之处。看着比一般墓碑更气派。"
 
 #: lang/json/furniture_from_json.py
 msgid "worn gravestone"
@@ -50620,7 +50620,7 @@ msgstr "磨损的墓碑"
 #. ~ Description for worn gravestone
 #: lang/json/furniture_from_json.py
 msgid "A worn-out gravestone."
-msgstr ""
+msgstr "一块磨损的墓碑。"
 
 #: lang/json/furniture_from_json.py
 msgid "obelisk"
@@ -56717,7 +56717,7 @@ msgstr "这件装备垫上了一些皮革，能够<good>增加保护</good>但�
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-" This clothing has a wool lining sewn into it to <good>increase</good> its "
+"This clothing has a wool lining sewn into it to <good>increase</good> its "
 "overall <info>warmth</info>."
 msgstr "这件装备缝上了羊毛内衬，<good>增加</good><info>保暖度</info>。"
 

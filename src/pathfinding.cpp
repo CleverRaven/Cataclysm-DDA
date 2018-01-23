@@ -2,7 +2,6 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "player.h"
 #include "map.h"
 #include "trap.h"

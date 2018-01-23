@@ -13,6 +13,7 @@
 class Creature;
 class item;
 class player;
+class map;
 struct trap;
 struct tripoint;
 class JsonObject;
@@ -134,11 +135,11 @@ struct trap {
          */
         bool triggered_by_item( const item &itm ) const;
         /**
-         * Called when a trap at the given point in the main map has been disarmed.
+         * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
          * @ref map::remove_trap.
          */
-        void on_disarmed( const tripoint &pos ) const;
+        void on_disarmed( map &m, const tripoint &pos ) const;
         /**
          * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
          * do so.

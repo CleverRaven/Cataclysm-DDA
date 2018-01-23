@@ -7335,7 +7335,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7363,7 +7362,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 4000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7463,7 +7461,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "book_learn": [[ "cookbook_human", 4 ]],
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8786,7 +8783,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8955,7 +8951,6 @@
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "time": 1500,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}

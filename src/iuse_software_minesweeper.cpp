@@ -3,7 +3,6 @@
 #include "output.h"
 #include "ui.h"
 #include "rng.h"
-#include "map.h"
 #include "input.h"
 #include "catacharset.h"
 #include "translations.h"
@@ -13,6 +12,8 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 minesweeper_game::minesweeper_game()
 {

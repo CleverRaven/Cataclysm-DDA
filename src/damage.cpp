@@ -1,14 +1,10 @@
 #include "damage.h"
 #include "item.h"
 #include "monster.h"
-#include "game.h"
-#include "rng.h"
 #include "debug.h"
 #include "map_iterator.h"
-#include "field.h"
 #include "mtype.h"
 #include "json.h"
-#include "itype.h"
 
 #include <map>
 #include <algorithm>

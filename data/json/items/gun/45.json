@@ -16,7 +16,7 @@
     "skill": "smg",
     "dispersion": 280,
     "durability": 7,
-    "burst": 8,
+    "burst": 20,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 2,
     "magazines": [
@@ -42,7 +42,7 @@
     "ranged_damage": 1,
     "dispersion": 240,
     "durability": 8,
-    "burst": 4,
+    "burst": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "45", [ "ump45mag" ] ],
@@ -154,7 +154,7 @@
     "skill": "smg",
     "dispersion": 520,
     "durability": 7,
-    "burst": 30,
+    "burst": 18,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -203,7 +203,7 @@
     "ranged_damage": 2,
     "dispersion": 360,
     "durability": 7,
-    "burst": 6,
+    "burst": 10,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [

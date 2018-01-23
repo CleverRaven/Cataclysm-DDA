@@ -39,6 +39,8 @@ class field;
 class field_entry;
 class vehicle;
 struct submap;
+class item_location;
+class map_cursor;
 struct maptile;
 class basecamp;
 class computer;

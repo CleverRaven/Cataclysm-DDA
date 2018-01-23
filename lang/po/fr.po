@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 07:26-0500\n"
-"PO-Revision-Date: 2018-01-07 11:36+0000\n"
+"POT-Creation-Date: 2018-01-12 07:16-0500\n"
+"PO-Revision-Date: 2018-01-13 11:53+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -9765,7 +9765,7 @@ msgstr[1] ""
 #. ~ Description for pair of steel leg guards
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, "
+"A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
 msgstr ""
 
@@ -24026,6 +24026,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "'special' brownie"
+msgstr ""
+
+#. ~ Description for 'special' brownie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "This is definitely not how grandma used to bake them."
+msgstr "Ce n'est sûrement pas ceux que faisez votre grand-mère."
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Spice"
 msgstr "Épice"
 
@@ -24555,15 +24564,6 @@ msgid ""
 "A powdered form of chemical disinfectant, this bismuth formic iodide cleans "
 "wounds quickly and painlessly."
 msgstr "Une poudre chimique de désinfectant. Ce iodure de bismuth formique nettoie les plaies rapidement sans douleur."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "special brownie"
-msgstr "brownie spécial"
-
-#. ~ Description for special brownie
-#: lang/json/COMESTIBLE_from_json.py
-msgid "This is definitely not how grandma used to bake them."
-msgstr "Ce n'est sûrement pas ceux que faisez votre grand-mère."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "caffeinated chewing gum"
@@ -59644,7 +59644,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-" This clothing has a wool lining sewn into it to <good>increase</good> its "
+"This clothing has a wool lining sewn into it to <good>increase</good> its "
 "overall <info>warmth</info>."
 msgstr ""
 

@@ -5,15 +5,20 @@
 #include "bodypart.h"
 #include "debug.h"
 #include "translations.h"
+#include "trait_group.h"
+
 #include "color.h"
 
 #include <map>
+#include <sstream>
 #include <set>
 #include <vector>
 
+typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
 typedef std::set<trait_id> TraitSet;
 
 TraitSet trait_blacklist;
+TraitGroupMap trait_groups;
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -36,6 +41,12 @@ template<>
 bool string_id<mutation_branch>::is_valid() const
 {
     return mutation_data.count( *this ) > 0;
+}
+
+template<>
+bool string_id<Trait_group>::is_valid() const
+{
+    return trait_groups.count( *this );
 }
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
@@ -394,6 +405,9 @@ void mutation_branch::reset_all()
     mutations_category.clear();
     mutation_data.clear();
     trait_blacklist.clear();
+    trait_groups.clear();
+    trait_groups.emplace(trait_group::Trait_group_tag("EMPTY_GROUP"),
+            std::make_shared<Trait_group_collection>(100));
 }
 
 void load_dream(JsonObject &jsobj)
@@ -441,6 +455,162 @@ void mutation_branch::finalize_trait_blacklist()
             debugmsg( "trait on blacklist %s does not exist", trait.c_str() );
         }
     }
+}
+
+void mutation_branch::load_trait_group(JsonObject &jsobj) {
+    const trait_group::Trait_group_tag group_id(jsobj.get_string("id"));
+    const std::string subtype = jsobj.get_string("subtype", "old");
+    load_trait_group(jsobj, group_id, subtype);
+}
+
+Trait_group& make_group_or_throw(const trait_group::Trait_group_tag &gid, bool is_collection) {
+    // NOTE: If the gid is already in the map, emplace will just return an iterator to it
+    auto found = (is_collection
+            ? trait_groups.emplace(gid, std::make_shared<Trait_group_collection>(100))
+            : trait_groups.emplace(gid, std::make_shared<Trait_group_distribution>(100))).first;
+    // Evidently, making the collection/distribution separation better has made the code for this check worse.
+    if (is_collection) {
+        if (dynamic_cast<Trait_group_distribution*>(found->second.get())) {
+            std::ostringstream buf;
+            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
+            throw std::runtime_error( buf.str() );
+        }
+    } else {
+        if (dynamic_cast<Trait_group_collection*>(found->second.get())) {
+            std::ostringstream buf;
+            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
+            throw std::runtime_error( buf.str() );
+        }
+    }
+    return *(found->second);
+}
+
+void mutation_branch::load_trait_group(JsonArray &entries, const trait_group::Trait_group_tag &gid,
+        const bool is_collection) {
+    Trait_group &tg = make_group_or_throw(gid, is_collection);
+
+    while(entries.has_more()) {
+        // Backwards-compatibility with old format ["TRAIT", 100]
+        if (entries.test_array()) {
+            JsonArray subarr = entries.next_array();
+
+            trait_id id(subarr.get_string(0));
+            std::unique_ptr<Trait_creation_data> ptr(
+                    new Single_trait_creator(id, subarr.get_int(1)));
+            tg.add_entry(ptr);
+        // Otherwise load new format {"trait": ... } or {"group": ...}
+        } else {
+            JsonObject subobj = entries.next_object();
+            add_entry(tg, subobj);
+        }
+    }
+}
+
+void mutation_branch::load_trait_group(JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+        const std::string &subtype) {
+    if (subtype != "distribution" && subtype != "collection" && subtype != "old") {
+        jsobj.throw_error("unknown trait group type", "subtype");
+    }
+
+    Trait_group &tg = make_group_or_throw(gid, (subtype == "collection" || subtype == "old"));
+
+    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    if (subtype == "old") {
+        JsonArray traits = jsobj.get_array("traits");
+        while (traits.has_more()) {
+            JsonArray pair = traits.next_array();
+            tg.add_trait_entry(trait_id(pair.get_string(0)), pair.get_int(1));
+        }
+        return;
+    }
+
+    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    if (jsobj.has_member("entries")) {
+        JsonArray traits = jsobj.get_array("entries");
+        while( traits.has_more() ) {
+            JsonObject subobj = traits.next_object();
+            add_entry( tg, subobj );
+        }
+    }
+    if (jsobj.has_member("traits")) {
+        JsonArray traits = jsobj.get_array("traits");
+        while (traits.has_more()) {
+            if (traits.test_string()) {
+                tg.add_trait_entry(trait_id(traits.next_string()), 100);
+            } else if (traits.test_array()) {
+                JsonArray subtrait = traits.next_array();
+                tg.add_trait_entry(trait_id(subtrait.get_string(0)), subtrait.get_int(1));
+            } else {
+                JsonObject subobj = traits.next_object();
+                add_entry(tg, subobj);
+            }
+        }
+    }
+    if (jsobj.has_member("groups")) {
+        JsonArray traits = jsobj.get_array("groups");
+        while (traits.has_more()) {
+            if (traits.test_string()) {
+                tg.add_group_entry(trait_group::Trait_group_tag(traits.next_string()), 100);
+            } else if (traits.test_array()) {
+                JsonArray subtrait = traits.next_array();
+                tg.add_group_entry(trait_group::Trait_group_tag(traits.get_string(0)), subtrait.get_int(1));
+            } else {
+                JsonObject subobj = traits.next_object();
+                add_entry(tg, subobj);
+            }
+        }
+    }
+}
+
+void mutation_branch::add_entry(Trait_group &tg, JsonObject &obj) {
+    std::unique_ptr<Trait_creation_data> ptr;
+    int probability = obj.get_int("prob", 100);
+    JsonArray jarr;
+
+    if (obj.has_member("collection")) {
+        ptr.reset(new Trait_group_collection(probability));
+        jarr = obj.get_array("collection");
+    } else if (obj.has_member("distribution")) {
+        ptr.reset(new Trait_group_distribution(probability));
+        jarr = obj.get_array("distribution");
+    }
+
+    if (ptr) {
+        Trait_group &tg2 = dynamic_cast<Trait_group &>(*ptr);
+        while (jarr.has_more()) {
+            JsonObject job2 = jarr.next_object();
+            add_entry(tg2, job2);
+        }
+        tg.add_entry(ptr);
+        return;
+    }
+
+    if (obj.has_member("trait")) {
+        trait_id id(obj.get_string("trait"));
+        ptr.reset(new Single_trait_creator(id, probability));
+    } else if (obj.has_member("group")) {
+        ptr.reset(new Trait_group_creator(trait_group::Trait_group_tag(obj.get_string("group")),
+                    probability));
+    }
+
+    if (!ptr) {
+        return;
+    }
+
+    tg.add_entry(ptr);
+}
+
+std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid ) {
+    auto found = trait_groups.find( gid );
+    return (found != trait_groups.end()) ? found->second : nullptr;
+}
+
+std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names() {
+    std::vector<trait_group::Trait_group_tag> rval;
+    for (auto &group: trait_groups) {
+        rval.push_back(group.first);
+    }
+    return rval;
 }
 
 bool mutation_category_is_valid( const std::string &cat ) {

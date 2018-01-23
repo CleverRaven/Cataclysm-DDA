@@ -1,6 +1,5 @@
 #include "martialarts.h"
 #include "player.h"
-#include "game.h"
 #include "debug.h"
 #include "effect.h"
 #include "json.h"

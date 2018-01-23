@@ -106,7 +106,7 @@ public:
     /**
      *
      */
-    bool can_pick(int points) const;
+    bool can_pick( const scenario &current_scenario, int points ) const;
 
 };
 

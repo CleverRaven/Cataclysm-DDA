@@ -5,6 +5,7 @@
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "trait_group.h"
 
 #include <list>
 
@@ -145,10 +146,8 @@ void npc_class::check_consistency()
             }
         }
 
-        for( const auto &pr : cl.traits ) {
-            if( !pr.first.is_valid() ) {
-                debugmsg( "Invalid trait %s", pr.first.c_str() );
-            }
+        if( !cl.traits.is_valid() ) {
+            debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
 }
@@ -237,11 +236,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
     if( jo.has_array( "traits" ) ) {
-        JsonArray jarr = jo.get_array( "traits" );
-        while( jarr.has_more() ) {
-            JsonArray jarr_in = jarr.next_array();
-            traits[ trait_id( jarr_in.get_string( 0 ) ) ] = jarr_in.get_int( 1 );
-        }
+        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
     }
 
     /* Mutation rounds can be specified as follows:
@@ -251,10 +246,16 @@ void npc_class::load( JsonObject &jo, const std::string & )
      *   }
      */
     if( jo.has_object( "mutation_rounds" ) ) {
+        const std::map<std::string, mutation_category_trait> &mutation_categories =
+            mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
             auto mutcat = "MUTCAT_" + mutation;
-            if( !mutation_category_is_valid( mutcat ) ) {
+            auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+                return p.second.category == mutation;
+            };
+            if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
+                              category_match ) == mutation_categories.end() ) {
                 debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
                 continue;
             }
