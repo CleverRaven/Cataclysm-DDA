@@ -1061,7 +1061,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "broadsword",
@@ -2817,7 +2817,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "firemachete_off",
@@ -2889,7 +2889,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "fish_trap",
@@ -5894,7 +5894,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ]
   },
   {
     "id": "restaurantmap",
@@ -6360,7 +6360,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
     "id": "shock_staff",
@@ -6789,7 +6789,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "ZOOM", "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "ZOOM" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -8260,7 +8260,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "zweihander",
