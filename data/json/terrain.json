@@ -148,9 +148,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_reb_cage",
             "items": [
-                { "item": "rock", "count": [10, 22] },
-                { "item": "scrap", "count": [4, 12] },
-                { "item": "rebar", "count": [0, 4] }
+                { "item": "rock", "count": [10, 22] }
             ]
         }
     },{
@@ -168,9 +166,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_reb_cage",
             "items": [
-                { "item": "rock", "count": [5, 11] },
-                { "item": "scrap", "count": [4, 12] },
-                { "item": "rebar", "count": [0, 4] }
+                { "item": "rock", "count": [5, 11] }
             ]
         }
     },{
