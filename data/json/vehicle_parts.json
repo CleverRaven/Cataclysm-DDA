@@ -597,7 +597,7 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "flags" : ["SHARP", "PROTRUSION"],
         "breaks_into" : [
             {"item": "steel_chunk", "prob": 50}
         ]
@@ -614,7 +614,7 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "flags" : ["SHARP", "PROTRUSION"],
         "breaks_into" : [
             {"item": "steel_chunk", "prob": 50}
         ]
@@ -631,7 +631,7 @@
         "item" : "spike",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "flags" : ["SHARP", "PROTRUSION"],
         "breaks_into" : [
             {"item": "steel_chunk", "count": [1, 2]}
         ]
@@ -1943,7 +1943,7 @@
         "item" : "pointy_stick",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "NAILABLE"],
+        "flags" : ["SHARP", "PROTRUSION", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 7]}
         ]
