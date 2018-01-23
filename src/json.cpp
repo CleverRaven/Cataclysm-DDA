@@ -214,19 +214,6 @@ bool JsonObject::get_bool(const std::string &name, const bool fallback)
     return jsin->get_bool();
 }
 
-bool JsonObject::get_bool_or_flag( const std::string &name, const std::string &flag, const bool fallback, const std::string &flags_node )
-{
-    const std::set<std::string> flags = get_tags( flags_node );
-    bool value = fallback;
-    if( has_bool( name ) ) {
-        value = get_bool( name, fallback );
-        throw_error( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" + flag + "` flag in `" + flags_node + "` node." );      
-    } else {
-        value = flags.count( flag );
-    }
-    return value;
-}
-
 int JsonObject::get_int(const std::string &name)
 {
     int pos = verify_position(name);

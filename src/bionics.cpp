@@ -1425,6 +1425,21 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
+static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
+                              const bool fallback, const std::string &flags_node = "flags" )
+{
+    const std::set<std::string> flags = jsobj.get_tags( flags_node );
+    bool value = fallback;
+    if( jsobj.has_bool( name ) ) {
+        value = jsobj.get_bool( name, fallback );
+        debugmsg( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" +
+                  flag + "` flag in `" + flags_node + "` node." );
+    } else {
+        value = flags.count( flag );
+    }
+    return value;
+}
+
 void load_bionic( JsonObject &jsobj )
 {
     bionic_data new_bionic;
@@ -1434,7 +1449,7 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.description = _( jsobj.get_string( "description" ).c_str() );
     new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
-    new_bionic.toggled = jsobj.get_bool_or_flag( "toggled", "BIONIC_TOGGLED" , false );
+    new_bionic.toggled = get_bool_or_flag( jsobj, "toggled", "BIONIC_TOGGLED", false );
     // Requires ability to toggle
     new_bionic.power_deactivate = jsobj.get_int( "deact_cost", 0 );
 
@@ -1444,12 +1459,13 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
-    new_bionic.faulty = jsobj.get_bool_or_flag( "faulty", "BIONIC_FAULTY" , false );
-    new_bionic.power_source = jsobj.get_bool_or_flag( "power_source", "BIONIC_POWER_SOURCE" , false );
+    new_bionic.faulty = get_bool_or_flag( jsobj, "faulty", "BIONIC_FAULTY", false );
+    new_bionic.power_source = get_bool_or_flag( jsobj, "power_source", "BIONIC_POWER_SOURCE", false );
 
-    new_bionic.gun_bionic = jsobj.get_bool_or_flag( "gun_bionic", "BIONIC_GUN" , false );
-    new_bionic.weapon_bionic = jsobj.get_bool_or_flag( "weapon_bionic", "BIONIC_WEAPON" , false );
-    new_bionic.armor_interface = jsobj.get_bool_or_flag( "armor_interface", "BIONIC_ARMOR_INTERFACE" , false );
+    new_bionic.gun_bionic = get_bool_or_flag( jsobj, "gun_bionic", "BIONIC_GUN", false );
+    new_bionic.weapon_bionic = get_bool_or_flag( jsobj, "weapon_bionic", "BIONIC_WEAPON", false );
+    new_bionic.armor_interface = get_bool_or_flag( jsobj, "armor_interface", "BIONIC_ARMOR_INTERFACE",
+                                 false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
