@@ -278,7 +278,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update_turn = 0;
+    last_update = 0;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -2581,7 +2581,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, int p, int hl /*= -1*/) const
+int vehicle::print_part_desc( const catacurses::window &win, int y1, const int max_y, int width, int p, int hl /*= -1*/ ) const
 {
     if (p < 0 || p >= (int)parts.size()) {
         return y1;
@@ -2680,7 +2680,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators ( WINDOW *win, int y, int x, int start_index, bool fullsize, bool verbose, bool desc, bool isHorizontal) const
+void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index, bool fullsize, bool verbose, bool desc, bool isHorizontal ) const
 {
     auto fuels = get_printable_fuel_types();
 
@@ -2719,10 +2719,9 @@ void vehicle::print_fuel_indicators ( WINDOW *win, int y, int x, int start_index
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
  */
-void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, bool verbose, bool desc) const
+void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x, itype_id fuel_type, bool verbose, bool desc ) const
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
-    WINDOW *win = (WINDOW *) w;
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
@@ -3844,7 +3843,7 @@ void vehicle::on_move(){
         operate_reaper();
     }
 
-    occupied_cache_turn = -1;
+    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::operate_plow(){
@@ -4624,28 +4623,32 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        if( critter == nullptr || !critter->is_hallucination() ) {
+            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
     // Apply special effects from collision.
     if( critter != nullptr ) {
-        if( pl_ctrl ) {
-            if( turns_stunned > 0 ) {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
-            } else {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+        if( !critter->is_hallucination() ) {
+            if( pl_ctrl ) {
+                if( turns_stunned > 0 ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                } else {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                }
             }
-        }
 
-        if( part_flag( ret.part, "SHARP" ) ) {
-            critter->bleed();
-        } else {
-            sounds::sound( p, 20, snd );
+            if( part_flag( ret.part, "SHARP" ) ) {
+                critter->bleed();
+            } else {
+                sounds::sound( p, 20, snd );
+            }
         }
     } else {
         if( pl_ctrl ) {
@@ -5923,8 +5926,8 @@ int vehicle::obstacle_at_part( int p ) const
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_turn != calendar::turn ) {
-        occupied_cache_turn = calendar::turn;
+    if( force_refresh || occupied_cache_time != calendar::turn ) {
+        occupied_cache_time = calendar::turn;
         occupied_points.clear();
         tripoint pos = global_pos3();
         for( const auto &p : parts ) {
@@ -5964,24 +5967,24 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
         sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
 }
 
-void vehicle::update_time( const calendar &update_to )
+void vehicle::update_time( const time_point &update_to )
 {
     if( smz < 0 ) {
         return;
     }
 
-    const auto update_from = last_update_turn;
+    const time_point update_from = last_update;
     if( update_to < update_from ) {
         // Special case going backwards in time - that happens
-        last_update_turn = update_to;
+        last_update = update_to;
         return;
     }
 
-    if( update_to >= update_from && update_to - update_from < MINUTES(1) ) {
+    if( update_to >= update_from && update_to - update_from < 1_minutes ) {
         // We don't need to check every turn
         return;
     }
-    last_update_turn = update_to;
+    last_update = update_to;
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?

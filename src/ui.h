@@ -86,7 +86,7 @@ class ui_container
         int w_y;
         int w_width;
         int w_height;
-        WINDOW *window;
+        catacurses::window window;
         virtual void refresh( bool refresh_children = true ) = 0;
 };
 

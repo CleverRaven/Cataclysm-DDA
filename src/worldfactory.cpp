@@ -601,7 +601,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options(WINDOW*, WORLDPTR world)
+int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
 {
     get_options().world_options = &world->WORLD_OPTIONS;
     const std::string action = get_options().show( false, true );
@@ -618,7 +618,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW*, WORLDPTR world)
     return 0;
 }
 
-void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift )
+void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, const catacurses::window &w_shift )
 {
     werase( w );
     werase(w_shift);
@@ -758,7 +758,7 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), nullptr );
+        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
         wrefresh( w_mods );
 
         input_context ctxt( "DEFAULT" );
@@ -785,7 +785,7 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     }
 }
 
-int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world )
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
@@ -819,19 +819,18 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     // lots of small windows so that each section can be drawn to independently of the others as necessary
-    WINDOW *w_header1, *w_header2, *w_shift, *w_list, *w_active, *w_description;
-    w_header1 = catacurses::newwin( 1, FULL_SCREEN_WIDTH / 2 - 5, 3 + iOffsetY, 1 + iOffsetX );
-    w_header2 = catacurses::newwin( 1, FULL_SCREEN_WIDTH / 2 - 4, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 3 + iOffsetX);
-    w_shift   = catacurses::newwin( 13, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 - 3 + iOffsetX );
-    w_list    = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
-    w_active  = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
-    w_description = catacurses::newwin( 4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX );
+    catacurses::window w_header1 = catacurses::newwin( 1, FULL_SCREEN_WIDTH / 2 - 5, 3 + iOffsetY, 1 + iOffsetX );
+    catacurses::window w_header2 = catacurses::newwin( 1, FULL_SCREEN_WIDTH / 2 - 4, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 3 + iOffsetX );
+    catacurses::window w_shift   = catacurses::newwin( 13, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 - 3 + iOffsetX );
+    catacurses::window w_list    = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
+    catacurses::window w_active  = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX );
+    catacurses::window w_description = catacurses::newwin( 4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX );
 
     draw_modselection_borders(win, &ctxt);
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
-    std::vector<WINDOW *> header_windows;
+    std::vector<catacurses::window> header_windows;
     header_windows.push_back(w_header1);
     header_windows.push_back(w_header2);
 
@@ -933,7 +932,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
 
         if( redraw_list ) {
-            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
+            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--"), catacurses::window() );
         }
         if( redraw_active ) {
             draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
@@ -1099,7 +1098,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world )
 {
     const int iTooltipHeight = 1;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
@@ -1224,7 +1223,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
     return 0;
 }
 
-void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
+void worldfactory::draw_modselection_borders( const catacurses::window &win, input_context *ctxtp )
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
@@ -1278,7 +1277,7 @@ void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
     refresh();
 }
 
-void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
+void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int current )
 {
     werase(w);
 

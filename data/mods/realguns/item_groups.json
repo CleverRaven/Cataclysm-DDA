@@ -104,14 +104,9 @@
     ]
   },
   {
-    "id": "antique_guns",
+    "id": "museum_guns",
     "type": "item_group",
     "//": "Colt Lightning not added, as .45 version only existed as replicas",
-    "items": [ [ "colt_saa", 30 ] ]
-  },
-  {
-    "id": "antique_guns_with_ammo",
-    "type": "item_group",
     "items": [ [ "colt_saa", 30 ] ]
   },
   {

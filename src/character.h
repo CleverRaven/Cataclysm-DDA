@@ -10,6 +10,7 @@
 #include "map_selector.h"
 #include "pathfinding.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "pldata.h"
 
 #include <map>
@@ -529,12 +530,14 @@ class Character : public Creature, public visitable<Character>
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */
-        int get_turn_died() const {
-            return turn_died;
+        time_point get_time_died() const {
+            return time_died;
         }
         /** set the turn the turn the character died if not already done */
-        void set_turn_died( int turn ) {
-            turn_died = ( turn_died != -1 ) ? turn : turn_died;
+        void set_time_died( const time_point &time ) {
+            if( time_died != calendar::before_time_starts ) {
+                time_died = time;
+            }
         }
 
         /** Calls Creature::normalize()
@@ -680,8 +683,9 @@ class Character : public Creature, public visitable<Character>
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max;
 
-        // turn the character expired, if -1 it has not been set yet.
-        int turn_died = -1;
+        // turn the character expired, if calendar::before_time_starts it has not been set yet.
+        //@todo change into an optional<time_point>
+        time_point time_died = calendar::before_time_starts;
 
         /**
          * Cache for pathfinding settings.

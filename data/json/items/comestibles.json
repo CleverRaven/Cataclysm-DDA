@@ -11292,5 +11292,24 @@
           "calories": 1.6,
           "vitamins": [ [ "vitA", 0.64 ] ]
         }
-    }
+    },
+    {
+        "id": "brownie_weed",
+        "type": "COMESTIBLE",
+        "comestible_type": "FOOD",
+        "name": "'special' brownie",
+        "description": "This is definitely not how grandma used to bake them.",
+        "weight": 56,
+        "volume": 3,
+        "price": 5000,
+        "charges": 8,
+        "material": "wheat",
+        "symbol": "%",
+        "color": "brown",
+        "nutrition": 20,
+        "fun": 15,
+        "spoils_in": 420,
+        "use_action": "WEED_BROWNIE",
+        "flags": [ "EATEN_HOT" ]
+  }
 ]

@@ -28,6 +28,10 @@ struct numeric_interval {
         return val >= min && val <= max;
     }
 
+    bool empty() const {
+        return max == 0 || min > max;
+    }
+
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
         auto ja = jsin.get_array();

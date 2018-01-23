@@ -415,7 +415,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
+int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
 

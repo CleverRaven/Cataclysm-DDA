@@ -21,8 +21,8 @@ class lua_console
         const int width = TERMX;
         const int lines = 10;
 
-        WINDOW *cWin;
-        WINDOW *iWin;
+        catacurses::window cWin;
+        catacurses::window iWin;
 
         std::vector<std::pair<std::string, nc_color>> text_stack;
         std::string get_input();

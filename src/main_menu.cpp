@@ -26,8 +26,8 @@ void main_menu::on_move() const
     sfx::play_variant_sound( "menu_move", "default", 100 );
 }
 
-void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
-                                  int iOffsetY, int iOffsetX, int spacing )
+void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
+                                  size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
     wmove( w_in, iOffsetY, iOffsetX );
     for( size_t i = 0; i < vItems.size(); ++i ) {
@@ -50,8 +50,8 @@ void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems,
     }
 }
 
-void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                            bool bShowDDA )
+void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
+                            int iMenuOffsetY, bool bShowDDA )
 {
     // Clear Lines
     werase( w_open );

@@ -91,55 +91,52 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
-                              const calendar &turn, const int tick_size )
+                              const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
     case WEATHER_DRIZZLE:
-        data.rain_amount += 4 * tick_size;
+        data.rain_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_RAINY:
     case WEATHER_THUNDER:
     case WEATHER_LIGHTNING:
-        data.rain_amount += 8 * tick_size;
+        data.rain_amount += 8 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_DRIZZLE:
-        data.acid_amount += 4 * tick_size;
+        data.acid_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_RAIN:
-        data.acid_amount += 8 * tick_size;
+        data.acid_amount += 8 * to_turns<int>( tick_size );
         break;
     default:
         break;
     }
 
-    // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = turn.sunlight() + weather_data( wtype ).light_modifier;
-    data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
+    // TODO: Change this sunlight "sampling" here into a proper interpolation
+    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather_data( wtype ).light_modifier;
+    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
 }
 
 ////// Funnels.
-weather_sum sum_conditions( const calendar &startturn,
-                            const calendar &endturn,
+weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
-    int tick_size = MINUTES(1);
+    time_duration tick_size = 0;
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
-    for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
-        const int diff = endturn - startturn;
-        if( diff <= 0 ) {
-            return data;
-        } else if( diff < 10 ) {
-            tick_size = 1;
-        } else if( diff > DAYS(7) ) {
-            tick_size = HOURS(1);
+    for( time_point t = start; t < end; t += tick_size ) {
+        const time_duration diff = end - t;
+        if( diff < 10_turns ) {
+            tick_size = 1_turns;
+        } else if( diff > 7_days ) {
+            tick_size = 1_hours;
         } else {
-            tick_size = MINUTES(1);
+            tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, turn, g->get_seed() );
-        proc_weather_sum( wtype, data, turn, tick_size );
+        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        proc_weather_sum( wtype, data, t, tick_size );
     }
 
     return data;

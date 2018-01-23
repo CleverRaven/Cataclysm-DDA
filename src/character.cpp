@@ -1275,7 +1275,7 @@ void Character::die(Creature* nkiller)
 {
     g->set_critter_died();
     set_killer( nkiller );
-    set_turn_died(int(calendar::turn));
+    set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
         inv.add_item( item( "string_36", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );

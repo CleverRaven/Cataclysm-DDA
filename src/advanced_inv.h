@@ -2,7 +2,7 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "cursesdef.h" // WINDOW
+#include "cursesdef.h"
 #include "enums.h"
 #include "units.h"
 
@@ -260,7 +260,7 @@ class advanced_inventory_pane
          */
         int index;
         advanced_inv_sortby sortby;
-        WINDOW *window;
+        catacurses::window window;
         std::vector<advanced_inv_listitem> items;
         /**
          * The current filter string.
@@ -343,11 +343,12 @@ class advanced_inventory
         const int min_w_width;
         const int max_w_width;
 
-        // swap the panes and WINDOW pointers via std::swap()
+        // swap the panes and windows via std::swap()
         void swap_panes();
 
         // minimap that displays things around character
-        WINDOW *minimap, *mm_border;
+        catacurses::window minimap;
+        catacurses::window mm_border;
         const int minimap_width  = 3;
         const int minimap_height = 3;
         void draw_minimap();
@@ -386,9 +387,9 @@ class advanced_inventory
         static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
-        WINDOW *head;
-        WINDOW *left_window;
-        WINDOW *right_window;
+        catacurses::window head;
+        catacurses::window left_window;
+        catacurses::window right_window;
 
         bool exit;
 
