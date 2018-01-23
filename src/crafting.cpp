@@ -123,8 +123,11 @@ void player::long_craft()
 
 bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
+    if( !id_to_make.is_valid() || id_to_make.is_null() ) {
+        return false;
+    }
     const auto &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !crafting_allowed( *this, making ) ) {
         return false;
     }
 
@@ -319,12 +322,11 @@ void player::make_all_craft( const recipe_id &id_to_make, int batch_size )
 
 void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long )
 {
-    const auto &recipe_to_make = *id_to_make;
-
-    if( !recipe_to_make ) {
+    if( !id_to_make.is_valid() || id_to_make.is_null() ) {
         return;
     }
 
+    const auto &recipe_to_make = *id_to_make;
     *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this );
     last_craft->execute();
 }
@@ -385,11 +387,6 @@ void player::complete_craft()
     //@todo change making to be a reference, it can never be null anyway
     const recipe *making = &recipe_id( activity.name ).obj(); // Which recipe is it?
     int batch_size = activity.values.front();
-    if( making == nullptr ) {
-        debugmsg( "no recipe with id %s found", activity.name.c_str() );
-        activity.set_to_null();
-        return;
-    }
 
     int secondary_dice = 0;
     int secondary_difficulty = 0;
@@ -967,11 +964,12 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
 
 ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
 {
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-
-    if( !r ) {
+    const recipe_id rid = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !rid ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
+
+    const recipe &r = *rid;
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
@@ -1056,7 +1054,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         return false;
     }
 
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() ).obj();
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         const auto components( r.disassembly_requirements().get_components() );
@@ -1176,7 +1174,8 @@ void player::complete_disassemble()
 
     const bool from_ground = loc != tripoint_min;
 
-    complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
+    complete_disassemble( item_pos, loc, from_ground,
+                          recipe_dictionary::get_uncraft( recipe_name ).obj() );
 
     if( !activity ) {
         // Something above went wrong, don't continue
@@ -1195,13 +1194,13 @@ void player::complete_disassemble()
         return;
     }
 
-    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe_id next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
     if( !next_recipe ) {
         activity.set_to_null();
         return;
     }
 
-    activity.moves_left = next_recipe.time;
+    activity.moves_left = next_recipe->time;
 }
 
 // TODO: Make them accessible in a less ugly way

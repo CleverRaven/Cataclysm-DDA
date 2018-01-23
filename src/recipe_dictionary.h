@@ -32,8 +32,8 @@ class recipe_dictionary
         std::map<recipe_id, recipe>::const_iterator begin() const;
         std::map<recipe_id, recipe>::const_iterator end() const;
 
-        /** Returns disassembly recipe (or null recipe if no match) */
-        static const recipe &get_uncraft( const itype_id &id );
+        /** @returns Disassembly recipe or null id if no match. */
+        static recipe_id get_uncraft( const itype_id &id );
 
         static void load_recipe( JsonObject &jo, const std::string &src );
         static void load_uncraft( JsonObject &jo, const std::string &src );

@@ -5929,17 +5929,14 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             std::string s;
             int k = 1;
             while (getline(f, s, ',')) {
-
-                if (s.size() == 0) {
+                const recipe_id id( s );
+                // Recipes come from JSON, they may get removed over time, so the
+                // item may have acquired references to recipes that no longer exists.
+                if( !id.is_valid() || id.is_null() ) {
                     continue;
                 }
-
                 candidate_recipes.emplace_back(s);
-
-                const auto &recipe = *candidate_recipes.back();
-                if( recipe ) {
-                    rmenu.addentry( k++, true, -1, recipe.result_name() );
-                }
+                rmenu.addentry( k++, true, -1, id->result_name() );
             }
 
             rmenu.query();
@@ -5952,12 +5949,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 const auto rec_id = candidate_recipes[rchoice - 1];
                 it->set_var( "RECIPE", rec_id.str() );
 
-                const auto &recipe = *rec_id;
-                if( recipe ) {
-                    p->add_msg_if_player(m_info,
-                        _("You change the e-ink screen to show a recipe for %s."),
-                                         recipe.result_name() );
-                }
+                p->add_msg_if_player(m_info,
+                    _("You change the e-ink screen to show a recipe for %s."),
+                                     rec_id->result_name() );
             }
 
             return it->type->charges_to_use();

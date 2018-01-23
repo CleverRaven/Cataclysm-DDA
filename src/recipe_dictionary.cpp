@@ -55,10 +55,10 @@ bool string_id<recipe>::is_valid() const
     return recipe_dict.recipes.find( *this ) != recipe_dict.recipes.end();
 }
 
-const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
+recipe_id recipe_dictionary::get_uncraft( const itype_id &id )
 {
     auto iter = recipe_dict.uncraft.find( recipe_id( id ) );
-    return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
+    return iter != recipe_dict.uncraft.end() ? iter->second.ident() : recipe_id::NULL_ID();
 }
 
 // searches for left-anchored partial match in the relevant recipe requirements set
