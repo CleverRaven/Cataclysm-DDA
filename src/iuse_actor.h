@@ -5,7 +5,6 @@
 #include "iuse.h"
 #include "game_constants.h"
 #include "color.h"
-#include "bodypart.h"
 #include "ret_val.h"
 #include "string_id.h"
 #include "explosion.h"
@@ -22,6 +21,7 @@ struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
 enum hp_part : int;
+enum body_part : int;
 struct mtype;
 using mtype_id = string_id<mtype>;
 class JsonObject;

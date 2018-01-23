@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "mtype.h"
+#include "ranged.h"
 #include "field.h"
 #include "fire.h"
 #include "weather.h"

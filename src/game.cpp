@@ -22,6 +22,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "uistate.h"
+#include "ranged.h"
 #include "item_group.h"
 #include "trait_group.h"
 #include "json.h"

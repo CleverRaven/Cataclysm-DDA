@@ -11,12 +11,13 @@
 #include "line.h"
 #include "bodypart.h"
 #include "messages.h"
-#include "map.h"
 #include "translations.h"
 #include "field.h"
 #include "player.h"
 
 #include <algorithm>
+
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {

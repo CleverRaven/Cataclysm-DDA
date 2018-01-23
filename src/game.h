@@ -7,9 +7,7 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "int_id.h"
-#include "item_location.h"
 #include "cursesdef.h"
-#include "ranged.h"
 
 #include <array>
 #include <vector>
@@ -17,7 +15,6 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
-#include <stdarg.h>
 
 extern const int savegame_version;
 extern int save_loading_version;
@@ -46,18 +43,6 @@ enum class dump_mode {
     HTML
 };
 
-enum tut_type {
-    TUT_NULL,
-    TUT_BASIC, TUT_COMBAT,
-    TUT_MAX
-};
-
-enum input_ret {
-    IR_GOOD,
-    IR_BAD,
-    IR_TIMEOUT
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
@@ -76,7 +61,11 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
+enum target_mode : int;
 
+class item_location;
+class item;
+struct targeting_data;
 struct special_game;
 struct itype;
 struct mtype;
@@ -464,15 +453,6 @@ class game
          * @return Whether an attack was actually performed.
          */
         bool plfire( item &weapon, int bp_cost = 0 );
-
-        /** Target is an interactive function which allows the player to choose a nearby
-         *  square.  It display information on any monster/NPC on that square, and also
-         *  returns a Bresenham line to that square.  It is called by plfire(),
-         *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint src, tripoint dst, int range,
-                                      std::vector<Creature *> t, int target,
-                                      item *relevant, target_mode mode );
-
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */

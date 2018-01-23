@@ -8,7 +8,6 @@
 #include "options.h"
 #include "translations.h"
 #include "string_formatter.h"
-#include "game.h"
 #include "debug.h"
 #include "rng.h"
 

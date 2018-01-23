@@ -5298,7 +5298,7 @@ void map::disarm_trap( const tripoint &p )
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
         add_msg(_("You take down the %s."), tr.name().c_str());
-        tr.on_disarmed( p );
+        tr.on_disarmed( *this, p );
         return;
     }
 
@@ -5312,7 +5312,7 @@ void map::disarm_trap( const tripoint &p )
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
-        tr.on_disarmed( p );
+        tr.on_disarmed( *this, p );
         if(diff > 1.25 * tSkillLevel) { // failure might have set off trap
             g->u.practice( skill_traps, 1.5*(diff - tSkillLevel) );
         }

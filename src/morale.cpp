@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "catacharset.h"
-#include "game.h"
 #include "weather.h"
 #include "input.h"
 

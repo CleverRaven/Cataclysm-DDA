@@ -5,9 +5,9 @@
 #include "math.h"
 #include "string_formatter.h"
 #include "output.h"
-#include "omdata.h"
-#include "game.h"
 #include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
 #include "catacharset.h"
 
 #include "json.h"
@@ -533,11 +533,11 @@ std::string faction::describe() const
     return ret;
 }
 
-int faction::response_time() const
+int faction::response_time( const tripoint &abs_sm_pos ) const
 {
-    int base = abs(mapx - g->get_levx());
-    if (abs(mapy - g->get_levy()) > base) {
-        base = abs(mapy - g->get_levy());
+    int base = abs( mapx - abs_sm_pos.x );
+    if (abs( mapy - abs_sm_pos.y ) > base) {
+        base = abs( mapy - abs_sm_pos.y );
     }
     if (base > size) { // Out of our sphere of influence
         base *= 2.5;

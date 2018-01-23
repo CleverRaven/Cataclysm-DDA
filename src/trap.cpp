@@ -5,7 +5,6 @@
 #include "debug.h"
 #include "line.h"
 #include "json.h"
-#include "game.h"
 #include "map.h"
 #include "debug.h"
 #include "translations.h"
@@ -187,9 +186,8 @@ bool trap::is_3x3_trap() const
     return id == trap_str_id( "tr_engine" );
 }
 
-void trap::on_disarmed( const tripoint &p ) const
+void trap::on_disarmed( map &m, const tripoint &p ) const
 {
-    map &m = g->m;
     for( auto &i : components ) {
         m.spawn_item( p.x, p.y, i, 1, 1 );
     }

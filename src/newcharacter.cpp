@@ -1898,7 +1898,7 @@ tab_direction set_scenario( const catacurses::window &w, player *u, points_left 
         }
 
         int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
-        bool can_pick = sorted_scens[cur_id]->can_pick(points.skill_points_left());
+        bool can_pick = sorted_scens[cur_id]->can_pick( *g->scen, points.skill_points_left() );
         const std::string clear_line( getmaxx( w_description ), ' ' );
 
         // Clear the bottom of the screen and header.

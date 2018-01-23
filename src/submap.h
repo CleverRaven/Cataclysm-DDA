@@ -6,7 +6,6 @@
 #include "basecamp.h"
 #include "item.h"
 #include "field.h"
-#include "item_stack.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
