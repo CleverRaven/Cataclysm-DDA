@@ -6951,13 +6951,6 @@ bool player::has_fire( const int quantity ) const
 
 void player::use_fire( const int quantity )
 {
-    //Ok, so checks for nearby fires first,
-    //then held lit torch or candle, bio tool/lighter/laser
-    //tries to use 1 charge of lighters, matches, flame throwers
-    //If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
-    // (home made, military), hotplate, welder in that order.
-    // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
-
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
     } else if( has_item_with_flag( "FIRE" ) ) {
