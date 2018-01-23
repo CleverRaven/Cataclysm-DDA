@@ -839,7 +839,7 @@
         "item" : "basket",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE"]
+        "flags" : ["CARGO", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "basketlg_folding",
@@ -854,7 +854,7 @@
         "item" : "folding_basket",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"],
+        "flags" : ["CARGO", "OBSTACLE", "FOLDABLE"],
         "folded_volume" : 12
     },{
         "type" : "vehicle_part",
