@@ -680,6 +680,7 @@ class JsonObject
         // variants with a fallback return the fallback value in stead.
         bool get_bool(const std::string &name);
         bool get_bool(const std::string &name, const bool fallback);
+        bool get_bool_or_flag( const std::string &name, const std::string &flag, const bool fallback, const std::string &flags_node = "flags" );
         int get_int(const std::string &name);
         int get_int(const std::string &name, const int fallback);
         long get_long(const std::string &name);

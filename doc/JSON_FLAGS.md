@@ -884,6 +884,15 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
+## Bionics
+
+- ```BIONIC_FAULTY``` This bionic is a "faulty" bionic.
+- ```BIONIC_POWER_SOURCE``` This bionic is a power source bionic.
+- ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
+- ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
+- ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
+- ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
+
 ## Books
 
 - ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
