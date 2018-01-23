@@ -253,7 +253,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
             auto mutcat = "MUTCAT_" + mutation;
             auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
                 return p.second.category == mutation;
-            }
+            };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
                               category_match ) == mutation_categories.end() ) {
                 debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
