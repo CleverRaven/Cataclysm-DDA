@@ -4685,7 +4685,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh->parts[part].enabled = false;
             } else if( calendar::once_every( MINUTES( 15 ) ) ) {
-                add_msg( _("It should take %d minutes to finish washing items in the %s."), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
+                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
                 break;
             }
         }
