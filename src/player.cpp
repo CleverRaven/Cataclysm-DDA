@@ -6931,7 +6931,10 @@ bool player::use_charges_if_avail(itype_id it, long quantity)
 
 bool player::has_fire( const int quantity ) const
 {
-    if( g->m.has_nearby_fire( pos() ) ) {
+    if( is_npc() ) {
+        // A hack to make NPCs use their molotovs
+        return true;
+    } else if( g->m.has_nearby_fire( pos() ) ) {
         return true;
     } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
@@ -6942,9 +6945,6 @@ bool player::has_fire( const int quantity ) const
                 return true;
             }
         }
-    } else if( is_npc() ) {
-        // A hack to make NPCs use their molotovs
-        return true;
     }
     return false;
 }
