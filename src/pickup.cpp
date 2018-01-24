@@ -180,40 +180,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case USE_WASHMACHINE: {
-            bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
-            auto items = veh->get_items( washing_machine_part );
-            static const std::string filthy( "FILTHY" );
-            bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-                return i.has_flag( filthy );
-            } );
-
-            if( washing_machine_on ) {
-                veh->parts[washing_machine_part].enabled = false;
-                add_msg( m_bad,
-                         _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
-            } else if( veh->fuel_left( "water" ) < 24 ) {
-                add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
-                         veh->name.c_str() );
-            } else if( !detergent_is_enough ) {
-                add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
-            } else if( !filthy_items ) {
-                add_msg( m_bad,
-                         _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
-            } else {
-                veh->parts[washing_machine_part].enabled = true;
-                for( auto &n : items ) {
-                    n.set_age( 0 );
-                }
-
-                veh->drain( "water", 24 );
-
-                std::vector<item_comp> detergent;
-                detergent.push_back( item_comp( "detergent", 5 ) );
-                g->u.consume_items( detergent );
-
-                add_msg( m_good,
-                         _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
-            }
+            veh->use_washing_machine( washing_machine_part );
             return DONE;
         }
 
