@@ -2,6 +2,7 @@
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "output.h"
 #include "monster.h"
 #include "mtype.h"
 #include "weather.h"

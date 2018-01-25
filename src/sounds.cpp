@@ -5,6 +5,7 @@
 #include "map.h"
 #include "debug.h"
 #include "enums.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "effect.h"
 #include "translations.h"

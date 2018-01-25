@@ -11,6 +11,7 @@
 #include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
+#include "output.h"
 #include "generic_factory.h"
 #include "character.h"
 

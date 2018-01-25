@@ -2,6 +2,7 @@
 
 #include "calendar.h"
 #include "game.h"
+#include "output.h"
 #include "player.h"
 #include "monster.h"
 #include "map.h"

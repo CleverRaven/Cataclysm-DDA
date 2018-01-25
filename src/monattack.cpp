@@ -7,6 +7,7 @@
 #include "game.h"
 #include "debug.h"
 #include "map.h"
+#include "output.h"
 #include "fungal_effects.h"
 #include "rng.h"
 #include "line.h"

@@ -18,6 +18,7 @@
 #include "player.h"
 #include "mutation.h"
 #include "vehicle.h"
+#include "output.h"
 #include "veh_interact.h"
 #include "cata_utility.h"
 

@@ -1,6 +1,7 @@
 #include "itype.h"
 #include "debug.h"
 #include "player.h"
+#include "output.h"
 #include "translations.h"
 
 #include <stdexcept>

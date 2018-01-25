@@ -4,6 +4,7 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
+#include "output.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "options.h"

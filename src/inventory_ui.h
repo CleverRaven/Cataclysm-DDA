@@ -10,7 +10,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
-#include "output.h"
 #include "item_location.h"
 
 class Character;

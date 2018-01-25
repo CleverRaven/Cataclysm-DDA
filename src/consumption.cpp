@@ -3,6 +3,7 @@
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"

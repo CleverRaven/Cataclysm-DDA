@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "line.h"
 #include "rng.h"
+#include "output.h"
 #include "options.h"
 #include "translations.h"
 #include "overmapbuffer.h"

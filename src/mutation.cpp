@@ -14,6 +14,8 @@
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
+#include "output.h"
+
 #include <algorithm>
 
 static const trait_id trait_ROBUST( "ROBUST" );

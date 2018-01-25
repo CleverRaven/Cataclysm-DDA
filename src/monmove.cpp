@@ -5,6 +5,7 @@
 #include "map_iterator.h"
 #include "debug.h"
 #include "game.h"
+#include "output.h"
 #include "line.h"
 #include "rng.h"
 #include "pldata.h"

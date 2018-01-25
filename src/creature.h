@@ -4,14 +4,18 @@
 
 #include "copyable_unique_ptr.h"
 #include "bodypart.h"
-#include "output.h"
 #include "string_id.h"
 #include "string_formatter.h"
 
 #include <string>
 #include <unordered_map>
+#include <map>
+#include <vector>
+#include <set>
 #include <climits>
 
+enum game_message_type : int;
+class nc_color;
 class effect;
 class effects_map;
 namespace catacurses

@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
+#include "output.h"
 #include "debug.h"
 #include "name.h"
 #include <sstream>

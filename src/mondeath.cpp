@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "line.h"
 #include "messages.h"
+#include "output.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "iuse_actor.h"

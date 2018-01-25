@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "rng.h"
 #include "translations.h"
+#include "output.h"
 #include "messages.h"
 #include "npc.h"
 

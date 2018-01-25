@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "ammo.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "martialarts.h"

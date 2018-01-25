@@ -11,6 +11,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "output.h"
 #include "monfaction.h"
 #include "mutation.h"
 #include "npc_class.h"

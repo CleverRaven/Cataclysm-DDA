@@ -12,6 +12,7 @@
 #include "player.h"
 #include "projectile.h"
 #include "sounds.h"
+#include "output.h"
 #include "trap.h"
 #include "vehicle.h"
 
