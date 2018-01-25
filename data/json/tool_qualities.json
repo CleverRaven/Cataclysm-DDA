@@ -87,7 +87,7 @@
     "type": "tool_quality",
     "id": "AXE",
     "name": "tree cutting",
-    "usages": [ [ 2, [ "LUMBER" ] ] ]
+    "usages": [ [ 1, [ "LUMBER", "CHOP_TREE" ] ] ]
   },
   {
     "type": "tool_quality",

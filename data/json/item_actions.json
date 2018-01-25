@@ -741,5 +741,10 @@
         "type" : "item_action",
         "id" : "install_bionic",
         "name" : "Install bionic"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_TREE",
+        "name" : "Chop down a tree"
     }
 ]

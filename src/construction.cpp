@@ -61,7 +61,6 @@ bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
-void done_tree( const tripoint & );
 void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
@@ -867,21 +866,6 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-void construct::done_tree( const tripoint &p )
-{
-    tripoint dirp;
-    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), dirp ) ) {
-        // try again
-    }
-
-    tripoint to = p + point( 3 * dirp.x + rng( -1, 1 ), 3 * dirp.y + rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
-    for( auto &elem : tree ) {
-        g->m.destroy( elem );
-        g->m.ter_set( elem, t_trunk );
-    }
-}
-
 void construct::done_trunk_log( const tripoint &p )
 {
     g->m.spawn_item( p.x, p.y, "log", rng( 2, 3 ), 0, calendar::turn );
@@ -1200,7 +1184,6 @@ void load_construction(JsonObject &jo)
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
-        { "done_tree", construct::done_tree },
         { "done_trunk_log", construct::done_trunk_log },
         { "done_trunk_plank", construct::done_trunk_plank },
         { "done_vehicle", construct::done_vehicle },

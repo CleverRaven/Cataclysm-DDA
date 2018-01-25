@@ -65,7 +65,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
-    { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn }
+    { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
+    { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -107,7 +108,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
-    { activity_id( "ACT_HACKSAW" ), hacksaw_finish }
+    { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
+    { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish }
 };
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -2085,6 +2087,46 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finished cutting the metal." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
+        sounds::sound( act->placement, 15, _( "CHK!" ) );
+        if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
+            p->add_msg_if_player( m_info, _( "About an hour left to go." ) );
+        }
+        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
+            p->add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
+        }
+        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
+            p->add_msg_if_player( m_info, _( "Almost there!  Ten more minutes of work and you'll be through." ) );
+        }
+    }
+}
+
+void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    tripoint direction;
+    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+        // try again
+    }
+
+    tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
+    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
+    for( auto &elem : tree ) {
+        g->m.destroy( elem );
+        g->m.ter_set( elem, t_trunk );
+    }
+
+    g->m.ter_set( pos, t_dirt );
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finished chopping down a tree." ) );
 
     act->set_to_null();
 }

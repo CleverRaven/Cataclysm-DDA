@@ -179,6 +179,8 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 
+static const quality_id AXE( "AXE" );
+
 void remove_radio_mod( item &it, player &p )
 {
     if( !it.has_flag( "RADIO_MOD" ) ) {
@@ -4109,6 +4111,37 @@ int iuse::lumber(player *p, item *it, bool t, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Chop down which tree?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You're not stern enough to shave yourself with THIS." ) );
+        return 0;
+    }
+
+    int moves;
+
+    if( g->m.has_flag( "TREE", dirp ) ) {
+        /** @EFFECT_STR reduces time required to chop down a tree */
+        moves = MINUTES( 70 - p->str_cur ) / it->get_quality( AXE ) * 100;
+    } else {
+        add_msg( m_info, _( "You can't chop down that." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
+}
 
 int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
 {
