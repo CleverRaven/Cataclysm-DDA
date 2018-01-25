@@ -158,6 +158,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
+    p->add_msg_if_player( m_good, _( "You finished burrowing." ) );
     g->m.destroy( pos, true );
 
     act->set_to_null();
@@ -1170,6 +1171,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
+    p->add_msg_if_player( m_good, _( "You finished digging." ) );
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
