@@ -568,8 +568,8 @@ void npc::talk_to_u()
     decide_needs();
 
     d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     // Main dialogue loop
     do {
@@ -3791,7 +3791,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        cost_string.c_str(), ( double )std::abs( cash ) / 100 );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green, deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
+                           deal.c_str() );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
@@ -3871,7 +3872,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '?':
                 update = true;
                 w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
-                                30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
+                                            30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
                 mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
                 draw_border( w_tmp );
                 wrefresh( w_tmp );
