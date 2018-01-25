@@ -2,6 +2,7 @@
 
 #include "output.h"
 #include "input.h"
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "string_formatter.h"
 #include "debug.h"

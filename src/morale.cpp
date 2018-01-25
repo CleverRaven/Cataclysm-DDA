@@ -6,6 +6,7 @@
 #include "item.h"
 #include "itype.h"
 #include "output.h"
+#include "cursesdef.h"
 #include "options.h"
 #include "bodypart.h"
 #include "translations.h"

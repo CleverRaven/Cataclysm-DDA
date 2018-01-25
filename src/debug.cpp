@@ -2,6 +2,7 @@
 #include "path_info.h"
 #include "output.h"
 #include "filesystem.h"
+#include "cursesdef.h"
 #include "input.h"
 #include <time.h>
 #include <cassert>

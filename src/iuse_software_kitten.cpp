@@ -3,6 +3,7 @@
 #include "output.h"
 #include "translations.h"
 #include "posix_time.h"
+#include "cursesdef.h"
 #include "input.h"
 
 #include <cstdlib>  // Needed for rand()

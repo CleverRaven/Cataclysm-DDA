@@ -5,6 +5,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
+#include "cursesdef.h"
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
