@@ -129,9 +129,9 @@ void messages_in_process( player_activity *act, player *p ) {
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
+        sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( act, p );
     }
 }
@@ -1131,12 +1131,12 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
+void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
+    if( calendar::once_every( MINUTES( 1 ) ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
+        sounds::sound(pos, 30, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( act, p );
     }
 }
