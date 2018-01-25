@@ -1218,10 +1218,10 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    if( !w_inv || width != getmaxx( w_inv.get() ) || height != getmaxy( w_inv.get() ) ) {
-        w_inv.reset( catacurses::newwin( height, width,
+    if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
+        w_inv = catacurses::newwin( height, width,
                              VIEW_OFFSET_Y + ( TERMY - height ) / 2,
-                             VIEW_OFFSET_X + ( TERMX - width ) / 2 ) );
+                             VIEW_OFFSET_X + ( TERMX - width ) / 2 );
     }
 }
 
@@ -1229,26 +1229,26 @@ void inventory_selector::refresh_window() const
 {
     assert( w_inv );
 
-    werase( w_inv.get() );
+    werase( w_inv );
 
-    draw_frame( w_inv.get() );
-    draw_header( w_inv.get() );
-    draw_columns( w_inv.get() );
-    draw_footer( w_inv.get() );
+    draw_frame( w_inv );
+    draw_header( w_inv );
+    draw_columns( w_inv );
+    draw_footer( w_inv );
 
-    wrefresh( w_inv.get() );
+    wrefresh( w_inv );
 }
 
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv.get(), 4, getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4 )
+    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 
     do {
-        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, 2, c_cyan, "< " );
-        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4, c_cyan, " >" );
+        mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
+        mvwprintz( w_inv, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4, c_cyan, " >" );
         std::string new_filter = spopup.query_string( false );
 
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
@@ -1257,7 +1257,7 @@ void inventory_selector::set_filter()
             filter = new_filter;
         }
 
-        wrefresh( w_inv.get() );
+        wrefresh( w_inv );
     } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
 
     for( const auto elem : columns ) {

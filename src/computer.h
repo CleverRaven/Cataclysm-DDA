@@ -102,6 +102,7 @@ class computer
 {
     public:
         computer( const std::string &name, int Security );
+        computer( const computer &rhs );
         ~computer();
 
         computer &operator=( const computer &rhs );

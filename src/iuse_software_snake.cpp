@@ -94,7 +94,6 @@ int snake_game::start_game()
     int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     catacurses::window w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    WINDOW_PTR w_snakeptr( w_snake );
     print_header(w_snake);
 
     //Snake start position

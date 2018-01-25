@@ -1154,8 +1154,6 @@ void display_help()
         };
         needs_refresh = true;
     } while( ch != 'q' && ch != KEY_ESCAPE );
-    delwin( w_help );
-    delwin( w_help_border );
 }
 
 std::string get_hint()

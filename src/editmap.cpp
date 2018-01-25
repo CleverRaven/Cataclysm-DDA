@@ -226,11 +226,7 @@ editmap::editmap()
     uberdraw = false;
 }
 
-editmap::~editmap()
-{
-    delwin( w_info );
-    delwin( w_help );
-}
+editmap::~editmap() = default;
 
 void editmap_hilight::draw( editmap *hm, bool update )
 {
@@ -1052,11 +1048,6 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
-
-    werase( w_pickter );
-    wrefresh( w_pickter );
-
-    delwin( w_pickter );
     return ret;
 }
 
@@ -1291,9 +1282,6 @@ int editmap::edit_trp()
             update_view( false );
         }
     } while( action != "QUIT" );
-    werase( w_picktrap );
-    wrefresh( w_picktrap );
-    delwin( w_picktrap );
 
     wrefresh( w_info );
 
@@ -1838,9 +1826,6 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
     inp_mngr.reset_timeout();
-    werase( w_preview );
-    wrefresh( w_preview );
-    delwin( w_preview );
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter

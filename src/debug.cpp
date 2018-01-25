@@ -69,7 +69,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
-    if( stdscr == nullptr ) {
+    if( !stdscr ) {
         std::cerr << text << std::endl;
         abort();
     }

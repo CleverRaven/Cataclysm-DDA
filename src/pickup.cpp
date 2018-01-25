@@ -727,10 +727,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
         int itemsX = pickupX;
 
-        catacurses::window w_pickup    = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
         catacurses::window w_item_info = catacurses::newwin( itemsH,  itemsW,  itemsY,  itemsX );
-        WINDOW_PTR w_pickupptr( w_pickup );
-        WINDOW_PTR w_item_infoptr( w_item_info );
 
         std::string action;
         long raw_input_char = ' ';
@@ -1062,8 +1060,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
         }
         if( action != "CONFIRM" || !item_selected ) {
-            w_pickupptr.reset();
-            w_item_infoptr.reset();
+            w_pickup = catacurses::window();
+            w_item_info = catacurses::window();
             add_msg( _( "Never mind." ) );
             g->reenter_fullscreen();
             g->refresh_all();

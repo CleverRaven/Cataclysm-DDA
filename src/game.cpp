@@ -532,10 +532,9 @@ void game::init_ui()
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
-    w_terrain = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
+    w_terrain = w_terrain_ptr = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
                        VIEW_OFFSET_Y, right_sidebar ? VIEW_OFFSET_X :
-                       VIEW_OFFSET_X + sidebarWidth);
-    w_terrain_ptr.reset( w_terrain );
+                       VIEW_OFFSET_X + sidebarWidth );
     werase(w_terrain);
 
     /**
@@ -647,24 +646,19 @@ void game::init_ui()
     int _y = VIEW_OFFSET_Y;
     int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
-    w_minimap = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
-    w_minimap_ptr.reset( w_minimap );
+    w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
     werase(w_minimap);
 
-    w_HP = catacurses::newwin( hpH, hpW, _y + hpY, _x + hpX );
-    w_HP_ptr.reset( w_HP );
+    w_HP = w_HP_ptr = catacurses::newwin( hpH, hpW, _y + hpY, _x + hpX );
     werase(w_HP);
 
-    w_messages_short = catacurses::newwin( messHshort, messW, _y + messY, _x + messX );
-    w_messages_short_ptr.reset( w_messages_short );
+    w_messages_short = w_messages_short_ptr = catacurses::newwin( messHshort, messW, _y + messY, _x + messX );
     werase(w_messages_short);
 
-    w_messages_long = catacurses::newwin( messHlong, messW, _y + messY, _x + messX );
-    w_messages_long_ptr.reset( w_messages_long );
+    w_messages_long = w_messages_long_ptr = catacurses::newwin( messHlong, messW, _y + messY, _x + messX );
     werase(w_messages_long);
 
-    w_pixel_minimap = catacurses::newwin( pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX );
-    w_pixel_minimap_ptr.reset( w_pixel_minimap );
+    w_pixel_minimap = w_pixel_minimap_ptr = catacurses::newwin( pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX );
     werase(w_pixel_minimap);
 
     w_messages = w_messages_short;
@@ -672,16 +666,13 @@ void game::init_ui()
         w_messages = w_messages_long;
     }
 
-    w_location = catacurses::newwin( locH, locW, _y + locY, _x + locX );
-    w_location_ptr.reset( w_location );
+    w_location = w_location_ptr = catacurses::newwin( locH, locW, _y + locY, _x + locX );
     werase(w_location);
 
-    w_status = catacurses::newwin( statH, statW, _y + statY, _x + statX );
-    w_status_ptr.reset( w_status );
+    w_status = w_status_ptr = catacurses::newwin( statH, statW, _y + statY, _x + statX );
     werase(w_status);
 
-    w_status2 = catacurses::newwin( stat2H, stat2W, _y + stat2Y, _x + stat2X );
-    w_status2_ptr.reset( w_status2 );
+    w_status2 = w_status2_ptr = catacurses::newwin( stat2H, stat2W, _y + stat2Y, _x + stat2X );
     werase(w_status2);
 
     liveview.init();
@@ -1570,9 +1561,9 @@ bool game::do_turn()
         }
 
         if( calendar::once_every( MINUTES( 1 ) ) ) {
-            WINDOW_PTR popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
+            catacurses::window popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
 
-            wrefresh( popup.get() );
+            wrefresh( popup );
 
             refresh();
             refresh_display();
@@ -2380,13 +2371,13 @@ input_context game::get_player_input(std::string &action)
             if( uquit == QUIT_WATCH ) {
                 draw_sidebar();
 
-                WINDOW_PTR popup = create_wait_popup_window(
+                catacurses::window popup = create_wait_popup_window(
                     string_format( _( "Press %s to accept your fate..." ),
                     ctxt.get_desc( "QUIT" ).c_str() ),
                     c_red
                 );
 
-                wrefresh( popup.get() );
+                wrefresh( popup );
 
                 break;
             }
@@ -4435,9 +4426,6 @@ void game::disp_kills()
     }
     display_table( w, buffer.str(), 3, data );
 
-    werase( w );
-    wrefresh( w );
-    delwin( w );
     refresh_all();
 }
 
@@ -4464,9 +4452,6 @@ void game::disp_NPC_epilogues()
         data.clear();
     }
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
     refresh_all();
 }
 
@@ -4641,9 +4626,6 @@ void game::disp_faction_ends()
         data.clear();
     }
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
     refresh_all();
 }
 
@@ -4684,9 +4666,6 @@ void game::disp_NPCs()
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
-    werase(w);
-    wrefresh(w);
-    delwin(w);
 }
 
 faction *game::list_factions(std::string title)
@@ -4775,10 +4754,6 @@ faction *game::list_factions(std::string title)
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     refresh_all();
     return cur_frac;
 }
@@ -8374,16 +8349,6 @@ void game::zones_manager()
     } while (action != "QUIT");
     inp_mngr.reset_timeout();
 
-    werase(w_zones);
-    werase(w_zones_border);
-    werase(w_zones_info);
-    werase(w_zones_info_border);
-
-    delwin(w_zones);
-    delwin(w_zones_border);
-    delwin(w_zones_info);
-    delwin(w_zones_info_border);
-
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
         if( query_yn( _("Save changes?") ) ) {
@@ -8443,7 +8408,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     get_lookaround_dimensions(lookWidth, lookY, lookX);
 
     bool bNewWindow = false;
-    if (w_info == nullptr) {
+    if( !w_info ) {
         w_info = catacurses::newwin( LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX );
         bNewWindow = true;
     }
@@ -8672,8 +8637,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     inp_mngr.reset_timeout();
 
     if (bNewWindow) {
-        werase(w_info);
-        delwin(w_info);
+        w_info = catacurses::window();
     }
     reenter_fullscreen();
     bVMonsterLookFire = true;
@@ -8965,14 +8929,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width : VIEW_OFFSET_X;
 
-    catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1 );
-    WINDOW_PTR w_itemsptr( w_items );
-
-    catacurses::window w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX );
-    WINDOW_PTR w_items_borderptr( w_items_border );
-
-    catacurses::window w_item_info = catacurses::newwin( iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
-    WINDOW_PTR w_item_infoptr( w_item_info );
+    catacurses::window w_items = catacurses::newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1);
+    catacurses::window w_items_border = catacurses::newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_item_info = catacurses::newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
 
     // use previously selected sorting method
     bool sort_radius = uistate.list_item_sort != 2;
@@ -9332,18 +9291,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
 
-    catacurses::window w_monsters = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
-                                VIEW_OFFSET_Y + 1, offsetX + 1);
-    WINDOW_PTR w_monstersptr( w_monsters );
-    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
-                                       VIEW_OFFSET_Y, offsetX);
-    WINDOW_PTR w_monsters_borderptr( w_monsters_border );
-    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
-                                    TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
-    WINDOW_PTR w_monster_infoptr( w_monster_info );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width,
-                                           TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
-    WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
+    catacurses::window w_monsters = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
+    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1 );
+    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
 
     const int max_gun_range = u.weapon.gun_range( &u );
 
@@ -13625,7 +13576,6 @@ void intro()
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     catacurses::window tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
-    WINDOW_PTR w_tmpptr( tmp );
 
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);

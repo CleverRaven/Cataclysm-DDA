@@ -112,13 +112,6 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
     } while( ch != KEY_ESCAPE && ch != '\n' );
-
-    werase( w_head );
-    werase( w_main );
-    wrefresh( w_head );
-    wrefresh( w_main );
-    delwin( w_head );
-    delwin( w_main );
 }
 
 std::string map_data_common_t::extended_description() const

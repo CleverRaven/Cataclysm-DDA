@@ -141,8 +141,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
         const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
         // set up window
-        catacurses::window wf_win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-        WINDOW_PTR wf_winptr( wf_win );
+        catacurses::window wf_win = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
@@ -745,10 +744,8 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     catacurses::window w_border = catacurses::newwin( 13, FULL_SCREEN_WIDTH / 2 - 3, 4 + iOffsetY, iOffsetX );
-    WINDOW_PTR w_borderptr( w_border );
 
     catacurses::window w_mods = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
-    WINDOW_PTR w_modsptr( w_mods );
 
     int start = 0;
     int cursor = 0;
@@ -1082,19 +1079,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
         // end RESOLVE INPUTS
     }
-    werase(w_header1);
-    werase(w_header2);
-    werase(w_shift);
-    werase(w_list);
-    werase(w_active);
-    werase(w_description);
-
-    delwin(w_header1);
-    delwin(w_header2);
-    delwin(w_shift);
-    delwin(w_list);
-    delwin(w_active);
-    delwin(w_description);
     return tab_output;
 }
 
@@ -1108,8 +1092,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     const char* line_of_32_underscores = "________________________________";
 
-    catacurses::window w_confirmation = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_confirmationptr( w_confirmation );
+    catacurses::window w_confirmation = catacurses::newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     unsigned namebar_y = 1;
     unsigned namebar_x = 3 + utf8_width(_("World Name:"));

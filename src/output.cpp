@@ -56,13 +56,6 @@ extern bool use_tiles;
 
 extern bool test_mode;
 
-void delwin_functor::operator()( void *w ) const
-{
-    if( w != nullptr ) {
-        delwin( w );
-    }
-}
-
 // utf8 version
 std::vector<std::string> foldstring( std::string str, int width )
 {
@@ -610,9 +603,6 @@ bool query_yn( const std::string &text )
         ch = inp_mngr.get_input_event().get_first_input();
     };
 
-    werase( w );
-    wrefresh( w );
-    delwin( w );
     refresh();
     return ( ( ch != KEY_ESCAPE ) && result );
 }
@@ -657,30 +647,30 @@ int menu( bool const cancelable, const char *const mes, ... )
     return ( uimenu( cancelable, mes, options ) );
 }
 
-static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+static window create_popup_window( int width, int height, PopupFlags flags )
 {
     if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
-                               std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                           std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+                           std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+                       ) );
     } else if( ( flags & PF_ON_TOP ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               0,
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           height, width,
+                           0,
+                           std::max( ( TERMX - width ) / 2, 0 )
+                       ) );
     } else {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return window( catacurses::newwin(
+                           height, width,
+                           std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+                           std::max( ( TERMX - width ) / 2, 0 )
+                       ) );
     }
 }
 
-WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+window create_popup_window( const std::string &text, PopupFlags flags )
 {
     const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
 
@@ -692,18 +682,18 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
     const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
     const int width = text_width + 2;
 
-    WINDOW_PTR result = create_popup_window( width, height, flags );
+    window result = create_popup_window( width, height, flags );
 
-    draw_border( result.get() );
+    draw_border( result );
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+        fold_and_print( result, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
     }
 
     return result;
 }
 
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+window create_wait_popup_window( const std::string &text, nc_color bar_color )
 {
     static size_t phase = 0;
 
@@ -726,19 +716,19 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    WINDOW_PTR w = create_popup_window( text, flags );
+    window w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w.get() );
+        wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
-            werase( w.get() );
+            werase( w );
             break; // return the first key that got pressed.
         }
     }
-    wrefresh( w.get() );
+    wrefresh( w );
     refresh();
     refresh_display();
     return ch;
@@ -776,7 +766,6 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
-    delwin( win );
     return result;
 }
 
@@ -1314,11 +1303,8 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     */
 
     catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
-    if( w_hit == NULL ) {
+    if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    if( w_hit_animation != nullptr ) {
-        delwin( w_hit_animation );
     }
     w_hit_animation = w_hit;
 

@@ -281,7 +281,6 @@ class wish_monster_callback: public uimenu_callback
             hallucination = false;
             group = 0;
             lastent = -2;
-            w_info = catacurses::window();
         }
 
         void setup( uimenu *menu ) {
@@ -350,7 +349,6 @@ class wish_monster_callback: public uimenu_callback
         ~wish_monster_callback() override {
             werase( w_info );
             wrefresh( w_info );
-            delwin( w_info );
         }
 };
 

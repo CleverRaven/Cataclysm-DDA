@@ -1276,7 +1276,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 pc.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                delwin( w_target );
                 pc.view_offset = old_offset;
                 set_last_target( dst );
                 return ret;
@@ -1314,7 +1313,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
     } while (true);
 
-    delwin( w_target );
     pc.view_offset = old_offset;
 
     if( ret.empty() ) {

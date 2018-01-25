@@ -279,21 +279,12 @@ void player::power_mutations()
                         add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name.c_str() );
 
                         deactivate_mutation( mut_id );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         // Action done, leave screen
                         break;
                     } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
-                        // this will clear the mutations menu for targeting purposes
-                        werase( wBio );
-                        wrefresh( wBio );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         g->draw();
                         add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name.c_str() );
                         activate_mutation( mut_id );
@@ -320,13 +311,5 @@ You cannot activate %s!  To read a description of \
                 wrefresh( w_description );
             }
         }
-    }
-    //if we activated a mutation, already killed the windows
-    if( !( menu_mode == "activating" ) ) {
-        werase( wBio );
-        wrefresh( wBio );
-        delwin( w_title );
-        delwin( w_description );
-        delwin( wBio );
     }
 }

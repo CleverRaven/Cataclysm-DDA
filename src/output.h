@@ -26,7 +26,13 @@ template<typename V, typename U>
 class quantity;
 class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
-}
+} // namespace units
+namespace catacurses
+{
+class window;
+using window = window;
+using chtype = int;
+} // namespace catacurses
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -403,8 +409,8 @@ inline void full_screen_popup( const char *mes, Args &&... args )
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
 }
 
-WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_light_green );
+window create_popup_window( const std::string &text, PopupFlags flags );
+window create_wait_popup_window( const std::string &text, nc_color bar_color = c_light_green );
 
 /*@}*/
 

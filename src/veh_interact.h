@@ -202,7 +202,6 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
-        void deallocate_windows();
 };
 
 #endif

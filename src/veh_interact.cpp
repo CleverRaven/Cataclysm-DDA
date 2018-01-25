@@ -185,10 +185,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     allocate_windows();
 }
 
-veh_interact::~veh_interact()
-{
-    deallocate_windows();
-}
+veh_interact::~veh_interact() = default;
 
 void veh_interact::allocate_windows()
 {
@@ -226,8 +223,6 @@ void veh_interact::allocate_windows()
     w_list  = catacurses::newwin( page_size, pane_w, pane_y,  list_x );
     w_stats = catacurses::newwin( stats_h,   grid_w, stats_y, 1 );
     w_name  = catacurses::newwin( name_h,    grid_w, name_y,  1 );
-
-    w_details = catacurses::window(); // only pops up when in install menu
 
     display_grid();
     display_name();
@@ -342,18 +337,6 @@ void veh_interact::do_main_loop()
         }
 
     }
-}
-
-void veh_interact::deallocate_windows()
-{
-    delwin(w_grid);
-    delwin(w_mode);
-    delwin(w_msg);
-    delwin(w_disp);
-    delwin(w_parts);
-    delwin(w_stats);
-    delwin(w_list);
-    delwin(w_name);
 }
 
 void veh_interact::cache_tool_availability()
@@ -831,7 +814,6 @@ bool veh_interact::do_install( std::string &msg )
 
     //destroy w_details
     werase(w_details);
-    delwin(w_details);
     w_details = catacurses::window();
 
     //restore windows that had been covered by w_details
@@ -1647,7 +1629,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    delwin( w_border );
+    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 

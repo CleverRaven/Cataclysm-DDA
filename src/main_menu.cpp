@@ -249,8 +249,6 @@ void main_menu::display_credits()
     wrefresh( w_credits_border );
     refresh();
     multipage( w_credits, mmenu_credits );
-    delwin( w_credits );
-    delwin( w_credits_border );
     refresh();
 }
 
@@ -263,7 +261,7 @@ bool main_menu::opening_screen()
     world_generator->init();
 
     w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
-    WINDOW_PTR w_backgroundptr( w_background );
+    window w_backgroundptr( w_background );
     werase( w_background );
     wrefresh( w_background );
 
@@ -281,7 +279,7 @@ bool main_menu::opening_screen()
     const int y0 = ( TERMY - total_h ) / 2;
 
     w_open = catacurses::newwin( total_h, total_w, y0, x0 );
-    WINDOW_PTR w_openptr( w_open );
+    window w_openptr( w_open );
 
     iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
@@ -534,8 +532,8 @@ bool main_menu::opening_screen()
             }
         }
     }
-    w_openptr.reset();
-    w_backgroundptr.reset();
+    w_openptr = catacurses::window();
+    w_backgroundptr = catacurses::window();
     if( start ) {
         g->refresh_all();
         g->draw();

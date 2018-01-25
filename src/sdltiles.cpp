@@ -245,6 +245,11 @@ extern catacurses::window w_hit_animation; //this window overlays w_terrain whic
 //Non-curses, Window functions      *
 //***********************************
 
+static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
+{
+    return lhs == rhs.get();
+}
+
 void ClearScreen()
 {
     SDL_RenderClear( renderer.get() );
@@ -885,7 +890,9 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         update = true;
     } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        clear_window_area(win);
+        // Temporary shared pointer to create temporary window instance as
+        // needed by clear_window_area
+        clear_window_area( std::shared_ptr<void>( win, []( void * ) { } ) );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),

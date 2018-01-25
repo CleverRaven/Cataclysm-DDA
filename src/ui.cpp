@@ -863,13 +863,7 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if( window ) {
-        werase(window);
-        wrefresh(window);
-        delwin(window);
-        window = catacurses::window();
-    }
-
+	window = catacurses::window();
     init();
 }
 
