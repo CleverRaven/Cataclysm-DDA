@@ -1129,8 +1129,8 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p.pos(), 60, _("an alarm sound!"));
-            if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
+            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
             }
             break;
         case HACK_NOTHING:
@@ -1242,7 +1242,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
     sounds::sound(examp, 80, (""));
     g->m.ter_set(examp, t_rock_floor);
-    g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
+    g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
 
 /**
@@ -1256,13 +1256,13 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
         g->m.i_clear(examp);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else if (p.has_amount("petrified_eye", 1) &&
                query_yn(_("Place your petrified eye on the pedestal?"))) {
         p.use_amount("petrified_eye", 1);
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else
         add_msg(_("This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top."));
@@ -1361,7 +1361,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
         }
     }
     add_msg(m_warning, _("You hear the rumble of rock shifting."));
-    g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
+    g->events.add( EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**
@@ -3393,8 +3393,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                     pgettext( "memorial_female", "Set off an alarm." ) );
                 sounds::sound( p.pos(), 60, _( "an alarm sound!" ) );
-                if( examp.z > 0 && !g->event_queued( EVENT_WANTED ) ) {
-                    g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p.global_sm_location() );
+                if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                    g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:

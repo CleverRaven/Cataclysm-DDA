@@ -3278,14 +3278,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
+    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
         sounds::sound(p, 40, _("an alarm go off!"), false, "environment", "alarm");
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
             const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, p.z ) );
+            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, tripoint( abs.x, abs.y, p.z ) );
         }
     }
 
@@ -3678,10 +3678,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
+    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
         sounds::sound(p, 30, _("an alarm sound!"));
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
+        g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
     const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));

@@ -280,7 +280,7 @@ void mdeath::triffid_heart(monster *z)
     if (g->u.sees(*z)) {
         add_msg(m_warning, _("The surrounding roots begin to crack and crumble."));
     }
-    g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
+    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus(monster *z)

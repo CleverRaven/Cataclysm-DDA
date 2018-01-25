@@ -251,11 +251,13 @@ game::game() :
     liveview_ptr( new live_view() ),
     liveview( *liveview_ptr ),
     scent_ptr( new scent_map( *this ) ),
+    event_manager_ptr( new event_manager() ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
+    events( *event_manager_ptr ),
     critter_tracker( new Creature_tracker() ),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
@@ -774,7 +776,7 @@ void game::setup()
     factions.clear();
     mission::clear_all();
     Messages::clear_messages();
-    events.clear();
+    events = event_manager();
 
     SCT.vSCT.clear(); //Delete pending messages
 
@@ -1421,7 +1423,7 @@ bool game::do_turn()
         load_npcs();
     }
 
-    process_events();
+    events.process();
     mission::process_all();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
@@ -1649,19 +1651,6 @@ void game::rustCheck()
         if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     aSkill.name().c_str(), newSkill);
-        }
-    }
-}
-
-void game::process_events()
-{
-    for( auto it = events.begin(); it != events.end(); ) {
-        it->per_turn();
-        if (it->turn <= int(calendar::turn)) {
-            it->actualize();
-            it = events.erase(it);
-        } else {
-            it++;
         }
     }
 }
@@ -3978,27 +3967,6 @@ void game::write_memorial_file(std::string sLastWords)
     }, _( "player memorial" ) );
 }
 
-void game::add_event(event_type type, int on_turn, int faction_id)
-{
-    add_event( type, on_turn, faction_id, u.global_sm_location() );
-}
-
-void game::add_event(event_type type, int on_turn, int faction_id, const tripoint center )
-{
-    event tmp( type, on_turn, faction_id, center );
-    events.push_back(tmp);
-}
-
-bool game::event_queued(event_type type) const
-{
-    for( const auto &e : events ) {
-        if( e.type == type ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void game::debug()
 {
     int action = menu( true, // cancelable
@@ -4089,7 +4057,6 @@ void game::debug()
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
-            s += ngettext( "%d event planned.", "%d events planned", events.size() );
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
@@ -4097,7 +4064,7 @@ void game::debug()
                 int( calendar::turn ), to_turn<int>( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
-                num_creatures(), events.size() );
+                num_creatures() );
             for( const npc &guy : all_npcs() ) {
                 tripoint t = guy.global_sm_location();
                 add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name.c_str(), t.x,
@@ -5473,21 +5440,20 @@ float game::natural_light_level( const int zlev ) const
     float mod_ret = -1;
     // Each artifact change does std::max(mod_ret, new val) since a brighter end value
     // will trump a lower one.
-    for( const auto &e : events ) {
+    if( const event *e = events.get( EVENT_DIM ) ) {
         // EVENT_DIM slowly dims the natural sky level, then relights it.
-        if( e.type == EVENT_DIM ) {
-            int turns_left = e.turn - int(calendar::turn);
-            // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
-            if (turns_left > 25) {
-                mod_ret = std::max(mod_ret, (ret * (turns_left - 25)) / 25);
+        const time_duration left = e->when - calendar::turn;
+        // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
+        if( left > 25_turns ) {
+            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( left - 25_turns ) ) / 25_turns );
             // and the last 25 scale back towards normal.
-            } else {
-                mod_ret = std::max(mod_ret, (ret * (25 - turns_left)) / 25);
-            }
-        } else if ( e.type == EVENT_ARTIFACT_LIGHT ) {
-            // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
-            mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
+        } else {
+            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( 25_turns - left ) ) / 25_turns );
         }
+    }
+    if( events.queued( EVENT_ARTIFACT_LIGHT ) ) {
+        // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
+        mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
