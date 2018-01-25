@@ -597,8 +597,10 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "prob": 50}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "blade_vertical",
@@ -612,8 +614,10 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "prob": 50}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "spike",
@@ -627,8 +631,10 @@
         "item" : "spike",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "count": [1, 2]}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "storage_battery_mount",
@@ -1959,8 +1965,10 @@
         "item" : "pointy_stick",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "NAILABLE"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [3, 7]}
+        ]
     },
     {
         "type" : "vehicle_part",
