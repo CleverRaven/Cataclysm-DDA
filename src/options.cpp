@@ -1694,7 +1694,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
             const std::string name = utf8_truncate( current_opt->getMenuText(), name_width );
-            mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
+            mvwprintz( w_options, line_pos, name_col + 3, c_white, name );
 
             if (current_opt->getValue() == "false") {
                 cLineColor = c_light_red;
@@ -1702,7 +1702,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
             const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
             mvwprintz(w_options, line_pos, value_col, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", value.c_str());
+                      cLineColor, value );
         }
 
         draw_scrollbar(w_options_border, iCurrentLine, iContentHeight,

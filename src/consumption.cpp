@@ -453,7 +453,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
             req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
         }
 
-        if( !query_yn( "%s", req.str().c_str() ) ) {
+        if( !query_yn( req.str() ) ) {
             return consequences.front();
         }
     }

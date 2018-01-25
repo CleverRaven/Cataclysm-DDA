@@ -556,7 +556,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
             title = _( "Set target" );
     }
 
-    trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
+    trim_and_print( w_target, 0, 4, getmaxx( w_target ) - 7, c_red, title );
     wprintz(w_target, c_white, " >");
 
     // Draw the help contents at the bottom of the window, leaving room for monster description
@@ -665,7 +665,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
                                                   (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+        mvwprintw( w, line_number++, 1, steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
                                                              _( "Steadiness" ), '*' );

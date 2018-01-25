@@ -929,7 +929,7 @@ static void popup_wrapper(const std::string &text) {
 }
 
 static void add_msg_wrapper(const std::string &text) {
-    add_msg( "%s", text.c_str() );
+    add_msg( text );
 }
 
 // items = game.items_at(x, y)

@@ -114,7 +114,7 @@ void edit_json( SAVEOBJ *it )
         uimenu tm;
 
         for( auto &elem : fs1 ) {
-            tm.addentry( -1, true, -2, "%s", elem.c_str() );
+            tm.addentry( -1, true, -2, elem );
         }
         if( tmret == 0 ) {
             try {
@@ -129,7 +129,7 @@ void edit_json( SAVEOBJ *it )
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
             for( size_t s = 0; s < fs2.size(); ++s ) {
-                tm.addentry( -1, true, -2, "%s", fs2[s].c_str() );
+                tm.addentry( -1, true, -2, fs2[s] );
                 if( s < fs1.size() && fs2[s] != fs1[s] ) {
                     tm.entries[ tm.entries.size() - 1 ].text_color = c_light_green;
                     tm.entries[s].text_color = c_light_red;
@@ -327,8 +327,8 @@ void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
 {
 
     if( txt1 != "" ) {
-        mvwprintw( w_help, 0, 0, "%s", padding.c_str() );
-        mvwprintw( w_help, 1, 0, "%s", padding.c_str() );
+        mvwprintw( w_help, 0, 0, padding );
+        mvwprintw( w_help, 1, 0, padding );
         mvwprintw( w_help, ( txt2 != "" ? 0 : 1 ), 0, txt1.c_str() );
         if( txt2 != "" ) {
             mvwprintw( w_help, 1, 0, txt2.c_str() );
@@ -339,7 +339,7 @@ void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
         mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
         int starttxt = int( ( hwidth - title.size() - 4 ) / 2 );
         mvwprintw( w_help, 2, starttxt, "< " );
-        wprintz( w_help, c_cyan, "%s", title.c_str() );
+        wprintz( w_help, c_cyan, title );
         wprintw( w_help, " >" );
     }
     wrefresh( w_help );
@@ -846,7 +846,7 @@ int editmap::edit_ter()
         // calc offset, print terrain selection info
         int tlen = tymax * 2;
         int off = tstart + tlen;
-        mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
+        mvwprintw( w_pickter, off, 1, padding );
         if( ter_frn_mode == 0 ) { // unless furniture is selected
             const ter_t &pttype = sel_ter.obj();
 
@@ -901,7 +901,7 @@ int editmap::edit_ter()
 
         int flen = fymax * 2;
         off += flen;
-        mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
+        mvwprintw( w_pickter, off, 1, padding );
         if( ter_frn_mode == 1 ) {
             const furn_t &pftype = sel_frn.obj();
 
@@ -1080,7 +1080,7 @@ void editmap::setup_fmenu( uimenu *fmenu )
         const field_t &ftype = fieldlist[fid];
         int fdens = 1;
         fname = ftype.name( fdens - 1 );
-        fmenu->addentry( fid, true, -2, "%s", fname.c_str() );
+        fmenu->addentry( fid, true, -2, fname );
         fmenu->entries[fid].extratxt.left = 1;
         fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
         update_fmenu_entry( fmenu, cur_field, fid );
@@ -1238,7 +1238,7 @@ int editmap::edit_trp()
         }
         std::string tnam;
         for( int t = tshift; t <= tshift + tmax; t++ ) {
-            mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str() );
+            mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, padding );
             if( t < num_trap_types ) {
                 auto &tr = trap_id( t ).obj();
                 if( tr.is_null() ) {

@@ -470,7 +470,7 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
             std::vector<std::string> bogusvstr = foldstring( getmessage(
                     bogus_messages[rfkscreen[check_x][check_y] - 2]), rfkCOLS);
             for (size_t c = 0; c < bogusvstr.size(); c++) {
-                mvwprintw (w, c, 0, "%s", bogusvstr[c].c_str());
+                mvwprintw( w, c, 0, bogusvstr[c] );
             }
             wrefresh(w);
         }

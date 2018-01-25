@@ -272,7 +272,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                   format_volume( maxvolume ).c_str(),
                                   volume_units_abbr() );
         }
-        mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
+        mvwprintz( window, 4, columns - 1 - head.length(), norm, head );
     }
 
     //print header row and determine max item name length
@@ -333,13 +333,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s",
-                        item_name.c_str() );
+        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
         if( pane.get_area() == AIM_ALL && !compact ) {
-            mvwprintz( window, 6 + x, src_startpos, thiscolor, "%s", squares[sitem.area].shortname.c_str() );
+            mvwprintz( window, 6 + x, src_startpos, thiscolor, squares[sitem.area].shortname );
         }
 
         //print "amount" column
@@ -380,11 +379,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             print_color = ( sitem.volume.value() > 0 ) ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%s", it_vol.c_str() );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, it_vol );
 
         if( active && sitem.autopickup ) {
-            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",
-                       ( compact ? it.tname().substr( 0, 1 ) : ">" ).c_str() );
+            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ),
+                       compact ? it.tname().substr( 0, 1 ) : ">" );
         }
     }
 }
@@ -1078,8 +1077,8 @@ void advanced_inventory::redraw_pane( side p )
     auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
     auto desc = utf8_truncate(sq.desc[car], width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
-    mvwprintz( w, 1, 2, active ? c_green  : c_light_gray, "%s", name.c_str() );
-    mvwprintz( w, 2, 2, active ? c_light_blue : c_dark_gray, "%s", desc.c_str() );
+    mvwprintz( w, 1, 2, active ? c_green  : c_light_gray, name );
+    mvwprintz( w, 2, 2, active ? c_light_blue : c_dark_gray, desc );
     trim_and_print( w, 3, 2, width, active ? c_cyan : c_dark_gray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
@@ -1116,8 +1115,8 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( ! filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white, "%s",
-                   pane.filter.c_str() );
+        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white,
+                   pane.filter );
         mvwprintz( w, getmaxy( w ) - 1,
                    getmaxx( w ) - std::strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
     }

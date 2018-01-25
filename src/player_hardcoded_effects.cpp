@@ -1043,7 +1043,7 @@ void player::hardcoded_effects( effect &it )
                 // Select a dream
                 std::string dream = get_category_dream( highcat, strength );
                 if( !dream.empty() ) {
-                    add_msg_if_player( "%s", dream.c_str() );
+                    add_msg_if_player( dream );
                 }
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {

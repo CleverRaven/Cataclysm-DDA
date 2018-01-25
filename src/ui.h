@@ -107,7 +107,7 @@ class ui_container
  * }
  * uimenu monmenu;
  * for( size_t i = 0; i < z.size(); ++i ) {
- *   monmenu.addentry("%s", z[i].name.c_str() );
+ *   monmenu.addentry( z[i].name );
  * }
  * monmenu_cb * cb;
  * cb->setptr( &g->z );

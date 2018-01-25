@@ -1468,7 +1468,7 @@ template<typename ...Args>
 void computer::print_line( const char *const mes, Args &&... args )
 {
     const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz(w_terminal, c_green, "%s", text.c_str());
+    wprintz( w_terminal, c_green, text );
     print_newline();
     wrefresh(w_terminal);
 }
@@ -1477,7 +1477,7 @@ template<typename ...Args>
 void computer::print_error( const char *const mes, Args &&... args )
 {
     const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz(w_terminal, c_red, "%s", text.c_str());
+    wprintz( w_terminal, c_red, text );
     print_newline();
     wrefresh(w_terminal);
 }
@@ -1513,7 +1513,7 @@ void computer::print_gibberish_line()
             break;
         }
     }
-    wprintz(w_terminal, c_yellow, "%s", gibberish.c_str());
+    wprintz( w_terminal, c_yellow, gibberish );
     print_newline();
     wrefresh(w_terminal);
 }

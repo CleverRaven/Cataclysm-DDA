@@ -3892,7 +3892,7 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         play_videogame(loaded_software, game_data, game_score);
 
         if (game_data.find("end_message") != game_data.end()) {
-            p->add_msg_if_player("%s", game_data["end_message"].c_str());
+            p->add_msg_if_player( game_data["end_message"] );
         }
 
         if (game_score != 0) {

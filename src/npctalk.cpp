@@ -3334,7 +3334,7 @@ void dialogue::print_history( size_t const hilight_lines )
     while( curindex >= 0 && curline >= 2 ) {
         // red for new text, gray for old, similar to coloring of messages
         nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
-        mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
+        mvwprintz( win, curline, 1, col, history[curindex] );
         curline--;
         curindex--;
     }
@@ -3368,7 +3368,7 @@ bool dialogue::print_responses( int const yoffset )
                 break;
             }
             int const off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
+            mvwprintz( win, curline, xoffset + off, color, folded[j] );
         }
     }
     // Those are always available, their key bindings are fixed as well.

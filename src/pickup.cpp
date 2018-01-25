@@ -988,7 +988,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                                    item_name.c_str() );
                     }
                     trim_and_print( w_pickup, 1 + ( cur_it % maxitems ), 6, pickupW - 4, icolor,
-                                    "%s", item_name.c_str() );
+                                    item_name );
                 }
             }
 

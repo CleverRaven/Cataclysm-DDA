@@ -181,7 +181,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w, i - iStartPos, 1, cLineColor, sTemp.str() );
                 mvwprintz(w, i - iStartPos, 5, cLineColor, "");
 
                 if (iLine == i) {
@@ -402,7 +402,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              "%s", buf.c_str());
+              buf );
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
               _("Won't display bottled and suffixes=(fits)"));
@@ -434,7 +434,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str() );
                 mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
 
                 if (iLine == i) {

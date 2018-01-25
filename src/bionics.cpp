@@ -322,10 +322,10 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
                 if( line <= bad.size() ) {
-                    trim_and_print( w, line, 2, win_w - 3, c_red, "%s", bad[line - 1].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_red, bad[line - 1] );
                 } else {
-                    trim_and_print( w, line, 2, win_w - 3, c_green, "%s",
-                                    good[line - 1 - bad.size()].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_green,
+                                    good[line - 1 - bad.size()] );
                 }
             }
         }
