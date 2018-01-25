@@ -86,7 +86,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool remotely_controlled = g->remoteveh() == veh;
     const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
     const bool has_washmachine = washing_machine_part >= 0;
-    bool washing_machine_on = ( washing_machine_part == -1 ) ? false : veh->parts[washing_machine_part].enabled;
+    bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
+                              veh->parts[washing_machine_part].enabled;
 
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
