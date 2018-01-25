@@ -25,7 +25,8 @@
     "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
-    "included_bionics": [ "bio_plutdump" ]
+    "included_bionics": [ "bio_plutdump" ],
+    "upgraded_bionic": "bio_reactor"
   },
   {
     "id": "bio_alarm",
@@ -774,12 +775,6 @@
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
     "included_bionics": [ "bio_plutdump" ]
-  },
-  {
-    "id": "bio_reactor_upgrade",
-    "type": "bionic",
-    "name": "Reactor Upgrade",
-    "description": "You shouldn't see this."
   },
   {
     "id": "bio_recycler",

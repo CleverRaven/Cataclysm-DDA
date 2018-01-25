@@ -46,3 +46,4 @@ MAKE_NULL_ID2( species_type, "spec_null" );
 MAKE_NULL_ID2( mutation_branch );
 MAKE_NULL_ID2( requirement_data, "null" );
 MAKE_NULL_ID2( body_part_struct, "NUM_BP" );
+MAKE_NULL_ID2( bionic_data, "" );

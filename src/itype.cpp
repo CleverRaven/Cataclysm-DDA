@@ -1,5 +1,6 @@
 #include "itype.h"
 #include "debug.h"
+#include "player.h"
 #include "translations.h"
 
 #include <stdexcept>
@@ -56,7 +57,7 @@ long itype::invoke( player &p, item &it, const tripoint &pos ) const
     if( !has_use() ) {
         return 0;
     }
-    return use_methods.begin()->second.call( p, it, false, pos );
+    return invoke( p, it, pos, use_methods.begin()->first );
 }
 
 long itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
@@ -65,6 +66,13 @@ long itype::invoke( player &p, item &it, const tripoint &pos, const std::string 
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
                   iuse_name.c_str(), nname( 1 ).c_str() );
+        return 0;
+    }
+
+    const auto ret = use->can_call( p, it, false, pos );
+
+    if( !ret.success() ) {
+        p.add_msg_if_player( m_info, ret.str() );
         return 0;
     }
 

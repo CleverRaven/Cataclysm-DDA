@@ -1804,7 +1804,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
                 if( mod->type->gunmod ) {
                     temp1.str( "" );
-                    if( mod->has_flag( "IRREMOVABLE" ) ) {
+                    if( mod->is_irremovable() ) {
                         temp1 << _( "Integrated mod: " );
                     } else {
                         temp1 << _( "Mod: " );
@@ -2774,7 +2774,7 @@ int item::get_quality( const quality_id &id ) const
      * EXCEPTION: Items with quality BOIL only count as such if they are empty,
      * excluding items of their ammo type if they are tools.
      */
-    if ( id == quality_id( "BOIL" ) && !( contents.empty() || 
+    if ( id == quality_id( "BOIL" ) && !( contents.empty() ||
         ( is_tool() && std::all_of( contents.begin(), contents.end(),
         [this]( const item & itm ) {
             if ( !itm.is_ammo() ) {
@@ -3706,6 +3706,11 @@ bool item::is_toolmod() const
 bool item::is_faulty() const
 {
     return is_engine() ? !faults.empty() : false;
+}
+
+bool item::is_irremovable() const
+{
+    return has_flag( "IRREMOVABLE" );
 }
 
 std::set<fault_id> item::faults_potential() const
@@ -5165,10 +5170,10 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         return std::all_of( contents.begin(), contents.end(), [&]( const item &e ) {
-            return e.is_magazine() || ( e.is_gunmod() && e.has_flag( "IRREMOVABLE" ) );
+            return e.is_magazine() || ( e.is_gunmod() && e.is_irremovable() );
         } );
-
     }
+
     if( is_filthy() ) {
         return false;
     }

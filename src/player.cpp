@@ -8653,24 +8653,8 @@ hint_rating player::rate_action_use( const item &it ) const
         } else {
             return HINT_GOOD;
         }
-    } else if (it.is_bionic()) {
-        return HINT_GOOD;
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
-    } else if ( it.is_gun() ) {
-        auto mods = it.gunmods();
-
-        if( !mods.empty() ) {
-            mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
-                return e->has_flag( "IRREMOVABLE" );
-            } ), mods.end() );
-
-            if( !mods.empty() ) {
-                return HINT_GOOD;
-            }
-        }
-
-        return HINT_CANT;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
     } else if( !it.is_container_empty() ) {
@@ -8776,11 +8760,6 @@ void player::use( int inventory_position )
         }
         invoke_item( used );
 
-    } else if( used->is_bionic() ) {
-        if( install_bionics( *used->type ) ) {
-            i_rem( inventory_position );
-        }
-
     } else if( used->is_food() ||
                used->is_medication() ||
                used->get_contained().is_food() ||
@@ -8806,33 +8785,39 @@ bool player::invoke_item( item* used )
 
 bool player::invoke_item( item* used, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) ) {
-        return false;
-    }
+    const auto &use_methods = used->type->use_methods;
 
-    if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( *this, *used, pt );
-        return used->is_tool() && consume_charges( *used, charges_used );
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return invoke_item( used, use_methods.begin()->first, pt );
     }
 
     uimenu umenu;
-    umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
+
+    umenu.text = string_format( _( "What to do with your %s?" ), used->tname().c_str() );
+    umenu.hilight_disabled = true;
     umenu.return_invalid = true;
-    for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( *this, *used, false, pt ),
-                        MENU_AUTOASSIGN, e.second.get_name() );
+
+    for( const auto &e : use_methods ) {
+        const auto res = e.second.can_call( *this, *used, false, pt );
+        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(), res.str() );
     }
 
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(), umenu.entries.end(), []( const uimenu_entry &elem ) {
+        return !elem.desc.empty();
+    });
+
     umenu.query();
+
     int choice = umenu.ret;
-    if( choice < 0 || choice >= static_cast<int>( used->type->use_methods.size() ) ) {
+    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
         return false;
     }
 
-    const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
-    long charges_used = used->type->invoke( *this, *used, pt, method );
+    const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
+    return invoke_item( used, method, pt );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -8853,7 +8838,15 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
-    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
+
+    if( used->is_tool() || used->is_medication() || used->is_container() ) {
+        return consume_charges( *actually_used, charges_used );
+    } else if( used->is_bionic() && charges_used > 0 ) {
+        i_rem( used );
+        return true;
+    }
+
+    return false;
 }
 
 void player::reassign_item( item &it, long invlet )
@@ -8966,7 +8959,7 @@ void player::gunmod_add( item &gun, item &mod )
     std::string tool;
     int qty = 0;
 
-    if( mod.has_flag( "IRREMOVABLE" ) ) {
+    if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
                        gun.tname().c_str() ) ) {
             add_msg_if_player( _( "Never mind." ) );

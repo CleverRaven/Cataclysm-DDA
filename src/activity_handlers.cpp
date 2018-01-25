@@ -950,7 +950,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-    // 10% to drop a item/items from this group. 
+    // 10% to drop a item/items from this group.
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -1304,8 +1304,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -1419,12 +1418,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         p->mod_fatigue(1);
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
-            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40);
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
         }
-        else { 
+        else {
             p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
         }
     }
