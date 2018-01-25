@@ -4651,6 +4651,28 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             apply_in_fridge(n);
         }
     }
+
+    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->is_part_on( part );
+    bool washing_machine_finished = false;
+    if( washmachine_here ) {
+        for( auto &n : cur_veh->get_items( part ) ) {
+            const time_duration washing_time = 90_minutes;
+            const time_duration time_left = washing_time - n.age();
+            static const std::string filthy( "FILTHY" );
+            if( time_left <= 0 ) {
+                n.item_tags.erase( filthy );
+                washing_machine_finished = true;
+                cur_veh->parts[part].enabled = false;
+            } else if( calendar::once_every( MINUTES( 15 ) ) ) {
+                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
+                break;
+            }
+        }
+        if( washing_machine_finished ) {
+            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh->name.c_str() );
+        }
+    }
+
     if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );

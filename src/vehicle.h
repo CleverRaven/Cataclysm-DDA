@@ -1193,6 +1193,7 @@ public:
      * the map is just shifted (in the later case simply set smx/smy directly).
      */
     void set_submap_moved(int x, int y);
+    void use_washing_machine( int p );
 
     const std::string disp_name() const;
 

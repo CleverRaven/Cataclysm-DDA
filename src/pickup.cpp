@@ -84,9 +84,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
+    const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const bool has_washmachine = washing_machine_part >= 0;
+    bool washing_machine_on = ( washing_machine_part == -1 ) ? false : veh->parts[washing_machine_part].enabled;
+
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
     } options;
     uimenu selectmenu;
 
@@ -96,7 +100,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
-    if( from_vehicle ) {
+    if( has_washmachine ) {
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W',
+                             washing_machine_on ? _( "Deactivate the washing machine" ) :
+                             _( "Activate the washing machine (1.5 hours)" ) );
+    }
+
+    if( from_vehicle && !washing_machine_on ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
@@ -169,6 +179,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         case USE_HOTPLATE:
             veh_tool( "hotplate" );
             return DONE;
+
+        case USE_WASHMACHINE: {
+            veh->use_washing_machine( washing_machine_part );
+            return DONE;
+        }
 
         case FILL_CONTAINER:
             g->u.siphon( *veh, "water_clean" );

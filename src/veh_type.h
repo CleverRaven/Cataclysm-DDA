@@ -36,7 +36,7 @@ using requirement_id = string_id<requirement_data>;
 class Skill;
 using skill_id = string_id<Skill>;
 
-// bitmask backing store of -certian- vpart_info.flags, ones that
+// bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
@@ -69,6 +69,7 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_WASHING_MACHINE,
 
     NUM_VPFLAGS
 };
