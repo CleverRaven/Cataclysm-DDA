@@ -112,23 +112,27 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish }
 };
 
+void messages_in_process( player_activity *act, player *p ) {
+    if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
+        p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
+    }
+    if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
+        p->add_msg_if_player( m_info, _( "About an hour left to go." ) );
+    }
+    if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
+        p->add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
+    }
+    if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
+        p->add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
+    }
+}
+
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every(MINUTES(1)) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
-        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
-            p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
-        }
-        if( act->moves_left <= 71000 && act->moves_left > 69000 ) {
-            p->add_msg_if_player(m_info, _("About an hour left to go."));
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player(m_info, _("Shouldn't be more than half an hour or so now!"));
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player(m_info, _("Almost there! Ten more minutes of work and you'll be through."));
-        }
+        messages_in_process( act, p );
     }
 }
 
@@ -1133,20 +1137,7 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
     if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
-        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
-            p->add_msg_if_player(m_info,
-                                 _("Ugh.  You figure it'll take about an hour and a half at this rate."));
-        }
-        if( act->moves_left <= 71000 && act->moves_left > 69000 ) {
-            p->add_msg_if_player(m_info, _("If it keeps up like this, you might be through in an hour."));
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player(m_info,
-                                 _("Feels like you're making good progress.  Another half an hour, maybe?"));
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player(m_info, _("That's got it.  Ten more minutes of work and it's open."));
-        }
+        messages_in_process( act, p );
     }
 }
 
@@ -2026,18 +2017,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( MINUTES( 1 ) ) ) {
         sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
-        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
-            p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
-        }
-        if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
-            p->add_msg_if_player( m_info, _( "About an hour left to go." ) );
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
-        }
+        messages_in_process( act, p );
     }
 }
 
@@ -2094,15 +2074,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( MINUTES( 1 ) ) ) {
         sounds::sound( act->placement, 15, _( "CHK!" ) );
-        if( act->moves_left <= 61000 && act->moves_left > 59000 ) {
-            p->add_msg_if_player( m_info, _( "About an hour left to go." ) );
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player( m_info, _( "Almost there!  Ten more minutes of work and you'll be through." ) );
-        }
+        messages_in_process( act, p );
     }
 }
 
