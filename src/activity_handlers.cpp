@@ -1136,7 +1136,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     if( calendar::once_every( MINUTES( 1 ) ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound(pos, 30, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( act, p );
     }
 }
@@ -2016,6 +2016,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( MINUTES( 1 ) ) ) {
+        //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
         messages_in_process( act, p );
     }
@@ -2073,6 +2074,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( MINUTES( 1 ) ) ) {
+        //~ Sound of a wood chopping tool at work!
         sounds::sound( act->placement, 15, _( "CHK!" ) );
         messages_in_process( act, p );
     }
