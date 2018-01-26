@@ -115,8 +115,11 @@ void game::list_missions()
             }
             if( miss->has_deadline() ) {
                 const calendar deadline( miss->get_deadline() );
-                std::string dl = string_format( season_name_upper( season_of_year( deadline ) ) + ", day " +
-                                                to_string( day_of_season<int>( deadline ) + 1 ) + " " + deadline.print_time() );
+                //@todo make a function to print the time (don't we already have one?)
+                //~ 1 season name, 2 day of season, 3 time of day
+                std::string dl = string_format( _( "%1$s, day %2$d %3$s" ),
+                                                season_name_upper( season_of_year( deadline ) ),
+                                                day_of_season<int>( deadline ) + 1, deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
