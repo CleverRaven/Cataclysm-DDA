@@ -17,55 +17,15 @@
 #include <algorithm>
 
 static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_TOUGH( "TOUGH" );
-static const trait_id trait_TOUGH3( "TOUGH3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_FLIMSY( "FLIMSY" );
-static const trait_id trait_FLIMSY2( "FLIMSY2" );
-static const trait_id trait_FLIMSY3( "FLIMSY3" );
-static const trait_id trait_MUT_TOUGH( "MUT_TOUGH" );
-static const trait_id trait_MUT_TOUGH2( "MUT_TOUGH2" );
-static const trait_id trait_MUT_TOUGH3( "MUT_TOUGH3" );
-static const trait_id trait_WEBBED( "WEBBED" );
-static const trait_id trait_PAWS( "PAWS" );
-static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_TALONS( "TALONS" );
-static const trait_id trait_BEAK( "BEAK" );
-static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
-static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
-static const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
-static const trait_id trait_HOOVES( "HOOVES" );
-static const trait_id trait_TOUGH2( "TOUGH2" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
-static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_RAP_TALONS( "RAP_TALONS" );
-static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
-static const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -516,34 +476,6 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
-{
-    werase(window);
-
-    std::string caption = _("MUTATIONS -");
-    int cap_offset = utf8_width(caption) + 1;
-    mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
-
-    std::stringstream pwr;
-    pwr << string_format(_("Power: %d/%d"), int(p->power_level), int(p->max_power_level));
-    int pwr_length = utf8_width(pwr.str()) + 1;
-
-    std::string desc;
-    int desc_length = getmaxx(window) - cap_offset - pwr_length;
-
-    if(menu_mode == "reassigning") {
-        desc = _("Reassigning.\nSelect a mutation to reassign or press SPACE to cancel.");
-    } else if(menu_mode == "activating") {
-        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign.");
-    } else if(menu_mode == "examining") {
-        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign.");
-    }
-    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
-    fold_and_print(window, 1, 0, desc_length, c_white, _("Might need to use ? to assign the keys."));
-
-    wrefresh(window);
-}
-
 trait_id Character::trait_by_invlet( const long ch ) const
 {
     for( auto &mut : my_mutations ) {
@@ -556,6 +488,9 @@ trait_id Character::trait_by_invlet( const long ch ) const
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if (mutation_branch::trait_is_blacklisted(mutation)) {
+        return false;
+    }
     if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;

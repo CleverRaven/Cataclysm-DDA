@@ -73,9 +73,49 @@
     "target" : "cabin"
   },{
     "type" : "start_location",
-    "ident" : "hospital",
+    "ident" : "hospital_1",
     "name" : "Hospital",
-    "target" : "hospital"
+    "target" : "hospital_1"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_2",
+    "name" : "Hospital",
+    "target" : "hospital_2"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_3",
+    "name" : "Hospital",
+    "target" : "hospital_3"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_4",
+    "name" : "Hospital",
+    "target" : "hospital_4"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_5",
+    "name" : "Hospital",
+    "target" : "hospital_5"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_6",
+    "name" : "Hospital",
+    "target" : "hospital_6"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_7",
+    "name" : "Hospital",
+    "target" : "hospital_7"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_8",
+    "name" : "Hospital",
+    "target" : "hospital_8"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_9",
+    "name" : "Hospital",
+    "target" : "hospital_9"
   },{
     "type" : "start_location",
     "ident" : "lmoe",

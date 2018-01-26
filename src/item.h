@@ -9,19 +9,31 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include <map>
+
 #include "visitable.h"
-#include "enums.h"
-#include "json.h"
-#include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "debug.h"
-#include "units.h"
 #include "cata_utility.h"
+#include "calendar.h"
 
+class nc_color;
+class JsonObject;
+class JsonIn;
+class JsonOut;
+template<typename T>
+class ret_val;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+} // namespace units
 class gun_type_type;
 class gunmod_location;
 class game;
@@ -36,11 +48,15 @@ struct use_function;
 class material_type;
 using material_id = string_id<material_type>;
 class item_category;
+enum art_effect_passive : int;
+enum phase_id : int;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+struct point;
+struct tripoint;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -49,6 +65,7 @@ struct quality;
 using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
+struct damage_unit;
 
 enum damage_type : int;
 
@@ -186,7 +203,7 @@ class item_category
         /*@}*/
 };
 
-class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
+class item : public visitable<item>
 {
     public:
         item();
@@ -195,22 +212,19 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        ~item() override = default;
 
-        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
-        explicit item( const itype *type, int turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
-        item( const itype_id& id, int turn, default_charges_tag );
-        item( const itype *type, int turn, default_charges_tag );
+        item( const itype_id& id, time_point turn, default_charges_tag );
+        item( const itype *type, time_point turn, default_charges_tag );
 
         /** Default (or randomised) charges except if counted by charges then only one charge */
         struct solitary_tag {};
-        item( const itype_id& id, int turn, solitary_tag );
-        item( const itype *type, int turn, solitary_tag );
-
-        item( JsonObject &jo );
+        item( const itype_id& id, time_point turn, solitary_tag );
+        item( const itype *type, time_point turn, solitary_tag );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -276,7 +290,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = calendar::turn, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -354,6 +368,19 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
+    /**
+    * Return all the information about the item and its type, and dump to vector.
+    *
+    * This includes the different
+    * properties of the @ref itype (if they are visible to the player). The returned string
+    * is already translated and can be *very* long.
+    * @param showtext If true, shows the item description, otherwise only the properties item type.
+    * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+    * the vector can be used to compare them to properties of another item.
+    * @param batch The batch crafting number to multiply data by
+    */
+    std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
+
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd, bool contained );
 
@@ -400,15 +427,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    // easy deserialization from JsonObject
-    virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) override {
-        JsonObject jo = jsin.get_object();
-        deserialize(jo);
-    }
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     // Legacy function, don't use.
     void load_info( const std::string &data );
@@ -669,8 +689,8 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
-    /** Turns for this item to be fully fermented. */
-    int brewing_time() const;
+        /** Time for this item to be fully fermented. */
+        time_duration brewing_time() const;
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
@@ -786,7 +806,7 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
-    
+
     /** Precise damage */
     double precise_damage() const { return damage_; }
 
@@ -802,16 +822,20 @@ public:
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( double qty, damage_type dt = DT_NULL );
+        bool mod_damage( double qty, damage_type dt );
+        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        bool mod_damage( double qty );
 
     /**
      * Increment item damage constrained @ref max_damage
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool inc_damage( damage_type dt = DT_NULL ) {
+    bool inc_damage( const damage_type dt ) {
         return mod_damage( 1, dt );
     }
+        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        bool inc_damage();
 
     /** Provide color for UI display dependent upon current item damage level */
     nc_color damage_color() const;
@@ -920,6 +944,7 @@ public:
     bool is_toolmod() const;
 
     bool is_faulty() const;
+    bool is_irremovable() const;
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
@@ -1189,10 +1214,10 @@ public:
          */
         bool is_seed() const;
         /**
-         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        int get_plant_epoch() const;
+        time_duration get_plant_epoch() const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -1684,12 +1709,13 @@ public:
 
     int burnt = 0;           // How badly we're burnt
     private:
-        int bday;                // The turn on which it was created
+        /// The time the item was created.
+        time_point bday;
     public:
-        int age() const;
-        void set_age( int age );
-        int birthday() const;
-        void set_birthday( int bday );
+        time_duration age() const;
+        void set_age( time_duration age );
+        time_point birthday() const;
+        void set_birthday( time_point bday );
 
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency

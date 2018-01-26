@@ -9,7 +9,8 @@
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
-    "color": "yellow"
+    "color": "yellow",
+    "use_action": "install_bionic"
   },
   {
     "id": "bio_adrenaline",
@@ -626,6 +627,7 @@
   },
   {
     "id": "bio_reactor_upgrade",
+    "bionic_id": "bio_advreactor",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Microreactor Upgrade CBM",

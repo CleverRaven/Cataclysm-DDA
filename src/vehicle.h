@@ -4,8 +4,6 @@
 
 #include "calendar.h"
 #include "tileray.h"
-#include "color.h"
-#include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
 #include "line.h"
@@ -21,6 +19,7 @@
 #include <string>
 #include <iosfwd>
 
+class nc_color;
 class map;
 class player;
 class npc;
@@ -30,7 +29,10 @@ enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
@@ -79,7 +81,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
-struct vehicle_part : public JsonSerializer, public JsonDeserializer
+struct vehicle_part
 {
     friend vehicle;
     friend class veh_interact;
@@ -272,11 +274,8 @@ public:
 
     const item& get_base() const;
 
-    // json saving/loading
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
@@ -379,7 +378,7 @@ class turret_data {
  * Struct used for storing labels
  * (easier to json opposed to a std::map<point, std::string>)
  */
-struct label : public JsonSerializer, public JsonDeserializer {
+struct label {
     label() = default;
     label(int const x, int const y) : x(x), y(y) {}
     label(const int x, const int y, std::string text) : x(x), y(y), text(std::move(text)) {}
@@ -393,11 +392,8 @@ struct label : public JsonSerializer, public JsonDeserializer {
         return (x != rhs.x) ? (x < rhs.x) : (y < rhs.y);
     }
 
-    // json saving/loading
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -472,7 +468,7 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   If you can't understand why installation fails, try to assemble your
  *   vehicle in game first.
  */
-class vehicle : public JsonSerializer, public JsonDeserializer
+class vehicle
 {
 private:
     bool has_structural_part(int dx, int dy) const;
@@ -512,8 +508,7 @@ private:
     units::volume total_folded_volume() const;
 
     // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -546,7 +541,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle () override;
+    ~vehicle();
 
     /**
      * Set stat for part constrained by range [0,durability]
@@ -574,16 +569,8 @@ public:
     // damages all parts of a vehicle by a random amount
     void smash();
 
-    // load and init vehicle data from stream. This implies valid save data!
-    void load (std::istream &stin);
-
-    // Save vehicle data to stream
-    void save (std::ostream &stout);
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 
     /**
      *  Operate vehicle controls
@@ -763,14 +750,13 @@ public:
     nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
-    int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
+    int print_part_desc ( const catacurses::window &win, int y1, int max_y, int width, int p, int hl = -1 ) const;
 
     // Get all printable fuel types
     std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
-                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+    void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0, bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
@@ -1207,6 +1193,7 @@ public:
      * the map is just shifted (in the later case simply set smx/smy directly).
      */
     void set_submap_moved(int x, int y);
+    void use_washing_machine( int p );
 
     const std::string disp_name() const;
 
@@ -1257,13 +1244,14 @@ public:
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
-    calendar occupied_cache_turn = -1; // Turn occupied points were calculated
+    /// Time occupied points were calculated.
+    time_point occupied_cache_time = calendar::before_time_starts;
 
     // Turn the vehicle was last processed
-    calendar last_update_turn = -1;
+    time_point last_update = calendar::before_time_starts;
     // Retroactively pass time spent outside bubble
     // Funnels, solars
-    void update_time( const calendar &update_to );
+    void update_time( const time_point &update_to );
 
     // save values
     /**

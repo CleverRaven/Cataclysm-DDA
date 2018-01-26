@@ -4611,7 +4611,7 @@
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
-        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones.  Now the all the drones carry guns instead of pizza.",
+        "description": "You had a job programming machines such as automatic street cleaners, newsbots and pizza delivery drones.  Now all the drones carry guns instead of pizza.",
         "points": 1,
         "CBMs":[
             "bio_batteries",
@@ -5158,5 +5158,13 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "naked",
+        "name": "Naked and Afraid",
+        "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
+        "points": -1,
+        "flags": ["SCEN_ONLY"]
     }
 ]

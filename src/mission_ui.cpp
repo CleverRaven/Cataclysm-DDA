@@ -15,9 +15,9 @@
 
 void game::list_missions()
 {
-    WINDOW *w_missions = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                 ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                 ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     enum class tab_mode : int {
         TAB_ACTIVE = 0,
@@ -97,7 +97,7 @@ void game::list_missions()
             const auto miss = umissions[i];
             nc_color col = c_white;
             if( u.get_active_mission() == miss ) {
-                col = c_ltred;
+                col = c_light_red;
             }
             const int y = i - top_of_page + 3;
             if( ( int )selection == i ) {
@@ -148,7 +148,7 @@ void game::list_missions()
                 { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope.at( tab ).c_str() );
+            mvwprintz( w_missions, 4, 31, c_light_red, "%s", nope.at( tab ).c_str() );
         }
 
         wrefresh( w_missions );
@@ -186,7 +186,5 @@ void game::list_missions()
         }
     }
 
-    werase( w_missions );
-    delwin( w_missions );
     refresh_all();
 }

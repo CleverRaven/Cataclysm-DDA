@@ -1,7 +1,7 @@
+#include "basecamp.h"
 #include <algorithm>
 #include <sstream>
 
-#include "basecamp.h"
 #include "output.h"
 #include "translations.h"
 #include "string_formatter.h"

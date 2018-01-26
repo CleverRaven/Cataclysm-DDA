@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
+#include "line.h"
 #include "rng.h"
 #include "options.h"
 #include "translations.h"
@@ -24,9 +25,9 @@ const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
-event::event( event_type e_t, int t, int f_id, tripoint p )
+event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
 : type( e_t )
-, turn( t )
+, when( w )
 , faction_id( f_id )
 , map_point( p )
 {
@@ -82,7 +83,7 @@ void event::actualize()
             }
         }
         if (!one_in(25)) { // They just keep coming!
-            g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
+            g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 15_turns, 25_turns ) );
         }
     } break;
 
@@ -148,7 +149,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u.sees(x, y))
+      if (!saw_grate && g->u.sees(tripoint(x, y,g->get_levz())))
        saw_grate = true;
      }
     }
@@ -214,7 +215,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
+   g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + rng( 2_turns, 3_turns ) );
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
@@ -250,17 +251,17 @@ void event::per_turn()
                 return; // We're safely indoors!
             }
             g->summon_mon(mon_eyebot, tripoint(place.x, place.y, g->u.posz()));
-            if (g->u.sees( place )) {
+            if (g->u.sees( tripoint(place.x, place.y, g->u.posz()) )) {
                 add_msg(m_warning, _("An eyebot swoops down nearby!"));
             }
             // One eyebot per trigger is enough, really
-            turn = int(calendar::turn);
+            when = calendar::turn;
         }
     } break;
 
   case EVENT_SPAWN_WYRMS:
      if (g->get_levz() >= 0) {
-         turn--;
+         when -= 1_turns;
          return;
      }
      if( calendar::once_every(3) ) {
@@ -279,4 +280,43 @@ void event::per_turn()
   default:
      break; // Nothing happens for other events
  }
+}
+
+void event_manager::process()
+{
+    for( auto it = events.begin(); it != events.end(); ) {
+        it->per_turn();
+        if( it->when <= calendar::turn ) {
+            it->actualize();
+            it = events.erase( it );
+        } else {
+            it++;
+        }
+    }
+}
+
+void event_manager::add( const event_type type, const time_point &when, const int faction_id )
+{
+    add( type, when, faction_id, g->u.global_sm_location() );
+}
+
+void event_manager::add( const event_type type, const time_point &when, const int faction_id,
+                         const tripoint center )
+{
+    events.emplace_back( type, when, faction_id, center );
+}
+
+bool event_manager::queued( const event_type type ) const
+{
+    return const_cast<event_manager&>( *this ).get( type ) != nullptr;
+}
+
+event *event_manager::get( const event_type type )
+{
+    for( auto &e : events ) {
+        if( e.type == type ) {
+            return &e;
+        }
+    }
+    return nullptr;
 }

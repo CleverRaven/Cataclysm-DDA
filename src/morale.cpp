@@ -10,7 +10,6 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "catacharset.h"
-#include "game.h"
 #include "weather.h"
 #include "input.h"
 
@@ -357,32 +356,27 @@ void player_morale::display( double focus_gain )
 {
     const char *morale_gain_caption = _( "Total morale gain" );
     const char *focus_gain_caption = _( "Focus gain per minute" );
+    const char *points_is_empty = _( "Nothing affects your morale" );
+
+    int w_extra = 8;
 
     // Figure out how wide the source column needs to be.
     int source_column_width = std::max( utf8_width( morale_gain_caption ),
-                                        utf8_width( focus_gain_caption ) );
-    for( auto &i : points ) {
-        source_column_width = std::max( utf8_width( i.get_name() ), source_column_width );
+                                        utf8_width( focus_gain_caption ) ) + w_extra;
+    if( points.empty() ) {
+        source_column_width = std::max( utf8_width( points_is_empty ), source_column_width );
+    } else {
+        for( auto &i : points ) {
+            source_column_width = std::max( utf8_width( i.get_name() ) + w_extra, source_column_width );
+        }
     }
 
-    const int win_w = std::min( source_column_width + 4 + 8, FULL_SCREEN_WIDTH );
+    const int win_w = std::min( source_column_width + 4, FULL_SCREEN_WIDTH );
     const int win_h = FULL_SCREEN_HEIGHT;
     const int win_x = ( TERMX - win_w ) / 2;
     const int win_y = ( TERMY - win_h ) / 2;
 
-    WINDOW *w = newwin( win_h, win_w, win_y, win_x );
-
-    draw_border( w );
-
-    mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
-
-    mvwhline( w, 2, 0, LINE_XXXO, 1 );
-    mvwhline( w, 2, 1, 0, win_w - 2 );
-    mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
-
-    mvwhline( w, win_h - 4, 0, LINE_XXXO, 1 );
-    mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
-    mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
+    catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
 
     const auto print_line = [ w ]( int y, const char *label, double value ) -> int {
         nc_color color;
@@ -392,44 +386,72 @@ void player_morale::display( double focus_gain )
             color = ( value > 0.0 ) ? c_green : c_red;
             mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
         } else {
-            color = c_dkgray;
+            color = c_dark_gray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
         return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
     };
 
-    if( !points.empty() ) {
-        const char *source_column = _( "Source" );
-        const char *value_column = _( "Value" );
+    int offset = 0;
+    int rows_total = points.size();
+    int rows_visible = std::max( win_h - 8, 0 );
 
-        mvwprintz( w, 3, 2, c_ltgray, source_column );
-        mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_ltgray, value_column );
+    for( ;; ) {
 
-        const morale_mult mult = get_temper_mult();
+        werase( w );
 
-        int line = 0;
-        for( size_t i = 0; i < points.size(); ++i ) {
-            const std::string name = points[i].get_name();
-            const int bonus = points[i].get_net_bonus( mult );
+        draw_border( w );
 
-            line += print_line( 4 + line, name.c_str(), bonus );
-            if( line >= win_h - 8 ) {
-                break;  // This prevents overflowing (unlikely, but just in case)
+        mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
+
+        mvwhline( w, 2, 0, LINE_XXXO, 1 );
+        mvwhline( w, 2, 1, 0, win_w - 2 );
+        mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
+
+        mvwhline( w, win_h - 4, 0, LINE_XXXO, 1 );
+        mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
+        mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
+
+        if( !points.empty() ) {
+            const char *source_column = _( "Source" );
+            const char *value_column = _( "Value" );
+
+            mvwprintz( w, 3, 2, c_light_gray, source_column );
+            mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
+
+            const morale_mult mult = get_temper_mult();
+
+            int line = 0;
+            for( size_t i = offset; i < static_cast<unsigned int>( rows_total ); ++i ) {
+                const std::string name = points[i].get_name();
+                const int bonus = points[i].get_net_bonus( mult );
+
+                line += print_line( 4 + line, name.c_str(), bonus );
+                if( line >= rows_visible ) {
+                    break;  // This prevents overflowing (unlikely, but just in case)
+                }
             }
+        } else {
+            fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dark_gray, points_is_empty );
         }
-    } else {
-        fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dkgray, _( "Nothing affects your morale" ) );
+
+        print_line( win_h - 3, morale_gain_caption, get_level() );
+        print_line( win_h - 2, focus_gain_caption, focus_gain );
+
+        draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
+
+        wrefresh( w );
+
+        // TODO: use input context
+        int ch = inp_mngr.get_input_event().get_first_input();
+        if( ch == KEY_DOWN && offset < std::max( 0, rows_total - rows_visible ) ) {
+            offset++;
+        } else if( ch == KEY_UP && offset > 0 ) {
+            offset--;
+        } else if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
+            break;
+        }
     }
-
-    print_line( win_h - 3, morale_gain_caption, get_level() );
-    print_line( win_h - 2, focus_gain_caption, focus_gain );
-
-    wrefresh( w );
-
-    inp_mngr.wait_for_any_key();
-
-    werase( w );
-    delwin( w );
 }
 
 bool player_morale::consistent_with( const player_morale &morale ) const

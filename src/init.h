@@ -2,15 +2,16 @@
 #ifndef INIT_H
 #define INIT_H
 
-#include "json.h"
-
 #include <string>
 #include <vector>
 #include <list>
 #include <memory>
+#include <map>
 #include <functional>
 
 class loading_ui;
+class JsonObject;
+class JsonIn;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -154,7 +155,5 @@ class DynamicDataLoader
             return finalized;
         }
 };
-
-void init_names();
 
 #endif

@@ -7,23 +7,28 @@
 #include <set>
 #include <map>
 #include <memory>
+#include <array>
+#include <list>
+#include <utility>
 
 #include "game_constants.h"
-#include "cursesdef.h"
-#include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "enums.h"
-#include "pathfinding.h"
+#include "calendar.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
-enum direction : unsigned;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+class emit;
+using emit_id = string_id<emit>;
 class player;
 class monster;
 class item;
@@ -34,18 +39,24 @@ class field;
 class field_entry;
 class vehicle;
 struct submap;
+class item_location;
+class map_cursor;
 struct maptile;
 class basecamp;
 class computer;
 struct itype;
 struct mapgendata;
+class map_cursor;
+class Character;
+class item_location;
 struct trap;
 struct oter_t;
-
+enum direction : unsigned;
+using itype_id = std::string;
 using trap_id = int_id<trap>;
 using oter_id = int_id<oter_t>;
-class emit;
-using emit_id = string_id<emit>;
+template<typename T>
+class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
@@ -74,7 +85,6 @@ struct wrapped_vehicle {
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::vector< std::pair< item *, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
@@ -85,6 +95,7 @@ using mongroup_id = string_id<MonsterGroup>;
 class map;
 enum ter_bitflags : int;
 struct pathfinding_cache;
+struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 
@@ -194,11 +205,6 @@ class map
 
         map &operator=( map && ) = default;
 
-        // Visual Output
-        void debug();
-
-
-
         /**
          * Sets a dirty flag on the a given cache.
          *
@@ -244,7 +250,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( WINDOW *w, lit_level ll,
+        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
                                    const visibility_variables &cache ) const;
 
         /** Draw a visible part of the map into `w`.
@@ -258,7 +264,7 @@ class map
          * @param center The coordinate of the center of the viewport, this can
          *               be different from the player coordinate.
          */
-        void draw( WINDOW *w, const tripoint &center );
+        void draw( const catacurses::window &w, const tripoint &center );
 
         /** Draw the map tile at the given coordinate. Called by `map::draw()`.
         *
@@ -269,9 +275,9 @@ class map
         * @param show_items Draw items in tile if this flag is true
         *        see `center` in `map::draw()`
         */
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert = false, const bool show_items = true ) const;
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert, const bool show_items,
                      const tripoint &view_center,
                      const bool low_light = false, const bool bright_level = false,
@@ -830,7 +836,7 @@ class map
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const unsigned birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
@@ -838,7 +844,7 @@ class map
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
         std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
-                                         const int x2, const int y2, bool ongrass, const int turn,
+                                         const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );
         void create_anomaly( const int cx, const int cy, artifact_natural_property prop );
@@ -856,7 +862,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const unsigned birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -930,7 +936,7 @@ class map
         * @return vector containing all placed items
         */
         std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
-                                         const tripoint &t, bool ongrass, const int turn,
+                                         const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
         * Place items from an item group at p. Places as much items as the item group says.
@@ -940,7 +946,8 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p, const int turn = 0 );
+        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
+                                                const time_point &turn = calendar::time_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1418,7 +1425,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( WINDOW *w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1426,7 +1433,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( WINDOW *w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;

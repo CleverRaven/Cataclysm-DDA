@@ -3,6 +3,7 @@
 #define RECIPE_DICTIONARY_H
 
 #include "recipe.h"
+#include "string_id.h"
 
 #include <string>
 #include <map>
@@ -13,27 +14,23 @@
 
 class JsonObject;
 typedef std::string itype_id;
+class recipe;
+using recipe_id = string_id<recipe>;
 
 class recipe_dictionary
 {
         friend class Item_factory; // allow removal of blacklisted recipes
+        friend recipe_id;
 
     public:
-        /**
-         * Look up a recipe by qualified identifier
-         * @warning this is not always the same as the result
-         * @return matching recipe or null recipe if none found
-         */
-        const recipe &operator[]( const std::string &id ) const;
-
         /** Returns all recipes that can be automatically learned */
         const std::set<const recipe *> &all_autolearn() const {
             return autolearn;
         }
 
         size_t size() const;
-        std::map<std::string, recipe>::const_iterator begin() const;
-        std::map<std::string, recipe>::const_iterator end() const;
+        std::map<recipe_id, recipe>::const_iterator begin() const;
+        std::map<recipe_id, recipe>::const_iterator end() const;
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
@@ -52,14 +49,14 @@ class recipe_dictionary
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
         static recipe &load( JsonObject &jo, const std::string &src,
-                             std::map<std::string, recipe> &out );
+                             std::map<recipe_id, recipe> &out );
 
     private:
-        std::map<std::string, recipe> recipes;
-        std::map<std::string, recipe> uncraft;
+        std::map<recipe_id, recipe> recipes;
+        std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
 
-        static void finalize_internal( std::map<std::string, recipe> &obj );
+        static void finalize_internal( std::map<recipe_id, recipe> &obj );
 };
 
 extern recipe_dictionary recipe_dict;

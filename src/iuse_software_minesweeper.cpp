@@ -3,7 +3,6 @@
 #include "output.h"
 #include "ui.h"
 #include "rng.h"
-#include "map.h"
 #include "input.h"
 #include "catacharset.h"
 #include "translations.h"
@@ -13,6 +12,8 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 minesweeper_game::minesweeper_game()
 {
@@ -26,7 +27,7 @@ minesweeper_game::minesweeper_game()
     iOffsetY = 0;
 }
 
-void minesweeper_game::new_level(WINDOW *w_minesweeper)
+void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 {
     iMaxY = getmaxy(w_minesweeper) - 2;
     iMaxX = getmaxx(w_minesweeper) - 2;
@@ -149,11 +150,8 @@ int minesweeper_game::start_game()
     const int iCenterX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iCenterY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    WINDOW *w_minesweeper_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX);
-    WINDOW_PTR w_minesweeper_borderptr( w_minesweeper_border );
-
-    WINDOW *w_minesweeper = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1);
-    WINDOW_PTR w_minesweeperptr( w_minesweeper );
+    catacurses::window w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX );
+    catacurses::window w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1 );
 
     draw_border(w_minesweeper_border);
 
@@ -172,7 +170,7 @@ int minesweeper_game::start_game()
 
     int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
-        shortcut_print(w_minesweeper_border, 0, iPos, c_white, c_ltgreen, shortcut);
+        shortcut_print(w_minesweeper_border, 0, iPos, c_white, c_light_green, shortcut);
         iPos += utf8_width(shortcut) + 1;
     }
 
@@ -188,12 +186,12 @@ int minesweeper_game::start_game()
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    static const std::array<int, 9> aColors = {{
+    static const std::array<nc_color, 9> aColors = {{
         c_white,
-        c_ltgray,
+        c_light_gray,
         c_cyan,
         c_blue,
-        c_ltblue,
+        c_light_blue,
         c_green,
         c_magenta,
         c_red,

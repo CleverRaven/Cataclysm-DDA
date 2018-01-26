@@ -87,32 +87,19 @@
             "|": "t_wall"
           },
           "furniture": {
-            " ": "f_null",
             "#": "f_counter",
-            "+": "f_null",
-            ",": "f_null",
-            "-": "f_null",
-            ".": "f_null",
             ":": "f_dresser",
             "?": "f_statue",
             "@": "f_bed",
             "F": "f_fridge",
             "G": "f_oven",
-            "L": "f_null",
-            "M": "f_null",
-            "O": "f_null",
             "S": "f_sink",
             "T": "f_toilet",
             "^": "f_indoor_plant",
-            "_": "f_null",
             "c": "f_chair",
             "l": "f_locker",
-            "r": "f_null",
             "t": "f_table",
-            "w": "f_null",
-            "x": "f_null",
-            "y": "f_indoor_plant_y",
-            "|": "f_null"
+            "y": "f_indoor_plant_y"
           },
           "place_items": [
             { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },

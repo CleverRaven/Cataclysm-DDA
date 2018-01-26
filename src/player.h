@@ -11,6 +11,8 @@
 #include "game_constants.h"
 #include "craft_command.h"
 #include "ret_val.h"
+#include "damage.h"
+#include "calendar.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -20,7 +22,10 @@
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
 enum action_id : int;
-
+struct bionic;
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class dispersion_sources;
 class monster;
 class game;
@@ -32,6 +37,7 @@ enum game_message_type : int;
 class ma_technique;
 class martialart;
 class recipe;
+using recipe_id = string_id<recipe>;
 struct component;
 struct item_comp;
 struct tool_comp;
@@ -115,31 +121,14 @@ extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
-struct stats : public JsonSerializer, public JsonDeserializer {
+struct stats {
     int squares_walked = 0;
     int damage_taken = 0;
     int damage_healed = 0;
     int headshots = 0;
 
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("squares_walked", squares_walked);
-        json.member("damage_taken", damage_taken);
-        json.member("damage_healed", damage_healed);
-        json.member("headshots", headshots);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        jo.read("squares_walked", squares_walked);
-        jo.read("damage_taken", damage_taken);
-        jo.read("damage_healed", damage_healed);
-        jo.read("headshots", headshots);
-    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 struct stat_mod {
@@ -151,7 +140,7 @@ struct stat_mod {
     int speed = 0;
 };
 
-class player : public Character, public JsonSerializer, public JsonDeserializer
+class player : public Character
 {
     public:
         player();
@@ -198,15 +187,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
-        int print_info(WINDOW *w, int vStart, int vLines, int column) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        virtual void deserialize( JsonIn &jsin );
 
-        using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const override;
+        virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, std::string epitaph );
@@ -215,9 +202,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Print the player's stamina bar. **/
-        void print_stamina_bar( WINDOW *w ) const;
+        void print_stamina_bar( const catacurses::window &w ) const;
         /** Generates the sidebar and it's data in-game */
-        void disp_status(WINDOW *w, WINDOW *w2);
+        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -369,7 +356,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        using Creature::sees;
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
@@ -468,6 +454,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
+        /** Returns true if the player is protected from radiation */
+        bool is_rad_immune() const;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
@@ -864,9 +852,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wearing an item.
          * @param it Thing to be worn
-         * @param alert display reason for any failure
          */
-        bool can_wear( const item& it, bool alert = true ) const;
+        ret_val<bool> can_wear( const item& it ) const;
+
+        /**
+         * Check player capable of takeing off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
@@ -949,6 +942,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear( int pos, bool interactive = true );
+        bool wear( item& to_wear, bool interactive = true );
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
@@ -1250,12 +1244,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
-        bool making_would_work( const std::string & id_to_make, int batch_size );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft( const std::string & id, int batch_size );
-        void make_all_craft( const std::string & id, int batch_size );
+        void make_craft( const recipe_id &id, int batch_size );
+        void make_all_craft( const recipe_id &id, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1359,7 +1354,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::map<std::string, int> mutation_category_level;
 
-        int next_climate_control_check;
+        time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
@@ -1394,10 +1389,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
         copyable_unique_ptr<craft_command> last_craft;
 
-        std::string lastrecipe;
+        recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
@@ -1441,7 +1436,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
+        int get_hp_max() const override;
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
 
@@ -1525,7 +1522,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
+        void print_encumbrance( const catacurses::window &win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1657,7 +1654,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         inventory cached_crafting_inventory;
         int cached_moves;
-        int cached_turn;
+        time_point cached_time;
         tripoint cached_position;
 
         struct weighted_int_list<std::string> melee_miss_reasons;

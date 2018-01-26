@@ -4,7 +4,8 @@
     "id": "guns_pistol_common",
     "//": "Pistols commonly owned by citizens and found in many locations.",
     "items": [
-      [ "glock_19", 85 ],
+      [ "glock_17", 35 ],
+      [ "glock_19", 50 ],
       [ "glock_22", 35 ],
       [ "m1911", 50 ],
       [ "m9", 30 ],
@@ -62,6 +63,7 @@
       [ "pistol_flintlock", 150 ],
       [ "raging_bull", 100 ],
       [ "rm99_pistol", 150 ],
+      [ "tokarev", 100 ],
       [ "walther_ppk", 100 ]
     ]
   },
@@ -80,10 +82,10 @@
     "id": "guns_smg_common",
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
-      [ "american_180", 70 ],
+      [ "tommygun", 70 ],
       [ "briefcase_smg", 20 ],
       [ "sten", 100 ],
-      [ "tec9", 100 ]
+      [ "uzi", 100 ]
     ]
   },
   {
@@ -98,8 +100,8 @@
       [ "mac_10", 40 ],
       [ "rm360_carbine", 30 ],
       [ "TDI", 10 ],
-      [ "tommygun", 50 ],
-      [ "uzi", 50 ]
+      [ "american_180", 50 ],
+      [ "tec9", 50 ]
     ]
   },
   {

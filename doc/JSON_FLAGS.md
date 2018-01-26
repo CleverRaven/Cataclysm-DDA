@@ -1,6 +1,7 @@
 # JSON Flags
 
 ## Notes
+
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
@@ -32,6 +33,7 @@
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 
 ## Furniture & Terrain
+
 List of known flags, used in both terrain.json and furniture.json
 
 ### Flags
@@ -160,6 +162,7 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`)
 
 ## Monsters
+
 Flags used to describe monsters and define their properties and abilities.
 
 ### Sizes
@@ -281,11 +284,13 @@ Flags used to describe monsters and define their properties and abilities.
 - ```WOOL``` May produce wool when butchered.
 
 ### Monster defense attacks
+
 - ```NONE``` No special attack-back
 - ```ACIDSPLASH``` Splash acid on the attacker
 - ```ZAPBACK``` Shock attacker on hit
 
 ### Special attacks
+
 Some special attacks are also valid use actions for tools and weapons.
 
 - ```NONE``` No special attack.
@@ -355,9 +360,11 @@ Some special attacks are also valid use actions for tools and weapons.
 ## Monster Groups
 
 ### Conditions
+
 Limit when monsters can spawn.
 
 #### Seasons
+
 Multiple season conditions will be combined together so that any of those conditions become valid time of year spawn times.
 
 - ```AUTUMN```
@@ -366,6 +373,7 @@ Multiple season conditions will be combined together so that any of those condit
 - ```WINTER```
 
 #### Time of day
+
 Multiple time of day conditions will be combined together so that any of those conditions become valid time of day spawn times.
 
 - ```DAWN```
@@ -376,6 +384,7 @@ Multiple time of day conditions will be combined together so that any of those c
 ## Mutations
 
 ### Categories
+
 These branches are also the valid entries for the categories of `dreams` in `dreams.json`
 
 - ```MUTCAT_ALPHA``` "You feel...better. Somehow."
@@ -496,15 +505,14 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VISION```
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
+- ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WINDOW``` Can see through this part and can install curtains over it.
 
 ## Ammo
 
 ### Ammo type
-These are handled through ammo_types.json.  You can tag a weapon with these to have it chamber existing ammo,
-or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses
-to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo
-listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
+
+These are handled through ammo_types.json.  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```22``` .22LR (and relatives)
 - ```223``` .223 Remington (and 5.56 NATO)
@@ -613,6 +621,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 
 ## Techniques
+
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
 - see contents of `data/json/techniques.json`
@@ -640,6 +649,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```TORSO```
 
 ### Flags
+
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
 - ```ALARMCLOCK``` Has an alarm-clock feature.
@@ -744,10 +754,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```FERTILIZER``` Works as fertilizer for farming.
-- ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```LENS``` Lens items can make fires via focusing light rays.
 - ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
 - ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
 - ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
@@ -836,6 +844,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Tools
 
 ### Flags
+
 Melee flags are fully compatible with tool flags, and vice versa.
 
 - ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
@@ -865,6 +874,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```WRAP``` Unused?
 
 ### Flags that apply to items, not to item types.
+
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
 
 - ```COLD``` Item is cold (see EATEN_COLD).
@@ -874,6 +884,15 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+
+## Bionics
+
+- ```BIONIC_FAULTY``` This bionic is a "faulty" bionic.
+- ```BIONIC_POWER_SOURCE``` This bionic is a power source bionic.
+- ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
+- ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
+- ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
+- ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 
 ## Books
 
@@ -908,7 +927,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```COMBATSAW_OFF``` Turn the combat-saw on.
 - ```COMBATSAW_ON``` Turn the combat-saw off
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
-- ```DEJAR```
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
@@ -949,7 +967,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.
-- ```JACQUESHAMMER``` Mr. Gorbachev, tear down this wall!
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```KNIFE``` Cut things up.
 - ```LAW``` Unpack the LAW for firing.
@@ -1056,14 +1073,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Flags
 
-- ```ALLOW_OUTSIDE```
-- ```AUT_START``` ... start in autumn.
-- ```BOARDED```
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
+
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors)
+- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+
+- ```WIN_START``` ... start in winter.
 - ```SPR_START``` ... start in spring.
 - ```SUM_START``` ... start in summer.
-- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
-- ```WIN_START``` ... start in winter.
+- ```SUM_ADV_START``` ... start second summer after Cataclysm.
+- ```AUT_START``` ... start in autumn.
 
 ## Overmap terrains
 

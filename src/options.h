@@ -4,11 +4,14 @@
 
 #include <string>
 #include <map>
+#include <utility>
 #include <unordered_map>
 #include <vector>
-#include "json.h"
 
-class options_manager : public JsonSerializer, public JsonDeserializer
+class JsonIn;
+class JsonOut;
+
+class options_manager
 {
     private:
         static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
@@ -147,9 +150,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         void add_value( const std::string &myoption, const std::string &myval,
                         const std::string &myvaltxt = "" );
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their

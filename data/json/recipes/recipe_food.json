@@ -3078,7 +3078,9 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "can_beans", 1 ],
       [ "raw_beans", 1 ],
+      [ "beans_cooked", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "mushroom", 1 ],
@@ -4005,8 +4007,6 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
       [ "irradiated_strawberries", 1 ],
       [ "strawberries", 1 ],
@@ -4182,8 +4182,6 @@
     [
       [ "sweet_fruit_like", 1, "LIST" ],
       [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -4363,9 +4361,7 @@
     ],
     [
       ["sweet_fruit_like", 1, "LIST"],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -4539,9 +4535,7 @@
     ],
     [
       ["sweet_fruit_like", 1, "LIST"],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -4660,9 +4654,7 @@
       ["sweet_fruit_like", 1, "LIST"],
       ["choco_coffee_beans", 5],
       ["chocolate", 1],
-      ["jam_fruit", 1],
-      ["jam_strawberries", 1],
-      ["jam_blueberries", 1]
+      ["jam_fruit", 1]
     ]
   ]
 },{
@@ -5695,6 +5687,7 @@
       [ "can_beans", 2 ],
       [ "raw_beans", 2 ],
       [ "beans_cooked", 2 ],
+      [ "dry_rice", 2 ],
       [ "dandelion_cooked", 2 ],
       [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
@@ -7342,7 +7335,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7370,7 +7362,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 4000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7405,9 +7396,7 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_fruit", 1 ]
     ],
     [
       [ "peanutbutter", 1 ]
@@ -7472,7 +7461,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "book_learn": [[ "cookbook_human", 4 ]],
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8417,7 +8405,9 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "can_beans", 1 ],
       [ "raw_beans", 1 ],
+      [ "beans_cooked", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "mushroom", 1 ],
@@ -8793,7 +8783,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8927,9 +8916,7 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_fruit", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_fruit", 1 ]
     ]
   ]
 },
@@ -8964,7 +8951,6 @@
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "time": 1500,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -9650,6 +9636,7 @@
     "difficulty": 2,
     "time": 11250,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "corn", 2 ] ] ]
   },
@@ -9663,6 +9650,7 @@
     "difficulty": 2,
     "time": 11250,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ], [ "acorns_cooked", 2 ], [ "oats", 2 ], [ "starch", 2 ], [ "dry_rice", 6 ] ] ]
   },
@@ -9676,6 +9664,7 @@
     "difficulty": 2,
     "time": 15000,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone", 1 ] ] ]
   },
@@ -9689,6 +9678,7 @@
     "difficulty": 2,
     "time": 15000,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
@@ -9714,6 +9704,7 @@
     "difficulty": 2,
     "time": 15000,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ] ] ]
   },
@@ -9727,7 +9718,22 @@
     "difficulty": 2,
     "time": 11250,
     "autolearn": true,
+    "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chili_pepper", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "sausage_wasteland",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 70000,
+    "autolearn": true,
+    "batch_time_factors": [83, 3],
+    "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
+    "tools" : [ [ [ "char_smoker", 10 ] ] ],
+    "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
   }
 ]

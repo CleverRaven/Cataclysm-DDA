@@ -3,7 +3,6 @@
 #define DIALOGUE_H
 
 #include "output.h"
-#include "color.h"
 
 #include <memory>
 #include <vector>

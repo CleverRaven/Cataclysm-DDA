@@ -33,7 +33,7 @@ public:
         auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
 
         wrefresh( g->w_terrain );
-        wrefresh( window.get() );
+        wrefresh( window );
 
         refresh_display();
     }
@@ -584,7 +584,7 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 #endif
 
 namespace {
-void draw_weather_curses(WINDOW *const win, weather_printable const &w)
+void draw_weather_curses( const catacurses::window &win, weather_printable const &w )
 {
     for (auto const &drop : w.vdrops) {
         mvwputch(win, drop.second, drop.first, w.colGlyph, w.cGlyph);
@@ -678,13 +678,13 @@ void game::draw_sct()
 #endif
 
 namespace {
-void draw_zones_curses( WINDOW *const w, const tripoint &start, const tripoint &end, const tripoint &offset )
+void draw_zones_curses( const catacurses::window &w, const tripoint &start, const tripoint &end, const tripoint &offset )
 {
     if( end.x < start.x || end.y < start.y || end.z < start.z ) {
         return;
     }
 
-    nc_color    const col = invert_color( c_ltgreen );
+    nc_color    const col = invert_color( c_light_green );
     std::string const line( end.x - start.x + 1, '~' );
     int         const x = start.x - offset.x;
 

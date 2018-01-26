@@ -1,19 +1,21 @@
 #include "requirements.h"
+
 #include "json.h"
 #include "translations.h"
 #include "game.h"
 #include "player.h"
-#include "map.h"
 #include "debug.h"
 #include "inventory.h"
 #include "string_formatter.h"
 #include "itype.h"
 #include "item_factory.h"
-#include <sstream>
 #include "calendar.h"
-#include <cmath>
-#include <algorithm>
 #include "generic_factory.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <sstream>
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -254,12 +256,6 @@ void requirement_data::save_requirement( const requirement_data &req, const std:
         dup.id_ = requirement_id( id );
     }
 
-    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
-        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
-    }
-
     requirements_all[ dup.id_ ] = dup;
 }
 
@@ -459,7 +455,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     current_line.str( "" );
 
     std::vector<std::string> folded_buffer =
-      get_folded_list( width, crafting_inv, components, batch, hilite );
+        get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -556,10 +552,13 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
                                   int batch )
 {
     bool retval = true;
+    int total_UPS_charges_used = 0;
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
+        int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, batch ) ) {
+            if( tool.has( crafting_inv, batch, [ &UPS_charges_used ]( int charges ) {
+                  UPS_charges_used = std::min( UPS_charges_used, charges ); } ) ) {
                 tool.available = a_true;
             } else {
                 tool.available = a_false;
@@ -567,13 +566,20 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             has_tool_in_set = has_tool_in_set || tool.available == a_true;
         }
         if( !has_tool_in_set ) {
-            retval = false;
+            return false;
         }
+        if( UPS_charges_used != std::numeric_limits<int>::max() ) {
+            total_UPS_charges_used += UPS_charges_used;
+        }
+    }
+    if( total_UPS_charges_used > 0 &&
+        total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
+        return false;
     }
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv, int ) const
+bool quality_requirement::has( const inventory &crafting_inv, int, std::function<void(int)> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -587,7 +593,7 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
     return available == a_true ? "green" : "red";
 }
 
-bool tool_comp::has( const inventory &crafting_inv, int batch ) const
+bool tool_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -596,7 +602,34 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
-        return crafting_inv.has_charges( type, count * batch );
+        int charges_found = crafting_inv.charges_of( type, count * batch );
+        if( charges_found == count * batch ) {
+            return true;
+        }
+        const auto &binned = crafting_inv.get_binned_items();
+        const auto iter = binned.find( type );
+        if( iter == binned.end() ) {
+            return false;
+        }
+        bool has_UPS = false;
+        for( const item *it : iter->second ) {
+            it->visit_items( [&has_UPS]( const item * e ) {
+                if( e->has_flag( "USE_UPS" ) ){
+                    has_UPS = true;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+        }
+        if( has_UPS ) {
+            int UPS_charges_used =
+              crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
+            if( visitor && UPS_charges_used + charges_found >= ( count * batch )) {
+                visitor( UPS_charges_used );
+            }
+            charges_found += UPS_charges_used;
+        }
+        return charges_found == count * batch;
     }
 }
 
@@ -604,15 +637,13 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 {
     if( available == a_insufficent ) {
         return "brown";
-    } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
-        return "green";
-    } else if( by_charges() && crafting_inv.has_charges( type, count * batch ) ) {
+    } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
-bool item_comp::has( const inventory &crafting_inv, int batch ) const
+bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -628,17 +659,12 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    const int cnt = std::abs( count ) * batch;
     if( available == a_insufficent ) {
         return "brown";
-    } else if( item::count_by_charges( type ) ) {
-        if( crafting_inv.has_charges( type, cnt ) ) {
-            return "green";
-        }
-    } else if( crafting_inv.has_components( type, cnt ) ) {
+    } else if( has( crafting_inv, batch) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
 template<typename T, typename ID>

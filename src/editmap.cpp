@@ -1,3 +1,4 @@
+#include "editmap.h"
 #include "game.h"
 
 #include "coordinate_conversions.h"
@@ -9,7 +10,6 @@
 #include "options.h"
 #include "auto_pickup.h"
 #include "debug.h"
-#include "editmap.h"
 #include "map.h"
 #include "output.h"
 #include "uistate.h"
@@ -26,6 +26,7 @@
 #include "submap.h"
 #include "monster.h"
 #include "overmap.h"
+#include "calendar.h"
 #include "field.h"
 #include "ui.h"
 #include "scent_map.h"
@@ -104,7 +105,7 @@ template<class SAVEOBJ>
 void edit_json( SAVEOBJ *it )
 {
     int tmret = -1;
-    std::string save1 = it->serialize();
+    std::string save1 = serialize( *it );
     std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     std::string save2;
@@ -116,23 +117,22 @@ void edit_json( SAVEOBJ *it )
             tm.addentry( -1, true, -2, "%s", elem.c_str() );
         }
         if( tmret == 0 ) {
-            std::istringstream dump( save1 );
             try {
                 SAVEOBJ tmp;
-                tmp.deserialize( dump );
+                deserialize( tmp, save1 );
                 *it = std::move( tmp );
-            } catch( const JsonError &err ) {
-                popup( "Error on deserialization: %s", err.c_str() );
+            } catch( const std::exception &err ) {
+                popup( "Error on deserialization: %s", err.what() );
             }
-            save2 = it->serialize();
+            save2 = serialize( *it );
             fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
             for( size_t s = 0; s < fs2.size(); ++s ) {
                 tm.addentry( -1, true, -2, "%s", fs2[s].c_str() );
                 if( s < fs1.size() && fs2[s] != fs1[s] ) {
-                    tm.entries[ tm.entries.size() - 1 ].text_color = c_ltgreen;
-                    tm.entries[s].text_color = c_ltred;
+                    tm.entries[ tm.entries.size() - 1 ].text_color = c_light_green;
+                    tm.entries[s].text_color = c_light_red;
                 }
             }
             fs2.clear();
@@ -152,7 +152,7 @@ void edit_json( SAVEOBJ *it )
             fout.close();
 
             fout.open( "save/jtest-2j.txt" );
-            fout << it->serialize();
+            fout << serialize( *it );
             fout.close();
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
@@ -192,8 +192,8 @@ editmap::editmap()
     fset = undefined_furn_id;
     trsel = undefined_trap_id;
     trset = undefined_trap_id;
-    w_info = 0;
-    w_help = 0;
+    w_info = catacurses::window();
+    w_help = catacurses::window();
     padding = std::string( width - 2, ' ' );
     blink = false;
     altblink = false;
@@ -226,11 +226,7 @@ editmap::editmap()
     uberdraw = false;
 }
 
-editmap::~editmap()
-{
-    delwin( w_info );
-    delwin( w_help );
-}
+editmap::~editmap() = default;
 
 void editmap_hilight::draw( editmap *hm, bool update )
 {
@@ -381,8 +377,8 @@ tripoint editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 14;
 
-    w_info = newwin( infoHeight, width, TERMY - infoHeight, offsetX );
-    w_help = newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
+    w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
+    w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
         mvwaddch( w_help, 2, i, LINE_OXOX );
     }
@@ -412,10 +408,8 @@ tripoint editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             int veh_part = -1;
             vehicle *veh = g->m.veh_at( target, veh_part );
-            if( g->critter_at<monster>( target ) ) {
-                edit_mon();
-            } else if( g->critter_at<npc>( target ) ) {
-                edit_npc();
+            if( Creature *const critter = g->critter_at( target ) ) {
+                edit_critter( *critter );
             } else if( veh ) {
                 edit_veh();
             }
@@ -453,7 +447,7 @@ enum edit_drawmode {
  * This is a map editor after all.
  */
 
-void editmap::uber_draw_ter( WINDOW *w, map *m )
+void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
@@ -475,7 +469,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            nc_color col = c_dkgray;
+            nc_color col = c_dark_gray;
             long sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
@@ -599,20 +593,20 @@ void editmap::update_view( bool update_info )
         int off = 1;
         draw_border( w_info );
 
-        mvwprintz( w_info, 0, 2, c_ltgray, "< %d,%d >", target.x, target.y );
+        mvwprintz( w_info, 0, 2, c_light_gray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
             mvwprintz( w_info, i, 1, c_white, padding.c_str() );
         }
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
-        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ),
+        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
                    terrain_type.name().c_str(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
-            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ),
+            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ).to_i(),
                        furniture_type.name().c_str(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
@@ -622,7 +616,7 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
                    veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
@@ -632,7 +626,7 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "apparent light: %.2f, light_at: %.2f" ),
                    map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
                    map_cache.lm[target.x][target.y] );
-        mvwprintw( w_info, off++, 1, _( "outside: %d" ), g->m.is_outside( target ) );
+        mvwprintw( w_info, off++, 1, _( "outside: %d" ), static_cast<int>( g->m.is_outside( target ) ) );
         std::string extras = "";
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
@@ -674,7 +668,7 @@ void editmap::update_view( bool update_info )
         }
 
         if( !g->m.has_flag( "CONTAINER", target ) && g->m.i_at( target ).size() > 0 ) {
-            trim_and_print( w_info, off, 1, getmaxx( w_info ), c_ltgray, _( "There is a %s there." ),
+            trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
                             g->m.i_at( target ).front().tname().c_str() );
             off++;
             if( g->m.i_at( target ).size() > 1 ) {
@@ -759,7 +753,7 @@ int editmap::edit_ter()
     int ret = 0;
     int pwh = TERMY - 4;
 
-    WINDOW *w_pickter = newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_pickter = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
     draw_border( w_pickter );
     wrefresh( w_pickter );
 
@@ -814,8 +808,8 @@ int editmap::edit_ter()
         }
 
         // cursor is green for terrain or furniture, depending on selection
-        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_ltgreen : c_dkgray );
-        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_ltgreen : c_dkgray );
+        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_light_green : c_dark_gray );
+        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_light_green : c_dark_gray );
 
         int cur_t = 0;
         int tstart = 2;
@@ -824,7 +818,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ), ttype.symbol() );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dark_gray ), ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -840,8 +834,8 @@ int editmap::edit_ter()
         mvwputch( w_pickter, lastsel_terp.y + 1, lastsel_terp.x + 1, c_tercurs, ' ' );
         mvwputch( w_pickter, lastsel_terp.y - 1, lastsel_terp.x - 1, c_tercurs, ' ' );
         // indicate current tile
-        mvwputch( w_pickter, target_terp.y + 1, target_terp.x, c_ltgray, '^' );
-        mvwputch( w_pickter, target_terp.y - 1, target_terp.x, c_ltgray, 'v' );
+        mvwputch( w_pickter, target_terp.y + 1, target_terp.x, c_light_gray, '^' );
+        mvwputch( w_pickter, target_terp.y - 1, target_terp.x, c_light_gray, 'v' );
         // draw cursor around selected terrain icon
         mvwputch( w_pickter, sel_terp.y + 1, sel_terp.x - 1, c_tercurs, LINE_XXOO );
         mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x + 1, c_tercurs, LINE_OOXX );
@@ -880,7 +874,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < ( int ) furn_t::count(); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dkgray ), ftype.symbol() );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dark_gray ), ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -897,8 +891,8 @@ int editmap::edit_ter()
         mvwputch( w_pickter, lastsel_frnp.y + 1, lastsel_frnp.x + 1, c_frncurs, ' ' );
         mvwputch( w_pickter, lastsel_frnp.y - 1, lastsel_frnp.x - 1, c_frncurs, ' ' );
 
-        mvwputch( w_pickter, target_frnp.y + 1, target_frnp.x, c_ltgray, '^' );
-        mvwputch( w_pickter, target_frnp.y - 1, target_frnp.x, c_ltgray, 'v' );
+        mvwputch( w_pickter, target_frnp.y + 1, target_frnp.x, c_light_gray, '^' );
+        mvwputch( w_pickter, target_frnp.y - 1, target_frnp.x, c_light_gray, 'v' );
 
         mvwputch( w_pickter, sel_frnp.y + 1, sel_frnp.x - 1, c_frncurs, LINE_XXOO );
         mvwputch( w_pickter, sel_frnp.y - 1, sel_frnp.x + 1, c_frncurs, LINE_OOXX );
@@ -930,12 +924,12 @@ int editmap::edit_ter()
 
         // draw green |'s around terrain or furniture tilesets depending on selection
         for( int y = tstart - 1; y < tstart + tlen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_ltgreen, ( ter_frn_mode == 0 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_ltgreen, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
         }
         for( int y = fstart - 1; y < fstart + flen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_ltgreen, ( ter_frn_mode == 1 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_ltgreen, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
         }
 
         uphelp( pgettext( "Map editor: terrain/furniture shortkeys",
@@ -1054,11 +1048,6 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
-
-    werase( w_pickter );
-    wrefresh( w_pickter );
-
-    delwin( w_pickter );
     return ret;
 }
 
@@ -1219,7 +1208,7 @@ int editmap::edit_trp()
     int ret = 0;
     int pwh = TERMY - infoHeight;
 
-    WINDOW *w_picktrap = newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_picktrap = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
     draw_border( w_picktrap );
     int tmax = pwh - 3;
     int tshift = 0;
@@ -1264,7 +1253,7 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_ltgray ) ), "%d %s", t,
+                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_light_gray ) ), "%d %s", t,
                            tnam.c_str() );
             }
         }
@@ -1293,9 +1282,6 @@ int editmap::edit_trp()
             update_view( false );
         }
     } while( action != "QUIT" );
-    werase( w_picktrap );
-    wrefresh( w_picktrap );
-    delwin( w_picktrap );
 
     wrefresh( w_info );
 
@@ -1341,7 +1327,7 @@ int editmap::edit_itm()
             imenu.w_height = TERMX - ilmenu.w_height;
             imenu.w_width = ilmenu.w_width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
-                            it->birthday() );
+                            to_turn<int>( it->birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1358,7 +1344,7 @@ int editmap::edit_itm()
                     int intval = -1;
                     switch( imenu.ret ) {
                         case imenu_bday:
-                            intval = it->birthday();
+                            intval = to_turn<int>( it->birthday() );
                             break;
                         case imenu_damage:
                             intval = it->damage();
@@ -1374,8 +1360,8 @@ int editmap::edit_itm()
                                  .query_int();
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
-                            it->set_birthday( retval );
-                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->birthday() );
+                            it->set_birthday( time_point::from_turn( retval ) );
+                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it->birthday() ) );
                         } else if( imenu.ret == imenu_damage ) {
                             it->set_damage( retval );
                             imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
@@ -1418,12 +1404,14 @@ int editmap::edit_itm()
 /*
  *  Todo
  */
-int editmap::edit_mon()
+int editmap::edit_critter( Creature &critter )
 {
-    int ret = 0;
-    monster *it = g->critter_at<monster>( target );
-    edit_json( it );
-    return ret;
+    if( monster *const mon_ptr = dynamic_cast<monster *>( &critter ) ) {
+        edit_json( mon_ptr );
+    } else if( npc *const npc_ptr = dynamic_cast<npc *>( &critter ) ) {
+        edit_json( npc_ptr );
+    }
+    return 0;
 }
 
 
@@ -1531,18 +1519,6 @@ bool editmap::move_target( const std::string &action, int moveorigin )
         return true;
     }
     return false;
-}
-
-/*
- * Todo
- */
-int editmap::edit_npc()
-{
-    int ret = 0;
-    if( npc *const it = g->critter_at<npc>( target ) ) {
-        edit_json( it );
-    }
-    return ret;
 }
 
 /*
@@ -1691,9 +1667,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
 
     tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
-    WINDOW *w_preview = newwin( 24, 24, pofs.y, pofs.x );
+    catacurses::window w_preview = catacurses::newwin( 24, 24, pofs.y, pofs.x );
 
-    gmenu.border_color = c_ltgray;
+    gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
     gmenu.redraw();
     gmenu.show();
@@ -1743,120 +1719,113 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false );
 
-        if( gpmenu.keypress != ERR ) {
-            if( gpmenu.ret != UIMENU_INVALID ) {
-                inp_mngr.reset_timeout();
-                if( gpmenu.ret == 0 ) {
+        if( gpmenu.ret != UIMENU_INVALID ) {
+            inp_mngr.reset_timeout();
+            if( gpmenu.ret == 0 ) {
 
-                    cleartmpmap( tmpmap );
-                    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
-                    showpreview = true;
-                } else if( gpmenu.ret == 1 ) {
-                    tmpmap.rotate( 1 );
-                    showpreview = true;
-                } else if( gpmenu.ret == 2 ) {
+                cleartmpmap( tmpmap );
+                tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+                showpreview = true;
+            } else if( gpmenu.ret == 1 ) {
+                tmpmap.rotate( 1 );
+                showpreview = true;
+            } else if( gpmenu.ret == 2 ) {
 
-                    point target_sub( target.x / 12, target.y / 12 );
-                    g->m.clear_vehicle_cache( target.z );
+                point target_sub( target.x / 12, target.y / 12 );
+                g->m.clear_vehicle_cache( target.z );
 
-                    std::string s = "";
-                    for( int x = 0; x < 2; x++ ) {
-                        for( int y = 0; y < 2; y++ ) {
-                            // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
-                            // functions that would alter the results
-                            submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
-                            submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
-                            destsm->is_uniform = false;
-                            srcsm->is_uniform = false;
+                std::string s = "";
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                        // functions that would alter the results
+                        submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
+                        submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
+                        destsm->is_uniform = false;
+                        srcsm->is_uniform = false;
 
-                            for( auto &v : destsm->vehicles ) {
-                                auto &ch = g->m.access_cache( v->smz );
-                                ch.vehicle_list.erase( v );
-                            }
-                            destsm->delete_vehicles();
-                            for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                                s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
-                                vehicle *veh1 = srcsm->vehicles[i];
-                                // vehicle *veh1 = veh;   // fixme: is this required?
-                                veh1->smx = target_sub.x + x;
-                                veh1->smy = target_sub.y + y;
-                                veh1->smz = target.z;
-                                destsm->vehicles.push_back( veh1 );
-                                g->m.update_vehicle_cache( veh1, target.z );
-                            }
-                            srcsm->vehicles.clear();
-                            g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
+                        for( auto &v : destsm->vehicles ) {
+                            auto &ch = g->m.access_cache( v->smz );
+                            ch.vehicle_list.erase( v );
+                        }
+                        destsm->delete_vehicles();
+                        for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                            s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
+                            vehicle *veh1 = srcsm->vehicles[i];
+                            // vehicle *veh1 = veh;   // fixme: is this required?
+                            veh1->smx = target_sub.x + x;
+                            veh1->smy = target_sub.y + y;
+                            veh1->smz = target.z;
+                            destsm->vehicles.push_back( veh1 );
+                            g->m.update_vehicle_cache( veh1, target.z );
+                        }
+                        srcsm->vehicles.clear();
+                        g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                            int spawns_todo = 0;
-                            for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                                int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
-                                s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
-                                destsm->spawns.push_back( srcsm->spawns[i] );
-                                spawns_todo++;
-                            }
+                        int spawns_todo = 0;
+                        for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
+                            int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                            s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
+                            destsm->spawns.push_back( srcsm->spawns[i] );
+                            spawns_todo++;
+                        }
 
-                            for( int sx = 0; sx < 12; sx++ ) {  // copy fields
-                                for( int sy = 0; sy < 12; sy++ ) {
-                                    destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                                }
-                            }
-                            destsm->field_count = srcsm->field_count; // and count
-
-                            std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                            std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                            std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                            std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                            std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-                            for( int x = 0; x < SEEX; ++x ) {
-                                for( int y = 0; y < SEEY; ++y ) {
-                                    destsm->itm[x][y].swap( srcsm->itm[x][y] );
-                                    destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
-                                }
-                            }
-
-                            // various misc variables
-                            destsm->active_items = srcsm->active_items;
-
-                            destsm->temperature = srcsm->temperature;
-                            destsm->turn_last_touched = int( calendar::turn );
-                            destsm->comp = srcsm->comp;
-                            destsm->camp = srcsm->camp;
-
-                            if( spawns_todo > 0 ) {                               // trigger spawnpoints
-                                g->m.spawn_monsters( true );
+                        for( int sx = 0; sx < 12; sx++ ) {  // copy fields
+                            for( int sy = 0; sy < 12; sy++ ) {
+                                destsm->fld[sx][sy] = srcsm->fld[sx][sy];
                             }
                         }
+                        destsm->field_count = srcsm->field_count; // and count
+
+                        std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
+                        std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
+                        std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
+                        std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
+                        std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
+                        for( int x = 0; x < SEEX; ++x ) {
+                            for( int y = 0; y < SEEY; ++y ) {
+                                destsm->itm[x][y].swap( srcsm->itm[x][y] );
+                                destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
+                            }
+                        }
+
+                        // various misc variables
+                        destsm->active_items = srcsm->active_items;
+
+                        destsm->temperature = srcsm->temperature;
+                        destsm->turn_last_touched = int( calendar::turn );
+                        destsm->comp = srcsm->comp;
+                        destsm->camp = srcsm->camp;
+
+                        if( spawns_todo > 0 ) {                               // trigger spawnpoints
+                            g->m.spawn_monsters( true );
+                        }
                     }
-                    g->m.reset_vehicle_cache( target.z );
-
-                    //~ message when applying the map generator
-                    popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
-
-                } else if( gpmenu.ret == 3 ) {
-                    popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters->get_name().c_str(), orig_oters.id().c_str(),
-                           omt_ref->get_name().c_str(), omt_ref.id().c_str() );
                 }
-            } else if( gpmenu.keypress == 'm' ) {
-                // todo; keep preview as is and move target
-            } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
-                       gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
+                g->m.reset_vehicle_cache( target.z );
 
-                int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
-                gmenu.scrollby( dir );
-                gpmenu.selected = gpmenupos;
-                gmenu.show();
-                gmenu.refresh();
+                //~ message when applying the map generator
+                popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
+
+            } else if( gpmenu.ret == 3 ) {
+                popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
+                       orig_oters->get_name().c_str(), orig_oters.id().c_str(),
+                       omt_ref->get_name().c_str(), omt_ref.id().c_str() );
             }
-        } else {
-            // fixme: too annoying, make a border instead. // showpreview = !showpreview;
+        } else if( gpmenu.keypress == 'm' ) {
+            // todo; keep preview as is and move target
+        } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
+                   gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
+
+            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
+            gmenu.scrollby( dir );
+            gpmenu.selected = gpmenupos;
+            gmenu.show();
+            gmenu.refresh();
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
     inp_mngr.reset_timeout();
-    werase( w_preview );
-    wrefresh( w_preview );
-    delwin( w_preview );
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter

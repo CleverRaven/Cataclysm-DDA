@@ -28,6 +28,7 @@
 #include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
+#include "calendar.h"
 #include "weather.h"
 #include "sounds.h"
 #include "cata_utility.h"
@@ -478,12 +479,8 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
-    WINDOW_PTR const w_item_info_ptr {
-        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
-
-    WINDOW *w           = w_ptr.get();
-    WINDOW *w_item_info = w_item_info_ptr.get();
+    catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 );
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");
@@ -530,7 +527,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
 
-        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
+        mvwprintz(w, 1, 2, c_light_gray, title.c_str());
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -545,7 +542,7 @@ void iexamine::vending(player &p, const tripoint &examp)
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
             auto const &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
@@ -562,7 +559,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         werase(w_item_info);
         // | {line}|
         // 12      3
-        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -662,15 +659,17 @@ void iexamine::controls_gate(player &p, const tripoint &examp)
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
-void iexamine::cardreader(player &p, const tripoint &examp)
+void iexamine::cardreader( player &p, const tripoint &examp )
 {
-    itype_id card_type = (g->m.ter(examp) == t_card_science ? "id_science" :
-                          "id_military");
-    if (p.has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
-        p.moves -= 100;
-        for(const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
-            if (g->m.ter(tmp) == t_door_metal_locked) {
-                g->m.ter_set(tmp, t_floor);
+    bool open = false;
+    itype_id card_type = ( g->m.ter(examp) == t_card_science ? "id_science" :
+                          "id_military" );
+    if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
+        p.mod_moves( -100 );
+        for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
+            if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                g->m.ter_set( tmp, t_floor );
+                open = true;
             }
         }
         //TODO only despawn turrets "behind" the door
@@ -680,25 +679,29 @@ void iexamine::cardreader(player &p, const tripoint &examp)
                 g->remove_zombie( critter );
             }
         }
-        add_msg(_("You insert your ID card."));
-        add_msg(m_good, _("The nearby doors slide into the floor."));
-        p.use_amount(card_type, 1);
+        if( open ) {
+            add_msg( _( "You insert your ID card." ) );
+            add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+            p.use_amount( card_type, 1 );
+        } else {
+            add_msg( _( "The nearby doors are already opened." ) );
+        }
     } else {
         switch( hack_attempt( p ) ) {
             case HACK_FAIL:
-                g->m.ter_set(examp, t_card_reader_broken);
+                g->m.ter_set( examp, t_card_reader_broken );
                 break;
             case HACK_NOTHING:
-                add_msg(_("Nothing happens."));
+                add_msg( _( "Nothing happens." ) );
                 break;
             case HACK_SUCCESS:
                 {
-                    add_msg(_("You activate the panel!"));
-                    add_msg(m_good, _("The nearby doors slide into the floor."));
-                    g->m.ter_set(examp, t_card_reader_broken);
-                    for(const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
-                        if (g->m.ter(tmp) == t_door_metal_locked) {
-                            g->m.ter_set(tmp, t_floor);
+                    add_msg( _( "You activate the panel!" ) );
+                    add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+                    g->m.ter_set( examp, t_card_reader_broken );
+                    for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
+                        if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                            g->m.ter_set( tmp, t_floor );
                         }
                     }
                 }
@@ -707,8 +710,8 @@ void iexamine::cardreader(player &p, const tripoint &examp)
                 add_msg(
                     m_info,
                     p.get_skill_level( skill_computer ) > 0 ?
-                        _("Looks like you need a %s, or a tool to hack it with.") :
-                        _("Looks like you need a %s."),
+                        _( "Looks like you need a %s, or a tool to hack it with." ) :
+                        _( "Looks like you need a %s." ),
                     item::nname( card_type ).c_str()
                 );
                 break;
@@ -999,105 +1002,6 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
 }
 
 /**
- * Put fencing on fenceposts.
- */
-void iexamine::fence_post(player &p, const tripoint &examp)
-{
-
-    int ch = menu(true, _("Fence Construction:"), _("Rope Fence"),
-                  _("Wire Fence"), _("Barbed Wire Fence"), _("Cancel"), NULL);
-    switch (ch) {
-    case 1: {
-        if (p.has_amount("rope_6", 2)) {
-            p.use_amount("rope_6", 2);
-            g->m.ter_set(examp, t_fence_rope);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 six-foot lengths of rope to do that"));
-        }
-    }
-    break;
-
-    case 2: {
-        if (p.has_amount("wire", 2)) {
-            p.use_amount("wire", 2);
-            g->m.ter_set(examp, t_fence_wire);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of wire to do that!"));
-        }
-    }
-    break;
-
-    case 3: {
-        if (p.has_amount("wire_barbed", 2)) {
-            p.use_amount("wire_barbed", 2);
-            g->m.ter_set(examp, t_fence_barbed);
-            p.moves -= 200;
-        } else {
-            add_msg(m_info, _("You need 2 lengths of barbed wire to do that!"));
-        }
-    }
-    break;
-
-    case 4:
-    default:
-        break;
-    }
-}
-
-/**
- * Prompt removing the rope from rope fence. Leaves the posts.
- */
-void iexamine::remove_fence_rope(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-    item rope("rope_6", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-
-}
-
-/**
- * Prompt removing the wire from wire fence. Leaves the posts.
- */
-void iexamine::remove_fence_wire(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-
-    item rope("wire", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-}
-
-/**
- * Prompt removing the wire from wire fence. Leaves the posts.
- */
-void iexamine::remove_fence_barbed(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Remove %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-
-    item rope("wire_barbed", calendar::turn);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.add_item_or_charges(p.pos(), rope);
-    g->m.ter_set(examp, t_fence_post);
-    p.moves -= 200;
-}
-
-/**
  * Loop prompt to bet $10.
  */
 void iexamine::slot_machine( player &p, const tripoint& )
@@ -1221,8 +1125,8 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p.pos(), 60, _("an alarm sound!"));
-            if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
+            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
             }
             break;
         case HACK_NOTHING:
@@ -1334,7 +1238,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
     sounds::sound(examp, 80, (""));
     g->m.ter_set(examp, t_rock_floor);
-    g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
+    g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
 
 /**
@@ -1348,13 +1252,13 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
         g->m.i_clear(examp);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else if (p.has_amount("petrified_eye", 1) &&
                query_yn(_("Place your petrified eye on the pedestal?"))) {
         p.use_amount("petrified_eye", 1);
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else
         add_msg(_("This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top."));
@@ -1453,7 +1357,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
         }
     }
     add_msg(m_warning, _("You hear the rumble of rock shifting."));
-    g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
+    g->events.add( EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**
@@ -1993,10 +1897,12 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
+            //@todo change season_length to return time_duration
+            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
 
             item &seed = g->m.i_at( examp ).front();
-            seed.set_birthday( std::max( 0, seed.birthday() - fertilizerEpoch ) );
+            //@todo item should probably clamp the value on its own
+            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -2097,10 +2003,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
-    const int firing_time = HOURS(6); // 5 days in real life
-    int time_left = firing_time - items[0].age();
+    const time_duration firing_time = 6_hours; // 5 days in real life
+    const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
+        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
         return;
     }
 
@@ -2246,10 +2152,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     if( brew_i.is_brewable() ) {
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
-        int brew_time = brew_i.brewing_time();
-        int progress = brew_i.age();
+        //@todo change brew_time to return time_duration
+        const time_duration brew_time = brew_i.brewing_time();
+        const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
-            int hours = ( brew_time - progress ) / HOURS(1);
+            int hours = to_hours<int>( brew_time - progress );
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
@@ -2274,7 +2181,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             }
 
             p.moves -= 500;
-            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
+            p.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
         return;
@@ -3048,10 +2955,12 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if (previous_signage_exists) {
-        popup(existing_signage.c_str());
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        popup( _( "You're illiterate, and can't read the message on the sign." ) );
+    } else if( previous_signage_exists ) {
+        popup( existing_signage.c_str() );
     } else {
-        p.add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+        p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
 
     // Allow chance to modify message.
@@ -3480,8 +3389,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                     pgettext( "memorial_female", "Set off an alarm." ) );
                 sounds::sound( p.pos(), 60, _( "an alarm sound!" ) );
-                if( examp.z > 0 && !g->event_queued( EVENT_WANTED ) ) {
-                    g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p.global_sm_location() );
+                if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                    g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:
@@ -3614,10 +3523,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "portable_structure", &iexamine::portable_structure },
         { "pit", &iexamine::pit },
         { "pit_covered", &iexamine::pit_covered },
-        { "fence_post", &iexamine::fence_post },
-        { "remove_fence_rope", &iexamine::remove_fence_rope },
-        { "remove_fence_wire", &iexamine::remove_fence_wire },
-        { "remove_fence_barbed", &iexamine::remove_fence_barbed },
         { "slot_machine", &iexamine::slot_machine },
         { "safe", &iexamine::safe },
         { "bulletin_board", &iexamine::bulletin_board },

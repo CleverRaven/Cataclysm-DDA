@@ -1,10 +1,10 @@
+#include "trap.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "generic_factory.h"
-#include "trap.h"
 #include "debug.h"
 #include "line.h"
-#include "game.h"
+#include "json.h"
 #include "map.h"
 #include "debug.h"
 #include "translations.h"
@@ -93,7 +93,9 @@ void trap::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
-    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    if( !assign( jo, "color", color ) ) {
+        jo.throw_error( "missing mandatory member \"color\"" );
+    }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
@@ -184,9 +186,8 @@ bool trap::is_3x3_trap() const
     return id == trap_str_id( "tr_engine" );
 }
 
-void trap::on_disarmed( const tripoint &p ) const
+void trap::on_disarmed( map &m, const tripoint &p ) const
 {
-    map &m = g->m;
     for( auto &i : components ) {
         m.spawn_item( p.x, p.y, i, 1, 1 );
     }
@@ -227,8 +228,6 @@ tr_shotgun_2,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
-tr_light_snare,
-tr_heavy_snare,
 tr_landmine,
 tr_landmine_buried,
 tr_telepad,
@@ -293,8 +292,6 @@ void trap::finalize()
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
-    tr_light_snare = trapfind( "tr_light_snare" );
-    tr_heavy_snare = trapfind( "tr_heavy_snare" );
     tr_landmine = trapfind( "tr_landmine" );
     tr_landmine_buried = trapfind( "tr_landmine_buried" );
     tr_telepad = trapfind( "tr_telepad" );

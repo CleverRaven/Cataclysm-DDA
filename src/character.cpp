@@ -1,11 +1,13 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "bionics.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
 #include "translations.h"
+#include "itype.h"
 #include "options.h"
 #include "map_iterator.h"
 #include "field.h"
@@ -130,7 +132,11 @@ Character::Character() : Creature(), visitable<Character>()
     name = "";
 
     path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+
+    my_bionics.reset( new bionic_collection() );
 }
+
+Character::~Character() = default;
 
 field_id Character::bloodType() const
 {
@@ -614,7 +620,7 @@ float Character::get_vision_threshold( float light_level ) const {
 
 bool Character::has_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return true;
         }
@@ -624,7 +630,7 @@ bool Character::has_bionic(const bionic_id &b) const
 
 bool Character::has_active_bionic(const bionic_id &b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : *my_bionics) {
         if (i.id == b) {
             return (i.powered);
         }
@@ -816,7 +822,7 @@ void Character::i_rem_keep_contents( const int pos )
 bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
-    bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
+    bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it , this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
@@ -876,6 +882,34 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 
 template <typename T, typename Output>
 void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
+    if( obj.is_watertight_container() ) {
+        if (!obj.is_container_empty()) {
+            auto contents_id = obj.contents.front().typeId();
+
+            // Look for containers with the same type of liquid as that already in our container
+            src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item *node ) {
+                if ( node == &obj ) {
+                    // This stops containers and magazines counting *themselves* as ammo sources.
+                    return VisitResponse::SKIP;
+                }
+
+                if ( node->is_container() && !node->is_container_empty() &&
+                        node->contents.front().typeId() == contents_id ) {
+                    out = item_location( src, node );
+                }
+                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            } );
+        } else {
+            // Look for containers with any liquid
+            src.visit_items( [&src, &nested, &out]( item *node ) {
+                if ( node->is_container() && !node->is_container_empty() &&
+                        node->contents.front().made_of( LIQUID ) ) {
+                    out = item_location( src, node );
+                }
+                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            } );
+        }
+    }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
@@ -1241,7 +1275,7 @@ void Character::die(Creature* nkiller)
 {
     g->set_critter_died();
     set_killer( nkiller );
-    set_turn_died(int(calendar::turn));
+    set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
         inv.add_item( item( "string_36", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
@@ -1883,10 +1917,10 @@ hp_part Character::body_window( const std::string &menu_header,
                                 int normal_bonus, int head_bonus, int torso_bonus,
                                 bool bleed, bool bite, bool infect ) const
 {
-    WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
+    catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
     draw_border(hp_window);
 
-    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
     /* This struct estabiles some kind of connection between the hp_part (which can be healed and
@@ -1917,13 +1951,13 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
-        // This will c_ltgray if the part does not have any effects cured by the item
+        // This will c_light_gray if the part does not have any effects cured by the item
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed, bite, infect );
-        const bool has_curable_effect = state_col != c_ltgray;
+        const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        const bool has_any_effect = all_state_col != c_ltgray;
+        const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
         // This considers only the effects that can *not* be removed.
@@ -1962,7 +1996,7 @@ hp_part Character::body_window( const std::string &menu_header,
             print_hp( 15, color, current_hp );
         } else {
             // But still could be infected or bleeding
-            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
+            const nc_color color = has_any_effect ? all_state_col : c_dark_gray;
             print_hp( 15, color, 0 );
         }
 
@@ -1974,17 +2008,17 @@ hp_part Character::body_window( const std::string &menu_header,
                 continue;
             }
 
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
 
             const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
-            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
-            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            const nc_color color = has_any_effect ? new_state_col : c_dark_gray;
+            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
             print_hp( 24, color, 0 );
         }
     }
-    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
 
     wrefresh(hp_window);
     char ch;
@@ -2001,9 +2035,6 @@ hp_part Character::body_window( const std::string &menu_header,
             break;
         }
     } while (ch < '1' || ch > '7');
-    werase(hp_window);
-    wrefresh(hp_window);
-    delwin(hp_window);
     refresh();
 
     return healed_part;
@@ -2012,11 +2043,11 @@ hp_part Character::body_window( const std::string &menu_header,
 nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
 {
     if( bp == num_bp ) {
-        return c_ltgray;
+        return c_light_gray;
     }
 
     int color_bit = 0;
-    nc_color i_color = c_ltgray;
+    nc_color i_color = c_light_gray;
     if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }

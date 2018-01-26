@@ -6,6 +6,8 @@
 #include "game.h"
 #include "item_group.h"
 #include "string_formatter.h"
+#include "itype.h"
+#include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
@@ -19,7 +21,8 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "iuse_actor.h"
-
+#include "trait_group.h"
+#include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -248,7 +251,7 @@ npc::~npc() { }
 
 std::string npc::save_info() const
 {
-    return serialize(); // also saves contents
+    return ::serialize( *this );
 }
 
 void npc::load_info( std::string data )
@@ -384,9 +387,19 @@ void npc::randomize( const npc_class_id &type )
     starting_inv( *this, type );
     has_new_items = true;
 
-    for( const auto &pr : type->traits ) {
-        if( rng( 1, 100 ) <= pr.second ) {
-            set_mutation( pr.first );
+    my_mutations.clear();
+    my_traits.clear();
+
+    // Add fixed traits
+    for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
+        set_mutation( tid );
+    }
+
+    // Run mutation rounds
+    for( const auto &mr : type->mutation_rounds ) {
+        int rounds = mr.second.roll();
+        for( int i = 0; i < rounds; ++i ) {
+            mutate_category( mr.first );
         }
     }
 }
@@ -710,7 +723,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
             it.item_tags.insert( "FIT" );
         }
 
-        if( who.can_wear( it ) ) {
+        if( who.can_wear( it ).success() ) {
             who.worn.push_back( it );
         }
     }
@@ -945,7 +958,7 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( encumb_ok && can_wear( it, false ) ) {
+        if( encumb_ok && can_wear( it ).success() ) {
             // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return wear_item( it, false );
         }
@@ -1458,7 +1471,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ) {
         // Live grenade or something similar
         return -1000;
     }
@@ -1703,10 +1716,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return std::find_if( g->active_npc.begin(),
-    g->active_npc.end(), [&]( const std::shared_ptr<npc> &n ) {
-        return n->getID() == getID();
-    } ) != g->active_npc.end();
+    return g->critter_at<npc>( pos() ) == this;
 }
 
 int npc::follow_distance() const
@@ -1731,14 +1741,14 @@ nc_color npc::basic_symbol_color() const
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
-        return c_ltgreen;
+        return c_light_green;
     } else if( guaranteed_hostile() ) {
         return c_red;
     }
     return c_pink;
 }
 
-int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
+int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
     const unsigned int iWidth = getmaxx( w ) - 2;

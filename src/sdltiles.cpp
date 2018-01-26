@@ -1,5 +1,5 @@
 #if (defined TILES)
-#include "catacurse.h"
+#include "cursesport.h"
 #include "options.h"
 #include "output.h"
 #include "input.h"
@@ -23,7 +23,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "filesystem.h"
-#include "map.h"
 #include "game.h"
 #include "lightmap.h"
 #include "rng.h"
@@ -141,8 +140,8 @@ public:
      */
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window(WINDOW *win);
-    bool draw_window(WINDOW *win, int offsetx, int offsety);
+    bool draw_window(cata_cursesport::WINDOW *win);
+    bool draw_window(cata_cursesport::WINDOW *win, int offsetx, int offsety);
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -220,6 +219,7 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // This value is finally returned by input_manager::get_input_event.
 static input_event last_input;
 
+static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
 static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -233,23 +233,22 @@ static int TERMINAL_HEIGHT;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
+using cata_cursesport::curseline;
+using cata_cursesport::cursecell;
 static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
-static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
+static cata_cursesport::WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
-extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be oversized
+extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
-//***********************************
-//Tile-version specific functions   *
-//***********************************
-
-void init_interface()
-{
-    return; // dummy function, we have nothing to do here
-}
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+
+static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
+{
+    return lhs == rhs.get();
+}
 
 void ClearScreen()
 {
@@ -342,7 +341,7 @@ bool WinCreate()
         display = 0;
     }
 
-    window.reset( SDL_CreateWindow( version.c_str(),
+    ::window.reset( SDL_CreateWindow( version.c_str(),
             SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
             SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
             WindowWidth,
@@ -350,12 +349,12 @@ bool WinCreate()
             window_flags
         ) );
 
-    if( !window ) {
+    if( !::window ) {
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
-        SDL_GetWindowSize( window.get(), &WindowWidth, &WindowHeight );
+        SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
@@ -372,7 +371,7 @@ bool WinCreate()
         oversized_framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
 
-    const Uint32 wformat = SDL_GetWindowPixelFormat( window.get() );
+    const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
     format.reset( SDL_AllocFormat( wformat ) );
     if( !format ) {
         dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
@@ -383,7 +382,7 @@ bool WinCreate()
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( window.get(), -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
@@ -399,7 +398,7 @@ bool WinCreate()
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
-        renderer.reset( SDL_CreateRenderer( window.get(), -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
+        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
         if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
@@ -473,7 +472,7 @@ void WinDestroy()
     cleanup_sound();
     Mix_CloseAudio();
 #endif
-    clear_texture_pool();
+    tilecontext.reset();
 
     if(joystick) {
         SDL_JoystickClose(joystick);
@@ -482,7 +481,7 @@ void WinDestroy()
     format.reset();
     display_buffer.reset();
     renderer.reset();
-    window.reset();
+    ::window.reset();
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
@@ -772,7 +771,7 @@ void reinitialize_framebuffer()
     }
 }
 
-void invalidate_framebuffer_proportion( WINDOW* win )
+void invalidate_framebuffer_proportion( cata_cursesport::WINDOW* win )
 {
     const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
     const int oversized_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
@@ -816,7 +815,7 @@ void invalidate_framebuffer_proportion( WINDOW* win )
 }
 
 // clear the framebuffer when werase is called on certain windows that don't use the main terminal font
-void handle_additional_window_clear( WINDOW* win )
+void cata_cursesport::handle_additional_window_clear( WINDOW* win )
 {
     if ( !g ) {
         return;
@@ -826,13 +825,14 @@ void handle_additional_window_clear( WINDOW* win )
     }
 }
 
-void clear_window_area(WINDOW* win)
+void clear_window_area( const catacurses::window &win_ )
 {
+    cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     FillRectDIB(win->x * fontwidth, win->y * fontheight,
-                win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+                win->width * fontwidth, win->height * fontheight, catacurses::black);
 }
 
-void curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow(WINDOW *win)
 {
     bool update = false;
     if (g && win == g->w_terrain && use_tiles) {
@@ -860,12 +860,12 @@ void curses_drawwindow(WINDOW *win)
         if( partial_height > 0 ) {
             FillRectDIB( win->x * map_font->fontwidth,
                          ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
-                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK );
+                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
             FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
-                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK );
+                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, black );
         }
         // Special font for the terrain window
         update = map_font->draw_window(win);
@@ -886,11 +886,13 @@ void curses_drawwindow(WINDOW *win)
         int offsety = win->y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
-        FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        FillRectDIB(offsetx, offsety, wwidth, wheight, black);
         update = true;
     } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        clear_window_area(win);
+        // Temporary shared pointer to create temporary window instance as
+        // needed by clear_window_area
+        clear_window_area( std::shared_ptr<void>( win, []( void * ) { } ) );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
@@ -905,14 +907,14 @@ void curses_drawwindow(WINDOW *win)
     }
 }
 
-bool Font::draw_window(WINDOW *win)
+bool Font::draw_window(cata_cursesport::WINDOW *win)
 {
     // Use global font sizes here to make this independent of the
     // font used for this window.
     return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
 }
 
-bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
+bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
 {
     //Keeping track of the last drawn window
     if( winBuffer == NULL ) {
@@ -1010,8 +1012,8 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
             const int codepoint = UTF8_getch( &utf8str, &len );
-            const int FG = cell.FG;
-            const int BG = cell.BG;
+            const base_color FG = cell.FG;
+            const base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
@@ -1519,20 +1521,18 @@ int projected_window_height(int)
 }
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void catacurses::init_interface()
 {
     last_input = input_event();
     inputdelay = -1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        return nullptr;
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
     if(!InitSDL()) {
-        return NULL;
+        throw std::runtime_error( "InitSDL failed" );
     }
 
     find_videodisplays();
@@ -1541,22 +1541,22 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        return NULL;
+        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext.reset( new cata_tiles( renderer.get() ) );
     try {
-        tilecontext->init();
-        dbg( D_INFO ) << "Tiles initialized successfully.";
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to initialize tile: " << err.what();
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
 
+    color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
     // initialize sound set
@@ -1565,13 +1565,22 @@ WINDOW *curses_init(void)
     // Reset the font pointer
     font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
     if( !font ) {
-        return NULL;
+        throw std::runtime_error( "loading font data failed" );
     }
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr = newwin(get_terminal_height(), get_terminal_width(),0,0);
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
+}
+
+// This is supposed to be called from init.cpp, and only from there.
+void load_tileset() {
+    if( !tilecontext || !use_tiles ) {
+        return;
+    }
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->do_tile_loading_report();
 }
 
 std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )
@@ -1596,14 +1605,13 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+void catacurses::endwin()
 {
     tilecontext.reset();
     font.reset();
     map_font.reset();
     overmap_font.reset();
     WinDestroy();
-    return 1;
 }
 
 template<>
@@ -1617,33 +1625,21 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     return result;
 }
 
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
-}
-
 void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
 }
 
-extern WINDOW *mainwin;
-
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
-input_event input_manager::get_input_event(WINDOW *win) {
+input_event input_manager::get_input_event() {
     previously_pressed_key = 0;
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
 
-    if(win == NULL) win = mainwin;
-
-    wrefresh(win);
+    wrefresh( stdscr );
 
     if (inputdelay < 0)
     {
@@ -1697,14 +1693,12 @@ void rescale_tileset(int size) {
     ClearScreen();
 }
 
-bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
+bool input_context::get_coordinates( const catacurses::window &capture_win_, int& x, int& y) {
     if(!coordinate_input_received) {
         return false;
     }
 
-    if (!capture_win) {
-        capture_win = g->w_terrain;
-    }
+    cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ : g->w_terrain ).get<cata_cursesport::WINDOW>();
 
     // this contains the font dimensions of the capture_win,
     // not necessarily the global standard font dimensions.
@@ -1933,13 +1927,13 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
-SDL_Color cursesColorToSDL(int color) {
-    const int pair_id = ( color & A_COLOR ) >> 17;
-    const auto pair = colorpairs[pair_id];
+SDL_Color cursesColorToSDL( const nc_color &color ) {
+    const int pair_id = color.to_color_pair_index();
+    const auto pair = cata_cursesport::colorpairs[pair_id];
 
     int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
 
-    if( color & A_BOLD ) {
+    if( color.is_bold() ) {
         palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
     }
 

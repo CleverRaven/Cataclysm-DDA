@@ -20,16 +20,12 @@ bool play_videogame( std::string function_name, std::map<std::string, std::strin
         return true; // generic game
     }
     if( function_name == "robot_finds_kitten" ) {
-        WINDOW *bkatwin = newwin( 22, 62, ( TERMY - 22 ) / 2, ( TERMX - 62 ) / 2 );
+        catacurses::window bkatwin = catacurses::newwin( 22, 62, ( TERMY - 22 ) / 2, ( TERMX - 62 ) / 2 );
         draw_border( bkatwin );
         wrefresh( bkatwin );
-        WINDOW *katwin = newwin( 20, 60, ( TERMY - 20 ) / 2, ( TERMX - 60 ) / 2 );
+        catacurses::window katwin = catacurses::newwin( 20, 60, ( TERMY - 20 ) / 2, ( TERMX - 60 ) / 2 );
         robot_finds_kitten findkitten( katwin );
         bool foundkitten = findkitten.ret;
-        werase( katwin );
-        delwin( katwin );
-        werase( bkatwin );
-        delwin( bkatwin );
         if( foundkitten == true ) {
             game_data["end_message"] = _( "You found kitten!" );
             game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";

@@ -10,6 +10,7 @@
 #include "pldata.h"
 #include "messages.h"
 #include "cursesdef.h"
+#include "trap.h"
 #include "sounds.h"
 #include "monattack.h"
 #include "monfaction.h"
@@ -239,8 +240,7 @@ void monster::plan( const mfactions &factions )
         return;
     }
 
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        npc &who = *g->active_npc[i];
+    for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
             continue;
@@ -470,9 +470,9 @@ void monster::move()
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
-            for( auto &i : g->active_npc ) {
-                if( goal == i->pos() ) {
-                    current_attitude = attitude( i.get() );
+            for( const npc &guy : g->all_npcs() ) {
+                if( goal == guy.pos() ) {
+                    current_attitude = attitude( &guy );
                 }
             }
         }
@@ -756,12 +756,12 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
         if( g->m.has_flag( "SWIMMABLE", f ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
         if( g->m.has_flag( "SWIMMABLE", t ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }

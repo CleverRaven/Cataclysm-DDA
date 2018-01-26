@@ -9,10 +9,12 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "profession.h"
+#include "mapdata.h"
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
 #include "scent_map.h"
+#include "json.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

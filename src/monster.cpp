@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <numeric>
 #include "cursesdef.h"
-#include "json.h"
+#include "effect.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -136,7 +136,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FPASSIVE, {translate_marker( "Passive." ), def_h_white}},
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
-    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_ltgray}},
+    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
@@ -190,9 +190,11 @@ monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
     unset_dest();
 }
 
-monster::~monster()
-{
-}
+monster::monster( const monster & ) = default;
+monster::monster( monster && ) = default;
+monster::~monster() = default;
+monster &monster::operator=( const monster & ) = default;
+monster &monster::operator=( monster && ) = default;
 
 void monster::setpos( const tripoint &p )
 {
@@ -381,7 +383,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const auto att = attitude_names.at( attitude( &( g->u ) ) );
     return {
-        att.first,
+        _( att.first.c_str() ),
         all_colors.get( att.second )
     };
 }
@@ -395,7 +397,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_green;
     } else if( cur_hp >= max_hp * 0.8 ) {
         damage_info = _("It is lightly injured.");
-        col = c_ltgreen;
+        col = c_light_green;
     } else if( cur_hp >= max_hp * 0.6 ) {
         damage_info = _("It is moderately injured.");
         col = c_yellow;
@@ -404,7 +406,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.1 ) {
         damage_info = _("It is severely injured.");
-        col = c_ltred;
+        col = c_light_red;
     } else {
         damage_info = _("it is nearly dead!");
         col = c_red;
@@ -413,7 +415,7 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
+int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
 
@@ -458,7 +460,7 @@ std::string monster::extended_description() const
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
     ss << "--" << std::endl;
 
-    ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
+    ss << string_format( _( "It is %s in size." ), _( size_names.at( get_size() ).c_str() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -606,7 +608,7 @@ bool monster::digging() const
 bool monster::can_act() const
 {
     return moves > 0 &&
-        ( effects.empty() ||
+        ( effects->empty() ||
           ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
@@ -633,18 +635,6 @@ bool monster::made_of( const material_id &m ) const
 bool monster::made_of(phase_id p) const
 {
     return type->phase == p;
-}
-
-void monster::load_info(std::string data)
-{
-    std::stringstream dump;
-    dump << data;
-    JsonIn jsin(dump);
-    try {
-        deserialize(jsin);
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
-    }
 }
 
 void monster::shift(int sx, int sy)
@@ -1399,7 +1389,7 @@ void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 std::string monster::get_effect_status() const
 {
     std::vector<std::string> effect_status;
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             if( elem.first->is_show_in_info() ) {
                 effect_status.push_back( _it.second.disp_name() );
@@ -1842,7 +1832,7 @@ void monster::process_one_effect( effect &it, bool is_new )
 void monster::process_effects()
 {
     // Monster only effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
@@ -2167,6 +2157,16 @@ int monster::get_hp_max( hp_part ) const
 int monster::get_hp_max() const
 {
     return type->hp;
+}
+
+int monster::get_hp( hp_part ) const
+{
+    return hp;
+}
+
+int monster::get_hp() const
+{
+    return hp;
 }
 
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )

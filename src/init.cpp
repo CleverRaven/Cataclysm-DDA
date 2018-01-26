@@ -35,7 +35,6 @@
 #include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
-#include "name.h"
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
@@ -44,7 +43,6 @@
 #include "scenario.h"
 #include "omdata.h"
 #include "options.h"
-#include "game.h"
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
@@ -73,6 +71,10 @@
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <locale> // for loading names
+
+#if defined(TILES)
+void load_tileset();
+#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -179,10 +181,11 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
 
-    // json/colors.json would be listed here, but it's loaded before the others (see start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
+    add( "trait_group", []( JsonObject &jo ) { mutation_branch::load_trait_group( jo ); } );
     add( "item_action", []( JsonObject &jo ) { item_action_generator::generator().load_item_action( jo ); } );
 
     add( "vehicle_part",  &vpart_info::load );
@@ -237,6 +240,7 @@ void DynamicDataLoader::initialize()
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
+    add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
@@ -335,13 +339,6 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
     }
 }
 
-void init_names()
-{
-    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
-                                 ".json", "names" );
-    Name::load_from_file(filename);
-}
-
 void DynamicDataLoader::unload_data()
 {
     finalized = false;
@@ -424,6 +421,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Crafting requirements" ), []() { requirement_data::finalize(); } },
         { _( "Vehicle parts" ), &vpart_info::finalize },
         { _( "Traps" ), &trap::finalize },
+        { _( "Bionics" ), &finalize_bionics },
         { _( "Terrain" ), &set_ter_ids },
         { _( "Furniture" ), &set_furn_ids },
         { _( "Overmap terrain" ), &overmap_terrains::finalize },
@@ -439,7 +437,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Constructions" ), &finalize_constructions },
         { _( "NPC classes" ), &npc_class::finalize_all },
         { _( "Harvest lists" ), &harvest_list::finalize_all },
-        { _( "Anatomies" ), &anatomy::finalize_all }
+        { _( "Anatomies" ), &anatomy::finalize_all },
+#if defined(TILES)
+        { _( "Tileset" ), &load_tileset },
+#endif
     }};
 
     for( const named_entry &e : entries ) {

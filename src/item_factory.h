@@ -12,7 +12,6 @@
 #include <list>
 #include <functional>
 
-#include "json.h"
 #include "itype.h"
 
 bool item_is_blacklisted( const std::string &id );
@@ -26,6 +25,8 @@ class Item_group;
 class item;
 class item_category;
 class Item_factory;
+class JsonObject;
+class JsonArray;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
@@ -369,6 +370,9 @@ class Item_factory
 
         // tools that can be used to repair complex firearms
         std::set<itype_id> gun_tools;
+
+        // tools that can be used to repair wood/paper/bone/chitin items
+        std::set<itype_id> misc_tools;
 };
 
 #endif

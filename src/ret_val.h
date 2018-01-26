@@ -3,7 +3,6 @@
 #define RET_VAL_H
 
 #include "string_formatter.h"
-#include "printf_check.h"
 
 #include <string>
 #include <type_traits>
@@ -49,24 +48,22 @@ class ret_val
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_success( T val, const S &msg,
-                                     A && ... args ) PRINTF_LIKE( 2, 3 ) {
+        static ret_val make_success( T val, const S &msg, A && ... args ) {
             return ret_val( string_format( msg, std::forward<A>( args )... ), val, true );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_failure( T val, const S &msg,
-                                     A && ... args ) PRINTF_LIKE( 2, 3 ) {
+        static ret_val make_failure( T val, const S &msg, A && ... args ) {
             return ret_val( string_format( msg, std::forward<A>( args )... ), val, false );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_success( const S &msg, A && ... args ) PRINTF_LIKE( 1, 2 ) {
+        static ret_val make_success( const S &msg, A && ... args ) {
             return make_success( default_success::value, msg, std::forward<A>( args )... );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_failure( const S &msg, A && ... args ) PRINTF_LIKE( 1, 2 ) {
+        static ret_val make_failure( const S &msg, A && ... args ) {
             return make_failure( default_failure::value, msg, std::forward<A>( args )... );
         }
 

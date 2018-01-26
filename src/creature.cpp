@@ -1,5 +1,5 @@
-#include "item.h"
 #include "creature.h"
+#include "item.h"
 #include "output.h"
 #include "game.h"
 #include "map.h"
@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "effect.h"
 #include "mtype.h"
 #include "npc.h"
 #include "itype.h"
@@ -46,11 +47,10 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
+    effects.reset( new effects_map() );
 }
 
-Creature::~Creature()
-{
-}
+Creature::~Creature() = default;
 
 void Creature::normalize()
 {
@@ -163,16 +163,6 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     return sees( critter.pos(), critter.is_player() );
-}
-
-bool Creature::sees( const int tx, const int ty ) const
-{
-    return sees( tripoint( tx, ty, posz() ) );
-}
-
-bool Creature::sees( const point t ) const
-{
-    return sees( tripoint( t, posz() ) );
 }
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
@@ -773,8 +763,8 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 
     bool found = false;
     // Check if we already have it
-    auto matching_map = effects.find(eff_id);
-    if (matching_map != effects.end()) {
+    auto matching_map = effects->find(eff_id);
+    if (matching_map != effects->end()) {
         auto &bodyparts = matching_map->second;
         auto found_effect = bodyparts.find(bp);
         if (found_effect != bodyparts.end()) {
@@ -819,7 +809,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another
-        for( auto &elem : effects ) {
+        for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
                 for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
@@ -849,7 +839,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         } else if (e.get_intensity() > e.get_max_intensity()) {
             e.set_intensity(e.get_max_intensity());
         }
-        effects[eff_id][bp] = e;
+        ( *effects )[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
             if(type.get_apply_message() != "") {
@@ -884,13 +874,13 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
 }
 void Creature::clear_effects()
 {
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             on_effect_int_change( e.get_id(), 0, e.get_bp() );
         }
     }
-    effects.clear();
+    effects->clear();
 }
 bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 {
@@ -914,16 +904,16 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
-        for( auto &it : effects[eff_id] ) {
+        for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
         }
-        effects.erase(eff_id);
+        effects->erase(eff_id);
     } else {
-        effects[eff_id].erase(bp);
+        ( *effects )[eff_id].erase(bp);
         on_effect_int_change( eff_id, 0, bp );
         // If there are no more effects of a given type remove the type map
-        if (effects[eff_id].empty()) {
-            effects.erase(eff_id);
+        if (( *effects )[eff_id].empty()) {
+            effects->erase(eff_id);
         }
     }
     return true;
@@ -932,10 +922,10 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 {
     // num_bp means anything targeted or not
     if (bp == num_bp) {
-        return effects.find( eff_id ) != effects.end();
+        return effects->find( eff_id ) != effects->end();
     } else {
-        auto got_outer = effects.find(eff_id);
-        if(got_outer != effects.end()) {
+        auto got_outer = effects->find(eff_id);
+        if(got_outer != effects->end()) {
             auto got_inner = got_outer->second.find(bp);
             if (got_inner != got_outer->second.end()) {
                 return true;
@@ -952,8 +942,8 @@ effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
 
 const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
 {
-    auto got_outer = effects.find(eff_id);
-    if(got_outer != effects.end()) {
+    auto got_outer = effects->find(eff_id);
+    if(got_outer != effects->end()) {
         auto got_inner = got_outer->second.find(bp);
         if (got_inner != got_outer->second.end()) {
             return got_inner->second;
@@ -988,7 +978,7 @@ void Creature::process_effects()
     std::vector<body_part> rem_bps;
 
     // Decay/removal of effects
-    for( auto &elem : effects ) {
+    for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
             for( const auto removed_effect : _it.second.get_removes_effects() ) {
@@ -1384,12 +1374,12 @@ units::mass Creature::get_weight() const
 /*
  * Drawing-related functions
  */
-void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
+void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
 {
     draw( w, tripoint( player_x, player_y, posz() ), inverted );
 }
 
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
 {
     if (is_draw_tiles_mode()) {
         return;

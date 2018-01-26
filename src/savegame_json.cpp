@@ -19,12 +19,15 @@
 #include "item.h"
 #include "material.h"
 #include "translations.h"
+#include "vitamin.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "effect.h"
 #include "crafting.h"
 #include "get_version.h"
 #include "scenario.h"
+#include "calendar.h"
 #include "monster.h"
 #include "monfaction.h"
 #include "morale.h"
@@ -47,6 +50,8 @@
 
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
+
+static const matype_id style_kicks( "style_kicks" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -191,7 +196,7 @@ void SkillLevel::serialize(JsonOut &json) const
     json.member( "level", level() );
     json.member( "exercise", exercise( true ) );
     json.member( "istraining", isTraining() );
-    json.member( "lastpracticed", int( lastPracticed() ) );
+    json.member( "lastpracticed", _lastPracticed );
     json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
@@ -199,17 +204,14 @@ void SkillLevel::serialize(JsonOut &json) const
 void SkillLevel::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int lastpractice = 0;
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
-    data.read( "lastpracticed", lastpractice );
-    data.read( "highestlevel", _highestLevel );
-    if(lastpractice == 0) {
-        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
-    } else {
-        _lastPracticed = lastpractice;
+    if( !data.read( "lastpracticed", _lastPracticed ) ) {
+        //@todo shouldn't that be calendar::start?
+        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) );
     }
+    data.read( "highestlevel", _highestLevel );
     if( _highestLevel < _level ) {
         _highestLevel = _level;
     }
@@ -313,7 +315,7 @@ void Character::load(JsonObject &data)
         }
     }
 
-    data.read( "my_bionics", my_bionics );
+    data.read( "my_bionics", *my_bionics );
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -404,7 +406,7 @@ void Character::store(JsonOut &json) const
     json.member( "mutations", my_mutations );
 
     // "Fracking Toasters" - Saul Tigh, toaster
-    json.member( "my_bionics", my_bionics );
+    json.member( "my_bionics", *my_bionics );
 
     // skills
     json.member( "skills" );
@@ -465,6 +467,13 @@ void player::load(JsonObject &data)
     }
 
     data.read("ma_styles", ma_styles);
+    // Fix up old ma_styles that doesn't include fake styles
+    if( std::find( ma_styles.begin(), ma_styles.end(), style_kicks ) == ma_styles.end() && style_kicks.is_valid() ) {
+        ma_styles.insert( ma_styles.begin(), style_kicks );
+    }
+    if( std::find( ma_styles.begin(), ma_styles.end(), matype_id::NULL_ID() ) == ma_styles.end() ) {
+        ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
+    }
     data.read( "addictions", addictions );
 
     JsonArray traps = data.get_array("known_traps");
@@ -756,7 +765,7 @@ void player::deserialize(JsonIn &jsin)
         std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_dict[ pstr ] );
+                learned_recipes.include( &recipe_id( pstr ).obj() );
             }
         }
     }
@@ -901,6 +910,7 @@ void npc_chatbin::serialize(JsonOut &json) const
         json.member( "mission_selected", mission_selected->get_id() );
     }
     json.member( "skill", skill );
+    json.member( "style", style );
     json.member( "missions", mission::to_uid_vector( missions ) );
     json.member( "missions_assigned", mission::to_uid_vector( missions_assigned ) );
     json.end_object();
@@ -920,6 +930,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     data.read( "skill", skill );
+    data.read( "style", style );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -1276,14 +1287,11 @@ void inventory::json_save_items(JsonOut &json) const
 
 void inventory::json_load_items(JsonIn &jsin)
 {
-    try {
-        JsonArray ja = jsin.get_array();
-        while ( ja.has_more() ) {
-            JsonObject jo = ja.next_object();
-            add_item(item( jo ), true, false);
-        }
-    } catch( const JsonError &jsonerr ) {
-        debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        item tmp;
+        tmp.deserialize( jsin );
+        add_item( tmp, true, false );
     }
 }
 
@@ -1457,6 +1465,16 @@ void mon_special_attack::serialize(JsonOut &json) const
     json.end_object();
 }
 
+void time_point::serialize( JsonOut &jsout ) const
+{
+    jsout.write( turn_ );
+}
+
+void time_point::deserialize( JsonIn &jsin )
+{
+    turn_ = jsin.get_int();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
@@ -1495,7 +1513,7 @@ void item::io( Archive& archive )
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
     archive.io( "irridation", irridation, 0 );
-    archive.io( "bday", bday, 0 );
+    archive.io( "bday", bday, calendar::time_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
@@ -1646,8 +1664,9 @@ static void migrate_toolmod( item &it )
     }
 }
 
-void item::deserialize(JsonObject &data)
+void item::deserialize( JsonIn &jsin )
 {
+    JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
 }
@@ -1862,9 +1881,9 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    int last_updated = calendar::turn;
-    data.read( "last_update_turn", last_updated );
-    last_update_turn = last_updated;
+    if( !data.read( "last_update_turn", last_update ) ) {
+        last_update = calendar::turn;
+    }
 
     face.init (fdir);
     move.init (mdir);
@@ -1968,7 +1987,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
-    json.member( "last_update_turn", last_update_turn.get_turn() );
+    json.member( "last_update_turn", last_update );
     json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }
@@ -2182,7 +2201,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for (auto maps : effects) {
+    for (auto maps : *effects) {
         for (auto i : maps.second) {
             std::ostringstream convert;
             convert << i.first;
@@ -2249,7 +2268,7 @@ void Creature::load( JsonObject &jsin )
                     const body_part bp = static_cast<body_part>( key_num );
                     effect &e = i.second;
 
-                    effects[id][bp] = e;
+                    ( *effects )[id][bp] = e;
                     on_effect_int_change( id, e.get_intensity(), bp );
                 }
             }
@@ -2361,4 +2380,40 @@ void tripoint::serialize( JsonOut &jsout ) const
     jsout.write( y );
     jsout.write( z );
     jsout.end_array();
+}
+
+void addiction::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "type_enum", type );
+    json.member( "intensity", intensity );
+    json.member( "sated", sated );
+    json.end_object();
+}
+
+void addiction::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    type = static_cast<add_type>( jo.get_int( "type_enum" ) );
+    intensity = jo.get_int( "intensity" );
+    sated = jo.get_int( "sated" );
+}
+
+void stats::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "squares_walked", squares_walked );
+    json.member( "damage_taken", damage_taken );
+    json.member( "damage_healed", damage_healed );
+    json.member( "headshots", headshots );
+    json.end_object();
+}
+
+void stats::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "squares_walked", squares_walked );
+    jo.read( "damage_taken", damage_taken );
+    jo.read( "damage_healed", damage_healed );
+    jo.read( "headshots", headshots );
 }

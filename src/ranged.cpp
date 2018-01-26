@@ -216,7 +216,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     tripoint aim = target;
     int curshot = 0;
-    int xp = 0; // experience gain for marksmanship skill
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
@@ -259,7 +258,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         if( shot.hit_critter ) {
             hits++;
-            xp++;
         }
 
         if( gun.gun_skill() == skill_launcher ) {
@@ -308,13 +306,11 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
-    practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
-    if( hits && !xp && one_in( 10 ) ) {
-        add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
-    }
-
-    // launchers train weapon skill for both hits and misses
-    practice( gun.gun_skill(), ( gun.gun_skill() == skill_launcher ? curshot : hits ) * 10 );
+    // Practice the base gun skill proportionally to number of hits, but always by one.
+    practice( skill_gun, ( hits + 1 ) * 5 );
+    // launchers train weapon skill for both hits and misses.
+    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
+    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
@@ -524,11 +520,11 @@ static std::string print_recoil( const player &p)
         const int val = p.recoil_total();
         const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
         const int recoil_range = MAX_RECOIL - min_recoil;
-        const char *color_name = "c_ltgray";
+        const char *color_name = "c_light_gray";
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
             color_name = "c_red";
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            color_name = "c_ltred";
+            color_name = "c_light_red";
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
             color_name = "c_yellow";
         }
@@ -539,9 +535,7 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
-                                  input_context &ctxt, const std::vector<aim_type> &aim_types,
-                                  bool switch_mode, bool switch_ammo, bool tiny )
+static int draw_targeting_window( const catacurses::window &w_target, const std::string &name, player &p, target_mode mode, input_context &ctxt, const std::vector<aim_type> &aim_types, bool switch_mode, bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -664,7 +658,7 @@ struct confidence_rating {
     std::string label;
 };
 
-static int print_steadiness( WINDOW *w, int line_number, double steadiness )
+static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
 
@@ -699,10 +693,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number, target_mode mode,
-                                const item &ranged_weapon, dispersion_sources dispersion,
-                                const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -769,8 +760,7 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, tar
     return line_number;
 }
 
-static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
-                      Creature &target, double predicted_recoil ) {
+static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon, Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -802,7 +792,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                                 range, target_size, predicted_recoil );
 }
 
-static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
+static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
     vehicle *veh = g->m.veh_at( p.pos() );
     if( veh == nullptr ) {
@@ -821,8 +811,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
-                           const item *weapon, const tripoint &target_pos )
+static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number, const item *weapon, const tripoint &target_pos )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
@@ -959,7 +948,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         top -= 1;
     }
 
-    WINDOW *w_target = newwin( height, getmaxx( g->w_messages ), top, getbegx( g->w_messages ) );
+    catacurses::window w_target = catacurses::newwin( height, getmaxx( g->w_messages ), top, getbegx( g->w_messages ) );
 
     input_context ctxt("TARGET");
     ctxt.set_iso(true);
@@ -1112,7 +1101,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                           cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
                                           m->ammo_remaining(), m->ammo_capacity() );
 
-                nc_color col = c_ltgray;
+                nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
             // Skip blank lines if we're short on space.
@@ -1287,7 +1276,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 pc.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                delwin( w_target );
                 pc.view_offset = old_offset;
                 set_last_target( dst );
                 return ret;
@@ -1325,7 +1313,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
     } while (true);
 
-    delwin( w_target );
     pc.view_offset = old_offset;
 
     if( ret.empty() ) {
@@ -1354,7 +1341,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.impact = damage_instance::physical( 0, 0, gun.gun_damage(), gun.gun_pierce() );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 

@@ -1,15 +1,15 @@
+#include "calendar.h"
 #include <cmath>
 #include <sstream>
 #include <limits>
 #include <array>
 
-#include "calendar.h"
 #include "output.h"
 #include "options.h"
 #include "translations.h"
 #include "string_formatter.h"
-#include "game.h"
 #include "debug.h"
+#include "rng.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -17,6 +17,9 @@ const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
+
+const time_point calendar::before_time_starts = time_point::from_turn( -1 );
+const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -188,7 +191,7 @@ int calendar::seconds_past_midnight() const
 moon_phase calendar::moon() const
 {
     //One full phase every 2 rl months = 2/3 season length
-    static float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+    float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
 
     //Switch moon phase at noon so it stays the same all night
     const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
@@ -565,3 +568,7 @@ const std::string calendar::name_season( season_type s )
     return _( season_names_untranslated[ 4 ].c_str() );
 }
 
+time_duration rng( time_duration lo, time_duration hi )
+{
+    return time_duration( rng( lo.turns_, hi.turns_ ) );
+}

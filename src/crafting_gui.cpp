@@ -12,7 +12,7 @@
 #include "string_formatter.h"
 #include "catacharset.h"
 #include "output.h"
-#include "cata_utility.h"
+#include "json.h"
 #include "string_input_popup.h"
 
 #include "debug.h"
@@ -32,9 +32,11 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec );
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec );
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+                              TAB_MODE mode = NORMAL );
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
 
 std::string get_cat_name( std::string prefixed_name )
@@ -95,7 +97,8 @@ void reset_recipe_categories()
 }
 
 
-int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, int batch )
+int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
+                 int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
@@ -134,12 +137,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const recipe *last_recipe = nullptr;
 
-    WINDOW *w_head = newwin( headHeight, width, 0, wStart );
-    WINDOW_PTR w_head_ptr( w_head );
-    WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
-    WINDOW_PTR w_subhead_ptr( w_subhead );
-    WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
-    WINDOW_PTR w_data_ptr( w_data );
+    catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
+    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
+    catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
+                                wStart );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -153,8 +154,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         item_info_height = 1;
     }
 
-    WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
-    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
+    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
+                                    item_info_width );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -333,65 +334,65 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, i - recmin, 2, c_dkgray, "" ); // Clear the line
+                    mvwprintz( w_data, i - recmin, 2, c_dark_gray, "" ); // Clear the line
                     if( i == line ) {
-                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dkgray ),
+                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
-                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dkgray ),
+                        mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, dataLines + i - recmax, 2, c_ltgray, "" ); // Clear the line
+                    mvwprintz( w_data, dataLines + i - recmax, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
-                                   ( available[i] ? h_white : h_dkgray ),
+                                   ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
-                                   ( available[i] ? c_white : c_dkgray ),
+                                   ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
-                    mvwprintz( w_data, dataHalfLines + i - line, 2, c_ltgray, "" ); // Clear the line
+                    mvwprintz( w_data, dataHalfLines + i - line, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
-                                   ( available[i] ? h_white : h_dkgray ),
+                                   ( available[i] ? h_white : h_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     } else {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
-                                   ( available[i] ? c_white : c_dkgray ),
+                                   ( available[i] ? c_white : c_dark_gray ),
                                    utf8_truncate( tmp_name, 28 ).c_str() );
                     }
                 }
             }
         } else {
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
-                std::string tmp_name = item::nname( current[i]->result );
+                std::string tmp_name = current[i]->result_name();
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
                 }
                 if( ( int )i == line ) {
-                    mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dkgray ),
+                    mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
-                    mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dkgray ),
+                    mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 }
             }
@@ -400,7 +401,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
             int count = batch ? line + 1 : 1; // batch size
-            nc_color col = available[ line ] ? c_white : c_ltgray;
+            nc_color col = available[ line ] ? c_white : c_light_gray;
 
             const auto &req = current[ line ]->requirements();
 
@@ -513,8 +514,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( last_recipe != current[line] ) {
                     last_recipe = current[line];
                     tmp = current[line]->create_result();
-                    tmp.info( true, thisItem );
                 }
+                tmp.info( true, thisItem, count );
                 draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
                                 scroll_pos, true, true, true, false, true );
             }
@@ -630,13 +631,14 @@ const recipe *select_crafting_recipe( int &batch_size )
 }
 
 // Anchors top-right
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec )
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec )
 {
     // Erase previous text
     // @fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
-    right_print( w, margin_y, 1, c_ltgray, _( "can craft:" ) );
+    right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
     if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         right_print( w, margin_y + 1, 1, i_red, _( "too dark" ) );
     } else if( !g->u.has_morale_to_craft() ) {
@@ -649,7 +651,7 @@ static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recip
     }
 }
 
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -681,7 +683,8 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab, TAB_MODE mode )
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+                                 TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );

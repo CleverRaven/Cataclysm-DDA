@@ -15,12 +15,6 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
-#ifdef debuguimenu
-#define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
-#else
-#define dprint(a,...)      void()
-#endif
-
 /**
 * \defgroup UI "The UI Menu."
 * @{
@@ -65,7 +59,7 @@ uimenu::uimenu(bool, const char * const mes, ...)
 }
 /**
  * exact usage as menu_vec
- */ 
+ */
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> options)
 {
@@ -117,7 +111,6 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
@@ -132,7 +125,6 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
 /*
@@ -161,7 +153,7 @@ void uimenu::init()
     textalign = MENU_ALIGN_LEFT; // todo
     title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
-    window = NULL;         // our window
+    window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
@@ -172,11 +164,11 @@ void uimenu::init()
     desc_lines = 6;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
-    text_color = c_ltgray;  // text color
+    text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
-    hotkey_color = c_ltgreen; // hotkey text to the right of menu entry's text
-    disabled_color = c_dkgray; // disabled menu entry
+    hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
+    disabled_color = c_dark_gray; // disabled menu entry
     return_invalid = false;  // return 0-(int)invalidKeyCode
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
@@ -196,7 +188,7 @@ void uimenu::init()
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height
     scrollbar_nopage_color =
-        c_ltgray;    // color of '|' line for the entire area that isn't current page.
+        c_light_gray;    // color of '|' line for the entire area that isn't current page.
     scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
@@ -487,15 +479,8 @@ void uimenu::setup()
     if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
-    window = newwin(w_height, w_width, w_y, w_x);
+    window = catacurses::newwin( w_height, w_width, w_y, w_x );
 
-    werase(window);
-    draw_border(window, border_color);
-    if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
-    }
     fselected = selected;
     if(fselected < 0) {
         fselected = selected = 0;
@@ -575,6 +560,15 @@ void uimenu::show()
     if (!started) {
         setup();
     }
+
+    werase(window);
+    draw_border(window, border_color);
+    if( !title.empty() ) {
+        mvwprintz(window, 0, 1, border_color, "< ");
+        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz(window, border_color, " >");
+    }
+
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     int estart = 1;
@@ -590,7 +584,6 @@ void uimenu::show()
         mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
         estart += text_lines + 1; // +1 for the horizontal line.
     }
-
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
@@ -633,7 +626,7 @@ void uimenu::show()
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
+            mvwprintz(window, estart + si, pad_left + 1, c_light_gray , "%s", padspaces.c_str());
         }
     }
 
@@ -757,31 +750,25 @@ bool uimenu::scrollby( const int scrollby )
         }
     }
 
-    int iter = ( hilight_disabled ? 1 : fentries.size() );
-
     if ( backwards ) {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected < 0 ) {
                 fselected = fentries.size() - 1;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected--;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            --fselected;
         }
     } else {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected >= (int)fentries.size() ) {
                 fselected = 0;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected++;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            ++fselected;
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
@@ -792,7 +779,7 @@ bool uimenu::scrollby( const int scrollby )
 
 /**
  * Handle input and update display
- * 
+ *
  */
 void uimenu::query(bool loop)
 {
@@ -876,13 +863,7 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if (window != NULL) {
-        werase(window);
-        wrefresh(window);
-        delwin(window);
-        window = NULL;
-    }
-
+	window = catacurses::window();
     init();
 }
 

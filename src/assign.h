@@ -12,6 +12,7 @@
 #include "json.h"
 #include "debug.h"
 #include "units.h"
+#include "color.h"
 
 inline void report_strict_violation( JsonObject &jo, const std::string &message,
                                      const std::string &name )
@@ -265,6 +266,72 @@ inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
         return false;
     }
     val = units::mass{ tmp, units::mass::unit_type{} };
+    return true;
+}
+
+inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
+                    const bool strict = false )
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    const nc_color out = color_from_string( jo.get_string( name ) );
+    if( out == c_unset ) {
+        jo.throw_error( "invalid color name", name );
+    }
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+    val = out;
+    return true;
+}
+
+class time_duration;
+// This is a function template not a real function as that allows it to be defined
+// even when time_duration is *not* defined yet. When called with anything else but
+// time_duration as `val`, SFINAE (the enable_if) will disable this function and it
+// will be ignored. If it is called with time_duration, it is available and the
+// *caller* is responsible for including the "calendar.h" header.
+template<typename T>
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
+{
+    T out = 0;
+    double scalar;
+    int tmp;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
+    // dont require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        err = jo.get_object( "relative" );
+        strict = false;
+        out = tmp * factor + val;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        err = jo.get_object( "proportional" );
+        if( scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( jo.read( name, tmp ) ) {
+        out = tmp * factor;
+
+    } else {
+        return false;
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
     return true;
 }
 

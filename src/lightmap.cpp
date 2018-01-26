@@ -1,9 +1,8 @@
+#include "lightmap.h"
 #include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "game.h"
-#include "lightmap.h"
-#include "options.h"
 #include "npc.h"
 #include "monster.h"
 #include "veh_type.h"
@@ -12,7 +11,6 @@
 #include "mtype.h"
 #include "weather.h"
 #include "shadowcasting.h"
-#include "messages.h"
 
 #include <cmath>
 #include <cstring>
@@ -191,8 +189,8 @@ void map::generate_lightmap( const int zlev )
     }
 
     apply_character_light( g->u );
-    for( auto &n : g->active_npc ) {
-        apply_character_light( *n );
+    for( npc &guy : g->all_npcs() ) {
+        apply_character_light( guy );
     }
 
     // Traverse the submaps in order

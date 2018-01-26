@@ -21,7 +21,7 @@ enum class description_target : int {
 
 const Creature *seen_critter( const game &g, const tripoint &p )
 {
-    const Creature *critter = g.critter_at( p );
+    const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {
         return critter;
     }
@@ -37,8 +37,8 @@ void game::extended_description( const tripoint &p )
     const int bottom = TERMY;
     const int width = right - left;
     const int height = bottom - top;
-    WINDOW *w_head = newwin( top, TERMX, 0, 0 );
-    WINDOW *w_main = newwin( height, width, top, left );
+    catacurses::window w_head = catacurses::newwin( top, TERMX, 0, 0 );
+    catacurses::window w_main = catacurses::newwin( height, width, top, left );
     // @todo De-hardcode
     std::string header_message = _( "\
 c to describe creatures, f to describe furniture, t to describe terrain, esc/enter to close." );
@@ -95,7 +95,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
         werase( w_main );
-        fold_and_print_from( w_main, 0, 0, width, 0, c_ltgray, desc );
+        fold_and_print_from( w_main, 0, 0, width, 0, c_light_gray, desc );
         wrefresh( w_main );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
@@ -112,13 +112,6 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
     } while( ch != KEY_ESCAPE && ch != '\n' );
-
-    werase( w_head );
-    werase( w_main );
-    wrefresh( w_head );
-    wrefresh( w_main );
-    delwin( w_head );
-    delwin( w_main );
 }
 
 std::string map_data_common_t::extended_description() const

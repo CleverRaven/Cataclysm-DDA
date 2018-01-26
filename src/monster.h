@@ -5,8 +5,17 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include <vector>
 
+#include <vector>
+#include <map>
+#include <set>
+#include <utility>
+#include <bitset>
+#include <string>
+
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class map;
 class game;
 class item;
@@ -23,14 +32,13 @@ using mtype_id = string_id<mtype>;
 class monster;
 typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
-class mon_special_attack : public JsonSerializer
+class mon_special_attack
 {
     public:
         int cooldown = 0;
         bool enabled = true;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &jsout ) const;
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
@@ -52,18 +60,18 @@ enum monster_effect_cache_fields {
     NUM_MEFF
 };
 
-class monster : public Creature, public JsonSerializer, public JsonDeserializer
+class monster : public Creature
 {
         friend class editmap;
     public:
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) = default;
-        monster( monster && ) = default;
+        monster( const monster & ) ;
+        monster( monster && );
         ~monster() override;
-        monster &operator=( const monster & ) = default;
-        monster &operator=( monster && ) = default;
+        monster &operator=( const monster & );
+        monster &operator=( monster && );
 
         bool is_monster() const override {
             return true;
@@ -75,14 +83,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void try_upgrade( bool pin_time );
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        int get_hp( hp_part ) const override {
-            return hp;
-        };
-        int get_hp() const {
-            return hp;
-        }
+        int get_hp( hp_part ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part ) const override;
-        int get_hp_max() const;
+        int get_hp_max() const override;
         int hp_percentage() const override;
 
         // Access
@@ -94,7 +98,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
-        int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
@@ -115,18 +119,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
-        using Creature::sees;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        void load_info( std::string data );
-
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)

@@ -31,8 +31,8 @@
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
-#define TOGCOL(n, b) (selection == (n) ? (b ? c_ltgreen : c_yellow) :\
-                      (b ? c_green : c_dkgray))
+#define TOGCOL(n, b) (selection == (n) ? (b ? c_light_green : c_yellow) :\
+                      (b ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
@@ -44,12 +44,9 @@ std::set<m_flag> monflags_to_add;
 
 int caravan_price(player &u, int price);
 
-void draw_caravan_borders(WINDOW *w, int current_window);
-void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
-                             unsigned long cash);
-void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
-                        int item_selected);
+void draw_caravan_borders( const catacurses::window &w, int current_window );
+void draw_caravan_categories( const catacurses::window &w, int category_selected, unsigned total_price, unsigned long cash );
+void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items, std::vector<int> *counts, int offset, int item_selected );
 
 std::string defense_style_name(defense_style style);
 std::string defense_style_description(defense_style style);
@@ -57,6 +54,7 @@ std::string defense_location_name(defense_location location);
 std::string defense_location_description(defense_location location);
 
 defense_game::defense_game()
+: time_between_waves( 0_turns )
 {
     current_wave = 0;
     hunger = false;
@@ -117,7 +115,7 @@ void defense_game::per_turn()
     if (!sleep) {
         g->u.set_fatigue(0);
     }
-    if (int(calendar::turn) % (time_between_waves * 10) == 0) {
+    if( calendar::once_every( to_turns<int>( time_between_waves ) ) ) {
         current_wave++;
         if (current_wave > 1 && current_wave % waves_between_caravans == 0) {
             popup(_("A caravan approaches!  Press spacebar..."));
@@ -324,7 +322,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 15;
         wave_difficulty = 10;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 3;
         initial_cash = 1000000;
         cash_per_wave = 100000;
@@ -338,7 +336,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 30;
         wave_difficulty = 15;
-        time_between_waves = 20;
+        time_between_waves = 20_minutes;
         waves_between_caravans = 4;
         initial_cash = 600000;
         cash_per_wave = 80000;
@@ -355,7 +353,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_BAR;
         initial_difficulty = 50;
         wave_difficulty = 20;
-        time_between_waves = 10;
+        time_between_waves = 10_minutes;
         waves_between_caravans = 5;
         initial_cash = 200000;
         cash_per_wave = 60000;
@@ -373,7 +371,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_BAR;
         initial_difficulty = 30;
         wave_difficulty = 15;
-        time_between_waves = 5;
+        time_between_waves = 5_minutes;
         waves_between_caravans = 6;
         initial_cash = 500000;
         cash_per_wave = 50000;
@@ -385,7 +383,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 60;
         wave_difficulty = 20;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 4;
         initial_cash = 800000;
         cash_per_wave = 50000;
@@ -400,7 +398,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MALL;
         initial_difficulty = 60;
         wave_difficulty = 10;
-        time_between_waves = 10;
+        time_between_waves = 10_minutes;
         waves_between_caravans = 4;
         initial_cash = 600000;
         cash_per_wave = 50000;
@@ -412,7 +410,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MANSION;
         initial_difficulty = 60;
         wave_difficulty = 20;
-        time_between_waves = 30;
+        time_between_waves = 30_minutes;
         waves_between_caravans = 2;
         initial_cash = 1000000;
         cash_per_wave = 60000;
@@ -428,7 +426,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 20;
         wave_difficulty = 20;
-        time_between_waves = 20;
+        time_between_waves = 20_minutes;
         waves_between_caravans = 6;
         initial_cash = 1200000;
         cash_per_wave = 100000;
@@ -443,7 +441,7 @@ void defense_game::init_to_style(defense_style new_style)
         location = DEFLOC_MANSION;
         initial_difficulty = 20;
         wave_difficulty = 20;
-        time_between_waves = 120;
+        time_between_waves = 120_minutes;
         waves_between_caravans = 8;
         initial_cash = 400000;
         cash_per_wave = 100000;
@@ -457,10 +455,9 @@ void defense_game::init_to_style(defense_style new_style)
 
 void defense_game::setup()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW_PTR wptr( w );
     int selection = 1;
     refresh_setup(w, selection);
 
@@ -545,7 +542,7 @@ void defense_game::setup()
                 mvwprintz(w, 5, 2, c_black, "\
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 mvwprintz(w, 5, 2, c_yellow, defense_location_name(location).c_str());
-                mvwprintz(w,  5, 28, c_ltgray,
+                mvwprintz(w,  5, 28, c_light_gray,
                           defense_location_description(location).c_str());
                 break;
 
@@ -574,15 +571,15 @@ void defense_game::setup()
                 break;
 
             case 5:
-                if (action == "LEFT" && time_between_waves > 5) {
-                    time_between_waves -= 5;
+                if( action == "LEFT" && time_between_waves > 5_minutes ) {
+                    time_between_waves -= 5_minutes;
                 }
-                if (action == "RIGHT" && time_between_waves < 995) {
-                    time_between_waves += 5;
+                if( action == "RIGHT" && time_between_waves < 995_minutes ) {
+                    time_between_waves += 5_minutes;
                 }
                 mvwprintz(w, 10, 22, c_black, "xxx");
-                mvwprintz(w, 10, NUMALIGN(time_between_waves), c_yellow, "%d",
-                          time_between_waves);
+                mvwprintz( w, 10, NUMALIGN( to_minutes<int>( time_between_waves ) ), c_yellow, "%d",
+                           to_minutes<int>( time_between_waves ) );
                 break;
 
             case 6:
@@ -635,7 +632,7 @@ void defense_game::setup()
                     zombies = !zombies;
                     specials = false;
                 }
-                mvwprintz(w, 18, 2, (zombies ? c_ltgreen : c_yellow), "Zombies");
+                mvwprintz(w, 18, 2, (zombies ? c_light_green : c_yellow), "Zombies");
                 mvwprintz(w, 18, 14, c_yellow, _("Special Zombies"));
                 break;
 
@@ -645,63 +642,63 @@ void defense_game::setup()
                     zombies = false;
                 }
                 mvwprintz(w, 18, 2, c_yellow, _("Zombies"));
-                mvwprintz(w, 18, 14, (specials ? c_ltgreen : c_yellow), _("Special Zombies"));
+                mvwprintz(w, 18, 14, (specials ? c_light_green : c_yellow), _("Special Zombies"));
                 break;
 
             case 12:
                 if (action == "CONFIRM") {
                     spiders = !spiders;
                 }
-                mvwprintz(w, 18, 34, (spiders ? c_ltgreen : c_yellow), _("Spiders"));
+                mvwprintz(w, 18, 34, (spiders ? c_light_green : c_yellow), _("Spiders"));
                 break;
 
             case 13:
                 if (action == "CONFIRM") {
                     triffids = !triffids;
                 }
-                mvwprintz(w, 18, 46, (triffids ? c_ltgreen : c_yellow), _("Triffids"));
+                mvwprintz(w, 18, 46, (triffids ? c_light_green : c_yellow), _("Triffids"));
                 break;
 
             case 14:
                 if (action == "CONFIRM") {
                     robots = !robots;
                 }
-                mvwprintz(w, 18, 59, (robots ? c_ltgreen : c_yellow), _("Robots"));
+                mvwprintz(w, 18, 59, (robots ? c_light_green : c_yellow), _("Robots"));
                 break;
 
             case 15:
                 if (action == "CONFIRM") {
                     subspace = !subspace;
                 }
-                mvwprintz(w, 18, 70, (subspace ? c_ltgreen : c_yellow), _("Subspace"));
+                mvwprintz(w, 18, 70, (subspace ? c_light_green : c_yellow), _("Subspace"));
                 break;
 
             case 16:
                 if (action == "CONFIRM") {
                     hunger = !hunger;
                 }
-                mvwprintz(w, 21, 2, (hunger ? c_ltgreen : c_yellow), _("Food"));
+                mvwprintz(w, 21, 2, (hunger ? c_light_green : c_yellow), _("Food"));
                 break;
 
             case 17:
                 if (action == "CONFIRM") {
                     thirst = !thirst;
                 }
-                mvwprintz(w, 21, 16, (thirst ? c_ltgreen : c_yellow), _("Water"));
+                mvwprintz(w, 21, 16, (thirst ? c_light_green : c_yellow), _("Water"));
                 break;
 
             case 18:
                 if (action == "CONFIRM") {
                     sleep = !sleep;
                 }
-                mvwprintz(w, 21, 31, (sleep ? c_ltgreen : c_yellow), _("Sleep"));
+                mvwprintz(w, 21, 31, (sleep ? c_light_green : c_yellow), _("Sleep"));
                 break;
 
             case 19:
                 if (action == "CONFIRM") {
                     mercenaries = !mercenaries;
                 }
-                mvwprintz(w, 21, 46, (mercenaries ? c_ltgreen : c_yellow), _("Mercenaries"));
+                mvwprintz(w, 21, 46, (mercenaries ? c_light_green : c_yellow), _("Mercenaries"));
                 break;
             }
         }
@@ -709,47 +706,47 @@ void defense_game::setup()
     }
 }
 
-void defense_game::refresh_setup(WINDOW *w, int selection)
+void defense_game::refresh_setup( const catacurses::window &w, int selection )
 {
     werase(w);
-    mvwprintz(w,  0,  1, c_ltred, _("DEFENSE MODE"));
-    mvwprintz(w,  0, 28, c_ltred, _("Press direction keys to cycle, ENTER to toggle"));
-    mvwprintz(w,  1, 28, c_ltred, _("Press S to start, ! to save as a template"));
-    mvwprintz(w,  2,  2, c_ltgray, _("Scenario:"));
+    mvwprintz(w,  0,  1, c_light_red, _("DEFENSE MODE"));
+    mvwprintz(w,  0, 28, c_light_red, _("Press direction keys to cycle, ENTER to toggle"));
+    mvwprintz(w,  1, 28, c_light_red, _("Press S to start, ! to save as a template"));
+    mvwprintz(w,  2,  2, c_light_gray, _("Scenario:"));
     mvwprintz(w,  3,  2, SELCOL(1), defense_style_name(style).c_str());
-    mvwprintz(w,  3, 28, c_ltgray, defense_style_description(style).c_str());
-    mvwprintz(w,  4,  2, c_ltgray, _("Location:"));
+    mvwprintz(w,  3, 28, c_light_gray, defense_style_description(style).c_str());
+    mvwprintz(w,  4,  2, c_light_gray, _("Location:"));
     mvwprintz(w,  5,  2, SELCOL(2), defense_location_name(location).c_str());
-    mvwprintz(w,  5, 28, c_ltgray, defense_location_description(location).c_str());
+    mvwprintz(w,  5, 28, c_light_gray, defense_location_description(location).c_str());
 
-    mvwprintz(w,  7,  2, c_ltgray, _("Initial Difficulty:"));
+    mvwprintz(w,  7,  2, c_light_gray, _("Initial Difficulty:"));
     mvwprintz(w,  7, NUMALIGN(initial_difficulty), SELCOL(3), "%d",
               initial_difficulty);
-    mvwprintz(w,  7, 28, c_ltgray, _("The difficulty of the first wave."));
-    mvwprintz(w,  8,  2, c_ltgray, _("Wave Difficulty:"));
+    mvwprintz(w,  7, 28, c_light_gray, _("The difficulty of the first wave."));
+    mvwprintz(w,  8,  2, c_light_gray, _("Wave Difficulty:"));
     mvwprintz(w,  8, NUMALIGN(wave_difficulty), SELCOL(4), "%d", wave_difficulty);
-    mvwprintz(w,  8, 28, c_ltgray, _("The increase of difficulty with each wave."));
+    mvwprintz(w,  8, 28, c_light_gray, _("The increase of difficulty with each wave."));
 
-    mvwprintz(w, 10,  2, c_ltgray, _("Time b/w Waves:"));
-    mvwprintz(w, 10, NUMALIGN(time_between_waves), SELCOL(5), "%d",
-              time_between_waves);
-    mvwprintz(w, 10, 28, c_ltgray, _("The time, in minutes, between waves."));
-    mvwprintz(w, 11,  2, c_ltgray, _("Waves b/w Caravans:"));
+    mvwprintz(w, 10,  2, c_light_gray, _("Time b/w Waves:"));
+    mvwprintz( w, 10, NUMALIGN( to_minutes<int>( time_between_waves ) ), SELCOL( 5 ), "%d",
+               to_minutes<int>( time_between_waves ) );
+    mvwprintz(w, 10, 28, c_light_gray, _("The time, in minutes, between waves."));
+    mvwprintz(w, 11,  2, c_light_gray, _("Waves b/w Caravans:"));
     mvwprintz(w, 11, NUMALIGN(waves_between_caravans), SELCOL(6), "%d",
               waves_between_caravans);
-    mvwprintz(w, 11, 28, c_ltgray, _("The number of waves in between caravans."));
+    mvwprintz(w, 11, 28, c_light_gray, _("The number of waves in between caravans."));
 
-    mvwprintz(w, 13,  2, c_ltgray, _("Initial Cash:"));
+    mvwprintz(w, 13,  2, c_light_gray, _("Initial Cash:"));
     mvwprintz(w, 13, NUMALIGN(initial_cash), SELCOL(7), "%d", initial_cash / 100 );
-    mvwprintz(w, 13, 28, c_ltgray, _("The amount of money the player starts with."));
-    mvwprintz(w, 14,  2, c_ltgray, _("Cash for 1st Wave:"));
+    mvwprintz(w, 13, 28, c_light_gray, _("The amount of money the player starts with."));
+    mvwprintz(w, 14,  2, c_light_gray, _("Cash for 1st Wave:"));
     mvwprintz(w, 14, NUMALIGN(cash_per_wave), SELCOL(8), "%d", cash_per_wave / 100 );
-    mvwprintz(w, 14, 28, c_ltgray, _("The cash awarded for the first wave."));
-    mvwprintz(w, 15,  2, c_ltgray, _("Cash Increase:"));
+    mvwprintz(w, 14, 28, c_light_gray, _("The cash awarded for the first wave."));
+    mvwprintz(w, 15,  2, c_light_gray, _("Cash Increase:"));
     mvwprintz(w, 15, NUMALIGN(cash_increase), SELCOL(9), "%d", cash_increase / 100 );
-    mvwprintz(w, 15, 28, c_ltgray, _("The increase in the award each wave."));
+    mvwprintz(w, 15, 28, c_light_gray, _("The increase in the award each wave."));
 
-    mvwprintz(w, 17,  2, c_ltgray, _("Enemy Selection:"));
+    mvwprintz(w, 17,  2, c_light_gray, _("Enemy Selection:"));
     mvwprintz(w, 18,  2, TOGCOL(10, zombies), _("Zombies"));
     mvwprintz(w, 18, 14, TOGCOL(11, specials), _("Special Zombies"));
     mvwprintz(w, 18, 34, TOGCOL(12, spiders), _("Spiders"));
@@ -757,7 +754,7 @@ void defense_game::refresh_setup(WINDOW *w, int selection)
     mvwprintz(w, 18, 59, TOGCOL(14, robots), _("Robots"));
     mvwprintz(w, 18, 70, TOGCOL(15, subspace), _("Subspace"));
 
-    mvwprintz(w, 20,  2, c_ltgray, _("Needs:"));
+    mvwprintz(w, 20,  2, c_light_gray, _("Needs:"));
     mvwprintz(w, 21,  2, TOGCOL(16, hunger), _("Food"));
     mvwprintz(w, 21, 16, TOGCOL(17, thirst), _("Water"));
     mvwprintz(w, 21, 31, TOGCOL(18, sleep), _("Sleep"));
@@ -888,8 +885,7 @@ void defense_game::caravan()
 
     unsigned total_price = 0;
 
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
-    WINDOW_PTR wptr( w );
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
 
     int offset = 0, item_selected = 0, category_selected = 0;
 
@@ -1207,10 +1203,10 @@ std::vector<itype_id> caravan_items(caravan_category cat)
     return ret;
 }
 
-void draw_caravan_borders(WINDOW *w, int current_window)
+void draw_caravan_borders( const catacurses::window &w, int current_window )
 {
     // First, do the borders for the category window
-    nc_color col = c_ltgray;
+    nc_color col = c_light_gray;
     if (current_window == 0) {
         col = c_yellow;
     }
@@ -1230,18 +1226,18 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     mvwputch(w,  0, 39, c_yellow, LINE_OXXX);
     mvwputch(w, 11, 39, c_yellow, LINE_XOXX);
 
-    col = (current_window == 1 ? c_yellow : c_ltgray);
+    col = (current_window == 1 ? c_yellow : c_light_gray);
     // Next, draw the borders for the item description window--always "off" & gray
     for (int i = 12; i <= 23; i++) {
-        mvwputch(w, i,  0, c_ltgray, LINE_XOXO);
+        mvwputch(w, i,  0, c_light_gray, LINE_XOXO);
         mvwputch(w, i, 39, col,      LINE_XOXO);
     }
     for (int i = 1; i <= 38; i++) {
-        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, c_light_gray, LINE_OXOX);
     }
 
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1,  0, c_ltgray, LINE_XXOO);
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 39, c_ltgray, LINE_XXOX);
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1,  0, c_light_gray, LINE_XXOO);
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 39, c_light_gray, LINE_XXOX);
 
     // Finally, draw the item section borders
     for (int i = 40; i <= FULL_SCREEN_WIDTH - 2; i++) {
@@ -1261,15 +1257,14 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     wrefresh(w);
 }
 
-void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
-                             unsigned long cash)
+void draw_caravan_categories( const catacurses::window &w, int category_selected, unsigned total_price, unsigned long cash )
 {
     // Clear the window
     for (int i = 1; i <= 10; i++) {
         mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     mvwprintz(w, 1, 1, c_white, _("Your Cash: $%6.2f"), cash / 100.0 );
-    wprintz(w, c_ltgray, " -> ");
+    wprintz(w, c_light_gray, " -> ");
     wprintz(w, (total_price > cash ? c_red : c_green), "$%.2f", ( static_cast<long>( cash ) - static_cast<long>( total_price ) ) / 100.0 );
 
     for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++)
@@ -1278,9 +1273,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_pr
     wrefresh(w);
 }
 
-void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
-                        std::vector<int> *counts, int offset,
-                        int item_selected)
+void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items, std::vector<int> *counts, int offset, int item_selected )
 {
     // Print the item info first.  This is important, because it contains \n which
     // will corrupt the item list.

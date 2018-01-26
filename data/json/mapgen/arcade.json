@@ -29,9 +29,9 @@
             ".ssssssssssssssssssssss.",
             ".ssssssssssssssssssssss.",
             ".ssssssssssssssssssllss.",
-            ".|---++-OOO-++--------|.",
-            ".|F                   |.",
-            ".|F                   |.",
+            ".|---++-OOO-++----|---|.",
+            ".|F               |S %|.",
+            ".|F               |-+-|.",
             ".|F  FF     FF        |.",
             ".|F  FF  F  FF    ##  |.",
             ".|F  FF  F  FF    #  T|.",
@@ -55,6 +55,8 @@
             "L": "t_door_locked_alarm",
             "M": "t_door_metal_locked",
             "O": "t_window",
+            "S": "t_floor",
+            "%": "t_floor",
             "_": "t_pavement",
             "l": "t_sidewalk",
             "s": "t_sidewalk",
@@ -64,7 +66,7 @@
           "furniture": {
             "#": "f_counter",
             "&": "f_counter",
-            ".": "f_null",
+            "%": "f_toilet",
             ":": "f_dresser",
             "@": "f_bed",
             "F": "f_arcade_machine",
@@ -77,6 +79,7 @@
             "t": "f_table",
             "x": "f_pinball_machine"
           },
+          "toilets": { "%": {  } },
           "place_items": [
             { "item": "vending_drink", "x": 19, "y": 8, "chance": 75 },
             { "item": "vending_food", "x": 20, "y": 8, "chance": 75 },

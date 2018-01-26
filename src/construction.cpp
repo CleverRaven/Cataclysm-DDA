@@ -15,6 +15,7 @@
 #include "action.h"
 #include "translations.h"
 #include "messages.h"
+#include "json.h"
 #include "rng.h"
 #include "requirements.h"
 #include "trap.h"
@@ -60,7 +61,6 @@ bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
-void done_tree( const tripoint & );
 void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
@@ -126,25 +126,25 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( WINDOW *w, const int list_width )
+void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
+    mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
     mvwhline( w, 2, 1, LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
-    mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
+    mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
+    mvwputch( w, 2, 0, c_light_gray, LINE_XXXO );
+    mvwputch( w, 2, list_width, c_light_gray, LINE_XOXX );
 
     wrefresh( w );
 }
 
 nc_color construction_color( std::string &con_name, bool highlight )
 {
-    nc_color col = c_dkgray;
+    nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
@@ -164,7 +164,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
                 if( s_lvl < pr.second ) {
                     col = c_red;
                 } else if( s_lvl < pr.second * 1.25 ) {
-                    col = c_ltblue;
+                    col = c_light_blue;
                 }
             }
         }
@@ -196,14 +196,12 @@ void construction_menu()
     const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3);
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    WINDOW_PTR w_con_ptr {newwin( w_height, w_width, w_y0, w_x0 )};
-    WINDOW *const w_con = w_con_ptr.get();
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
 
     const int w_list_width = int( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
-    WINDOW_PTR w_list_ptr {newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
-    WINDOW *const w_list = w_list_ptr.get();
+    catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 );
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -437,7 +435,7 @@ void construction_menu()
                                 if( s_lvl < skill.second ) {
                                     col = c_red;
                                 } else if( s_lvl < skill.second * 1.25 ) {
-                                    col = c_ltblue;
+                                    col = c_light_blue;
                                 } else {
                                     col = c_white;
                                 }
@@ -632,8 +630,8 @@ void construction_menu()
         }
     } while( !exit );
 
-    w_list_ptr.reset();
-    w_con_ptr.reset();
+    w_list = catacurses::window();
+    w_con = catacurses::window();
     g->refresh_all();
 }
 
@@ -864,21 +862,6 @@ bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
     return ( g->get_levz() > -OVERMAP_DEPTH );
-}
-
-void construct::done_tree( const tripoint &p )
-{
-    tripoint dirp;
-    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), dirp ) ) {
-        // try again
-    }
-
-    tripoint to = p + point( 3 * dirp.x + rng( -1, 1 ), 3 * dirp.y + rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
-    for( auto &elem : tree ) {
-        g->m.destroy( elem );
-        g->m.ter_set( elem, t_trunk );
-    }
 }
 
 void construct::done_trunk_log( const tripoint &p )
@@ -1199,7 +1182,6 @@ void load_construction(JsonObject &jo)
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
-        { "done_tree", construct::done_tree },
         { "done_trunk_log", construct::done_trunk_log },
         { "done_trunk_plank", construct::done_trunk_plank },
         { "done_vehicle", construct::done_vehicle },
@@ -1271,8 +1253,7 @@ void check_constructions()
     }
 }
 
-int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
-                              nc_color col ) const
+int construction::print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const
 {
     std::string text = get_time_string();
     return fold_and_print( w, ypos, xpos, width, col, text );

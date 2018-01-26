@@ -2,12 +2,16 @@
 #include "game.h" // TODO: This is a circular dependency
 #include "map.h"
 #include "mapdata.h"
+#include "iexamine.h"
 #include "generic_factory.h"
+#include "player.h"
 #include "messages.h"
 #include "json.h"
 #include "vehicle.h"
 
 #include <string>
+#include <algorithm>
+#include <vector>
 
 // Gates namespace
 

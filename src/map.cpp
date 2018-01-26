@@ -8,17 +8,17 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "line.h"
-#include "options.h"
 #include "item_factory.h"
 #include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "iexamine.h"
 #include "string_formatter.h"
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"
+#include "item.h"
 #include "messages.h"
-#include "mapsharing.h"
 #include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
@@ -27,8 +27,8 @@
 #include "monster.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "calendar.h"
 #include "artifact.h"
-#include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -37,10 +37,8 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
-#include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
-#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -1366,7 +1364,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->posy = dst_offset_y;
     veh->smz = p2.z;
     // Invalidate vehicle's point cache
-    veh->occupied_cache_turn = -1;
+    veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
         dst_submap->vehicles.push_back( veh );
@@ -2344,8 +2342,7 @@ void map::drop_fields( const tripoint &p )
         return;
     }
 
-    // Ugly two-pass for now - field access is weird
-    bool dropped = false;
+    std::list<field_id> dropped;
     const tripoint below = p - tripoint( 0, 0, 1 );
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
@@ -2353,19 +2350,12 @@ void map::drop_fields( const tripoint &p )
         // Active fields "drop themselves"
         if( entry.decays_on_actualize() ) {
             add_field( below, entry.getFieldType(), entry.getFieldDensity(), entry.getFieldAge() );
-            dropped = true;
+            dropped.push_back( entry.getFieldType() );
         }
     }
 
-    // Now remove the dropped fields (that's the ugly part)
-    while( dropped ) {
-        dropped = false;
-        for( auto iter = fld.begin(); !dropped && iter != fld.end(); ) {
-            if( iter->second.decays_on_actualize() ) {
-                dropped = fld.removeField( iter->second.getFieldType() );
-                break;
-            }
-        }
+    for( const auto &entry : dropped ) {
+        fld.removeField( entry );
     }
 }
 
@@ -3288,14 +3278,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
+    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
         sounds::sound(p, 40, _("an alarm go off!"), false, "environment", "alarm");
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
             const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, p.z ) );
+            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, tripoint( abs.x, abs.y, p.z ) );
         }
     }
 
@@ -3400,8 +3390,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( tent ) {
         // Get ids of possible centers
         std::set<furn_id> centers;
-        for( const auto &center : bash->tent_centers ) {
-            const furn_str_id cur_id( center );
+        for( const auto &cur_id : bash->tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
@@ -3441,8 +3430,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
                 const auto recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
-                for( const auto &center : recur_bash->tent_centers ) {
-                    const furn_str_id cur_id( center );
+                for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
@@ -3690,10 +3678,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
+    if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
         sounds::sound(p, 30, _("an alarm sound!"));
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
+        g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
     const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
@@ -4238,7 +4226,7 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
 
 void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     spawn_item( tripoint( x, y, abs_sub.z ), type_id,
                 quantity, charges, birthday, damlevel );
@@ -4381,7 +4369,7 @@ void map::spawn_natural_artifact(const tripoint &p, artifact_natural_property pr
 
 void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     if( type_id == "null" ) {
         return;
@@ -4663,6 +4651,28 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             apply_in_fridge(n);
         }
     }
+
+    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->is_part_on( part );
+    bool washing_machine_finished = false;
+    if( washmachine_here ) {
+        for( auto &n : cur_veh->get_items( part ) ) {
+            const time_duration washing_time = 90_minutes;
+            const time_duration time_left = washing_time - n.age();
+            static const std::string filthy( "FILTHY" );
+            if( time_left <= 0 ) {
+                n.item_tags.erase( filthy );
+                washing_machine_finished = true;
+                cur_veh->parts[part].enabled = false;
+            } else if( calendar::once_every( MINUTES( 15 ) ) ) {
+                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
+                break;
+            }
+        }
+        if( washing_machine_finished ) {
+            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh->name.c_str() );
+        }
+    }
+
     if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
@@ -5310,7 +5320,7 @@ void map::disarm_trap( const tripoint &p )
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
         add_msg(_("You take down the %s."), tr.name().c_str());
-        tr.on_disarmed( p );
+        tr.on_disarmed( *this, p );
         return;
     }
 
@@ -5324,7 +5334,7 @@ void map::disarm_trap( const tripoint &p )
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
-        tr.on_disarmed( p );
+        tr.on_disarmed( *this, p );
         if(diff > 1.25 * tSkillLevel) { // failure might have set off trap
             g->u.practice( skill_traps, 1.5*(diff - tSkillLevel) );
         }
@@ -5642,22 +5652,6 @@ void map::add_camp( const tripoint &p, const std::string& name )
     get_submap_at( p )->camp = basecamp( name, p.x, p.y );
 }
 
-void map::debug()
-{
- mvprintw(0, 0, "MAP DEBUG");
- inp_mngr.wait_for_any_key();
- for (int i = 0; i <= SEEX * 2; i++) {
-  for (int j = 0; j <= SEEY * 2; j++) {
-   if (i_at(i, j).size() > 0) {
-    mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
-    mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
-    inp_mngr.wait_for_any_key();
-   }
-  }
- }
- inp_mngr.wait_for_any_key();
-}
-
 void map::update_visibility_cache( const int zlev ) {
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = (int)g->light_level( zlev );
@@ -5775,7 +5769,7 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( WINDOW *w, lit_level ll,
+bool map::apply_vision_effects( const catacurses::window &w, lit_level ll,
                                 const visibility_variables &cache ) const {
     int symbol = ' ';
     nc_color color = c_black;
@@ -5786,7 +5780,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
             return false;
         case VIS_LIT: // can only tell that this square is bright
             symbol = '#';
-            color = c_ltgray;
+            color = c_light_gray;
             break;
         case VIS_BOOMER:
             symbol = '#';
@@ -5806,7 +5800,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     return true;
 }
 
-void map::draw( WINDOW* w, const tripoint &center )
+void map::draw( const catacurses::window &w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
     if( is_draw_tiles_mode() ) {
@@ -5883,13 +5877,13 @@ void map::draw( WINDOW* w, const tripoint &center )
     }
 }
 
-void map::drawsq( WINDOW* w, player &u, const tripoint &p,
+void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
                   const bool invert, const bool show_items ) const
 {
     drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
 }
 
-void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
+void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
                   const bool show_items_arg, const tripoint &view_center,
                   const bool low_light, const bool bright_light, const bool inorder ) const
 {
@@ -5920,7 +5914,7 @@ bool map::need_draw_lower_floor( const tripoint &p )
     return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
-bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
+bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &p, const maptile &curr_maptile,
                         bool invert, bool show_items,
                         const tripoint &view_center,
                         const bool low_light, const bool bright_light, const bool inorder ) const
@@ -6051,11 +6045,11 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
+        tercol = (bright_light) ? c_white : c_light_green;
     } else if( low_light ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     }
 
     if( invert ) {
@@ -6087,7 +6081,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
-void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
+void map::draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,
@@ -6095,7 +6089,7 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
 {
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    nc_color tercol = c_dkgray;
+    nc_color tercol = c_dark_gray;
     long sym = ' ';
 
     const ter_t &curr_ter = curr_tile.get_ter_t();
@@ -6112,7 +6106,7 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         const int roof = veh->roof_at_part( part_below );
         const int displayed_part = roof >= 0 ? roof : part_below;
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
-        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_ltgray : c_ltgray_cyan;
+        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;
@@ -6146,11 +6140,11 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
+        tercol = (bright_light) ? c_white : c_light_green;
     } else if( low_light ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+        tercol = c_dark_gray;
     }
 
     if( invert ) {
@@ -6627,31 +6621,17 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
 
 // Optimized mapgen function that only works properly for very simple overmap types
 // Does not create or require a temporary map and does its own saving
-static void generate_uniform( const int x, const int y, const int z, const oter_id &terrain_type )
+static void generate_uniform( const int x, const int y, const int z, const ter_id &terrain_type )
 {
-    static const oter_id rock("empty_rock");
-    static const oter_id air("open_air");
-
     dbg( D_INFO ) << "generate_uniform x: " << x << "  y: " << y << "  abs_z: " << z
                   << "  terrain_type: " << terrain_type.id().str();
-
-    ter_id fill = t_null;
-    if( terrain_type == rock ) {
-        fill = t_rock;
-    } else if( terrain_type == air ) {
-        fill = t_open_air;
-    } else {
-        debugmsg( "map::generate_uniform called on non-uniform type: %s",
-                  terrain_type.id().c_str() );
-        return;
-    }
 
     constexpr size_t block_size = SEEX * SEEY;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
             submap *sm = new submap();
             sm->is_uniform = true;
-            std::uninitialized_fill_n( &sm->ter[0][0], block_size, fill );
+            std::uninitialized_fill_n( &sm->ter[0][0], block_size, terrain_type );
             sm->turn_last_touched = int(calendar::turn);
             MAPBUFFER.add_submap( x + xd, y + yd, z, sm );
         }
@@ -6690,9 +6670,14 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         int overx = newmapx;
         int overy = newmapy;
         sm_to_omt( overx, overy );
-        oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
-        if( terrain_type == rock || terrain_type == air ) {
-            generate_uniform( newmapx, newmapy, gridz, terrain_type );
+
+        const oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
+
+        // @todo Replace with json mapgen functions.
+        if( terrain_type == air ) {
+            generate_uniform( newmapx, newmapy, gridz, t_open_air );
+        } else if( terrain_type == rock ) {
+            generate_uniform( newmapx, newmapy, gridz, t_rock );
         } else {
             tinymap tmp_map;
             tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
@@ -6840,7 +6825,7 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    const int plantEpoch = seed.get_plant_epoch();
+    const time_duration plantEpoch = seed.get_plant_epoch();
 
     if( seed.age() >= plantEpoch ) {
         if( seed.age() < plantEpoch * 2 ) {
@@ -7080,9 +7065,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
     }
 
     //Check for Merchants to restock
-    for( auto & i : g->active_npc ) {
-        if( i->restock > 0 && calendar::turn > i->restock ) {
-            i->shop_restock();
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.restock > 0 && calendar::turn > guy.restock ) {
+            guy.shop_restock();
         }
     }
 

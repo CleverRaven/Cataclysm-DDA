@@ -4,14 +4,15 @@
 #include "map.h"
 #include "dialogue.h"
 #include "rng.h"
+#include "itype.h"
 #include "line.h"
+#include "bionics.h"
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
-#include "json.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -101,7 +102,7 @@ void talk_function::bionic_install(npc &p)
 
 void talk_function::bionic_remove(npc &p)
 {
-    std::vector <bionic> all_bio = g->u.my_bionics;
+    bionic_collection all_bio = *g->u.my_bionics;
     if (all_bio.size() == 0){
         popup(_("You don't have any bionics installed..."));
         return;
@@ -362,10 +363,10 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         return false;
     }
 
-    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                             ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
                             1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
@@ -421,10 +422,6 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     g->refresh_all();
 
     if (cur_key == "Caravan Commune-Refugee Center"){
@@ -1437,13 +1434,10 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, c
 }
 
 npc *talk_function::companion_choose(){
-    std::vector<npc *> available;
-    for( auto &elem : g->active_npc ) {
-        if( g->u.sees( elem->pos() ) && elem->is_friend() &&
-            rl_dist( g->u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem.get() );
-        }
-    }
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc &guy ) {
+        return g->u.sees( guy.pos() ) && guy.is_friend() &&
+            rl_dist( g->u.pos(), guy.pos() ) <= 24;
+    } );
 
     if (available.empty()) {
         popup(_("You don't have any companions to send out..."));

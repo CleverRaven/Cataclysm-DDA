@@ -3,15 +3,18 @@
 #define SKILL_H
 
 #include "calendar.h"
-#include "json.h"
 #include "string_id.h"
 
 #include <functional>
 #include <string>
+#include <map>
 #include <vector>
 #include <set>
 #include <iosfwd>
 
+class JsonObject;
+class JsonIn;
+class JsonOut;
 class Skill;
 using skill_id = string_id<Skill>;
 
@@ -69,19 +72,19 @@ class Skill
         bool is_contextual_skill() const;
 };
 
-class SkillLevel : public JsonSerializer, public JsonDeserializer
+class SkillLevel
 {
         int _level;
         int _exercise;
-        calendar _lastPracticed;
+        time_point _lastPracticed;
         bool _isTraining;
         int _highestLevel;
 
     public:
-        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0,
-                    int highestLevel = 0 );
+        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true,
+                    const time_point &lastPracticed = calendar::time_of_cataclysm, int highestLevel = 0 );
         SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
-                    int lastPracticed, int highestLevel );
+                    const time_point &lastPracticed, int highestLevel );
 
         bool isTraining() const {
             return _isTraining;
@@ -114,7 +117,7 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return level() * level() * 100 + exercise();
         }
 
-        int lastPracticed() const {
+        const time_point &lastPracticed() const {
             return _lastPracticed;
         }
 
@@ -168,10 +171,8 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
 
         SkillLevel &operator= ( const SkillLevel & ) = default;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         // Make skillLevel act like a raw level by default.
         operator int() const {

@@ -1,3 +1,4 @@
+#include "monattack.h"
 #include "monster.h"
 #include "mondeath.h"
 
@@ -11,11 +12,10 @@
 #include "line.h"
 #include "bodypart.h"
 #include "material.h"
-#include "json.h"
 #include "speech.h"
 #include "messages.h"
 #include "sounds.h"
-#include "monattack.h"
+#include "effect.h"
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"
@@ -1077,6 +1077,8 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         if (!critial_fail && (is_trivial || dodge_skill > rng(0, att_rad_dodge_diff))) {
             target->add_msg_player_or_npc(_("You dodge the beam!"),
                                           _("<npcname> dodges the beam!"));
+        } else if( g->u.is_rad_immune() ) {
+            target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
         } else if (one_in(att_rad_mutate_chance)) {
             foe->mutate();
         } else {
@@ -2658,8 +2660,7 @@ bool mattack::photograph(monster *z)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
-                 g->u.global_sm_location());
+    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0, g->u.global_sm_location() );
 
     return true;
 }

@@ -1100,7 +1100,7 @@ void trapfunc::temple_flood( Creature *c, const tripoint &p )
                 }
             }
         }
-        g->add_event( EVENT_TEMPLE_FLOOD, calendar::turn + 3 );
+        g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
     }
 }
 

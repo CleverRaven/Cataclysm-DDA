@@ -13,6 +13,7 @@
 #include "mission.h"
 #include "morale_types.h"
 #include "ammo.h"
+#include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
 #include "translations.h"
@@ -22,6 +23,7 @@
 #include "compatibility.h"
 #include "basecamp.h"
 #include "cata_utility.h"
+#include "itype.h"
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
@@ -130,7 +132,7 @@ struct talk_response {
      */
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID();
-    matype_id style;
+    matype_id style = matype_id::NULL_ID();
     /**
      * Defines what happens when the trial succeeds or fails. If trial is
      * TALK_TRIAL_NONE it always succeeds.
@@ -182,7 +184,7 @@ struct dialogue {
          * TODO: make it a reference, not a pointer.
          */
         npc *beta = nullptr;
-        WINDOW *win = nullptr;
+        catacurses::window win;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -565,7 +567,7 @@ void npc::talk_to_u()
 
     decide_needs();
 
-    d.win = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                     ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
@@ -590,7 +592,6 @@ void npc::talk_to_u()
             d.add_topic( next );
         }
     } while( !d.done );
-    delwin( d.win );
     g->refresh_all();
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
@@ -1720,7 +1721,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
             for( auto miss_it : g->u.get_active_missions() ) {
-                if( miss_it->name() == "Locate Commo Team" && !p->has_effect( effect_gave_quest_item ) ) {
+                if( miss_it->mission_id() == mission_type_id( "MISSION_OLD_GUARD_NEC_1" ) &&
+                    !p->has_effect( effect_gave_quest_item ) ) {
                     add_response( _( "[MISSION] The captain sent me to get a frequency list from you." ),
                                   "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                 }
@@ -1794,7 +1796,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Interesting..." ), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         for( auto miss_it : g->u.get_active_missions() ) {
-            if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect( effect_gave_quest_item ) ) {
+            if( miss_it->mission_id() == mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ) &&
+                !p->has_effect( effect_gave_quest_item ) ) {
                 add_response(
                     _( "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you." ),
                     "TALK_RANCH_FOREMAN_PROSPECTUS" );
@@ -2113,21 +2116,21 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        for( auto &trained : trainable ) {
-            const int cost = calc_skill_training_cost( *p, trained );
-            const int cur_level = g->u.get_skill_level( trained );
-            //~Skill name: current level -> next level (cost in cent)
-            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) : _( "%s: %d -> %d" ),
-                                              trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
-            add_response( text, "TALK_TRAIN_START", trained );
-        }
         for( auto &style_id : styles ) {
             auto &style = style_id.obj();
             const int cost = calc_ma_style_training_cost( *p, style.id );
-            //~Martial art style (cost in cent)
+            //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s (cost $%d)" ) : _( "%s" ),
                                                     style.name.c_str(), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
+        }
+        for( auto &trained : trainable ) {
+            const int cost = calc_skill_training_cost( *p, trained );
+            const int cur_level = g->u.get_skill_level( trained );
+            //~Skill name: current level -> next level (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) : _( "%s: %d -> %d" ),
+                                              trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
+            add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
 
@@ -2999,19 +3002,19 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 300 );
     give_aid( p );
     body_part bp_healed;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+    for( npc &guy : g->all_npcs() ) {
+        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 bp_healed = player::hp_to_bp( hp_part( i ) );
-                elem->heal( hp_part( i ), 5 * rng( 2, 5 ) );
-                if( elem->has_effect( effect_bite, bp_healed ) ) {
-                    elem->remove_effect( effect_bite, bp_healed );
+                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                if( guy.has_effect( effect_bite, bp_healed ) ) {
+                    guy.remove_effect( effect_bite, bp_healed );
                 }
-                if( elem->has_effect( effect_bleed, bp_healed ) ) {
-                    elem->remove_effect( effect_bleed, bp_healed );
+                if( guy.has_effect( effect_bleed, bp_healed ) ) {
+                    guy.remove_effect( effect_bleed, bp_healed );
                 }
-                if( elem->has_effect( effect_infected, bp_healed ) ) {
-                    elem->remove_effect( effect_infected, bp_healed );
+                if( guy.has_effect( effect_infected, bp_healed ) ) {
+                    guy.remove_effect( effect_infected, bp_healed );
                 }
             }
         }
@@ -3217,23 +3220,23 @@ void talk_function::start_training( npc &p )
     int cost;
     int time;
     std::string name;
-    if( p.chatbin.skill ) {
-        auto &skill = p.chatbin.skill;
+    const skill_id &skill = p.chatbin.skill;
+    const matype_id &style = p.chatbin.style;
+    if( skill.is_valid() && g->u.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() ) {
-        auto &ma_style_id = p.chatbin.style;
-        cost = calc_ma_style_training_cost( p, ma_style_id );
-        time = calc_ma_style_training_time( p, ma_style_id );
+    } else if( p.chatbin.style.is_valid() && !g->u.has_martialart( style ) ) {
+        cost = calc_ma_style_training_cost( p, style );
+        time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
     } else {
-        debugmsg( "start_training with no skill or style set" );
+        debugmsg( "start_training with no valid skill or style set" );
         return;
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
         clear_mission( p );
     } else if( !pay_npc( p, cost ) ) {
         return;
@@ -3330,7 +3333,7 @@ void dialogue::print_history( size_t const hilight_lines )
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
         // red for new text, gray for old, similar to coloring of messages
-        nc_color const col = ( curindex >= newindex ) ? c_red : c_dkgray;
+        nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
         mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
         curline--;
         curindex--;
@@ -3449,7 +3452,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     if( text[0] == '!' ) {
         color = c_red;
     } else if( text[0] == '*' ) {
-        color = c_ltred;
+        color = c_light_red;
     } else if( text[0] == '&' ) {
         color = c_green;
     } else {
@@ -3530,7 +3533,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
             okay = true;
         } else if( responses[ch].color == c_red && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             okay = true;
-        } else if( responses[ch].color == c_ltred && query_yn( _( "You'll be helpless! Proceed?" ) ) ) {
+        } else if( responses[ch].color == c_light_red && query_yn( _( "You'll be helpless! Proceed?" ) ) ) {
             okay = true;
         }
     } while( !okay );
@@ -3545,12 +3548,14 @@ talk_topic dialogue::opt( const talk_topic &topic )
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
 
+    // We can't set both skill and style or training will bug out
+    // @todo Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
-    }
-
-    if( !chosen.style.str().empty() ) {
+        beta->chatbin.style = matype_id::NULL_ID();
+    } else if( chosen.style ) {
         beta->chatbin.style = chosen.style;
+        beta->chatbin.skill = skill_id::NULL_ID();
     }
 
     const bool success = chosen.trial.roll( *this );
@@ -3667,11 +3672,11 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
 bool trade( npc &p, int cost, const std::string &deal )
 {
-    WINDOW *w_head = newwin( 4, TERMX, 0, 0 );
+    catacurses::window w_head = catacurses::newwin( 4, TERMX, 0, 0 );
     const int win_they_w = TERMX / 2;
-    WINDOW *w_them = newwin( TERMY - 4, win_they_w, 4, 0 );
-    WINDOW *w_you = newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
-    WINDOW *w_tmp;
+    catacurses::window w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
+    catacurses::window w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
+    catacurses::window w_tmp;
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
@@ -3786,7 +3791,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        cost_string.c_str(), ( double )std::abs( cash ) / 100 );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_ltred : c_ltgreen, deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green, deal.c_str() );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
@@ -3802,20 +3807,19 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 const auto &offset = they ? them_off : you_off;
                 const auto &person = they ? p : g->u;
                 auto &w_whose = they ? w_them : w_you;
-                int win_h;
-                int win_w;
-                getmaxyx( w_whose, win_h, win_w );
+                int win_h = getmaxy( w_whose );
+                int win_w = getmaxx( w_whose );
                 // Borders
                 win_h -= 2;
                 win_w -= 2;
                 for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
                     const item_pricing &ip = list[i];
                     const item *it = ip.loc.get_item();
-                    auto color = it == &person.weapon ? c_yellow : c_ltgray;
+                    auto color = it == &person.weapon ? c_yellow : c_light_gray;
                     std::string itname = it->display_name();
                     if( ip.loc.where() != item_location::type::character ) {
                         itname = itname + " " + ip.loc.describe( &g->u );
-                        color = c_ltblue;
+                        color = c_light_blue;
                     }
 
                     if( ip.selected ) {
@@ -3830,7 +3834,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                     ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
-                    nc_color price_color = ex ? c_dkgray : ( ip.selected ? c_white : c_ltgray );
+                    nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white : c_light_gray );
                     mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
                                price_color, price_str.c_str() );
                 }
@@ -3866,15 +3870,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 break;
             case '?':
                 update = true;
-                w_tmp = newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
+                w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
                                 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
                 mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
                 draw_border( w_tmp );
                 wrefresh( w_tmp );
                 // TODO: use input context
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
-                werase( w_tmp );
-                delwin( w_tmp );
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
                 update = true;
@@ -3993,15 +3995,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             g->u.practice( skill_barter, practice / 2 );
         }
     }
-    werase( w_head );
-    werase( w_you );
-    werase( w_them );
-    wrefresh( w_head );
-    wrefresh( w_you );
-    wrefresh( w_them );
-    delwin( w_head );
-    delwin( w_you );
-    delwin( w_them );
     g->refresh_all();
     return traded;
 }
@@ -4421,6 +4414,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
             return _( "Here we go..." );
         }
     }
@@ -4561,10 +4557,10 @@ npc *pick_follower()
     std::vector<npc *> followers;
     std::vector<tripoint> locations;
 
-    for( const auto &np : g->active_npc ) {
-        if( np->is_following() && g->u.sees( *np ) ) {
-            followers.push_back( np.get() );
-            locations.push_back( np->pos() );
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_following() && g->u.sees( guy ) ) {
+            followers.push_back( &guy );
+            locations.push_back( guy.pos() );
         }
     }
 

@@ -43,7 +43,7 @@
     "use_action": {
       "type": "explosion",
       "draw_explosion_radius": 4,
-      "draw_explosion_color": "ltblue",
+      "draw_explosion_color": "light_blue",
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
@@ -110,24 +110,6 @@
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
-    "id": "acidbomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "acid bomb",
-    "name_plural": "acid bombs",
-    "description": "This is a glass vial, with two chemicals mixing inside.  The vial feels colder and the contents are frothing.  If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
-    "weight": 1268,
-    "volume": 2,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "glass",
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": "ACIDBOMB_ACT",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN" ]
-  },
-  {
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": "advanced UPS",
@@ -149,6 +131,7 @@
     "type": "TOOL",
     "name": "advanced electronic cigarette",
     "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
+    "category": "drugs",
     "weight": 200,
     "volume": 1,
     "price": 5000,
@@ -326,7 +309,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -1238,7 +1221,7 @@
     "bashing": 8,
     "material": "aluminum",
     "symbol": ";",
-    "color": "ltgray"
+    "color": "light_gray"
   },
   {
     "id": "candle",
@@ -1483,7 +1466,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1883,7 +1866,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 1 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -2080,7 +2063,7 @@
     "type": "TOOL",
     "name": "improvised lockpick",
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
-    "weight": 230,
+    "weight": 23,
     "volume": 0,
     "price": 0,
     "material": "steel",
@@ -2413,7 +2396,7 @@
     "turns_per_charge": 1,
     "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS",
-    "flags": [ "ALWAYS_TWOHAND" ]
+    "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
   {
     "id": "e_tool",
@@ -2492,7 +2475,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -2680,8 +2663,7 @@
       "type": "firestarter",
       "moves": 500,
       "moves_slow": 25000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "fire_drill_large",
@@ -2698,8 +2680,7 @@
       "type": "firestarter",
       "moves": 200,
       "moves_slow": 10000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "firecracker",
@@ -3654,27 +3635,6 @@
     "color": "light_gray"
   },
   {
-    "id": "heavy_snare_kit",
-    "type": "TOOL",
-    "name": "heavy snare kit",
-    "description": "This is a kit for a simple trap consisting of a rope noose and a snare trigger.  It requires a tree nearby.  It is effective at trapping monsters.",
-    "weight": 1066,
-    "volume": 1,
-    "price": 250,
-    "cutting": 10,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": {
-      "type": "place_trap",
-      "needs_neighbor_terrain": "t_tree",
-      "trap": "tr_heavy_snare",
-      "moves": 200,
-      "practice": 4,
-      "done_message": "You set the snare trap."
-    }
-  },
-  {
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
@@ -4353,27 +4313,6 @@
     }
   },
   {
-    "id": "light_snare_kit",
-    "type": "TOOL",
-    "name": "light snare kit",
-    "description": "This is a kit for a simple trap consisting of a string noose and a snare trigger.  It requires a young tree nearby.  It is effective at trapping and killing some small animals.",
-    "weight": 886,
-    "volume": 1,
-    "price": 100,
-    "cutting": 6,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": {
-      "type": "place_trap",
-      "needs_neighbor_terrain": "t_tree_young",
-      "trap": "tr_light_snare",
-      "moves": 150,
-      "practice": 2,
-      "done_message": "You set the snare trap."
-    }
-  },
-  {
     "id": "lighter",
     "type": "TOOL",
     "name": "lighter",
@@ -4605,7 +4544,7 @@
     "category": "weapons",
     "name": "makeshift machete",
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
-    "weight": 538,
+    "weight": 581,
     "volume": 8,
     "price": 1000,
     "to_hit": 1,
@@ -5355,7 +5294,7 @@
     "volume": 1,
     "price": 4000,
     "to_hit": -1,
-    "material": [ "flesh", "plastic" ],
+    "material": "flesh",
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
@@ -5764,7 +5703,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 1 ] ]
   },
   {
     "id": "primitive_hammer",
@@ -5842,7 +5781,8 @@
     "bashing": 5,
     "material": "plastic",
     "symbol": ";",
-    "color": "green"
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
@@ -6650,19 +6590,6 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
-    "id": "snare_trigger",
-    "type": "TOOL",
-    "name": "snare trigger",
-    "description": "This is a stick that has been cut into a trigger mechanism for a snare trap.",
-    "weight": 850,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown"
-  },
-  {
     "id": "soldering_iron",
     "type": "TOOL",
     "name": "soldering iron",
@@ -6803,11 +6730,11 @@
     "category": "weapons",
     "name": "survivor machete",
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "weight": 425,
-    "volume": 3,
+    "weight": 565,
+    "volume": 4,
     "price": 2800,
     "to_hit": 2,
-    "bashing": 5,
+    "bashing": 6,
     "cutting": 20,
     "material": "steel",
     "symbol": "/",
@@ -8369,7 +8296,7 @@
     "type": "TOOL",
     "name": "cattle fodder",
     "name_plural": "cattle fodder",
-    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "description": "What cattle eat.  Mainly made of grass, silages or legumes.  It's perfect for ruminants.",
     "weight": 300,
     "volume": 1,
     "price": 100,
@@ -8378,5 +8305,19 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "FEEDCATTLE"
+  },
+  {
+    "id": "link_sheet",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "chainmail sheet",
+    "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "weight": 1000,
+    "volume": 2,
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

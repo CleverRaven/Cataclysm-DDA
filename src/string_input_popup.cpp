@@ -15,7 +15,7 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    nc_color title_color = c_ltred;
+    nc_color title_color = c_light_red;
     nc_color desc_color = c_green;
 
     int titlesize = utf8_width( _title ); // Occupied horizontal space
@@ -68,8 +68,7 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w_ptr.reset( newwin( w_height, w_width, w_y, w_x ) );
-    w = w_ptr.get();
+    w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     draw_border( w );
 
@@ -146,8 +145,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
-    const nc_color cursor_color = h_ltgray;
-    const nc_color underscore_color = c_ltgray;
+    const nc_color cursor_color = h_light_gray;
+    const nc_color underscore_color = c_light_gray;
 
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
@@ -345,8 +344,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }
-        } else if( ch == ERR ) {
-            // Ignore the error
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {
@@ -374,9 +371,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     return _text;
 }
 
-string_input_popup &string_input_popup::window( WINDOW *w, int startx, int starty, int endx )
+string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+        int endx )
 {
-    w_ptr.reset();
     this->w = w;
     _startx = startx;
     _starty = starty;

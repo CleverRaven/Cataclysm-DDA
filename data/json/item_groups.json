@@ -691,8 +691,6 @@
       ["irradiated_apricot", 2],
       ["coconut", 5],
       ["jam_fruit", 10],
-      ["jam_strawberries", 10],
-      ["jam_blueberries", 10],
       ["juice", 50],
       ["potato_raw", 10],
       ["pickle", 40],
@@ -3620,6 +3618,7 @@
     "type" : "item_group",
     "id" : "hospital_bed",
     "items":[
+      ["corpse", 10],
       ["child_book", 5],
       ["stethoscope", 20],
       ["tall_tales", 10],
@@ -7415,7 +7414,6 @@
       ["rm228", 1],
       ["suppressor", 15],
       ["shot_suppressor", 1],
-      ["autofire", 2],
       ["mag_porn", 20],
       ["lighter", 60],
       ["ref_lighter", 2],
@@ -8590,11 +8588,14 @@
       ["bio_blaster", 15],
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
-      ["bio_adrenaline", 20]
+      ["bio_adrenaline", 20],
+      ["bio_ods", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "vault_wanderer",
+    "magazine": 100,
+    "ammo": 20,
     "items" : [
       ["jumpsuit", 90],
       ["mask_filter", 10],
@@ -8945,6 +8946,28 @@
       ["coffee",             55],
       ["atomic_coffee",      10],
       ["tea",                35]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lumberyard",
+    "items": [
+      [ "2x4", 500 ],
+      [ "log", 200 ],
+      [ "stick", 100 ],
+      [ "pine_bough", 50 ],
+      [ "ax", 10 ],
+      [ "saw", 10 ],
+      [ "chainsaw_off", 5 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_medical_items",
+    "items": [
+      { "group": "surgery", "prob": 80 },
+      { "group": "drugs_emergency", "prob": 40 },
+      { "group": "softdrugs", "prob": 20 },
+      { "group": "bionics_common", "prob": 5 },
+      { "group": "harddrugs", "prob": 5 }
     ]
   }
 ]

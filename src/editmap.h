@@ -2,7 +2,6 @@
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
-#include "game.h"
 #include "map.h"
 #include "line.h"
 #include "omdata.h"
@@ -47,15 +46,14 @@ class editmap
         tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
         tripoint edit();
-        void uber_draw_ter( WINDOW *w, map *m );
+        void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view( bool update_info = false );
         int edit_ter();
 
         int edit_fld();
         int edit_trp();
         int edit_itm();
-        int edit_mon();
-        int edit_npc();
+        int edit_critter( Creature &critter );
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
@@ -66,8 +64,8 @@ class editmap
         void update_fmenu_entry( uimenu *fmenu, field *field, field_id idx );
         void setup_fmenu( uimenu *fmenu );
         bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
-        WINDOW *w_info;
-        WINDOW *w_help;
+        catacurses::window w_info;
+        catacurses::window w_help;
         int width;
         int height;
         int offsetX;

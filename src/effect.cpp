@@ -6,6 +6,8 @@
 #include "player.h"
 #include "translations.h"
 #include "messages.h"
+#include "json.h"
+
 #include <map>
 #include <sstream>
 

@@ -12,6 +12,7 @@
 #include "vehicle.h"
 #include "string_formatter.h"
 #include "veh_type.h"
+#include "vitamin.h"
 #include "npc.h"
 #include "ammo.h"
 #include "crafting.h"
@@ -235,7 +236,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
-            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            r.push_back( e->result_name() );
             for( const auto &s : sk ) {
                 if( e->skill_used == s.ident() ) {
                     r.push_back( to_string( e->difficulty ) );

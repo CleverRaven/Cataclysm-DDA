@@ -18,7 +18,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
-    "burst": 10,
+    "burst": 12,
     "barrel_length": 2,
     "magazines": [
       [ "308", [ "falmag", "falbigmag" ] ],
@@ -88,7 +88,7 @@
     "weight": 4820,
     "price": 195000,
     "material": [ "steel", "plastic" ],
-    "burst": 10,
+    "burst": 12,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -135,7 +135,7 @@
     "dispersion": 200,
     "durability": 9,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 20 ] ],
+    "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
@@ -162,7 +162,7 @@
     "dispersion": 180,
     "durability": 7,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 20 ] ],
+    "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
@@ -227,7 +227,6 @@
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
-    "burst": 8,
     "magazine_well": 1
   }
 ]

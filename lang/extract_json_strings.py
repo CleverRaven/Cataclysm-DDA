@@ -36,6 +36,7 @@ git_files_list = {
 
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {
+    "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",

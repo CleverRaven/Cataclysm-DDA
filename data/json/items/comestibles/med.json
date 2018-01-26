@@ -38,7 +38,7 @@
         "stack_size" : 2,
         "material" : "cotton",
         "symbol" : "!",
-        "color" : "dkgray",
+        "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
             "limb_power" : 8,
@@ -203,25 +203,6 @@
             "bite" : 0.95,
             "move_cost" : 100
         }
-    },
-    {
-        "id" : "brownie_weed",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "special brownie",
-        "description" : "This is definitely not how grandma used to bake them.",
-        "weight" : 56,
-        "volume" : 3,
-        "price" : 5000,
-        "charges" : 8,
-        "material" : "wheat",
-        "symbol" : "%",
-        "color" : "brown",
-        "nutrition" : 20,
-        "fun" : 15,
-        "spoils_in" : 420,
-        "use_action" : "WEED_BROWNIE",
-        "flags" : [ "EATEN_HOT" ]
     },
     {
         "id" : "caff_gum",
