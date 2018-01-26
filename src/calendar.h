@@ -293,13 +293,6 @@ class calendar
          * @returns the remaining time (in turns) before the specified diurnal time */
         int diurnal_time_before( int turn ) const;
 
-        /**
-         * Returns approximate duration.
-         * @param turns Duration to print, measured in six-second turns
-         * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
-         */
-        static std::string print_approx_duration( int turns, bool verbose = true );
-
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;
         /** Returns the period a calendar has been running in word form; i.e. "1 second", "2 days". */
@@ -547,6 +540,11 @@ std::string to_string( const time_duration &d );
  * 59 minutes will return "59 minutes".
  */
 std::string to_string_clipped( const time_duration &d );
+/**
+ * Returns approximate duration.
+ * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
+ */
+std::string to_string_approx( const time_duration &d, bool verbose = true );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.

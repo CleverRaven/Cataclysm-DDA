@@ -122,15 +122,15 @@ void game::list_missions()
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
                     // @TODO: But displaying when you completed it would be useful.
-                    const int remaining_turns = deadline.get_turn() - calendar::turn;
+                    const time_duration remaining = time_duration::from_turns( deadline.get_turn() - calendar::turn );
                     std::string remaining_time;
 
-                    if( remaining_turns <= 0 ) {
+                    if( remaining <= 0_turns ) {
                         remaining_time = _( "None!" );
                     } else if( u.has_watch() ) {
-                        remaining_time = to_string( time_duration::from_turns( remaining_turns ) );
+                        remaining_time = to_string( remaining );
                     } else {
-                        remaining_time = calendar::print_approx_duration( remaining_turns );
+                        remaining_time = to_string_approx( remaining );
                     }
 
                     mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );

@@ -246,7 +246,8 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_approx_duration( moves / 100 ) << "\n";
+    //@todo better have a from_moves function
+    msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : skills ) {

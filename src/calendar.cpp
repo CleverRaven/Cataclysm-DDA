@@ -370,8 +370,9 @@ std::string to_string( const time_duration &d )
     return to_string_clipped( d );
 }
 
-std::string calendar::print_approx_duration( int turns, bool verbose )
+std::string to_string_approx( const time_duration &d, const bool verbose )
 {
+    int turns = to_turns<int>( d );
     const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
         return string_format( verbose ? verbose_str : short_str, to_string_clipped( time_duration::from_turns( turns ) ) );
     };
