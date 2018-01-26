@@ -2117,3 +2117,11 @@ void refresh_display()
 {
 }
 #endif
+
+void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
+                const std::string &text )
+{
+    wattron( w, FG );
+    mvwprintw( w, y, x, text );
+    wattroff( w, FG );
+}

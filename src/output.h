@@ -289,13 +289,13 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 
+void mvwprintz( const catacurses::window &w, int y, int x, const nc_color &FG,
+                const std::string &text );
 template<typename ...Args>
-inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color FG,
+inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
                        const char *const mes, Args &&... args )
 {
-    wattron( w, FG );
-    mvwprintw( w, y, x, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    mvwprintz( w, y, x, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
 template<typename ...Args>
