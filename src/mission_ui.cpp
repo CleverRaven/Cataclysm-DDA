@@ -128,7 +128,7 @@ void game::list_missions()
                     if( remaining_turns <= 0 ) {
                         remaining_time = _( "None!" );
                     } else if( u.has_watch() ) {
-                        remaining_time = calendar::print_duration( remaining_turns );
+                        remaining_time = to_string( time_duration::from_turns( remaining_turns ) );
                     } else {
                         remaining_time = calendar::print_approx_duration( remaining_turns );
                     }

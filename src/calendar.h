@@ -294,21 +294,6 @@ class calendar
         int diurnal_time_before( int turn ) const;
 
         /**
-         * Print approximate duration in largest practical units
-         *
-         * Generates a string showing a duration in appropriate units.  Durations of under one
-         * minute are shown in seconds.  Durations of one minute to one hour are shown as a whole
-         * number of minutes.  Durations of one hour to one day are shown as a whole number of hours.
-         * Larger durations are shown as a number of whole days.
-         *
-         * @param turns Specified duration in six-second turns.
-         * @returns String with value and units, suitable for display to player
-         */
-        static std::string print_clipped_duration( int turns );
-
-        /** Returns normal duration. */
-        static std::string print_duration( int turns );
-        /**
          * Returns approximate duration.
          * @param turns Duration to print, measured in six-second turns
          * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -545,6 +530,23 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
     return time_duration::from_days( v );
 }
 /**@}*/
+
+/**
+ * Returns a string showing a duration. The string contains at most two numbers
+ * along with their units. E.g. 3661 seconds will return "1 hour and 1 minute"
+ * (the 1 additional second is clipped). An input of 3601 will return "1 hour"
+ * (the second is clipped again and the number of additional minutes would be
+ * 0 so it's skipped).
+ */
+std::string to_string( const time_duration &d );
+/**
+ * Returns a string showing a duration as whole number of appropriate units, e.g.
+ * "10 days" or "1 minute".
+ * The chosen unit will be the largest unit, that is as least as much as the
+ * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
+ * 59 minutes will return "59 minutes".
+ */
+std::string to_string_clipped( const time_duration &d );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.

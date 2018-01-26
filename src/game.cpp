@@ -13354,7 +13354,7 @@ void game::wait()
         std::string text( caption );
 
         if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
-            const std::string dur_str( calendar::print_duration( duration ) );
+            const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
         }
         as_m.addentry( retval, true, hotkey, text );

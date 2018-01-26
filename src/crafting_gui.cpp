@@ -476,7 +476,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
                 const std::string text = string_format( _( "Time to complete: %s" ),
-                                                        calendar::print_duration( turns ).c_str() );
+                                                        to_string( time_duration::from_turns( turns ) ) );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
 
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),

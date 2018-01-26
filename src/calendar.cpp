@@ -323,9 +323,10 @@ float calendar::sunlight() const
     }
 }
 
-std::string calendar::print_clipped_duration( int turns )
+std::string to_string_clipped( const time_duration &d )
 {
-    if( turns >= INDEFINITELY_LONG ) {
+    const int turns = to_turns<int>( d );
+    if( turns >= calendar::INDEFINITELY_LONG ) {
         return _( "forever" );
     }
 
@@ -343,11 +344,12 @@ std::string calendar::print_clipped_duration( int turns )
     return string_format( ngettext( "%d day", "%d days", day ), day );
 }
 
-std::string calendar::print_duration( int turns )
+std::string to_string( const time_duration &d )
 {
+    const int turns = to_turns<int>( d );
     int divider = 0;
 
-    if( turns > MINUTES( 1 ) && turns < INDEFINITELY_LONG ) {
+    if( turns > MINUTES( 1 ) && turns < calendar::INDEFINITELY_LONG ) {
         if( turns < HOURS( 1 ) ) {
             divider = MINUTES( 1 );
         } else if( turns < DAYS( 1 ) ) {
@@ -361,17 +363,17 @@ std::string calendar::print_duration( int turns )
     if( remainder != 0 ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
-                              print_clipped_duration( turns ).c_str(),
-                              print_clipped_duration( remainder ).c_str() );
+                              to_string_clipped( time_duration::from_turns( turns ) ),
+                              to_string_clipped( time_duration::from_turns( remainder ) ) );
     }
 
-    return print_clipped_duration( turns );
+    return to_string_clipped( d );
 }
 
 std::string calendar::print_approx_duration( int turns, bool verbose )
 {
     const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
-        return string_format( verbose ? verbose_str : short_str, print_clipped_duration( turns ).c_str() );
+        return string_format( verbose ? verbose_str : short_str, to_string_clipped( time_duration::from_turns( turns ) ) );
     };
 
     int divider = 0;
