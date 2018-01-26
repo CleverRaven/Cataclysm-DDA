@@ -45,26 +45,6 @@ const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
 // How long, in seconds, does sunrise/sunset last?
 #define TWILIGHT_SECONDS (60 * 60)
 
-constexpr int FULL_SECONDS_IN( int n )
-{
-    return n * 6;
-}
-
-constexpr int FULL_MINUTES_IN( int n )
-{
-    return n / MINUTES( 1 );
-}
-
-constexpr int FULL_HOURS_IN( int n )
-{
-    return n / HOURS( 1 );
-}
-
-constexpr int FULL_DAYS_IN( int n )
-{
-    return n / DAYS( 1 );
-}
-
 calendar::calendar()
 {
     turn_number = 0;
@@ -331,16 +311,18 @@ std::string to_string_clipped( const time_duration &d )
     }
 
     if( d < 1_minutes ) {
-        const int sec = FULL_SECONDS_IN( to_turns<int>( d ) );
+        //@todo add to_seconds,from_seconds, operator ""_seconds, but currently
+        // this could be misleading as we only store turns, which are 6 whole seconds
+        const int sec = to_turns<int>( d ) * 6;
         return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
     } else if( d < 1_hours ) {
-        const int min = FULL_MINUTES_IN( to_turns<int>( d ) );
+        const int min = to_minutes<int>( d );
         return string_format( ngettext( "%d minute", "%d minutes", min ), min );
     } else if( d < 1_days ) {
-        const int hour = FULL_HOURS_IN( to_turns<int>( d ) );
+        const int hour = to_hours<int>( d );
         return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
     }
-    const int day = FULL_DAYS_IN( to_turns<int>( d ) );
+    const int day = to_days<int>( d );
     return string_format( ngettext( "%d day", "%d days", day ), day );
 }
 
