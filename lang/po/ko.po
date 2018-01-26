@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-12 07:16-0500\n"
-"PO-Revision-Date: 2018-01-19 02:46+0000\n"
-"Last-Translator: T itan <un8214@naver.com>\n"
+"POT-Creation-Date: 2018-01-19 08:34-0500\n"
+"PO-Revision-Date: 2018-01-20 12:13+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12914,8 +12914,7 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "CBM:능동형 방호 시스템"
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
@@ -13648,8 +13647,7 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "CBM:공격형 방호 시스템"
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock,"
@@ -14656,11 +14654,11 @@ msgid ""
 msgstr "전 세계의 춤에 대해 아주 자세히 적힌, 아주 크고 오래된 책입니다. 통찰력 있는 독자라면 전투와 관련된 다양한 방어적인 발놀림을 익힐 수 있을 것입니다."
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
-msgstr[0] "AAA 가이드 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
+msgstr[0] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -14690,7 +14688,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr "초보 운전자들을 위한 두꺼운 지침서입니다. 여기에는 법률, 차량 안전운행, 방어운전법 등의 내용이 있습니다."
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -14756,11 +14754,11 @@ msgid ""
 msgstr "이 시트의 한쪽면에는 문자들이 무의미하게 뒤섞여서 인쇄되있지만, 다른면에는 손으로 그린 복잡해 보이는 회로도가 보입니다."
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
-msgstr[0] "확장 기술 보고서 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
+msgstr[0] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -34229,17 +34227,6 @@ msgid ""
 msgstr "강이나 다른 물가에서 종종 보이는 청둥오리. 주로 곤충, 씨앗, 뿌리 등을 먹지만, 대재앙 이전에는 빵조각도 먹고 살았다."
 
 #: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr "폭발자"
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
-msgstr "바닥에서 올라온 소형 원형 터렛. 장착된 두 개의 기관단총 총열을 360도 회전할 수 있습니다."
-
-#: lang/json/MONSTER_from_json.py
 msgid "eyebot"
 msgstr "아이봇"
 
@@ -38596,15 +38583,6 @@ msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
 msgstr "부서지기 쉬운 용기에 산을 채운 것입니다. 던지면 강력한 산이 쏟아져 나옵니다."
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as"
-" could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
-msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "advanced UPS"
@@ -45479,6 +45457,15 @@ msgstr "아드레날린 펌프"
 msgid "Active Defense System"
 msgstr "능동형 방호 시스템"
 
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything"
+" attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr "개선형 소형반응로"
@@ -45886,6 +45873,14 @@ msgstr "어떻게 이 CBM이 코에 설치된 건지는 잘 모르겠지만, 잘
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "공격형 방호 시스템"
+
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -61757,7 +61752,7 @@ msgstr "유당불내증"
 msgid "Ate Junk Food"
 msgstr "정크푸드를 먹음"
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr "소맥 알러지"
 
@@ -63256,12 +63251,17 @@ msgid ""
 "nausea."
 msgstr "당신은 많은 공정을 거쳐서 생산된 음식들을 먹지 못합니다. 일단 먹는 것까지는 가능하지만, 먹게 되면 속이 메슥거리게 되어 의욕이 떨어질 것입니다."
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
-msgstr "당신은 밀에 반응하는 희귀한 알레르기 유발 항원을 가지고 있습니다. 일단 먹는 것까지는 가능하지만, 먹게 되면 속이 메슥거리게 되어 의욕이 떨어질 것입니다."
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Glass Jaw"
@@ -83187,8 +83187,8 @@ msgid "Utility Light"
 msgstr "시설 조명"
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
-msgstr "반쯤 만든 벽"
+msgid "half-built log wall"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "log wall"
@@ -83209,6 +83209,10 @@ msgstr "말뚝 벽"
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
 msgstr "말뚝 대문"
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
+msgstr "반쯤 만든 벽"
 
 #: lang/json/terrain_from_json.py
 msgid "wooden wall"
@@ -90778,8 +90782,8 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
@@ -99990,6 +99994,10 @@ msgid "The nearby doors slide into the floor."
 msgstr "근처의 문이 미끄러지며 열렸습니다."
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr "조작판을 작동시켰습니다!"
 
@@ -102087,11 +102095,6 @@ msgstr[0] "* 이 물품은 발효통에 넣으면, %d시간 후 발효된다."
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr "* 이 물품은 발효통에 넣으면, %d + 12시간 후 발효된다."
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] "* 이 물품은 발효통에 넣으면, %d일 후 발효된다."
@@ -102795,8 +102798,9 @@ msgstr "떠는걸 멈췄다."
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
-msgstr "맛있는 브라우니를 게걸스럽게 먹어 치웠다. 그런데 맛이 조금 괴상하다..."
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You snort a bump of coke."
@@ -108411,18 +108415,9 @@ msgid "<npcname> shocks %s."
 msgstr "<npcname>이(가) %s을(를) 감전시켰다."
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr "<npcname>이(가) 체온을 뺏어갔다!"
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
 msgstr "%s의 체온을 흡수했다."
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
-msgstr "%s의 체온을 흡수했다!"
 
 #: src/melee.cpp
 #, c-format

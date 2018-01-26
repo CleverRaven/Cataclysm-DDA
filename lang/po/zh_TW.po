@@ -1,7 +1,7 @@
 # 
 # Translators:
 # Maynard <kk19870706@gmail.com>, 2015
-# Brett Dong <brett.browning.dong@gmail.com>, 2016
+# Brett Dong <brett.browning.dong@gmail.com>, 2016,2018
 # cabalist, 2015
 # cainiao <cainiaowu@hotmail.com>, 2016
 # ccm <andy30209@yahoo.com.tw>, 2015
@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-12 07:16-0500\n"
-"PO-Revision-Date: 2018-01-13 11:53+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2018-01-19 08:34-0500\n"
+"PO-Revision-Date: 2018-01-23 14:07+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12921,8 +12921,7 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "CBM：主動防禦系統"
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
@@ -13655,8 +13654,7 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "CBM：攻擊性防禦系統"
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock,"
@@ -14663,11 +14661,11 @@ msgid ""
 msgstr "這本厚重的書籍記錄了全世界的舞蹈細節。感知高的讀者能夠從裡面學到一些防守性的戰鬥步伐。"
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
-msgstr[0] "AAA 指南 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
+msgstr[0] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -14697,7 +14695,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr "一本供駕駛初學者的厚重課本。包含了交通法規、車輛安全操控和防禦性駕駛的章節。"
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -14763,11 +14761,11 @@ msgid ""
 msgstr "這表的一面印滿了無意義的混亂字元，但另一面卻有複雜的手繪電路圖。"
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
-msgstr[0] "輔助性技術審查 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
+msgstr[0] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -20193,7 +20191,7 @@ msgstr[0] "馬鈴薯種薯"
 #. ~ Description for seed potato
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A raw potato, cut into pieces, separating each bud for planting."
-msgstr ""
+msgstr "一個切成塊狀的生馬鈴薯，每個分開了的芽可用來種植。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "potatoes"
@@ -34236,17 +34234,6 @@ msgid ""
 msgstr "一隻綠頭鴨，於河流或其他水體附近很常見。主要以昆蟲，種子，植物的根為食，在災變之前還有麵包屑。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr "雷管"
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
-msgstr "從地板伸出的圓形小槍塔。裝配了雙管的衝鋒槍，能夠全方位掃射。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "eyebot"
 msgstr "眼球機器人"
 
@@ -38603,15 +38590,6 @@ msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
 msgstr "一個裝滿強酸的易碎容器。丟出去就會成為酸液灘。"
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as"
-" could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
-msgstr "一個有玻璃小瓶，內有由兩種化學物質混合的液體。其中的液體溫度下降並且在冒泡。若混合物暴露在空氣中（當你投擲出小瓶）將會開始成為強酸性的液體。"
 
 #: lang/json/TOOL_from_json.py
 msgid "advanced UPS"
@@ -44912,7 +44890,7 @@ msgstr "一個充氣船的部件。"
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "inflatable airbag"
 msgid_plural "inflatable airbag"
-msgstr[0] "安全氣囊"
+msgstr[0] "充氣氣囊"
 
 #. ~ Description for inflatable airbag
 #: lang/json/WHEEL_from_json.py
@@ -45486,6 +45464,15 @@ msgstr "腎上腺素幫浦"
 msgid "Active Defense System"
 msgstr "主動防禦系統"
 
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything"
+" attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr "進階核子反應爐系統"
@@ -45893,6 +45880,14 @@ msgstr "你真的不知道為什麼最後CBM會跑去你的鼻子，不管怎樣
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "攻擊性防禦系統"
+
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -61764,7 +61759,7 @@ msgstr "乳糖不耐症"
 msgid "Ate Junk Food"
 msgstr "吃了垃圾食物"
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr "小麥過敏"
 
@@ -63263,12 +63258,17 @@ msgid ""
 "nausea."
 msgstr "有時那些高度加工的食物就是無法跟你的胃和諧相處。就算硬吃了也會立刻嘔吐並且影響你的士氣。"
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
-msgstr "你有罕見的小麥過敏症。就算硬吃了也會立刻嘔吐並且影響你的士氣。"
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Glass Jaw"
@@ -83194,8 +83194,8 @@ msgid "Utility Light"
 msgstr "工具燈"
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
-msgstr "半建成牆"
+msgid "half-built log wall"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "log wall"
@@ -83216,6 +83216,10 @@ msgstr "柵欄牆"
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
 msgstr "柵欄門"
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
+msgstr "半建成牆"
 
 #: lang/json/terrain_from_json.py
 msgid "wooden wall"
@@ -90785,13 +90789,13 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
 "  and potentially Treason.\n"
-msgstr "\n  主旨：環保局：回報所有容器潛在破損狀況 3873643\n  給：所有 SRCF 成員\n  從：Robert Shane，環保局主任\n  \n  所有的危險廢物堆放場與石棺\n  必須各提交三個樣本到下列地址：\n  \n  疾病管制局－生化武器研究室\n  第 10 棟\n  企業廣場大道\n  亞特蘭大，GA 30329\n  \n  環保局第 8 區實驗室\n  16194 W. 45th\n  Drive Golden，科羅拉多 80403\n  \n  提供的樣本必須真實採樣，任何試圖掩蓋虛假樣本的\n  行為將會受到聯邦指控貪腐及叛國罪。\n"
+msgstr ""
 
 #: src/computer.cpp
 msgid ""
@@ -99997,6 +100001,10 @@ msgid "The nearby doors slide into the floor."
 msgstr "附近的門滑開了。"
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr "你啟動了面板！"
 
@@ -102094,11 +102102,6 @@ msgstr[0] "* 一旦設置好大桶，將會需要約 %d 小時來發酵。"
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr "* 一旦設置好大桶，將會需要約 %d 天半來發酵。"
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] "* 一旦設置好大桶，將會需要約 %d 天來發酵。"
@@ -102802,8 +102805,9 @@ msgstr "你停止顫抖了。"
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
-msgstr "你吞下這美味的布朗尼。這味道嚐起來有點好笑..."
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You snort a bump of coke."
@@ -108418,18 +108422,9 @@ msgid "<npcname> shocks %s."
 msgstr "<npcname> 電擊 %s."
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr "<npcname> 吸取你的體溫！"
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
 msgstr "你吸取 %s 的體溫。"
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
-msgstr "你吸取 %s 的體溫！"
 
 #: src/melee.cpp
 #, c-format
@@ -116972,7 +116967,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You feel tired..."
-msgstr ""
+msgstr "你覺得累了..."
 
 #. ~ %s is bodypart
 #: src/player.cpp

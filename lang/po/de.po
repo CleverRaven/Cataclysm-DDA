@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-12 07:16-0500\n"
-"PO-Revision-Date: 2018-01-13 11:53+0000\n"
+"POT-Creation-Date: 2018-01-19 08:34-0500\n"
+"PO-Revision-Date: 2018-01-20 12:13+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -13605,8 +13605,7 @@ msgstr[0] "Aktives-Verteidigungssystem-KBM"
 msgstr[1] "Aktives-Verteidigungssystem-KBMs"
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
@@ -14393,8 +14392,7 @@ msgstr[0] "Offensives-Verteidigungssystem-KBM"
 msgstr[1] "Offensives-Verteidigungssystem-KBMs"
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock,"
@@ -15479,12 +15477,12 @@ msgid ""
 msgstr "Dieses dicke antike Buch dokumentiert Tänze von der ganzen Welt sehr detailliert. Ein scharfsinniger Leser könnte viel über defensive Beinarbeit aus einigen der Kriegstänze lernen."
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
-msgstr[0] "AAA-Reiseführer 2040"
-msgstr[1] "AAA-Reiseführer 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -15516,7 +15514,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr "Ein dickes Lehrbuch für Fahranfänger. Es enthält Kapitel über Gesetze, die sichere Fahrzeugführung und Konzepte über defensives Fahren."
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -15587,12 +15585,12 @@ msgid ""
 msgstr "Eine Seite dieses Blatts ist mit einem bedeutungslosen Zeichenwirrwar bedruckt, aber die andere Seite zeigt einen komplizierten handgemalten Schaltplan."
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
-msgstr[0] "Augmentativtechnologiebericht 2041"
-msgstr[1] "Augmentativtechnologieberichte 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -36172,17 +36170,6 @@ msgid ""
 msgstr "Eine Stockente, oft um Flüssen und anderen Flusskörpern gesehen. Sie ernährt sich hauptsächlich von Insekten, Samen, Wurzeln und – vor der Katastrophe – Brotkrümeln."
 
 #: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr "Explodierer"
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
-msgstr "Ein kleiner, runder Geschützturm, der aus dem Boden hinausragt. Zwei MP-Läufe schwenken um 360 Grad."
-
-#: lang/json/MONSTER_from_json.py
 msgid "eyebot"
 msgstr "Schauboter"
 
@@ -40654,15 +40641,6 @@ msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
 msgstr ""
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as"
-" could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
-msgstr "Dies ist ein Glasfläschchen mit zwei sich vermischenden Chemikalien. Das Fläschchen fühlt sich kühler an und ihre Inhalte schäumen. Sobald diese Mixtur der Luft ausgesetzt wird (was passieren könnte, wenn du das Fläschchen wirfst), wird sie einen Säurepfuhl hinterlassen."
 
 #: lang/json/TOOL_from_json.py
 msgid "advanced UPS"
@@ -47966,6 +47944,15 @@ msgstr "Adrenalinpumpe"
 msgid "Active Defense System"
 msgstr "Aktives Verteidigungssystem"
 
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything"
+" attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr "Fortgeschrittenes Mikroreaktorsystem"
@@ -48374,6 +48361,14 @@ msgstr "Du hast keine Ahnung, wie das KBM in deine Nase gelangt ist, aber egal, 
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "Offensives Verteidigungssystem"
+
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -64690,7 +64685,7 @@ msgstr "Laktoseintoleranz"
 msgid "Ate Junk Food"
 msgstr "Junk Food gegessen"
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr "Weizenallergie"
 
@@ -66189,12 +66184,17 @@ msgid ""
 "nausea."
 msgstr "Irgendwas in diesen stark verarbeiteten Lebensmitteln mag dich nicht. Es ist dir möglich, sie zu essen, aber du wirst Moralstrafen aufgrund von Übelkeit erleiden."
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
-msgstr "Du hast eine seltene Allergie, die dich daran hindert, Weizen zu essen. Es ist dir möglich, es zu essen, aber du wirst Moralstrafen aufgrund von Übelkeit erleiden."
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Glass Jaw"
@@ -86120,8 +86120,8 @@ msgid "Utility Light"
 msgstr "Hilfslampe"
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
-msgstr "halbfertige Wand"
+msgid "half-built log wall"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "log wall"
@@ -86142,6 +86142,10 @@ msgstr "Palisade"
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
 msgstr "Palisadentor"
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
+msgstr "halbfertige Wand"
 
 #: lang/json/terrain_from_json.py
 msgid "wooden wall"
@@ -93730,13 +93734,13 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
 "  and potentially Treason.\n"
-msgstr "\n  Betr.: Umweltschutzbehörde: Potentielle Behältnisbrüche melden! 3873643\n  An: sämtliches SRCF-Personal\n  Von:  Robert Shane, Direktor der Umweltschutzbehörde\n  \n  Alle Giftmülldeponien und Sarkophage müssen drei Proben von jedem\n  funktionierendem Leache-System an die folgenden Adressen schicken:\n  \n  CDC-Bioterrorismuslabor\n  Gebäude 10\n  Corporate Square Boulevard\n  Atlanta, GA 30329\n  \n  Umweltschutzbehördenlabor, Region 8\n  16194 W. 45.\n  Drive Golden, Colorado 80403\n  \n  Diese Proben müssen akkurat sein und jegliche Versuche, Inkompetenzen zu\n  verbergen, werden zu Anklagen wegen Staatskorruption und möglicherweise\n  Hochverrats führen.\n"
+msgstr ""
 
 #: src/computer.cpp
 msgid ""
@@ -102958,6 +102962,10 @@ msgid "The nearby doors slide into the floor."
 msgstr "Die naheliegenden Türen rutschen in den Boden."
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr "Du aktivierst das Panel!"
 
@@ -105067,11 +105075,6 @@ msgstr[1] "* Sobald in einem Bottich, wird dies in etwa %d Stunden gären."
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr "* Sobald in einem Bottich, wird dies in etwa %d und einen halben Tag gären."
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] "* Sobald in einem Bottich, wird dies in etwa %d Tag gären."
@@ -105780,8 +105783,9 @@ msgstr "Du hörst auf, zu zittern."
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
-msgstr "Du verdrückst den leckeren Brownie. Er schmeckt jedoch etwas komisch …"
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You snort a bump of coke."
@@ -111403,18 +111407,9 @@ msgid "<npcname> shocks %s."
 msgstr "<npcname> schockt %s."
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr "<npcname> erschöpft deine Körperwärme!"
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
 msgstr "Du senkst %ss Körpertemperatur."
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
-msgstr "Du erschöpfst %ss Körperwärme"
 
 #: src/melee.cpp
 #, c-format
