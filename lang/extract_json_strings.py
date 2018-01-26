@@ -90,6 +90,7 @@ ignorable = {
     "requirement",
     "rotatable_symbol",
     "SPECIES",
+    "trait_group",
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
