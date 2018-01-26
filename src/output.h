@@ -298,13 +298,12 @@ inline void mvwprintz( const catacurses::window &w, const int y, const int x, co
     mvwprintz( w, y, x, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text );
 template<typename ...Args>
-inline void wprintz( const catacurses::window &w, const nc_color FG, const char *const mes,
+inline void wprintz( const catacurses::window &w, const nc_color &FG, const char *const mes,
                      Args &&... args )
 {
-    wattron( w, FG );
-    wprintw( w, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
 void draw_custom_border( const catacurses::window &w, chtype ls = 1, chtype rs = 1, chtype ts = 1,

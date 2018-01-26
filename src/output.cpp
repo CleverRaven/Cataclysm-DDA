@@ -2125,3 +2125,10 @@ void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_
     mvwprintw( w, y, x, text );
     wattroff( w, FG );
 }
+
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text )
+{
+    wattron( w, FG );
+    wprintw( w, text );
+    wattroff( w, FG );
+}
