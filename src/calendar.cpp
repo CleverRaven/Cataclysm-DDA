@@ -532,9 +532,13 @@ bool calendar::once_every( const time_duration &event_frequency )
 const std::string calendar::name_season( season_type s )
 {
     static const std::array<std::string, 5> season_names_untranslated = {{
+        //~First letter is supposed to be uppercase
         std::string( translate_marker( "Spring" ) ),
+        //~First letter is supposed to be uppercase
         std::string( translate_marker( "Summer" ) ),
+        //~First letter is supposed to be uppercase
         std::string( translate_marker( "Autumn" ) ),
+        //~First letter is supposed to be uppercase
         std::string( translate_marker( "Winter" ) ),
         std::string( translate_marker( "End times" ) )
     }};

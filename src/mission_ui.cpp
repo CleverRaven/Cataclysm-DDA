@@ -118,7 +118,7 @@ void game::list_missions()
                 //@todo make a function to print the time (don't we already have one?)
                 //~ 1 season name, 2 day of season, 3 time of day
                 std::string dl = string_format( _( "%1$s, day %2$d %3$s" ),
-                                                season_name_upper( season_of_year( deadline ) ),
+                                                calendar::name_season( season_of_year( deadline ) ),
                                                 day_of_season<int>( deadline ) + 1, deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
