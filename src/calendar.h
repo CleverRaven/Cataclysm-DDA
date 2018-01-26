@@ -286,13 +286,6 @@ class calendar
          */
         static float season_from_default_ratio();
 
-        /**
-         * Calculate number of turns until a specified time.
-         *
-         * @param turn Specified diurnal time and date (in turns)
-         * @returns the remaining time (in turns) before the specified diurnal time */
-        int diurnal_time_before( int turn ) const;
-
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;
         /**
