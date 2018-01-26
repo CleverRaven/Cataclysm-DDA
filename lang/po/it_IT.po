@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-12 07:16-0500\n"
-"PO-Revision-Date: 2018-01-13 11:53+0000\n"
+"POT-Creation-Date: 2018-01-19 08:34-0500\n"
+"PO-Revision-Date: 2018-01-20 12:13+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -13602,8 +13602,7 @@ msgstr[0] "CBM sistema di difesa"
 msgstr[1] "CBM sistema di difesa"
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
@@ -14390,8 +14389,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock,"
@@ -15476,12 +15474,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -15513,7 +15511,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -15584,12 +15582,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -36169,17 +36167,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr ""
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "eyebot"
 msgstr ""
 
@@ -40650,15 +40637,6 @@ msgstr[1] ""
 msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
-msgstr ""
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as"
-" could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47963,6 +47941,15 @@ msgstr ""
 msgid "Active Defense System"
 msgstr ""
 
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything"
+" attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr ""
@@ -48370,6 +48357,14 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
+msgstr ""
+
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -64687,7 +64682,7 @@ msgstr "Intolleranza al lattosio"
 msgid "Ate Junk Food"
 msgstr "Mangiato snack"
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr "Allergia al frumento"
 
@@ -66186,11 +66181,16 @@ msgid ""
 "nausea."
 msgstr ""
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -86117,8 +86117,8 @@ msgid "Utility Light"
 msgstr "Luce "
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
-msgstr "muro semi costruito"
+msgid "half-built log wall"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "log wall"
@@ -86139,6 +86139,10 @@ msgstr "palizzata"
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
 msgstr "cancelo per palizzata"
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
+msgstr "muro semi costruito"
 
 #: lang/json/terrain_from_json.py
 msgid "wooden wall"
@@ -93727,8 +93731,8 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
@@ -102955,6 +102959,10 @@ msgid "The nearby doors slide into the floor."
 msgstr "Le porte vicine spariscono all'interno del pavimento."
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr "Attivi il pannello!"
 
@@ -105064,11 +105072,6 @@ msgstr[1] "* Messo in una tinozza, fermenterà per circa %d ore."
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr "* Messo in una tinozza, fermenterà per circa %d giorni e mezzo."
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] "* Messo in una tinozza, fermenterà per circa %d giorno."
@@ -105777,7 +105780,8 @@ msgstr "Hai smesso di tremare."
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
 msgstr ""
 
 #: src/iuse.cpp
@@ -111400,17 +111404,8 @@ msgid "<npcname> shocks %s."
 msgstr ""
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr ""
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
 msgstr ""
 
 #: src/melee.cpp
