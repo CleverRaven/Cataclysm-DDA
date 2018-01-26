@@ -114,7 +114,6 @@ classes = {
             { name = "hours", rval = "int", args = { } },
             { name = "days", rval = "int", args = { } },
             { name = "sunlight", rval = "float", args = { } },
-            { name = "textify_period", rval = "string", args = { } },
             { name = "turn_of_year", rval = "int", args = { } },
             { name = "years", rval = "int", args = { } },
             { name = "sunset", rval = "calendar", args = { } },

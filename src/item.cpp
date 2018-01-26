@@ -879,7 +879,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( food_item->goes_bad() ) {
-            const std::string rot_time = calendar( food_item->type->comestible->spoils ).textify_period();
+            const std::string rot_time = to_string_clipped( time_duration::from_turns( food_item->type->comestible->spoils ) );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -1777,7 +1777,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             if( time_to_do <= 0 ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "It's done and <info>can be activated</info>." ) ) );
             } else {
-                const auto time = calendar( time_to_do ).textify_period();
+                const auto time = to_string_clipped( time_duration::from_turns( time_to_do ) );
                 info.push_back( iteminfo( "DESCRIPTION", string_format( _( "It will be done in %s." ),
                                           time.c_str() ) ) );
             }

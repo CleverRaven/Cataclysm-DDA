@@ -321,9 +321,22 @@ std::string to_string_clipped( const time_duration &d )
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
         return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+    } else if( d < calendar::season_length() || get_option<bool>( "ETERNAL_SEASON" ) ) {
+        // eternal seasons means one season is indistinguishable from the next,
+        // therefor no way to count them
+        const int day = to_days<int>( d );
+        return string_format( ngettext( "%d day", "%d days", day ), day );
+    } else if( d < calendar::year_length() && !get_option<bool>( "ETERNAL_SEASON" ) ) {
+        //@todo consider a to_season function, but season length is variable, so
+        // this might be misleading
+        const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
+        return string_format( ngettext( "%d season", "%d seasons", season ), season );
+    } else {
+        //@todo consider a to_year function, but year length is variable, so
+        // this might be misleading
+        const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
+        return string_format( ngettext( "%d year", "%d years", year ), year );
     }
-    const int day = to_days<int>( d );
-    return string_format( ngettext( "%d day", "%d days", day ), day );
 }
 
 std::string to_string( const time_duration &d )
@@ -424,34 +437,6 @@ std::string calendar::print_time(bool just_hour) const
     }
 
     return time_string.str();
-}
-
-std::string calendar::textify_period() const
-{
-    int am;
-    const char *tx;
-    // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
-    if (year > 0) {
-        am = year;
-        tx = ngettext("%d year", "%d years", am);
-    } else if ( season > 0 && !get_option<bool>( "ETERNAL_SEASON" ) ) {
-        am = season;
-        tx = ngettext("%d season", "%d seasons", am);
-    } else if (day > 0) {
-        am = day;
-        tx = ngettext("%d day", "%d days", am);
-    } else if (hour > 0) {
-        am = hour;
-        tx = ngettext("%d hour", "%d hours", am);
-    } else if (minute >= 5) {
-        am = minute;
-        tx = ngettext("%d minute", "%d minutes", am);
-    } else {
-        am = second / 6 + minute * 10;
-        tx = ngettext("%d turn", "%d turns", am);
-    }
-
-    return string_format(tx, am);
 }
 
 std::string calendar::day_of_week() const

@@ -315,7 +315,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return calendar( get_recipe( loc ).time / 100 ).textify_period();
+                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
             }, _( "TIME" ) );
         }
 
@@ -368,7 +368,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return calendar( spoils ).textify_period();
+                    return to_string_clipped( time_duration::from_turns( spoils ) );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
