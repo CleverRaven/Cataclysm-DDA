@@ -4268,7 +4268,7 @@ void game::debug()
                 smenu.reset();
                 smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, !get_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
+                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                                 _( "season" ), int( season_of_year( calendar::turn ) ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );

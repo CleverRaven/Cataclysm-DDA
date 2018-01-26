@@ -310,12 +310,12 @@ std::string to_string_clipped( const time_duration &d )
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
         return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
-    } else if( d < calendar::season_length() || get_option<bool>( "ETERNAL_SEASON" ) ) {
+    } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefor no way to count them
         const int day = to_days<int>( d );
         return string_format( ngettext( "%d day", "%d days", day ), day );
-    } else if( d < calendar::year_length() && !get_option<bool>( "ETERNAL_SEASON" ) ) {
+    } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
@@ -464,6 +464,12 @@ std::string calendar::day_of_week() const
     return _( weekday_names[ current_day ].c_str() );
 }
 
+bool calendar::eternal_season()
+{
+    static const std::string eternal_season_option_name = "ETERNAL_SEASON";
+    return get_option<bool>( eternal_season_option_name );
+}
+
 time_duration calendar::year_length()
 {
     return season_length() * 4;
@@ -504,8 +510,7 @@ void calendar::sync()
     const int sl = to_days<int>( season_length() );
     year = turn_number / DAYS(sl * 4);
 
-    static const std::string eternal = "ETERNAL_SEASON";
-    if( get_option<bool>( eternal ) ) {
+    if( eternal_season() ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         season = initial_season;
@@ -547,8 +552,7 @@ time_duration rng( time_duration lo, time_duration hi )
 
 season_type season_of_year( const time_point &p )
 {
-    static const std::string eternal_seasons_option_name = "ETERNAL_SEASON";
-    if( get_option<bool>( eternal_seasons_option_name ) ) {
+    if( calendar::eternal_season() ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         return calendar::initial_season;

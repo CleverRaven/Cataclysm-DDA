@@ -256,6 +256,8 @@ class calendar
          * represent a larger unit (hours/days/years), then this will result in integer overflow.
          */
         static const int INDEFINITELY_LONG;
+        /// @returns Whether the eternal season is enabled.
+        static bool eternal_season();
 
         /** @returns Time in a year, (configured in current world settings) */
         static time_duration year_length();
@@ -647,7 +649,7 @@ inline T day_of_season( const time_point &p )
 }
 
 /// @returns The season of the of the given time point. Returns the same season for
-/// any input if the ETERNAL_SEASON option is enabled.
+/// any input if the calendar::eternal_season yields true.
 season_type season_of_year( const time_point &p );
 
 #endif
