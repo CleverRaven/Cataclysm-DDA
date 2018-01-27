@@ -2599,7 +2599,7 @@
         "name": "empty window",
         "symbol": "0",
         "color": "yellow",
-        "move_cost": 8,
+        "move_cost": 4,
         "roof": "t_flat_roof",
         "flags": [
             "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL"
