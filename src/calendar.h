@@ -636,4 +636,10 @@ inline T minute_of_hour( const time_point &p )
     return to_minutes<T>( ( p - calendar::time_of_cataclysm ) % 1_hours );
 }
 
+template<typename T>
+inline T hour_of_day( const time_point &p )
+{
+    return to_hours<T>( ( p - calendar::time_of_cataclysm ) % 1_days );
+}
+
 #endif

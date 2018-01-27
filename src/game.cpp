@@ -4271,7 +4271,7 @@ void game::debug()
                 smenu.addentry( 1, !get_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
                                 _( "season" ), int( calendar::turn.get_season() ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
-                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), calendar::turn.hours() );
+                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
                 smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), calendar::turn.get_turn() );
                 smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
@@ -4290,7 +4290,7 @@ void game::debug()
                         set_turn( calendar::turn.days(), DAYS( 1 ), _( "Set days to?" ) );
                         break;
                     case 3:
-                        set_turn( calendar::turn.hours(), HOURS( 1 ), _( "Set hour to?" ) );
+                        set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
                         break;
                     case 4:
                         set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
@@ -4841,7 +4841,7 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('_', c_red));
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
-        const int iHour = calendar::turn.hours();
+        const int iHour = hour_of_day<int>( calendar::turn );
         wprintz(time_window, c_white, "[");
         bool bAddTrail = false;
 
