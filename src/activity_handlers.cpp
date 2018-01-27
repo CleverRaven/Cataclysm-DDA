@@ -112,7 +112,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish }
 };
 
-void messages_in_process( player_activity *act, player *p ) {
+void messages_in_process( const player_activity &act, const player &p ) {
     if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
         p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
         return;
