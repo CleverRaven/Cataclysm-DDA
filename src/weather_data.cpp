@@ -8,7 +8,6 @@
 #include <string>
 #include <array>
 #include <cmath>
-#include <cwctype>
 
 /**
  * @ingroup Weather
@@ -51,18 +50,6 @@ const std::string season_name(int const season)
         default:
             return "bad season!";
     }
-}
-
-const std::string season_name_upper(int const season)
-{
-    if (!(season >= 0 && season < 4)) {
-        return season_name(season);
-    }
-
-    std::wstring name_wide = utf8_to_wstr( season_name( season ) );
-    // Operate on a wide-char basis to prevent corrupted multi-byte string
-    name_wide[0] = towupper( name_wide[0] );
-    return wstr_to_utf8( name_wide );
 }
 
 weather_datum const weather_data(weather_type const type)
