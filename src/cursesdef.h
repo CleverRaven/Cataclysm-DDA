@@ -73,6 +73,9 @@ class window
         bool operator==( const window &rhs ) const {
             return native_window.get() == rhs.native_window.get();
         }
+        std::weak_ptr<void> weak_ptr() const {
+            return native_window;
+        }
 };
 
 enum base_color : short {
