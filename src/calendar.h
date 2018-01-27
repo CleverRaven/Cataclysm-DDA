@@ -642,4 +642,11 @@ inline T hour_of_day( const time_point &p )
     return to_hours<T>( ( p - calendar::time_of_cataclysm ) % 1_days );
 }
 
+/// This uses the current season length.
+template<typename T>
+inline T day_of_season( const time_point &p )
+{
+    return to_days<T>( ( p - calendar::time_of_cataclysm ) % calendar::season_length() );
+}
+
 #endif

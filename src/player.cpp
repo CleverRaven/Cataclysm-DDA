@@ -2300,7 +2300,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << string_format( _( "%1$s died on %2$s of year %3$d, day %4$d, at %5$s." ),
                                     pronoun.c_str(), season_name_upper( calendar::turn.get_season() ).c_str(),
                                     ( calendar::turn.years() + 1 ),
-                                    ( calendar::turn.days() + 1 ), calendar::turn.print_time().c_str() ) << eol;
+                                    day_of_season<int>( calendar::turn ) + 1, calendar::turn.print_time() ) << eol;
     memorial_file << kill_place << eol;
     memorial_file << eol;
 
@@ -2497,7 +2497,7 @@ void player::add_memorial_log( const std::string &male_msg, const std::string &f
     //~ A timestamp. Parameters from left to right: Year, season, day, time
     timestamp << string_format( _( "Year %1$d, %2$s %3$d, %4$s" ), calendar::turn.years() + 1,
                                 season_name_upper( calendar::turn.get_season() ).c_str(),
-                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
+                                day_of_season<int>( calendar::turn ) + 1, calendar::turn.print_time()
                               );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );

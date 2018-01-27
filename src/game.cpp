@@ -4270,7 +4270,7 @@ void game::debug()
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
                 smenu.addentry( 1, !get_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
                                 _( "season" ), int( calendar::turn.get_season() ) );
-                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
+                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
                 smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), calendar::turn.get_turn() );
@@ -4287,7 +4287,7 @@ void game::debug()
                                   _( "Set season to? (0 = spring)" ) );
                         break;
                     case 2:
-                        set_turn( calendar::turn.days(), DAYS( 1 ), _( "Set days to?" ) );
+                        set_turn( day_of_season<int>( calendar::turn ), DAYS( 1 ), _( "Set days to?" ) );
                         break;
                     case 3:
                         set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
@@ -4906,7 +4906,7 @@ void game::draw_sidebar()
     //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
+              season_name_upper(calendar::turn.get_season()), day_of_season<int>( calendar::turn ) + 1 );
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
