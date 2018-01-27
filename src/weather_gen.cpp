@@ -170,16 +170,19 @@ void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a csv file.
     // Usage:
+    //@todo this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
-    for( calendar i( calendar::turn );
-         i.get_turn() < calendar::turn + 14400 * 2 * to_days<int>( calendar::year_length() ); i += 200 ) {
-        w_point w = get_weather( tripoint( 0, 0, 0 ), i, rand() );
-        testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
+    const time_point begin = calendar::turn;
+    const time_point end = begin + 2 * calendar::year_length();
+    for( time_point i = begin; i < end; i += 200_turns ) {
+        //@todo a new random value for each call to get_weather? Is this really intended?
+        w_point w = get_weather( tripoint( 0, 0, 0 ), to_turn<int>( i ), rand() );
+        testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;
     }
 }
