@@ -106,7 +106,6 @@ classes = {
             { name = "print_time", rval = "string", args = { "bool" } },
             { name = "print_time", rval = "string", args = { } },
             { name = "is_night", rval = "bool", args = { } },
-            { name = "seconds", rval = "int", args = { } },
             { name = "minutes", rval = "int", args = { } },
             { name = "hours", rval = "int", args = { } },
             { name = "days", rval = "int", args = { } },

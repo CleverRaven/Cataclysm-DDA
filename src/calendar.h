@@ -218,10 +218,6 @@ class calendar
         /** Returns the current sunlight or moonlight level through the preceding functions. */
         float sunlight() const;
 
-        /** Seconds portion of current time of day */
-        int seconds() const {
-            return second;
-        }
         /** Minutes portion of current time of day */
         int minutes() const {
             return minute;
