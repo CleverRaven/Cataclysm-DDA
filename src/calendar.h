@@ -218,10 +218,6 @@ class calendar
         /** Returns the current sunlight or moonlight level through the preceding functions. */
         float sunlight() const;
 
-        /** Days since start of current season */
-        int days() const {
-            return day;
-        }
         /** Current year, with default game start as year 0 */
         int years() const {
             return year;
