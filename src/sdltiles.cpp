@@ -140,8 +140,8 @@ public:
      */
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window(cata_cursesport::WINDOW *win);
-    bool draw_window(cata_cursesport::WINDOW *win, int offsetx, int offsety);
+    bool draw_window( const catacurses::window &win );
+    bool draw_window( const catacurses::window &win, int offsetx, int offsety );
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -869,17 +869,17 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                          partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, black );
         }
         // Special font for the terrain window
-        update = map_font->draw_window(win);
+        update = map_font->draw_window( w );
     } else if (g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
-        update = overmap_font->draw_window(win);
+        update = overmap_font->draw_window( w );
     } else if (w == w_hit_animation && map_font ) {
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
         // The offset must not use the global font, but the map font
         int offsetx = win->x * map_font->fontwidth;
         int offsety = win->y * map_font->fontheight;
-        update = map_font->draw_window(win, offsetx, offsety);
+        update = map_font->draw_window( w, offsetx, offsety );
     } else if (g && w == g->w_blackspace) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
@@ -899,22 +899,24 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
-        update = font->draw_window(win);
+        update = font->draw_window( w );
     }
     if(update) {
         needupdate = true;
     }
 }
 
-bool Font::draw_window(cata_cursesport::WINDOW *win)
+bool Font::draw_window( const catacurses::window &win )
 {
+    cata_cursesport::WINDOW *const w = win.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
+    return draw_window( win, w->x * ::fontwidth, w->y * ::fontheight );
 }
 
-bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
+bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
 {
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     //Keeping track of the last drawn window
     if( winBuffer == NULL ) {
             winBuffer = win;
@@ -932,8 +934,8 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
     invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap ||
-                                            ( win != nullptr && win == w_hit_animation ) );
+    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
+                                            w == w_hit_animation );
 
     /*
     Let's try to keep track of different windows.
@@ -947,14 +949,14 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
 
     Everything else works on strict equality because there aren't yet IDs for some of them.
     */
-    if( g && ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
-         win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
+    if( g && ( w == g->w_terrain || w == g->w_minimap || w == g->w_HP || w == g->w_status ||
+         w == g->w_status2 || w == g->w_messages || w == g->w_location ) ) {
         if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
              winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
              winBuffer == g->w_messages || winBuffer == g->w_location ) {
             oldWinCompatible = true;
         }
-    }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
+    }else if( g && ( w == g->w_overmap || w == g->w_omlegend ) ) {
         if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
             oldWinCompatible = true;
         }
