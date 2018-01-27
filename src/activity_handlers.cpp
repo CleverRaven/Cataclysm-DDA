@@ -112,7 +112,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish }
 };
 
-void messages_in_process( player_activity *act, player *p ) {
+void messages_in_process( const player_activity &act, const player &p ) {
     if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
         p->add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
         return;
@@ -158,7 +158,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
-    p->add_msg_if_player( m_good, _( "You finished burrowing." ) );
+    p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
     g->m.destroy( pos, true );
 
     act->set_to_null();
@@ -1171,7 +1171,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
-    p->add_msg_if_player( m_good, _( "You finished digging." ) );
+    p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
@@ -2072,7 +2072,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finished cutting the metal." ) );
+    p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
     act->set_to_null();
 }
@@ -2105,7 +2105,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finished chopping down a tree." ) );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
 
     act->set_to_null();
 }
