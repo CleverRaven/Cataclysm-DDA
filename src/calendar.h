@@ -358,6 +358,7 @@ inline time_duration &operator*=( time_duration &lhs, const T rhs );
  * scalar * duration ==> duration (same as above)
  * duration / duration ==> scalar (revers of above)
  * duration / scalar ==> duration (same as: duration * 1/scalar)
+ * duration % duration ==> duration ("remainder" of duration / some integer)
  * Also shortcuts: += and -= and *= and /=
  */
 class time_duration
@@ -486,6 +487,9 @@ class time_duration
         template<typename T>
         friend time_duration &operator*=( time_duration &lhs, const T rhs ) {
             return lhs = time_duration( lhs.turns_ * rhs );
+        }
+        friend time_duration operator%( const time_duration &lhs, const time_duration &rhs ) {
+            return time_duration( lhs.turns_ % rhs.turns_ );
         }
 
         /// Returns a random duration in the range [low, hi].
@@ -624,6 +628,12 @@ constexpr inline time_point operator-( const time_point lhs, const time_duration
 time_point inline &operator-=( time_point &lhs, const time_duration rhs )
 {
     return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+}
+
+template<typename T>
+inline T minute_of_hour( const time_point &p )
+{
+    return to_minutes<T>( ( p - calendar::time_of_cataclysm ) % 1_hours );
 }
 
 #endif
