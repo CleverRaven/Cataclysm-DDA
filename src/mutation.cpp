@@ -391,16 +391,16 @@ void player::activate_mutation( const trait_id &mut )
             g->m.ter(dirp) != t_tree) {
             // Takes 30 minutes
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            turns = MINUTES( 30 ) * 100;
+            turns = MINUTES( 30 );
         } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
                    g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            turns = MINUTES( 10 ) * 100;
+            turns = MINUTES( 10 );
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
