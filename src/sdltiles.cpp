@@ -237,7 +237,8 @@ using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
 static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
-static cata_cursesport::WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
+//@todo should be a weak_ptr, so it does not prolong the life of the window
+static catacurses::window winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
@@ -918,8 +919,8 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 {
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     //Keeping track of the last drawn window
-    if( winBuffer == NULL ) {
-            winBuffer = win;
+    if( !winBuffer ) {
+        winBuffer = w;
     }
     if( !fontScaleBuffer ) {
             fontScaleBuffer = tilecontext->get_tile_width();
@@ -961,7 +962,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             oldWinCompatible = true;
         }
     }else {
-        if( win == winBuffer ) {
+        if( w == winBuffer ) {
             oldWinCompatible = true;
         }
     }
@@ -1032,7 +1033,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     }
     win->draw = false; //We drew the window, mark it as so
     //Keeping track of last drawn window and tilemode zoom level
-    winBuffer = win;
+    winBuffer = w;
     fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
