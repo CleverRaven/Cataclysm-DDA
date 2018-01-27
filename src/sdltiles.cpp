@@ -832,10 +832,11 @@ void clear_window_area( const catacurses::window &win_ )
                 win->width * fontwidth, win->height * fontheight, catacurses::black);
 }
 
-void cata_cursesport::curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    WINDOW *const win = w.get<WINDOW>();
     bool update = false;
-    if (g && win == g->w_terrain && use_tiles) {
+    if (g && w == g->w_terrain && use_tiles) {
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
@@ -848,7 +849,7 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 
         update = true;
-    } else if (g && win == g->w_terrain && map_font ) {
+    } else if (g && w == g->w_terrain && map_font ) {
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
         // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
@@ -869,17 +870,17 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         }
         // Special font for the terrain window
         update = map_font->draw_window(win);
-    } else if (g && win == g->w_overmap && overmap_font ) {
+    } else if (g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = overmap_font->draw_window(win);
-    } else if (win == w_hit_animation && map_font ) {
+    } else if (w == w_hit_animation && map_font ) {
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
         // The offset must not use the global font, but the map font
         int offsetx = win->x * map_font->fontwidth;
         int offsety = win->y * map_font->fontheight;
         update = map_font->draw_window(win, offsetx, offsety);
-    } else if (g && win == g->w_blackspace) {
+    } else if (g && w == g->w_blackspace) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
         int offsetx = win->x * font->fontwidth;
@@ -888,11 +889,9 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, black);
         update = true;
-    } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
+    } else if (g && w == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        // Temporary shared pointer to create temporary window instance as
-        // needed by clear_window_area
-        clear_window_area( std::shared_ptr<void>( win, []( void * ) { } ) );
+        clear_window_area( w );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
