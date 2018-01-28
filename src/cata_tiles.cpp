@@ -448,11 +448,15 @@ void tileset_loader::load_tileset( std::string img_path )
     if( info.max_texture_width == 0 ){
         info.max_texture_width = sprite_width * min_tile_xcount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " << info.max_texture_width;
+    } else {
+        throwErrorIf( info.max_texture_width < sprite_width, "Maximal texture width is smaller than tile width" );
     }
 
     if( info.max_texture_height == 0 ){
         info.max_texture_height = sprite_height * min_tile_ycount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0.  Changing it to " << info.max_texture_height;
+    } else {
+        throwErrorIf( info.max_texture_height < sprite_height, "Maximal texture height is smaller than tile height" );
     }
 
     // Number of tiles in each dimension that fits into a (maximal) SDL texture.
