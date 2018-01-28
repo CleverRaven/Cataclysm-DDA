@@ -3268,7 +3268,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 1, 2 ] } ] }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3309,7 +3309,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_willow_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 1, 2 ] } ] }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 2, 8 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
