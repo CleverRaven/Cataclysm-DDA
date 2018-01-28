@@ -427,6 +427,13 @@ void tileset_loader::load_tileset( std::string img_path )
 
     SDL_RendererInfo info;
     throwErrorIf( SDL_GetRendererInfo( renderer, &info ) != 0, "SDL_GetRendererInfo failed" );
+    // Software rendering stores textures as surfaces with run-length encoding, which makes extracting a part
+    // in the middle of the texture slow. Therefor this "simulates" that the renderer only supports one tile
+    // per texture. Each tile will go on its own texture object.
+    if( info.flags & SDL_RENDERER_SOFTWARE ) {
+        info.max_texture_width = sprite_width;
+        info.max_texture_height = sprite_height;
+    }
     // for debugging only: force a very small maximal texture size, as to trigger
     // splitting the tile atlas.
 #if 0
