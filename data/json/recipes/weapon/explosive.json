@@ -63,7 +63,7 @@
     "autolearn": true,
     "qualities" : [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "thread", 10 ] ],
+      [ [ "filament", 10, "LIST" ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
       [ [ "gunpowder", 5 ], [ "chem_black_powder", 10 ] ]
     ]
