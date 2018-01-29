@@ -11584,6 +11584,33 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater(false);
 
+    bool fire_removed = false;
+    const tripoint furn_pos = u.pos() + u.grab_point;
+    const tripoint furn_dest = dest_loc + u.grab_point;
+    const int fire_age = m.get_field_age( furn_pos, fd_fire );
+    int fire_str = 0;
+    const int fire_str_at_dest = m.get_field_strength( furn_dest, fd_fire );
+
+    const bool canmove = (
+    m.passable( furn_dest ) &&
+    critter_at<npc>( furn_dest ) == nullptr &&
+    critter_at<monster>( furn_dest ) == nullptr &&
+    ( !m.has_floor( furn_dest ) || m.has_flag( "FLAT", furn_dest ) ) &&
+    ( !m.has_floor( furn_dest ) || m.tr_at( furn_dest ).is_null() ) &&
+    !m.has_furn( furn_dest ) &&
+    m.veh_at( furn_dest ) == nullptr
+    );
+
+    if( m.get_field_strength( furn_pos, fd_fire ) == 1 && canmove ) {
+        fire_str = m.get_field_strength( furn_pos, fd_fire );
+        m.remove_field( furn_pos, fd_fire );
+        fire_removed = true;
+        if( shifting_furniture && fire_str_at_dest < fire_str ) {
+            m.set_field_strength( furn_dest, fd_fire, fire_str );
+            m.set_field_age( furn_dest, fd_fire, fire_age );
+        }
+    }
+
     if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
         return true;
     }
@@ -11678,6 +11705,12 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     place_player( dest_loc );
+
+    if( fire_removed && ( fire_str_at_dest < fire_str ) && canmove ) {
+        m.set_field_strength( furn_dest, fd_fire, fire_str );
+        m.set_field_age( furn_dest, fd_fire, fire_age );
+    }
+
     on_move_effects();
 
     return true;
@@ -12046,6 +12079,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                          !m.has_flag("SWIMMABLE", fdest) &&
                          !m.has_flag("DESTROY_ITEM", fdest) );
     bool src_item_ok = ( m.furn(fpos).obj().has_flag("CONTAINER") ||
+                         m.furn(fpos).obj().has_flag("FIRE_CONTAINER") ||
                          m.furn(fpos).obj().has_flag("SEALED") );
 
     int str_req = furntype.move_str_req;
