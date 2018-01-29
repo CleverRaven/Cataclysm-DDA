@@ -1977,6 +1977,7 @@
     "skill_used": "mechanics",
     "difficulty": 1,
     "time": 2000,
+    "reversible": true,
     "book_learn": [
       [ "manual_shotgun", 0 ],
       [ "manual_rifle", 0 ],
