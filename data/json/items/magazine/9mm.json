@@ -103,7 +103,7 @@
     "name": "Glock Drum magazine - 100 rd",
     "description": "Made to fit most Glock pistols.  This drum magazine holds 100 rounds.",
     "weight": 100,
-    "volume": 3,
+    "volume": 4,
     "price": 3100,
     "material": "plastic",
     "symbol": "#",
