@@ -1531,6 +1531,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "sheet_metal", rng(1, 3) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", rng(1, 19) );
+        g->m.spawn_item( pos, "scrap", rng(1, 8) );
     } else if( ter == t_bars ) {
         if (g->m.ter( {pos.x + 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y + 1, pos.z} ) == t_sewage ||
             g->m.ter( {pos.x - 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y - 1, pos.z} ) == t_sewage) {
@@ -2069,6 +2073,10 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
     } else if( ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_reinforced_noglass );
         g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", 19);
+        g->m.spawn_item( pos, "scrap", 8);
     } else if( ter == t_bars ) {
         if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } ) == t_sewage ||
             g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) == t_sewage ) {
