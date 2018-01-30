@@ -150,7 +150,7 @@ std::string map_data_common_t::extended_description() const
             // List the seasons first
             ss << enumerate_as_string( range.first, range.second,
             []( const std::pair<harvest_id, season_type> &pr ) {
-                if( pr.second == calendar::turn.get_season() ) {
+                if( pr.second == season_of_year( calendar::turn ) ) {
                     return "<good>" + calendar::name_season( pr.second ) + "</good>";
                 }
 

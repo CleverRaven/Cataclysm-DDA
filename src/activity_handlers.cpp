@@ -133,7 +133,7 @@ void messages_in_process( const player_activity &act, const player &p ) {
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
@@ -927,7 +927,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     items_location loc;
     ter_str_id next_ter;
 
-    switch( calendar::turn.get_season() ) {
+    switch( season_of_year( calendar::turn ) ) {
     case SPRING:
         loc = "forage_spring";
         next_ter = ter_str_id( "t_underbrush_harvested_spring" );
@@ -992,7 +992,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         game_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -1138,7 +1138,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    if( calendar::once_every( MINUTES( 1 ) ) ) { // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
@@ -1412,7 +1412,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         p->mod_fatigue(1);
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
@@ -1493,7 +1493,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= int( charges_used );
 
-    if( calendar::once_every(2) ) {
+    if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
 }
@@ -2024,7 +2024,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
         messages_in_process( *act, *p );
@@ -2086,7 +2086,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( act->placement, 15, _( "CHK!" ) );
         messages_in_process( *act, *p );

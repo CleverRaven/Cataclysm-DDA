@@ -879,7 +879,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( food_item->goes_bad() ) {
-            const std::string rot_time = calendar( food_item->type->comestible->spoils ).textify_period();
+            const std::string rot_time = to_string_clipped( time_duration::from_turns( food_item->type->comestible->spoils ) );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -1482,7 +1482,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                               calendar::print_approx_duration( dis.time / 100 ).c_str(), components_list.c_str() ) ) );
+                               to_string_approx( time_duration::from_turns( dis.time ) ), components_list.c_str() ) ) );
         }
     }
 
@@ -1777,7 +1777,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             if( time_to_do <= 0 ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "It's done and <info>can be activated</info>." ) ) );
             } else {
-                const auto time = calendar( time_to_do ).textify_period();
+                const auto time = to_string_clipped( time_duration::from_turns( time_to_do ) );
                 info.push_back( iteminfo( "DESCRIPTION", string_format( _( "It will be done in %s." ),
                                           time.c_str() ) ) );
             }
@@ -3050,8 +3050,7 @@ int item::get_warmth() const
 
 time_duration item::brewing_time() const
 {
-    //@todo make a function that adjusts for season length.
-    return is_brewable() ? type->brewable->time * ( calendar::season_length() / 14.0 ) : 0_turns;
+    return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
 const std::vector<itype_id> &item::brewing_results() const
@@ -5884,14 +5883,13 @@ time_duration item::get_plant_epoch() const
     if( !type->seed ) {
         return 0;
     }
-    // 91 days is the approximate length of a real world season
-    // Growing times have been based around 91 rather than the default of 14 to give
+    // Growing times have been based around real world season length rather than
+    // the default in-game season length to give
     // more accuracy for longer season lengths
-    // Note that it is converted based on the season_length option!
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
     // divied by 3 to get the time it takes from one plant state to the next.
     //@todo move this into the islot_seed
-    return type->seed->grow * calendar::season_length() / ( 91 * 3 );
+    return type->seed->grow * calendar::season_ratio() / 3;
 }
 
 std::string item::get_plant_name() const

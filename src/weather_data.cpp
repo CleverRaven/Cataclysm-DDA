@@ -8,7 +8,6 @@
 #include <string>
 #include <array>
 #include <cmath>
-#include <cwctype>
 
 /**
  * @ingroup Weather
@@ -35,34 +34,6 @@ weather_animation_t get_weather_animation(weather_type const type)
     }
 
     return {0.0f, c_white, '?'};
-}
-
-const std::string season_name(int const season)
-{
-    switch( season ) {
-        case 0:
-            return pgettext( "season_name", "spring" );
-        case 1:
-            return pgettext( "season_name", "summer" );
-        case 2:
-            return pgettext( "season_name", "autumn" );
-        case 3:
-            return pgettext( "season_name", "winter" );
-        default:
-            return "bad season!";
-    }
-}
-
-const std::string season_name_upper(int const season)
-{
-    if (!(season >= 0 && season < 4)) {
-        return season_name(season);
-    }
-
-    std::wstring name_wide = utf8_to_wstr( season_name( season ) );
-    // Operate on a wide-char basis to prevent corrupted multi-byte string
-    name_wide[0] = towupper( name_wide[0] );
-    return wstr_to_utf8( name_wide );
 }
 
 weather_datum const weather_data(weather_type const type)

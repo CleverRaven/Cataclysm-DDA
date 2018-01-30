@@ -255,7 +255,7 @@ void Messages::display_messages()
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
      * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
-     * max_padlength refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
+     * max_padlength refers to the length of the LONGEST possible unit of time returned by to_string_clipped() any language has to offer.
      * This variable is, for now, set to '10', which seems most reasonable.
      *
      * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
@@ -325,7 +325,7 @@ void Messages::display_messages()
 
             const game_message &m     = player_messages.impl_->history( retrieve_history );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            std::string long_ago      = timepassed.textify_period();
+            std::string long_ago      = to_string_clipped( time_duration::from_turns( timepassed ) );
             nc_color col              = msgtype_to_color( m.type, false );
 
             // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.

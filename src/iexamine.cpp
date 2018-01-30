@@ -1365,7 +1365,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
  */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
             add_msg( m_info, _("This flower is dead. You can't get it.") );
         } else {
@@ -1585,7 +1585,7 @@ void iexamine::harvested_plant( player &p, const tripoint &examp )
 
 void iexamine::flower_marloss(player &p, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if( can_drink_nectar( p ) ) {
@@ -1897,8 +1897,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            //@todo change season_length to return time_duration
-            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
+            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
             //@todo item should probably clamp the value on its own

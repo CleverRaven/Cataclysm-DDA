@@ -315,7 +315,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return calendar( get_recipe( loc ).time / 100 ).textify_period();
+                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
             }, _( "TIME" ) );
         }
 
@@ -368,7 +368,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return calendar( spoils ).textify_period();
+                    return to_string_clipped( time_duration::from_turns( spoils ) );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -664,7 +664,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
-                const std::string duration = calendar::print_approx_duration( actual_turns, false );
+                const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration.c_str() );

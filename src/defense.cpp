@@ -115,7 +115,7 @@ void defense_game::per_turn()
     if (!sleep) {
         g->u.set_fatigue(0);
     }
-    if( calendar::once_every( to_turns<int>( time_between_waves ) ) ) {
+    if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
         if (current_wave > 1 && current_wave % waves_between_caravans == 0) {
             popup(_("A caravan approaches!  Press spacebar..."));

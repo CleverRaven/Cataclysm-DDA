@@ -1416,19 +1416,18 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-    if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
-        calendar::turn.seconds() == 0) { // Midnight!
+    if( calendar::once_every( 1_days ) ) { // Midnight!
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
 
     // Run a LUA callback once per minute
-    if (calendar::turn.seconds() == 0) {
+    if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
 
     // Move hordes every 5 min
-    if( calendar::once_every(MINUTES(5)) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1438,8 +1437,8 @@ bool game::do_turn()
     u.update_body();
 
     // Auto-save if autosave is enabled
-    if (get_option<bool>( "AUTOSAVE" ) &&
-        calendar::once_every(get_option<int>( "AUTOSAVE_TURNS" ) ) &&
+    if( get_option<bool>( "AUTOSAVE" ) &&
+        calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
         !u.is_dead_state()) {
         autosave();
     }
@@ -1556,11 +1555,11 @@ bool game::do_turn()
     const bool player_is_sleeping = u.has_effect( effect_sleep );
 
     if( player_is_sleeping ) {
-        if( calendar::once_every( MINUTES( 30 ) ) || !player_was_sleeping ) {
+        if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
             draw();
         }
 
-        if( calendar::once_every( MINUTES( 1 ) ) ) {
+        if( calendar::once_every( 1_minutes ) ) {
             catacurses::window popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
 
             wrefresh( popup );
@@ -1577,11 +1576,11 @@ bool game::do_turn()
     u.apply_wetness_morale( temperature );
     rustCheck();
 
-    if( calendar::once_every( MINUTES( 1 ) ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
     }
 
-    if( calendar::once_every( SECONDS( 90 ) ) ) {
+    if( calendar::once_every( 9_turns ) ) {
         u.check_and_recover_morale();
     }
 
@@ -1652,7 +1651,7 @@ void game::process_activity()
         return;
     }
 
-    if( calendar::once_every(MINUTES(5)) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         draw();
         refresh_display();
     }
@@ -4269,11 +4268,11 @@ void game::debug()
                 smenu.reset();
                 smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, !get_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
-                                _( "season" ), int( calendar::turn.get_season() ) );
-                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
-                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), calendar::turn.hours() );
-                smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), calendar::turn.minutes() );
+                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
+                                _( "season" ), int( season_of_year( calendar::turn ) ) );
+                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
+                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
+                smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
                 smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), calendar::turn.get_turn() );
                 smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
                 smenu.selected = iSel;
@@ -4281,20 +4280,20 @@ void game::debug()
 
                 switch( smenu.ret ) {
                     case 0:
-                        set_turn( calendar::turn.years(), DAYS( 1 ) * calendar::turn.year_length(), _( "Set year to?" ) );
+                        set_turn( calendar::turn.years(), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
                         break;
                     case 1:
-                        set_turn( int( calendar::turn.get_season() ), DAYS( 1 ) * calendar::turn.season_length(),
+                        set_turn( int( season_of_year( calendar::turn ) ), to_turns<int>( calendar::turn.season_length() ),
                                   _( "Set season to? (0 = spring)" ) );
                         break;
                     case 2:
-                        set_turn( calendar::turn.days(), DAYS( 1 ), _( "Set days to?" ) );
+                        set_turn( day_of_season<int>( calendar::turn ), DAYS( 1 ), _( "Set days to?" ) );
                         break;
                     case 3:
-                        set_turn( calendar::turn.hours(), HOURS( 1 ), _( "Set hour to?" ) );
+                        set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
                         break;
                     case 4:
-                        set_turn( calendar::turn.minutes(), MINUTES( 1 ), _( "Set minute to?" ) );
+                        set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
                         break;
                     case 5:
                         set_turn( calendar::turn.get_turn(), 1,
@@ -4842,7 +4841,7 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('_', c_red));
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
-        const int iHour = calendar::turn.hours();
+        const int iHour = hour_of_day<int>( calendar::turn );
         wprintz(time_window, c_white, "[");
         bool bAddTrail = false;
 
@@ -4907,7 +4906,7 @@ void game::draw_sidebar()
     //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
+              calendar::name_season( season_of_year( calendar::turn ) ), day_of_season<int>( calendar::turn ) + 1 );
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -13353,7 +13352,7 @@ void game::wait()
         std::string text( caption );
 
         if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
-            const std::string dur_str( calendar::print_duration( duration ) );
+            const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
         }
         as_m.addentry( retval, true, hotkey, text );
@@ -13371,10 +13370,15 @@ void game::wait()
     }
 
     if( get_levz() >= 0 || has_watch ) {
-        add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
-        add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
-        add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
-        add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
+        const auto diurnal_time_before = []( const int turn ) {
+            const int remainder = turn % DAYS( 1 ) - calendar::turn.get_turn() % DAYS( 1 );
+            return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
+        };
+
+        add_menu_item( 7,  'd', _( "Wait till dawn" ),     diurnal_time_before( calendar::turn.sunrise() ) );
+        add_menu_item( 8,  'n', _( "Wait till noon" ),     diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k', _( "Wait till dusk" ),     diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm', _( "Wait till midnight" ), diurnal_time_before( HOURS( 0 ) ) );
         add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     }
 
@@ -13640,12 +13644,12 @@ void game::process_artifact(item *it, player *p)
                 break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {
+                if( calendar::once_every( 1_hours ) ) {
                     it->charges++;
                 }
                 break;
             case ARTC_SOLAR:
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() % 10 == 0 &&
+                if( calendar::once_every( 10_minutes ) &&
                     is_in_sunlight(p->pos())) {
                     it->charges++;
                 }
@@ -13654,14 +13658,14 @@ void game::process_artifact(item *it, player *p)
             // Some weird Lovecraftian thing.  ;P
             // (So DON'T route them through mod_pain!)
             case ARTC_PAIN:
-                if (calendar::turn.seconds() == 0) {
+                if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
                     p->mod_pain_noresist( 3 * rng(1, 3) );
                     it->charges++;
                 }
                 break;
             case ARTC_HP:
-                if (calendar::turn.seconds() == 0) {
+                if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You feel your body decaying."));
                     p->hurtall(1, nullptr);
                     it->charges++;
@@ -13805,16 +13809,16 @@ void game::start_calendar()
         calendar::initial_season = SPRING;
     } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
         calendar::initial_season = SUMMER;
-        calendar::start += DAYS( calendar::season_length() );
+        calendar::start += to_turns<int>( calendar::season_length() );
     } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
         calendar::initial_season = AUTUMN;
-        calendar::start += DAYS( calendar::season_length() * 2 );
+        calendar::start += to_turns<int>( calendar::season_length() * 2 );
     } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
         calendar::initial_season = WINTER;
-        calendar::start += DAYS( calendar::season_length() * 3 );
+        calendar::start += to_turns<int>( calendar::season_length() * 3 );
     } else if( scen->has_flag( "SUM_ADV_START" ) ) {
         calendar::initial_season = SUMMER;
-        calendar::start += DAYS( calendar::season_length() * 5 );
+        calendar::start += to_turns<int>( calendar::season_length() * 5 );
     } else {
         debugmsg( "The Unicorn" );
     }

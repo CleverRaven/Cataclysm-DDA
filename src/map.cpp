@@ -4663,7 +4663,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
                 cur_veh->parts[part].enabled = false;
-            } else if( calendar::once_every( MINUTES( 15 ) ) ) {
+            } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
                 break;
             }
@@ -6848,8 +6848,8 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     }
     // Make it harvestable again if the last actualization was during a different season or year.
     const calendar last_touched = calendar::turn - time_since_last_actualize;
-    if( calendar::turn.get_season() != last_touched.get_season() ||
-        time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
+    if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
+        time_since_last_actualize >= to_turns<int>( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }
 }
@@ -6868,7 +6868,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
-    const int turns_season = DAYS( calendar::season_length() );
+    const int turns_season = to_turns<int>( calendar::season_length() );
     const int producing_length = int( 0.75f * turns_season );
 
     const int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
@@ -6876,7 +6876,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
     int time_producing = 0;
 
-    if( time_since_last_actualize >= calendar::year_turns() ) {
+    if( time_since_last_actualize >= to_turns<int>( calendar::year_length() ) ) {
         time_producing = producing_length;
     } else {
         // We are only procuding sap on the intersection with the sap producing season.
@@ -6912,7 +6912,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             if( last_actualize_tof < early_spring_end ) {
                 time_producing = early_spring_end - last_actualize_tof;
             } else {
-                time_producing = calendar::year_turns() - last_actualize_tof + early_spring_end;
+                time_producing = to_turns<int>( calendar::year_length() ) - last_actualize_tof + early_spring_end;
             }
         } else if ( !last_producing && current_producing ) {
             // We hit the start of late winter
