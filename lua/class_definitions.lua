@@ -733,6 +733,7 @@ classes = {
             { name = "run_cost", rval = "int", args = { "int", "bool" } },
             { name = "rust_rate", rval = "int", args = { "bool" } },
             { name = "rust_rate", rval = "int", args = { } },
+            { name = "save_info", rval = "string", args = { } },
             { name = "scored_crit", rval = "bool", args = { "float", "item" } },
             { name = "search_surroundings", rval = nil, args = { } },
             { name = "sees", rval = "bool", args = { "Creature" } },
