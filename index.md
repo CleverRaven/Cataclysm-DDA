@@ -43,8 +43,8 @@ Cataclysm has official builds for Windows, Linux and OSX, and each platform come
 Cataclysm: DDA is under constant development, the latest successful builds for the various flavors are available at the following locations:
 * [Windows Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Tiles/)
 * [Windows Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Curses/)
-* [Linux Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux/Curses/)
-* [Linux Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux/Tiles/)
+* [Linux 64-bit Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Curses/)
+* [Linux 64-bit Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Tiles/)
 * [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
 * [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
 
