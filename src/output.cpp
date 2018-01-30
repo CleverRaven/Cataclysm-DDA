@@ -126,7 +126,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
             seg = rm_prefix( seg );
         }
 
-        wprintz( w, color, "%s", seg.c_str() );
+        wprintz( w, color, seg );
     }
 }
 
@@ -243,7 +243,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
                 if( l != "--" ) { // -- is a separation line!
-                    wprintz( w, color, "%s", rm_prefix( *it ).c_str() );
+                    wprintz( w, color, rm_prefix( *it ) );
                 } else {
                     for( int i = 0; i < width; i++ ) {
                         wputch( w, c_dark_gray, LINE_OXOX );
@@ -324,7 +324,7 @@ void center_print( const catacurses::window &w, const int y, const nc_color FG,
     } else {
         x = ( window_width - string_width ) / 2;
     }
-    mvwprintz( w, y, x, FG, "%s", text.c_str() );
+    mvwprintz( w, y, x, FG, text );
 }
 
 int right_print( const catacurses::window &w, const int line, const int right_indent,
@@ -332,7 +332,7 @@ int right_print( const catacurses::window &w, const int line, const int right_in
 {
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
-    trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
+    trim_and_print( w, line, x, available_width, FG, text );
     return x;
 }
 
@@ -353,7 +353,7 @@ void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, long ch )
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, FG );
 }
 
@@ -369,7 +369,7 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, HC );
 }
 
@@ -385,7 +385,7 @@ void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const 
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, HC );
 }
 
@@ -503,7 +503,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
             mvwputch( w, 1, xpos + length + 3, h_white, '>' );
             mvwputch( w, 2, xpos, c_white, LINE_XOOX );
             mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOO );
-            mvwprintz( w, 1, xpos + 1, h_white, "%s", labels[i].c_str() );
+            mvwprintz( w, 1, xpos + 1, h_white, labels[i] );
             for( int x = xpos + 1; x <= xpos + length; x++ ) {
                 mvwputch( w, 0, x, c_white, LINE_OXOX );
                 mvwputch( w, 2, x, c_black, 'x' );
@@ -511,7 +511,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
         } else {
             mvwputch( w, 2, xpos, c_white, LINE_XXOX );
             mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOX );
-            mvwprintz( w, 1, xpos + 1, c_white, "%s", labels[i].c_str() );
+            mvwprintz( w, 1, xpos + 1, c_white, labels[i] );
             for( int x = xpos + 1; x <= xpos + length; x++ ) {
                 mvwputch( w, 0, x, c_white, LINE_OXOX );
             }
@@ -687,7 +687,7 @@ catacurses::window create_popup_window( const std::string &text, PopupFlags flag
     draw_border( result );
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( result, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+        fold_and_print( result, i + 1, 1, width, c_white, folded[i] );
     }
 
     return result;
@@ -1180,7 +1180,7 @@ void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, boo
     mvwputch( w, 1, iOffsetX,      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, 1, iOffsetXRight, c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, 1, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, "%s", sText.c_str() );
+    mvwprintz( w, 1, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, 0, i, c_light_gray, LINE_OXOX );  // -
@@ -1208,7 +1208,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, "%s", sText.c_str() );
+    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
 
     if( bSelected ) {
         mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
@@ -1308,7 +1308,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     }
     w_hit_animation = w_hit;
 
-    mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
+    mvwprintz( w_hit, 0, 0, cColor, cTile );
     wrefresh( w_hit );
 
     inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
@@ -1556,15 +1556,15 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
         std::string prestring = fmt.substr( 0, pos );
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
-        wprintz( w, text_color, "%s", prestring.c_str() );
-        wprintz( w, shortcut_color, "%s", shortcut.c_str() );
-        wprintz( w, text_color, "%s", poststring.c_str() );
+        wprintz( w, text_color, prestring );
+        wprintz( w, shortcut_color, shortcut );
+        wprintz( w, text_color, poststring );
         len = utf8_width( prestring.c_str() );
         len += utf8_width( shortcut.c_str() );
         len += utf8_width( poststring.c_str() );
     } else {
         // no shortcut?
-        wprintz( w, text_color, "%s", fmt.c_str() );
+        wprintz( w, text_color, fmt );
         len = utf8_width( fmt.c_str() );
     }
     return len;
@@ -1655,7 +1655,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, "%s", title.c_str() );
+        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, title );
         for( int i = 0; i < rows * columns; i++ ) {
             if( i + offset * columns >= ( int )data.size() ) {
                 break;
@@ -2117,3 +2117,18 @@ void refresh_display()
 {
 }
 #endif
+
+void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
+                const std::string &text )
+{
+    wattron( w, FG );
+    mvwprintw( w, y, x, text );
+    wattroff( w, FG );
+}
+
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text )
+{
+    wattron( w, FG );
+    wprintw( w, text );
+    wattroff( w, FG );
+}

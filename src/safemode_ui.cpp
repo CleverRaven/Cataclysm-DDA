@@ -207,7 +207,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 auto draw_column = [&]( Columns column_in, std::string text_in ) {
                     mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
                                ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
-                               "%s", text_in.c_str()
+                               text_in
                              );
                 };
 
@@ -443,7 +443,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
                                      "%1$d monsters match: %2$s",
                                      nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
     mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
-               "%s", buf.c_str() );
+               buf );
 
     mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
                _( "Lists monsters regardless of their attitude." ) );
@@ -477,8 +477,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
                 wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color, "%s",
-                         creature_list[i].c_str() );
+                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color,
+                         creature_list[i] );
             }
         }
 

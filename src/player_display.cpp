@@ -481,7 +481,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const char *title_EFFECTS = _( "EFFECTS" );
     mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
     for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
-        mvwprintz( w_effects, int( i ) + 1, 0, c_light_gray, "%s", effect_name[i].c_str() );
+        mvwprintz( w_effects, int( i ) + 1, 0, c_light_gray, effect_name[i] );
     }
     wrefresh( w_effects );
 
@@ -831,11 +831,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_traits, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     const auto color = mdata.get_display_color();
                     if( i == line ) {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, hilite( color ), "%s",
-                                   mdata.name.c_str() );
+                        mvwprintz( w_traits, int( 1 + i - min ), 1, hilite( color ),
+                                   mdata.name );
                     } else {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, color, "%s",
-                                   mdata.name.c_str() );
+                        mvwprintz( w_traits, int( 1 + i - min ), 1, color,
+                                   mdata.name );
                     }
                 }
                 if( line < traitslist.size() ) {
@@ -862,7 +862,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         const auto &mdata = traitslist[i].obj();
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
-                        mvwprintz( w_traits, int( i + 1 ), 1, color, "%s", mdata.name.c_str() );
+                        mvwprintz( w_traits, int( i + 1 ), 1, color, mdata.name );
                     }
                     wrefresh( w_traits );
                     line = 0;
@@ -895,9 +895,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 for( size_t i = min; i < max; i++ ) {
                     if( i == line ) {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, h_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( 1 + i - min ), 0, h_light_gray, effect_name[i] );
                     } else {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, c_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( 1 + i - min ), 0, c_light_gray, effect_name[i] );
                     }
                 }
                 if( line < effect_text.size() ) {
@@ -920,7 +920,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
                     mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
-                        mvwprintz( w_effects, int( i + 1 ), 0, c_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( i + 1 ), 0, c_light_gray, effect_name[i] );
                     }
                     wrefresh( w_effects );
                     line = 0;

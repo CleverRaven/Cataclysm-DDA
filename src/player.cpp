@@ -2285,9 +2285,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
                                     pronoun.c_str(), locdesc.c_str() );
 
     //Header
-    std::string version = string_format( "%s", getVersionString() );
     memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
-                                    version.c_str() ) << eol;
+                                    getVersionString() ) << eol;
     memorial_file << eol;
     memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << eol;
     if( epitaph.length() > 0 ) { //Don't record empty epitaphs
@@ -2597,7 +2596,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     {
         const int y = sideStyle ? 1 : 0;
         const int wn = getmaxx( weapwin );
-        trim_and_print( weapwin, y, 0, wn, c_light_gray, "%s", print_gun_mode( *this ).c_str() );
+        trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
     }
 
     // Print currently used style or weapon mode.
@@ -9197,7 +9196,7 @@ bool player::read( int inventory_position, const bool continuous )
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
-            add_msg( m_bad, "%s", reason.c_str() );
+            add_msg( m_bad, reason );
         }
         return false;
     }
@@ -9210,7 +9209,7 @@ bool player::read( int inventory_position, const bool continuous )
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( it.typeId() ) ) {
         if( reader != this ) {
-            add_msg( m_info, "%s", fail_messages[0].c_str() );
+            add_msg( m_info, fail_messages[0] );
             add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name().c_str() );
         }
         assign_activity( act );
@@ -9220,7 +9219,7 @@ bool player::read( int inventory_position, const bool continuous )
     if( it.typeId() == "guidebook" ) {
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
-            add_msg( m_info, "%s", fail_messages[0].c_str() );
+            add_msg( m_info, fail_messages[0] );
             dynamic_cast<const npc *>( reader )->say( get_hint() );
         } else {
             add_msg( m_info, get_hint().c_str() );
@@ -9351,7 +9350,7 @@ bool player::read( int inventory_position, const bool continuous )
 
     if( !continuous || activity.position != act.position ) {
         if( reader != this ) {
-            add_msg( m_info, "%s", fail_messages[0].c_str() );
+            add_msg( m_info, fail_messages[0] );
             add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name().c_str() );
         } else if( !learners.empty() || !fun_learners.empty() ) {
             add_msg( m_info, _( "You read aloud..." ) );
@@ -9481,7 +9480,7 @@ void player::do_read( item *book )
                           static_cast<unsigned long>( recipe_list.size() ) ),
                 static_cast<unsigned long>( recipe_list.size() ),
                 enumerate_as_string( recipe_list ).c_str() );
-            add_msg( m_info, "%s", recipe_line.c_str() );
+            add_msg( m_info, recipe_line );
         }
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
@@ -11783,7 +11782,7 @@ std::vector<mission*> player::get_failed_missions() const
 
 bool player::query_yn( const std::string &mes ) const
 {
-    return ::query_yn( "%s", mes.c_str() );
+    return ::query_yn( mes );
 }
 
 const pathfinding_settings &player::get_pathfinding_settings() const

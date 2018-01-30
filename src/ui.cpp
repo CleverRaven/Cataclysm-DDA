@@ -565,7 +565,7 @@ void uimenu::show()
     draw_border(window, border_color);
     if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz( window, title_color, title );
         wprintz(window, border_color, " >");
     }
 
@@ -574,7 +574,7 @@ void uimenu::show()
     int estart = 1;
     if( !textformatted.empty() ) {
         for ( int i = 0; i < text_lines; i++ ) {
-            trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+            trim_and_print( window, 1 + i, 2, getmaxx( window ) - 4, text_color, textformatted[i] );
         }
 
         mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
@@ -598,7 +598,7 @@ void uimenu::show()
                           );
 
             if ( hilight_full ) {
-                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
+                mvwprintz( window, estart + si, pad_left + 1, co, padspaces );
             }
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
@@ -616,7 +616,7 @@ void uimenu::show()
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
+                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.txt );
             }
             if ( entries[ei].extratxt.sym != 0 ) {
                 mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
@@ -626,7 +626,7 @@ void uimenu::show()
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_light_gray , "%s", padspaces.c_str());
+            mvwprintz( window, estart + si, pad_left + 1, c_light_gray, padspaces );
         }
     }
 
@@ -653,7 +653,7 @@ void uimenu::show()
 
     if ( !filter.empty() ) {
         mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz( window, w_height - 1, 4, text_color, "%s", filter.c_str() );
+        mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
 
@@ -679,12 +679,12 @@ void uimenu::redraw( bool redraw_callback )
     draw_border(window, border_color);
     if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz( window, title_color, title );
         wprintz(window, border_color, " >");
     }
     if ( !filter.empty() ) {
         mvwprintz(window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz(window, w_height - 1, 4, text_color, "%s", filter.c_str());
+        mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     (void)redraw_callback; // TODO
     /*

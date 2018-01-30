@@ -655,8 +655,8 @@ void draw_sct_curses(game &g)
         nc_color const col1 = msgtype_to_color(text.getMsgType("first"),  is_old);
         nc_color const col2 = msgtype_to_color(text.getMsgType("second"), is_old);
 
-        mvwprintz(g.w_terrain, dy, dx, col1, "%s", text.getText("first").c_str());
-        wprintz(g.w_terrain, col2, "%s", text.getText("second").c_str());
+        mvwprintz( g.w_terrain, dy, dx, col1, text.getText( "first" ) );
+        wprintz( g.w_terrain, col2, text.getText( "second" ) );
     }
 }
 } //namespace

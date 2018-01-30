@@ -427,6 +427,13 @@ void tileset_loader::load_tileset( std::string img_path )
 
     SDL_RendererInfo info;
     throwErrorIf( SDL_GetRendererInfo( renderer, &info ) != 0, "SDL_GetRendererInfo failed" );
+    // Software rendering stores textures as surfaces with run-length encoding, which makes extracting a part
+    // in the middle of the texture slow. Therefor this "simulates" that the renderer only supports one tile
+    // per texture. Each tile will go on its own texture object.
+    if( info.flags & SDL_RENDERER_SOFTWARE ) {
+        info.max_texture_width = sprite_width;
+        info.max_texture_height = sprite_height;
+    }
     // for debugging only: force a very small maximal texture size, as to trigger
     // splitting the tile atlas.
 #if 0
@@ -441,11 +448,15 @@ void tileset_loader::load_tileset( std::string img_path )
     if( info.max_texture_width == 0 ){
         info.max_texture_width = sprite_width * min_tile_xcount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " << info.max_texture_width;
+    } else {
+        throwErrorIf( info.max_texture_width < sprite_width, "Maximal texture width is smaller than tile width" );
     }
 
     if( info.max_texture_height == 0 ){
         info.max_texture_height = sprite_height * min_tile_ycount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0.  Changing it to " << info.max_texture_height;
+    } else {
+        throwErrorIf( info.max_texture_height < sprite_height, "Maximal texture height is smaller than tile height" );
     }
 
     // Number of tiles in each dimension that fits into a (maximal) SDL texture.

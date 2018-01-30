@@ -707,7 +707,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( index, 0 ) ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
-            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
+            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, denial );
         }
 
         const size_t count = denial.empty() ? cells.size() : 1;
@@ -742,9 +742,9 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
                 const std::string &text = entry_cell_cache.text[cell_index];
 
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
-                    trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dark_gray, "%s", remove_color_tags( text ).c_str() );
+                    trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dark_gray, remove_color_tags( text ) );
                 } else {
-                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, "%s", text.c_str() );
+                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, text );
                 }
             }
 
@@ -1140,8 +1140,8 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
-    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, "%s", title.c_str() );
-    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, "%s", hint.c_str() );
+    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
+    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, hint );
 
     mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
 
@@ -1335,7 +1335,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
-        wprintz( w, c_light_gray, "%s", text.c_str() );
+        wprintz( w, c_light_gray, text );
         wprintz( w, c_white, filter.c_str() );
         wprintz( w, c_light_gray, " >" );
     }
@@ -1347,7 +1347,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         const int x2 = x1 + string_width - 1;
         const int y = getmaxy( w ) - border;
 
-        mvwprintz( w, y, x1, footer.second, "%s", footer.first.c_str() );
+        mvwprintz( w, y, x1, footer.second, footer.first );
         mvwputch( w, y, x1 - 1, c_light_gray, ' ' );
         mvwputch( w, y, x2 + 1, c_light_gray, ' ' );
         mvwputch( w, y, x1 - 2, c_light_gray, LINE_XOXX );

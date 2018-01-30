@@ -387,7 +387,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (redraw) {
             werase(w_list);
             draw_border(w_list);
-            mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+            mvwprintz( w_list, 1, 1, c_white, title );
             for (size_t i = 0; i < keys.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
                 mvwprintz(w_list, i + 2, 1, col, "  %s", keys[i].c_str());

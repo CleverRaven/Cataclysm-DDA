@@ -4705,10 +4705,10 @@ faction *game::list_factions(std::string title)
             // Init w_list content
             werase(w_list);
             draw_border(w_list);
-            mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+            mvwprintz( w_list, 1, 1, c_white, title );
             for (size_t i = 0; i < valfac.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
-                mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i]->name.c_str());
+                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
             }
             wrefresh(w_list);
             // Init w_info content
@@ -4730,7 +4730,7 @@ faction *game::list_factions(std::string title)
         }
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
-            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
             if (sel == valfac.size() - 1) {
                 sel = 0;    // Wrap around
             } else {
@@ -4738,7 +4738,7 @@ faction *game::list_factions(std::string title)
             }
             redraw = true;
         } else if (action == "UP") {
-            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
             if (sel == 0) {
                 sel = valfac.size() - 1;    // Wrap around
             } else {
@@ -4824,7 +4824,7 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
-        wprintz(time_window, c_white, "%s", calendar::turn.print_time().c_str());
+        wprintz( time_window, c_white, calendar::turn.print_time() );
     } else if( get_levz() >= 0 ) {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4873,12 +4873,12 @@ void game::draw_sidebar()
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
     werase(w_location);
-    mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
+    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), 14 ) );
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_light_gray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
+        mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
     if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
@@ -5138,7 +5138,7 @@ void game::draw_HP()
                 }
             }
 
-            wprintz( w_HP, color, "%s", limb.c_str() );
+            wprintz( w_HP, color, limb );
             continue;
         }
 
@@ -5147,7 +5147,7 @@ void game::draw_HP()
         if( is_self_aware ) {
             wprintz( w_HP, hp.second, "%3d  ", u.hp_cur[i] );
         } else {
-            wprintz( w_HP, hp.second, "%s", hp.first.c_str() );
+            wprintz( w_HP, hp.second, hp.first );
 
             //Add the trailing symbols for a not-quite-full health bar
             print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
@@ -5758,7 +5758,7 @@ int game::mon_info( const catacurses::window &w )
                 c = mt.color;
                 sym = mt.sym;
             }
-            mvwprintz(w, pr.y, pr.x, c, "%s", sym.c_str());
+            mvwprintz( w, pr.y, pr.x, c, sym );
 
             pr.x++;
         }
@@ -5800,7 +5800,7 @@ int game::mon_info( const catacurses::window &w )
 
             if (pr.y < maxheight) { // Don't print if we've overflowed
                 lastrowprinted = pr.y;
-                mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
+                mvwprintz( w, pr.y, pr.x, mt.color, mt.sym );
                 pr.x += 2; // symbol and space
                 nc_color danger = c_dark_gray;
                 if (mt.difficulty >= 30) {
@@ -5812,7 +5812,7 @@ int game::mon_info( const catacurses::window &w )
                 } else if (mt.agro > 0) {
                     danger = c_light_gray;
                 }
-                mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
+                mvwprintz( w, pr.y, pr.x, danger, name );
                 pr.x += utf8_width(name) + namesep;
             }
         }
@@ -7828,7 +7828,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
     }
 
-    mvwprintw(w_look, ++line, column, "%s", m.features( lp ).c_str());
+    mvwprintw( w_look, ++line, column, m.features( lp ) );
     if (line < ending_line) {
         line = ending_line;
     }
@@ -7839,9 +7839,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry *cur = &fld.second;
-        mvwprintz( w_look, line++, column, cur->color(),
-                  "%s",
-                  cur->name().c_str() );
+        mvwprintz( w_look, line++, column, cur->color(), cur->name() );
     }
 }
 
@@ -7849,7 +7847,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name().c_str());
+        mvwprintz( w_look, line++, column, tr.color, tr.name() );
     }
 }
 
@@ -7929,7 +7927,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                         pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
                         it.first.c_str(), it.second );
             } else {
-                trim_and_print( w_look, line++, column, max_width, c_white, "%s", it.first.c_str() );
+                trim_and_print( w_look, line++, column, max_width, c_white, it.first );
             }
         }
     }
@@ -8269,12 +8267,12 @@ void game::zones_manager()
                     }
 
                     //Draw Zone name
-                    mvwprintz(w_zones, iNum - start_index, 3, colorLine, "%s",
-                              zones.zones[iNum].get_name().c_str());
+                    mvwprintz( w_zones, iNum - start_index, 3, colorLine,
+                              zones.zones[iNum].get_name() );
 
                     //Draw Type name
-                    mvwprintz(w_zones, iNum - start_index, 20, colorLine, "%s",
-                              zones.get_name_from_type(zones.zones[iNum].get_type()).c_str());
+                    mvwprintz( w_zones, iNum - start_index, 20, colorLine,
+                               zones.get_name_from_type( zones.zones[iNum].get_type() ) );
 
                     tripoint center = i.get_center_point();
 
@@ -9206,7 +9204,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     int iThisPage = 0;
                     if( !mSortCategory[iNum].empty() ) {
                         iCatSortOffset++;
-                        mvwprintz( w_items, iNum - iStartPos, 1, c_magenta, "%s", mSortCategory[iNum].c_str() );
+                        mvwprintz( w_items, iNum - iStartPos, 1, c_magenta, mSortCategory[iNum] );
                     } else {
                         if( iNum == iActive ) {
                             iThisPage = page_num;
@@ -9232,7 +9230,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                 col = iter->example->color_in_inventory();
                             }
                         }
-                        trim_and_print( w_items, iNum - iStartPos, 1, width - 9, col, "%s", sText.str().c_str() );
+                        trim_and_print( w_items, iNum - iStartPos, 1, width - 9, col, sText.str() );
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
@@ -9438,7 +9436,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCatPos = CatSortIter->first;
                     if ( iCurPos == iCatPos ) {
                         std::string const& cat_name = Creature::get_attitude_ui_data(CatSortIter->second).first;
-                        mvwprintz( w_monsters, y, 1, c_magenta, "%s", cat_name.c_str() );
+                        mvwprintz( w_monsters, y, 1, c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
                     }
@@ -9455,9 +9453,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 const npc*     p = dynamic_cast<npc*>( critter );
 
                 if ( m != nullptr ) {
-                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", m->name().c_str());
+                    mvwprintz( w_monsters, y, 1, selected ? c_light_green : c_white, m->name() );
                 } else {
-                    mvwprintz(w_monsters, y, 1, selected ? c_light_green : c_white, "%s", critter->disp_name().c_str());
+                    mvwprintz( w_monsters, y, 1, selected ? c_light_green : c_white, critter->disp_name() );
                     is_npc = true;
                 }
 
@@ -9488,7 +9486,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     std::tie(sText, color) =
                         ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                 }
-                mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
+                mvwprintz( w_monsters, y, 22, color, sText );
 
                 if( m != nullptr ) {
                     const auto att = m->get_attitude();
@@ -9498,7 +9496,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     sText = npc_attitude_name( p->attitude );
                     color = p->symbol_color();
                 }
-                mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
+                mvwprintz( w_monsters, y, 28, color, sText );
 
                 mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_light_green : c_light_gray), "%*d %s",
                            numw, rl_dist( u.pos(), critter->pos() ),
@@ -9514,12 +9512,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon->print_info(w_monster_info, 1, 11, 1);
 
             if (bVMonsterLookFire) {
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_light_green, "%s", ctxt.press_x( "look" ).c_str());
+                mvwprintz( w_monsters, getmaxy( w_monsters ) - 1, 1, c_light_green, ctxt.press_x( "look" ) );
                 wprintz(w_monsters, c_light_gray, " %s", _("to look around"));
 
                 if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                     wprintz(w_monsters, c_light_gray, "%s", " ");
-                    wprintz(w_monsters, c_light_green, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz( w_monsters, c_light_green, ctxt.press_x( "fire" ) );
                     wprintz(w_monsters, c_light_gray, " %s", _("to shoot"));
                 }
             }

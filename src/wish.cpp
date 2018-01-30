@@ -76,7 +76,7 @@ class wish_mutate_callback: public uimenu_callback
 
             int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
-                mvwprintw( menu->window, i, startx, "%s", padding.c_str() );
+                mvwprintw( menu->window, i, startx, padding );
             }
 
             mvwprintw( menu->window, 3, startx,
@@ -87,8 +87,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs:" ) );
                 for( auto &j : mdata.prereqs ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -97,8 +97,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs, 2d:" ) );
                 for( auto &j : mdata.prereqs2 ) {
-                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -107,8 +107,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Thresholds required:" ) );
                 for( auto &j : mdata.threshreq ) {
-                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -117,8 +117,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Cancels:" ) );
                 for( auto &j : mdata.cancels ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -127,8 +127,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Becomes:" ) );
                 for( auto &j : mdata.replacements ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -137,8 +137,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Add-ons:" ) );
                 for( auto &j : mdata.additions ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -147,7 +147,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
                 for( auto &j : mdata.category ) {
-                    mvwprintw( menu->window, line2, startx + 11, "%s", j.c_str() );
+                    mvwprintw( menu->window, line2, startx + 11, j );
                     line2++;
                 }
             }
@@ -163,12 +163,12 @@ class wish_mutate_callback: public uimenu_callback
             std::vector<std::string> desc = foldstring( mdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
-                mvwprintz( menu->window, line2, startx, c_light_gray, "%s", elem.c_str() );
+                mvwprintz( menu->window, line2, startx, c_light_gray, elem );
                 line2++;
             }
             lastlen = line2 + 1;
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [%s] quit" ),
@@ -186,7 +186,7 @@ void debug_menu::wishmutate( player *p )
     int c = 0;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
+        wmenu.addentry( -1, true, -2, traits_iter.second.name );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
         wmenu.entries[ c ].extratxt.color = c_light_green;
@@ -330,10 +330,9 @@ class wish_monster_callback: public uimenu_callback
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
                                                 group, ( hallucination ? _( " (hallucination)" ) : "" ) );
-            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, "%s",
-                       header.c_str() );
+            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
-            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, "%s", msg.c_str() );
+            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
@@ -368,7 +367,7 @@ void debug_menu::wishmonster( const tripoint &p )
 
     int i = 0;
     for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
-        wmenu.addentry( i, true, 0, "%s", montype.nname().c_str() );
+        wmenu.addentry( i, true, 0, montype.nname() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;
         wmenu.entries[i].extratxt.left = 1;
@@ -430,19 +429,19 @@ class wish_item_callback: public uimenu_callback
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
             for( int y = 2; y < menu->w_height - 1; y++ ) {
-                mvwprintw( menu->window, y, startx - 1, "%s", padding.c_str() );
+                mvwprintw( menu->window, y, startx - 1, padding );
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format( "#%d: %s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        ( incontainer ? _( " (contained)" ) : "" ) );
-            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
-                       header.c_str() );
+            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
+                       header );
 
             fold_and_print( menu->window, starty, startx, menu->pad_right - 1, c_light_gray, tmp.info( true ) );
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg.erase();
 
             input_context ctxt( "UIMENU" );

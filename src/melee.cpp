@@ -302,7 +302,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             if( one_in(2) ) {
                 const std::string reason_for_miss = get_miss_reason();
                 if( !reason_for_miss.empty() ) {
-                    add_msg( "%s", reason_for_miss.c_str() );
+                    add_msg( reason_for_miss );
                 }
             }
 

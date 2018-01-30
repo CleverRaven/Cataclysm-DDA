@@ -863,7 +863,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint& ) const
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p.practice( skill_mechanics, 1 );
-        p.add_msg_if_player( m_good, "%s", open_message.c_str() );
+        p.add_msg_if_player( m_good, open_message );
         g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
         if( it.inc_damage() ) {

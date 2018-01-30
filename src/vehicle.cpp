@@ -2623,10 +2623,10 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
             left_sym = "-"; right_sym = "-";
         }
         nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
-        mvwprintz( win, y, 1, sym_color, "%s", left_sym.c_str() );
+        mvwprintz( win, y, 1, sym_color, left_sym );
         trim_and_print( win, y, 2, getmaxx( win ) - 4,
-                        ( int )i == hl ? hilite( col_cond ) : col_cond, "%s", partname.c_str() );
-        wprintz( win, sym_color, "%s", right_sym.c_str() );
+                        ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
+        wprintz( win, sym_color, right_sym );
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside

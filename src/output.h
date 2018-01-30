@@ -288,22 +288,21 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 
+void mvwprintz( const catacurses::window &w, int y, int x, const nc_color &FG,
+                const std::string &text );
 template<typename ...Args>
-inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color FG,
+inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
                        const char *const mes, Args &&... args )
 {
-    wattron( w, FG );
-    mvwprintw( w, y, x, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    mvwprintz( w, y, x, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text );
 template<typename ...Args>
-inline void wprintz( const catacurses::window &w, const nc_color FG, const char *const mes,
+inline void wprintz( const catacurses::window &w, const nc_color &FG, const char *const mes,
                      Args &&... args )
 {
-    wattron( w, FG );
-    wprintw( w, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
 void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,

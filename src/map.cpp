@@ -6065,7 +6065,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         if( item_sym.empty() ) {
             wputch(w, tercol, sym);
         } else {
-            wprintz( w, tercol, "%s", item_sym.c_str() );
+            wprintz( w, tercol, item_sym );
         }
     } else {
         // Otherwise move the cursor before drawing.
@@ -6074,7 +6074,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         if( item_sym.empty() ) {
             mvwputch(w, j, k, tercol, sym);
         } else {
-            mvwprintz( w, j, k, tercol, "%s", item_sym.c_str() );
+            mvwprintz( w, j, k, tercol, item_sym );
         }
     }
 

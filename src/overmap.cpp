@@ -2366,7 +2366,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
-            mvwprintz( w, i, 0, pr.first, "%s", pr.second.c_str() );
+            mvwprintz( w, i, 0, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for (int i = 0; i <= maxlen; i++) {
@@ -2384,7 +2384,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
             mvwputch(w, om_map_height-2, i, c_white, LINE_OXOX);
         }
 
-        mvwprintz(w, om_map_height-1, 0, c_yellow, "%s", sTemp.c_str());
+        mvwprintz( w, om_map_height - 1, 0, c_yellow, sTemp );
         mvwputch(w, om_map_height-2, length, c_white, LINE_OOXX);
         mvwputch(w, om_map_height-1, length, c_white, LINE_XOXO);
     }
@@ -2428,7 +2428,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
 
             const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());
+                mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
             }
         }
     } else {
@@ -2525,7 +2525,7 @@ void overmap::draw_city_labels( const catacurses::window &w, const tripoint &cen
             continue;   // haven't seen it.
         }
 
-        mvwprintz( w, text_y, text_x_min, i_yellow, "%s", element.city->name.c_str() );
+        mvwprintz( w, text_y, text_x_min, i_yellow, element.city->name );
     }
 }
 

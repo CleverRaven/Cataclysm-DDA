@@ -215,7 +215,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
         // draw amount of consumed slots by this cbm
         const std::string fmt_num = string_format( "(%d)", elem.second );
         mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
-                   c_yellow, "%s", fmt_num.c_str() );
+                   c_yellow, fmt_num );
     }
 
     // define and draw a proper intersection character
@@ -417,7 +417,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                 for( int i = 0; i < num_bp; ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, "%s", bps[i].c_str() );
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, bps[i] );
                 }
             }
 
@@ -444,7 +444,7 @@ void player::power_bionics()
                                                             build_bionic_powerdesc_string(
                                                                     *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
-                                    "%s", desc.c_str() );
+                                    desc );
                     if( is_highlighted && menu_mode != EXAMINING && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                         const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
@@ -453,7 +453,7 @@ void player::power_bionics()
                         // redraw highlighted (occupied) body parts
                         for( auto &elem : bio_id->occupied_bodyparts ) {
                             const int i = static_cast<int>( elem.first );
-                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, "%s", bps[i].c_str() );
+                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, bps[i] );
                         }
                     }
 

@@ -487,7 +487,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for (size_t i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz( w_worlds, i, 0, c_white, "%s", sTemp.str().c_str() );
+            mvwprintz( w_worlds, i, 0, c_white, sTemp.str() );
             wmove( w_worlds, i, 4 );
 
             std::string world_name = (world_pages[selpage])[i];
@@ -673,7 +673,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
             if( iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows) ) {
                 if( mSortCategory[iNum] != "" ) {
                     bKeepIter = true;
-                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, "%s", mSortCategory[iNum].c_str() );
+                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, mSortCategory[iNum] );
 
                 } else {
                     if( iNum == iActive ) {
@@ -689,12 +689,12 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
                     auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, "%s", mod.name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, mod.name );
                     } else {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
 #endif
 
                     if( w_shift ) {
@@ -852,7 +852,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             for (size_t i = 0; i < headers.size(); ++i) {
                 werase(header_windows[i]);
                 const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) / 2;
-                mvwprintz(header_windows[i], 0, header_x , c_cyan, "%s", headers[i].c_str());
+                mvwprintz( header_windows[i], 0, header_x, c_cyan, headers[i] );
 
                 if (active_header == i) {
                     mvwputch(header_windows[i], 0, header_x - 3, c_red, '<');
@@ -1117,7 +1117,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
 to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
+            mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
             if (line == 1) {
                 wprintz(w_confirmation, h_light_gray, "_");
             }
@@ -1195,7 +1195,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     worldname = wrap.str();
                 }
                 mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
+                mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
                 wprintz(w_confirmation, h_light_gray, "_");
             }
             break;

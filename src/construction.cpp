@@ -325,8 +325,8 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ), "%s",
-                            con_name.c_str() );
+                            construction_color( con_name, highlight ),
+                            con_name );
         }
 
         if( update_info ) {
@@ -355,7 +355,7 @@ void construction_menu()
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
                 trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i, pos_x,
-                                available_window_width, c_white, "%s", notes[i].c_str() );
+                                available_window_width, c_white, notes[i] );
             }
 
             if( !constructs.empty() ) {
@@ -365,7 +365,7 @@ void construction_menu()
                 std::string current_desc = constructs[select];
                 // Print construction name
                 trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                "%s", current_desc.c_str() );
+                                current_desc );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||

@@ -101,9 +101,9 @@ void game::list_missions()
             }
             const int y = i - top_of_page + 3;
             if( ( int )selection == i ) {
-                mvwprintz( w_missions, y, 1, hilite( col ), "%s", miss->name().c_str() );
+                mvwprintz( w_missions, y, 1, hilite( col ), miss->name() );
             } else {
-                mvwprintz( w_missions, y, 1, col, "%s", miss->name().c_str() );
+                mvwprintz( w_missions, y, 1, col, miss->name() );
             }
         }
 
@@ -111,7 +111,7 @@ void game::list_missions()
             const auto miss = umissions[selection];
             int y = 4;
             if( !miss->get_description().empty() ) {
-                mvwprintz( w_missions, y++, 31, c_white, "%s", miss->get_description().c_str() );
+                mvwprintz( w_missions, y++, 31, c_white, miss->get_description() );
             }
             if( miss->has_deadline() ) {
                 const calendar deadline( miss->get_deadline() );
@@ -148,7 +148,7 @@ void game::list_missions()
                 { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, 4, 31, c_light_red, "%s", nope.at( tab ).c_str() );
+            mvwprintz( w_missions, 4, 31, c_light_red, nope.at( tab ) );
         }
 
         wrefresh( w_missions );

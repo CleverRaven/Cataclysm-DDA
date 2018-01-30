@@ -1691,8 +1691,8 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
                           (i == cur_pos ? h_light_gray : c_light_gray), thisSkill->name().c_str());
             } else {
                 mvwprintz(w, y, 2,
-                          (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
-                          thisSkill->name().c_str());
+                          ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                          thisSkill->name() );
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                         " (%d)", int(u->get_skill_level(thisSkill->ident())));
             }
@@ -2185,8 +2185,8 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
                 }
 
                 if (level > 0) {
-                    mvwprintz( w_skills, line, 0, c_light_gray, "%s",
-                               ( ( elem )->name() + ":" ).c_str() );
+                    mvwprintz( w_skills, line, 0, c_light_gray,
+                               elem->name() + ":" );
                     mvwprintz(w_skills, line, 23, c_light_gray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
@@ -2221,7 +2221,7 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
         //We draw this stuff every loop because this is user-editable
         mvwprintz(w_name, 0, 0, c_light_gray, _("Name:"));
         mvwprintz(w_name, 0, namebar_pos, c_light_gray, "_______________________________");
-        mvwprintz(w_name, 0, namebar_pos, c_white, "%s", u->name.c_str());
+        mvwprintz( w_name, 0, namebar_pos, c_white, u->name );
         wprintz(w_name, h_light_gray, "_");
 
         if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
