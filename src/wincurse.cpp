@@ -319,8 +319,9 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
         memset(&dcbits[x+j*WindowWidth],color,width);
 }
 
-void cata_cursesport::curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    WINDOW *const win = w.get<WINDOW>();
     int i,j,drawx,drawy;
     wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,

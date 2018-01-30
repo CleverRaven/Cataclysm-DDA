@@ -235,7 +235,7 @@ void catacurses::wrefresh(const window &win_)
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     //@todo log win == nullptr
     if( win != nullptr && win->draw ) {
-        curses_drawwindow(win);
+        cata_cursesport::curses_drawwindow( win_ );
     }
 }
 
