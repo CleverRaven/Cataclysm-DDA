@@ -184,8 +184,8 @@ class input_manager
         /**
          * Return first char associated with an action ID in a given context.
          */
-        const char get_first_char_for_action( const std::string &action_descriptor,
-                                              const std::string context = "default" );
+        char get_first_char_for_action( const std::string &action_descriptor,
+                                        const std::string context = "default" );
 
         /**
          * Initializes the input manager, aka loads the input mapping configuration JSON.
