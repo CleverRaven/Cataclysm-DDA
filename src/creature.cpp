@@ -188,6 +188,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
+            if( g->u.move_mode == "sneak" ) { // not symmetric if the player is sneaking
+                range /= 2;
+            }
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {

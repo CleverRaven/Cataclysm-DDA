@@ -2035,6 +2035,11 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     movecost /= stamina_modifier;
 
+    if( move_mode == "sneak" ) {
+        // Sneaking speed is 0.5x walking speed
+        stamina_modifier *= 0.5;
+    }
+
     if( diag ) {
         movecost *= 1.4142;
     }
@@ -2992,9 +2997,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         //~ Movement type: "walking". Max string length: one letter.
         const auto str_walk = pgettext( "movement-type", "W" );
+        //~ Movement type: "sneaking". Max string length: one letter.
+        const auto str_sneak = pgettext( "movement-type", "S" );
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
-        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
+        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk :
+                                    ( move_mode == "sneak" ? str_sneak : str_run ) );
         if( sideStyle ) {
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
             print_stamina_bar( w );
@@ -3563,11 +3571,17 @@ void player::shout( std::string msg )
 void player::toggle_move_mode()
 {
     if( move_mode == "walk" ) {
+        move_mode = "sneak";
+        add_msg(_("You start sneaking."));
+    } else if( move_mode == "sneak" ){
+
         if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
             add_msg(_("You start running."));
         } else {
             add_msg(m_bad, _("You're too tired to run."));
+            move_mode = "walk";
+            add_msg(_("You stand up to walk instead."));
         }
     } else if( move_mode == "run" ) {
         move_mode = "walk";

@@ -11647,22 +11647,26 @@ bool game::walk_move( const tripoint &dest_loc )
             u.mod_fatigue( 1 );
         }
     }
-
+    // Sound of footsteps may awaken nearby monsters
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
         if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) ) {
+            int footstep_vol = 6; // 6 being the default volume while walking
             if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
-                sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
-                sfx::do_footstep();
+                footstep_vol = 2;
             } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
-                sounds::sound( dest_loc, 10, "", true, "none", "none" );
-                sfx::do_footstep();
+                footstep_vol = 10;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                sounds::sound( dest_loc, 12, "", true, "none", "none" );
-                sfx::do_footstep();
-            } else {
-                sounds::sound( dest_loc, 6, "", true, "none" );
-                sfx::do_footstep();
+                footstep_vol = 12;
             }
+
+            // Footstep volume changes for the different move modes
+            if( u.move_mode == "sneak") {
+                footstep_vol /= 2;
+            } else if( u.move_mode == "run" ) {
+                footstep_vol *= 1.5;
+            }
+           sounds::sound( dest_loc, footstep_vol, "", true, "none" );
+           sfx::do_footstep();
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
