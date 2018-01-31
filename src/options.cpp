@@ -1030,6 +1030,13 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
+    add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+        translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers (<color_red>currently only in SDL builds</color>).  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
+        false
+        );
+
+    mOptionsSort["interface"]++;
+
     add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
         translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
         true
