@@ -11300,12 +11300,12 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const tripoint &t, bool ) const
+bool player::sees( const tripoint &t, bool is_player) const
 {
     static const bionic_id str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t );
+    bool can_see = this->is_player() ? g->m.pl_sees( t, wanted_range ) :
+        Creature::sees( t, is_player );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
