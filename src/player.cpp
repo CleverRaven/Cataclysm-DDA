@@ -2032,13 +2032,12 @@ int player::run_cost( int base_cost, bool diag ) const
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
-    }
-    movecost /= stamina_modifier;
-
-    if( move_mode == "sneak" ) {
+    } else if( move_mode == "sneak" ) {
         // Sneaking speed is 0.5x walking speed
         stamina_modifier *= 0.5;
     }
+
+    movecost /= stamina_modifier;
 
     if( diag ) {
         movecost *= 1.4142;
