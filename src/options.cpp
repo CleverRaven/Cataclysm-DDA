@@ -1032,7 +1032,7 @@ void options_manager::init()
 
     add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
         translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers (<color_red>currently only in SDL builds</color>).  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
-        false
+        false, COPT_CURSES_HIDE
         );
 
     mOptionsSort["interface"]++;
