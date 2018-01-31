@@ -419,6 +419,15 @@ const std::vector<input_event> &input_manager::get_input_for_action( const std::
     return attributes.input_events;
 }
 
+const char input_manager::get_first_char_for_action(const std::string &action_descriptor, const std::string context)
+{
+    const input_event first_input_event = get_input_for_action( action_descriptor, context )[0];
+    long first_input = first_input_event.get_first_input();
+    const char first_input_char = ( char )first_input;
+
+    return first_input_char;
+}
+
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string context,
