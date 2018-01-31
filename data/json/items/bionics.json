@@ -26,7 +26,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Active Defense System CBM",
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of more energy.  Melee attacks will be stopped more often than bullets.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
     "price": 950000,
     "difficulty": 7
   },
@@ -35,7 +35,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Advanced Microreactor CBM",
-    "description": "Storage tank and stripped down plutonium reactor, allowing generation of power from small amounts of plutonium.  This one has been heavily upgraded.  Warning: minimal radiation shielding.",
+    "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "price": 900000,
     "difficulty": 13
   },
@@ -116,7 +116,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Fusion Blaster Arm CBM",
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray; however, you are unable to use or carry two-handed items, and may only fire handguns.",
+    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "price": 220000,
     "difficulty": 3
   },
@@ -197,7 +197,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Close Quarters Battle CBM",
-    "description": "Databanks and processors loaded with extensive martial arts combat programs are integrated directly into your spinal column.  While active, your close combat skills are superseded by the machine's programming.  You have the option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms.  The cybernetic disconnect prevents you from improving the affected combat skills while this bionic is active.  However, with extended use in combat, it is possible to learn the chosen martial art.",
+    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills.",
     "price": 220000,
     "difficulty": 8
   },
@@ -224,7 +224,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Enhanced Hearing CBM",
-    "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.  You can also toggle those sound dampeners on demand, should you wish to reduce the effect of the bionic or become completely deaf.",
+    "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "price": 500000,
     "difficulty": 6
   },
@@ -323,7 +323,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Internal Furnace CBM",
-    "description": "You can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.  Can be toggled on and off at will.",
+    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "price": 450000,
     "difficulty": 4
   },
@@ -386,7 +386,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Infrared Vision CBM",
-    "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark, and even through walls.",
+    "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark.",
     "price": 450000,
     "difficulty": 6
   },
@@ -485,7 +485,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Repair Nanobots CBM",
-    "description": "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power.",
     "price": 950000,
     "difficulty": 6
   },
@@ -512,7 +512,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Offensive Defense System CBM",
-    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "price": 950000,
     "difficulty": 7
   },
@@ -585,7 +585,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Air Filtration System CBM",
-    "description": "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them.",
+    "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects.",
     "price": 450000,
     "difficulty": 4
   },
@@ -621,7 +621,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Internal Microreactor CBM",
-    "description": "Storage tank and stripped down plutonium reactor, allowing generation of power from small amounts of plutonium.  Warning: minimal radiation shielding.",
+    "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "price": 900000,
     "difficulty": 11
   },
@@ -658,7 +658,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Sonic Resonator CBM",
-    "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged.",
+    "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to creatures, stiff items such as walls and doors will be damaged.",
     "price": 1200000,
     "difficulty": 11
   },
@@ -739,7 +739,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Anti-Glare Compensators CBM",
-    "description": "Your eyes have high-power, quick-reacting transition lenses installed over them, negating any glare penalties and protecting you from bright flashes including those of a welder.  Additionally you can toggle them to block out all light.",
+    "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "price": 450000,
     "difficulty": 4
   },
@@ -766,7 +766,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Time Dilation CBM",
-    "description": "At an immense cost of power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction.",
+    "description": "At the cost of all stored bionic power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction.",
     "price": 1400000,
     "difficulty": 11
   },
@@ -802,7 +802,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Unified Power System CBM",
-    "description": "A UPS fully integrated with your bionic power system.  Allows you to run devices requiring a UPS off of your internal power, which is much more efficient than standard battery power.",
+    "description": "You have a unified power system wired into your power banks.  Objects that run on a UPS can now draw directly from your internal power supply.",
     "price": 25000,
     "difficulty": 3
   },
@@ -811,7 +811,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Internal Chronometer CBM",
-    "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.",
+    "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
     "price": 1000,
     "difficulty": 1
   },
