@@ -1136,35 +1136,32 @@ int HandleDPad()
 long sdl_keysym_to_curses( SDL_Keysym keysym )
 {
 
-    const char nw = ( char )inp_mngr.get_input_for_action( "LEFTUP", "keyboard" )[0].sequence[0];
-    const char se = ( char )inp_mngr.get_input_for_action( "RIGHTDOWN", "keyboard" )[0].sequence[0];
-    const char sw = ( char )inp_mngr.get_input_for_action( "RIGHTUP", "keyboard" )[0].sequence[0];
-    const char ne = ( char )inp_mngr.get_input_for_action( "LEFTDOWN", "keyboard" )[0].sequence[0];
-
-    //Shift + Arrow (diagonal clockwise)
-    if( keysym.mod & KMOD_SHIFT ) {
-        switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return nw; //LEFTUP;
-            case SDLK_RIGHT:
-                return se; //RIGHTDOWN;
-            case SDLK_UP:
-                return ne; //RIGHTUP;
-            case SDLK_DOWN:
-                return sw; //LEFTDOWN;
+    if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
+        //Shift + Cursor Arrow (diagonal clockwise)
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP", "keyboard" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN", "keyboard" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP", "keyboard" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN", "keyboard" );
+            }
         }
-    }
-    //Ctrl + Arrow (diagonal counter-clockwise)
-    if( keysym.mod & KMOD_CTRL ) {
-        switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return sw; //LEFTDOWN;
-            case SDLK_RIGHT:
-                return ne; //RIGHTUP;
-            case SDLK_UP:
-                return nw; //LEFTUP;
-            case SDLK_DOWN:
-                return se; //RIGHTDOWN;
+        //Ctrl + Cursor Arrow (diagonal counter-clockwise)
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN", "keyboard" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP", "keyboard" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP", "keyboard" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN", "keyboard" );
+            }
         }
     }
 
