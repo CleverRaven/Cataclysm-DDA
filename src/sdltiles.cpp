@@ -1136,30 +1136,35 @@ int HandleDPad()
 long sdl_keysym_to_curses( SDL_Keysym keysym )
 {
 
+    const char nw = ( char )inp_mngr.get_input_for_action( "LEFTUP", "keyboard" )[0].sequence[0];
+    const char se = ( char )inp_mngr.get_input_for_action( "RIGHTDOWN", "keyboard" )[0].sequence[0];
+    const char sw = ( char )inp_mngr.get_input_for_action( "RIGHTUP", "keyboard" )[0].sequence[0];
+    const char ne = ( char )inp_mngr.get_input_for_action( "LEFTDOWN", "keyboard" )[0].sequence[0];
+
     //Shift + Arrow (diagonal clockwise)
     if( keysym.mod & KMOD_SHIFT ) {
         switch( keysym.sym ) {
             case SDLK_LEFT:
-                return '7'; //LEFTUP;
+                return nw; //LEFTUP;
             case SDLK_RIGHT:
-                return '3'; //RIGHTDOWN;
+                return se; //RIGHTDOWN;
             case SDLK_UP:
-                return '9'; //RIGHTUP;
+                return ne; //RIGHTUP;
             case SDLK_DOWN:
-                return '1'; //LEFTDOWN;
+                return sw; //LEFTDOWN;
         }
     }
     //Ctrl + Arrow (diagonal counter-clockwise)
     if( keysym.mod & KMOD_CTRL ) {
         switch( keysym.sym ) {
             case SDLK_LEFT:
-                return '1'; //LEFTDOWN;
+                return sw; //LEFTDOWN;
             case SDLK_RIGHT:
-                return '9'; //RIGHTUP;
+                return ne; //RIGHTUP;
             case SDLK_UP:
-                return '7'; //LEFTUP;
+                return nw; //LEFTUP;
             case SDLK_DOWN:
-                return '3'; //RIGHTDOWN;
+                return se; //RIGHTDOWN;
         }
     }
 
