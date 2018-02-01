@@ -4,6 +4,7 @@
 #include "string_formatter.h"
 #include "item_factory.h"
 #include "uistate.h"
+#include "output.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
 #include "translations.h"

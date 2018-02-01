@@ -5,6 +5,7 @@
 #include "options.h"
 #include "player.h"
 #include "crafting.h"
+#include "output.h"
 #include "recipe_dictionary.h"
 #include "string_formatter.h"
 #include "item.h"

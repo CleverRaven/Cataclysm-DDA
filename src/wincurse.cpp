@@ -3,6 +3,7 @@
 #define _UNICODE 1
 
 #include "cursesport.h"
+#include "cursesdef.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"

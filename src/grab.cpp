@@ -1,5 +1,6 @@
 #include "game.h"
 #include "map.h"
+#include "output.h"
 #include "player.h"
 #include "vehicle.h"
 #include "messages.h"

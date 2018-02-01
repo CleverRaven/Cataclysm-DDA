@@ -5,6 +5,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "output.h"
 #include "projectile.h"
 #include "line.h"
 #include "debug.h"

@@ -8,6 +8,7 @@
 #include "martialarts.h"
 #include "weather.h"
 #include "messages.h"
+#include "output.h"
 #include "mapdata.h"
 #include "monster.h"
 #include "vitamin.h"

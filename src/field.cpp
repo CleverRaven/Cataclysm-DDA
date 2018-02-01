@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "emit.h"
 #include "vehicle.h"
+#include "output.h"
 #include "calendar.h"
 #include "submap.h"
 #include "mapdata.h"

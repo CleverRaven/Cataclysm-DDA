@@ -1,6 +1,7 @@
 #include "player.h"
 #include "game.h"
 #include "mutation.h"
+#include "output.h"
 #include "options.h"
 #include "weather.h"
 #include "string_formatter.h"

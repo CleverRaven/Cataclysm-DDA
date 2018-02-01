@@ -6,6 +6,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "game.h"
+#include "output.h"
 #include "projectile.h"
 #include "rng.h"
 #include "line.h"

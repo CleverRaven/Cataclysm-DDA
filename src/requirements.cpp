@@ -2,6 +2,7 @@
 
 #include "json.h"
 #include "translations.h"
+#include "output.h"
 #include "game.h"
 #include "player.h"
 #include "debug.h"

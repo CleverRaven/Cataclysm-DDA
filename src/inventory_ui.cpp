@@ -4,6 +4,7 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
+#include "output.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "options.h"
@@ -233,6 +234,11 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
         return;
     }
     cells.emplace_back( func, title, stub );
+}
+
+std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
+{
+    return replace_colors( func( entry ) );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )

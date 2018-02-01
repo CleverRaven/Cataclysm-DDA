@@ -2,8 +2,6 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
-#include "output.h"
-
 #include <memory>
 #include <vector>
 #include <string>
@@ -13,6 +11,8 @@ class martialart;
 class JsonObject;
 class mission;
 class npc;
+class item;
+struct tripoint;
 class player;
 class npc_template;
 template<typename T>

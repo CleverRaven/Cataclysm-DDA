@@ -9,6 +9,7 @@
 #include "ui.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "vitamin.h"
 #include "mission.h"

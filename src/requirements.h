@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include "output.h"
+
 #include "string_id.h"
 
 class nc_color;

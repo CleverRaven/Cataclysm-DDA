@@ -18,6 +18,7 @@
 #include "event.h"
 #include "crafting.h"
 #include "ui.h"
+#include "output.h"
 #include "itype.h"
 #include "string_formatter.h"
 #include "bodypart.h"

@@ -14,6 +14,7 @@
 #include "mongroup.h"
 #include "morale_types.h"
 #include "string_formatter.h"
+#include "output.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"

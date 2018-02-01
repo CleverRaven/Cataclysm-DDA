@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "player.h"
+#include "output.h"
 #include "gamemode.h"
 #include "debug.h"
 #include "mapbuffer.h"

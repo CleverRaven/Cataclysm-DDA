@@ -1438,3 +1438,9 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
 
     return strings[att];
 }
+
+std::string Creature::replace_with_npc_name( std::string input ) const
+{
+    replace_substring( input, "<npcname>", disp_name(), true );
+    return input;
+}

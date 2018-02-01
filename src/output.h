@@ -3,7 +3,6 @@
 #define OUTPUT_H
 
 #include "color.h"
-#include "cursesdef.h"
 #include "catacharset.h"
 #include "translations.h"
 #include "string_formatter.h"

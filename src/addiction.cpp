@@ -4,6 +4,7 @@
 #include "player.h"
 #include "morale_types.h"
 #include "rng.h"
+#include "output.h"
 #include "translations.h"
 
 const efftype_id effect_hallu( "hallu" );

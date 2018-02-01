@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "input.h"
 #include "output.h"
+#include "cursesdef.h"
 #include "catacharset.h"  // utf8_width()
 #include "translations.h"
 #include "string_formatter.h"

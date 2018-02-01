@@ -3,6 +3,7 @@
 #include "map_iterator.h"
 #include "debug.h"
 #include "trap.h"
+#include "output.h"
 #include "rng.h"
 #include "messages.h"
 #include "sounds.h"
