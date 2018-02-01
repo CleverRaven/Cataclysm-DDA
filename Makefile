@@ -564,12 +564,22 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell pkg-config --cflags ncurses)
-    LDFLAGS += $(shell pkg-config --libs ncurses)
+    ifeq ($(LOCALIZE),1)
+      CXXFLAGS += $(shell pkg-config --cflags ncursesw)
+      LDFLAGS += $(shell pkg-config --libs ncursesw)
+    else
+      CXXFLAGS += $(shell pkg-config --cflags ncurses)
+      LDFLAGS += $(shell pkg-config --libs ncurses)
+    endif
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
-      CXXFLAGS += $(shell ncurses5-config --cflags)
-      LDFLAGS += $(shell ncurses5-config --libs)
+      ifeq ($(LOCALIZE),1)
+        CXXFLAGS += $(shell ncursesw5-config --cflags)
+        LDFLAGS += $(shell ncursesw5-config --libs)
+      else
+        CXXFLAGS += $(shell ncurses5-config --cflags)
+        LDFLAGS += $(shell ncurses5-config --libs)
+      endif
     else
       ifneq ($(TARGETSYSTEM),WINDOWS)
         LDFLAGS += -lncurses
