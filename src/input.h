@@ -184,7 +184,7 @@ class input_manager
         /**
          * Return first char associated with an action ID in a given context.
          */
-        char get_first_char_for_action( const std::string &action_descriptor,
+        long get_first_char_for_action( const std::string action_descriptor,
                                         const std::string context = "default" );
 
         /**
