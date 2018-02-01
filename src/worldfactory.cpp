@@ -1282,8 +1282,8 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
-        draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width( tab_strings[i] ) + 7;
+        draw_tab(w, x, _( tab_strings[i].c_str() ), (i == current) ? true : false);
+        x += utf8_width( _( tab_strings[i].c_str() ) ) + 7;
     }
 
     mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
