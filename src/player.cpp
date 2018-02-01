@@ -3571,20 +3571,19 @@ void player::toggle_move_mode()
 {
     if( move_mode == "walk" ) {
         move_mode = "sneak";
-        add_msg(_("You start sneaking."));
-    } else if( move_mode == "sneak" ){
-
+        add_msg( _( "You start sneaking." ) );
+    } else if( move_mode == "sneak" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
-            add_msg(_("You start running."));
+            add_msg( _( "You start running." ) );
         } else {
-            add_msg(m_bad, _("You're too tired to run."));
+            add_msg( m_bad, _( "You're too tired to run." ) );
             move_mode = "walk";
-            add_msg(_("You stand up to walk instead."));
+            add_msg( _( "You stand up to walk instead." ) );
         }
     } else if( move_mode == "run" ) {
         move_mode = "walk";
-        add_msg(_("You slow to a walk."));
+        add_msg( _( "You slow to a walk." ) );
     }
 }
 
