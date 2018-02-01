@@ -1141,26 +1141,26 @@ long sdl_keysym_to_curses( SDL_Keysym keysym )
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
                 case SDLK_LEFT:
-                    return inp_mngr.get_first_char_for_action( "LEFTUP", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
                 case SDLK_RIGHT:
-                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
                 case SDLK_UP:
-                    return inp_mngr.get_first_char_for_action( "RIGHTUP", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
                 case SDLK_DOWN:
-                    return inp_mngr.get_first_char_for_action( "LEFTDOWN", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
             }
         }
         //Ctrl + Cursor Arrow (diagonal counter-clockwise)
         if( keysym.mod & KMOD_CTRL ) {
             switch( keysym.sym ) {
                 case SDLK_LEFT:
-                    return inp_mngr.get_first_char_for_action( "LEFTDOWN", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
                 case SDLK_RIGHT:
-                    return inp_mngr.get_first_char_for_action( "RIGHTUP", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
                 case SDLK_UP:
-                    return inp_mngr.get_first_char_for_action( "LEFTUP", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
                 case SDLK_DOWN:
-                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN", "keyboard" );
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
             }
         }
     }
