@@ -1482,7 +1482,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                               to_string_approx( time_duration::from_turns( dis.time ) ), components_list.c_str() ) ) );
+                               to_string_approx( time_duration::from_turns( dis.time / 100 ) ), components_list.c_str() ) ) );
         }
     }
 
