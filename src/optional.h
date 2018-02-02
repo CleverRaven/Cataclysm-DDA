@@ -60,12 +60,12 @@ class optional
         constexpr optional() noexcept : dummy(), full( false ) { }
         constexpr optional( const nullopt_t ) noexcept : dummy(), full( false ) { }
 
-        optional( const optional &other ) {
+        optional( const optional &other ) : full( false ) {
             if( other.full ) {
                 construct( other.get() );
             }
         }
-        optional( optional &&other ) {
+        optional( optional &&other ) : full( false ) {
             if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -136,11 +136,13 @@ class optional
         T &emplace( Args &&... args ) {
             reset();
             construct( std::forward<Args>( args )... );
+            return get();
         }
         template<class U, class... Args>
         T &emplace( std::initializer_list<U> ilist, Args &&... args ) {
             reset();
             construct( ilist, std::forward<Args>( args )... );
+            return get();
         }
 
         void reset() noexcept {

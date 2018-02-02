@@ -3,7 +3,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
@@ -104,16 +104,6 @@ struct special_attack {
 };
 
 class player_morale;
-class player_morale_ptr : public std::unique_ptr<player_morale> {
-    public:
-        player_morale_ptr() = default;
-        player_morale_ptr( const player_morale_ptr &rhs );
-        player_morale_ptr( player_morale_ptr &&rhs );
-        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
-        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
-
-        ~player_morale_ptr();
-};
 
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
@@ -1390,7 +1380,7 @@ class player : public Character
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
-        copyable_unique_ptr<craft_command> last_craft;
+        pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
         int last_batch;
@@ -1659,7 +1649,7 @@ class player : public Character
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        player_morale_ptr morale;
+        pimpl<player_morale> morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

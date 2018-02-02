@@ -966,7 +966,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             aprox = &tmp;
         }
 
-        islot_gun *gun = mod->type->gun.get();
+        const islot_gun &gun = *mod->type->gun;
         const auto curammo = mod->ammo_data();
 
         bool has_ammo = curammo && mod->ammo_remaining();
@@ -1109,7 +1109,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         info.emplace_back( "GUN", _( "Reload time: " ),
                            has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
-                           int( gun->reload_time / 16.67 ), true, "", true, true );
+                           int( gun.reload_time / 16.67 ), true, "", true, true );
 
         std::vector<std::string> fm;
         for( const auto &e : fire_modes ) {
@@ -1131,13 +1131,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             } ) );
         }
 
-        if( !gun->valid_mod_locations.empty() ) {
+        if( !gun.valid_mod_locations.empty() ) {
             insert_separation_line();
 
             temp1.str( "" );
             temp1 << _( "<bold>Mods:<bold> " );
             int iternum = 0;
-            for( auto &elem : gun->valid_mod_locations ) {
+            for( auto &elem : gun.valid_mod_locations ) {
                 if( iternum != 0 ) {
                     temp1 << "; ";
                 }
@@ -1170,7 +1170,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
     }
     if( is_gunmod() ) {
-        const auto mod = type->gunmod.get();
+        const auto &mod = *type->gunmod;
 
         if( is_gun() ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1180,28 +1180,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "When attached to a gun, <good>allows</good> making <info>reach melee attacks</info> with it." ) ) );
         }
-        if( mod->dispersion != 0 ) {
+        if( mod.dispersion != 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Dispersion modifier: " ), "",
-                                      mod->dispersion, true, ( ( mod->dispersion > 0 ) ? "+" : "" ), true, true ) );
+                                      mod.dispersion, true, ( ( mod.dispersion > 0 ) ? "+" : "" ), true, true ) );
         }
-        if( mod->sight_dispersion != -1 ) {
+        if( mod.sight_dispersion != -1 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
-                                      mod->sight_dispersion, true, "", true, true ) );
+                                      mod.sight_dispersion, true, "", true, true ) );
         }
-        if( mod->aim_speed >= 0 ) {
+        if( mod.aim_speed >= 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                      mod->aim_speed, true, "", true, true ) );
+                                      mod.aim_speed, true, "", true, true ) );
         }
-        if( mod->damage != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, true,
-                                      ( ( mod->damage > 0 ) ? "+" : "" ) ) );
+        if( mod.damage != 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod.damage, true,
+                                      ( ( mod.damage > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->pierce != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
-                                      ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
+        if( mod.pierce != 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod.pierce, true,
+                                      ( ( mod.pierce > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->handling != 0 ) {
-            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod->handling > 0 ? "+" : "", mod->handling, true );
+        if( mod.handling != 0 ) {
+            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod.handling > 0 ? "+" : "", mod.handling, true );
         }
         if( type->mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
@@ -1209,13 +1209,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         temp1.str( "" );
-        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const gun_type_type &used_on ) {
+        temp1 << _( "Used on: " ) << enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type &used_on ) {
             return string_format( "<info>%s</info>", used_on.name().c_str() );
         } );
 
         temp2.str( "" );
         temp2 << _( "Location: " );
-        temp2 << mod->location.name();
+        temp2 << mod.location.name();
 
         info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
@@ -1327,49 +1327,49 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
     if( is_book() ) {
 
         insert_separation_line();
-        auto book = type->book.get();
+        const auto &book = *type->book;
         // Some things about a book you CAN tell by it's cover.
-        if( !book->skill && !type->can_use( "MA_MANUAL" )) {
+        if( !book.skill && !type->can_use( "MA_MANUAL" )) {
             info.push_back( iteminfo( "BOOK", _( "Just for fun." ) ) );
         }
         if( type->can_use( "MA_MANUAL" )) {
             info.push_back( iteminfo( "BOOK", _( "Some sort of <info>martial arts training manual</info>." ) ) );
         }
-        if( book->req == 0 ) {
+        if( book.req == 0 ) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );
         }
         if( g->u.has_identified( typeId() ) ) {
-            if( book->skill ) {
-                if( g->u.get_skill_level( book->skill ).can_train() ) {
+            if( book.skill ) {
+                if( g->u.get_skill_level( book.skill ).can_train() ) {
                     info.push_back( iteminfo( "BOOK", "",
                                               string_format( _( "Can bring your <info>%s skill to</info> <num>" ),
-                                                      book->skill.obj().name().c_str() ), book->level ) );
+                                                      book.skill.obj().name().c_str() ), book.level ) );
                 }
 
-                if( book->req != 0 ) {
+                if( book.req != 0 ) {
                     info.push_back( iteminfo( "BOOK", "",
                                               string_format( _( "<info>Requires %s level</info> <num> to understand." ),
-                                                      book->skill.obj().name().c_str() ),
-                                              book->req, true, "", true, true ) );
+                                                      book.skill.obj().name().c_str() ),
+                                              book.req, true, "", true, true ) );
                 }
             }
 
-            if( book->intel != 0 ) {
+            if( book.intel != 0 ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
-                                          book->intel, true, "", true, true ) );
+                                          book.intel, true, "", true, true ) );
             }
-            if( book->fun != 0 ) {
+            if( book.fun != 0 ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          book->fun, true, ( book->fun > 0 ? "+" : "" ) ) );
+                                          book.fun, true, ( book.fun > 0 ? "+" : "" ) ) );
             }
             info.push_back( iteminfo( "BOOK", "",
                                       ngettext( "A chapter of this book takes <num> <info>minute to read</info>.",
                                                 "A chapter of this book takes <num> <info>minutes to read</info>.",
-                                                book->time ),
-                                      book->time, true, "", true, true ) );
-            if( book->chapters > 0 ) {
+                                                book.time ),
+                                      book.time, true, "", true, true ) );
+            if( book.chapters > 0 ) {
                 const int unread = get_remaining_chapters( g->u );
                 info.push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> <info>unread chapter</info>.",
                                           "This book has <num> <info>unread chapters</info>.",
@@ -1378,7 +1378,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             }
 
             std::vector<std::string> recipe_list;
-            for( auto const &elem : book->recipes ) {
+            for( auto const &elem : book.recipes ) {
                 const bool knows_it = g->u.knows_recipe( elem.recipe );
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
@@ -1402,7 +1402,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
-            if( recipe_list.size() != book->recipes.size() ) {
+            if( recipe_list.size() != book.recipes.size() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "It might help you figuring out some <good>more recipes</good>." ) ) );
             }
@@ -1893,15 +1893,15 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
     if( !is_gun() ) {
         return 0;
     }
-    const islot_gun *gt = type->gun.get();
-    const auto loc = gt->valid_mod_locations.find( location );
-    if( loc == gt->valid_mod_locations.end() ) {
+    const islot_gun &gt = *type->gun;
+    const auto loc = gt.valid_mod_locations.find( location );
+    if( loc == gt.valid_mod_locations.end() ) {
         return 0;
     }
     int result = loc->second;
     for( const auto &elem : contents ) {
-        const auto mod = elem.type->gunmod.get();
-        if( mod != NULL && mod->location == location ) {
+        const auto &mod = elem.type->gunmod;
+        if( mod && mod->location == location ) {
             result--;
         }
     }
@@ -3515,7 +3515,7 @@ bool item::destroyed_at_zero_charges() const
 
 bool item::is_gun() const
 {
-    return type->gun.get() != nullptr;
+    return type->gun.has_value();
 }
 
 bool item::is_firearm() const
@@ -3531,17 +3531,17 @@ bool item::is_silent() const
 
 bool item::is_gunmod() const
 {
-    return type->gunmod.get() != nullptr;
+    return type->gunmod.has_value();
 }
 
 bool item::is_bionic() const
 {
-    return type->bionic.get() != nullptr;
+    return type->bionic.has_value();
 }
 
 bool item::is_magazine() const
 {
-    return type->magazine.get() != nullptr;
+    return type->magazine.has_value();
 }
 
 bool item::is_ammo_belt() const
@@ -3556,12 +3556,12 @@ bool item::is_bandolier() const
 
 bool item::is_ammo() const
 {
-    return type->ammo.get() != nullptr;
+    return type->ammo.has_value();
 }
 
 bool item::is_comestible() const
 {
-    return type->comestible != nullptr;
+    return type->comestible.has_value();
 }
 
 bool item::is_food() const
@@ -3577,7 +3577,7 @@ bool item::is_medication() const
 
 bool item::is_brewable() const
 {
-    return type->brewable != nullptr;
+    return type->brewable.has_value();
 }
 
 bool item::is_food_container() const
@@ -3628,14 +3628,14 @@ bool item::is_melee( damage_type dt ) const
 const islot_armor *item::find_armor_data() const
 {
     if( type->armor ) {
-        return type->armor.get();
+        return &*type->armor;
     }
     // Currently the only way to make a non-armor item into armor is to install a gun mod.
     // The gunmods are stored in the items contents, as are the contents of a container, and the
     // tools in a tool belt (a container actually), or the ammo in a quiver (container again).
     for( const auto mod : gunmods() ) {
         if( mod->type->armor ) {
-            return mod->type->armor.get();
+            return &*mod->type->armor;
         }
     }
     return nullptr;
@@ -3648,12 +3648,12 @@ bool item::is_armor() const
 
 bool item::is_book() const
 {
-    return type->book.get() != nullptr;
+    return type->book.has_value();
 }
 
 bool item::is_container() const
 {
-    return type->container.get() != nullptr;
+    return type->container.has_value();
 }
 
 bool item::is_watertight_container() const
@@ -3671,7 +3671,7 @@ bool item::is_bucket() const
     // That "preserves" part is a hack:
     // Currently all non-empty cans are effectively sealed at all times
     // Making them buckets would cause weirdness
-    return type->container != nullptr &&
+    return type->container &&
            type->container->watertight &&
            !type->container->seals &&
            type->container->unseals_into == "null";
@@ -3684,17 +3684,17 @@ bool item::is_bucket_nonempty() const
 
 bool item::is_engine() const
 {
-    return type->engine.get() != nullptr;
+    return type->engine.has_value();
 }
 
 bool item::is_wheel() const
 {
-    return type->wheel.get() != nullptr;
+    return type->wheel.has_value();
 }
 
 bool item::is_fuel() const
 {
-    return type->fuel.get() != nullptr;
+    return type->fuel.has_value();
 }
 
 bool item::is_toolmod() const
@@ -3815,7 +3815,7 @@ bool item::is_emissive() const
 
 bool item::is_tool() const
 {
-    return type->tool != nullptr;
+    return type->tool.has_value();
 }
 
 bool item::is_tool_reversible() const
@@ -3831,7 +3831,7 @@ bool item::is_tool_reversible() const
 
 bool item::is_artifact() const
 {
-    return type->artifact.get() != nullptr;
+    return type->artifact.has_value();
 }
 
 bool item::can_contain( const item &it ) const
@@ -3842,7 +3842,7 @@ bool item::can_contain( const item &it ) const
 
 bool item::can_contain( const itype &tp ) const
 {
-    if( type->container == nullptr ) {
+    if( !type->container ) {
         // @todo: Tools etc.
         return false;
     }
@@ -4038,11 +4038,11 @@ int item::sight_dispersion() const
     int res = has_flag( "DISABLE_SIGHTS" ) ? 500 : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
-        const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
+        const auto &mod = *e->type->gunmod;
+        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        res = std::min( res, mod->sight_dispersion );
+        res = std::min( res, mod.sight_dispersion );
     }
 
     return res;
@@ -5337,7 +5337,7 @@ bool item::will_explode_in_fire() const
         return true;
     }
 
-    if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
+    if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         return true;
     }
 
@@ -5356,21 +5356,21 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     if( type->explosion.power >= 0 ) {
         g->explosion( p, type->explosion );
         return true;
-    } else if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
+    } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         long charges_remaining = charges;
         const long rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         item temp_item = *this;
-        const islot_ammo *ammo_type = type->ammo.get();
+        const islot_ammo &ammo_type = *type->ammo;
 
-        if( ammo_type->special_cookoff ) {
+        if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, ammo_type->ammo_effects );
-        } else if( ammo_type->cookoff ) {
+            apply_ammo_effects( p, ammo_type.ammo_effects );
+        } else if( ammo_type.cookoff ) {
             // Ammo that cooks off, but doesn't have a
             // large intrinsic effect blows up with shrapnel
-           g->explosion( p, sqrtf( ammo_type->damage / 10.0f ) * 5, 0.5f,
+           g->explosion( p, sqrtf( ammo_type.damage / 10.0f ) * 5, 0.5f,
                          false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
@@ -5380,7 +5380,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
 
         return true;
-    } else if( !contents.empty() && ( type->magazine == nullptr || !type->magazine->protects_contents ) ) {
+    } else if( !contents.empty() && ( !type->magazine || !type->magazine->protects_contents ) ) {
         const auto new_end = std::remove_if( contents.begin(), contents.end(), [ &p, &drops ]( item &it ) {
             return it.detonate( p, drops );
         } );
@@ -5875,7 +5875,7 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
 
 bool item::is_seed() const
 {
-    return type->seed.get() != nullptr;
+    return type->seed.has_value();
 }
 
 time_duration item::get_plant_epoch() const

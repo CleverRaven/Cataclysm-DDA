@@ -396,6 +396,16 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_ANT_LARVA",
+    "default" : "mon_ant_larva",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ANT_QUEEN",
+    "default" : "mon_ant_queen",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_ROACH",
     "default" : "mon_giant_cockroach",
     "monsters" : [
@@ -409,6 +419,18 @@
     "default" : "mon_bee",
     "monsters" : [
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEEKEEPER",
+    "default": "mon_beekeeper",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WASP",
+    "default": "mon_wasp",
+    "monsters": [  ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_WORM",
@@ -518,6 +540,21 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_FUNGI_QUEEN_ONLY",
+    "default" : "mon_fungaloid_queen",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_FUNGI_SEEDER_ONLY",
+    "default" : "mon_fungaloid_seeder",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_FUNGI_TOWER_ONLY",
+    "default" : "mon_fungaloid_tower",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_GOO",
     "default" : "mon_blob",
     "monsters" : [
@@ -554,6 +591,11 @@
       { "monster" : "mon_albino_penguin", "freq" : 10, "cost_multiplier" : 5, "pack_size" : [3,9] },
       { "monster" : "mon_gator", "freq" : 40, "cost_multiplier" : 2, "pack_size" : [1,2] }
     ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_SEWER_RAT",
+    "default" : "mon_sewer_rat",
+    "monsters" : [  ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_SWAMP",
@@ -891,6 +933,14 @@
     "name" : "GROUP_SPIDER",
     "default" : "mon_spider_web",
     "monsters" : [
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_SPIDER_GIANT",
+    "default" : "mon_spider_web",
+    "monsters" : [
+        { "monster" : "mon_spider_widow_giant", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_spider_cellar_giant", "freq" : 50, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -1545,5 +1595,29 @@
       { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 },
       { "monster" : "mon_zombie_runner", "freq" : 20, "cost_multiplier" : 5, "pack_size": [1,4] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_JACKSON_ONLY",
+    "default": "mon_zombie_jackson",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SHIA_ONLY",
+    "default": "mon_shia",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_JABBERWOCK_ONLY",
+    "default": "mon_jabberwock",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RAT_KING_ONLY",
+    "default": "mon_rat_king",
+    "monsters": [  ]
   }
 ]

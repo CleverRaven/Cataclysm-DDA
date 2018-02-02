@@ -767,7 +767,7 @@ void Item_factory::check_definitions() const
                 }
             }
         }
-        if( type->brewable != nullptr ) {
+        if( type->brewable ) {
             if( type->brewable->time < 1_turns ) {
                 msg << "brewable time is less than 1 turn\n";
             }
@@ -943,7 +943,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->container != nullptr ) {
+        if( type->container ) {
             if( type->container->seals && type->container->unseals_into != "null" ) {
                 msg << string_format("Resealable container unseals_into %s", type->container->unseals_into.c_str() ) << "\n";
             }
@@ -964,7 +964,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->fuel != nullptr && !type->count_by_charges() ) {
+        if( type->fuel && !type->count_by_charges() ) {
             msg << "fuel value set, but item isn't count_by_charges.\n";
         }
 
@@ -1029,16 +1029,16 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src )
+void Item_factory::load_slot( cata::optional<SlotType> &slotptr, JsonObject &jo, const std::string &src )
 {
     if( !slotptr ) {
-        slotptr.reset( new SlotType() );
+        slotptr.emplace();
     }
     load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+void Item_factory::load_slot_optional( cata::optional<SlotType> &slotptr, JsonObject &jo,
                                        const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {

@@ -942,7 +942,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
 bool player::install_bionics( const itype &type, int skill_level )
 {
-    if( type.bionic.get() == nullptr ) {
+    if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }

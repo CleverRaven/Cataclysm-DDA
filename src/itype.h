@@ -2,7 +2,7 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
-#include "copyable_unique_ptr.h"
+#include "optional.h"
 #include "color.h" // nc_color
 #include "enums.h" // point
 #include "iuse.h" // use_function
@@ -617,23 +617,23 @@ struct itype {
      * this before using it.
      */
     /*@{*/
-    copyable_unique_ptr<islot_container> container;
-    copyable_unique_ptr<islot_tool> tool;
-    copyable_unique_ptr<islot_comestible> comestible;
-    copyable_unique_ptr<islot_brewable> brewable;
-    copyable_unique_ptr<islot_armor> armor;
-    copyable_unique_ptr<islot_book> book;
-    copyable_unique_ptr<islot_mod> mod;
-    copyable_unique_ptr<islot_engine> engine;
-    copyable_unique_ptr<islot_wheel> wheel;
-    copyable_unique_ptr<islot_fuel> fuel;
-    copyable_unique_ptr<islot_gun> gun;
-    copyable_unique_ptr<islot_gunmod> gunmod;
-    copyable_unique_ptr<islot_magazine> magazine;
-    copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_ammo> ammo;
-    copyable_unique_ptr<islot_seed> seed;
-    copyable_unique_ptr<islot_artifact> artifact;
+    cata::optional<islot_container> container;
+    cata::optional<islot_tool> tool;
+    cata::optional<islot_comestible> comestible;
+    cata::optional<islot_brewable> brewable;
+    cata::optional<islot_armor> armor;
+    cata::optional<islot_book> book;
+    cata::optional<islot_mod> mod;
+    cata::optional<islot_engine> engine;
+    cata::optional<islot_wheel> wheel;
+    cata::optional<islot_fuel> fuel;
+    cata::optional<islot_gun> gun;
+    cata::optional<islot_gunmod> gunmod;
+    cata::optional<islot_magazine> magazine;
+    cata::optional<islot_bionic> bionic;
+    cata::optional<islot_ammo> ammo;
+    cata::optional<islot_seed> seed;
+    cata::optional<islot_artifact> artifact;
     /*@}*/
 
 protected:

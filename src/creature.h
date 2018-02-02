@@ -2,7 +2,7 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include "string_formatter.h"
@@ -569,7 +569,7 @@ class Creature
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
-        copyable_unique_ptr<effects_map> effects;
+        pimpl<effects_map> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 

@@ -4480,7 +4480,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                             it->tname( 1, false ).c_str());
     }
 
-    const auto art = it->type->artifact.get();
+    const auto &art = it->type->artifact;
     size_t num_used = rng(1, art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
         num_used += rng(1, art->effects_activated.size() - num_used);

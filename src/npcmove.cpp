@@ -2559,9 +2559,8 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    const auto food = it.type->comestible.get();
-    if( food == nullptr ) {
-        // Not food
+    const auto &food = it.type->comestible;
+    if( !food ) {
         return 0.0f;
     }
 
