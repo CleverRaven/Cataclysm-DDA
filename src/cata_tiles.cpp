@@ -28,6 +28,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 #include "submap.h"
+#include "output.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
 #include "cursesport.h"
