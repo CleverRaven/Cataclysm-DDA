@@ -505,6 +505,11 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_TRIFFID_HEART_ONLY",
+    "default" : "mon_triffid_heart",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_FUNGI",
     "default" : "mon_spore",
     "monsters" : [
@@ -514,6 +519,16 @@
       { "monster" : "mon_boomer_fungus", "freq" : 0, "cost_multiplier" : 0 },
       { "monster" : "mon_fungal_wall", "freq" : 0, "cost_multiplier" : 0 },
       { "monster" : "mon_fungaloid_queen", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TRIFFID_INNER",
+    "default" : "mon_triffid",
+    "monsters" : [
+      { "monster" : "mon_triffid", "freq" : 50, "cost_multiplier" : 0, "pack_size": [1,4] },
+      { "monster" : "mon_creeper_hub", "freq" : 80, "cost_multiplier" : 0 },
+      { "monster" : "mon_biollante", "freq" : 60, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungal_fighter", "freq" : 50, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -895,6 +910,32 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_LAB_ZOMBIE_SCIENTIST",
+    "default" : "mon_zombie_scientist",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_LAB_ALIEN_1",
+    "default" : "mon_mi_go",
+    "monsters" : [
+      { "monster" : "mon_mi_go", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_zombie_brute", "freq" : 300, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_LAB_ALIEN_2",
+    "default" : "mon_kreck",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_LAB_ALIEN_3",
+    "default" : "mon_crawler",
+    "monsters" : [
+      { "monster" : "mon_crawler", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_shoggoth", "freq" : 300, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_NETHER",
     "default" : "mon_blank",
     "monsters" : [
@@ -918,6 +959,16 @@
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_kreck", "freq" : 210, "cost_multiplier" : 0 },
       { "monster" : "mon_gracke", "freq" : 210, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_NETHER_PORTAL_EASY",
+    "default" : "mon_gelatin",
+    "monsters" : [
+      { "monster" : "mon_gelatin", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_mi_go", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_kreck", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_gracke", "freq" : 100, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
