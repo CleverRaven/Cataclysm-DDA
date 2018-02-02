@@ -56,7 +56,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADCARDIO"],
-        "category" : ["MUTCAT_FISH"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -3950,7 +3950,7 @@
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
-        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "PAWS_LARGE",
