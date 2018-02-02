@@ -905,8 +905,19 @@
       { "monster" : "mon_gelatin", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_kreck", "freq" : 210, "cost_multiplier" : 0 },
+      { "monster" : "mon_gracke", "freq" : 210, "cost_multiplier" : 0 },
       { "monster" : "mon_gozu", "freq" : 25, "cost_multiplier" : 0 },
       { "monster" : "mon_shoggoth", "freq" : 5, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_NETHER_PORTAL",
+    "default" : "mon_blank",
+    "monsters" : [
+      { "monster" : "mon_gelatin", "freq" : 120, "cost_multiplier" : 0 },
+      { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 },
+      { "monster" : "mon_kreck", "freq" : 210, "cost_multiplier" : 0 },
+      { "monster" : "mon_gracke", "freq" : 210, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -957,12 +968,42 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_ROBOT_CHICKENBOT_ONLY",
+    "default" : "mon_chickenbot",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ROBOT_TANKBOT_ONLY",
+    "default" : "mon_tankbot",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_TURRET",
     "default" : "mon_turret",
     "monsters" : [
       { "monster" : "mon_turret_rifle", "freq" : 300, "cost_multiplier" : 1 },
       { "monster" : "mon_turret_bmg", "freq" : 50, "cost_multiplier" : 2 }
     ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TURRET_ONLY",
+    "default" : "mon_turret",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TURRET_RIFLE_ONLY",
+    "default" : "mon_turret_rifle",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TURRET_BMG_ONLY",
+    "default" : "mon_turret_bmg",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TURRET_SEARCHLIGHT_ONLY",
+    "default" : "mon_turret_searchlight",
+    "monsters" : [  ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_POLICE", "//" : "+30% cops",
@@ -1485,10 +1526,24 @@
       ]
   },{
       "type":"monstergroup",
+      "name" : "GROUP_ROBOT_HAZMATBOT",
+      "default" : "mon_hazmatbot",
+      "monsters" : [
+        { "monster" : "mon_hazmatbot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
       "name" : "GROUP_ROBOT_SECUBOT",
       "default" : "mon_secubot",
       "monsters" : [
         { "monster" : "mon_secubot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_CYBORG_BROKEN",
+      "default" : "mon_broken_cyborg",
+      "monsters" : [
+        { "monster" : "mon_broken_cyborg", "freq" : 100, "cost_multiplier" : 0 }
       ]
   },{
       "type":"monstergroup",
@@ -1618,6 +1673,30 @@
     "type": "monstergroup",
     "name": "GROUP_RAT_KING_ONLY",
     "default": "mon_rat_king",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOG_THING_ONLY",
+    "default": "mon_dog_thing",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DARK_WYRM_ONLY",
+    "default": "mon_dark_wyrm",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BREATHER_ONLY",
+    "default": "mon_breather",
+    "monsters": [  ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BREATHER_HUB_ONLY",
+    "default": "mon_breather_hub",
     "monsters": [  ]
   }
 ]
