@@ -69,7 +69,7 @@ class start_location
 
         /**
          * Adds surround start monsters.
-         * @param expected_count Expected value of "monster points" (map tiles times density from @ref map::add_spawn).
+         * @param expected_count Expected value of "monster points" (map tiles times density from @ref map::place_spawns).
          */
         void surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
                                      float expected_points ) const;
