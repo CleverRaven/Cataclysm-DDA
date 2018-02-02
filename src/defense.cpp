@@ -39,6 +39,13 @@
 
 const skill_id skill_barter( "barter" );
 
+static const mongroup_id GROUP_NETHER = mongroup_id( "GROUP_NETHER" );
+static const mongroup_id GROUP_ROBOT = mongroup_id( "GROUP_ROBOT" );
+static const mongroup_id GROUP_SPIDER = mongroup_id( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
+
 std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
 std::set<m_flag> monflags_to_add;
@@ -1365,22 +1372,22 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
     if (zombies || specials) {
         if (specials) {
-            valid.push_back( mongroup_id( "GROUP_ZOMBIE" ) );
+            valid.push_back( GROUP_ZOMBIE );
         } else {
-            valid.push_back( mongroup_id( "GROUP_VANILLA" ) );
+            valid.push_back( GROUP_VANILLA );
         }
     }
     if (spiders) {
-        valid.push_back( mongroup_id( "GROUP_SPIDER" ) );
+        valid.push_back( GROUP_SPIDER );
     }
     if (triffids) {
-        valid.push_back( mongroup_id( "GROUP_TRIFFID" ) );
+        valid.push_back( GROUP_TRIFFID );
     }
     if (robots) {
-        valid.push_back( mongroup_id( "GROUP_ROBOT" ) );
+        valid.push_back( GROUP_ROBOT );
     }
     if (subspace) {
-        valid.push_back( mongroup_id( "GROUP_NETHER" ) );
+        valid.push_back( GROUP_NETHER );
     }
 
     if (valid.empty()) {
