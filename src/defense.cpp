@@ -220,21 +220,24 @@ void defense_game::init_map()
         break;
 
     case DEFLOC_HOSPITAL:
-        for (int x = 49; x <= 51; x++) {
-            for (int y = 49; y <= 51; y++) {
-                starting_om.ter(x, y, 0) = oter_id( "hospital" );
-            }
-        }
-        starting_om.ter(50, 49, 0) = oter_id( "hospital_entrance" );
+        starting_om.ter(51, 49, 0) = oter_id( "road_end_north" );
+        starting_om.ter(50, 50, 0) = oter_id( "hospital_3_north" );
+        starting_om.ter(51, 50, 0) = oter_id( "hospital_2_north" );
+        starting_om.ter(52, 50, 0) = oter_id( "hospital_1_north" );
+        starting_om.ter(50, 51, 0) = oter_id( "hospital_6_north" );
+        starting_om.ter(51, 51, 0) = oter_id( "hospital_5_north" );
+        starting_om.ter(52, 51, 0) = oter_id( "hospital_4_north" );
+        starting_om.ter(50, 52, 0) = oter_id( "hospital_9_north" );
+        starting_om.ter(51, 52, 0) = oter_id( "hospital_8_north" );
+        starting_om.ter(52, 52, 0) = oter_id( "hospital_7_north" );
         break;
 
     case DEFLOC_WORKS:
-        for (int x = 49; x <= 50; x++) {
-            for (int y = 49; y <= 50; y++) {
-                starting_om.ter(x, y, 0) = oter_id( "public_works" );
-            }
-        }
-        starting_om.ter(50, 49, 0) = oter_id( "public_works_entrance" );
+        starting_om.ter(50, 52, 0) = oter_id( "road_end_north" );
+        starting_om.ter(50, 50, 0) = oter_id( "public_works_NW_north" );
+        starting_om.ter(51, 50, 0) = oter_id( "public_works_NE_north" );
+        starting_om.ter(50, 51, 0) = oter_id( "public_works_SW_north" );
+        starting_om.ter(51, 51, 0) = oter_id( "public_works_SE_north" );
         break;
 
     case DEFLOC_MALL:
