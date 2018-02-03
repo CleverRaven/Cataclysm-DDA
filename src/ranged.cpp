@@ -1341,7 +1341,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, 0, gun.gun_damage(), gun.gun_pierce() );
+    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
