@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-19 08:34-0500\n"
-"PO-Revision-Date: 2018-01-20 12:13+0000\n"
+"POT-Creation-Date: 2018-01-26 06:07-0500\n"
+"PO-Revision-Date: 2018-01-26 23:33+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -4275,8 +4275,8 @@ msgid ""
 "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
 "Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
 "extremely popular all over the world.  The bullet has poor wounding "
-"potential due to its stability, only begining to yaw after 26cm."
-msgstr "121.9gr 무게의 탄두를 사용한 7.62x39mm 57-N-231 FMJ 탄. 제2차 세계대전 당시 소련에서 개발된 7.62x39mm탄은 얼마 지나지 않아 전세계적으로 널리 쓰이게 되었습니다. 탄두가 관통 후 안정성이 높아 인체나 탄도학 젤라틴에 박혔을 때 26cm 를 관통 한 후부터 흔들리기 시작하기 때문에 상대적으로 작은 상처만 남깁니다."
+"potential due to its stability, only beginning to yaw after 26cm."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M67"
@@ -4294,6 +4294,15 @@ msgstr "123gr 무게의 탄두를 사용한 7.62x39mm M67 탄. M43 탄의 종말
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
 msgstr "7.62x39mm M43 (재생)"
+
+#. ~ Description for reloaded 7.62x39mm M43
+#: lang/json/AMMO_from_json.py
+msgid ""
+"7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet "
+"Union the 7.62x39mm round rapidly became extremely popular all over the "
+"world.  The bullet has poor wounding potential due to its stability, only "
+"beginning to yaw after 26cm."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M67"
@@ -29530,6 +29539,17 @@ msgstr[0] "소형 냉장고"
 msgid "A very small fridge for keeping food cool."
 msgstr "음식을 냉장시키는데 쓰이는 아주 작은 냉장고."
 
+#: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "washing machine"
+msgid_plural "washing machines"
+msgstr[0] ""
+
+#. ~ Description for washing machine
+#: lang/json/GENERIC_from_json.py
+msgid "A very small washing machine designed for use in vehicles."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "solar cell"
 msgid_plural "solar cells"
@@ -33238,6 +33258,27 @@ msgstr "평범한 좀비들"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes all special zombies from the game."
 msgstr "게임에서 모든 특수 좀비를 제거합니다."
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Mutant NPCs"
+msgstr ""
+
+#. ~ Description for Mutant NPCs
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"NPCs wandering the wasteland will occasionally have mutations --- your foes "
+"included. Beware!"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "NPC traits"
+msgstr ""
+
+#. ~ Description for NPC traits
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Add an NPC class that spawns with starting traits, like the player does."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Mythological Replicas"
@@ -44903,6 +44944,29 @@ msgid ""
 " boat to move."
 msgstr "보트가 떠있도록 하는 나무판. 차량을 보트로 바꾸려면 바퀴 부분에 위치 시키세요. 그 후에 노와 보트를 달면 보트가 움직일 수 있게 됩니다."
 
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gelatinous track"
+msgstr ""
+
+#. ~ Description for Gelatinous track
+#. ~ Description for Oozing track
+#. ~ Description for Gray track
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"A short, interlocking set of tracks created out of some of your monstrosity "
+"blob based parts.  Similar with what you might see used on light "
+"construction vehicles.  It's significantly stronger than regular tires due "
+"to not being at risk of bursting; but is quite heavy."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Oozing track"
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gray track"
+msgstr ""
+
 #: lang/json/WHEEL_from_json.py
 msgid "gelacier"
 msgstr ""
@@ -45173,6 +45237,10 @@ msgstr "세탁을 멈춥니까?"
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop cutting the metal?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop chopping down?"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -45987,15 +46055,6 @@ msgid ""
 msgstr "불필요한 것을 모두 떼어내고 핵심만 남긴 이 미니 반응로는 아마 가슴에 넣어 둘 만한 것은 아닙니다. 작동을 정지할 방법이 없으나 추가 연료 투입을 켜고 끌 수는 있습니다."
 
 #: lang/json/bionic_from_json.py
-msgid "Reactor Upgrade"
-msgstr "반응로 업그레이드"
-
-#. ~ Description for Reactor Upgrade
-#: lang/json/bionic_from_json.py
-msgid "You shouldn't see this."
-msgstr "You shouldn't see this."
-
-#: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
 msgstr "재활용 유닛"
 
@@ -46488,10 +46547,6 @@ msgstr "경작하기"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "흙더미 다지기"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Down Tree"
-msgstr "나무 베어넘기기"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Logs"
@@ -50085,10 +50140,6 @@ msgstr "책장"
 msgid "Stores books.  Y'know, Those things.  Who reads books anymore?"
 msgstr ""
 
-#: lang/json/furniture_from_json.py
-msgid "washing machine"
-msgstr "세탁기"
-
 #. ~ Description for washing machine
 #: lang/json/furniture_from_json.py
 msgid "You could wash your dirty clothes if electricity was running."
@@ -51607,6 +51658,14 @@ msgid ""
 "barren proto-weapon."
 msgstr "레드웍스 LLC(Leadworks LLC) 사의 불펍 L523 플랫폼은 쉽게 구할 수 있는 5.56mm 탄을 사용하며, 다른 부품으로 빠르고, 안전하게 그리고 효과적으로 교체할 수 있도록 설계되었습니다. 이론적으로는 플랫폼 단독으로도 사용할 수는 있지만, 권장되지 않으며, 제품의 품질 보증이 무효가 될 수 있습니다. 또한, 시중에서 판매되는 개조 부품과는 호환되지 않습니다."
 
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+msgid "semi-auto"
+msgstr "반자동"
+
+#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+msgid "auto"
+msgstr "완전 자동"
+
 #: lang/json/gun_from_json.py
 msgid "L523-CAR carbine"
 msgid_plural "L523-CAR carbines"
@@ -51638,10 +51697,6 @@ msgid ""
 "it doesn't accept third-party modifications."
 msgstr "레드웍스 LLC(Leadworks LLC) 사의 불펍 L523 플랫폼은 쉽게 구할 수 있는 5.56mm 탄을 사용하며, 다른 부품으로 빠르고, 안전하게 그리고 효과적으로 교체할 수 있도록 설계되었습니다. 이 지정 사수용 소총 모델은 특별히 제작된 연장 총열에 일체형 양각대와 전방 손잡이, 그리고 8배율 광학 조준기가 부착되어 있으며, 기존의 조정간을 자이로 안정화 시스템으로 교체했습니다. 하지만 다른 모델과 마찬가지로 개조 부품을 추가적으로 장착할 수는 없습니다."
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-msgid "semi-auto"
-msgstr "반자동"
-
 #: lang/json/gun_from_json.py
 msgid "L523-LMG"
 msgid_plural "L523-LMGs"
@@ -51657,10 +51712,13 @@ msgid ""
 "with ammo belts."
 msgstr "레드웍스 LLC(Leadworks LLC) 사의 불펍 L523 플랫폼은 쉽게 구할 수 있는 5.56mm 탄을 사용하며, 다른 부품으로 빠르고, 안전하게 그리고 효과적으로 교체할 수 있도록 설계되었습니다. 이 꽤 야심적인 경기관총 모델은 고강도 총열과 전방 손잡이, 레드웍스 사의 자이로 시스템을 탑재하고 있습니다. 다른 제품과는 달리 탄약 벨트를 장전할 수 있습니다."
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-#: src/turret.cpp
-msgid "auto"
-msgstr "완전 자동"
+#: lang/json/gun_from_json.py
+msgid "low auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "high auto"
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523-MBR rifle"
@@ -56144,8 +56202,7 @@ msgstr "반지"
 msgid "Attach"
 msgstr "연결하기"
 
-#: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
-#: src/game_inventory.cpp
+#: lang/json/item_action_from_json.py
 msgid "Consume"
 msgstr "섭취하기"
 
@@ -56348,6 +56405,14 @@ msgstr "소리 내기"
 #: lang/json/item_action_from_json.py
 msgid "Activate/deactivate"
 msgstr "활성화/비활성화"
+
+#: lang/json/item_action_from_json.py
+msgid "Install bionic"
+msgstr "바이오닉 설치"
+
+#: lang/json/item_action_from_json.py
+msgid "Chop down a tree"
+msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -56726,6 +56791,36 @@ msgid ""
 "This weapon <good>can be used with</good> <info>unarmed fighting "
 "styles</info>."
 msgstr "이 무기는 <info>비무장 전투 스타일</info>로 <good>사용할 수 있다.</good>"
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a <bad>faulty</bad> bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a power source bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic only has a function when activated, else it causes it's effect "
+"every turn."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a gun bionic and activating it will fire it.  Prevents all "
+"other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a weapon bionic and activating it will create (or destroy) "
+"bionic's fake_item in user's hands.  Prevents all other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic can provide power to powered armor."
+msgstr ""
 
 #: lang/json/keybinding_from_json.py lang/json/keybinding_from_json.py
 #: src/input.cpp src/messages.cpp
@@ -67436,6 +67531,220 @@ msgstr ""
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm just trying to stay alive.... and it ain't as easy as it looks."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for mutagen... this world is no place for humans anymore, and I "
+"don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lizard Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lizard mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Medical Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for medical mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Bird Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for bird mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Fish Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for fish mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Beast Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for beast mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Ursine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for ursine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Feline Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for feline mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lupine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lupine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cattle Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cattle mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Insect Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for insect mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Plant Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for plant mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Slime Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for slime mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Troglobite Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for troglobite mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cephalopod Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cephalopod mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Spider Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for spider mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Rat Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for rat mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Alpha Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for alpha mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Elfa Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for elfa mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Chimera Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for chimera mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Raptor Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for raptor mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "NPC with starting traits"
 msgstr ""
 
 #: lang/json/npc_from_json.py
@@ -87439,6 +87748,22 @@ msgstr "그릉 그릉 그릉"
 msgid "You finished cutting the metal."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "CHK!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Almost there!  Ten more minutes of work and you'll be through."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Select a direction for the tree to fall in."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finished chopping down a tree."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -89410,14 +89735,6 @@ msgstr "부품을 제거하고 신체 조직을 원래 상태로 되돌렸다."
 msgid "Successfully removed %s."
 msgstr "%s을(를) 완벽히 제거했다."
 
-#: src/bionics.cpp
-msgid "There is nothing to upgrade!"
-msgstr "더이상 업그레이드할 게 없다!"
-
-#: src/bionics.cpp
-msgid "You have already installed this bionic."
-msgstr "이미 이 바이오닉을 설치했다."
-
 #. ~ <Body part name>: <number of slots> more slot(s) needed.
 #: src/bionics.cpp
 #, c-format
@@ -89492,6 +89809,14 @@ msgctxt "memorial_female"
 msgid "Installed bionic: %s."
 msgstr "설치된 바이오닉: %s"
 
+#. ~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the
+#. upgraded bionic (superior).
+#: src/bionics.cpp
+#, c-format
+msgid "Successfully upgraded %1$s to %2$s."
+msgstr ""
+
+#. ~ %s - name of the bionic.
 #: src/bionics.cpp
 #, c-format
 msgid "Successfully installed %s."
@@ -91121,10 +91446,6 @@ msgstr "%s이(가) 작업을 지켜본다..."
 #, c-format
 msgid "You finish your construction: %s."
 msgstr ""
-
-#: src/construction.cpp
-msgid "Press a direction for the tree to fall in:"
-msgstr "나무를 넘어뜨릴 방향을 눌러주세요."
 
 #: src/construction.cpp src/veh_interact.cpp
 msgid "Enter new vehicle name:"
@@ -96061,6 +96382,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr ""
 
 #: src/game.cpp
+msgid "Test trait group"
+msgstr ""
+
+#: src/game.cpp
 msgid "Quit to Main Menu"
 msgstr ""
 
@@ -96084,12 +96409,6 @@ msgstr ""
 #, c-format
 msgid "%d creature exists.\n"
 msgid_plural "%d creatures exist.\n"
-msgstr[0] ""
-
-#: src/game.cpp
-#, c-format
-msgid "%d event planned."
-msgid_plural "%d events planned"
 msgstr[0] ""
 
 #: src/game.cpp
@@ -98439,10 +98758,6 @@ msgstr "최소 %d 충전량이 필요"
 #, c-format
 msgid "Needs at least %d charges"
 msgstr "최소 %d 충전량이 필요"
-
-#: src/game_inventory.cpp
-msgid "Install bionic"
-msgstr "바이오닉 설치"
 
 #: src/game_inventory.cpp
 msgid "Use item"
@@ -100985,6 +101300,10 @@ msgid "Traps"
 msgstr "함정"
 
 #: src/init.cpp
+msgid "Bionics"
+msgstr ""
+
+#: src/init.cpp
 msgid "Terrain"
 msgstr ""
 
@@ -101098,10 +101417,6 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Ammunition types"
-msgstr ""
-
-#: src/init.cpp
-msgid "Bionics"
 msgstr ""
 
 #: src/init.cpp
@@ -102579,16 +102894,16 @@ msgstr ""
 msgid "Invalid tool subtype"
 msgstr ""
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Test which group?"
 msgstr "어떤 그룹을 테스트하시겠습니까?"
 
 #. ~ Spawn group menu: Menu entry to exit menu
-#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp
+#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp src/trait_group.cpp
 msgid "cancel"
 msgstr "취소"
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Result of 100 spawns:"
 msgstr "100회 생성시 결과:"
 
@@ -104339,6 +104654,18 @@ msgid "Cut up what?"
 msgstr "무엇을 잘라냅니까?"
 
 #: src/iuse.cpp
+msgid "Chop down which tree?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You're not stern enough to shave yourself with THIS."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop down that."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr "작업을 시작하려면 용접용 고글이 필요하다."
 
@@ -104756,30 +105083,6 @@ msgstr "%s을(를) 눈에 넣었다."
 #: src/iuse.cpp
 msgid "Your vision is fine already."
 msgstr "시야가 이미 정상이다."
-
-#: src/iuse.cpp
-#, c-format
-msgid "Your %s doesn't appear to be modded."
-msgstr "%s은(는) 개조되지 않았다."
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can't remove any of the mods from your %s."
-msgstr "%s에서 모드를 제거할 수 없다."
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can not modify your %s while it's worn."
-msgstr "%s을(를) 착용한 채로 개조할수 없다."
-
-#: src/iuse.cpp
-msgid "Remove which modification?"
-msgstr "어떤 개조부품을 제거할까요?"
-
-#: src/iuse.cpp
-#, c-format
-msgid "You remove your %1$s from your %2$s."
-msgstr "%2$s에서 %1$s을(를) 떼어냈다."
 
 #: src/iuse.cpp
 msgid "You need a mechanics skill of 2 to use this repair kit."
@@ -105700,6 +106003,10 @@ msgid "Countdown: "
 msgstr "작동시간: "
 
 #: src/iuse_actor.cpp
+msgid "It's already been triggered."
+msgstr ""
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
 msgstr ""
@@ -105845,10 +106152,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "This tool doesn't have enough charges."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr "어디를 밝힙니까?"
 
@@ -105877,6 +106180,10 @@ msgstr "그곳에는 태울만한 것이 없다."
 #: src/iuse_actor.cpp
 msgid "You successfully light a fire."
 msgstr "불을 붙이는데 성공했다."
+
+#: src/iuse_actor.cpp
+msgid "This tool doesn't have enough charges."
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You need direct sunlight to light a fire with this."
@@ -105997,10 +106304,6 @@ msgid "You need at least %d charges to cauterize wounds."
 msgstr "상처를 지지려면 최소한 %d의 충전량이 필요하다."
 
 #: src/iuse_actor.cpp
-msgid "You can't cauterize anything underwater."
-msgstr "수중에서는 상처를 지질 수 없다."
-
-#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr "적당한 시체가 보이지 않는다."
 
@@ -106025,6 +106328,12 @@ msgstr "흠, 놈들을 토막내서 끈적거리는 고깃덩이로 만드는 �
 #: src/iuse_actor.cpp
 msgid "You feel horrible for mutilating and enslaving someone's corpse."
 msgstr "누군가의 시체를 훼손하고 노예처럼 부리려 한다는 사실에 죄책감이 몰려온다."
+
+#. ~ %s - name of the required skill.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You need at least %s 1."
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You can't play music underwater"
@@ -106426,6 +106735,40 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Can't saw off modified barrels."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr "이미 이 바이오닉을 설치했다."
+
+#: src/iuse_actor.cpp
+msgid "There is nothing to upgrade."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have a superior version installed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Remove which modification?"
+msgstr "어떤 개조부품을 제거할까요?"
+
+#. ~ %1$s - gunmod, %2$s - gun.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You remove your %1$s from your %2$s."
+msgstr "%2$s에서 %1$s을(를) 떼어냈다."
+
+#: src/iuse_actor.cpp
+msgid "Doesn't appear to be modded."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "None of the mods can be removed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Has to be taken off first."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -107956,6 +108299,16 @@ msgstr "챙-그랑!"
 #: src/map.cpp
 msgid "The metal bars melt!"
 msgstr "쇠창살이 녹았다!"
+
+#: src/map.cpp
+#, c-format
+msgid "It should take %d minutes to finish washing items in the %s."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "The washing machine in the %s has finished washing."
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -111495,6 +111848,10 @@ msgid "Focus gain per minute"
 msgstr "분당 집중력 획득"
 
 #: src/morale.cpp
+msgid "Nothing affects your morale"
+msgstr "의욕에 영향 없음."
+
+#: src/morale.cpp
 msgid "Morale"
 msgstr "의욕"
 
@@ -111505,10 +111862,6 @@ msgstr "원인"
 #: src/morale.cpp
 msgid "Value"
 msgstr "값"
-
-#: src/morale.cpp
-msgid "Nothing affects your morale"
-msgstr "의욕에 영향 없음."
 
 #: src/mutation.cpp
 #, c-format
@@ -115560,6 +115913,14 @@ msgstr "%3$s %2$s %1$s"
 #: src/pickup.cpp
 msgid "Examine vehicle"
 msgstr "차량 조사"
+
+#: src/pickup.cpp
+msgid "Deactivate the washing machine"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Activate the washing machine (1.5 hours)"
+msgstr ""
 
 #: src/pickup.cpp
 msgid "Get items"
@@ -121111,6 +121472,34 @@ msgstr "%d\" "
 #: src/vehicle.cpp
 msgid " (faulty)"
 msgstr "(고장)"
+
+#: src/vehicle.cpp
+msgid ""
+"You turn the washing machine off before it's finished the program, and open "
+"its lid."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid ""
+"You need 24 charges of water in tanks of the %s to fill the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You need 5 charges of detergent for the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You need to remove all non-filthy items from the washing machine to start "
+"the washing program."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You pour some detergent into the washing machine, close its lid, and turn it"
+" on.  The washing machine is being filled with water from vehicle tanks."
+msgstr ""
 
 #: src/vehicle_group.cpp
 msgid "pile-up"
