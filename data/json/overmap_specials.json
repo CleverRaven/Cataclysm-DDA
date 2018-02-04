@@ -759,8 +759,8 @@
             { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
-        "city_distance" : [5, 10],
-        "city_sizes" : [4, 12],
+        "city_distance" : [5, -1],
+        "city_sizes" : [0, 16],
         "occurrences" : [1, 10],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
