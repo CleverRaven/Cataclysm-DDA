@@ -73,6 +73,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 6, 23 ], "repeat": [ 2, 6 ] }
@@ -302,6 +305,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -530,6 +536,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -758,6 +767,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -986,6 +998,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -1217,6 +1232,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -1445,6 +1463,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -1673,6 +1694,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -1901,6 +1925,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -2129,6 +2156,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -2357,6 +2387,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -2585,6 +2618,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -2813,6 +2849,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -3041,6 +3080,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 0, 2 ] }
             ],
@@ -3936,7 +3978,8 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
 
       "gaspumps": {
@@ -4402,6 +4445,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 5 ], "repeat": [ 0, 2 ] }
             ],
@@ -4630,6 +4676,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -4858,6 +4907,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 6, 23 ], "repeat": [ 2, 6 ] }
@@ -5087,6 +5139,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 11 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -5980,7 +6035,9 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.012 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+		{ "monster": "GROUP_ARMOURED", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.022 }
 ],
             "place_vehicles": [
               { "vehicle": "humvee", "x": 5, "y": 14, "chance": 25, "rotation": 180},
@@ -6207,7 +6264,7 @@
                 "_______________________s"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -6428,7 +6485,7 @@
                 "s=                      "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -6658,7 +6715,7 @@
                 "                     =ss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -7111,7 +7168,9 @@
                 "__________z__zzzzzzYzz__"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+		{ "monster": "GROUP_ARMOURED", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.022 }
 ],
             "items": {
               "z": { "item": "dirt_rubble", "chance": 25 },
@@ -8246,7 +8305,8 @@
                 "ss.|                  |."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -9827,6 +9887,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -10055,6 +10118,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -10498,7 +10564,8 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -11888,7 +11955,8 @@
                 "%%%__________________%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -13934,7 +14002,8 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "hippie_van", "x": 5, "y": 16, "chance": 75, "rotation": 270},
@@ -14836,6 +14905,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -15064,6 +15136,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 13 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -15967,7 +16042,8 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "terrain": {
                 " ": "t_thconc_floor",
@@ -17091,7 +17167,8 @@
                 "...................ssss."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "suburban_home", "x": 6, "y": 6, "chance": 75, "rotation": 180 },
@@ -18444,7 +18521,8 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "city_vehicles", "x": [ 3, 19 ], "y": [ 5, 12 ], "chance": 75, "rotation": 180 },
@@ -19800,6 +19878,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -20028,6 +20109,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -20486,7 +20570,8 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -21401,7 +21486,8 @@
                 "ssssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 }
@@ -22101,7 +22187,7 @@
                 "8ZZZZZZZZZZZZ88YYY    cc"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "c": { "item": "dining", "chance": 50 },
@@ -22329,13 +22415,13 @@
                 "    |cScgg  +r|S S|t|t|."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
       },
             "items": {
-              "H": { "item": "dining", "chance": 10 },
+              "H": { "item": "dining", "chance": 20 },
               "T": { "item": "dining", "chance": 20 },
               "c": { "item": "kitchen", "chance": 60 },
               "g": { "item": "produce", "chance": 60 },
@@ -22790,7 +22876,8 @@
                 "..|                  |.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "B": { "item": "army_bed", "chance": 40 },
@@ -23462,7 +23549,7 @@
                 "        e               "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -23688,7 +23775,7 @@
                 "     e  e   d  e  e   e "
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -23918,7 +24005,8 @@
                 "                     ee."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 }
@@ -24815,6 +24903,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -25043,6 +25134,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 10 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -25961,7 +26055,8 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "L": { "item": "guns_rifle_milspec", "chance": 30 }
@@ -26410,7 +26505,7 @@
                 ".|----YYY--YYYYYYYY--YY-"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "cubical_office", "chance": 40 },
@@ -27105,7 +27200,7 @@
                 "........................"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "c": { "item": "dining", "chance": 50 },
@@ -28245,7 +28340,8 @@
                 "....................QQQs"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -29837,6 +29933,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -30065,6 +30164,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 12 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -30287,7 +30389,8 @@
                 ".sssssssssssssssssssssss"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "place_vehicles": [
               { "vehicle": "flatbed_truck", "x": 5, "y": 17, "chance": 75, "rotation": 270},
@@ -34793,6 +34896,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -35021,6 +35127,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -35923,7 +36032,7 @@
                 ".........zz88Z88zz......"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
       "toilets": {
         "t": {}
@@ -39773,6 +39882,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -40001,6 +40113,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -40223,7 +40338,7 @@
                 "222222222222222222222222"
             ],
             "items": {
-              "c": { "item": "hospital_lab", "chance": 20 },
+              "c": { "item": "hospital_lab", "chance": 10 },
               "2": { "item": "forest", "chance": 1 }
             },
             "terrain": {
@@ -41811,7 +41926,7 @@
                 "...__________________..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 }
@@ -44067,7 +44182,8 @@
                 "________________________"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "d": { "item": "office", "chance": 30 },
@@ -44742,12 +44858,16 @@
                 "22222222.1111111.%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -44976,6 +45096,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -46086,7 +46209,8 @@
                 "222222222222222222222222"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "2": { "item": "forest", "chance": 1 }
@@ -46766,7 +46890,7 @@
                 "...__zzzzz_,,________..."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_CBRN", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "Y": { "item": "dirt_rubble", "chance": 60 },
@@ -48993,7 +49117,8 @@
                 "%%%%%%%%%%%%%%%%%%%%%%%%"
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
+        { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 },
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
@@ -49664,12 +49789,15 @@
                 "222222..1111111..%..I%.."
               ],
       "place_monsters": [
-        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.011 }
+        { "monster": "GROUP_WRAITHEON_SCOUT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.01 }
 ],
             "items": {
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 11 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -49898,6 +50026,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -51454,6 +51585,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 20 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -51910,6 +52044,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 5 ], "y": [ 0, 20 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 6, 23 ], "y": [ 18, 20 ], "repeat": [ 2, 6 ] }
@@ -52139,6 +52276,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -52367,6 +52507,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -52595,6 +52738,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -52823,6 +52969,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -53051,6 +53200,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -53279,6 +53431,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -53507,6 +53662,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -53735,6 +53893,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -53963,6 +54124,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -54191,6 +54355,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -54419,6 +54586,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -54647,6 +54817,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 17 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 2, 6 ] }
@@ -54876,6 +55049,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 6, 23 ], "repeat": [ 2, 6 ] }
@@ -55105,6 +55281,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -55333,6 +55512,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -55561,6 +55743,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -55789,6 +55974,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -56017,6 +56205,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
             ],
@@ -56245,6 +56436,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 6, 23 ], "repeat": [ 2, 6 ] }
@@ -56474,6 +56668,9 @@
               "%": { "item": "fence_caught", "chance": 1 },
               "2": { "item": "forest", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -57828,6 +58025,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -58056,6 +58256,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 6, 23 ], "y": [ 18, 23 ], "repeat": [ 2, 6 ] }
@@ -58285,6 +58488,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -58513,6 +58719,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -58741,6 +58950,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 8, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -58969,6 +59181,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -59197,6 +59412,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -59425,6 +59643,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
             ],
@@ -59653,6 +59874,9 @@
               "2": { "item": "forest", "chance": 1 },
               "%": { "item": "fence_caught", "chance": 1 }
             },
+		    "place_signs": [
+				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
+],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 2, 6 ] },
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 17 ], "repeat": [ 2, 6 ] }
