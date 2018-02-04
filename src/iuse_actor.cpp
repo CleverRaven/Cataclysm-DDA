@@ -51,6 +51,7 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_fabrication( "fabrication" );
 
 const species_id ZOMBIE( "ZOMBIE" );
+const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -1550,7 +1551,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
         if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
+            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
     }
