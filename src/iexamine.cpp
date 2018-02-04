@@ -55,6 +55,7 @@ const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_blind( "blind" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -3497,6 +3498,80 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::autodoc( player &p, const tripoint &examp ) {
+    enum options {
+        CONFIGURE,
+        INSTALL_CBM,
+        CANCEL,
+    };
+
+    std::string status = uistate.iexamine_autodoc_config ? _( "Online" ) :
+                         _( "Configuration required" );
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = string_format( _( "Autodoc Mk. XI. Status: %s. Please choose operation." ), status );
+    amenu.addentry( CONFIGURE, true, 'c', str_to_illiterate_str( _( "Configure Autodoc." ) ) );
+    amenu.addentry( INSTALL_CBM, uistate.iexamine_autodoc_config ? true : false, 'i',
+                    str_to_illiterate_str( _( "Choose Compact Bionic Module to install." ) ) );
+
+    amenu.addentry( CANCEL, true, 'q', str_to_illiterate_str( _( "Do nothing." ) ) );
+
+    amenu.query();
+
+    bool adjacent_couch = false;
+    bool in_position = false;
+    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
+        if( g->m.furn( couch_loc ).obj().id == "f_autodoc_couch" ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                in_position = true;
+            }
+        }
+    }
+
+    switch( static_cast<options>( amenu.ret ) ) {
+        case CONFIGURE:
+            uistate.iexamine_autodoc_config = true;
+            //Flavor message to justify using player skills and INT below in install_bionics for determining success chance
+            p.add_msg_if_player( m_good,
+                                 _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
+            p.mod_moves( -300 );
+            return;
+
+        case INSTALL_CBM: {
+            if( !adjacent_couch ) {
+                popup( _( "No connected couches found. Operation impossible. Exiting." ) );
+                return;
+            }
+            if( !in_position ) {
+                popup( _( "No patient found located on the connected couches. Operation impossible. Exiting." ) );
+                return;
+            }
+
+            const int bionic = g->inv_for_flag( "CBM", _( "Choose CBM to install" ) );
+            const item &it = p.i_at( bionic );
+            const itype &itemtype = *it.type;
+            if( bionic == INT_MIN ) {
+                p.add_msg_if_player( m_info, _( "Never mind." ) );
+                return;
+            }
+
+            const int duration = itemtype.bionic->difficulty * 200;
+            if( p.install_bionics( itemtype ) ) {
+                p.add_msg_if_player( m_info,
+                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.add_effect( effect_blind, duration );
+                p.fall_asleep( duration );
+                p.i_rem( &it );
+            }
+        }
+
+        case CANCEL:
+            return;
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3567,7 +3642,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "autodoc", &iexamine::autodoc }
     }};
 
     auto iter = function_map.find( function_name );
