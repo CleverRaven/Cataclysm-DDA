@@ -77,12 +77,43 @@
     "death_drops": { "groups": [ [ "sniper_bot", 30 ] ] }
   },
   {
+    "id": "mon_w11b30b6",
+    "copy-from": "mon_w11b10",
+    "type": "MONSTER",
+    "name": "W11B30B6 antimaterial bot",
+    "description": "Wraitheon (11B) Infantry 30 Level (B6) antimaterial unit, armed with a Barrett M107A1.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
+    "color": "white_red",
+    "vision_night": 10,
+    "starting_ammo": { "50bmg": 45 },
+    "special_attacks": [
+     {
+       "type": "gun",
+       "cooldown": 2,
+       "gun_type": "m107a1",
+       "ammo_type": "50bmg",
+       "fake_skills": [ [ "gun", 10 ], [ "rifle", 10 ] ],
+       "fake_dex": 10,
+       "ranges": [ [ 0, 30, "DEFAULT" ] ],
+       "require_targeting_npc": true,
+       "require_targeting_monster": true,
+       "laser_lock": true,
+       "targeting_cost": 290,
+       "targeting_timeout_extend": -10,
+	   "targeting_sound": "\"This is a bug if you're hearing it.\"",
+	   "targeting_volume": 0,
+       "no_ammo_sound": "a chk!"
+     }
+    ],
+    "death_drops": { "groups": [ [ "antimaterial_bot", 30 ] ] }
+  },
+  {
     "id": "mon_w12b10",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
     "name": "W12B10 flamer bot",
     "description": "Wraitheon (12B) Combat Engineer 10 Level, armed with a flamethrower.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
-    "starting_ammo": { "napalm": 120 },
+    "color": "yellow_red",
+    "starting_ammo": { "napalm": 240 },
     "special_attacks": [
       {
        "type": "gun",
@@ -110,7 +141,8 @@
     "type": "MONSTER",
     "name": "W11B10 grenade bot",
     "description": "Wraitheon (11H) Anti-Tank Infantry 10 Level, armed with a 40mm grenade launcher.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
-    "starting_ammo": { "40mm_incendiary": 8 },
+    "color": "red_red",
+    "starting_ammo": { "40mm_incendiary": 16 },
     "special_attacks": [
       {
        "type": "gun",
