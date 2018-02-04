@@ -7,7 +7,7 @@
       { "monster": "mon_w11b10", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_w12b10", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_w11h10", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_w11b20b4", "freq": 10, "cost_multiplier": 1 }
+      { "monster": "mon_w11b20b4", "freq": 15, "cost_multiplier": 1 }
     ]
   },
   {
