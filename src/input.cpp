@@ -32,7 +32,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
-    // Operator overload required to leverage std functional iterface.
+    // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }

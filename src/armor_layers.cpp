@@ -553,7 +553,7 @@ void player::sort_armor()
                 }
             }
         } else if( action == "ASSIGN_INVLETS" ) {
-            // prompt first before doing this (yes yes, more popups...)
+            // prompt first before doing this (yes, yes, more popups...)
             if( query_yn( _( "Reassign invlets for armor?" ) ) ) {
                 // Start with last armor (the most unimportant one?)
                 auto iiter = inv_chars.rbegin();

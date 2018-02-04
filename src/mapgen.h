@@ -25,7 +25,7 @@ typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
-///// function pointer class; provides absract referencing of
+///// function pointer class; provides abstract referencing of
 ///// map generator functions written in multiple ways for per-terrain
 ///// random selection pool
 class mapgen_function {
@@ -323,7 +323,7 @@ class mapgen_function_lua : public virtual mapgen_function {
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
- * Load mapgen function of any type from a jsonobject
+ * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
@@ -337,7 +337,7 @@ void reset_mapgens();
  */
 extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 /*
- * random selector list for the nested vector above, as per indivdual mapgen_function_::weight value
+ * random selector list for the nested vector above, as per individual mapgen_function_::weight value
  */
 extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*

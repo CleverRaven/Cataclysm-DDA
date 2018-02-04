@@ -2370,7 +2370,7 @@ bool mattack::ranged_pull(monster *z)
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
+    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will immediately be removed
 
     return true;
 }
@@ -3719,7 +3719,7 @@ bool mattack::longswipe(monster *z)
     //Is there something impassable blocking the claw?
     for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
         if( g->m.impassable(pnt) ) {
-            //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
+            //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
@@ -4381,7 +4381,7 @@ bool mattack::kamikaze(monster *z)
         return false;
     }
 
-    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseduo-timer.
+    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
     z->add_effect( effect_countdown, charges + 1);

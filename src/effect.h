@@ -91,7 +91,7 @@ class effect_type
 
         bool main_parts_only;
 
-        // Determins if effect should be shown in description.
+        // Determines if effect should be shown in description.
         bool show_in_info;
 
         std::vector<trait_id> resist_traits;
@@ -107,7 +107,7 @@ class effect_type
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
         bool pkill_addict_reduces;
-        // This flag is hardcoded for specific IDs now
+        // This flag is hard-coded for specific IDs now
         // It needs to be set for monster::move_effects
         bool impairs_movement;
 
@@ -144,7 +144,7 @@ class effect
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
-        /** Dummy effect effect returned when getting an effect that doesn't exist. */
+        /** Dummy effect returned when getting an effect that doesn't exist. */
         static effect null_effect;
 
         /** Compares pointers of this effect with the dummy above. */
@@ -189,7 +189,7 @@ class effect
         bool is_permanent() const;
         /** Makes an effect permanent. Note: This pauses the duration, but does not otherwise change it. */
         void pause_effect();
-        /** Makes an effect not permanent. Note: This unpauses the duration, but does not otherwise change it. */
+        /** Makes an effect not permanent. Note: This un-pauses the duration, but does not otherwise change it. */
         void unpause_effect();
 
         /** Returns the intensity of an effect. */
@@ -198,7 +198,7 @@ class effect
         int get_max_intensity() const;
 
         /**
-         * Sets inensity of effect capped by range [1..max_intensity]
+         * Sets intensity of effect capped by range [1..max_intensity]
          * @param val Value to set intensity to
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after val subjected to above cap
@@ -206,7 +206,7 @@ class effect
         int set_intensity( int val, bool alert = false );
 
         /**
-         * Modify inensity of effect capped by range [1..max_intensity]
+         * Modify intensity of effect capped by range [1..max_intensity]
          * @param mod Amount to increase current intensity by
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping

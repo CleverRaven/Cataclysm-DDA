@@ -134,7 +134,7 @@ struct bash_params {
     bool bash_floor; // Do we want to bash floor if no furn/wall exists?
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
-     * At 0.0, the bash is against str_min of targetted objects
+     * At 0.0, the bash is against str_min of targeted objects
      * This is required for proper "piercing" bashing, so that one strong hit
      * can destroy a wall and a floor under it rather than only one at a time.
      */
@@ -147,7 +147,7 @@ struct bash_params {
 };
 
 struct level_cache {
-    level_cache(); // Zeroes all relevant values
+    level_cache(); // Zeros all relevant values
     level_cache( const level_cache &other ) = default;
 
     bool transparency_cache_dirty;
@@ -427,7 +427,7 @@ class map
         /**
          * Iteratively tries bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
-         * returns the line found, which may be the staright line, but blocked.
+         * returns the line found, which may be the straight line, but blocked.
          */
         std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
 
@@ -880,7 +880,7 @@ class map
         /** Helper for map::add_item */
         item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
         /**
-         * Place an item on the map, despite the parameter name, this is not necessaraly a new item.
+         * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
          * map::add_item_or_charges
          *
@@ -1114,7 +1114,7 @@ class map
     public:
 
         // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
-        // if we're not in zlevels mode or if we're at lowest level
+        // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
@@ -1159,7 +1159,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
-        // Note: in 3D mode, will actually build caches on ALL zlevels
+        // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
@@ -1242,7 +1242,7 @@ class map
         }
 
         // Not protected/private for mapgen_functions.cpp access
-        void rotate( int turns ); // Rotates the current map 90*turns degress clockwise
+        void rotate( int turns ); // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
 
         // Monster spawning:
@@ -1252,7 +1252,7 @@ class map
          * @param ignore_sight If true, monsters may spawn in the view of the player
          * character (useful when the whole map has been loaded instead, e.g.
          * when starting a new game, or after teleportation or after moving vertically).
-         * If false, monsters are not spawned in view of of player character.
+         * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
     private:

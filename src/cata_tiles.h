@@ -344,7 +344,7 @@ class tileset_loader
          * <B>config</B>. That array should contain all the tile definition that
          * should be taken from an tileset image.
          * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
          * sprite offset dictates where each sprite should render in its tile

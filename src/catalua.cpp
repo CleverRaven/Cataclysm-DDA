@@ -377,7 +377,7 @@ public:
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
         // Push metatable,
         get_metatable( L );
-        // -1 would the the metatable, -2 is the uservalue, the table is popped
+        // -1 is the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
         new (value_in_lua) T( std::forward<Args>( args )... );

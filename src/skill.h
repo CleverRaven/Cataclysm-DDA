@@ -37,7 +37,7 @@ class Skill
         static const Skill &get( const skill_id &id );
 
         static size_t skill_count();
-        // clear skill vector, every skill pointer becames invalid!
+        // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
         static std::vector<Skill const *> get_skills_sorted_by(

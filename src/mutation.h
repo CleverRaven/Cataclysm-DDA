@@ -84,7 +84,7 @@ struct mutation_branch {
     bool threshold;
     // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
     bool profession;
-    // Wheather it has positive as well as negative effects.
+    // Whether it has positive as well as negative effects.
     bool mixed_effect  = false;
     bool startingtrait = false;
     bool activated     = false;
@@ -103,7 +103,7 @@ struct mutation_branch {
     int visibility = 0;
     int ugliness   = 0;
     int cost       = 0;
-    // costs are consumed consumed every cooldown turns,
+    // costs are consumed every cooldown turns,
     int cooldown   = 0;
     // bodytemp elements:
     int bodytemp_min = 0;

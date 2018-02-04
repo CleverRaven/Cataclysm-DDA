@@ -300,7 +300,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            // save compatiblity hack: read the line, initialze new members to 0,
+            // save compatibility hack: read the line, initialize new members to 0,
             // "parse" line,
             std::string tmp;
             getline(fin, tmp);

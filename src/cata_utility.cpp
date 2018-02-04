@@ -219,7 +219,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     }
     if( value >= std::pow( 10.0, width ) ) {
         // above the maximum number we can fit in the width without decimal
-        // show the bigest number we can without decimal
+        // show the biggest number we can without decimal
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;

@@ -42,7 +42,7 @@ class main_menu
         std::vector<std::string> get_hotkeys( const std::string &s );
 
 
-        // Play a sound whenver the user moves left or right in the main menu or its tabs
+        // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
 
         // Tab functions. They return whether a game was started or not. The ones that can never

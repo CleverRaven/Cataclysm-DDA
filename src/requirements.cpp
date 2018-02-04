@@ -219,7 +219,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo deduplicate qualites and combine other requirements
+    // @todo deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;

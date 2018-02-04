@@ -854,7 +854,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
  * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
- * definition of the same id is overriden.
+ * definition of the same id is overridden.
  * @param size The number of tiles loaded from the current tileset file. This defines the
  * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
  * that range.
@@ -1713,7 +1713,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
         op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
@@ -1990,7 +1990,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op_y;
@@ -2136,7 +2136,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     if (is_draw_field) {
         const std::string fd_name = fieldlist[f.fieldSymbol()].id;
 
-        // for rotation inforomation
+        // for rotation information
         const int neighborhood[4] = {
             static_cast<int> (g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol()), // south
             static_cast<int> (g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol()), // east
