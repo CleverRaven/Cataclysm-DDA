@@ -17,7 +17,8 @@
         "c": "t_floor",
         "l": "t_floor",
         "x": "t_console_broken",
-        "|": "t_wall"
+        "|": "t_wall",
+        ";": "t_concrete_wall"
     },
     "furniture": {
         "b": "f_bench",
