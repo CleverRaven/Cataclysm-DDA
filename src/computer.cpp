@@ -33,6 +33,7 @@ const mtype_id mon_secubot( "mon_secubot" );
 const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
+const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
@@ -849,7 +850,7 @@ of pureed bone & LSD."));
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( ZOMBIE ) ) {
-                            if( mt->sym == "Z" ) {
+                            if( mt->in_species( HUMAN ) ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
                                 print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
