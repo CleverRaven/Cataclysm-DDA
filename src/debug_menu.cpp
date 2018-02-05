@@ -145,7 +145,7 @@ void character_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
-    nmenu.addentry( D_MORALE, true, 'm', "%s", _( "Set [m]orale" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
