@@ -96,8 +96,6 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant); // not mapped
 void mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
