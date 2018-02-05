@@ -474,7 +474,7 @@ item item::in_container( const itype_id &cont ) const
         item ret( cont, birthday() );
         ret.contents.push_back( *this );
         if( made_of( LIQUID ) && ret.is_container() ) {
-            // Note: we can't use any of the normal normal container functions as they check the
+            // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
             ret.contents.back().charges = charges_per_volume( ret.get_container_capacity() );
         }
@@ -2483,7 +2483,7 @@ units::mass item::weight( bool include_contents ) const
         ret += links.weight();
     }
 
-    // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
+    // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
         const units::volume b = type->gun->barrel_length;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );

@@ -275,11 +275,11 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     int sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
-        // No suitable sights (already at maxium aim).
+        // No suitable sights (already at maximum aim).
         return 0;
     }
 
-    // Overal strategy for determining aim speed is to sum the factors that contribute to it,
+    // Overall strategy for determining aim speed is to sum the factors that contribute to it,
     // then scale that speed by current recoil level.
     // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
     // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
@@ -307,7 +307,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
     aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
 
-    // Minimum improvment is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
     aim_speed = std::max( aim_speed, 5.0 );
 
     // Never improve by more than the currently used sights permit.
@@ -1493,14 +1493,14 @@ bool Character::is_wearing_active_power_armor() const
  * These simply add their encumbrance value to each body part they cover.
  * In addition, each article of clothing after the first in a layer imposes an additional penalty.
  * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
- * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * Clothes on separate layers don't interact, so if you wear e.g. a light jacket over a shirt,
  * they're intended to be worn that way, and don't impose a penalty.
  * The default is to assume that clothes do not fit, clothes that are "fitted" either
  * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
  *
  * Use cases:
  * What would typically be considered normal "street clothes" should not be considered encumbering.
- * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * T-shirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */

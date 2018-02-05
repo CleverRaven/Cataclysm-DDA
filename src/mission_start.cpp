@@ -1000,7 +1000,7 @@ void mission_start::ranch_construct_8(mission *miss)
  bay.ter_set(18, 4, t_pit);
  bay.save();
 
- //Start Toolshed
+ //Start Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
@@ -1025,7 +1025,7 @@ void mission_start::ranch_construct_9(mission *miss)
  bay.place_npc( 17, 4, string_id<npc_template>( "ranch_ill_1" ) );
  bay.save();
 
- //Finish Toolshed
+ //Finish Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_wall_half,t_wall_wood);

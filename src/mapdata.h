@@ -81,7 +81,7 @@ struct map_deconstruct_info {
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing thruogh it
+ * SHARP - May do minor damage to players/monsters passing through it
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space

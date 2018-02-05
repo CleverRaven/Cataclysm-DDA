@@ -164,7 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         }
     } else { // 'Play NOW'
 #ifndef LUA
-        // Silently remove all Lua mods setted by default.
+        // Silently remove all Lua mods set by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
             MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];

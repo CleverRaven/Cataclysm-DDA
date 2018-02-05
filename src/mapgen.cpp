@@ -152,7 +152,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
-    // In other words, make city centers dense and perimiters sparse.
+    // In other words, make city centers dense and perimeters sparse.
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
@@ -1565,7 +1565,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
         }
     }
 
-    // manditory: every character in rows must have matching entry, unless fill_ter is set
+    // mandatory: every character in rows must have matching entry, unless fill_ter is set
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_object("terrain") ) {
         JsonObject pjo = jo.get_object("terrain");
@@ -1789,7 +1789,7 @@ void mapgen_function_json_base::setup_common()
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
-///// stuff below is the actual in-game mapgeneration (ill)logic
+///// stuff below is the actual in-game map generation (ill)logic
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
@@ -2073,7 +2073,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     const auto fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
+        // int fidx = rng(0, fmapit->second.size() - 1); // simple unweighted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
         const int rlast = weightit->second.rbegin()->first;
         const int roll = rng(1, rlast);
@@ -2840,7 +2840,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
             }
         } else { // We're below ground, and no sewers
-            // Set up the boudaries of walls (connect to adjacent lab squares)
+            // Set up the boundaries of walls (connect to adjacent lab squares)
             // Are we in an ice lab?
             if ( ice_lab ) {
                 tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
@@ -4126,7 +4126,7 @@ ff.......|....|WWWWWWWW|\n\
                 line(this, t_floor_green, SEEX, 5, SEEX + 1, 5);
                 line(this, t_floor_blue,  SEEX, 6, SEEX + 1, 6);
                 // Now, randomly choose actions
-                // Set up an actions vector so that there's not undue repetion
+                // Set up an actions vector so that there's not undue repetition
                 std::vector<int> actions;
                 actions.push_back(1);
                 actions.push_back(2);
@@ -7437,7 +7437,7 @@ void map::rotate(int turns)
                 // turn the steering wheel, vehicle::turn does not actually
                 // move the vehicle.
                 veh->turn(turns * 90);
-                // The the facing direction and recalculate the positions of the parts
+                // The facing direction and recalculate the positions of the parts
                 veh->face = veh->turn_dir;
                 veh->precalc_mounts(0, veh->turn_dir, veh->pivot_anchor[0]);
                 // Update coordinates on a submap
@@ -7480,7 +7480,7 @@ void map::rotate(int turns)
                 veh->smy = new_y;
             }
             const auto to = getsubmap( i );
-            // move back to the actuall submap object, vehrot is only temporary
+            // move back to the actual submap object, vehrot is only temporary
             vehrot[i].swap(to->vehicles);
             sprot[i].swap(to->spawns);
             to->comp = std::move( tmpcomp[i] );
@@ -8266,7 +8266,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
         m->place_items("bedroom", 65, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
         break;
     default:
-        //Supress warnings
+        //Suppress warnings
         break;
     }
 

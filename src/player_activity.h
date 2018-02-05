@@ -71,7 +71,7 @@ class player_activity
         }
         bool rooted() const;
 
-        // Question to ask when the activity is to be stoped,
+        // Question to ask when the activity is to be stopped,
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 

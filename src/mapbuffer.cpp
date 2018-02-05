@@ -301,7 +301,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    // TODO: jsout should support writting an id like jsout.write( trap_id )
+                    // TODO: jsout should support writing an id like jsout.write( trap_id )
                     jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }

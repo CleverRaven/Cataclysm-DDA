@@ -1896,7 +1896,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( repair_item, items_needed ) );
     p->moves -= 500 * p->fine_detail_vision_mod();
     p->practice( skill_tailor, items_needed * 3 + 3 );
-    /** @EFFECT_TAILOR randomly improves clothing modifiation efforts */
+    /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p->get_skill_level( skill_tailor ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
     rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
@@ -7495,7 +7495,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 int iuse::ladder( player *p, item *, bool, const tripoint& )
 {
     if( !g->m.has_zlevels() ) {
-        debugmsg( "Ladder can't be used used in non-z-level mode" );
+        debugmsg( "Ladder can't be used in non-z-level mode" );
         return 0;
     }
 

@@ -157,7 +157,7 @@ class monster : public Creature
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
          *
-         * @param p Destination of monster's wonderings
+         * @param p Destination of monster's wanderings
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
@@ -276,7 +276,7 @@ class monster : public Creature
          */
         void set_hp( int hp );
 
-        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */

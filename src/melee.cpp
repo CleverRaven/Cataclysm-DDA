@@ -564,7 +564,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 
     // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
-    // Only check double crit (one that requries hit/dodge comparison) if we have good hit vs dodge
+    // Only check double crit (one that requires hit/dodge comparison) if we have good hit vs dodge
     if( roll_hit > target_dodge * 3 / 2 ) {
         const double chance_double = 0.5 * (
             weapon_crit_chance * stat_crit_chance +
@@ -855,9 +855,9 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     float armor_mult = 1.0f;
 
     if( crit ) {
-        // Crit damage bonus for stabbing scales with skill
+        // Critical damage bonus for stabbing scales with skill
         stab_mul *= 1.0 + (stabbing_skill / 10.0);
-        // Stab criticals have extra extra %arpen
+        // Stab criticals have extra %arpen
         armor_mult = 0.66f;
     }
 
@@ -1191,12 +1191,12 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         stamina = temp_stamina;
     }
 
-    //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
+    //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
     if (has_active_bionic(bio_cqb) && !has_martialart(style_selected)) {
         /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
-            add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
+            add_msg_if_player(m_good, _("You have learned %s from extensive practice with the CQB Bionic."),
                        style_selected.obj().name.c_str());
         }
     }

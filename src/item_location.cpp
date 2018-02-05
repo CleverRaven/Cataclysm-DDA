@@ -306,7 +306,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
 
             if( &ch != &who ) {
-                // @todo implement movement cost for transfering item between characters
+                // @todo implement movement cost for transferring item between characters
             }
 
             return mv;

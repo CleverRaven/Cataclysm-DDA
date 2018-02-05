@@ -194,7 +194,7 @@ static void eff_fun_bleed( player &u, effect &it )
     if( one_in( 6 / intense ) && u.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
-        // Prolonged haemorrhage is a significant risk for developing anaemia
+        // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_iron, rng( -1, -4 ) );
         u.mod_pain( 1 );
         u.apply_damage( nullptr, it.get_bp(), 1 );
@@ -497,7 +497,7 @@ void player::hardcoded_effects( effect &it )
             it.mod_duration( 1 );
         }
     } else if( id == effect_formication ) {
-        ///\EFFECT_INT decreases occurence of itching from formication effect
+        ///\EFFECT_INT decreases occurrence of itching from formication effect
         if( x_in_y( intense, 100 + 50 * get_int() ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
@@ -599,7 +599,7 @@ void player::hardcoded_effects( effect &it )
             return;
         }
         if( dur > 6000 ) {
-            // 20 teles (no decay; in practice at least 21)
+            // 20 teleports (no decay; in practice at least 21)
             if( one_in( 1000 - ( ( dur - 6000 ) / 10 ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
@@ -624,7 +624,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( dur > 3600 ) {
-            // 12 teles
+            // 12 teleports
             if( one_in( 4000 - int( .25 * ( dur - 3600 ) ) ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
@@ -719,7 +719,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_stemcell_treatment ) {
-        // slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
+        // slightly repair broken limbs. (also non-broken limbs (unless they're too healthy))
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( one_in( 6 ) ) {
                 if( hp_cur[i] < rng( 0, 40 ) ) {

@@ -31,7 +31,7 @@ class map_selector : public visitable<map_selector>
          *  Constructs map_selector used for querying items located on map tiles
          *  @param pos position on map at which to start each query
          *  @param radius number of adjacent tiles to include (searching from pos outwards)
-         *  @param accessible whether found items must be accesible from pos to be considered
+         *  @param accessible whether found items must be accessible from pos to be considered
          */
         map_selector( const tripoint &pos, int radius = 0, bool accessible = true );
 

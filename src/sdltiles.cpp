@@ -1137,7 +1137,7 @@ int HandleDPad()
  * allows the input_manager to only consider those.
  * @return 0 if the input can not be translated (unknown key?),
  * -1 when a ALT+number sequence has been started,
- * or somthing that a call to ncurses getch would return.
+ * or something that a call to ncurses getch would return.
  */
 long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
@@ -1347,7 +1347,7 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 static void font_folder_list(std::ofstream& fout, std::string path, std::set<std::string> &bitmap_fonts)
@@ -1481,7 +1481,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
     return "";
 }
 
-// bitmap font font size test
+// bitmap font size test
 // return face index that has this size or below
 static int test_face_size(std::string f, int size, int faceIndex)
 {
@@ -1620,7 +1620,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     result.b=b;    //Blue
     result.g=g;    //Green
     result.r=r;    //Red
-    //result.a=0;//The Alpha, isnt used, so just set it to 0
+    //result.a=0;//The Alpha, is not used, so just set it to 0
     return result;
 }
 

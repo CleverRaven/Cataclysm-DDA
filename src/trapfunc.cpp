@@ -239,7 +239,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            ///\EFFECT_DODGE reducts chance of being hit by crossbow trap
+            ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -473,7 +473,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
     sounds::sound( p, 4, _( "Snap!" ) );
     g->m.remove_trap( p );
     if( c != nullptr ) {
-        // Determine waht got hit
+        // Determine what got hit
         body_part hit = num_bp;
         if( one_in( 2 ) ) {
             hit = bp_leg_l;

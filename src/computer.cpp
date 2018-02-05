@@ -867,7 +867,7 @@ of pureed bone & LSD."));
                                 }
                             }
                         } else {
-                            print_line(_("Result: Unknown blood type.  Test nonconclusive."));
+                            print_line(_("Result: Unknown blood type.  Test non-conclusive."));
                         }
                     }
                 }
@@ -1177,7 +1177,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             g->u.use_amount("sarcophagus_access_code", 1);
             reset_terminal();
             print_line(
-                _("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n"));
+                _("\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n"));
             for (int x = 0; x < SEEX * MAPSIZE; x++) {
                 for (int y = 0; y < SEEY * MAPSIZE; y++) {
                     if (g->m.ter(x, y) == t_elevator_control_off) {

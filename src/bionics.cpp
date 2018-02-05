@@ -872,7 +872,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool substracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,

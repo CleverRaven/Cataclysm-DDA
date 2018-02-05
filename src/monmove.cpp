@@ -353,7 +353,7 @@ void monster::plan( const mfactions &factions )
  * It works by scaling the cost to take a step by
  * how much that step reduces the distance to your goal.
  * Since it incorporates the current distance metric,
- * it also scales for diagonal vs orthoganal movement.
+ * it also scales for diagonal vs orthogonal movement.
  **/
 static float get_stagger_adjust( const tripoint &source, const tripoint &destination,
                                  const tripoint &next_step )
@@ -877,7 +877,7 @@ int monster::group_bash_skill( const tripoint &target )
     }
     int bashskill = 0;
 
-    // pileup = more bashskill, but only help bashing mob directly infront of target
+    // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
     const std::vector<tripoint> bzone = get_bashing_zone( target, pos(), max_helper_depth );
 
@@ -1380,7 +1380,7 @@ void monster::knock_back_from( const tripoint &p )
  * potentially other locations of interest).  It is generally permissive.
  * TODO: Pathfinding;
          Make sure that non-smashing monsters won't "teleport" through windows
-         Injure monsters if they're gonna be walking through pits or whatevs
+         Injure monsters if they're gonna be walking through pits or whatever
  */
 bool monster::will_reach( int x, int y )
 {

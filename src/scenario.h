@@ -67,7 +67,7 @@ public:
     static const scenario* weighted_random();
     static const std::vector<scenario> &get_all();
 
-    // clear scenario map, every scenario pointer becames invalid!
+    // clear scenario map, every scenario pointer becomes invalid!
     static void reset();
     /** calls @ref check_definition for each scenario */
     static void check_definitions();

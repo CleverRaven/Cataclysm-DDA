@@ -1206,7 +1206,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         m->ter_set( rng( 6, SEEX * 2 - 6 ), rng( 6, SEEY * 2 - 6 ), t_manhole_cover );
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -1496,7 +1496,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -2467,7 +2467,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         } else {
             m->ter_set(mw, rng(cw + 3, actual_house_height - 4), t_door_c);
         }
-        // Door to bathrom
+        // Door to bathroom
         if (one_in(4)) {
             m->ter_set(mw, actual_house_height - 1, t_door_c);
         } else {
@@ -3338,7 +3338,7 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
 void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 {
         if (dat.above() == "cave") {
-            // We're underground! // FIXME; y u no use zlevel
+            // We're underground! // FIXME; y u no use z-level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||

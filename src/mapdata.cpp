@@ -402,7 +402,7 @@ void map_data_common_t::set_connects( const std::string &connect_group_string )
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     }
-    else { // arbitrary connect groups are a bad idea for optimisation reasons
+    else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
 }
@@ -1003,7 +1003,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connect_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
     if( jo.has_member( "connects_to" ) ) {

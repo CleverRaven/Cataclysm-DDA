@@ -111,7 +111,7 @@ struct map_extras {
 
 struct sid_or_sid;
 /*
- * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
+ * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
  */
 struct regional_settings {
@@ -425,7 +425,7 @@ public:
 
     oter_id get_default_terrain( int z ) const;
 
-    // Initialise
+    // Initialize
     void init_layers();
     // open existing overmap, or generate a new one
     void open( overmap_special_batch &enabled_specials );

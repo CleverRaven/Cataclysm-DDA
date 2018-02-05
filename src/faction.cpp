@@ -252,7 +252,7 @@ static const std::array<faction_value_datum, NUM_FACVALS> facval_data = {{
     {translate_marker("their robotics factories"),   0,   3, -1,    0,   -2},
     {translate_marker("treachery"),                 -3,   0,  1,    3,    0},
     {translate_marker("the avoidance of drugs"),     1,   0,  0,   -1,    1},
-    {translate_marker("their adherance to the law"), 2,  -1, -1,   -4,   -1},
+    {translate_marker("their adherence to the law"), 2,  -1, -1,   -4,   -1},
     {translate_marker("their cruelty"),             -3,   1, -1,    4,    1}
 }};
 // TOTALS:                            5    4   1    -3     4

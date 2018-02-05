@@ -182,7 +182,7 @@ class Item_modifier
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
-        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
         int with_ammo;
         /** Chance [0-100%] for items to spawn with their default magazine (if any) */
         int with_magazine;
@@ -276,7 +276,7 @@ class Item_group : public Item_spawn_data
          * to apply to every item/group entry within this item group. It's added to the
          * @ref Single_item_creator's @ref Item_modifier via @ref Single_item_creator::inherit_ammo_mag_chances()
          */
-        /** Every item in this group has this chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        /** Every item in this group has this chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
         const int with_ammo;
         /** Every item in this group has this chance [0-100%] for items to spawn with their default magazine (if any) */
         const int with_magazine;
