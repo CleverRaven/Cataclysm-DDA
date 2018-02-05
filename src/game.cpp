@@ -4137,7 +4137,7 @@ void game::debug()
         break;
 
         case 14:
-            debug_menu::npc_edit_menu();
+            debug_menu::character_edit_menu();
             break;
 
         case 15: {

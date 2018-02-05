@@ -73,7 +73,7 @@ void teleport_overmap()
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
-void npc_edit_menu()
+void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uimenu charmenu;
