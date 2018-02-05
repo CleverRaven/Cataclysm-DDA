@@ -3624,7 +3624,7 @@ bool game::load_master(std::string worldname)
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
-    return read_from_file_optional( datafile, std::bind( &game::deserialize_master, this, _1 ) );
+    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
 void game::load_uistate(std::string worldname)
@@ -3676,7 +3676,7 @@ void game::load(std::string worldname, const save_t &name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    if( !read_from_file( playerfile, std::bind( &game::deserialize, this, _1 ) ) ) {
+    if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
     }
 
