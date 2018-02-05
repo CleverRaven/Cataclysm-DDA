@@ -73,6 +73,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_perm_filthy" ),
 
+            morale_type( "morale_perm_debug" ),
+
             morale_type( "morale_null" )
         }
     };
@@ -143,6 +145,7 @@ const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
+const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 
 namespace
 {

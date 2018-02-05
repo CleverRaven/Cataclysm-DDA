@@ -33,7 +33,8 @@ bool is_permanent_morale( const morale_type id )
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
-            MORALE_PERM_FILTHY
+            MORALE_PERM_FILTHY,
+            MORALE_PERM_DEBUG
         }
     };
 
