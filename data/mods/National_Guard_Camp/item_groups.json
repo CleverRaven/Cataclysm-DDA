@@ -59,7 +59,7 @@
       { "group": "tools_gunsmith", "prob": 65 },
       { "group": "gunmod_common", "prob": 20 },
       { "group": "gunmod_milspec", "prob": 20 },
-      { "group": "gunmod_rare", "prob": 17 },
+      { "group": "gunmod_rare", "prob": 20 },
       { "group": "guns_milspec", "prob": 20 },
       { "group": "mags_milspec", "prob": 20 },
       { "group": "hightec_guns", "prob": 17 },
