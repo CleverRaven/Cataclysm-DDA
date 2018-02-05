@@ -208,7 +208,7 @@
     ]
   },
   {
-    "id": "antimaterial_bot",
+    "id": "anti-materiel_bot",
     "type": "item_group",
     "items": [
       { "group": "robots", "prob": 100 },

@@ -77,11 +77,11 @@
     "death_drops": { "groups": [ [ "sniper_bot", 30 ] ] }
   },
   {
-    "id": "mon_w11h20b4",
+    "id": "mon_w11b30b4",
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
-    "name": "W11H20B4 antimaterial bot",
-    "description": "Wraitheon (11H) Anti-Tank Infantry 20 Level (B4) antimaterial unit, armed with an integrated Barrett M107A1.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
+    "name": "W11B30B4 anti-materiel bot",
+    "description": "Wraitheon (11B) Anti-Tank Infantry 30 Level (B4) Anti-Materiel Sniper, armed with an integrated Barrett M107A1.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
     "color": "white_red",
     "vision_night": 10,
     "starting_ammo": { "50bmg": 45 },
@@ -104,7 +104,7 @@
        "no_ammo_sound": "a chk!"
      }
     ],
-    "death_drops": { "groups": [ [ "antimaterial_bot", 30 ] ] }
+    "death_drops": { "groups": [ [ "anti-materiel_bot", 30 ] ] }
   },
   {
     "id": "mon_w12b10",
@@ -140,7 +140,7 @@
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
     "name": "W11B10 grenade bot",
-    "description": "Wraitheon (11H) Anti-Tank Infantry 10 Level, armed with an integrated 40mm grenade launcher.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
+    "description": "Wraitheon (11B) Anti-Tank Infantry 10 Level, armed with an integrated 40mm grenade launcher.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
     "color": "red_red",
     "starting_ammo": { "40mm_incendiary": 16 },
     "special_attacks": [
