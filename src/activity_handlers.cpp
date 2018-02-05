@@ -949,7 +949,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     g->m.ter_set( act->placement, next_ter );
 
-    // Survival gives a bigger boost, and Peception is leveled a bit.
+    // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
     ///\EFFECT_SURVIVAL increases forage success chance
 
@@ -1093,7 +1093,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         p->practice( skill_survival, rng(2, 5) );
 
         p->add_msg_if_player(m_good,
-                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates."));
 
         body->set_var( "zlave", "zlave" );
         //take into account the chance that the body yet can regenerate not as we need.

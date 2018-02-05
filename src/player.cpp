@@ -3025,7 +3025,7 @@ void player::build_mut_dependency_map( const trait_id &mut, std::unordered_map<t
     const auto lowest_distance = dependency_map.find( mut );
     if( !has_base_trait( mut ) && (lowest_distance == dependency_map.end() || distance < lowest_distance->second) ) {
         dependency_map[mut] = distance;
-        // Recurse over all prereqisite and replacement mutations
+        // Recurse over all prerequisite and replacement mutations
         const auto &mdata = mut.obj();
         for( auto &i : mdata.prereqs ) {
             build_mut_dependency_map( i, dependency_map, distance + 1 );
@@ -4738,7 +4738,7 @@ void player::update_needs( int rate_multiplier )
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
-        // Recycler won't help much with mutant metabolism - it is indended for human one
+        // Recycler won't help much with mutant metabolism - it is intended for human one
         hunger_rate = std::min( hunger_rate, std::max( 0.5f, hunger_rate - 0.5f ) );
         thirst_rate = std::min( thirst_rate, std::max( 0.5f, thirst_rate - 0.5f ) );
     }
@@ -6818,7 +6818,7 @@ int player::invlet_to_position( const long linvlet ) const
     // Invlets may come from curses, which may also return any kind of key codes, those being
     // of type long and they can become valid, but different characters when casted to char.
     // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
-    // casted to char would yield 0x52, which happesn to be 'R', a valid invlet.
+    // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
     if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
         return INT_MIN;
     }
@@ -7167,7 +7167,7 @@ int player::drink_from_hands(item& water) {
     return charges_consumed;
 }
 
-// @todo Properly split meds and food instead of hacking around
+// @todo Properly split medications and food instead of hacking around
 bool player::consume_med( item &target )
 {
     if( !target.is_medication() ) {
@@ -7297,7 +7297,7 @@ void player::rooted_message() const
 
 void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
-// Overfiling triggered hibernation checks, so capping.
+// Overfilling triggered hibernation checks, so capping.
 {
     double shoe_factor = footwear_factor();
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )) &&
@@ -9043,7 +9043,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         return nullptr;
     }
 
-    // Check for conditions tha disqualify us only if no NPCs can read to us
+    // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" ) &&
@@ -10264,7 +10264,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
-    // before becoming inneffective or being destroyed.
+    // before becoming ineffective or being destroyed.
     const int num_parts_covered = armor.get_covered_body_parts().count();
     if( !one_in( num_parts_covered ) ) {
         return false;
@@ -10427,7 +10427,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
-                // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
+                // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
                 iter = decltype(iter)( worn.erase( --iter.base() ) );

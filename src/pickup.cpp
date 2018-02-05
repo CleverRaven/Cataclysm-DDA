@@ -207,7 +207,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
                     act.coords.push_back( pos );
-                    // Finally tell it it is the vehicle part with weldrig
+                    // Finally tell if it is the vehicle part with welding rig
                     act.values.resize( 2 );
                     act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
                 }
@@ -685,7 +685,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::reverse( stacked_here.begin(), stacked_here.end() );
 
-    if( min != -1 ) { // don't bother if we're just autopickup-ing
+    if( min != -1 ) { // don't bother if we're just autopickuping
         g->temp_exit_fullscreen();
     }
     bool sideStyle = use_narrow_sidebar();

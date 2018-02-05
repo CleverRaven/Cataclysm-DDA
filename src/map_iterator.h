@@ -28,7 +28,7 @@ class tripoint_range
                     : p( _p ), range( _range ) {
                 }
 
-                // Incement x, then if it goes outside range, "wrap around" and increment y
+                // Increment x, then if it goes outside range, "wrap around" and increment y
                 // Same for y and z
                 inline point_generator &operator++() {
                     p.x++;

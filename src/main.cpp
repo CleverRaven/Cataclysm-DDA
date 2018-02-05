@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
-            // Ingore unknown options.
+            // Ignore unknown options.
             if (!arg_handled) {
                 --saved_argc;
                 ++saved_argv;

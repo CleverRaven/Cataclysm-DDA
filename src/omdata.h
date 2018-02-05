@@ -81,7 +81,7 @@ type opposite( type dir );
 /** Returns a random direction. */
 type random();
 
-/** Whether these directions are parralell. */
+/** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
 };
@@ -140,7 +140,7 @@ struct oter_type_t {
     public:
         string_id<oter_type_t> id;
         std::string name;               // Untranslated name
-        long sym = '\0';                // This is a long, so we can support curses linedrawing
+        long sym = '\0';                // This is a long, so we can support curses line drawing
         nc_color color = c_black;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         std::string extras = "none";
@@ -262,7 +262,7 @@ struct oter_t {
 
     private:
         om_direction::type dir = om_direction::type::none;
-        long sym = '\0';         // This is a long, so we can support curses linedrawing.
+        long sym = '\0';         // This is a long, so we can support curses line drawing.
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 

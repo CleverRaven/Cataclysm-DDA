@@ -79,7 +79,7 @@ advanced_inventory::advanced_inventory()
 , left_window()
 , right_window()
 {
-    // initialise screen coordinates for small overview 3x3 grid, depending on control scheme
+    // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
     if( tile_iso && use_tiles ) {
         // Rotate the coordinates.
         squares[1].hscreenx = 33;
@@ -139,7 +139,7 @@ void advanced_inventory::load_settings()
             location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         }
         auto square = squares[location];
-        // determine the square's veh/map item presence
+        // determine the square's vehicle/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
             !square.veh->get_items(square.vstor).empty() : false;
         bool has_map_items = !g->m.i_at(square.pos).empty();
@@ -1220,7 +1220,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         return false;
     }
     if( spane.get_area() == AIM_WORN &&
-        !query_yn( _( "Really remove all your clothes? (woo woo)" ) ) ) {
+        !query_yn( _( "Really remove all your clothes? (woo hoo)" ) ) ) {
         return false;
     }
     auto &sarea = squares[spane.get_area()];
@@ -2151,7 +2151,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             amount = std::min( weightmax, amount );
         }
     }
-    // handle how many of armour type we can equip (max of 2 per type)
+    // handle how many of armor type we can equip (max of 2 per type)
     if(destarea == AIM_WORN) {
         const auto &id = sitem.items.front()->typeId();
         // how many slots are available for the item?

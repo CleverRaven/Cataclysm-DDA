@@ -226,7 +226,7 @@ class player : public Character
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
         void update_body( int from, int to );
-        /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -301,7 +301,7 @@ class player : public Character
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( long ch );
-        /** Returns player lumination based on the brightest active item they are carrying */
+        /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -365,7 +365,7 @@ class player : public Character
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
          * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infared vision.
+         * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -846,7 +846,7 @@ class player : public Character
         ret_val<bool> can_wear( const item& it ) const;
 
         /**
-         * Check player capable of takeing off an item.
+         * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
         ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
@@ -1033,7 +1033,7 @@ class player : public Character
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1248,7 +1248,7 @@ class player : public Character
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to to check for disassembly
+         * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
@@ -1419,7 +1419,7 @@ class player : public Character
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
-        // Returns a multiplier indicating the keeness of a player's hearing.
+        // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
@@ -1578,7 +1578,7 @@ class player : public Character
                                   std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
-         * @param critter Creature to check for visiblity
+         * @param critter Creature to check for visibility
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */

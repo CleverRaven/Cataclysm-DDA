@@ -44,7 +44,6 @@ src/mapgen_functions.cpp
 src/martialarts.cpp
 src/melee.cpp
 src/mission_companion.cpp
-src/mission.cpp
 src/missiondef.cpp
 src/mission_start.cpp
 src/mod_manager.cpp

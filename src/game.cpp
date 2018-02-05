@@ -2578,7 +2578,7 @@ bool game::handle_action()
             // auto-move destinations. Since initializing an auto-move with
             // the mouse may span across multiple actions, we do not clear the
             // auto-move destination if the action is only a timeout, as this
-            // would require the user to double click quicker quicker than the
+            // would require the user to double click quicker than the
             // timeout delay.
             u.clear_destination();
             destination_preview.clear();
@@ -3166,7 +3166,7 @@ bool game::handle_action()
                         continue;
                     }
 
-                    // bio_alarm is usefull for waking up during sleeping
+                    // bio_alarm is useful for waking up during sleeping
                     // turning off bio_leukocyte has 'unpleasant side effects'
                     if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
                         continue;
@@ -5052,6 +5052,8 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
+
+    wrefresh( w_terrain);
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
@@ -7294,7 +7296,7 @@ bool pet_menu(monster *z)
 
         g->u.moves -= 30;
 
-        ///\EFFECT_STR increases chance to successfuly push your pet
+        ///\EFFECT_STR increases chance to successfully push your pet
         if (!one_in(g->u.str_cur)) {
             add_msg(_("You pushed the %s."), pet_name.c_str());
         } else {
@@ -11751,7 +11753,7 @@ void game::place_player( const tripoint &dest_loc )
         m.unboard_vehicle( u.pos() );
     }
     // Move the player
-    // Start with z-level, to make make it less likely that old functions (2D ones) freak out
+    // Start with z-level, to make it less likely that old functions (2D ones) freak out
     if( m.has_zlevels() && dest_loc.z != get_levz() ) {
         vertical_shift( dest_loc.z );
     }
@@ -12587,7 +12589,7 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    // Becase get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
+    // Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
     // is called or when the map is loaded on new z-level (== false).
     // This caches the z-level we start the movement on (current) and the level we're want to end.
     const int z_before = get_levz();

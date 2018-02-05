@@ -721,11 +721,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
-            // This is a translation from local coordinates to submap coords.
+            // This is a translation from local coordinates to submap coordinates.
             // All submaps are in one long 1d array.
             thep.x = locx + submap_x * SEEX;
             thep.y = locy + submap_y * SEEY;
-            // A const reference to the tripoint above, so that the code below doesn't accidentaly change it
+            // A const reference to the tripoint above, so that the code below doesn't accidentally change it
             const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
@@ -733,7 +733,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
                 field_entry * cur = &it->second;
-                // The field might have been killed by processing a neighbour field
+                // The field might have been killed by processing a neighbor field
                 if( !cur->isAlive() ) {
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         dirty_transparency_cache = true;
@@ -1032,16 +1032,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             } else if( cur->getFieldAge() < 0 && cur->getFieldDensity() < 3 ) {
                                 // See if we can grow into a stage 2/3 fire, for this
-                                // burning neighbours are necessary in addition to
+                                // burning neighbors are necessary in addition to
                                 // field age < 0, or alternatively, a LOT of fuel.
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
-                                // 3 for at least 2 neighbours.
+                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbor,
+                                // 3 for at least 2 neighbors.
                                 int maximum_density =  1;
 
                                 // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
                                 // 1. Calculate maximum field density based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
-                                // 2. Calculate maximum field density based on neighbours, 3 neighbours is 2(medium), 7 or more neighbours is 3(raging)
+                                // 2. Calculate maximum field density based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
                                 // 3. Pick the higher maximum between 1. and 2.
                                 if( cur->getFieldAge() < -MINUTES(500) ) {
                                     maximum_density = 3;
@@ -1101,9 +1101,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             maptile &dst = neighs[i];
                             // No bounds checking here: we'll treat the invalid neighbors as valid.
-                            // We're using the maptile wrapper, so we can treat invalid tiles as sentinels.
+                            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
                             // This will create small oddities on map edges, but nothing more noticeable than
-                            // "cut-off" that happenes with bounds checks.
+                            // "cut-off" that happens with bounds checks.
 
                             field_entry *nearfire = dst.find_field(fd_fire);
                             if( nearfire != nullptr ) {

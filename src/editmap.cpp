@@ -589,7 +589,7 @@ void editmap::update_view( bool update_info )
 
     wrefresh( g->w_terrain );
 
-    if( update_info ) {  // only if requested; this messes up windows layered ontop
+    if( update_info ) {  // only if requested; this messes up windows layered on top
         int off = 1;
         draw_border( w_info );
 

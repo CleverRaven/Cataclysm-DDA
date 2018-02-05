@@ -125,15 +125,13 @@ void mapgen_pharm( map *m, oter_id terrain_type, mapgendata dat, int turn, float
 
 void mapgen_s_sports( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 
-void mapgen_shelter( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
-void mapgen_shelter_under( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
-
 void mapgen_basement_generic_layout( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_basement_chemlab( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_basement_weed( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_basement_game( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
+
 // autogen.sh
 void mapgen_police( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );
 void mapgen_pawn( map *m, oter_id terrain_type, mapgendata dat, int turn, float density );

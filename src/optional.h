@@ -13,7 +13,7 @@ namespace cata
 class bad_optional_access : public std::logic_error
 {
     public:
-        bad_optional_access() : logic_error( "cata::optinal: no value contained" ) { }
+        bad_optional_access() : logic_error( "cata::optional: no value contained" ) { }
 };
 
 struct nullopt_t {

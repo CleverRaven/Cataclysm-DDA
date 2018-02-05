@@ -768,7 +768,7 @@ bool player::mutate_towards( const trait_id &mut )
         }
     }
 
-    // Check for threshhold mutation, if needed
+    // Check for threshold mutation, if needed
     bool threshold = mdata.threshold;
     bool profession = mdata.profession;
     bool has_threshreq = false;

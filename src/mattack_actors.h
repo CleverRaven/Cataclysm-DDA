@@ -145,11 +145,11 @@ class gun_actor : public mattack_actor
         bool require_targeting_npc = false;
         bool require_targeting_monster = false;
 
-        int targeting_timeout = 8; /** Default turns afer which targeting is lsot and needs repeating */
+        int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
         std::string targeting_sound;
-        int targeting_volume = 6; /** If set to zero don't emit any targetting sounds */
+        int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
         /*@}*/

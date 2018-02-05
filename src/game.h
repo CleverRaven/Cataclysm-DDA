@@ -130,7 +130,7 @@ class game
         bool is_core_data_loaded() const;
 
         /**
-         *  Check if mods can be sucessfully loaded
+         *  Check if mods can be successfully loaded
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
@@ -176,7 +176,7 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write statisics to stdout and @return true if sucessful */
+        /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
@@ -226,9 +226,9 @@ class game
 
         /*
          * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
-         * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
+         * @param src source from which shrapnel radiates outwards in a uniformly random distribution
          * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
+         * @param count arbitrary measure of quantity shrapnel emitted affecting number of hits
          * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
          * @param range maximum distance shrapnel may travel
          * @return map containing all tiles considered with value being sum of damage received (if any)
@@ -254,7 +254,7 @@ class game
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
         /**
-         * @return The the living creature with the given id. Returns null if no living
+         * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
          * Currently only the player character and npcs have ids.
          */
@@ -627,7 +627,7 @@ class game
         void set_driving_view_offset(const point &p);
         // Calculates the driving_view_offset for the given vehicle
         // and sets it (view set_driving_view_offset), if
-        // the options for this feautre is dactivated or if veh is NULL,
+        // the options for this feature is deactivated or if veh is NULL,
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 

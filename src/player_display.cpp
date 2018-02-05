@@ -86,7 +86,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         wprintz( win, c_light_gray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
-        // seperator in low toned color
+        // separator in low toned color
         wprintz( win, c_light_gray, "+" );
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d",
                  e.encumbrance - e.armor_encumbrance ).c_str() );

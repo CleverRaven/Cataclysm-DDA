@@ -1484,7 +1484,7 @@ const scent_trace &overmap::scent_at( const tripoint &loc ) const
 
 void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
 {
-    // TODO: increase strength of scent trace when applied repeatedlu in a short timespan.
+    // TODO: increase strength of scent trace when applied repeatedly in a short timespan.
     scents[loc] = new_scent;
 }
 
@@ -1643,7 +1643,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     }
 
     // Cities and forests come next.
-    // These're agnostic of adjacent maps, so it's very simple.
+    // These are agnostic of adjacent maps, so it's very simple.
     place_cities();
     place_forest();
 
@@ -1653,7 +1653,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         int tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinte loop...
+        // TODO: In theory this is a potential infinite loop...
         if (north == NULL) {
             do {
                 tmp = rng(10, OMAPX - 11);
@@ -4367,7 +4367,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
             if( x_in_y( min, max) ) {
                 // Min and max are overloaded to be the chance of occurrence,
-                // so reset intances placed to one short of max so we don't place several.
+                // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
             } else {
                 iter = enabled_specials.erase( iter );

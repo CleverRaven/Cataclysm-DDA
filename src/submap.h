@@ -98,7 +98,7 @@ struct submap {
             return;
         }
 
-        // Have to scan through all items to be sure removing i will actally lower
+        // Have to scan through all items to be sure removing i will actually lower
         // the count below 255.
         int count = 0;
         for (auto const &it : itm[x][y]) {

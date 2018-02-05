@@ -122,7 +122,7 @@ map::map( int mapsize, bool zlev )
         ptr = std::unique_ptr<pathfinding_cache>( new pathfinding_cache() );
     }
 
-    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
+    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
 
@@ -234,7 +234,7 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
                 ch.veh_exists_at[p.x][p.y] = false;
             }
             ch.veh_cached_parts.erase( it++ );
-            // If something was resting on veh, drop it
+            // If something was resting on vehicle, drop it
             support_dirty( tripoint( p.x, p.y, old_zlevel + 1 ) );
         } else {
             ++it;
@@ -961,7 +961,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d velo_veh2 = veh2.velo_vec();
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
-        //Energy of vehicle1 annd vehicle2 before collision
+        //Energy of vehicle1 and vehicle2 before collision
         float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
             0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
@@ -1071,7 +1071,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     epicenter2.y /= coll_parts_cnt;
 
     if( dmg2_part > 100 ) {
-        // Shake veh because of collision
+        // Shake vehicle because of collision
         veh2.damage_all( dmg2_part / 2, dmg2_part, DT_BASH, epicenter2 );
     }
 
@@ -1104,7 +1104,7 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
             for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
                 submap *current_submap = get_submap_at_grid( cx, cy, cz );
                 for( auto &elem : current_submap->vehicles ) {
-                    // Ensure the veh's z-position is correct
+                    // Ensure the vehicle z-position is correct
                     elem->smz = cz;
                     wrapped_vehicle w;
                     w.v = elem;
@@ -2775,7 +2775,7 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
 
 /**
  * Returns whether or not the terrain at the given location can be dived into
- * (by monsters that can swim or are aquatic or nonbreathing).
+ * (by monsters that can swim or are aquatic or non-breathing).
  * @param x The x coordinate to look at.
  * @param y The y coordinate to look at.
  * @return true if the terrain can be dived into; false if not.
@@ -4811,7 +4811,7 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         if(std::find(begin(veh_in_nonant), end(veh_in_nonant), cur_veh) == veh_in_nonant.end()) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
-            // or be destroyed, anywaay it does not need to be processed here
+            // or be destroyed, anyway it does not need to be processed here
             return;
         }
 
@@ -5935,7 +5935,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         tercol = curr_furn.color();
     } else {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
-            // If the terrain symbol is later overriden by something, we don't need to calculate
+            // If the terrain symbol is later overridden by something, we don't need to calculate
             // the wall symbol at all. This case will be detected by comparing sym to this
             // placeholder, if it's still the same, we have to calculate the wall symbol.
             sym = AUTO_WALL_PLACEHOLDER;
@@ -6864,7 +6864,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         return;
     }
 
-    // Amount of maple sap litres produced per season per tap
+    // Amount of maple sap liters produced per season per tap
     static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
@@ -6879,7 +6879,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     if( time_since_last_actualize >= to_turns<int>( calendar::year_length() ) ) {
         time_producing = producing_length;
     } else {
-        // We are only procuding sap on the intersection with the sap producing season.
+        // We are only producing sap on the intersection with the sap producing season.
         int early_spring_end = int( 0.5f * turns_season );
         int late_winter_start = int( 3.75f * turns_season );
 
@@ -7245,7 +7245,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                     point( rng( 0, SEEX ), rng( 0, SEEY ) );
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
-                add_msg( m_debug, "%s targetting %d,%d,%d", tmp.disp_name().c_str(),
+                add_msg( m_debug, "%s targeting %d,%d,%d", tmp.disp_name().c_str(),
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 

@@ -232,7 +232,7 @@ class vpart_info
 struct vehicle_item_spawn {
     point pos;
     int chance;
-    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;

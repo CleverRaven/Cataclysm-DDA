@@ -408,7 +408,7 @@ class advanced_inventory
         void recalc_pane( side p );
         void redraw_pane( side p );
         // Returns the x coordinate where the header started. The header is
-        // displayed right right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         /**
