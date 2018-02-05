@@ -21,7 +21,7 @@
     "type": "monstergroup",
     "default": "mon_w12b10",
     "monsters": [
-      { "monster": "mon_w11b10", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_w11h10", "freq": 35, "cost_multiplier": 0 },
       { "monster": "mon_w12b10", "freq": 50, "cost_multiplier": 0 }
     ]
   },
