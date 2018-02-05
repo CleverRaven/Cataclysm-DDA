@@ -22,9 +22,9 @@ static const std::array<npc_class_id, 17> legacy_ids = {{
         npc_class_id( "NC_BOUNTY_HUNTER" ),  // Resourceful and well-armored
         npc_class_id( "NC_THUG" ),           // Moderate melee skills and poor equipment
         npc_class_id( "NC_SCAVENGER" ),      // Good with pistols light weapons
-        npc_class_id( "NC_ARSONIST" ),       // Evacuation Center, restocks moltovs and anarcist type stuff
+        npc_class_id( "NC_ARSONIST" ),       // Evacuation Center, restocks molotovs and anarchist type stuff
         npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
-        npc_class_id( "NC_SOLDIER" ),        // Well equiped and trained combatant, good with rifles and melee
+        npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
         npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
         npc_class_id( "NC_JUNK_SHOPKEEP" )   // Stocks wide range of items...
     }

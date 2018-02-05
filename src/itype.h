@@ -288,7 +288,7 @@ struct islot_mod {
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
-    /** Proportional adjusgtment of parent item ammo capacity */
+    /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0;
 };
 
@@ -446,7 +446,7 @@ class gun_type_type
 };
 
 struct islot_gunmod : common_ranged_data {
-    /** Where is this guunmod installed (eg. "stock", "rail")? */
+    /** Where is this gunmod installed (eg. "stock", "rail")? */
     gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
@@ -494,7 +494,7 @@ struct islot_magazine {
     itype_id default_ammo = "NULL";
 
     /**
-     * How reliable this this magazine on a range of 0 to 10?
+     * How reliable this magazine on a range of 0 to 10?
      * @see doc/GAME_BALANCE.md
      */
     int reliability = 0;
@@ -538,7 +538,7 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<std::string> ammo_effects;
     /**
-     * Base loudness of ammo (possbily modified by gun/gunmods). If unspecified an
+     * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;

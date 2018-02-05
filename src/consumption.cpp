@@ -412,7 +412,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
 
     if( saprophage && edible && food.rotten() && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
-        // Hardcoding fertilizer for now - should be a separate flag later
+        // Hard-coding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );

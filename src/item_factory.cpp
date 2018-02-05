@@ -882,7 +882,7 @@ void Item_factory::check_definitions() const
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
                     if( !mag->magazine || mag->magazine->type != e.first ) {
-                        msg << "invalid magazine " << opt << " in magazine adaptor\n";
+                        msg << "invalid magazine " << opt << " in magazine adapter\n";
                     }
                 }
             }
@@ -1966,7 +1966,7 @@ void Item_factory::clear()
 
     categories.clear();
 
-    // Also clear functions refering to lua
+    // Also clear functions referring to lua
     iuse_function_list.clear();
 
     m_templates.clear();

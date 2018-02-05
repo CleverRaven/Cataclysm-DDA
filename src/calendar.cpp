@@ -39,7 +39,7 @@ const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
 /** Hour of sunset at fall and spring equinox */
 #define SUNSET_EQUINOX 19
 
-/** Hour of setset at summer solstice */
+/** Hour of sunset at summer solstice */
 #define SUNSET_SUMMER   21
 
 // How long, does sunrise/sunset last?

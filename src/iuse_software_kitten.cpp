@@ -47,7 +47,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("A signpost saying \"TO KITTEN\". It points in no particular direction."),
         _("A hammock stretched between a tree and a volleyball pole."),
         _("A Texas Instruments of Destruction calculator."),
-        _("It's a dark, amphorous blob of matter."),
+        _("It's a dark, amorphous blob of matter."),
         _("Just a pincushion."),
         _("It's a mighty zombie talking about some love and prosperity."),
         _("\"Dear robot, you may have already won our 10 MILLION DOLLAR prize...\""),
@@ -333,7 +333,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         if(ret == true) {
             break;
         }
-        /* Redraw robot, where avaliable */
+        /* Redraw robot, where available */
         if (!(old_x == robot.x && old_y == robot.y)) {
             wmove(w, old_y, old_x);
             wputch(w, c_white, ' ');

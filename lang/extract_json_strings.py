@@ -40,6 +40,7 @@ warning_suppressed_list = {
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
+    "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/PKs_Rebalance/monsters/",

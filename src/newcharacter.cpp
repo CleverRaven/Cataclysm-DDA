@@ -265,7 +265,7 @@ void player::randomize( const bool random_scenario, points_left &points )
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;
     std::string rn = "";
-    add_traits(); // adds mandatory prof/scen traits.
+    add_traits(); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
         if( mut_info.profession ) {
@@ -1443,7 +1443,7 @@ tab_direction set_profession( const catacurses::window &w, player *u, points_lef
         } else {
             buffer << "<color_light_blue>" << _( "Profession items:" ) << "</color>\n";
             for( const auto &i : prof_items ) {
-                // TODO: If the item group is randomized *at all*, these'll be different each time
+                // TODO: If the item group is randomized *at all*, these will be different each time
                 // and it won't match what you actually start with
                 // TODO: Put like items together like the inventory does, so we don't have to scroll
                 // through a list of a dozen forks.

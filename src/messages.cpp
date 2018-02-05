@@ -328,7 +328,7 @@ void Messages::display_messages()
             std::string long_ago      = to_string_clipped( time_duration::from_turns( timepassed ) );
             nc_color col              = msgtype_to_color( m.type, false );
 
-            // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
+            // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
             std::string amount = long_ago.substr( 0, amount_len );

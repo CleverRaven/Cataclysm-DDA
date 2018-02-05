@@ -171,15 +171,15 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
 
 int get_signal_for_hordes( const centroid &centr )
 {
-    //Volume in  tiles. Signal fo hordes in submaps
+    //Volume in  tiles. Signal for hordes in submaps
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
     const int min_vol_cap = 60;//Hordes can't hear volume lower than this
-    const int undeground_div = 2;//Coeffficient for volume reduction undeground
-    const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
+    const int underground_div = 2;//Coefficient for volume reduction underground
+    const int hordes_sig_div =  SEEX;//Divider coefficient for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
     const int max_sig_cap = 26;//Signal for hordes can't be higher that this
     //Lower the level - lower the sound
-    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
+    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
         int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
@@ -293,7 +293,7 @@ void sounds::process_sound_markers( player *p )
                      p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) {
-                //Not kidding about sleep-thru-firefight
+                //Not kidding about sleep-through-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
             } else {

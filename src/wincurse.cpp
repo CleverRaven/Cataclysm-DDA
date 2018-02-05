@@ -459,7 +459,7 @@ int projected_window_height(int)
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
@@ -622,7 +622,7 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     result.rgbBlue=b;    //Blue
     result.rgbGreen=g;    //Green
     result.rgbRed=r;    //Red
-    result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
+    result.rgbReserved=0;//The Alpha, is not used, so just set it to 0
     return result;
 }
 

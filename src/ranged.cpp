@@ -186,7 +186,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         return 0;
     }
 
-    // Number of shots to fire is limited by the ammount of remaining ammo
+    // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
@@ -471,7 +471,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    // Some minor (skill/2) armor piercing for skillfull throws
+    // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
     for( damage_unit &du : impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
@@ -1341,7 +1341,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, 0, gun.gun_damage(), gun.gun_pierce() );
+    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 

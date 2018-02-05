@@ -51,6 +51,7 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_fabrication( "fabrication" );
 
 const species_id ZOMBIE( "ZOMBIE" );
+const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -583,7 +584,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
-        // players with mutations that remove the requirement for a vitamin cannot suffer accmulation of it
+        // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
         p.vitamin_mod( v.first, rng( v.second.first, v.second.second ), p.vitamin_rate( v.first ) > 0 ? false : true );
     }
 
@@ -1226,7 +1227,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     if (dice(3, 4) > p.dex_cur) {
         count -= rng(0, 2);
     }
-    // If more than 1 material component can still be be salvaged,
+    // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if (count > 0 && cut.damage() > 0) {
@@ -1550,7 +1551,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
         if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
+            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
     }
@@ -1625,7 +1626,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
     // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
-    // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
+    // This gives us a difficulty ranging roughly from 10 - 40, with up to +25 for corpse damage.
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
@@ -2685,7 +2686,7 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
     static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
         _("Nothing"),
         _("Repairing"),
-        _("Refiting"),
+        _("Refitting"),
         _("Reinforcing"),
         _("Practicing")
     }};
@@ -3268,7 +3269,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
     }
 
     if( target.gunmod_find( "barrel_small" ) ) {
-        return ret_val<bool>::make_failure( _( "The barrel is aleady sawn off." ) );
+        return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();

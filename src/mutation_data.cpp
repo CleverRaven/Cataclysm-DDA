@@ -253,7 +253,7 @@ void mutation_branch::load( JsonObject &jsobj )
     }
     // Helps to be able to have a trait require more than one other trait
     // (Individual prereq-lists are "OR", not "AND".)
-    // Traits shoud NOT appear in both lists for a given mutation, unless
+    // Traits should NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
     // These are additional to the first list.
     for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {

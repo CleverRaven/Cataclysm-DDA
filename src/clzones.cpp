@@ -15,8 +15,8 @@
 
 zone_manager::zone_manager()
 {
-    types["NO_AUTO_PICKUP"] = _( "No Auto Pickup" );
-    types["NO_NPC_PICKUP"] = _( "No NPC Pickup" );
+    types["NO_AUTO_PICKUP"] = translate_marker( "No Auto Pickup" );
+    types["NO_NPC_PICKUP"] = translate_marker( "No NPC Pickup" );
 }
 
 void zone_manager::zone_data::set_name()
@@ -39,7 +39,7 @@ void zone_manager::zone_data::set_type()
 
     size_t i = 0;
     for( const auto &type : types ) {
-        const auto &name = type.second;
+        const auto &name = _( type.second.c_str() );
         as_m.addentry( i++, true, MENU_AUTOASSIGN, name );
     }
 
@@ -65,7 +65,7 @@ std::string zone_manager::get_name_from_type( const std::string &type ) const
 {
     const auto &iter = types.find( type );
     if( iter != types.end() ) {
-        return iter->second;
+        return _( iter->second.c_str() );
     }
 
     return "Unknown Type";

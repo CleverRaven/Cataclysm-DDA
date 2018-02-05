@@ -298,10 +298,10 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
 std::vector<char> keys_bound_to( action_id act );
 
 /**
- * Lookup an action ID by its unique string identfier
+ * Lookup an action ID by its unique string identifier
  *
- * Translates a unique string identifier into an @ref action_id.  This identifer is generally the
- * value used in a keymap configuration file.  If no correspodning action_id is found for this
+ * Translates a unique string identifier into an @ref action_id.  This identifier is generally the
+ * value used in a keymap configuration file.  If no corresponding action_id is found for this
  * identifier then ACTION_NULL is returned instead.
  *
  * @param ident Unique string identifier corresponding to an @ref action_id
@@ -507,7 +507,7 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
 action_id handle_action_menu(); // Show the action menu.
 
 /**
- * Show ingame main menu
+ * Show in-game main menu
  *
  * Prompts the user with the main game menu, and returns any action requested by user input at
  * that menu.
@@ -517,7 +517,7 @@ action_id handle_action_menu(); // Show the action menu.
 action_id handle_main_menu();
 
 /**
- * Test whether is is possible to perform a given action.
+ * Test whether it is possible to perform a given action.
  *
  * Checks whether we can interact with something using the specified action and the given tile.
  *

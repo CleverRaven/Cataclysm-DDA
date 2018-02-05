@@ -1364,7 +1364,7 @@ std::string rewrite_vsnprintf( const char *msg )
         }
 
 
-        // Write porition of the string that was before %
+        // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
         rewritten_msg_optimised << std::string( msg, ptr );
 
@@ -1937,7 +1937,7 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
  * Match text containing wildcards (*)
  * @param text_in Text to check
  * @param pattern_in Pattern to check text_in against
- * Case insenitive search
+ * Case insensitive search
  * Possible patterns:
  * *
  * wooD
@@ -2055,7 +2055,7 @@ std::string format_volume( const units::volume &volume )
 
 /**
 * Convert, clamp, round up and format a volume,
-* taking into account the specified width (0 for inlimited space),
+* taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
 * optionally returning the formated value as double.
 */

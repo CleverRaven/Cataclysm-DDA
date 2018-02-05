@@ -1903,7 +1903,7 @@ void veh_interact::display_mode()
 
     size_t esc_pos = display_esc(w_mode);
 
-    // broken indendation preserved to avoid breaking git history for large number of lines
+    // broken indentation preserved to avoid breaking git history for large number of lines
         const std::array<std::string, 10> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },

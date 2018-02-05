@@ -16,7 +16,7 @@
 # fei li <busizhe0715@gmail.com>, 2016
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 # iopop, 2016-2017
-# iopop, 2017
+# iopop, 2017-2018
 # Jin Zhang <610037437@qq.com>, 2016
 # king joker, 2016
 # king joker, 2016
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-19 08:34-0500\n"
-"PO-Revision-Date: 2018-01-26 09:15+0000\n"
+"POT-Creation-Date: 2018-01-26 06:07-0500\n"
+"PO-Revision-Date: 2018-01-29 05:48+0000\n"
 "Last-Translator: 何方神圣 何 <1366003560@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4277,7 +4277,7 @@ msgid ""
 "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
 "Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
 "extremely popular all over the world.  The bullet has poor wounding "
-"potential due to its stability, only begining to yaw after 26cm."
+"potential due to its stability, only beginning to yaw after 26cm."
 msgstr "121.9格令的7.62x39mm 57-N-231 型全金属被甲钢芯弹。由二战时期的苏联研发，7.62x39mm口径弹药迅速地流行全世界。由于弹道稳定性过好，导致其破坏力很差。据实验，该型号子弹在射入目标内26厘米后才开始明显翻滚。"
 
 #: lang/json/AMMO_from_json.py
@@ -4296,6 +4296,15 @@ msgstr "123格令的7.62x39mm M67 型弹。由于7.62x39mm M43型子弹的终端
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
 msgstr "复装7.62x39mm M43弹"
+
+#. ~ Description for reloaded 7.62x39mm M43
+#: lang/json/AMMO_from_json.py
+msgid ""
+"7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet "
+"Union the 7.62x39mm round rapidly became extremely popular all over the "
+"world.  The bullet has poor wounding potential due to its stability, only "
+"beginning to yaw after 26cm."
+msgstr "121.9格令的7.62x39mm M43型弹。由二战时期的苏联研发，7.62x39mm口径弹药迅速地流行全世界。由于弹道稳定性过好，导致其破坏力很差。据实验，该型号子弹在射入目标内26厘米后才开始明显翻滚。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M67"
@@ -6729,7 +6738,7 @@ msgstr[0] "手提箱"
 #. ~ Description for briefcase
 #: lang/json/ARMOR_from_json.py
 msgid "Useful for carrying money, documents, or smuggled goods."
-msgstr "一个内部有空间可以容纳各种物件，装配有提手，便于的提起一个箱子。\n\"想起来一个猎人拿着这个亡命天涯的一个电影，不过现在故事情节都差不多了。\""
+msgstr "一个内部有空间可以容纳各种物件，装配有提手，便于的提起一个箱子。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "briefs"
@@ -13183,7 +13192,7 @@ msgid ""
 "  The cybernetic disconnect prevents you from improving the affected combat "
 "skills while this bionic is active.  However, with extended use in combat, "
 "it is possible to learn the chosen martial art."
-msgstr "存储有海量武术程序的数据库和处理器被直接整合进了你的脊柱。开启后，你的近战技能被计算机程序取代。你可以选择启用空手道、柔道、泰拳或者生化格斗术程序。然而因开启生化插件带来的脑神经控制中断使你无法提升技能等级。不过，随着不断地在战斗中使用，你有可能学会所选择的对应武术流派。"
+msgstr "存储有海量武术程序的数据库和处理器可直接整合进你的脊柱。开启后，你的近战技能被计算机程序取代。你可以选择启用空手道、柔道、泰拳或者生化格斗术程序。然而因开启生化插件带来的脑神经控制中断使你无法提升技能等级。不过，随着不断地在战斗中使用，你有可能学会所选择的对应武术流派。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Wired Reflexes CBM"
@@ -13976,7 +13985,7 @@ msgstr[0] "人工肌肉纤维CBM"
 msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
 "bonus to strength."
-msgstr "你的肌肉组织被植入了更强劲的生化纤维，力量+2。"
+msgstr "一款强劲的生化纤维，可以植入手臂的肌肉组织，使力量+2。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Anti-Glare Compensators CBM"
@@ -15321,14 +15330,14 @@ msgstr "一本有关生物柴油的大部头大学教科书。"
 #: lang/json/BOOK_from_json.py
 msgid "Mechanical Mastery"
 msgid_plural "Mechanical Mastery"
-msgstr[0] "机械大师"
+msgstr[0] "机械师"
 
 #. ~ Description for Mechanical Mastery
 #: lang/json/BOOK_from_json.py
 msgid ""
 "An advanced guide on mechanics and welding, covering topics like \"Grinding "
 "off rust\" and \"Making cursive E's\"."
-msgstr "一本机械学和焊接技术进阶指南，包含了\"如何防尘除锈\"、\"怎么把铁管焊成花体E形\"之类主题。"
+msgstr "一本机械学和焊接技术进阶指南，包含了\"如何防尘除锈\"、\"怎么把铁管焊成花体E形\"之类主题。\n“由一名秃顶的职业杀手编写。”"
 
 #: lang/json/BOOK_from_json.py
 msgid "CQB Monthly"
@@ -29532,6 +29541,17 @@ msgstr[0] "迷你冰箱"
 msgid "A very small fridge for keeping food cool."
 msgstr "一个超级小的冰箱，能够冷藏食物。"
 
+#: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "washing machine"
+msgid_plural "washing machines"
+msgstr[0] "车载洗衣机"
+
+#. ~ Description for washing machine
+#: lang/json/GENERIC_from_json.py
+msgid "A very small washing machine designed for use in vehicles."
+msgstr "一台非常小型的车载洗衣机。"
+
 #: lang/json/GENERIC_from_json.py
 msgid "solar cell"
 msgid_plural "solar cells"
@@ -30097,7 +30117,7 @@ msgstr "一部完整的蝎子功指南。里面有你最喜爱的邵氏武打明
 #: lang/json/GENERIC_from_json.py
 msgid "The Indonesian Warrior"
 msgid_plural "The Indonesian Warrior"
-msgstr[0] "印尼武士道"
+msgstr[0] "印尼战士"
 
 #. ~ Description for The Indonesian Warrior
 #: lang/json/GENERIC_from_json.py
@@ -30122,7 +30142,7 @@ msgstr[0] "官方跆拳道训练教材"
 #. ~ Description for Official Taekwondo Training Manual
 #: lang/json/GENERIC_from_json.py
 msgid "A complete guide to Taekwondo."
-msgstr "一部完整的跆拳道指南。让你赤着脚穿着棉布短袍和丧尸肉搏，简直就是谋杀。"
+msgstr "一部完整的跆拳道指南。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "Becoming One with the Tao"
@@ -33242,6 +33262,27 @@ msgid "Removes all special zombies from the game."
 msgstr "去除游戏中的特殊丧尸。"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Mutant NPCs"
+msgstr "变异NPC"
+
+#. ~ Description for Mutant NPCs
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"NPCs wandering the wasteland will occasionally have mutations --- your foes "
+"included. Beware!"
+msgstr "有些在废土世界游荡的NPC们会带有变异---你的敌人也会如此。当心点！"
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "NPC traits"
+msgstr "NPC 特性"
+
+#. ~ Description for NPC traits
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Add an NPC class that spawns with starting traits, like the player does."
+msgstr "添加拥有同玩家一样的起始特性的NPC。"
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Mythological Replicas"
 msgstr "神话武器复制品"
 
@@ -34619,7 +34660,7 @@ msgstr "马"
 msgid ""
 "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-"
 "looking muscles."
-msgstr "拥有浓密的头发，强壮的尾巴和肌肉的哺乳动物。"
+msgstr "一匹拥有浓密的头发，强壮的尾巴和肌肉的哺乳动物。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "human snail"
@@ -34693,7 +34734,7 @@ msgstr "北美沼泽旅鼠，以素食为主的小型啮齿动物，一生都在
 
 #: lang/json/MONSTER_from_json.py
 msgid "mi-go"
-msgstr "米戈"
+msgstr "米·戈"
 
 #. ~ Description for mi-go
 #: lang/json/MONSTER_from_json.py
@@ -34701,7 +34742,7 @@ msgid ""
 "A flexuous monstrosity seeming as a giant crab covered in writhing antennae,"
 " clawed tentacles, and star-shaped growths, with a head like the insides of "
 "a fish but for its dire utterance."
-msgstr "看起来像是巨大的螃蟹，身边有一些不明的触手和星型头，头内部就像一条鱼，会发出非常可怕的叫声。"
+msgstr "一个看起来像是巨大的螃蟹的神秘生物，足有五英尺长，那如甲壳类生物一般的躯体上长着数对巨大的、仿佛是背鳍或膜翼一般的器官，以及数组节肢，同时使用两只螯进行攻击。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "mink"
@@ -36474,7 +36515,7 @@ msgid ""
 "It was only a child, and little is different about it now aside from the "
 "hungry look in its eyes.  You'd be hard pressed to not feel like you were "
 "killing an actual child by putting it down."
-msgstr "不幸在年幼时期就被感染为丧尸的孩子，看着他无神与痛苦饥渴的外表，你压抑着内心，感觉杀死这样的孩子实在是有点难过与悲伤。"
+msgstr "一个不幸在年幼时期就被感染为丧尸的孩子，有着无神与痛苦饥渴的外表，大部分人杀死这样的孩子会感到难过与悲伤。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie kinderling"
@@ -44905,6 +44946,29 @@ msgid ""
 " boat to move."
 msgstr "一个让船只保持浮力的木板。像安装车轮一样安装在车辆上，将载具转换为船只。继续添加桨或者引擎来移动船只。"
 
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gelatinous track"
+msgstr "凝胶履带"
+
+#. ~ Description for Gelatinous track
+#. ~ Description for Oozing track
+#. ~ Description for Gray track
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"A short, interlocking set of tracks created out of some of your monstrosity "
+"blob based parts.  Similar with what you might see used on light "
+"construction vehicles.  It's significantly stronger than regular tires due "
+"to not being at risk of bursting; but is quite heavy."
+msgstr "短履带板环环相扣，由各类巨大而丑陋的变形怪部件制作而成的履带。类似的东西你可能曾在轻型工程载具上见过。由于没有爆胎的风险，它显然比普通轮胎坚固，但是却相当重。"
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Oozing track"
+msgstr "软泥履带"
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gray track"
+msgstr "灰色履带"
+
 #: lang/json/WHEEL_from_json.py
 msgid "gelacier"
 msgstr "寒冷变形怪"
@@ -45176,6 +45240,10 @@ msgstr " 是否停止洗涤？"
 #: lang/json/activity_type_from_json.py
 msgid "Stop cutting the metal?"
 msgstr "停止切割金属？"
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop chopping down?"
+msgstr "停止砍树吗？"
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
@@ -45591,7 +45659,7 @@ msgid ""
 "Bionic processors and databanks, loaded with martial arts combat programs, "
 "are integrated into your nervous system.  Whilst active, the CQB module will"
 " improve your hand to hand combat skills."
-msgstr "存储有海量武术程序的数据库和处理器被直接整合进了你的脊柱。开启后，这个模块可以提升你的徒手近战技能等级，你就会像李小龙一样致命了。"
+msgstr "存储有海量武术程序的数据库和处理器可直接整合进你的脊柱。开启后，这个模块可以提升你的徒手近战技能等级。"
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic-Induced Deformity"
@@ -45987,15 +46055,6 @@ msgid ""
 "chest.  There is no way to shut it down, but you can toggle additional fuel "
 "intake."
 msgstr "这个小型核反应堆也许不是你该在胸部植入的好东西。没有任何手段能将其关闭，但至少你能控制钚燃料棒的输入。"
-
-#: lang/json/bionic_from_json.py
-msgid "Reactor Upgrade"
-msgstr "核反应堆升级装置"
-
-#. ~ Description for Reactor Upgrade
-#: lang/json/bionic_from_json.py
-msgid "You shouldn't see this."
-msgstr "这是一个Bug"
 
 #: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
@@ -46490,10 +46549,6 @@ msgstr "耕地"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "夯实地面"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Down Tree"
-msgstr "砍倒树木"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Logs"
@@ -50087,10 +50142,6 @@ msgstr "书柜"
 msgid "Stores books.  Y'know, Those things.  Who reads books anymore?"
 msgstr "一个专门用来存放书籍、报刊 、杂志等书物的柜子。"
 
-#: lang/json/furniture_from_json.py
-msgid "washing machine"
-msgstr "洗衣机"
-
 #. ~ Description for washing machine
 #: lang/json/furniture_from_json.py
 msgid "You could wash your dirty clothes if electricity was running."
@@ -51609,6 +51660,14 @@ msgid ""
 "barren proto-weapon."
 msgstr "Leadworks LLC的L523无托平台通过多种方式利用普遍的5.56北约弹，它的设计是可以在不同配置间快速安全且有效地更换组件。\"理论上\"这个基础件可以单独使用，但是这是不推荐用法，更会导致保修无效——虽然你也找不到保修点了。有趣的是，这个光秃秃的原型武器并没有给市场上乱七八糟的枪械配件留什么空间。"
 
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+msgid "semi-auto"
+msgstr "半自动"
+
+#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+msgid "auto"
+msgstr "自动"
+
 #: lang/json/gun_from_json.py
 msgid "L523-CAR carbine"
 msgid_plural "L523-CAR carbines"
@@ -51640,10 +51699,6 @@ msgid ""
 "it doesn't accept third-party modifications."
 msgstr "Leadworks LLC的L523无托平台通过多种方式利用普遍的5.56北约弹，它的设计是可以在不同配置间快速安全且有效地更换组件。射手步枪结合了一个特制的增长枪管，并且自带两脚架和前置握柄，同样也有一个8倍战术瞄准镜，并且内置了一个激光瞄准仪，移除了开火模式选择改为陀螺仪稳定装置。但是就和这一系列的其他枪支一样，第三方配件基本都是安不上去的。"
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-msgid "semi-auto"
-msgstr "半自动"
-
 #: lang/json/gun_from_json.py
 msgid "L523-LMG"
 msgid_plural "L523-LMGs"
@@ -51659,10 +51714,13 @@ msgid ""
 "with ammo belts."
 msgstr "Leadworks LLC的L523无托平台可以通过多种方式使用广为流行的5.56北约标准弹，它的设计是可以在不同配置间安全、有效地快速更换组件。这个野心颇大的轻机枪结合了一个重型枪管&前置握柄，还有Leadworks的陀螺稳定系统。和这一系列的其他枪支不同，它可以装入子弹带。"
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-#: src/turret.cpp
-msgid "auto"
-msgstr "自动"
+#: lang/json/gun_from_json.py
+msgid "low auto"
+msgstr "低速全自动"
+
+#: lang/json/gun_from_json.py
+msgid "high auto"
+msgstr "高速全自动"
 
 #: lang/json/gun_from_json.py
 msgid "L523-MBR rifle"
@@ -56146,8 +56204,7 @@ msgstr "戒指"
 msgid "Attach"
 msgstr "装上"
 
-#: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
-#: src/game_inventory.cpp
+#: lang/json/item_action_from_json.py
 msgid "Consume"
 msgstr "消耗"
 
@@ -56350,6 +56407,14 @@ msgstr "制造噪音"
 #: lang/json/item_action_from_json.py
 msgid "Activate/deactivate"
 msgstr "激活/关闭"
+
+#: lang/json/item_action_from_json.py
+msgid "Install bionic"
+msgstr "安装插件"
+
+#: lang/json/item_action_from_json.py
+msgid "Chop down a tree"
+msgstr "砍倒树木"
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -56728,6 +56793,36 @@ msgid ""
 "This weapon <good>can be used with</good> <info>unarmed fighting "
 "styles</info>."
 msgstr "这件武器<good>能够使用</good><info>徒手武术流派招式</info>。"
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a <bad>faulty</bad> bionic."
+msgstr "这个生化插件是一个<bad>故障的</bad>生化插件。"
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a power source bionic."
+msgstr "这个生化插件是一个动力源生化插件。"
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic only has a function when activated, else it causes it's effect "
+"every turn."
+msgstr "只有激活的时候，这个生化插件才会工作，此外每回合它都会起作用。"
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a gun bionic and activating it will fire it.  Prevents all "
+"other activation effects."
+msgstr "只有激活的时候，这个枪械生化插件才会开火。会阻碍其他激活效果。"
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a weapon bionic and activating it will create (or destroy) "
+"bionic's fake_item in user's hands.  Prevents all other activation effects."
+msgstr "只有激活的时候，这个枪械生化插件才会开火。会阻碍其他激活效果。"
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic can provide power to powered armor."
+msgstr "这个生化插件能够为动力装甲供能。"
 
 #: lang/json/keybinding_from_json.py lang/json/keybinding_from_json.py
 #: src/input.cpp src/messages.cpp
@@ -58415,7 +58510,7 @@ msgstr "二天一流"
 msgid ""
 "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of "
 "classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi."
-msgstr "二天，指的是太阳和月亮，江户初期著名剑士新免武蔵藤原玄信（宫本武藏）晩年在熊本县创立的剑术理念，为右手握太刀、左手握小太刀的两刀法，面向五个方向，由此达到战胜对手这一目的。"
+msgstr "二天，指的是太阳和月亮，江户初期著名剑士新免武蔵藤原玄信（宫本武藏）晩年在熊本县创立的剑术理念，为右手握太刀、左手握小太刀的两刀法，面向五个方向，由此达到战胜对手这一目的。\n※游戏中目前未开放武器双持系统。"
 
 #: lang/json/martial_art_from_json.py
 msgid "Blocking"
@@ -62304,7 +62399,7 @@ msgstr "适应了穴居生活。"
 #. ~ Mutation class name
 #: lang/json/mutation_category_from_json.py
 msgid "Alpha"
-msgstr "阿尔法"
+msgstr "原初"
 
 #. ~ Mutation class: Alpha mutagen_message
 #: lang/json/mutation_category_from_json.py
@@ -62471,7 +62566,7 @@ msgstr "速行"
 msgid ""
 "You can move more quickly than most, resulting in a 15% speed bonus on sure "
 "footing."
-msgstr "你的腿部肌肉与协调能力更加出色，可以比别人走、跑得更快。你步行的速度增加15%。"
+msgstr "你的腿部肌肉与协调能力更加出色，可以比别人走、跑得更快，俗称“健步如飞”。你步行的速度增加15%。"
 
 #: lang/json/mutation_from_json.py
 msgid "Good Hearing"
@@ -62566,7 +62661,7 @@ msgstr "睡神"
 msgid ""
 "You have always been able to fall asleep easily, even when sleeping in less "
 "than ideal circumstances."
-msgstr "你总是能倒头就睡，即便在金属残骸上也照睡不误。"
+msgstr "你很容易入睡，即便在金属残骸上也照睡不误。"
 
 #: lang/json/mutation_from_json.py
 msgid "Pain Resistant"
@@ -62607,7 +62702,7 @@ msgstr "快速阅读"
 #: lang/json/mutation_from_json.py
 msgid ""
 "You're a quick reader, and can get through books a lot faster than most."
-msgstr "你的大脑对于文字的处理更加有效率，你阅读书籍等速度比一般人要快。"
+msgstr "你的大脑对于文字与图片的处理更加有效率，俗称“一目十行”，你阅读书籍等速度比一般人要快。"
 
 #: lang/json/mutation_from_json.py
 msgid "Tough Feet"
@@ -62661,7 +62756,7 @@ msgstr "坚韧皮肤"
 msgid ""
 "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly "
 "decreases wet penalties."
-msgstr "你的皮肤组织比普通人更加坚韧。略微减少对你的斩击伤害，同时也稍微减少湿身带来的心情惩罚。"
+msgstr "你的皮肤组织比普通人更加坚韧。略微减少对你受到的斩击伤害，同时也稍微减少湿身带来的心情惩罚。"
 
 #: lang/json/mutation_from_json.py
 msgid "Packmule"
@@ -62718,7 +62813,7 @@ msgstr "出色记忆"
 msgid ""
 "You have a an exceptional memory, and find it easy to remember things.  Your"
 " skills will erode slightly slower than usual."
-msgstr "你的大脑掌管记忆的部分非常出色，你更容易记住你所学到的事情，你的技能遗忘速度较常人为慢。"
+msgstr "你的大脑掌管记忆的部分非常出色，你更容易记住你所学到的事情，你的技能遗忘速度较常人更慢。"
 
 #: lang/json/mutation_from_json.py
 msgid "Deft"
@@ -62729,7 +62824,7 @@ msgstr "灵巧"
 msgid ""
 "While you're not any better at melee combat, you are better at recovering "
 "from a miss, and will be able to attempt another strike faster."
-msgstr "你在近战中的反应更为敏锐，在一次近战攻击未命中后可以更快恢复，更快地发动下一次攻击，此特性不会提升你的近战等级。"
+msgstr "你在近战中的反应更为敏锐，在一次近战攻击未命中后可以更快恢复，更快地发动下一次攻击，此特性与近战等级无关。"
 
 #: lang/json/mutation_from_json.py
 msgid "Drunken Master"
@@ -62768,7 +62863,7 @@ msgstr "你可以很好的抵抗麻醉药品。它们的效果在你身上持续
 
 #: lang/json/mutation_from_json.py
 msgid "Gourmand"
-msgstr "美食主义"
+msgstr "美食家"
 
 #. ~ Description for Gourmand
 #: lang/json/mutation_from_json.py
@@ -62800,7 +62895,7 @@ msgid ""
 "Peaceful animals will not run away from you, and even aggressive animals are"
 " less likely to attack.  This only applies to natural animals such as "
 "woodland creatures."
-msgstr "你的身体散发着友好的信息素，友善的动物不会从你身边跑开，甚至那些富有攻击性的动物也会表现出更少的攻击性。这个特性只适用于那些自然界的生物如草原动物。"
+msgstr "你的身体散发着友好的信息素，友善的动物不会从你身边跑开，甚至那些富有攻击性的动物也会表现出更少的攻击性。这个特性只适用于那些自然界的生物如林地动物。"
 
 #: lang/json/mutation_from_json.py
 msgid "Terrifying"
@@ -62875,7 +62970,7 @@ msgstr "受虐狂"
 msgid ""
 "Although you still suffer the negative effects of pain, it also brings a "
 "unique pleasure to you."
-msgstr "你有受虐癖，疼痛使你感到快乐，虽然你还会承受疼痛的负面效果，但这同时会让你感到一种独特的快感。"
+msgstr "你是个“M”，有受虐癖，疼痛使你感到快乐，虽然你还会承受疼痛的负面效果，但这同时会让你感到一种独特的快感。"
 
 #. ~ Description for Stylish
 #: lang/json/mutation_from_json.py
@@ -62893,7 +62988,7 @@ msgstr "潜行"
 msgid ""
 "You make less noise while walking.  You're also less likely to set off "
 "traps."
-msgstr "你可能受过专业训练或天生如此，你走路时的声音很轻。同样的，相较于普通人，你不那么容易触发陷阱。"
+msgstr "你可能受过专业训练或天生如此，你走路时的声音很轻，触发陷阱的概率更低。"
 
 #: lang/json/mutation_from_json.py
 msgid "Robust Genetics"
@@ -67281,7 +67376,7 @@ msgstr "你在道场里接受过一些武术训练。你能够在空手道、柔
 msgid ""
 "You have practiced fighting with weapons.  You start with your choice of "
 "Eskrima, Fencing, Pentjak Silat, or Medieval Swordsmanship."
-msgstr "你曾在当地道场接受过一套近身武器训练。你在开始的时候可以选择菲律宾剑棍术、击剑术、班卡苏拉刀术及中世纪剑术之一。"
+msgstr "你曾在当地道场接受过一套近身武器训练。你在开始的时候可以选择菲律宾剑棍术、击剑术、班卡苏拉刀术、中世纪剑术及二天一流剑术之一。"
 
 #: lang/json/npc_class_from_json.py
 msgid "No class"
@@ -67439,6 +67534,220 @@ msgstr "我只是在试着活下去。"
 #: lang/json/npc_class_from_json.py
 msgid "I'm just trying to stay alive.... and it ain't as easy as it looks."
 msgstr "我只是在试着活下去……但是这并不像看上去的那么容易。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Mutant"
+msgstr "变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for mutagen... this world is no place for humans anymore, and I "
+"don't plan to keep being one."
+msgstr "我在找诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Lizard Mutant"
+msgstr "蜥蜴变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lizard mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找蜥蜴诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Medical Mutant"
+msgstr "医学变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for medical mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr "我在找医学诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Bird Mutant"
+msgstr "鸟类变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for bird mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找鸟类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Fish Mutant"
+msgstr "鱼类变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for fish mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找鱼类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Beast Mutant"
+msgstr "野兽变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for beast mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找野兽诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Ursine Mutant"
+msgstr "熊科变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for ursine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找熊科诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Feline Mutant"
+msgstr "猫科变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for feline mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找猫类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Lupine Mutant"
+msgstr "狼类变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lupine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找狼类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Cattle Mutant"
+msgstr "家畜变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cattle mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找家畜诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Insect Mutant"
+msgstr "昆虫变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for insect mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找昆虫诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Plant Mutant"
+msgstr "植物变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for plant mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找植物诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Slime Mutant"
+msgstr "史莱姆变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for slime mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找史莱姆诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Troglobite Mutant"
+msgstr "穴居变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for troglobite mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr "我在找穴居动物诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Cephalopod Mutant"
+msgstr "章鱼变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cephalopod mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr "我在找章鱼诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Spider Mutant"
+msgstr "蜘蛛变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for spider mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找蜘蛛诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Rat Mutant"
+msgstr "老鼠变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for rat mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找老鼠诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Alpha Mutant"
+msgstr "新人类变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for alpha mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找新人类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Elfa Mutant"
+msgstr "精灵变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for elfa mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr "我在找精灵诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Chimera Mutant"
+msgstr "奇美拉变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for chimera mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr "我在找奇美拉诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "Raptor Mutant"
+msgstr "猛禽变种人"
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for raptor mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr "我在找猛禽诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+
+#: lang/json/npc_class_from_json.py
+msgid "NPC with starting traits"
+msgstr "携带起始特性的NPC "
 
 #: lang/json/npc_from_json.py
 msgid "Representative"
@@ -87441,6 +87750,22 @@ msgstr "咯啷 咯啷 咯啷"
 msgid "You finished cutting the metal."
 msgstr "你停止切割金属。"
 
+#: src/activity_handlers.cpp
+msgid "CHK!"
+msgstr "咔嚓！"
+
+#: src/activity_handlers.cpp
+msgid "Almost there!  Ten more minutes of work and you'll be through."
+msgstr "就快了！再来个十分钟就挖穿了。"
+
+#: src/activity_handlers.cpp
+msgid "Select a direction for the tree to fall in."
+msgstr "选择一个树木倒下的方向:"
+
+#: src/activity_handlers.cpp
+msgid "You finished chopping down a tree."
+msgstr "你砍倒了一棵树。"
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -89412,14 +89737,6 @@ msgstr "你把你的四肢内脏轻轻摇晃地缓缓放回原本的位置。"
 msgid "Successfully removed %s."
 msgstr "成功移除了 %s。"
 
-#: src/bionics.cpp
-msgid "There is nothing to upgrade!"
-msgstr "缺少可升级的生化插件！"
-
-#: src/bionics.cpp
-msgid "You have already installed this bionic."
-msgstr "你已经安装过这种生化插件了。"
-
 #. ~ <Body part name>: <number of slots> more slot(s) needed.
 #: src/bionics.cpp
 #, c-format
@@ -89494,6 +89811,14 @@ msgctxt "memorial_female"
 msgid "Installed bionic: %s."
 msgstr "安装生化插件：%s。"
 
+#. ~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the
+#. upgraded bionic (superior).
+#: src/bionics.cpp
+#, c-format
+msgid "Successfully upgraded %1$s to %2$s."
+msgstr "成功地将 %1$s 升级到 %2$s。"
+
+#. ~ %s - name of the bionic.
 #: src/bionics.cpp
 #, c-format
 msgid "Successfully installed %s."
@@ -91123,10 +91448,6 @@ msgstr "%s 看着你干活……"
 #, c-format
 msgid "You finish your construction: %s."
 msgstr "你建造完成了 %s。"
-
-#: src/construction.cpp
-msgid "Press a direction for the tree to fall in:"
-msgstr "选择树木倒下的方向："
 
 #: src/construction.cpp src/veh_interact.cpp
 msgid "Enter new vehicle name:"
@@ -96063,6 +96384,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr "传送至附近大地图"
 
 #: src/game.cpp
+msgid "Test trait group"
+msgstr "测试特性组"
+
+#: src/game.cpp
 msgid "Quit to Main Menu"
 msgstr "返回主菜单"
 
@@ -96087,12 +96412,6 @@ msgstr "当前回合：%d；下次刷怪 %d。\n%s\n"
 msgid "%d creature exists.\n"
 msgid_plural "%d creatures exist.\n"
 msgstr[0] "%d 只生物存在。\n"
-
-#: src/game.cpp
-#, c-format
-msgid "%d event planned."
-msgid_plural "%d events planned"
-msgstr[0] "%d 个计划事件。"
 
 #: src/game.cpp
 msgid "NPCs are going to spawn."
@@ -96783,7 +97102,7 @@ msgstr "使用哪个物品？"
 
 #: src/game.cpp src/iuse.cpp src/veh_interact.cpp
 msgid "Never mind"
-msgstr "没有必要"
+msgstr "没事了。"
 
 #: src/game.cpp src/npctalk.cpp
 msgid "You may be attacked! Proceed?"
@@ -98441,10 +98760,6 @@ msgstr "需要至少 %d 点电量"
 #, c-format
 msgid "Needs at least %d charges"
 msgstr "需要至少 %d 单位电量"
-
-#: src/game_inventory.cpp
-msgid "Install bionic"
-msgstr "安装插件"
 
 #: src/game_inventory.cpp
 msgid "Use item"
@@ -100987,6 +101302,10 @@ msgid "Traps"
 msgstr "陷阱"
 
 #: src/init.cpp
+msgid "Bionics"
+msgstr "生化插件"
+
+#: src/init.cpp
 msgid "Terrain"
 msgstr "地形"
 
@@ -101101,10 +101420,6 @@ msgstr "大地图地点"
 #: src/init.cpp
 msgid "Ammunition types"
 msgstr "弹药类型"
-
-#: src/init.cpp
-msgid "Bionics"
-msgstr "生化插件"
 
 #: src/init.cpp
 msgid "Gates"
@@ -102581,16 +102896,16 @@ msgstr "需要先 revert_to 才能指定 revert_msg "
 msgid "Invalid tool subtype"
 msgstr "无效的工具类型"
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Test which group?"
 msgstr "测试哪一组？"
 
 #. ~ Spawn group menu: Menu entry to exit menu
-#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp
+#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp src/trait_group.cpp
 msgid "cancel"
 msgstr "取消"
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Result of 100 spawns:"
 msgstr "100次生成结果："
 
@@ -104341,6 +104656,18 @@ msgid "Cut up what?"
 msgstr "切割什么？"
 
 #: src/iuse.cpp
+msgid "Chop down which tree?"
+msgstr "砍倒哪棵树木？"
+
+#: src/iuse.cpp
+msgid "You're not stern enough to shave yourself with THIS."
+msgstr "你还没强壮到能用这玩意给自己剃胡子。"
+
+#: src/iuse.cpp
+msgid "You can't chop down that."
+msgstr "你无法砍倒它。"
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr "你需要焊接护目镜。"
 
@@ -104758,30 +105085,6 @@ msgstr "你把 %s 放进了眼睛。"
 #: src/iuse.cpp
 msgid "Your vision is fine already."
 msgstr "你的视线清晰了。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "Your %s doesn't appear to be modded."
-msgstr "%s 看起来无法被改造。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can't remove any of the mods from your %s."
-msgstr "你无法从 %s 里移除任何模组。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can not modify your %s while it's worn."
-msgstr "当穿在身上时，你不能改装你的 %s。"
-
-#: src/iuse.cpp
-msgid "Remove which modification?"
-msgstr "移除那个修改？"
-
-#: src/iuse.cpp
-#, c-format
-msgid "You remove your %1$s from your %2$s."
-msgstr "你将 %1$s 从 %2$s 中移除。"
 
 #: src/iuse.cpp
 msgid "You need a mechanics skill of 2 to use this repair kit."
@@ -105702,6 +106005,10 @@ msgid "Countdown: "
 msgstr "倒计时："
 
 #: src/iuse_actor.cpp
+msgid "It's already been triggered."
+msgstr "已经被触发。"
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
 msgstr "你已经设好了 %s 的定时器。"
@@ -105847,10 +106154,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr "上到地表之后你才能查看你的 %s 。"
 
 #: src/iuse_actor.cpp
-msgid "This tool doesn't have enough charges."
-msgstr "工具没有足够的使用次数或能量。"
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr "点燃哪里？"
 
@@ -105879,6 +106182,10 @@ msgstr "这里没有可以点燃的东西。"
 #: src/iuse_actor.cpp
 msgid "You successfully light a fire."
 msgstr "你成功地生了火。"
+
+#: src/iuse_actor.cpp
+msgid "This tool doesn't have enough charges."
+msgstr "工具没有足够的使用次数或能量。"
 
 #: src/iuse_actor.cpp
 msgid "You need direct sunlight to light a fire with this."
@@ -105999,10 +106306,6 @@ msgid "You need at least %d charges to cauterize wounds."
 msgstr "你需要至少 %d 点电量来烧灼消毒伤口。"
 
 #: src/iuse_actor.cpp
-msgid "You can't cauterize anything underwater."
-msgstr "你无法在水下烧灼消毒伤口。"
-
-#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr "没有合适的尸体"
 
@@ -106027,6 +106330,12 @@ msgstr "嗯，这比把它们切成碎块更有技术含量……"
 #: src/iuse_actor.cpp
 msgid "You feel horrible for mutilating and enslaving someone's corpse."
 msgstr "你觉得切割并且奴役人类的尸体实在是恐怖极了！"
+
+#. ~ %s - name of the required skill.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You need at least %s 1."
+msgstr "你需要至少 1 级 %s。"
 
 #: src/iuse_actor.cpp
 msgid "You can't play music underwater"
@@ -106429,6 +106738,40 @@ msgstr "枪管已经锯短。"
 #: src/iuse_actor.cpp
 msgid "Can't saw off modified barrels."
 msgstr "无法将改造过的枪管锯短。"
+
+#: src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr "你已经安装过这种生化插件了。"
+
+#: src/iuse_actor.cpp
+msgid "There is nothing to upgrade."
+msgstr "缺少可升级的生化插件！"
+
+#: src/iuse_actor.cpp
+msgid "You have a superior version installed."
+msgstr "你已经安装了该生化插件的升级版本。"
+
+#: src/iuse_actor.cpp
+msgid "Remove which modification?"
+msgstr "移除那个修改？"
+
+#. ~ %1$s - gunmod, %2$s - gun.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You remove your %1$s from your %2$s."
+msgstr "你将 %1$s 从 %2$s 中移除。"
+
+#: src/iuse_actor.cpp
+msgid "Doesn't appear to be modded."
+msgstr "尚未被改造。"
+
+#: src/iuse_actor.cpp
+msgid "None of the mods can be removed."
+msgstr "无可移除模组。"
+
+#: src/iuse_actor.cpp
+msgid "Has to be taken off first."
+msgstr "需要先脱下。"
 
 #: src/iuse_software.cpp
 msgid "You found kitten!"
@@ -107958,6 +108301,16 @@ msgstr "咔吱！"
 #: src/map.cpp
 msgid "The metal bars melt!"
 msgstr "金属棒融化了！"
+
+#: src/map.cpp
+#, c-format
+msgid "It should take %d minutes to finish washing items in the %s."
+msgstr "%s内的物品还需要大概 %d 分钟才能清洗完成。"
+
+#: src/map.cpp
+#, c-format
+msgid "The washing machine in the %s has finished washing."
+msgstr "%s的洗衣机已经完成了清洗程序。"
 
 #: src/map.cpp
 #, c-format
@@ -111497,6 +111850,10 @@ msgid "Focus gain per minute"
 msgstr "每分钟专注值变化"
 
 #: src/morale.cpp
+msgid "Nothing affects your morale"
+msgstr "无心情加成"
+
+#: src/morale.cpp
 msgid "Morale"
 msgstr "心情"
 
@@ -111507,10 +111864,6 @@ msgstr "来源"
 #: src/morale.cpp
 msgid "Value"
 msgstr "分值"
-
-#: src/morale.cpp
-msgid "Nothing affects your morale"
-msgstr "无心情加成"
 
 #: src/mutation.cpp
 #, c-format
@@ -115564,6 +115917,14 @@ msgid "Examine vehicle"
 msgstr "检查载具"
 
 #: src/pickup.cpp
+msgid "Deactivate the washing machine"
+msgstr "关闭洗衣机"
+
+#: src/pickup.cpp
+msgid "Activate the washing machine (1.5 hours)"
+msgstr "启动洗衣机（1.5小时）"
+
+#: src/pickup.cpp
 msgid "Get items"
 msgstr "取出物品"
 
@@ -117813,7 +118174,7 @@ msgstr "%s 闪开了……好快！"
 
 #: src/player.cpp
 msgid "You try to dodge but there's no room!"
-msgstr "你想要躲闪，但却没有腾挪的空间！"
+msgstr "你想要躲闪，但却没有足够施展的空间！"
 
 #: src/player.cpp
 #, c-format
@@ -121113,6 +121474,34 @@ msgstr "%d\" "
 #: src/vehicle.cpp
 msgid " (faulty)"
 msgstr "（故障）"
+
+#: src/vehicle.cpp
+msgid ""
+"You turn the washing machine off before it's finished the program, and open "
+"its lid."
+msgstr "你在清洗程序完成前关闭洗衣机并打开洗衣机盖。"
+
+#: src/vehicle.cpp
+#, c-format
+msgid ""
+"You need 24 charges of water in tanks of the %s to fill the washing machine."
+msgstr "你需要在%s的水箱内加入 24 份水来装满洗衣机。"
+
+#: src/vehicle.cpp
+msgid "You need 5 charges of detergent for the washing machine."
+msgstr "你需要在洗衣机内加入 5 份的洗涤剂。"
+
+#: src/vehicle.cpp
+msgid ""
+"You need to remove all non-filthy items from the washing machine to start "
+"the washing program."
+msgstr "你需要从洗衣机中移除所有不肮脏的物品后才能启动清洗程序。"
+
+#: src/vehicle.cpp
+msgid ""
+"You pour some detergent into the washing machine, close its lid, and turn it"
+" on.  The washing machine is being filled with water from vehicle tanks."
+msgstr "你往洗衣机内加入了一些洗涤剂，关上盖子并启动了机器。洗衣机会自行从车辆水箱里取水。"
 
 #: src/vehicle_group.cpp
 msgid "pile-up"

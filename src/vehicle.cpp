@@ -391,7 +391,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if( pt.is_battery() ) {
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( "battery", pt.ammo_capacity() );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomise battery ammo a bit
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize battery ammo a bit
                 pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
                 pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
@@ -1111,7 +1111,7 @@ bool vehicle::fold_up() {
     g->m.destroy_vehicle(this);
 
     // TODO: take longer to fold bigger vehicles
-    // TODO: make this interruptable
+    // TODO: make this interruptible
     g->u.moves -= 500;
     return true;
 }
@@ -1980,7 +1980,7 @@ bool vehicle::remove_part( int p )
     const auto iter = labels.find( label( parts[p].mount.x, parts[p].mount.y ) );
     const bool no_label = iter != labels.end();
     const bool grab_found = g->u.grab_type == OBJECT_VEHICLE && g->u.grab_point == part_loc;
-    // Checking these twice to avoid calling the relatively expensive parts_at_relative() unecessarally.
+    // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
     if( no_label || grab_found ) {
         if( parts_at_relative( parts[p].mount.x, parts[p].mount.y, false ).empty() ) {
             if( no_label ) {
@@ -2060,7 +2060,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     }
     for( item& piece : item_group::items_from( group, calendar::turn ) ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
-        // to build the component (smash a veh box that took 10 lumps of steel,
+        // to build the component (smash a vehicle box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
@@ -2670,7 +2670,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 }
 
 /**
- * Prints all of the fuel indicators of the vehical
+ * Prints all of the fuel indicators of the vehicle
  * @param win Pointer to the window to draw in.
  * @param y Y location to draw at.
  * @param x X location to draw at.
@@ -3110,7 +3110,7 @@ void vehicle::spew_smoke( double joules, int part, int density )
     }
     point p = parts[part].mount;
     density = std::max( joules / 10000, double( density ) );
-    // Move back from engine/muffler til we find an open space
+    // Move back from engine/muffler until we find an open space
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
@@ -3121,7 +3121,7 @@ void vehicle::spew_smoke( double joules, int part, int density )
 
 /**
  * Generate noise or smoke from a vehicle with engines turned on
- * load = how hard the engines are working, from 0.0 til 1.0
+ * load = how hard the engines are working, from 0.0 until 1.0
  * time = how many seconds to generated smoke for
  */
 void vehicle::noise_and_smoke( double load, double time )
@@ -3555,7 +3555,7 @@ void vehicle::power_parts()
         for( auto &elem : reactors ) {
             if( !parts[ elem ].is_broken() && parts[elem].ammo_remaining() > 0 ) {
                 // Efficiency: one unit of fuel is this many units of battery
-                // Note: One battery is roughtly 373 units of epower
+                // Note: One battery is roughly 373 units of epower
                 const int efficiency = part_info( elem ).power;
                 const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
 
@@ -4103,7 +4103,7 @@ void vehicle::thrust( int thd ) {
     if (brk < 10 * 100) {
         brk = 10 * 100;
     }
-    //pos or neg if acc or brake
+    //pos or neg if accelerator or brake
     int vel_inc = ((thrusting) ? accel : brk) * thd;
     if( thd == -1 && thrusting ) {
         //accelerate 60% if going backward
@@ -4365,7 +4365,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     int target_part = -1;
     vehicle *oveh = g->m.veh_at( p, target_part );
-    // Disable veh/critter collisions when bashing floor
+    // Disable vehicle/critter collisions when bashing floor
     // TODO: More elegant code
     const bool is_veh_collision = !bash_floor && oveh != nullptr && oveh != this;
     const bool is_body_collision = !bash_floor && critter != nullptr;
@@ -4378,7 +4378,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // The map takes care of the dynamic stuff.
     if( is_veh_collision ) {
        ret.type = veh_coll_veh;
-       //"imp" is too simplistic for veh-veh collisions
+       //"imp" is too simplistic for vehicle-vehicle collisions
        ret.target = oveh;
        ret.target_part = target_part;
        ret.target_name = oveh->disp_name();
@@ -5305,7 +5305,7 @@ void vehicle::refresh_insides ()
         }
 
         parts[p].inside = true; // inside if not otherwise
-        for (int i = 0; i < 4; i++) { // let's check four neighbour parts
+        for (int i = 0; i < 4; i++) { // let's check four neighbor parts
             int ndx = i < 2? (i == 0? -1 : 1) : 0;
             int ndy = i < 2? 0 : (i == 2? - 1: 1);
             std::vector<int> parts_n3ar = parts_at_relative (parts[p].mount.x + ndx,
@@ -5420,10 +5420,10 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         // Parts on roof aren't protected
         bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
-        // completely, therefor the other indes (target_part) becames
+        // completely, therefore the other index (target_part) becomes
         // wrong if target_part > armor_part.
         // Damaging the part with the higher index first is save,
-        // as removing a part only changes indizes after the
+        // as removing a part only changes indices after the
         // removed part.
         if( armor_part < target_part ) {
             damage_direct( target_part, overhead ? dmg : dmg - protection, type );
@@ -5677,7 +5677,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
         return !g->m.passable( e );
     } ), tiles.end() );
 
-    // leak up to 1/3 ofremaining fuel per iteration and continue until the part is empty
+    // leak up to 1/3 of remaining fuel per iteration and continue until the part is empty
     auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
@@ -5758,8 +5758,8 @@ void vehicle::open_all_at(int p)
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
-            // Note that this will open mutlisquare and non-multipart parts in the tile. This
-            // means that adjacent open multisquare openables can still have closed stuff
+            // Note that this will open multi-square and non-multipart parts in the tile. This
+            // means that adjacent open multi-square openables can still have closed stuff
             // on same tile after this function returns
             open( elem );
         }
@@ -5992,7 +5992,7 @@ void vehicle::update_time( const time_point &update_to )
         return;
     }
 
-    // Get one weather data set per veh, they don't differ much across veh area
+    // Get one weather data set per vehicle, they don't differ much across vehicle area
     const tripoint veh_loc = real_global_pos3();
     auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
 

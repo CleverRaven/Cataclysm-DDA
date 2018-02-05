@@ -16,7 +16,7 @@ using morale_type = string_id<morale_type_data>;
 constexpr int MIN_ADDICTION_LEVEL = 3; // Minimum intensity before effects are seen
 constexpr int MAX_ADDICTION_LEVEL = 20;
 
-// cancel_activity is called when the addication effect wants to interrupt the player
+// cancel_activity is called when the addiction effect wants to interrupt the player
 // with an optional pre-translated message.
 void addict_effect( player &u, addiction &add );
 

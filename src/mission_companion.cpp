@@ -1540,7 +1540,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }
-            //Kill zombies!  Only works agains pre-spawned enemies at the moment...
+            //Kill zombies!  Only works against pre-spawned enemies at the moment...
             Creature *critter = g->critter_at( p);
             if ( critter != nullptr ) {
                 critter->die(nullptr);

@@ -116,7 +116,7 @@ weather_datum const weather_data(weather_type const type)
 /**
  * Food decay calculation.
  * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
- * IRL this tends to double every 10c a few degrees above freezing, but past a certian
+ * IRL this tends to double every 10c a few degrees above freezing, but past a certain
  * point the rate decreases until even extremophiles find it too hot. Here we just stop
  * further acceleration at 105 F. This should only need to run once when the game starts.
  * @see calc_rot_array

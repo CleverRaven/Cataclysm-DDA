@@ -7,7 +7,7 @@ void mission_fail::kill_npc( mission *miss )
 {
     if( npc *const elem = g->critter_by_id<npc>( miss->get_npc_id() ) ) {
         elem->die( nullptr );
-        // Actuall removoal of the npc is done in game::cleanup_dead
+        // Actual removal of the npc is done in game::cleanup_dead
     }
     std::shared_ptr<npc> n = overmap_buffer.find_npc( miss->get_npc_id() );
     if( n != nullptr && !n->is_dead() ) {

@@ -309,7 +309,7 @@ void monster::try_upgrade(bool pin_time) {
         }
 
         if (!upgrades) {
-            // upgraded into a non-upgradable monster
+            // upgraded into a non-upgradeable monster
             return;
         }
 
@@ -844,7 +844,7 @@ void monster::process_triggers()
     anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
-// This Adjustes anger/morale levels given a single trigger.
+// This adjusts anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
     if (type->has_anger_trigger(trig)){

@@ -103,7 +103,7 @@ uimenu::uimenu(bool cancelable, const char *mes,
 uimenu::uimenu(int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
-    // another quick convenience coonstructor
+    // another quick convenience constructor
     init();
     w_x = startx;
     w_y = starty;
@@ -116,7 +116,7 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
-    // another quick convenience coonstructor
+    // another quick convenience constructor
     init();
     return_invalid = cancelable;
     w_x = startx;

@@ -340,7 +340,7 @@ private:
         return true;
     }
 
-    //!Move money from bank acount onto cash card.
+    //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
         item *dst = choose_card(_("Insert card for withdrawal."));
         if (!dst) {
@@ -3465,7 +3465,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 
     const int climb_cost = p.climbing_cost( where, examp );
     const auto fall_mod = p.fall_damage_mod();
-    std::string query_str = ngettext("Looks like %d storey. Jump down?",
+    std::string query_str = ngettext("Looks like %d story. Jump down?",
                                      "Looks like %d stories. Jump down?",
                                      height);
     if( height > 1 && !query_yn(query_str.c_str(), height) ) {

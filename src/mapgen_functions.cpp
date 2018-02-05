@@ -102,7 +102,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
     { "s_sports", mapgen_s_sports },
-    { "shelter_under", &mapgen_shelter_under },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     { "basement_spiders", &mapgen_basement_spiders },
@@ -1207,7 +1206,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         m->ter_set( rng( 6, SEEX * 2 - 6 ), rng( 6, SEEY * 2 - 6 ), t_manhole_cover );
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -1497,7 +1496,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -2468,7 +2467,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         } else {
             m->ter_set(mw, rng(cw + 3, actual_house_height - 4), t_door_c);
         }
-        // Door to bathrom
+        // Door to bathroom
         if (one_in(4)) {
             m->ter_set(mw, actual_house_height - 1, t_door_c);
         } else {
@@ -2908,34 +2907,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density);
 }
 
-
-void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "shelter_under") {
-
-(void)dat;
-        // Make the whole area rock, then plop an open area in the center.
-        square(m, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-        square(m, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
-        // Create an anteroom with the stairs and some locked doors.
-        m->ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX    , SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX - 1, SEEY * 2 - 5, t_stairs_up);
-        m->ter_set(SEEX    , SEEY * 2 - 5, t_stairs_up);
-        if( one_in(10) ) {
-            // Scatter around lots of items and some zombies.
-            for( int x = 0; x < 10; ++x ) {
-                m->place_items("shelter", 90, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-            }
-            m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 1, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, 0.2);
-        } else {
-            // Scatter around some items.
-            m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-        }
-}
-
-
 ///////////////////////////////////////////////////////////
 void mapgen_basement_generic_layout(map *m, oter_id, mapgendata, int, float)
 {
@@ -3367,7 +3338,7 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
 void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 {
         if (dat.above() == "cave") {
-            // We're underground! // FIXME; y u no use zlevel
+            // We're underground! // FIXME; y u no use z-level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||

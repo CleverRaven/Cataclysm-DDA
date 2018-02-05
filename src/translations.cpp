@@ -220,7 +220,7 @@ std::string getOSXSystemLang()
     std::replace( lang_code.begin(), lang_code.end(), '-', '_' );
 
     /**
-     * Handle special case for simplified/traditional Chinese. Simp/trad
+     * Handle special case for simplified/traditional Chinese. Simplified/Traditonal
      * is actually denoted by the region code in older iterations of the
      * language codes, whereas now (at least on OS X) region is distinct.
      * That is, CDDA expects 'zh_CN' but OS X might give 'zh-Hans-CN'.
