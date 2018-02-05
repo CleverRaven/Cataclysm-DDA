@@ -14,6 +14,7 @@
 #include "vitamin.h"
 #include "mission.h"
 #include "string_formatter.h"
+#include "morale_types.h"
 
 #include <algorithm>
 #include <vector>
@@ -133,7 +134,7 @@ void npc_edit_menu()
     }
 
     enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-           D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+           D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
            D_TELE, D_MUTATE, D_CLASS
          };
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -143,6 +144,7 @@ void npc_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_MORALE, true, 'm', "%s", _( "Set [m]orale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
@@ -264,6 +266,16 @@ void npc_edit_menu()
                     *bp_ptr = value;
                     p.reset_stats();
                 }
+            }
+        }
+        break;
+        case D_MORALE: {
+            int current_morale_level = p.get_morale_level();
+            int value;
+            if( query_int( value, _( "Set the morale to? Currently: %d" ), current_morale_level ) ) {
+                int morale_level_delta = value - current_morale_level;
+                p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
+                p.apply_persistent_morale();
             }
         }
         break;
