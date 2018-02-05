@@ -23,9 +23,19 @@
         "mondensity" : 2
     },{
         "type" : "overmap_terrain",
+        "abstract" : "generic_city_building_no_sidewalk_no_rotate",
+        "copy-from" : "generic_city_building_no_sidewalk",
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
         "abstract" : "generic_city_building",
         "copy-from" : "generic_city_building_no_sidewalk",
         "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
+        "abstract" : "generic_city_building",
+        "copy-from" : "generic_city_building_no_rotate",
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "abstract" : "generic_necropolis_surface_building",
