@@ -324,9 +324,7 @@
         "sym" : 79,
         "color" : "dark_gray",
         "see_cost" : 1,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "copy-from" : "generic_city_building_no_rotate"
     },{
         "type" : "overmap_terrain",
         "id" : "park",
@@ -350,8 +348,8 @@
         "type" : "overmap_terrain",
         "id" : "s_gas",
         "name" : "gas station",
-        "copy-from" : "generic_city_building",
-        "color" : "light_blue"
+        "color" : "light_blue",
+        "copy-from" : "generic_city_building"
     },{
         "type" : "overmap_terrain",
         "id" : "s_pharm",
@@ -1430,11 +1428,8 @@
         "type" : "overmap_terrain",
         "id" : "s_gas_rural",
         "name" : "gas station",
-        "sym" : 94,
         "color" : "light_blue",
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "generic_city_building"
     },{
         "type" : "overmap_terrain",
         "id" : "mansion_entrance",
