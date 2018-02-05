@@ -74,7 +74,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
@@ -306,7 +306,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -537,7 +537,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -768,7 +768,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -999,7 +999,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -1233,7 +1233,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -1464,7 +1464,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -1695,7 +1695,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -1926,7 +1926,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -2157,7 +2157,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -2388,7 +2388,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -2619,7 +2619,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -2850,7 +2850,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -3081,7 +3081,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 0, 2 ] }
@@ -4446,7 +4446,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 5 ], "repeat": [ 0, 2 ] }
@@ -4677,7 +4677,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -4908,7 +4908,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
@@ -5140,7 +5140,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 11 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 11 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -9888,7 +9888,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -10119,7 +10119,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -14906,7 +14906,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -15137,7 +15137,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 13 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 13 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -19879,7 +19879,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -20110,7 +20110,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -24904,7 +24904,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -25135,7 +25135,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 10 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 10 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -29934,7 +29934,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -30165,7 +30165,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 12 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 12 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -34897,7 +34897,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 10 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -35128,7 +35128,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -39883,7 +39883,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -40114,7 +40114,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -44866,7 +44866,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -45097,7 +45097,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -49796,7 +49796,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 11 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 11 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -50027,7 +50027,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -51586,7 +51586,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 13 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 20 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -52045,7 +52045,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 5 ], "y": [ 0, 20 ], "repeat": [ 2, 6 ] },
@@ -52277,7 +52277,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -52508,7 +52508,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -52739,7 +52739,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -52970,7 +52970,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -53201,7 +53201,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -53432,7 +53432,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -53663,7 +53663,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 13, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -53894,7 +53894,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -54125,7 +54125,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -54356,7 +54356,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -54587,7 +54587,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -54818,7 +54818,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 17 ], "repeat": [ 2, 6 ] },
@@ -55050,7 +55050,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
@@ -55282,7 +55282,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -55513,7 +55513,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -55744,7 +55744,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 11, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -55975,7 +55975,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -56206,7 +56206,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 3, 6 ] }
@@ -56437,7 +56437,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 1 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] },
@@ -56669,7 +56669,7 @@
               "2": { "item": "forest", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -58026,7 +58026,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 9 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 18, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
@@ -58257,7 +58257,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 1, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 5 ], "y": [ 0, 23 ], "repeat": [ 2, 6 ] },
@@ -58489,7 +58489,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -58720,7 +58720,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 10, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -58951,7 +58951,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 8, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 8, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -59182,7 +59182,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 12, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -59413,7 +59413,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -59644,7 +59644,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 9, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 3, 6 ] }
@@ -59875,7 +59875,7 @@
               "%": { "item": "fence_caught", "chance": 1 }
             },
 		    "place_signs": [
-				{ "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
+			  { "signage": "Property of the United States National Guard.  Intruders will be shot on sight.  ", "x": 23, "y": 23 }
 ],
             "set": [
               { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 23 ], "y": [ 18, 23 ], "repeat": [ 2, 6 ] },
