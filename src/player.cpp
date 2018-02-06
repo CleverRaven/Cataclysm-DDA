@@ -2664,7 +2664,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
         temp_message = _( " (Falling!)" );
-    } else if( delta <  -2 ) {
+    } else {
         temp_message = _( " (Falling!!)" );
     }
 
