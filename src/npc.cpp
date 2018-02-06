@@ -1048,10 +1048,10 @@ void npc::form_opinion( const player &u )
         op_of_u.fear += 2;
     } else if( u.str_max >= 12 ) {
         op_of_u.fear += 1;
-    } else if( u.str_max <= 5 ) {
-        op_of_u.fear -= 1;
     } else if( u.str_max <= 3 ) {
         op_of_u.fear -= 3;
+    } else if( u.str_max <= 5 ) {
+        op_of_u.fear -= 1;
     }
 
     for( int i = 0; i < num_hp_parts; i++ ) {
