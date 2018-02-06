@@ -5385,7 +5385,7 @@ void game::draw_minimap()
 
 float game::natural_light_level( const int zlev ) const
 {
-    if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
+    if( zlev > OVERMAP_HEIGHT || zlev < 0 ) { // ignore while underground or above limits
         return LIGHT_AMBIENT_MINIMAL;
     }
 
@@ -5396,17 +5396,15 @@ float game::natural_light_level( const int zlev ) const
 
     float ret = LIGHT_AMBIENT_MINIMAL;
 
-    // Sunlight/moonlight related stuff, ignore while underground
-    if( zlev >= 0 ) {
-        if( !lightning_active ) {
-            ret = calendar::turn.sunlight();
-        } else {
-            // Recent lightning strike has lit the area
-            ret = DAYLIGHT_LEVEL;
-        }
-
-        ret += weather_data(weather).light_modifier;
+    // Sunlight/moonlight related stuff
+    if( !lightning_active ) {
+        ret = calendar::turn.sunlight();
+    } else {
+        // Recent lightning strike has lit the area
+        ret = DAYLIGHT_LEVEL;
     }
+
+    ret += weather_data(weather).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
