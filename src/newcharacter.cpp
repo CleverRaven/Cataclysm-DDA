@@ -264,7 +264,6 @@ void player::randomize( const bool random_scenario, points_left &points )
     points.stat_points += 8 * 4;
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;
-    std::string rn = "";
     add_traits(); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();

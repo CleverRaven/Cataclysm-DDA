@@ -872,7 +872,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             std::string sPlus = vItemDisplay[i].sPlus;
             std::string sFmt = vItemDisplay[i].sFmt;
-            std::string sNum = " ";
             std::string sPost = "";
 
             //A bit tricky, find %d and split the string

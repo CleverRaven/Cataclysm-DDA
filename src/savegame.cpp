@@ -174,7 +174,6 @@ void game::unserialize(std::istream & fin)
         }
     }
     std::string linebuf;
-    std::stringstream linein;
 
     int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
