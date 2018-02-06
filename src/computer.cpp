@@ -251,19 +251,19 @@ std::string computer::save_data()
 {
     std::ostringstream data;
     std::string savename = name; // Replace " " with "_"
-    size_t found = savename.find(" ");
+    size_t found = savename.find( ' ' );
     while (found != std::string::npos) {
         savename.replace(found, 1, "_");
-        found = savename.find(" ");
+        found = savename.find( ' ' );
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
     for( auto &elem : options ) {
         savename = elem.name;
-        found = savename.find(" ");
+        found = savename.find( ' ' );
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
-            found = savename.find(" ");
+            found = savename.find( ' ' );
         }
         data << savename << " " << int( elem.action ) << " " << elem.security << " ";
     }
@@ -284,10 +284,10 @@ void computer::load_data(std::string data)
 
     // Pull in name and security
     dump >> name >> security >> mission_id;
-    size_t found = name.find("_");
+    size_t found = name.find( '_' );
     while (found != std::string::npos) {
         name.replace(found, 1, " ");
-        found = name.find("_");
+        found = name.find( '_' );
     }
 
     // Pull in options
@@ -297,10 +297,10 @@ void computer::load_data(std::string data)
         std::string tmpname;
         int tmpaction, tmpsec;
         dump >> tmpname >> tmpaction >> tmpsec;
-        size_t tmp_found = tmpname.find("_");
+        size_t tmp_found = tmpname.find( '_' );
         while (tmp_found != std::string::npos) {
             tmpname.replace(tmp_found, 1, " ");
-            tmp_found = tmpname.find("_");
+            tmp_found = tmpname.find( '_' );
         }
         add_option(tmpname, computer_action(tmpaction), tmpsec);
     }
