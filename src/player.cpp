@@ -7555,7 +7555,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else {
             std::string name;
             if ( base.ammo_data() ) {
-                base.ammo_data()->nname( 1 );
+                name = base.ammo_data()->nname( 1 );
             } else if ( base.is_watertight_container() ) {
                 name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
             } else {
