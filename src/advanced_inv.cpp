@@ -107,8 +107,6 @@ advanced_inventory::~advanced_inventory()
         werase( mm_border );
         werase( left_window );
         werase( right_window );
-    }
-    if( exit ) {
         g->refresh_all();
     }
 }
