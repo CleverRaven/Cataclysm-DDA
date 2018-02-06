@@ -1816,7 +1816,7 @@ bool overmap::generate_sub(int const z)
                 ter( i, j, z ) = oter_id( "spiral_hub" );
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200 ) );
             } else if ( oter_above == "silo" ) {
-                if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
+                if( rng( 2, 7 ) < abs( z ) ) {
                     ter(i, j, z) = oter_id( "silo_finale" );
                 } else {
                     ter(i, j, z) = oter_id( "silo" );

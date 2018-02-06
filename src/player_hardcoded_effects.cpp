@@ -544,7 +544,7 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 4000 ? 10 : int( dur / 400 ) ) );
         }
     } else if( id == effect_attention ) {
-        if( one_in( 100000 / dur ) && one_in( 100000 / dur ) && one_in( 250 ) ) {
+        if( one_in( 100000 / dur ) && one_in( 250 ) ) {
             tripoint dest( 0, 0, posz() );
             int tries = 0;
             do {

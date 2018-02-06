@@ -339,7 +339,7 @@ void faction::randomize()
         } else {
             tries++;
         }
-    } while((one_in(num_values) || one_in(num_values)) && tries < 15);
+    } while( one_in( num_values ) && tries < 15 );
 
     std::string noun;
     int sel = 1, best = strength;
