@@ -1043,7 +1043,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
             draw_modselection_borders( win, &ctxt );
-            redraw_description = true;
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }

@@ -7590,9 +7590,7 @@ void game::examine( const tripoint &examp )
     }
 
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = m.veh_at( examp, veh_part );
+    vehicle *veh = m.veh_at( examp, veh_part );
     if( veh != nullptr ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));

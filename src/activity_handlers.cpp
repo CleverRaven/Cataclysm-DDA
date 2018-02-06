@@ -1279,7 +1279,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
 
     if( reloadable->is_gun() ) {
-        p->recoil -= act->moves_total;
+        p->recoil -= act->moves_total; //@todo: If this line is even necessary if we set recoil to MAX_RECOIL in following line?
         p->recoil = MAX_RECOIL;
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
