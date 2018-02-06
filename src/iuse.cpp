@@ -4771,6 +4771,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     int tries = 0;
                     tripoint monp = p->pos();
                     do {
+                        tries++;
                         if (one_in(2)) {
                             monp.x = rng(p->posx() - 5, p->posx() + 5);
                             monp.y = (one_in(2) ? p->posy() - 5 : p->posy() + 5);
