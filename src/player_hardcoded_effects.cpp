@@ -993,10 +993,10 @@ void player::hardcoded_effects( effect &it )
         }
 #endif // TILES
 
-        if( intense < 24 ) {
-            it.mod_intensity( 1 );
-        } else if( intense < 1 ) {
+        if( intense < 1 ) {
             it.set_intensity( 1 );
+        } else if( intense < 24 ) {
+            it.mod_intensity( 1 );
         }
 
         if( get_fatigue() < -25 && it.get_duration() > 30 ) {
