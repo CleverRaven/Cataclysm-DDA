@@ -1109,7 +1109,6 @@ void overmap_special::finalize()
 void overmap_special::check() const
 {
     std::set<int> invalid_terrains;
-    std::set<int> fixed_terrains;
     std::set<tripoint> points;
 
     for( const auto &element : locations ) {

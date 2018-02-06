@@ -1464,7 +1464,6 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
-    std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {

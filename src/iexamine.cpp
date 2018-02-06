@@ -1075,7 +1075,6 @@ void iexamine::safe(player &p, const tripoint &examp)
  */
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
-    std::string furn_name = g->m.tername(examp).c_str();
     if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
            p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
@@ -1120,7 +1119,6 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
  */
 void iexamine::gunsafe_el(player &p, const tripoint &examp)
 {
-    std::string furn_name = g->m.tername(examp).c_str();
     switch( hack_attempt( p ) ) {
         case HACK_FAIL:
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
