@@ -146,11 +146,9 @@
             "str_min": 120, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
-                { "item": "rock", "count": [10, 22] },
-                { "item": "scrap", "count": [4, 12] },
-                { "item": "rebar", "count": [0, 4] }
+                { "item": "rock", "count": [10, 22] }
             ]
         }
     },{
@@ -166,11 +164,9 @@
             "str_min": 60, "str_max": 460,
             "sound": "scrrrash!",
             "sound_fail": "whump!",
-            "ter_set": "t_pit",
+            "ter_set": "t_reb_cage",
             "items": [
-                { "item": "rock", "count": [5, 11] },
-                { "item": "scrap", "count": [4, 12] },
-                { "item": "rebar", "count": [0, 4] }
+                { "item": "rock", "count": [5, 11] }
             ]
         }
     },{
@@ -179,8 +175,9 @@
         "name": "rebar cage",
         "symbol": "#",
         "color": "dark_gray",
-        "move_cost": 5,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 20, "str_max": 100,
             "sound": "metal screeching!",
@@ -797,7 +794,7 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_log_half",
-        "name": "half-built wall",
+        "name": "half-built log wall",
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
@@ -2602,7 +2599,7 @@
         "name": "empty window",
         "symbol": "0",
         "color": "yellow",
-        "move_cost": 8,
+        "move_cost": 4,
         "roof": "t_flat_roof",
         "flags": [
             "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL"
@@ -3271,7 +3268,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 1, 2 ] } ] }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3312,7 +3309,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_willow_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 1, 2 ] } ] }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 2, 8 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,

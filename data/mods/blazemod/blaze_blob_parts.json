@@ -1,5 +1,74 @@
 [
   {
+    "id": "gloopletread",
+    "type": "vehicle_part",
+    "name": "Gelatinous track",
+    "item": "gloopletread",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "light_green",
+    "broken_color": "light_green",
+    "difficulty": 1,
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glooplegrow" } ],
+    "requirements": {
+      "repair": {
+        "time": 30000,
+        "using": [ [ "blobrep", 1 ] ]
+      }
+    },
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
+  },
+  {
+    "id": "oozletread",
+    "type": "vehicle_part",
+    "name": "Oozing track",
+    "item": "oozletread",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "green",
+    "broken_color": "light_green",
+    "difficulty": 1,
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "oozlegrow" } ],
+    "requirements": {
+      "repair": {
+        "time": 30000,
+        "using": [ [ "blobrep", 1 ] ]
+      }
+    },
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
+  },
+  {
+    "id": "graytread",
+    "type": "vehicle_part",
+    "name": "Gray track",
+    "item": "graytread",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "light__graygray",
+    "broken_color": "light_green",
+    "difficulty": 1,
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "graygrow" } ],
+    "requirements": {
+      "repair": {
+        "time": 30000,
+        "using": [ [ "blobrep", 1 ] ]
+      }
+    },
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
+  },
+  {
     "id": "biter",
     "type": "vehicle_part",
     "name": "biting blob",
@@ -979,8 +1048,8 @@
     "broken_color": "cyan",
     "difficulty": 1,
     "durability": 200,
-    "power": 25,
-    "epower": 32,
+    "power": 50,
+    "epower": 250,
     "bonus": 25,
     "damage_modifier": 10,
     "folded_volume": 1,
@@ -2267,7 +2336,7 @@
         "using": [ [ "blobrep", 1 ] ]
       }
     },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "meltie",
@@ -2291,7 +2360,7 @@
         "using": [ [ "blobrep", 1 ] ]
       }
     },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "oozle_amalgam",
@@ -3056,7 +3125,7 @@
     "broken_color": "cyan",
     "difficulty": 1,
     "durability": 200,
-    "range": 8,
+    "range": 16,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sparkiegrow" } ],
@@ -3090,7 +3159,7 @@
         "using": [ [ "blobrep", 1 ] ]
       }
     },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "torchie",
@@ -3114,7 +3183,7 @@
         "using": [ [ "blobrep", 1 ] ]
       }
     },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "voideater",

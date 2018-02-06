@@ -32,7 +32,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
-    // Operator overload required to leverage std functional iterface.
+    // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -943,7 +943,7 @@ void input_context::display_help()
         }
 
         // spopup.query_string() will call wrefresh( w_help )
-        refresh();
+        catacurses::refresh();
 
         spopup.text( filter_phrase );
         if( status == s_show ) {
@@ -1086,7 +1086,6 @@ void input_context::display_help()
     }
     werase( w_help );
     wrefresh( w_help );
-    delwin( w_help );
 }
 
 input_event input_context::get_raw_input()

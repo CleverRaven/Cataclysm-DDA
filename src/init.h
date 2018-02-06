@@ -15,7 +15,7 @@ class JsonIn;
 
 /**
  * This class is used to load (and unload) the dynamic
- * (and modable) data from json files.
+ * (and moddable) data from json files.
  * There exists only one instance of this class, which
  * can be accessed with @ref get_instance
  *
@@ -24,7 +24,7 @@ class JsonIn;
  * - Call @ref unload_data (to unload data from a
  * previously loaded world, if any)
  * - Call @ref load_data_from_path(...) repeatedly with
- * different pathes for the core data and all the mods
+ * different paths for the core data and all the mods
  * of the current world.
  * - Call @ref finalize_loaded_data when all mods have been
  * loaded.

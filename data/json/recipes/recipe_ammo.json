@@ -177,11 +177,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -227,11 +224,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -282,11 +276,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -358,11 +349,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -403,11 +391,8 @@
     {"id":"SAW_M","level":1}
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "scrap", 6 ],
@@ -443,11 +428,8 @@
     ]
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "stick", 2 ],
@@ -484,11 +466,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 2 ],
@@ -535,11 +514,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -580,11 +556,8 @@
     {"id":"SAW_M","level":1}
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "scrap", 9 ],

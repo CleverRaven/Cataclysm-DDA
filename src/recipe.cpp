@@ -70,9 +70,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     if( abstract ) {
-        ident_ = jo.get_string( "abstract" );
+        ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        ident_ = result = jo.get_string( "result" );
+        result_ = jo.get_string( "result" );
+        ident_ = recipe_id( result_ );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -176,7 +177,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
             if( abstract ) {
                 jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
             }
-            ident_ += "_" + jo.get_string( "id_suffix" );
+            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
         }
 
         assign( jo, "category", category, strict );
@@ -213,7 +214,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( contained && container == "null" ) {
-        container = item::find_type( result )->default_container;
+        container = item::find_type( result_ )->default_container;
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -234,11 +235,11 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result ) ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 
-    if( charges >= 0 && !item::count_by_charges( result ) ) {
+    if( charges >= 0 && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
     }
 
@@ -280,7 +281,7 @@ std::string recipe::get_consistency_error() const
 
 item recipe::create_result() const
 {
-    item newit( result, calendar::turn, item::default_charges_tag{} );
+    item newit( result_, calendar::turn, item::default_charges_tag{} );
     if( charges >= 0 ) {
         newit.charges = charges;
     }
@@ -307,7 +308,7 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    const bool by_charges = item::count_by_charges( result );
+    const bool by_charges = item::count_by_charges( result_ );
     if( contained || !by_charges ) {
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
@@ -363,4 +364,9 @@ std::string recipe::required_skills_string() const
     []( const std::pair<skill_id, int> &skill ) {
         return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
     } );
+}
+
+std::string recipe::result_name() const
+{
+    return item::nname( result_ );
 }

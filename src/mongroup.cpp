@@ -2,12 +2,12 @@
 #include <vector>
 
 #include "rng.h"
-#include "game.h"
 #include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"
 #include "mtype.h"
+#include "calendar.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
@@ -124,10 +124,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
                 ( elem ) == "AUTUMN" ) {
                 season_limited = true;
-                if( ( calendar::turn.get_season() == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( calendar::turn.get_season() == WINTER && ( elem ) == "WINTER" ) ||
-                    ( calendar::turn.get_season() == SPRING && ( elem ) == "SPRING" ) ||
-                    ( calendar::turn.get_season() == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season_of_year( calendar::turn ) == SUMMER && ( elem ) == "SUMMER" ) ||
+                    ( season_of_year( calendar::turn ) == WINTER && ( elem ) == "WINTER" ) ||
+                    ( season_of_year( calendar::turn ) == SPRING && ( elem ) == "SPRING" ) ||
+                    ( season_of_year( calendar::turn ) == AUTUMN && ( elem ) == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }

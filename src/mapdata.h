@@ -81,7 +81,7 @@ struct map_deconstruct_info {
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing thruogh it
+ * SHARP - May do minor damage to players/monsters passing through it
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
@@ -364,6 +364,7 @@ extern ter_id t_null,
     t_reinforced_door_glass_o,
     t_reinforced_door_glass_c,
     t_bars,
+    t_reb_cage,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,

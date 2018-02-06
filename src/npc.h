@@ -4,7 +4,7 @@
 
 #include "player.h"
 #include "faction.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 
 #include <vector>
 #include <string>
@@ -187,7 +187,7 @@ struct npc_follower_rules {
 
     bool close_doors;
 
-    copyable_unique_ptr<auto_pickup> pickup_whitelist;
+    pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
     ~npc_follower_rules();
@@ -478,7 +478,7 @@ class npc : public player
 
         // Display
         nc_color basic_symbol_color() const override;
-        int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string short_description() const;
         std::string opinion_text() const;
 

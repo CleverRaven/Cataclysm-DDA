@@ -103,7 +103,7 @@ void player::craft()
 
 void player::recraft()
 {
-    if( lastrecipe.empty() ) {
+    if( lastrecipe.str().empty() ) {
         popup( _( "Craft something first" ) );
     } else if( making_would_work( lastrecipe, last_batch ) ) {
         last_craft->execute();
@@ -121,9 +121,9 @@ void player::long_craft()
     }
 }
 
-bool player::making_would_work( const std::string &id_to_make, int batch_size )
+bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
-    const auto &making = recipe_dict[ id_to_make ];
+    const auto &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
@@ -279,7 +279,7 @@ bool player::can_make( const recipe *r, int batch_size )
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
-        && cached_turn == calendar::turn.get_turn()
+        && cached_time == calendar::turn
         && cached_position == pos() ) {
         return cached_crafting_inventory;
     }
@@ -297,29 +297,29 @@ const inventory &player::crafting_inventory()
     }
 
     cached_moves = moves;
-    cached_turn = calendar::turn.get_turn();
+    cached_time = calendar::turn;
     cached_position = pos();
     return cached_crafting_inventory;
 }
 
 void player::invalidate_crafting_inventory()
 {
-    cached_turn = -1;
+    cached_time = calendar::before_time_starts;
 }
 
-void player::make_craft( const std::string &id_to_make, int batch_size )
+void player::make_craft( const recipe_id &id_to_make, int batch_size )
 {
     make_craft_with_command( id_to_make, batch_size );
 }
 
-void player::make_all_craft( const std::string &id_to_make, int batch_size )
+void player::make_all_craft( const recipe_id &id_to_make, int batch_size )
 {
     make_craft_with_command( id_to_make, batch_size, true );
 }
 
-void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
+void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long )
 {
-    const auto &recipe_to_make = recipe_dict[ id_to_make ];
+    const auto &recipe_to_make = *id_to_make;
 
     if( !recipe_to_make ) {
         return;
@@ -382,7 +382,8 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
 
 void player::complete_craft()
 {
-    const recipe *making = &recipe_dict[ activity.name ]; // Which recipe is it?
+    //@todo change making to be a reference, it can never be null anyway
+    const recipe *making = &recipe_id( activity.name ).obj(); // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
@@ -493,15 +494,14 @@ void player::complete_craft()
 
     // Messed up badly; waste some components.
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
-        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
-                 item::nname( making->result ).c_str() );
+        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making->result_name() );
         consume_components_for_craft( making, batch_size );
         activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
         add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
-                 item::nname( making->result ).c_str() );
+                 making->result_name() );
         //this method would only have been called from a place that nulls activity.type,
         //so it appears that it's safe to NOT null that variable here.
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
@@ -561,7 +561,7 @@ void player::complete_craft()
 
         // Don't store components for things made by charges,
         // don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making->result ) && !newit.count_by_charges() ) {
+        if( recipe_dictionary::get_uncraft( making->result() ) && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
@@ -1079,7 +1079,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( r.result );
+    activity.str_values.push_back( r.result() );
 
     return true;
 }
@@ -1220,7 +1220,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         return;
     }
 
-    if( org_item.typeId() != dis.result ) {
+    if( org_item.typeId() != dis.result() ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
         activity.set_to_null();
         return;
@@ -1346,7 +1346,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &recipe_dict[ dis.ident() ] );
+                learn_recipe( &dis.ident().obj() );//@todo change to forward an id or a reference
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname().c_str() );
             } else {
@@ -1379,7 +1379,7 @@ void drop_or_handle( const item &newit, player &p )
 void remove_ammo( item *dis_item, player &p )
 {
     for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
-        if( iter->has_flag( "IRREMOVABLE" ) ) {
+        if( iter->is_irremovable() ) {
             iter++;
             continue;
         }

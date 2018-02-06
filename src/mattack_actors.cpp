@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "sounds.h"
 #include "npc.h"
+#include "output.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "line.h"

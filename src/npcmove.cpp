@@ -5,10 +5,12 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "output.h"
 #include "projectile.h"
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
+#include "ranged.h"
 #include "messages.h"
 #include "ammo.h"
 #include "translations.h"
@@ -2557,9 +2559,8 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    const auto food = it.type->comestible.get();
-    if( food == nullptr ) {
-        // Not food
+    const auto &food = it.type->comestible;
+    if( !food ) {
         return 0.0f;
     }
 

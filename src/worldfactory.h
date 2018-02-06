@@ -2,7 +2,6 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "cursesdef.h"
 #include "options.h"
 
 #include <functional>
@@ -15,6 +14,10 @@
 class JsonIn;
 class JsonObject;
 enum special_game_id : int;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class save_t
 {
@@ -112,7 +115,7 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( WINDOW *win, unsigned int current );
+        static void draw_worldgen_tabs( const catacurses::window &win, unsigned int current );
         void show_active_world_mods( const std::vector<std::string> &world_mods );
 
     protected:
@@ -120,13 +123,14 @@ class worldfactory
         std::map<std::string, WORLDPTR> all_worlds;
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( WINDOW *, WORLDPTR world );
-        int show_worldgen_tab_modselection( WINDOW *win, WORLDPTR world );
-        int show_worldgen_tab_confirm( WINDOW *win, WORLDPTR world );
+        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
+        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
+        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
-        void draw_modselection_borders( WINDOW *win, input_context *ctxtp );
-        void draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods,
-                            bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
+        void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
+        void draw_mod_list( const catacurses::window &w, int &start, int &cursor,
+                            const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
+                            const catacurses::window &w_shift );
 
         bool load_world_options( WORLDPTR &world );
 
@@ -135,7 +139,7 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
-        typedef std::function<int( WINDOW *, WORLDPTR )> worldgen_display;
+        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
 };

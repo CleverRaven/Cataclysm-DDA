@@ -45,6 +45,7 @@ void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
+void chop_tree_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -89,6 +90,7 @@ void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
+void chop_tree_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

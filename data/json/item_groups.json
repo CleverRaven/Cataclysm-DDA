@@ -8588,7 +8588,8 @@
       ["bio_blaster", 15],
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
-      ["bio_adrenaline", 20]
+      ["bio_adrenaline", 20],
+      ["bio_ods", 10]
     ]
   },{
     "type" : "item_group",

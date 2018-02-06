@@ -377,7 +377,7 @@
         "name" : "Activate"
     },{
         "type" : "item_action",
-        "id" : "GUN_DETACH_GUNMODS",
+        "id" : "detach_gunmods",
         "name" : "Detach gunmods"
     },{
         "type" : "item_action",
@@ -736,5 +736,15 @@
         "type" : "item_action",
         "id" : "FEEDCATTLE",
         "name" : "Place"
+    },
+    {
+        "type" : "item_action",
+        "id" : "install_bionic",
+        "name" : "Install bionic"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_TREE",
+        "name" : "Chop down a tree"
     }
 ]

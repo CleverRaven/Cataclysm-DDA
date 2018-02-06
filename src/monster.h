@@ -98,7 +98,7 @@ class monster : public Creature
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
-        int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
@@ -119,7 +119,6 @@ class monster : public Creature
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
-        using Creature::sees;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
@@ -158,7 +157,7 @@ class monster : public Creature
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
          *
-         * @param p Destination of monster's wonderings
+         * @param p Destination of monster's wanderings
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
@@ -277,7 +276,7 @@ class monster : public Creature
          */
         void set_hp( int hp );
 
-        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */

@@ -12,7 +12,6 @@
 #include <utility>
 
 #include "game_constants.h"
-#include "cursesdef.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "int_id.h"
@@ -24,6 +23,10 @@
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class emit;
 using emit_id = string_id<emit>;
 class player;
@@ -36,6 +39,8 @@ class field;
 class field_entry;
 class vehicle;
 struct submap;
+class item_location;
+class map_cursor;
 struct maptile;
 class basecamp;
 class computer;
@@ -129,7 +134,7 @@ struct bash_params {
     bool bash_floor; // Do we want to bash floor if no furn/wall exists?
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
-     * At 0.0, the bash is against str_min of targetted objects
+     * At 0.0, the bash is against str_min of targeted objects
      * This is required for proper "piercing" bashing, so that one strong hit
      * can destroy a wall and a floor under it rather than only one at a time.
      */
@@ -142,7 +147,7 @@ struct bash_params {
 };
 
 struct level_cache {
-    level_cache(); // Zeroes all relevant values
+    level_cache(); // Zeros all relevant values
     level_cache( const level_cache &other ) = default;
 
     bool transparency_cache_dirty;
@@ -245,7 +250,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( WINDOW *w, lit_level ll,
+        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
                                    const visibility_variables &cache ) const;
 
         /** Draw a visible part of the map into `w`.
@@ -259,7 +264,7 @@ class map
          * @param center The coordinate of the center of the viewport, this can
          *               be different from the player coordinate.
          */
-        void draw( WINDOW *w, const tripoint &center );
+        void draw( const catacurses::window &w, const tripoint &center );
 
         /** Draw the map tile at the given coordinate. Called by `map::draw()`.
         *
@@ -270,9 +275,9 @@ class map
         * @param show_items Draw items in tile if this flag is true
         *        see `center` in `map::draw()`
         */
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert = false, const bool show_items = true ) const;
-        void drawsq( WINDOW *w, player &u, const tripoint &p,
+        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert, const bool show_items,
                      const tripoint &view_center,
                      const bool low_light = false, const bool bright_level = false,
@@ -422,7 +427,7 @@ class map
         /**
          * Iteratively tries bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
-         * returns the line found, which may be the staright line, but blocked.
+         * returns the line found, which may be the straight line, but blocked.
          */
         std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
 
@@ -831,7 +836,7 @@ class map
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const time_point &birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
@@ -857,7 +862,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          const unsigned quantity = 1, const long charges = 0,
-                         const time_point &birthday = 0, const int damlevel = 0 );
+                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -875,7 +880,7 @@ class map
         /** Helper for map::add_item */
         item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
         /**
-         * Place an item on the map, despite the parameter name, this is not necessaraly a new item.
+         * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
          * map::add_item_or_charges
          *
@@ -942,7 +947,7 @@ class map
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
         std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
-                                                const time_point &turn = 0 );
+                                                const time_point &turn = calendar::time_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1109,7 +1114,7 @@ class map
     public:
 
         // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
-        // if we're not in zlevels mode or if we're at lowest level
+        // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
@@ -1154,7 +1159,7 @@ class map
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
 
-        // Note: in 3D mode, will actually build caches on ALL zlevels
+        // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
@@ -1237,7 +1242,7 @@ class map
         }
 
         // Not protected/private for mapgen_functions.cpp access
-        void rotate( int turns ); // Rotates the current map 90*turns degress clockwise
+        void rotate( int turns ); // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
 
         // Monster spawning:
@@ -1247,7 +1252,7 @@ class map
          * @param ignore_sight If true, monsters may spawn in the view of the player
          * character (useful when the whole map has been loaded instead, e.g.
          * when starting a new game, or after teleportation or after moving vertically).
-         * If false, monsters are not spawned in view of of player character.
+         * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
     private:
@@ -1420,7 +1425,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( WINDOW *w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1428,7 +1433,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( WINDOW *w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;

@@ -4,7 +4,6 @@
 
 #include "calendar.h"
 #include "tileray.h"
-#include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
 #include "line.h"
@@ -30,7 +29,10 @@ enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
@@ -53,7 +55,7 @@ struct veh_collision {
     veh_coll_type type        = veh_coll_nothing;
     int           imp         = 0; // impulse
     void         *target      = nullptr;  //vehicle
-    int           target_part = 0; //veh partnum
+    int           target_part = 0; //vehicle partnum
     std::string   target_name;
 
     veh_collision() = default;
@@ -173,7 +175,7 @@ struct vehicle_part
      */
     npc *crew() const;
 
-    /** Set crew member for this part (seat, truret etc) who must be a player ally)
+    /** Set crew member for this part (seat, turret etc) who must be a player ally)
      *  @return true if part can have crew members and passed npc was suitable
      */
     bool set_crew( const npc &who );
@@ -251,7 +253,7 @@ private:
     /** What type of part is this? */
     vpart_id id;
 
-    /** As a performance optimisation we cache the part information here on first lookup */
+    /** As a performance optimization we cache the part information here on first lookup */
     mutable const vpart_info *info_cache = nullptr;
 
     item base;
@@ -505,9 +507,8 @@ private:
 
     units::volume total_folded_volume() const;
 
-    // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
+    // Vehicle fuel indicator (by fuel)
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -633,7 +634,7 @@ public:
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
-    // returns the list of indeces of parts at certain position (not accounting frame direction)
+    // returns the list of indices of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy, bool use_cache = true) const;
 
     // returns index of part, inner to given, with certain flag, or -1
@@ -749,19 +750,18 @@ public:
     nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
-    int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
+    int print_part_desc ( const catacurses::window &win, int y1, int max_y, int width, int p, int hl = -1 ) const;
 
     // Get all printable fuel types
     std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
-                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+    void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0, bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
-    // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
+    // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
 
-    // get a list of part indeces where is a passenger inside
+    // get a list of part indices where is a passenger inside
     std::vector<int> boarded_parts() const;
 
     // get passenger at part p
@@ -811,7 +811,7 @@ public:
      */
     float drain_energy( const itype_id &ftype, float energy );
 
-    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
+    // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
@@ -926,7 +926,7 @@ public:
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
      * 
      * Affects safe velocity (moderately), acceleration (heavily).
-     * Also affects braking (including handbraking) and velocity drop during coasting.
+     * Also affects braking (including hand-braking) and velocity drop during coasting.
      */
     float k_mass() const;
 
@@ -980,7 +980,7 @@ public:
     // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    // Returns if any collision occured
+    // Returns if any collision occurred
     bool collision( std::vector<veh_collision> &colls,
                     const tripoint &dp,
                     bool just_detect, bool bash_floor = false );
@@ -1045,7 +1045,7 @@ public:
     void unboard_all ();
 
     // Damage individual part. bash means damage
-    // must exceed certain threshold to be substracted from hp
+    // must exceed certain threshold to be subtracted from hp
     // (a lot light collisions will not destroy parts)
     // Returns damage bypassed
     int damage (int p, int dmg, damage_type type = DT_BASH, bool aimed = true);
@@ -1193,6 +1193,7 @@ public:
      * the map is just shifted (in the later case simply set smx/smy directly).
      */
     void set_submap_moved(int x, int y);
+    void use_washing_machine( int p );
 
     const std::string disp_name() const;
 
@@ -1243,13 +1244,14 @@ public:
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
-    calendar occupied_cache_turn = -1; // Turn occupied points were calculated
+    /// Time occupied points were calculated.
+    time_point occupied_cache_time = calendar::before_time_starts;
 
     // Turn the vehicle was last processed
-    calendar last_update_turn = -1;
+    time_point last_update = calendar::before_time_starts;
     // Retroactively pass time spent outside bubble
     // Funnels, solars
-    void update_time( const calendar &update_to );
+    void update_time( const time_point &update_to );
 
     // save values
     /**

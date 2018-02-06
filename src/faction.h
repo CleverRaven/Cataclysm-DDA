@@ -22,6 +22,7 @@ class game;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+struct tripoint;
 
 enum faction_goal {
     FACGOAL_NULL = 0,
@@ -50,7 +51,7 @@ enum faction_job {
     FACJOB_ASSASSINS,   // Targeted discreet killing
     FACJOB_RAIDERS,     // Raiding settlements, trade routes, &c
     FACJOB_THIEVES,     // Less violent; theft of property without killing
-    FACJOB_GAMBLING,    // Maitenance of gambling parlors
+    FACJOB_GAMBLING,    // Maintenance of gambling parlors
     FACJOB_DOCTORS,     // Doctors for hire
     FACJOB_FARMERS,     // Farming & sale of food
     FACJOB_DRUGS,       // Drug dealing
@@ -113,7 +114,7 @@ class faction
         bool matches_us( faction_value v ) const;
         std::string describe() const;
 
-        int response_time() const; // Time it takes for them to get to u
+        int response_time( const tripoint &abs_sm_pos ) const; // Time it takes for them to get to u
 
         std::string name;
     unsigned values :

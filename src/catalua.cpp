@@ -11,6 +11,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "path_info.h"
 #include "monstergenerator.h"
@@ -376,7 +377,7 @@ public:
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
         // Push metatable,
         get_metatable( L );
-        // -1 would the the metatable, -2 is the uservalue, the table is popped
+        // -1 is the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
         new (value_in_lua) T( std::forward<Args>( args )... );
@@ -929,7 +930,7 @@ static void popup_wrapper(const std::string &text) {
 }
 
 static void add_msg_wrapper(const std::string &text) {
-    add_msg( "%s", text.c_str() );
+    add_msg( text );
 }
 
 // items = game.items_at(x, y)
@@ -1211,14 +1212,17 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-long use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+ret_val<bool> use_function::can_call(const player &p, const item &it, bool t, const tripoint &pos) const
 {
     if( actor == nullptr ) {
-        if( p.is_player() ) {
-            add_msg(_("You can't do anything interesting with your %s."), it.tname().c_str());
-        }
-        return 0;
+        return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ), it.tname().c_str() );
     }
+
+    return actor->can_use( p, it, t, pos );
+}
+
+long use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+{
     return actor->use( p, it, active, pos );
 }
 

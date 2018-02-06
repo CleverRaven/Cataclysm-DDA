@@ -161,7 +161,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
         if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
-            debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
+            debugmsg( "NPC %s is out of bounds, on non-generated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
@@ -972,7 +972,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it
         // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the sumap to put it.
+        // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );

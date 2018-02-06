@@ -463,6 +463,21 @@
         "price": 60000
     },
     {
+        "type": "GENERIC",
+        "id": "washing_machine",
+        "name": "washing machine",
+        "description": "A very small washing machine designed for use in vehicles.",
+        "weight": 31752,
+        "to_hit": -8,
+        "color": "light_blue",
+        "symbol": "]",
+        "material": "steel",
+        "volume": 20,
+        "bashing": 8,
+        "category" : "veh_parts",
+        "price": 60000
+    },
+    {
         "type":"GENERIC",
         "id" : "solar_cell",
         "name" : "solar cell",

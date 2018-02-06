@@ -597,8 +597,10 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "prob": 50}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "blade_vertical",
@@ -612,8 +614,10 @@
         "item" : "blade",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "prob": 50}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "spike",
@@ -627,8 +631,10 @@
         "item" : "spike",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "count": [1, 2]}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "storage_battery_mount",
@@ -686,6 +692,28 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [8, 13]},
+            {"item": "steel_chunk", "count": [8, 13]},
+            {"item": "scrap", "count": [8, 13]},
+            {"item": "hose", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "washing_machine",
+        "name" : "washing machine",
+        "symbol" : "H",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "epower" : -249,
+        "size" : 160,
+        "item" : "washing_machine",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "WASHING_MACHINE", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [8, 13]},
             {"item": "steel_chunk", "count": [8, 13]},
@@ -839,7 +867,7 @@
         "item" : "basket",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE"]
+        "flags" : ["CARGO", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "basketlg_folding",
@@ -854,7 +882,7 @@
         "item" : "folding_basket",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"],
+        "flags" : ["CARGO", "OBSTACLE", "FOLDABLE"],
         "folded_volume" : 12
     },{
         "type" : "vehicle_part",
@@ -1937,8 +1965,10 @@
         "item" : "pointy_stick",
         "difficulty" : 2,
         "location" : "structure",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION", "NAILABLE"],
-        "breaks_into" : []
+        "flags" : ["SHARP", "PROTRUSION", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [3, 7]}
+        ]
     },
     {
         "type" : "vehicle_part",

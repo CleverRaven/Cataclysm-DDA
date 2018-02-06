@@ -308,5 +308,11 @@
     "type": "activity_type",
     "stop_phrase": "Stop cutting the metal?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHOP_TREE",
+    "type": "activity_type",
+    "stop_phrase": "Stop chopping down?",
+    "based_on": "speed"
   }
 ]

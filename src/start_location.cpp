@@ -201,7 +201,7 @@ void start_location::prepare_map( tinymap &m ) const
 tripoint start_location::find_player_initial_location() const
 {
     popup_nowait( _( "Please wait as we build your world" ) );
-    // Spiral out from the world origin scaning for a compatible starting location,
+    // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 32;
     for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {

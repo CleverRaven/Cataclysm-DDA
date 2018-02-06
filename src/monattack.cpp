@@ -7,6 +7,7 @@
 #include "game.h"
 #include "debug.h"
 #include "map.h"
+#include "output.h"
 #include "fungal_effects.h"
 #include "rng.h"
 #include "line.h"
@@ -2369,7 +2370,7 @@ bool mattack::ranged_pull(monster *z)
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
+    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will immediately be removed
 
     return true;
 }
@@ -2660,8 +2661,7 @@ bool mattack::photograph(monster *z)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
-                 g->u.global_sm_location());
+    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0, g->u.global_sm_location() );
 
     return true;
 }
@@ -2909,7 +2909,7 @@ bool mattack::searchlight(monster *z)
     }
 
     //battery charge from the generator is enough for some time of work
-    if( calendar::once_every(MINUTES(10)) ) {
+    if( calendar::once_every( 10_minutes ) ) {
 
         bool generator_ok = false;
 
@@ -3385,7 +3385,7 @@ bool mattack::ratking(monster *z)
 bool mattack::generator(monster *z)
 {
     sounds::sound(z->pos(), 100, "");
-    if( calendar::once_every(MINUTES(1)) && z->get_hp() < z->get_hp_max() ) {
+    if( calendar::once_every( 1_minutes ) && z->get_hp() < z->get_hp_max() ) {
         z->heal( 1 );
     }
 
@@ -3719,7 +3719,7 @@ bool mattack::longswipe(monster *z)
     //Is there something impassable blocking the claw?
     for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
         if( g->m.impassable(pnt) ) {
-            //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
+            //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
@@ -3986,7 +3986,7 @@ bool mattack::riotbot(monster *z)
 
     player *foe = dynamic_cast<player *>( target );
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 4 ) ) {
             if( g->m.passable( dest ) &&
                 g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
@@ -4001,7 +4001,7 @@ bool mattack::riotbot(monster *z)
         ( foe->weapon.typeId() == "e_handcuffs" || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
-        if( calendar::once_every(25) ) {
+        if( calendar::once_every( 25_turns ) ) {
             sounds::sound( z->pos(), 10,
                      _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
@@ -4132,7 +4132,7 @@ bool mattack::riotbot(monster *z)
         return true;
     }
 
-    if( calendar::once_every(5) ) {
+    if( calendar::once_every( 5_turns ) ) {
         sounds::sound( z->pos(), 25, _("Empty your hands and hold your position, citizen!") );
     }
 
@@ -4381,7 +4381,7 @@ bool mattack::kamikaze(monster *z)
         return false;
     }
 
-    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseduo-timer.
+    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
     z->add_effect( effect_countdown, charges + 1);

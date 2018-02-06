@@ -8,6 +8,7 @@
 #include "character.h"
 #include "player.h"
 #include "monster.h"
+#include "output.h"
 #include "debug.h"
 #include "messages.h"
 #include "translations.h"

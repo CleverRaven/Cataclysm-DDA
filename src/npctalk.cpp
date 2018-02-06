@@ -184,7 +184,7 @@ struct dialogue {
          * TODO: make it a reference, not a pointer.
          */
         npc *beta = nullptr;
-        WINDOW *win = nullptr;
+        catacurses::window win;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -568,8 +568,8 @@ void npc::talk_to_u()
     decide_needs();
 
     d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     // Main dialogue loop
     do {
@@ -592,7 +592,6 @@ void npc::talk_to_u()
             d.add_topic( next );
         }
     } while( !d.done );
-    delwin( d.win );
     g->refresh_all();
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
@@ -2121,7 +2120,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             auto &style = style_id.obj();
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
-            const std::string text = string_format( cost > 0 ? _( "%s (cost $%d)" ) : _( "%s" ),
+            const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
                                                     style.name.c_str(), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
@@ -3335,7 +3334,7 @@ void dialogue::print_history( size_t const hilight_lines )
     while( curindex >= 0 && curline >= 2 ) {
         // red for new text, gray for old, similar to coloring of messages
         nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
-        mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
+        mvwprintz( win, curline, 1, col, history[curindex] );
         curline--;
         curindex--;
     }
@@ -3369,7 +3368,7 @@ bool dialogue::print_responses( int const yoffset )
                 break;
             }
             int const off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
+            mvwprintz( win, curline, xoffset + off, color, folded[j] );
         }
     }
     // Those are always available, their key bindings are fixed as well.
@@ -3677,7 +3676,7 @@ bool trade( npc &p, int cost, const std::string &deal )
     const int win_they_w = TERMX / 2;
     catacurses::window w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
     catacurses::window w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
-    WINDOW *w_tmp;
+    catacurses::window w_tmp;
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
@@ -3792,7 +3791,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        cost_string.c_str(), ( double )std::abs( cash ) / 100 );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green, deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
+                           deal.c_str() );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
@@ -3872,14 +3872,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '?':
                 update = true;
                 w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
-                                30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
+                                            30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
                 mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
                 draw_border( w_tmp );
                 wrefresh( w_tmp );
                 // TODO: use input context
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
-                werase( w_tmp );
-                delwin( w_tmp );
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
                 update = true;
@@ -3998,15 +3996,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             g->u.practice( skill_barter, practice / 2 );
         }
     }
-    werase( w_head );
-    werase( w_you );
-    werase( w_them );
-    wrefresh( w_head );
-    wrefresh( w_you );
-    wrefresh( w_them );
-    delwin( w_head );
-    delwin( w_you );
-    delwin( w_them );
     g->refresh_all();
     return traded;
 }
@@ -4341,8 +4330,8 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     // @todo Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_food_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto comest = to_eat.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = to_eat.type->comestible;
+    if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
     }
@@ -4426,6 +4415,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
             return _( "Here we go..." );
         }
     }
@@ -4555,8 +4547,6 @@ npc_follower_rules::npc_follower_rules()
     allow_pulp = true;
 
     close_doors = false;
-
-    pickup_whitelist.reset( new auto_pickup() );
 };
 
 npc_follower_rules::~npc_follower_rules() = default;

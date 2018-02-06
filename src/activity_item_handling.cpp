@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
+#include "output.h"
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"

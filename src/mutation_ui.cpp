@@ -16,7 +16,7 @@
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-void draw_exam_window( WINDOW *win, const int border_y )
+void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
@@ -30,7 +30,8 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
                           string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
 };
 
-void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_context &ctxt )
+void show_mutations_titlebar( const catacurses::window &window, std::string &menu_mode,
+                              input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;
@@ -278,21 +279,12 @@ void player::power_mutations()
                         add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name.c_str() );
 
                         deactivate_mutation( mut_id );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         // Action done, leave screen
                         break;
                     } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
-                        // this will clear the mutations menu for targeting purposes
-                        werase( wBio );
-                        wrefresh( wBio );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         g->draw();
                         add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name.c_str() );
                         activate_mutation( mut_id );
@@ -319,13 +311,5 @@ You cannot activate %s!  To read a description of \
                 wrefresh( w_description );
             }
         }
-    }
-    //if we activated a mutation, already killed the windows
-    if( !( menu_mode == "activating" ) ) {
-        werase( wBio );
-        wrefresh( wBio );
-        delwin( w_title );
-        delwin( w_description );
-        delwin( wBio );
     }
 }

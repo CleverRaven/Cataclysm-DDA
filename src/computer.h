@@ -2,7 +2,8 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "cursesdef.h" // WINDOW
+#include "calendar.h"
+#include "cursesdef.h"
 #include <vector>
 #include <string>
 
@@ -101,6 +102,7 @@ class computer
 {
     public:
         computer( const std::string &name, int Security );
+        computer( const computer &rhs );
         ~computer();
 
         computer &operator=( const computer &rhs );
@@ -129,15 +131,15 @@ class computer
         // Difficulty of simply logging in
         int security;
         // Date of next attempt
-        int next_attempt = 0;
+        time_point next_attempt = calendar::before_time_starts;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
         // Output window
-        WINDOW *w_terminal;
+        catacurses::window w_terminal;
         // Pretty border
-        WINDOW *w_border;
+        catacurses::window w_border;
         // Misc research notes from json
         static std::vector<std::string> lab_notes;
 

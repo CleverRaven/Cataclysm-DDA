@@ -121,16 +121,6 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Chop Down Tree",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
-        "pre_flags" : "TREE",
-        "post_terrain" : "t_dirt",
-        "post_special" : "done_tree"
-    },{
-        "type" : "construction",
         "description" : "Chop Tree Trunk Into Logs",
         "category" : "FARM_WOOD",
         "required_skills" : [ [ "survival", 1 ] ],

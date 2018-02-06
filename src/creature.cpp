@@ -47,7 +47,6 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
-    effects.reset( new effects_map() );
 }
 
 Creature::~Creature() = default;
@@ -163,16 +162,6 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     return sees( critter.pos(), critter.is_player() );
-}
-
-bool Creature::sees( const int tx, const int ty ) const
-{
-    return sees( tripoint( tx, ty, posz() ) );
-}
-
-bool Creature::sees( const point t ) const
-{
-    return sees( tripoint( t, posz() ) );
 }
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
@@ -1384,12 +1373,12 @@ units::mass Creature::get_weight() const
 /*
  * Drawing-related functions
  */
-void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
+void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
 {
     draw( w, tripoint( player_x, player_y, posz() ), inverted );
 }
 
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
 {
     if (is_draw_tiles_mode()) {
         return;
@@ -1447,4 +1436,10 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
     }
 
     return strings[att];
+}
+
+std::string Creature::replace_with_npc_name( std::string input ) const
+{
+    replace_substring( input, "<npcname>", disp_name(), true );
+    return input;
 }

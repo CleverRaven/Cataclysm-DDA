@@ -1,7 +1,6 @@
 #include "veh_type.h"
 #include "requirements.h"
 #include "vehicle.h"
-#include "game.h"
 #include "debug.h"
 #include "item_group.h"
 #include "json.h"
@@ -12,6 +11,7 @@
 #include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
+#include "output.h"
 #include "generic_factory.h"
 #include "character.h"
 
@@ -75,6 +75,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
+    { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -456,15 +457,15 @@ void vpart_info::check()
         if( !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
             part.fuel_type = "null";
-        } else if( part.fuel_type != "null" && item::find_type( part.fuel_type )->fuel == nullptr &&
-                   ( base_item_type.container == nullptr || !base_item_type.container->watertight ) ) {
+        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+                   ( !base_item_type.container || !base_item_type.container->watertight ) ) {
             // Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
             part.fuel_type = "null";
         }
-        if( part.has_flag( "TURRET" ) && base_item_type.gun == nullptr ) {
+        if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {

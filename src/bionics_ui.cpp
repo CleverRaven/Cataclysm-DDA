@@ -55,7 +55,7 @@ char get_free_invlet( player &p )
     return ' ';
 }
 
-void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
+void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
@@ -115,8 +115,8 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
     return power_desc.str();
 }
 
-void draw_bionics_tabs( WINDOW *win, const size_t active_num, const size_t passive_num,
-                        const bionic_tab_mode current_mode )
+void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
+                        const size_t passive_num, const bionic_tab_mode current_mode )
 {
     werase( win );
 
@@ -134,7 +134,7 @@ void draw_bionics_tabs( WINDOW *win, const size_t active_num, const size_t passi
     wrefresh( win );
 }
 
-void draw_description( WINDOW *win, bionic const &bio )
+void draw_description( const catacurses::window &win, bionic const &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -156,8 +156,8 @@ void draw_description( WINDOW *win, bionic const &bio )
     wrefresh( win );
 }
 
-void draw_connectors( WINDOW *win, const int start_y, const int start_x, const int last_x,
-                      const bionic_id &bio_id )
+void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
+                      const int last_x, const bionic_id &bio_id )
 {
     const int LIST_START_Y = 6;
     // first: pos_y, second: occupied slots
@@ -215,7 +215,7 @@ void draw_connectors( WINDOW *win, const int start_y, const int start_x, const i
         // draw amount of consumed slots by this cbm
         const std::string fmt_num = string_format( "(%d)", elem.second );
         mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
-                   c_yellow, "%s", fmt_num.c_str() );
+                   c_yellow, fmt_num );
     }
 
     // define and draw a proper intersection character
@@ -320,7 +320,6 @@ void player::power_bionics()
     const int START_Y = ( TERMY - HEIGHT ) / 2;
     //wBio is the entire bionic window
     catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
-    WINDOW_PTR wBioptr( wBio );
 
     const int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
 
@@ -330,20 +329,17 @@ void player::power_bionics()
     //w_description is the description panel that is controlled with ! key
     catacurses::window w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
                                        DESCRIPTION_START_Y, DESCRIPTION_START_X );
-    WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
     const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
                                  START_X + 1 );
-    WINDOW_PTR w_titleptr( w_title );
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y,
                                 START_X + 1 );
-    WINDOW_PTR w_tabsptr( w_tabs );
 
     int scroll_position = 0;
     int cursor = 0;
@@ -421,7 +417,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                 for( int i = 0; i < num_bp; ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, "%s", bps[i].c_str() );
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, bps[i] );
                 }
             }
 
@@ -448,7 +444,7 @@ void player::power_bionics()
                                                             build_bionic_powerdesc_string(
                                                                     *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
-                                    "%s", desc.c_str() );
+                                    desc );
                     if( is_highlighted && menu_mode != EXAMINING && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
                         const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
@@ -457,7 +453,7 @@ void player::power_bionics()
                         // redraw highlighted (occupied) body parts
                         for( auto &elem : bio_id->occupied_bodyparts ) {
                             const int i = static_cast<int>( elem.first );
-                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, "%s", bps[i].c_str() );
+                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, bps[i] );
                         }
                     }
 

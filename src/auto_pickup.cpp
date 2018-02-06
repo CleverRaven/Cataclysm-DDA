@@ -46,16 +46,12 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
-    WINDOW_PTR w_helpptr( w_help );
 
     catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    WINDOW_PTR w_borderptr( w_border );
     catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
-    WINDOW_PTR w_headerptr( w_header );
     catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
-    WINDOW_PTR wptr( w );
 
     /**
      * All of the stuff in this lambda needs to be drawn (1) initially, and
@@ -185,7 +181,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w, i - iStartPos, 1, cLineColor, sTemp.str() );
                 mvwprintz(w, i - iStartPos, 5, cLineColor, "");
 
                 if (iLine == i) {
@@ -398,9 +394,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::ostringstream sTemp;
 
     catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
     catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border(w_test_rule_border);
 
@@ -408,7 +402,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              "%s", buf.c_str());
+              buf );
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
               _("Won't display bottled and suffixes=(fits)"));
@@ -440,7 +434,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str() );
                 mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
 
                 if (iLine == i) {

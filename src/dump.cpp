@@ -183,7 +183,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
             for( const auto &e : locations ) {
-                r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
+                const auto &vml = obj.type->gun->valid_mod_locations;
+                const auto iter = vml.find( e );
+                r.push_back( to_string( iter != vml.end() ? iter->second : 0 ) );
             }
             rows.push_back( r );
         };
@@ -236,7 +238,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
-            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            r.push_back( e->result_name() );
             for( const auto &s : sk ) {
                 if( e->skill_used == s.ident() ) {
                     r.push_back( to_string( e->difficulty ) );

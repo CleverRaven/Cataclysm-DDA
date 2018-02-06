@@ -735,8 +735,8 @@
     "time": 40000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 600 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "thread", 600 ] ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -765,8 +765,8 @@
     "time": 60000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 900 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "thread", 900 ] ] ]
   },
   {
     "result": "long_patchwork_scarf",

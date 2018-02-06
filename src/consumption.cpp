@@ -3,6 +3,7 @@
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -314,8 +315,8 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    const auto comest = food.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = food.type->comestible;
+    if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
@@ -384,7 +385,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-    const auto comest = food.type->comestible.get();
+    const auto &comest = food.type->comestible;
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
@@ -411,7 +412,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
 
     if( saprophage && edible && food.rotten() && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
-        // Hardcoding fertilizer for now - should be a separate flag later
+        // Hard-coding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
@@ -453,7 +454,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
             req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
         }
 
-        if( !query_yn( "%s", req.str().c_str() ) ) {
+        if( !query_yn( req.str() ) ) {
             return consequences.front();
         }
     }
@@ -722,7 +723,7 @@ void player::consume_effects( const item &food )
         debugmsg( "called player::consume_effects with non-comestible" );
         return;
     }
-    const auto comest = *food.type->comestible.get();
+    const auto &comest = *food.type->comestible;
 
     const int capacity = stomach_capacity();
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {

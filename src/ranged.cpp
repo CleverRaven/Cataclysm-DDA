@@ -119,7 +119,7 @@ bool player::handle_gun_damage( item &it )
     }
 
     const auto &curammo_effects = it.ammo_effects();
-    const islot_gun *firing = it.type->gun.get();
+    const cata::optional<islot_gun> &firing = it.type->gun;
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -186,7 +186,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         return 0;
     }
 
-    // Number of shots to fire is limited by the ammount of remaining ammo
+    // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
@@ -471,7 +471,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    // Some minor (skill/2) armor piercing for skillfull throws
+    // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
     for( damage_unit &du : impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
@@ -535,9 +535,7 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
-                                  input_context &ctxt, const std::vector<aim_type> &aim_types,
-                                  bool switch_mode, bool switch_ammo, bool tiny )
+static int draw_targeting_window( const catacurses::window &w_target, const std::string &name, player &p, target_mode mode, input_context &ctxt, const std::vector<aim_type> &aim_types, bool switch_mode, bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -558,7 +556,7 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
             title = _( "Set target" );
     }
 
-    trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
+    trim_and_print( w_target, 0, 4, getmaxx( w_target ) - 7, c_red, title );
     wprintz(w_target, c_white, " >");
 
     // Draw the help contents at the bottom of the window, leaving room for monster description
@@ -660,14 +658,14 @@ struct confidence_rating {
     std::string label;
 };
 
-static int print_steadiness( WINDOW *w, int line_number, double steadiness )
+static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
 
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
                                                   (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+        mvwprintw( w, line_number++, 1, steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
                                                              _( "Steadiness" ), '*' );
@@ -695,10 +693,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number, target_mode mode,
-                                const item &ranged_weapon, dispersion_sources dispersion,
-                                const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -765,8 +760,7 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, tar
     return line_number;
 }
 
-static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
-                      Creature &target, double predicted_recoil ) {
+static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon, Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -798,7 +792,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                                 range, target_size, predicted_recoil );
 }
 
-static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
+static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
     vehicle *veh = g->m.veh_at( p.pos() );
     if( veh == nullptr ) {
@@ -817,8 +811,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
-                           const item *weapon, const tripoint &target_pos )
+static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number, const item *weapon, const tripoint &target_pos )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
@@ -1155,7 +1148,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         wrefresh(w_target);
         wrefresh(g->w_terrain);
-        refresh();
+        catacurses::refresh();
 
         std::string action;
         if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
@@ -1283,7 +1276,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 pc.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                delwin( w_target );
                 pc.view_offset = old_offset;
                 set_last_target( dst );
                 return ret;
@@ -1321,7 +1313,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
     } while (true);
 
-    delwin( w_target );
     pc.view_offset = old_offset;
 
     if( ret.empty() ) {
@@ -1374,7 +1365,7 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        const auto ammo = gun.ammo_data()->ammo.get();
+        const auto &ammo = gun.ammo_data()->ammo;
         if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
@@ -1410,7 +1401,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun.get()->skill_used;
+    const skill_id &skill_used = firingt.gun->skill_used;
     auto const it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };
@@ -1591,7 +1582,7 @@ double player::gun_value( const item &weap, long ammo ) const
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default
-    if( weap.type->gun.get() == nullptr ) {
+    if( !weap.type->gun ) {
         return 0.0;
     }
 
@@ -1599,7 +1590,7 @@ double player::gun_value( const item &weap, long ammo ) const
         return 0.0;
     }
 
-    const islot_gun& gun = *weap.type->gun.get();
+    const islot_gun& gun = *weap.type->gun;
     const itype_id ammo_type = weap.ammo_default( true );
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
@@ -1613,7 +1604,7 @@ double player::gun_value( const item &weap, long ammo ) const
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
       effective_dispersion( tmp.sight_dispersion() );
 
-    if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
+    if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;

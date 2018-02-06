@@ -196,7 +196,7 @@ void SkillLevel::serialize(JsonOut &json) const
     json.member( "level", level() );
     json.member( "exercise", exercise( true ) );
     json.member( "istraining", isTraining() );
-    json.member( "lastpracticed", int( lastPracticed() ) );
+    json.member( "lastpracticed", _lastPracticed );
     json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
@@ -204,17 +204,14 @@ void SkillLevel::serialize(JsonOut &json) const
 void SkillLevel::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int lastpractice = 0;
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
-    data.read( "lastpracticed", lastpractice );
-    data.read( "highestlevel", _highestLevel );
-    if(lastpractice == 0) {
-        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
-    } else {
-        _lastPracticed = lastpractice;
+    if( !data.read( "lastpracticed", _lastPracticed ) ) {
+        //@todo shouldn't that be calendar::start?
+        _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) );
     }
+    data.read( "highestlevel", _highestLevel );
     if( _highestLevel < _level ) {
         _highestLevel = _level;
     }
@@ -599,7 +596,7 @@ void player::serialize(JsonOut &json) const
     // puts their data into the same json object.
     store( json );
 
-    // TODO: once npcs are seperated from the player class,
+    // TODO: once npcs are separated from the player class,
     // this code should go into player::store, serialize will then only
     // contain start_object(), store(), end_object().
 
@@ -671,7 +668,7 @@ void player::serialize(JsonOut &json) const
     json.member("invcache");
     inv.json_save_invcache(json);
 
-    //FIXME: seperate function, better still another file
+    //FIXME: separate function, better still another file
     /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
               ptmpvect.push_back(pv(memorial_log[i]));
           }
@@ -691,7 +688,7 @@ void player::deserialize(JsonIn &jsin)
 
     load( data );
 
-    // TODO: once npcs are seperated from the player class,
+    // TODO: once npcs are separated from the player class,
     // this code should go into player::load, deserialize will then only
     // contain get_object(), load()
 
@@ -768,7 +765,7 @@ void player::deserialize(JsonIn &jsin)
         std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_dict[ pstr ] );
+                learned_recipes.include( &recipe_id( pstr ).obj() );
             }
         }
     }
@@ -1043,7 +1040,7 @@ void npc::deserialize(JsonIn &jsin)
 
 void npc::load(JsonObject &data)
 {
-    // TODO: once npcs are seperated from the player class,
+    // TODO: once npcs are separated from the player class,
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
@@ -1177,7 +1174,7 @@ void npc::serialize(JsonOut &json) const
 
 void npc::store(JsonOut &json) const
 {
-    // TODO: once npcs are seperated from the player class,
+    // TODO: once npcs are separated from the player class,
     // this should call store on the parent class of npc (probably Character).
     player::store( json );
 
@@ -1274,7 +1271,7 @@ void inventory::json_load_invcache(JsonIn &jsin)
 }
 
 /*
- * save all items. Just this->items, invlet cache saved seperately
+ * save all items. Just this->items, invlet cache saved separately
  */
 void inventory::json_save_items(JsonOut &json) const
 {
@@ -1516,7 +1513,7 @@ void item::io( Archive& archive )
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
     archive.io( "irridation", irridation, 0 );
-    archive.io( "bday", bday, time_point( 0 ) );
+    archive.io( "bday", bday, calendar::time_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
@@ -1884,9 +1881,9 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    int last_updated = calendar::turn;
-    data.read( "last_update_turn", last_updated );
-    last_update_turn = last_updated;
+    if( !data.read( "last_update_turn", last_update ) ) {
+        last_update = calendar::turn;
+    }
 
     face.init (fdir);
     move.init (mdir);
@@ -1990,7 +1987,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
-    json.member( "last_update_turn", last_update_turn.get_turn() );
+    json.member( "last_update_turn", last_update );
     json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }

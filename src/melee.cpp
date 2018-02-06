@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "line.h"
 #include "mtype.h"
@@ -302,7 +303,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             if( one_in(2) ) {
                 const std::string reason_for_miss = get_miss_reason();
                 if( !reason_for_miss.empty() ) {
-                    add_msg( "%s", reason_for_miss.c_str() );
+                    add_msg( reason_for_miss );
                 }
             }
 
@@ -563,7 +564,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 
     // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
-    // Only check double crit (one that requries hit/dodge comparison) if we have good hit vs dodge
+    // Only check double crit (one that requires hit/dodge comparison) if we have good hit vs dodge
     if( roll_hit > target_dodge * 3 / 2 ) {
         const double chance_double = 0.5 * (
             weapon_crit_chance * stat_crit_chance +
@@ -854,9 +855,9 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     float armor_mult = 1.0f;
 
     if( crit ) {
-        // Crit damage bonus for stabbing scales with skill
+        // Critical damage bonus for stabbing scales with skill
         stab_mul *= 1.0 + (stabbing_skill / 10.0);
-        // Stab criticals have extra extra %arpen
+        // Stab criticals have extra %arpen
         armor_mult = 0.66f;
     }
 
@@ -1190,12 +1191,12 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         stamina = temp_stamina;
     }
 
-    //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
+    //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
     if (has_active_bionic(bio_cqb) && !has_martialart(style_selected)) {
         /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
-            add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
+            add_msg_if_player(m_good, _("You have learned %s from extensive practice with the CQB Bionic."),
                        style_selected.obj().name.c_str());
         }
     }
@@ -1458,57 +1459,36 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     target = t.disp_name();
 
-    // Bonus attacks!
-    bool shock_them = (has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
-                       (weap.has_flag( "UNARMED_WEAPON" ) || weap.made_of( material_id( "iron" ) ) ||
-                        weap.made_of( material_id( "steel" ) ) || weap.made_of( material_id( "silver" ) ) ||
-                        weap.made_of( material_id( "gold" ) ) || weap.made_of( material_id( "superalloy" ) )) && one_in(3));
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
+        ( !is_armed() || weapon.conductive() ) ) {
+        charge_power( -2 );
+        d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
-    bool drain_them = (has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && power_level >= 1 &&
-                       weap.is_null() && t.is_warm());
-    drain_them &= one_in(2); // Only works half the time
-
-    bool burn_them = weap.has_flag("FLAMING");
-
-
-    if (shock_them) { // bionics only
-        charge_power(-2);
-        int shock = rng(2, 5);
-        d.add_damage(DT_ELECTRIC, shock * rng(1, 3));
-
-        if (is_player()) {
-            dump << string_format(_("You shock %s."), target.c_str()) << std::endl;
-        } else
-            add_msg_player_or_npc(m_good, _("You shock %s."),
-                                          _("<npcname> shocks %s."),
-                                          target.c_str());
-    }
-
-    if (drain_them) { // bionics only
-        power_level--;
-        charge_power(rng(0, 2));
-        d.add_damage(DT_COLD, 1);
-        if (t.is_player()) {
-            add_msg_if_npc(m_bad, _("<npcname> drains your body heat!"));
+        if( is_player() ) {
+            dump << string_format( _("You shock %s."), target.c_str() ) << std::endl;
         } else {
-            if (is_player()) {
-                dump << string_format(_("You drain %s's body heat."), target.c_str()) << std::endl;
-            } else
-                add_msg_player_or_npc(m_good, _("You drain %s's body heat!"),
-                                              _("<npcname> drains %s's body heat!"),
-                                              target.c_str());
+            add_msg_if_npc( _("<npcname> shocks %s."), target.c_str() );
         }
     }
 
-    if (burn_them) { // for flaming weapons
-        d.add_damage(DT_HEAT, rng(1, 8));
+    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
+        charge_power( 3 );
+        d.add_damage( DT_COLD, 3 );
+        if( is_player() ) {
+            dump << string_format( _("You drain %s's body heat."), target.c_str() ) << std::endl;
+        } else {
+            add_msg_if_npc( _("<npcname> drains %s's body heat!"), target.c_str() );
+        }
+    }
 
-        if (is_player()) {
-            dump << string_format(_("You burn %s."), target.c_str()) << std::endl;
-        } else
-            add_msg_player_or_npc(m_good, _("You burn %s."),
-                                     _("<npcname> burns %s."),
-                                     target.c_str());
+    if( weapon.has_flag( "FLAMING" ) ) {
+        d.add_damage( DT_HEAT, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump << string_format( _("You burn %s."), target.c_str() ) << std::endl;
+        } else {
+            add_msg_player_or_npc( _("<npcname> burns %s."), target.c_str());
+        }
     }
 
     //Hurting the wielder from poorly-chosen weapons

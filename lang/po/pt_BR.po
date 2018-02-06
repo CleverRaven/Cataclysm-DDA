@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Brett Dong <brett.browning.dong@gmail.com>, 2018
 # diesel riot <ralph@riseup.net>, 2017
 # Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>, 2016-2017
 # Joao Pedro de Campos Magalhaes <dragon530698@gmail.com>, 2017
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 07:26-0500\n"
-"PO-Revision-Date: 2018-01-07 11:36+0000\n"
+"POT-Creation-Date: 2018-01-26 06:07-0500\n"
+"PO-Revision-Date: 2018-01-26 23:33+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -2147,7 +2148,7 @@ msgstr "Um pequeno carretel de solda, capas de ser usado como munição e eletr�
 
 #: lang/json/AMMO_from_json.py
 msgid "tin"
-msgstr "alumínio"
+msgstr "estanho"
 
 #. ~ Description for tin
 #: lang/json/AMMO_from_json.py
@@ -4303,7 +4304,7 @@ msgid ""
 "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
 "Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
 "extremely popular all over the world.  The bullet has poor wounding "
-"potential due to its stability, only begining to yaw after 26cm."
+"potential due to its stability, only beginning to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4321,6 +4322,15 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
+msgstr ""
+
+#. ~ Description for reloaded 7.62x39mm M43
+#: lang/json/AMMO_from_json.py
+msgid ""
+"7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet "
+"Union the 7.62x39mm round rapidly became extremely popular all over the "
+"world.  The bullet has poor wounding potential due to its stability, only "
+"beginning to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -9761,7 +9771,7 @@ msgstr[1] ""
 #. ~ Description for pair of steel leg guards
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, "
+"A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
 msgstr ""
 
@@ -13596,8 +13606,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Active Defense System CBM
-#. ~ Description for Active Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
@@ -14384,8 +14393,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Offensive Defense System CBM
-#. ~ Description for Offensive Defense System
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a very strong shock,"
@@ -15470,12 +15478,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "AAA Guide 2040"
-msgid_plural "AAA Guide 2040"
+msgid "AAA Guide"
+msgid_plural "AAA Guide"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  "
@@ -15507,7 +15515,7 @@ msgid ""
 "vehicle operation, and defensive driving concepts."
 msgstr ""
 
-#. ~ Description for AAA Guide 2040
+#. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A tourist-centric guide to points of interest throughout the country.  This "
@@ -15578,12 +15586,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
-msgid "Augmentative Tech Review 2041"
-msgid_plural "Augmentative Tech Review 2041"
+msgid "Augmentative Tech Review"
+msgid_plural "Augmentative Tech Review"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Augmentative Tech Review 2041
+#. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
 msgid ""
 "This annual publication covers the various ways in which people use "
@@ -24022,6 +24030,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "'special' brownie"
+msgstr ""
+
+#. ~ Description for 'special' brownie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "This is definitely not how grandma used to bake them."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Spice"
 msgstr ""
 
@@ -24550,15 +24567,6 @@ msgstr[1] ""
 msgid ""
 "A powdered form of chemical disinfectant, this bismuth formic iodide cleans "
 "wounds quickly and painlessly."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "special brownie"
-msgstr ""
-
-#. ~ Description for special brownie
-#: lang/json/COMESTIBLE_from_json.py
-msgid "This is definitely not how grandma used to bake them."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -31267,6 +31275,18 @@ msgstr[1] ""
 msgid "A very small fridge for keeping food cool."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "washing machine"
+msgid_plural "washing machines"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for washing machine
+#: lang/json/GENERIC_from_json.py
+msgid "A very small washing machine designed for use in vehicles."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "solar cell"
 msgid_plural "solar cells"
@@ -35174,6 +35194,27 @@ msgid "Removes all special zombies from the game."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Mutant NPCs"
+msgstr ""
+
+#. ~ Description for Mutant NPCs
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"NPCs wandering the wasteland will occasionally have mutations --- your foes "
+"included. Beware!"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "NPC traits"
+msgstr ""
+
+#. ~ Description for NPC traits
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Add an NPC class that spawns with starting traits, like the player does."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Mythological Replicas"
 msgstr ""
 
@@ -36160,17 +36201,6 @@ msgstr ""
 msgid ""
 "A mallard duck, often seen around rivers and other bodies of water.  It "
 "feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "exploder"
-msgstr ""
-
-#. ~ Description for exploder
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, round turret which extends from the floor.  Two SMG barrels swivel "
-"360 degrees."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -40644,15 +40674,6 @@ msgstr[1] ""
 msgid ""
 "This is a fragile container filled with acid.  Throw it to spill out a pool "
 "of potent acid."
-msgstr ""
-
-#. ~ Description for acid bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a glass vial, with two chemicals mixing inside.  The vial feels "
-"colder and the contents are frothing.  If this mixture is exposed to air (as"
-" could happen if you throw the vial), it will spill out as a pool of potent "
-"acid."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47402,6 +47423,29 @@ msgid ""
 " boat to move."
 msgstr ""
 
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gelatinous track"
+msgstr ""
+
+#. ~ Description for Gelatinous track
+#. ~ Description for Oozing track
+#. ~ Description for Gray track
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"A short, interlocking set of tracks created out of some of your monstrosity "
+"blob based parts.  Similar with what you might see used on light "
+"construction vehicles.  It's significantly stronger than regular tires due "
+"to not being at risk of bursting; but is quite heavy."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Oozing track"
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gray track"
+msgstr ""
+
 #: lang/json/WHEEL_from_json.py
 msgid "gelacier"
 msgstr ""
@@ -47672,6 +47716,10 @@ msgstr ""
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop cutting the metal?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop chopping down?"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -47955,6 +48003,15 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Active Defense System"
+msgstr ""
+
+#. ~ Description for Active Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  Anything"
+" attempting to penetrate this field has a chance of being deflected at the "
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48366,6 +48423,14 @@ msgstr ""
 msgid "Offensive Defense System"
 msgstr ""
 
+#. ~ Description for Offensive Defense System
+#: lang/json/bionic_from_json.py
+msgid ""
+"A thin forcefield surrounds your body, continually draining power.  This "
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
 msgstr ""
@@ -48468,15 +48533,6 @@ msgid ""
 "This stripped down mini-reactor may not be the best thing to have in your "
 "chest.  There is no way to shut it down, but you can toggle additional fuel "
 "intake."
-msgstr ""
-
-#: lang/json/bionic_from_json.py
-msgid "Reactor Upgrade"
-msgstr ""
-
-#. ~ Description for Reactor Upgrade
-#: lang/json/bionic_from_json.py
-msgid "You shouldn't see this."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48987,10 +49043,6 @@ msgstr "Arar Terra"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "Tampar Terra"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Down Tree"
-msgstr "Cortar Árvore"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Logs"
@@ -52585,10 +52637,6 @@ msgstr ""
 msgid "Stores books.  Y'know, Those things.  Who reads books anymore?"
 msgstr ""
 
-#: lang/json/furniture_from_json.py
-msgid "washing machine"
-msgstr ""
-
 #. ~ Description for washing machine
 #: lang/json/furniture_from_json.py
 msgid "You could wash your dirty clothes if electricity was running."
@@ -54175,6 +54223,14 @@ msgid ""
 "barren proto-weapon."
 msgstr ""
 
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+msgid "semi-auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+msgid "auto"
+msgstr ""
+
 #: lang/json/gun_from_json.py
 msgid "L523-CAR carbine"
 msgid_plural "L523-CAR carbines"
@@ -54208,10 +54264,6 @@ msgid ""
 "it doesn't accept third-party modifications."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-msgid "semi-auto"
-msgstr ""
-
 #: lang/json/gun_from_json.py
 msgid "L523-LMG"
 msgid_plural "L523-LMGs"
@@ -54228,9 +54280,12 @@ msgid ""
 "with ammo belts."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
-#: src/turret.cpp
-msgid "auto"
+#: lang/json/gun_from_json.py
+msgid "low auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "high auto"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -59073,8 +59128,7 @@ msgstr ""
 msgid "Attach"
 msgstr ""
 
-#: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
-#: src/game_inventory.cpp
+#: lang/json/item_action_from_json.py
 msgid "Consume"
 msgstr ""
 
@@ -59276,6 +59330,14 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Activate/deactivate"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Install bionic"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Chop down a tree"
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -59640,7 +59702,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-" This clothing has a wool lining sewn into it to <good>increase</good> its "
+"This clothing has a wool lining sewn into it to <good>increase</good> its "
 "overall <info>warmth</info>."
 msgstr ""
 
@@ -59654,6 +59716,36 @@ msgstr ""
 msgid ""
 "This weapon <good>can be used with</good> <info>unarmed fighting "
 "styles</info>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a <bad>faulty</bad> bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a power source bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic only has a function when activated, else it causes it's effect "
+"every turn."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a gun bionic and activating it will fire it.  Prevents all "
+"other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a weapon bionic and activating it will create (or destroy) "
+"bionic's fake_item in user's hands.  Prevents all other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic can provide power to powered armor."
 msgstr ""
 
 #: lang/json/keybinding_from_json.py lang/json/keybinding_from_json.py
@@ -64681,7 +64773,7 @@ msgstr "Intolerante à Lactose"
 msgid "Ate Junk Food"
 msgstr "Comeu Junk Food"
 
-#: lang/json/morale_type_from_json.py lang/json/mutation_from_json.py
+#: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
 msgstr "Alergia à Trigo"
 
@@ -66180,12 +66272,17 @@ msgid ""
 "nausea."
 msgstr "Alguma coisa nessas comidas processadas demais não se dá bem com você.  É possível que você coma, mas você irá sofrer penalidades morais devido ao enjoo."
 
-#. ~ Description for Wheat Allergy
+#: lang/json/mutation_from_json.py
+msgid "Grain Intolerance"
+msgstr ""
+
+#. ~ Description for Grain Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat.  It's possible "
-"for you to eat them, but you will suffer morale penalties due to nausea."
-msgstr "Você tem uma rara alergia que te previne de comer trigo.  É possível que você coma, mas você irá sofrer penalidades morais devido ao enjoo."
+"You have a rare allergy that prevents you from eating most types of grains "
+"such as wheat or oats.  It's possible for you to eat them, but you will "
+"suffer morale penalties due to nausea."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Glass Jaw"
@@ -70360,6 +70457,220 @@ msgstr ""
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm just trying to stay alive.... and it ain't as easy as it looks."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for mutagen... this world is no place for humans anymore, and I "
+"don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lizard Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lizard mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Medical Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for medical mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Bird Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for bird mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Fish Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for fish mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Beast Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for beast mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Ursine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for ursine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Feline Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for feline mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lupine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lupine mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cattle Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cattle mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Insect Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for insect mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Plant Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for plant mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Slime Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for slime mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Troglobite Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for troglobite mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cephalopod Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cephalopod mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Spider Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for spider mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Rat Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for rat mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Alpha Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for alpha mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Elfa Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for elfa mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Chimera Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for chimera mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Raptor Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for raptor mutagen... this world is no place for humans anymore,"
+" and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "NPC with starting traits"
 msgstr ""
 
 #: lang/json/npc_from_json.py
@@ -86111,7 +86422,7 @@ msgid "Utility Light"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "half-built wall"
+msgid "half-built log wall"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86132,6 +86443,10 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "half-built wall"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -89996,7 +90311,7 @@ msgstr "Você colhe um pouco de gordura!"
 
 #: src/activity_handlers.cpp
 msgid "Your clumsy butchering destroys the flesh!"
-msgstr "Sua péssimo corte destruiu a carne!"
+msgstr "Seu péssimo corte destruiu a carne!"
 
 #: src/activity_handlers.cpp
 msgid "You harvest some flesh."
@@ -90361,6 +90676,22 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You finished cutting the metal."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "CHK!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Almost there!  Ten more minutes of work and you'll be through."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Select a direction for the tree to fall in."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finished chopping down a tree."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -92341,14 +92672,6 @@ msgstr ""
 msgid "Successfully removed %s."
 msgstr ""
 
-#: src/bionics.cpp
-msgid "There is nothing to upgrade!"
-msgstr ""
-
-#: src/bionics.cpp
-msgid "You have already installed this bionic."
-msgstr ""
-
 #. ~ <Body part name>: <number of slots> more slot(s) needed.
 #: src/bionics.cpp
 #, c-format
@@ -92423,6 +92746,14 @@ msgctxt "memorial_female"
 msgid "Installed bionic: %s."
 msgstr ""
 
+#. ~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the
+#. upgraded bionic (superior).
+#: src/bionics.cpp
+#, c-format
+msgid "Successfully upgraded %1$s to %2$s."
+msgstr ""
+
+#. ~ %s - name of the bionic.
 #: src/bionics.cpp
 #, c-format
 msgid "Successfully installed %s."
@@ -93721,8 +94052,8 @@ msgid ""
 "  Atlanta, GA 30329\n"
 "  \n"
 "  EPA Region 8 Laboratory\n"
-"  16194 W. 45th\n"
-"  Drive Golden, Colorado 80403\n"
+"  16194 W. 45th Drive\n"
+"  Golden, Colorado 80403\n"
 "  \n"
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
@@ -94060,10 +94391,6 @@ msgstr ""
 #, c-format
 msgid "You finish your construction: %s."
 msgstr ""
-
-#: src/construction.cpp
-msgid "Press a direction for the tree to fall in:"
-msgstr "Escolha uma direção para a árvore cair:"
 
 #: src/construction.cpp src/veh_interact.cpp
 msgid "Enter new vehicle name:"
@@ -99006,6 +99333,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr ""
 
 #: src/game.cpp
+msgid "Test trait group"
+msgstr ""
+
+#: src/game.cpp
 msgid "Quit to Main Menu"
 msgstr ""
 
@@ -99029,13 +99360,6 @@ msgstr ""
 #, c-format
 msgid "%d creature exists.\n"
 msgid_plural "%d creatures exist.\n"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/game.cpp
-#, c-format
-msgid "%d event planned."
-msgid_plural "%d events planned"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -101392,10 +101716,6 @@ msgid "Needs at least %d charges"
 msgstr ""
 
 #: src/game_inventory.cpp
-msgid "Install bionic"
-msgstr ""
-
-#: src/game_inventory.cpp
 msgid "Use item"
 msgstr ""
 
@@ -102949,6 +103269,10 @@ msgid "The nearby doors slide into the floor."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "The nearby doors are already opened."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "You activate the panel!"
 msgstr ""
 
@@ -103939,6 +104263,10 @@ msgid "Traps"
 msgstr ""
 
 #: src/init.cpp
+msgid "Bionics"
+msgstr ""
+
+#: src/init.cpp
 msgid "Terrain"
 msgstr ""
 
@@ -104052,10 +104380,6 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Ammunition types"
-msgstr ""
-
-#: src/init.cpp
-msgid "Bionics"
 msgstr ""
 
 #: src/init.cpp
@@ -105058,11 +105382,6 @@ msgstr[1] ""
 
 #: src/item.cpp
 #, c-format
-msgid "* Once set in a vat, this will ferment in around %d and a half days."
-msgstr ""
-
-#: src/item.cpp
-#, c-format
 msgid "* Once set in a vat, this will ferment in around %d day."
 msgid_plural "* Once set in a vat, this will ferment in around %d days."
 msgstr[0] ""
@@ -105552,16 +105871,16 @@ msgstr ""
 msgid "Invalid tool subtype"
 msgstr ""
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Test which group?"
 msgstr ""
 
 #. ~ Spawn group menu: Menu entry to exit menu
-#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp
+#: src/item_factory.cpp src/iuse.cpp src/iuse.cpp src/trait_group.cpp
 msgid "cancel"
 msgstr ""
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Result of 100 spawns:"
 msgstr ""
 
@@ -105771,7 +106090,8 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid ""
-"You scarf down the delicious brownie.  It tastes a little funny though..."
+"You start scarfing down the delicious brownie.  It tastes a little funny "
+"though..."
 msgstr ""
 
 #: src/iuse.cpp
@@ -107311,6 +107631,18 @@ msgid "Cut up what?"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Chop down which tree?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You're not stern enough to shave yourself with THIS."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop down that."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr ""
 
@@ -107727,30 +108059,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Your vision is fine already."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "Your %s doesn't appear to be modded."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can't remove any of the mods from your %s."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can not modify your %s while it's worn."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Remove which modification?"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You remove your %1$s from your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -108674,6 +108982,10 @@ msgid "Countdown: "
 msgstr ""
 
 #: src/iuse_actor.cpp
+msgid "It's already been triggered."
+msgstr ""
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
 msgstr ""
@@ -108820,10 +109132,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "This tool doesn't have enough charges."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr ""
 
@@ -108851,6 +109159,10 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You successfully light a fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "This tool doesn't have enough charges."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -108973,10 +109285,6 @@ msgid "You need at least %d charges to cauterize wounds."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "You can't cauterize anything underwater."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr ""
 
@@ -109000,6 +109308,12 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You feel horrible for mutilating and enslaving someone's corpse."
+msgstr ""
+
+#. ~ %s - name of the required skill.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You need at least %s 1."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109403,6 +109717,40 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Can't saw off modified barrels."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There is nothing to upgrade."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have a superior version installed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Remove which modification?"
+msgstr ""
+
+#. ~ %1$s - gunmod, %2$s - gun.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You remove your %1$s from your %2$s."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Doesn't appear to be modded."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "None of the mods can be removed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Has to be taken off first."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -110936,6 +111284,16 @@ msgstr ""
 
 #: src/map.cpp
 #, c-format
+msgid "It should take %d minutes to finish washing items in the %s."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "The washing machine in the %s has finished washing."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
 msgid "You take down the %s."
 msgstr ""
 
@@ -111394,17 +111752,8 @@ msgid "<npcname> shocks %s."
 msgstr ""
 
 #: src/melee.cpp
-msgid "<npcname> drains your body heat!"
-msgstr ""
-
-#: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
-msgid "You drain %s's body heat!"
 msgstr ""
 
 #: src/melee.cpp
@@ -114486,6 +114835,10 @@ msgid "Focus gain per minute"
 msgstr ""
 
 #: src/morale.cpp
+msgid "Nothing affects your morale"
+msgstr ""
+
+#: src/morale.cpp
 msgid "Morale"
 msgstr ""
 
@@ -114495,10 +114848,6 @@ msgstr ""
 
 #: src/morale.cpp
 msgid "Value"
-msgstr ""
-
-#: src/morale.cpp
-msgid "Nothing affects your morale"
 msgstr ""
 
 #: src/mutation.cpp
@@ -118561,6 +118910,14 @@ msgstr ""
 #: src/pickup.cpp
 msgid "Examine vehicle"
 msgstr "Examinar veículo"
+
+#: src/pickup.cpp
+msgid "Deactivate the washing machine"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Activate the washing machine (1.5 hours)"
+msgstr ""
 
 #: src/pickup.cpp
 msgid "Get items"
@@ -124128,6 +124485,34 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid " (faulty)"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You turn the washing machine off before it's finished the program, and open "
+"its lid."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid ""
+"You need 24 charges of water in tanks of the %s to fill the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You need 5 charges of detergent for the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You need to remove all non-filthy items from the washing machine to start "
+"the washing program."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You pour some detergent into the washing machine, close its lid, and turn it"
+" on.  The washing machine is being filled with water from vehicle tanks."
 msgstr ""
 
 #: src/vehicle_group.cpp
