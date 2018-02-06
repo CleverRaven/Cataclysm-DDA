@@ -1199,7 +1199,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                          old_power - u->max_power_level );
                 }
-                // TODO: What if we can't lose power capacity?  No penalty?
+                // @todo: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 u->add_bionic( id );

@@ -627,7 +627,7 @@ void iexamine::toilet(player &p, const tripoint &examp)
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);
 
-        (void) p; // TODO: use me
+        (void) p; // @todo: use me
         g->handle_liquid_from_ground( water, examp );
     }
 }
@@ -673,7 +673,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        //TODO only despawn turrets "behind" the door
+        //@todo only despawn turrets "behind" the door
         for( monster &critter : g->all_monsters() ) {
             if( ( critter.type->id == mon_turret ) ||
                 ( critter.type->id == mon_turret_rifle ) ) {
@@ -1032,7 +1032,7 @@ void iexamine::slot_machine( player &p, const tripoint& )
 
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
- * 
+ *
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
@@ -1185,11 +1185,11 @@ void iexamine::bulletin_board(player &, const tripoint &examp)
             options.push_back(_("Create camp"));
         }
         options.push_back(_("Cancel"));
-        // TODO: Other Bulletin Boards
+        // @todo: Other Bulletin Boards
         int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
         if (choice >= 0 && size_t(choice) < options.size()) {
             if (options[choice] == _("Create camp")) {
-                // TODO: Allow text entry for name
+                // @todo: Allow text entry for name
                 g->m.add_camp( examp, _("Home") );
             }
         }
@@ -1404,7 +1404,7 @@ bool drink_nectar( player &p )
 
 /**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
- * 
+ *
  * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
  * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
@@ -1413,7 +1413,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     if( dead_plant( true, p, examp ) ) {
         return;
     }
-    // TODO: Get rid of this section and move it to eating
+    // @todo: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
     if( can_drink_nectar( p ) ) {
         if (!query_yn(_("You feel woozy as you explore the %s. Drink?"), g->m.furnname(examp).c_str())) {
@@ -2652,7 +2652,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
 /**
  * Returns the weight of all the items on tile made of specific material.
- * 
+ *
  * @param &stack item stack.
  * @param &material the material whose mass we want.
  * @param remove_items are the items getting consumed in the process?
@@ -2832,7 +2832,7 @@ void iexamine::trap(player &p, const tripoint &examp)
 void iexamine::water_source(player &p, const tripoint &examp)
 {
     item water = g->m.water_from( examp );
-    (void) p; // TODO: use me
+    (void) p; // @todo: use me
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 

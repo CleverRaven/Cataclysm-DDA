@@ -1452,7 +1452,7 @@ point overmap::display_notes(int z)
             wrefresh(w_notes);
             redraw = false;
         }
-        // TODO: use input context
+        // @todo: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if (ch == '<' && start >= maxitems) {
             start -= maxitems;
@@ -1483,7 +1483,7 @@ const scent_trace &overmap::scent_at( const tripoint &loc ) const
 
 void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
 {
-    // TODO: increase strength of scent trace when applied repeatedly in a short timespan.
+    // @todo: increase strength of scent trace when applied repeatedly in a short timespan.
     scents[loc] = new_scent;
 }
 
@@ -1652,7 +1652,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         int tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinite loop...
+        // @todo: In theory this is a potential infinite loop...
         if (north == NULL) {
             do {
                 tmp = rng(10, OMAPX - 11);
@@ -1703,7 +1703,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_specials( enabled_specials );
     polish_river();
 
-    // TODO: there is no reason we can't generate the sublevels in one pass
+    // @todo: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
 
     // Always need at least one sublevel, but how many more
@@ -2436,7 +2436,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
     }
 
     if (has_target) {
-        // TODO: Add a note that the target is above/below us
+        // @todo: Add a note that the target is above/below us
         int distance = rl_dist( orig, target );
         mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
@@ -2973,7 +2973,7 @@ void mongroup::wander( overmap &om )
     }
 
     if( target_city ) {
-        // TODO: somehow use the same algorithm that distributes zombie
+        // @todo: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
         target.x = target_city->x * 2 + rng( -5, 5 );
@@ -3021,8 +3021,8 @@ void overmap::move_hordes()
         }
 
         if( one_in(movement_chance) && rng(0, 100) < mg.interest ) {
-            // TODO: Adjust for monster speed.
-            // TODO: Handle moving to adjacent overmaps.
+            // @todo: Adjust for monster speed.
+            // @todo: Handle moving to adjacent overmaps.
             if( mg.pos.x > mg.target.x) {
                 mg.pos.x--;
             }
@@ -3121,7 +3121,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             if( sig_power < dist ) {
                 continue;
             }
-            // TODO: base this in monster attributes, foremost GOODHEARING.
+            // @todo: base this in monster attributes, foremost GOODHEARING.
             const int inter_per_sig_power = 15; //Interest per signal value
             const int min_initial_inter = 30; //Min initial interest for horde
             const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
@@ -3129,9 +3129,9 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
             const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
             if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
-                // TODO: Z coord for mongroup targets
+                // @todo: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
-                // TODO: Base this on targ_dist:dist ratio.
+                // @todo: Base this on targ_dist:dist ratio.
                 if ( targ_dist < 5 ) { // If signal source already pursued by horde
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     const int min_inc_inter = 3; // Min interest increase to already targeted source
@@ -3376,7 +3376,7 @@ void overmap::place_cities()
         }
         size = std::max(size,1);
 
-        // TODO put cities closer to the edge when they can span overmaps
+        // @todo put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
         int cx = rng(size - 1, OMAPX - size);
         int cy = rng(size - 1, OMAPY - size);
@@ -3465,7 +3465,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
             build_city_street( connection, iter->pos(), cs - rng( 1, 3 ), om_direction::turn_right( dir ), town );
 
             auto &oter = ter( iter->x, iter->y, 0 );
-            // TODO Get rid of the hardcoded terrain ids.
+            // @todo Get rid of the hardcoded terrain ids.
             if( one_in( 2 ) && oter->get_line() == 15 && oter->type_is( oter_type_id( "road" ) ) ) {
                 oter = oter_id( "road_nesw_manhole" );
             }

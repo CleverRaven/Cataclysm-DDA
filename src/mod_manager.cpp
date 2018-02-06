@@ -174,7 +174,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
-        // TODO: change this to make unique ident for the mod
+        // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
