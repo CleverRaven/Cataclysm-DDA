@@ -4780,7 +4780,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         }
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
-                    if (tries < 5) {
+                    if (tries < 5) { // @todo: tries increment is missing, so this expression is always true
                         if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng("DISAPPEAR");
