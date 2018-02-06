@@ -350,7 +350,7 @@ void player::power_bionics()
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
+    int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ? // @todo: Why tab_mode is not being changed once initialized?
                                         ( int )active.size() :
                                         ( int )passive.size() ) - LIST_HEIGHT );
 
