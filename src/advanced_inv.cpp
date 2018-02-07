@@ -577,7 +577,7 @@ int advanced_inv_area::get_item_count() const
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
-        return ( can_store_in_vehicle() == true ) ? veh->get_items( vstor ).size() : 0;
+        return can_store_in_vehicle() ? veh->get_items( vstor ).size() : 0;
     } else {
         return g->m.i_at( pos ).size();
     }
@@ -1089,7 +1089,7 @@ void advanced_inventory::redraw_pane( side p )
         wattron( w, c_cyan );
     }
     // draw a darker border around the inactive pane
-    draw_border( w, ( active == true ) ? BORDER_COLOR : c_dark_gray );
+    draw_border( w, active ? BORDER_COLOR : c_dark_gray );
     mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ).c_str() );
     int max = square.max_size;
     if( max > 0 ) {
@@ -1316,7 +1316,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 filtered_any_bucket = true;
                 continue;
             }
-            int amount = (item_it->count_by_charges() == true) ? item_it->charges : 1;
+            int amount = item_it->count_by_charges() ? item_it->charges : 1;
             g->u.activity.values.push_back(index);
             g->u.activity.values.push_back(amount);
         }

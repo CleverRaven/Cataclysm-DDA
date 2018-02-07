@@ -488,7 +488,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = ( from_vehicle == true ) ?
+        item *temp_item = from_vehicle ?
                             g->m.item_from( s_veh, s_cargo, index ) :
                             g->m.item_from( source, index );
 
