@@ -5385,7 +5385,8 @@ void game::draw_minimap()
 
 float game::natural_light_level( const int zlev ) const
 {
-    if( zlev > OVERMAP_HEIGHT || zlev < 0 ) { // ignore while underground or above limits
+    // ignore while underground or above limits
+    if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
         return LIGHT_AMBIENT_MINIMAL;
     }
 

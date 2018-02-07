@@ -340,6 +340,7 @@ bool write_to_file_exclusive( const std::string &path,
 std::istream &safe_getline( std::istream &ins, std::string &str )
 {
     str.clear();
+    std::istream::sentry se( ins, true );
     std::streambuf *sb = ins.rdbuf();
 
     while( true ) {
