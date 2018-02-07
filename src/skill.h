@@ -10,7 +10,6 @@
 #include <map>
 #include <vector>
 #include <set>
-#include <iosfwd>
 
 class JsonObject;
 class JsonIn;
