@@ -1154,8 +1154,7 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
-                  get_name().c_str() );
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
     } else {
         return (*_skills)[ident];
     }
@@ -1174,8 +1173,7 @@ const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) con
     static const SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
-                  get_name().c_str() );
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
