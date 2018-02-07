@@ -97,48 +97,48 @@
     "id" : "trait_group_NONADDICTIVE",
     "subtype": "distribution",
     "traits": [
-        { "trait": "NONADDICTIVE", "prob": 100 },
-        { "trait": "ADDICTIVE", "prob": 100}
+        { "trait": "NONADDICTIVE" },
+        { "trait": "ADDICTIVE" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_EASYSLEEPER",
     "subtype": "distribution",
     "traits": [
-        { "trait": "EASYSLEEPER", "prob": 100 },
-        { "trait": "INSOMNIA", "prob": 100}
+        { "trait": "EASYSLEEPER" },
+        { "trait": "INSOMNIA" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_ANIMALEMPATH",
     "subtype": "distribution",
     "traits": [
-        { "trait": "ANIMALEMPATH", "prob": 100 },
-        { "trait": "ANIMALDISCORD", "prob": 100}
+        { "trait": "ANIMALEMPATH" },
+        { "trait": "ANIMALDISCORD" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_FASTHEALER",
     "subtype": "distribution",
     "traits": [
-        { "trait": "FASTHEALER", "prob": 100 },
-        { "trait": "SLOWHEALER", "prob": 100}
+        { "trait": "FASTHEALER" },
+        { "trait": "SLOWHEALER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_FASTLEARNER",
     "subtype": "distribution",
     "traits": [
-        { "trait": "FASTLEARNER", "prob": 100 },
-        { "trait": "SLOWLEARNER", "prob": 100}
+        { "trait": "FASTLEARNER" },
+        { "trait": "SLOWLEARNER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_FASTREADER",
     "subtype": "distribution",
     "traits": [
-        { "trait": "FASTREADER", "prob": 100 },
-        { "trait": "SLOWREADER", "prob": 100 },
+        { "trait": "FASTREADER" },
+        { "trait": "SLOWREADER" },
         { "trait": "ILLITERATE", "prob": 5 }
     ]
   },{
@@ -146,24 +146,24 @@
     "id" : "trait_group_FLEET",
     "subtype": "distribution",
     "traits": [
-        { "trait": "FLEET", "prob": 100 },
-        { "trait": "SLOWRUNNER", "prob": 100 }
+        { "trait": "FLEET" },
+        { "trait": "SLOWRUNNER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_GOODHEARING",
     "subtype": "distribution",
     "traits": [
-        { "trait": "GOODHEARING", "prob": 100 },
-        { "trait": "BADHEARING", "prob": 100 }
+        { "trait": "GOODHEARING" },
+        { "trait": "BADHEARING" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_GOODMEMORY",
     "subtype": "distribution",
     "traits": [
-        { "trait": "GOODMEMORY", "prob": 100 },
-        { "trait": "FORGETFUL", "prob": 100 }
+        { "trait": "GOODMEMORY" },
+        { "trait": "FORGETFUL" }
     ]
   },{
     "type" : "trait_group",
@@ -173,149 +173,149 @@
         { "collection": [
             { "trait": "DRUNKEN", "prob": 50 },
             { "trait": "TOLERANCE", "prob": 50 }
-        ], "prob": 100  },
-        { "trait": "LIGHTWEIGHT", "prob": 100 }
+        ] },
+        { "trait": "LIGHTWEIGHT" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_GOODCARDIO",
     "subtype": "distribution",
     "traits": [
-        { "trait": "GOODCARDIO", "prob": 100 },
-        { "trait": "BADCARDIO", "prob": 100 }
+        { "trait": "GOODCARDIO" },
+        { "trait": "BADCARDIO" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_WAKEFUL",
     "subtype": "distribution",
     "traits": [
-        { "trait": "WAKEFUL", "prob": 100 },
-        { "trait": "SLEEPY", "prob": 100 }
+        { "trait": "WAKEFUL" },
+        { "trait": "SLEEPY" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_LIGHTEATER",
     "subtype": "distribution",
     "traits": [
-        { "trait": "LIGHTEATER", "prob": 100 },
-        { "trait": "HUNGER", "prob": 100 }
+        { "trait": "LIGHTEATER" },
+        { "trait": "HUNGER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_LIGHTSTEP",
     "subtype": "distribution",
     "traits": [
-        { "trait": "LIGHTSTEP", "prob": 100 },
-        { "trait": "CLUMSY", "prob": 100 }
+        { "trait": "LIGHTSTEP" },
+        { "trait": "CLUMSY" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_OPTIMISTIC",
     "subtype": "distribution",
     "traits": [
-        { "trait": "OPTIMISTIC", "prob": 100 },
-        { "trait": "BADTEMPER", "prob": 100 }
+        { "trait": "OPTIMISTIC" },
+        { "trait": "BADTEMPER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_PACKMULE",
     "subtype": "distribution",
     "traits": [
-        { "trait": "PACKMULE", "prob": 100 },
-        { "trait": "DISORGANIZED", "prob": 100 }
+        { "trait": "PACKMULE" },
+        { "trait": "DISORGANIZED" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_PARKOUR",
     "subtype": "distribution",
     "traits": [
-        { "trait": "PARKOUR", "prob": 100 },
-        { "trait": "BADKNEES", "prob": 100 }
+        { "trait": "PARKOUR" },
+        { "trait": "BADKNEES" }
     ]
   }, {
     "type" : "trait_group",
     "id" : "trait_group_PRETTY",
     "subtype": "distribution",
     "traits": [
-        { "trait": "PRETTY", "prob": 100 },
-        { "trait": "UGLY", "prob": 100 }
+        { "trait": "PRETTY" },
+        { "trait": "UGLY" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_PSYCHOPATH",
     "subtype": "distribution",
     "traits": [
-        { "trait": "PSYCHOPATH", "prob": 100 },
-        { "trait": "PACIFIST", "prob": 100 }
+        { "trait": "PSYCHOPATH" },
+        { "trait": "PACIFIST" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_EAGLEEYED",
     "subtype": "distribution",
     "traits": [
-        { "trait": "EAGLEEYED", "prob": 100 },
-        { "trait": "MYOPIC", "prob": 100 }
+        { "trait": "EAGLEEYED" },
+        { "trait": "MYOPIC" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_MARTIAL_ARTS",
     "subtype": "distribution",
     "traits": [
-        { "trait": "MARTIAL_ARTS", "prob": 100 },
-        { "trait": "MARTIAL_ARTS2", "prob": 100 },
-        { "trait": "MARTIAL_ARTS3", "prob": 100 },
-        { "trait": "MARTIAL_ARTS4", "prob": 100 },
-        { "trait": "MARTIAL_ARTS5", "prob": 100 }
+        { "trait": "MARTIAL_ARTS" },
+        { "trait": "MARTIAL_ARTS2" },
+        { "trait": "MARTIAL_ARTS3" },
+        { "trait": "MARTIAL_ARTS4" },
+        { "trait": "MARTIAL_ARTS5" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_LIAR",
     "subtype": "distribution",
     "traits": [
-        { "trait": "LIAR", "prob": 100 },
-        { "trait": "TRUTHTELLER", "prob": 100 }
+        { "trait": "LIAR" },
+        { "trait": "TRUTHTELLER" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_STRONGBACK",
     "subtype": "distribution",
     "traits": [
-        { "trait": "STRONGBACK", "prob": 100 },
-        { "trait": "BADBACK", "prob": 100 }
+        { "trait": "STRONGBACK" },
+        { "trait": "BADBACK" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_STRONGSTOMACH",
     "subtype": "distribution",
     "traits": [
-        { "trait": "STRONGSTOMACH", "prob": 100 },
-        { "trait": "WEAKSTOMACH", "prob": 100 }
+        { "trait": "STRONGSTOMACH" },
+        { "trait": "WEAKSTOMACH" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_THICKSKIN",
     "subtype": "distribution",
     "traits": [
-        { "trait": "THICKSKIN", "prob": 100 },
-        { "trait": "THINSKIN", "prob": 100 }
+        { "trait": "THICKSKIN" },
+        { "trait": "THINSKIN" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_TOUGH",
     "subtype": "distribution",
     "traits": [
-        { "trait": "TOUGH", "prob": 100 },
-        { "trait": "FLIMSY", "prob": 100 },
-        { "trait": "FLIMSY2", "prob": 100 },
-        { "trait": "FLIMSY3", "prob": 100 }
+        { "trait": "TOUGH" },
+        { "trait": "FLIMSY" },
+        { "trait": "FLIMSY2" },
+        { "trait": "FLIMSY3" }
     ]
   },{
     "type" : "trait_group",
     "id" : "trait_group_WEAKSCENT",
     "subtype": "distribution",
     "traits": [
-        { "trait": "WEAKSCENT", "prob": 100 },
-        { "trait": "SMELLY", "prob": 100 }
+        { "trait": "WEAKSCENT" },
+        { "trait": "SMELLY" }
     ]
   }
   
