@@ -392,7 +392,6 @@
     "name" : "GROUP_ANT",
     "default" : "mon_ant",
     "monsters" : [
-      { "monster" : "mon_ant_acid", "freq" : 150, "cost_multiplier" : 3 },
       { "monster" : "mon_ant_larva", "freq" : 40, "cost_multiplier" : 0 },
       { "monster" : "mon_ant_soldier", "freq" : 90, "cost_multiplier" : 5 },
       { "monster" : "mon_ant_queen", "freq" : 0, "cost_multiplier" : 0 }
@@ -406,6 +405,25 @@
     "type":"monstergroup",
     "name" : "GROUP_ANT_QUEEN",
     "default" : "mon_ant_queen",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ANT_ACID",
+    "default" : "mon_ant_acid",
+    "monsters" : [
+      { "monster" : "mon_ant_acid_larva", "freq" : 35, "cost_multiplier" : 0 },
+      { "monster" : "mon_ant_acid_soldier", "freq" : 100, "cost_multiplier" : 5 },
+      { "monster" : "mon_ant_acid_queen", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ANT_ACID_LARVA",
+    "default" : "mon_ant_acid_larva",
+    "monsters" : [  ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ANT_ACID_QUEEN",
+    "default" : "mon_ant_acid_queen",
     "monsters" : [  ]
   },{
     "type":"monstergroup",
