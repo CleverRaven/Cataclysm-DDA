@@ -2667,12 +2667,14 @@ bool game::handle_action()
 
         case ACTION_TIMEOUT:
             if( check_safe_mode_allowed(false) ) {
+                u.change_move_mode();
                 u.pause();
             }
             break;
 
         case ACTION_PAUSE:
             if( check_safe_mode_allowed() ) {
+                u.change_move_mode();
                 u.pause();
             }
             break;
@@ -2687,6 +2689,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(0, -1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(0, -1);
             }
             break;
@@ -2697,6 +2700,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, -1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(1, -1);
             }
             break;
@@ -2707,6 +2711,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, 0);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(1, 0);
             }
             break;
@@ -2717,6 +2722,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, 1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(1, 1);
             }
             break;
@@ -2727,6 +2733,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(0, 1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(0, 1);
             }
             break;
@@ -2737,6 +2744,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, 1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(-1, 1);
             }
             break;
@@ -2747,6 +2755,7 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, 0);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(-1, 0);
             }
             break;
@@ -2757,18 +2766,21 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, -1);
             } else {
+                u.change_move_mode();
                 continue_auto_move = plmove(-1, -1);
             }
             break;
 
         case ACTION_MOVE_DOWN:
             if (!u.in_vehicle) {
+                u.change_move_mode();
                 vertical_move(-1, false);
             }
             break;
 
         case ACTION_MOVE_UP:
             if (!u.in_vehicle) {
+                u.change_move_mode();
                 vertical_move(1, false);
             }
             break;
@@ -2847,6 +2859,7 @@ bool game::handle_action()
             if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't peek around corners while you're in your shell."));
             } else {
+                u.change_move_mode();
                 peek();
             }
             break;

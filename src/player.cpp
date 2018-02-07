@@ -588,6 +588,7 @@ player::player() : Character()
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
     move_mode = "walk";
+    selected_move_mode = move_mode;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -3002,6 +3003,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const auto str_run = pgettext( "movement-type", "R" );
         wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk :
                                     ( move_mode == "sneak" ? str_sneak : str_run ) );
+        wprintz( w, c_yellow, " %s", selected_move_mode == "walk" ? str_walk :
+                                    ( selected_move_mode == "sneak" ? str_sneak : str_run ) );
+
         if( sideStyle ) {
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
             print_stamina_bar( w );
@@ -3569,21 +3573,32 @@ void player::shout( std::string msg )
 
 void player::toggle_move_mode()
 {
-    if( move_mode == "walk" ) {
-        move_mode = "sneak";
+    if( selected_move_mode == "walk" ) {
+        selected_move_mode = "sneak";
         add_msg( _( "You start sneaking." ) );
-    } else if( move_mode == "sneak" ) {
+    } else if( selected_move_mode == "sneak" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
-            move_mode = "run";
+            selected_move_mode = "run";
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
-            move_mode = "walk";
+            selected_move_mode = "walk";
             add_msg( _( "You stand up to walk instead." ) );
         }
-    } else if( move_mode == "run" ) {
-        move_mode = "walk";
+    } else if( selected_move_mode == "run" ) {
+        selected_move_mode = "walk";
         add_msg( _( "You slow to a walk." ) );
+    }
+}
+
+void player::change_move_mode()
+{
+    if ( selected_move_mode != move_mode ) {
+        // walk/run <-> sneak transitions takes some time
+        if ( selected_move_mode == "sneak" || move_mode == "sneak" ) {
+            moves -= 20;
+        }
+        move_mode = selected_move_mode;
     }
 }
 
