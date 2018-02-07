@@ -3,6 +3,7 @@
 #define PIMPL_H
 
 #include <memory>
+#include <type_traits>
 
 /**
  * This is a wrapper for implementing the pointer-to-implementation technique,
@@ -19,7 +20,7 @@ template <typename T>
 class pimpl : private std::unique_ptr<T>
 {
     public:
-        template<typename ...Args>
+        template<typename ...Args, typename = typename std::enable_if<std::is_constructible<T, Args...>::value>::type>
         explicit pimpl( Args &&... args ) : std::unique_ptr<T>( new T( std::forward<Args>( args )... ) ) { }
 
         explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
