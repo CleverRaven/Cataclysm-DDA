@@ -244,12 +244,33 @@ void defense_game::init_map()
         break;
 
     case DEFLOC_MANSION:
-        for (int x = 49; x <= 51; x++) {
-            for (int y = 49; y <= 51; y++) {
-                starting_om.ter(x, y, 0) = oter_id( "mansion" );
-            }
-        }
-        starting_om.ter(50, 49, 0) = oter_id( "mansion_entrance" );
+        starting_om.ter( 49, 49, 0 ) = oter_id( "mansion_c3_north" );
+        starting_om.ter( 50, 49, 0 ) = oter_id( "mansion_e1_north" );
+        starting_om.ter( 51, 49, 0 ) = oter_id( "mansion_c1_east" );
+        starting_om.ter( 49, 50, 0 ) = oter_id( "mansion_t4_east" );
+        starting_om.ter( 50, 50, 0 ) = oter_id( "mansion_+4_north" );
+        starting_om.ter( 51, 50, 0 ) = oter_id( "mansion_t2_west" );
+        starting_om.ter( 49, 51, 0 ) = oter_id( "mansion_c2_west" );
+        starting_om.ter( 50, 51, 0 ) = oter_id( "mansion_t2_north" );
+        starting_om.ter( 51, 51, 0 ) = oter_id( "mansion_c4_south" );
+        starting_om.ter( 49, 49, 1 ) = oter_id( "mansion_c3u_north" );
+        starting_om.ter( 50, 49, 1 ) = oter_id( "mansion_e1u_north" );
+        starting_om.ter( 51, 49, 1 ) = oter_id( "mansion_c1u_east" );
+        starting_om.ter( 49, 50, 1 ) = oter_id( "mansion_t4u_east" );
+        starting_om.ter( 50, 50, 1 ) = oter_id( "mansion_+4u_north" );
+        starting_om.ter( 51, 50, 1 ) = oter_id( "mansion_t2u_west" );
+        starting_om.ter( 49, 51, 1 ) = oter_id( "mansion_c2u_west" );
+        starting_om.ter( 50, 51, 1 ) = oter_id( "mansion_t2u_north" );
+        starting_om.ter( 51, 51, 1 ) = oter_id( "mansion_c4u_south" );
+        starting_om.ter( 49, 49, -1 ) = oter_id( "mansion_c3d_north" );
+        starting_om.ter( 50, 49, -1 ) = oter_id( "mansion_e1d_north" );
+        starting_om.ter( 51, 49, -1 ) = oter_id( "mansion_c1d_east" );
+        starting_om.ter( 49, 50, -1 ) = oter_id( "mansion_t4d_east" );
+        starting_om.ter( 50, 50, -1 ) = oter_id( "mansion_+4d_north" );
+        starting_om.ter( 51, 50, -1 ) = oter_id( "mansion_t2d_west" );
+        starting_om.ter( 49, 51, -1 ) = oter_id( "mansion_c2d_west" );
+        starting_om.ter( 50, 51, -1 ) = oter_id( "mansion_t2d_north" );
+        starting_om.ter( 51, 51, -1 ) = oter_id( "mansion_c4d_south" );
         break;
     }
     starting_om.save();
