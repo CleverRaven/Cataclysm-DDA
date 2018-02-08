@@ -13,14 +13,308 @@
   },
   {
     "type" : "start_location",
-    "ident" : "mansion_s",
-    "name" : "Mansion",
-    "target" : "mansion"
+    "ident" : "mansion_entry_s",
+    "name" : "Mansion Entrance",
+    "target" : "mansion_entry"
   },
   {
     "type" : "start_location",
-    "ident" : "mansion_entrance_s",
+    "ident" : "mansion_e1_s",
     "name" : "Mansion Entrance",
-    "target" : "mansion_entrance"
+    "target" : "mansion_e1"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_e2_s",
+    "name" : "Mansion Entrance",
+    "target" : "mansion_e2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+1_s",
+    "name" : "Mansion",
+    "target" : "mansion_+1"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+1d_s",
+    "name" : "Mansion",
+    "target" : "mansion_+1d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+1u_s",
+    "name" : "Mansion",
+    "target" : "mansion_+1u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+2_s",
+    "name" : "Mansion",
+    "target" : "mansion_+2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+2d_s",
+    "name" : "Mansion",
+    "target" : "mansion_+2d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+2u_s",
+    "name" : "Mansion",
+    "target" : "mansion_+2u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+3_s",
+    "name" : "Mansion",
+    "target" : "mansion_+3"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+3u_s",
+    "name" : "Mansion",
+    "target" : "mansion_+3u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+4_s",
+    "name" : "Mansion",
+    "target" : "mansion_+4"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+4d_s",
+    "name" : "Mansion",
+    "target" : "mansion_+4d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_+4u_s",
+    "name" : "Mansion",
+    "target" : "mansion_+4u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c1_s",
+    "name" : "Mansion",
+    "target" : "mansion_c1"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c1d_s",
+    "name" : "Mansion",
+    "target" : "mansion_c1d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c1u_s",
+    "name" : "Mansion",
+    "target" : "mansion_c1u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c2_s",
+    "name" : "Mansion",
+    "target" : "mansion_c2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c2d_s",
+    "name" : "Mansion",
+    "target" : "mansion_c2d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c2u_s",
+    "name" : "Mansion",
+    "target" : "mansion_c2u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c3_s",
+    "name" : "Mansion",
+    "target" : "mansion_c3"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c3d_s",
+    "name" : "Mansion",
+    "target" : "mansion_c3d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c3u_s",
+    "name" : "Mansion",
+    "target" : "mansion_c3u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c4_s",
+    "name" : "Mansion",
+    "target" : "mansion_c4"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c4d_s",
+    "name" : "Mansion",
+    "target" : "mansion_c4d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c4u_s",
+    "name" : "Mansion",
+    "target" : "mansion_c4u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c5_s",
+    "name" : "Mansion",
+    "target" : "mansion_c5"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c5d_s",
+    "name" : "Mansion",
+    "target" : "mansion_c5d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_c5u_s",
+    "name" : "Mansion",
+    "target" : "mansion_c5u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_e1d_s",
+    "name" : "Mansion",
+    "target" : "mansion_e1d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_e1u_s",
+    "name" : "Mansion",
+    "target" : "mansion_e1u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_e2d_s",
+    "name" : "Mansion",
+    "target" : "mansion_e2d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_e2u_s",
+    "name" : "Mansion",
+    "target" : "mansion_e2u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t1_s",
+    "name" : "Mansion",
+    "target" : "mansion_t1"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t1d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t1d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t1u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t1u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t2_s",
+    "name" : "Mansion",
+    "target" : "mansion_t2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t2d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t2d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t2u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t2u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t4_s",
+    "name" : "Mansion",
+    "target" : "mansion_t4"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t4d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t4d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t4u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t4u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t5_s",
+    "name" : "Mansion",
+    "target" : "mansion_t5"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t5d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t5d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t5u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t5u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t6_s",
+    "name" : "Mansion",
+    "target" : "mansion_t6"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t6d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t6d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t6u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t6u"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t7_s",
+    "name" : "Mansion",
+    "target" : "mansion_t7"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t7d_s",
+    "name" : "Mansion",
+    "target" : "mansion_t7d"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_t7u_s",
+    "name" : "Mansion",
+    "target" : "mansion_t7u"
   }
 ]
