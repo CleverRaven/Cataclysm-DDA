@@ -2049,7 +2049,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int mw = 0;
     int tw = 0;
     int bw = 0;
-    int cw = 0;
 
     int x = 0;
     int y = 0;
