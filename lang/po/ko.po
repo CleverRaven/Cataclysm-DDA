@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-26 06:07-0500\n"
-"PO-Revision-Date: 2018-01-26 23:33+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2018-02-03 20:52-0500\n"
+"PO-Revision-Date: 2018-02-07 06:02+0000\n"
+"Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1172,18 +1172,22 @@ msgstr "시작 시간"
 msgid "Initial starting time of day on character generation."
 msgstr "캐릭터 생성시의 초기 시작 시간을 설정합니다."
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Spring"
 msgstr "봄"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Summer"
 msgstr "여름"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Autumn"
 msgstr "가을"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Winter"
 msgstr "겨울"
@@ -51584,9 +51588,9 @@ msgid "A popular .22 pistol."
 msgstr "대중적인 .22 구경 권총."
 
 #: lang/json/gun_from_json.py
-msgid "Bushmaster ACR"
-msgid_plural "Bushmaster ACRs"
-msgstr[0] "부시마스터 ACR"
+msgid "Remington ACR"
+msgid_plural "Remington ACRs"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -78034,7 +78038,7 @@ msgstr "찌질이"
 
 #: lang/json/snippet_from_json.py
 msgid "cunt"
-msgstr ""
+msgstr "씨발"
 
 #: lang/json/snippet_from_json.py
 msgid "loser"
@@ -87308,11 +87312,6 @@ msgstr " (방향 버튼)"
 msgid "Invalid direction."
 msgstr "잘못된 방향."
 
-#. ~ Sound of a Rat mutant burrowing!
-#: src/activity_handlers.cpp
-msgid "ScratchCrunchScrabbleScurry."
-msgstr ""
-
 #: src/activity_handlers.cpp
 msgid "You figure it'll take about an hour and a half at this rate."
 msgstr "이대로 계속하면 한 시간 반 정도 걸릴 것이다."
@@ -87328,6 +87327,15 @@ msgstr "30분 정도 밖에 안 남았을 것이다!"
 #: src/activity_handlers.cpp
 msgid "Almost there! Ten more minutes of work and you'll be through."
 msgstr "거의 다 됐다! 10분만 더 하면 통과할 수 있을 것이다."
+
+#. ~ Sound of a Rat mutant burrowing!
+#: src/activity_handlers.cpp
+msgid "ScratchCrunchScrabbleScurry."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish burrowing."
+msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -87506,20 +87514,8 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr "챙! 챙! 챙!"
 
 #: src/activity_handlers.cpp
-msgid "Ugh.  You figure it'll take about an hour and a half at this rate."
-msgstr "어. 아무래도 한 시간 반 정도 파야 될 것 같다."
-
-#: src/activity_handlers.cpp
-msgid "If it keeps up like this, you might be through in an hour."
-msgstr "이 상태가 계속된다면 한 시간 이상 계속 파야 될 것이다."
-
-#: src/activity_handlers.cpp
-msgid "Feels like you're making good progress.  Another half an hour, maybe?"
-msgstr "잘 하고 있는 것 같다. 아마도 반 시간쯤 더 파면 되겠지?"
-
-#: src/activity_handlers.cpp
-msgid "That's got it.  Ten more minutes of work and it's open."
-msgstr "좋았어. 앞으로 10분 정도만 더 파면 될 것 같다."
+msgid "You finish digging."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "The corpse moved before you could finish smashing it!"
@@ -87740,20 +87736,18 @@ msgstr "기분이 훨씬 나아졌다."
 msgid "You washed your clothing."
 msgstr "옷을 깨끗이 빨았다."
 
+#. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
 msgstr "그릉 그릉 그릉"
 
 #: src/activity_handlers.cpp
-msgid "You finished cutting the metal."
+msgid "You finish cutting the metal."
 msgstr ""
 
+#. ~ Sound of a wood chopping tool at work!
 #: src/activity_handlers.cpp
 msgid "CHK!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "Almost there!  Ten more minutes of work and you'll be through."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -87761,7 +87755,7 @@ msgid "Select a direction for the tree to fall in."
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You finished chopping down a tree."
+msgid "You finish chopping down a tree."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -90041,13 +90035,13 @@ msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d초"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d분"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -90058,6 +90052,18 @@ msgstr[0] "%d시간"
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d일"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d season"
+msgid_plural "%d seasons"
+msgstr[0] "%d 계절"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d년"
 
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
@@ -90111,24 +90117,6 @@ msgstr "%d:%02d:%02d%sAM"
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr "%d:%02d:%02d%sPM"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] "%d년"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d season"
-msgid_plural "%d seasons"
-msgstr[0] "%d 계절"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d turn"
-msgid_plural "%d turns"
-msgstr[0] "%d턴"
 
 #: src/calendar.cpp
 msgid "Monday"
@@ -109819,6 +109807,12 @@ msgstr "완료한 미션"
 msgid "FAILED MISSIONS"
 msgstr "실패한 미션"
 
+#. ~ 1 season name, 2 day of season, 3 time of day
+#: src/mission_ui.cpp
+#, c-format
+msgid "%1$s, day %2$d %3$s"
+msgstr ""
+
 #: src/mission_ui.cpp
 #, c-format
 msgid "Deadline: %s"
@@ -112510,11 +112504,6 @@ msgid "Upgrading %s costs %d point"
 msgid_plural "Upgrading %s costs %d points"
 msgstr[0] "%s 기술을 향상시키려면 %d 포인트 필요"
 
-#: src/newcharacter.cpp src/npctalk.cpp
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
@@ -114773,8 +114762,8 @@ msgstr "좋아, 훈련을 다시 시작하자고 "
 #. ~Martial art style (cost in dollars)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost $%d)"
-msgstr "%s (가격 $%d)"
+msgid "%s ( cost $%d )"
+msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -121603,26 +121592,6 @@ msgstr "%s%%"
 msgctxt "air pressure in kPa"
 msgid "%s kPa"
 msgstr "%s kPa"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "spring"
-msgstr "spring"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "summer"
-msgstr "summer"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "autumn"
-msgstr "autumn"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "winter"
-msgstr "winter"
 
 #: src/weather_data.cpp
 msgid "Clear"

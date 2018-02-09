@@ -4,7 +4,7 @@
 # Aber Jiang <tedjq@126.com>, 2016
 # Amans Tofu <kwl01skz@gmail.com>, 2016-2018
 # Arcadia H <arcadia822@gmail.com>, 2016
-# Brett Dong <brett.browning.dong@gmail.com>, 2016-2017
+# Brett Dong <brett.browning.dong@gmail.com>, 2016-2018
 # cainiao <cainiaowu@hotmail.com>, 2016-2018
 # cellxiecao <cellxiecao@foxmail.com>, 2016
 # Dikai Li <glacias3183@gmail.com>, 2016
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-26 06:07-0500\n"
-"PO-Revision-Date: 2018-01-29 05:48+0000\n"
+"POT-Creation-Date: 2018-02-03 20:52-0500\n"
+"PO-Revision-Date: 2018-02-06 12:51+0000\n"
 "Last-Translator: 何方神圣 何 <1366003560@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1174,18 +1174,22 @@ msgstr "初始时间"
 msgid "Initial starting time of day on character generation."
 msgstr "创建角色时的开始时间。"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Spring"
 msgstr "春"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Summer"
 msgstr "夏"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Autumn"
 msgstr "秋"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Winter"
 msgstr "冬"
@@ -9187,7 +9191,7 @@ msgstr[0] "凯夫拉背心"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A lightweight, bullet resistant vest.  Suitable for wearing under clothing."
-msgstr "一件轻便、贴身的凯夫拉材质防弹背心。\n\"电影中反派一枪杀不死警探的头号元凶。\""
+msgstr "一件轻便、贴身的凯夫拉材质防弹背心。\n\"反派一枪杀不死卧底警探的头号元凶。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "kilt"
@@ -12208,7 +12212,7 @@ msgid ""
 "Stiff leather boots with intricate embroidery and one-inch heels.  They look"
 " good, but aren't made for running.  Each boot is large enough to conceal a "
 "small holdout pistol."
-msgstr "一对带着精巧刺绣的硬邦邦皮靴，有着较宽的高鞋跟。外观帅气，但跑步时容易崴脚。每只靴子都足够大，能够装下一把小型自卫手枪。\n\"如果有踢马刺就可以对付身后的丧尸了。\""
+msgstr "一对带着精巧刺绣的硬邦邦皮靴，有着较宽的高鞋跟。外观帅气，但跑步时容易崴脚。每只靴子都足够大，能够装下一把小型自卫手枪。\n\"如果有踢马刺就可以对付背后的丧尸了，或者是自己的屁股。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of winter boots"
@@ -34948,7 +34952,7 @@ msgid ""
 "arrests of those participating.  Though its relaxation gas is by far its "
 "best-known weapon, it carries a blinding flash and a low-powered stungun for"
 " self-defense--in addition to its supply of electronic handcuffs."
-msgstr "非暴力警卫机器人。专门用于镇压暴乱，并参与大规模逮捕行动。虽然它的麻醉气体是最著名的武器，但它还带着一个让人瞬间失明的炫光灯和一把低能量的散弹枪自卫—以及足以拉走众多人员的N多电子手铐。"
+msgstr "非暴力警卫机器人。专门用于镇压暴乱，并参与大规模逮捕行动。虽然它的麻醉气体是最著名的武器，但它还带着一个让人瞬间失明的炫光灯和一把低能量的霰弹枪自卫—以及足以拉走众多人员的N多电子手铐。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "seweranha"
@@ -44779,7 +44783,7 @@ msgstr "这只丧尸脚步不稳，步履蹒跚。"
 msgid ""
 "Something has gone wrong; after getting up the zombie lumbers toward you "
 "menacingly!"
-msgstr "有东西搞错了。沉睡的丧尸突然醒过来，向你冲了过来！"
+msgstr "手术有点不对劲。沉睡的丧尸突然醒过来，向你冲了过来！"
 
 #. ~ Description for dormant minion
 #: lang/json/TOOL_from_json.py
@@ -51586,9 +51590,9 @@ msgid "A popular .22 pistol."
 msgstr "一支流行的.22口径手枪。"
 
 #: lang/json/gun_from_json.py
-msgid "Bushmaster ACR"
-msgid_plural "Bushmaster ACRs"
-msgstr[0] "大毒蛇 ACR 战斗步枪"
+msgid "Remington ACR"
+msgid_plural "Remington ACRs"
+msgstr[0] "雷明顿 ACR 突击步枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -51837,7 +51841,7 @@ msgstr "一把设计精良的自制卡宾枪，有着锯短的枪管。可拆卸
 #: lang/json/gun_from_json.py
 msgid "M2010 ESR"
 msgid_plural "M2010 ESR"
-msgstr[0] "M2010 ESR 步枪"
+msgstr[0] "M2010 增强型狙击步枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -51998,7 +52002,7 @@ msgstr "M134D-H加特林速射机枪在轮式重机枪中算是较轻的一种�
 #: lang/json/gun_from_json.py
 msgid "M14 EBR-RI"
 msgid_plural "M14 EBR-RI"
-msgstr[0] "M14 EBR-RI 步枪"
+msgstr[0] "M14 EBR-RI 战斗步枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -87310,11 +87314,6 @@ msgstr " （方向键）"
 msgid "Invalid direction."
 msgstr "无效的方向选择。"
 
-#. ~ Sound of a Rat mutant burrowing!
-#: src/activity_handlers.cpp
-msgid "ScratchCrunchScrabbleScurry."
-msgstr "\"老鼠打洞声\""
-
 #: src/activity_handlers.cpp
 msgid "You figure it'll take about an hour and a half at this rate."
 msgstr "你估计照这个速率需要一个半小时。"
@@ -87330,6 +87329,15 @@ msgstr "到现在的话应该还要不到半小时了！"
 #: src/activity_handlers.cpp
 msgid "Almost there! Ten more minutes of work and you'll be through."
 msgstr "就快了！再来个十分钟就挖穿了。"
+
+#. ~ Sound of a Rat mutant burrowing!
+#: src/activity_handlers.cpp
+msgid "ScratchCrunchScrabbleScurry."
+msgstr "\"老鼠打洞声\""
+
+#: src/activity_handlers.cpp
+msgid "You finish burrowing."
+msgstr "你完成了打洞。"
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -87508,20 +87516,8 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr "铿锵！铿锵！铿锵！"
 
 #: src/activity_handlers.cpp
-msgid "Ugh.  You figure it'll take about an hour and a half at this rate."
-msgstr "呃啊。你估计照这个速率需要一个半小时。"
-
-#: src/activity_handlers.cpp
-msgid "If it keeps up like this, you might be through in an hour."
-msgstr "如果能保持这个速度，或许还需要一个小时才能搞定。"
-
-#: src/activity_handlers.cpp
-msgid "Feels like you're making good progress.  Another half an hour, maybe?"
-msgstr "感觉进展不错，再有半个小时？也许吧。"
-
-#: src/activity_handlers.cpp
-msgid "That's got it.  Ten more minutes of work and it's open."
-msgstr "差不多了。再来十分钟就挖穿了。"
+msgid "You finish digging."
+msgstr "你完成了挖掘。"
 
 #: src/activity_handlers.cpp
 msgid "The corpse moved before you could finish smashing it!"
@@ -87742,28 +87738,26 @@ msgstr "你感觉自己好多了。"
 msgid "You washed your clothing."
 msgstr "你把衣服洗了。"
 
+#. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
 msgstr "咯啷 咯啷 咯啷"
 
 #: src/activity_handlers.cpp
-msgid "You finished cutting the metal."
-msgstr "你停止切割金属。"
+msgid "You finish cutting the metal."
+msgstr "你完成了切割金属。"
 
+#. ~ Sound of a wood chopping tool at work!
 #: src/activity_handlers.cpp
 msgid "CHK!"
 msgstr "咔嚓！"
-
-#: src/activity_handlers.cpp
-msgid "Almost there!  Ten more minutes of work and you'll be through."
-msgstr "就快了！再来个十分钟就挖穿了。"
 
 #: src/activity_handlers.cpp
 msgid "Select a direction for the tree to fall in."
 msgstr "选择一个树木倒下的方向:"
 
 #: src/activity_handlers.cpp
-msgid "You finished chopping down a tree."
+msgid "You finish chopping down a tree."
 msgstr "你砍倒了一棵树。"
 
 #: src/activity_item_handling.cpp
@@ -89872,7 +89866,7 @@ msgstr "你丢失了一部分已安装的生化插件！"
 
 #: src/bionics.cpp
 msgid "Something went terribly wrong, you mutate!"
-msgstr "事情非常糟糕，你变异了！"
+msgstr "安装生化插件失败导致你变异了！"
 
 #: src/bionics.cpp
 msgid "The installation is faulty!"
@@ -90043,13 +90037,13 @@ msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d 秒"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d 分"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -90060,6 +90054,18 @@ msgstr[0] "%d 小时"
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d 天"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d season"
+msgid_plural "%d seasons"
+msgstr[0] "%d季"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d 年"
 
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
@@ -90113,24 +90119,6 @@ msgstr "%d:%02d:%02d%s上午"
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr "%d:%02d:%02d%s下午"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] "%d 年"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d season"
-msgid_plural "%d seasons"
-msgstr[0] "%d季"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d turn"
-msgid_plural "%d turns"
-msgstr[0] "%d 回合"
 
 #: src/calendar.cpp
 msgid "Monday"
@@ -96317,7 +96305,7 @@ msgstr "生成神器"
 
 #: src/game.cpp
 msgid "Spawn Clairvoyance Artifact"
-msgstr "生成超神器"
+msgstr "生成透视石"
 
 #: src/game.cpp
 msgid "Map editor"
@@ -98069,7 +98057,7 @@ msgstr "%s 太重了，你在试图移动它时扭伤了自己！"
 
 #: src/game.cpp
 msgid "There's stuff in the way."
-msgstr "有东西挡在路上。"
+msgstr "有些东西挡住了你。"
 
 #: src/game.cpp
 #, c-format
@@ -98829,7 +98817,7 @@ msgstr "章节"
 
 #: src/game_inventory.cpp
 msgid "You have nothing to read."
-msgstr "你没有东西可以读。"
+msgstr "你没有可以阅读的物品。"
 
 #: src/game_inventory.cpp
 #, c-format
@@ -98864,7 +98852,7 @@ msgstr "手持物品"
 
 #: src/game_inventory.cpp
 msgid "You have nothing to wield."
-msgstr "你没有东西可以拿。"
+msgstr "你没有可以手持的物品。"
 
 #: src/game_inventory.cpp
 #, c-format
@@ -98908,7 +98896,7 @@ msgstr "要放下x个物品，先输入数字x再选择物品。"
 
 #: src/game_inventory.cpp
 msgid "You have nothing to drop."
-msgstr "你没有东西可以丢下。"
+msgstr "你没有可以丢下的物品。"
 
 #: src/game_inventory.cpp
 msgid "Select two items to compare them."
@@ -101030,7 +101018,7 @@ msgstr "它吐出了各式各样的小块零件。"
 #: src/iexamine.cpp
 #, c-format
 msgid "That %s looks too dangerous to mess with. Best leave it alone."
-msgstr "乱折腾 %s 看起来非常危险。最好别去碰它。"
+msgstr "乱动这个 %s 看起来非常危险，最好别去碰它。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -109821,6 +109809,12 @@ msgstr "完成的任务"
 msgid "FAILED MISSIONS"
 msgstr "失败的任务"
 
+#. ~ 1 season name, 2 day of season, 3 time of day
+#: src/mission_ui.cpp
+#, c-format
+msgid "%1$s, day %2$d %3$s"
+msgstr "%1$s%2$d日 %3$s"
+
 #: src/mission_ui.cpp
 #, c-format
 msgid "Deadline: %s"
@@ -112512,11 +112506,6 @@ msgid "Upgrading %s costs %d point"
 msgid_plural "Upgrading %s costs %d points"
 msgstr[0] "升级 %s 需要花费 %d 点数"
 
-#: src/newcharacter.cpp src/npctalk.cpp
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
@@ -114775,7 +114764,7 @@ msgstr "是的，让我们接着训练 。"
 #. ~Martial art style (cost in dollars)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost $%d)"
+msgid "%s ( cost $%d )"
 msgstr "%s （花费 $%d）"
 
 #: src/npctalk.cpp
@@ -121605,26 +121594,6 @@ msgstr "%s%%"
 msgctxt "air pressure in kPa"
 msgid "%s kPa"
 msgstr "%s kPa"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "spring"
-msgstr "春"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "summer"
-msgstr "夏"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "autumn"
-msgstr "秋"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "winter"
-msgstr "冬"
 
 #: src/weather_data.cpp
 msgid "Clear"

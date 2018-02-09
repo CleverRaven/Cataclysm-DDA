@@ -42,9 +42,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-26 06:07-0500\n"
-"PO-Revision-Date: 2018-02-04 00:15+0000\n"
-"Last-Translator: Kevin Lin <ddkevin2008@gmail.com>\n"
+"POT-Creation-Date: 2018-02-03 20:52-0500\n"
+"PO-Revision-Date: 2018-02-08 16:56+0000\n"
+"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1180,18 +1180,22 @@ msgstr "初始時間"
 msgid "Initial starting time of day on character generation."
 msgstr "角色產生時初始時間。"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Spring"
 msgstr "春"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Summer"
 msgstr "夏"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Autumn"
 msgstr "秋"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Winter"
 msgstr "冬"
@@ -6727,14 +6731,14 @@ msgstr "一個簡單的胸罩。用來保護你不想被殭屍盯著看的地方
 #: lang/json/ARMOR_from_json.py
 msgid "breeches"
 msgid_plural "breeches"
-msgstr[0] ""
+msgstr[0] "馬褲"
 
 #. ~ Description for breeches
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  "
 "Comfortable, but lacks pockets."
-msgstr ""
+msgstr "一件手工精良的舊時代長褲，使用強韌且寬鬆的物料製作。穿上去很舒適，但沒有口袋。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "briefcase"
@@ -32464,21 +32468,21 @@ msgstr "一個簡潔輕巧的聚合物彈匣，適用於格洛克系列槍械。
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Glock 17 magazine - 17 rd"
-msgstr ""
+msgstr "格洛克17彈匣(17發)"
 
 #. ~ Description for Glock 17 magazine - 17 rd
 #: lang/json/MAGAZINE_from_json.py
 msgid "Made for the Glock 17, this magazine holds 17 rounds."
-msgstr ""
+msgstr "為格洛克17而製作，這個彈匣能填裝17發子彈。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Glock 17 magazine - 22 rd"
-msgstr ""
+msgstr "格洛克17彈匣(22發)"
 
 #. ~ Description for Glock 17 magazine - 22 rd
 #: lang/json/MAGAZINE_from_json.py
 msgid "Made for the Glock 17, this magazine holds 22 rounds."
-msgstr ""
+msgstr "為格洛克17而製作，這個彈匣能填裝22發子彈。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Glock Drum magazine - 50 rd"
@@ -38862,12 +38866,12 @@ msgstr "一把大型的剪線鉗，可以用它來剪斷掛鎖或鐵絲網。"
 #: lang/json/TOOL_from_json.py
 msgid "bone flute"
 msgid_plural "bone flutes"
-msgstr[0] ""
+msgstr[0] "骨笛"
 
 #. ~ Description for bone flute
 #: lang/json/TOOL_from_json.py
 msgid "A polished bone flute with five finger holes."
-msgstr ""
+msgstr "一支磨光了，有五個指孔的骨笛。"
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "booby trap"
@@ -51592,9 +51596,9 @@ msgid "A popular .22 pistol."
 msgstr "一把流行的 .22 手槍。"
 
 #: lang/json/gun_from_json.py
-msgid "Bushmaster ACR"
-msgid_plural "Bushmaster ACRs"
-msgstr[0] "Bushmaster 自適應步槍"
+msgid "Remington ACR"
+msgid_plural "Remington ACRs"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53111,7 +53115,7 @@ msgstr[0] ""
 msgid ""
 "Designed for all shooters, the Glock 17 is marketed towards law-enforcement "
 "and military."
-msgstr ""
+msgstr "為所有射手而設計，格洛克17主要是向執法人員以及軍隊銷售。"
 
 #: lang/json/gun_from_json.py
 msgid "Makarov PM"
@@ -55482,7 +55486,7 @@ msgid ""
 "without protection; a suppressor will bring the loudness of a report down to"
 " generally safe levels, as well as slightly reducing recoil and muzzle "
 "velocity."
-msgstr ""
+msgstr "滅音器可以減少槍械發射時所產生的聲音與火光。發射槍械的音量非常高，且能在沒有保護時損害你的聽覺，一個滅音器可以將這些音量降低至安全水平，也會稍為降低後座力和槍口速度。"
 
 #: lang/json/gunmod_from_json.py
 msgid "compact suppressor"
@@ -68917,11 +68921,11 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "dense urban"
-msgstr ""
+msgstr "密集居住區"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "hotel"
-msgstr ""
+msgstr "旅館"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "school"
@@ -82140,7 +82144,7 @@ msgstr "一刀兩斷！<npcname>把 %s 斬首了"
 
 #: lang/json/technique_from_json.py
 msgid "Wrap Attack"
-msgstr ""
+msgstr "纏繞攻擊"
 
 #. ~ Description for Wrap Attack
 #: lang/json/technique_from_json.py
@@ -84416,15 +84420,15 @@ msgstr "巨大貯水罐"
 
 #: lang/json/terrain_from_json.py
 msgid "railroad rubble"
-msgstr ""
+msgstr "鐵路道碴"
 
 #: lang/json/terrain_from_json.py
 msgid "railroad track"
-msgstr ""
+msgstr "鐵路軌道"
 
 #: lang/json/terrain_from_json.py
 msgid "railroad tie"
-msgstr ""
+msgstr "鐵路枕木"
 
 #: lang/json/terrain_from_json.py
 msgid "painted waxed floor"
@@ -87316,11 +87320,6 @@ msgstr " (方向鍵)"
 msgid "Invalid direction."
 msgstr "無效的方向。"
 
-#. ~ Sound of a Rat mutant burrowing!
-#: src/activity_handlers.cpp
-msgid "ScratchCrunchScrabbleScurry."
-msgstr "喀拉喀斯嘶咯喀啦。"
-
 #: src/activity_handlers.cpp
 msgid "You figure it'll take about an hour and a half at this rate."
 msgstr "你估計以這樣的速度要花大約一個半小時。"
@@ -87336,6 +87335,15 @@ msgstr "應該還剩不到半小時！"
 #: src/activity_handlers.cpp
 msgid "Almost there! Ten more minutes of work and you'll be through."
 msgstr "快成功了！再十多分鐘工作就完成了。"
+
+#. ~ Sound of a Rat mutant burrowing!
+#: src/activity_handlers.cpp
+msgid "ScratchCrunchScrabbleScurry."
+msgstr "喀拉喀斯嘶咯喀啦。"
+
+#: src/activity_handlers.cpp
+msgid "You finish burrowing."
+msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -87514,20 +87522,8 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr "鏘！鏘！鏘！"
 
 #: src/activity_handlers.cpp
-msgid "Ugh.  You figure it'll take about an hour and a half at this rate."
-msgstr "唉。以這種速度，你猜測大約需要一個半小時。"
-
-#: src/activity_handlers.cpp
-msgid "If it keeps up like this, you might be through in an hour."
-msgstr "假如持續這樣，你大概一個小時後就好了。"
-
-#: src/activity_handlers.cpp
-msgid "Feels like you're making good progress.  Another half an hour, maybe?"
-msgstr "感覺你取得很好的進展。也許再持續半小時就行了？"
-
-#: src/activity_handlers.cpp
-msgid "That's got it.  Ten more minutes of work and it's open."
-msgstr "這樣就對了。再工作個十多分鐘就會開了。"
+msgid "You finish digging."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "The corpse moved before you could finish smashing it!"
@@ -87748,20 +87744,18 @@ msgstr "你感覺好多了。"
 msgid "You washed your clothing."
 msgstr "你清洗了你的衣服。"
 
+#. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
 msgstr "嘎嘎嘎"
 
 #: src/activity_handlers.cpp
-msgid "You finished cutting the metal."
+msgid "You finish cutting the metal."
 msgstr ""
 
+#. ~ Sound of a wood chopping tool at work!
 #: src/activity_handlers.cpp
 msgid "CHK!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "Almost there!  Ten more minutes of work and you'll be through."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -87769,7 +87763,7 @@ msgid "Select a direction for the tree to fall in."
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You finished chopping down a tree."
+msgid "You finish chopping down a tree."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -89958,7 +89952,7 @@ msgid ""
 "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
 "<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
 "<color_yellow>TAB</color> to switch tabs."
-msgstr ""
+msgstr "<color_light_blue>檢視中</color>  <color_yellow>!</color> 來啟動, <color_yellow>-</color> 來移除, <color_yellow>=</color> 來重新指派按鍵, <color_yellow>TAB</color> 來切換分頁。"
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -90049,13 +90043,13 @@ msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d 秒"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d 分鐘"
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -90066,6 +90060,18 @@ msgstr[0] "%d 小時"
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "第 %d 天"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d season"
+msgid_plural "%d seasons"
+msgstr[0] "%d 季"
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d 年"
 
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
@@ -90119,24 +90125,6 @@ msgstr "%d:%02d:%02d%s上午"
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr "%d:%02d:%02d%s下午"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] "%d 年"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d season"
-msgid_plural "%d seasons"
-msgstr[0] "%d 季"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d turn"
-msgid_plural "%d turns"
-msgstr[0] "%d 回合"
 
 #: src/calendar.cpp
 msgid "Monday"
@@ -106769,7 +106757,7 @@ msgstr "你把 %1$s 自你的 %2$s 移除。"
 
 #: src/iuse_actor.cpp
 msgid "Doesn't appear to be modded."
-msgstr ""
+msgstr "沒有被改造"
 
 #: src/iuse_actor.cpp
 msgid "None of the mods can be removed."
@@ -109827,6 +109815,12 @@ msgstr "完成的任務"
 msgid "FAILED MISSIONS"
 msgstr "失敗的任務"
 
+#. ~ 1 season name, 2 day of season, 3 time of day
+#: src/mission_ui.cpp
+#, c-format
+msgid "%1$s, day %2$d %3$s"
+msgstr ""
+
 #: src/mission_ui.cpp
 #, c-format
 msgid "Deadline: %s"
@@ -112518,11 +112512,6 @@ msgid "Upgrading %s costs %d point"
 msgid_plural "Upgrading %s costs %d points"
 msgstr[0] "升級 %s 需花費 %d 點數"
 
-#: src/newcharacter.cpp src/npctalk.cpp
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
@@ -114781,8 +114770,8 @@ msgstr "好，繼續訓練 "
 #. ~Martial art style (cost in dollars)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost $%d)"
-msgstr "%s (花費 $%d)"
+msgid "%s ( cost $%d )"
+msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -121611,26 +121600,6 @@ msgstr "%s%%"
 msgctxt "air pressure in kPa"
 msgid "%s kPa"
 msgstr "%s kPa"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "spring"
-msgstr " 春季"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "summer"
-msgstr " 夏季"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "autumn"
-msgstr " 秋季"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "winter"
-msgstr " 冬季"
 
 #: src/weather_data.cpp
 msgid "Clear"
