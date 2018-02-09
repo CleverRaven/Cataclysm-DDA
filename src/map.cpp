@@ -1816,6 +1816,9 @@ std::string map::features( const tripoint &p )
     if (has_flag("EASY_DECONSTRUCT", p)) {
         ret += _("Simple. ");
     }
+    if (has_flag("MOUNTABLE", p)) {
+        ret += _("Mountable. ");
+    }
     return ret;
 }
 
