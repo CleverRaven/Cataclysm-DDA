@@ -4151,7 +4151,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
-    if( hp_cur[hurtpart] <= 0 ) {
+    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() )) {
         remove_effect( effect_mending, hurt );
         add_effect( effect_disabled, 1, hurt, true );
     }
