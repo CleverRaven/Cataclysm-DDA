@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-26 06:07-0500\n"
-"PO-Revision-Date: 2018-01-26 23:33+0000\n"
+"POT-Creation-Date: 2018-02-03 20:52-0500\n"
+"PO-Revision-Date: 2018-02-04 12:11+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1148,18 +1148,22 @@ msgstr "Hora inicial"
 msgid "Initial starting time of day on character generation."
 msgstr "Hora do dia inicial na criação do personagem."
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Spring"
 msgstr "Primavera"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Summer"
 msgstr "Verão"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Autumn"
 msgstr "Outono"
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
 msgid "Winter"
 msgstr "Inverno"
@@ -54143,8 +54147,8 @@ msgid "A popular .22 pistol."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "Bushmaster ACR"
-msgid_plural "Bushmaster ACRs"
+msgid "Remington ACR"
+msgid_plural "Remington ACRs"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -90234,11 +90238,6 @@ msgstr "( Botão de direção )"
 msgid "Invalid direction."
 msgstr "Direção inválida."
 
-#. ~ Sound of a Rat mutant burrowing!
-#: src/activity_handlers.cpp
-msgid "ScratchCrunchScrabbleScurry."
-msgstr ""
-
 #: src/activity_handlers.cpp
 msgid "You figure it'll take about an hour and a half at this rate."
 msgstr ""
@@ -90253,6 +90252,15 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "Almost there! Ten more minutes of work and you'll be through."
+msgstr ""
+
+#. ~ Sound of a Rat mutant burrowing!
+#: src/activity_handlers.cpp
+msgid "ScratchCrunchScrabbleScurry."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish burrowing."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90432,20 +90440,8 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr "CHNK! CHNK! CHNK!"
 
 #: src/activity_handlers.cpp
-msgid "Ugh.  You figure it'll take about an hour and a half at this rate."
-msgstr "Ugh. Você percebe que isso vai levar em torno de uma hora e meia desse jeito."
-
-#: src/activity_handlers.cpp
-msgid "If it keeps up like this, you might be through in an hour."
-msgstr "Se continuar assim, você poderá terminar em uma hora."
-
-#: src/activity_handlers.cpp
-msgid "Feels like you're making good progress.  Another half an hour, maybe?"
-msgstr "Você sente que está fazendo um bom progresso. Outra meia-hora, talvez?"
-
-#: src/activity_handlers.cpp
-msgid "That's got it.  Ten more minutes of work and it's open."
-msgstr "Isso aí. Mais dez minutos de trabalho e estará aberto."
+msgid "You finish digging."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "The corpse moved before you could finish smashing it!"
@@ -90670,20 +90666,18 @@ msgstr ""
 msgid "You washed your clothing."
 msgstr ""
 
+#. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You finished cutting the metal."
+msgid "You finish cutting the metal."
 msgstr ""
 
+#. ~ Sound of a wood chopping tool at work!
 #: src/activity_handlers.cpp
 msgid "CHK!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "Almost there!  Ten more minutes of work and you'll be through."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90691,7 +90685,7 @@ msgid "Select a direction for the tree to fall in."
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You finished chopping down a tree."
+msgid "You finish chopping down a tree."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -92979,14 +92973,14 @@ msgid_plural "%d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/calendar.cpp src/construction.cpp src/construction.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -92997,6 +92991,20 @@ msgstr[1] ""
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d season"
+msgid_plural "%d seasons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -93052,27 +93060,6 @@ msgstr ""
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d season"
-msgid_plural "%d seasons"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d turn"
-msgid_plural "%d turns"
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/calendar.cpp
 msgid "Monday"
@@ -112803,6 +112790,12 @@ msgstr ""
 msgid "FAILED MISSIONS"
 msgstr ""
 
+#. ~ 1 season name, 2 day of season, 3 time of day
+#: src/mission_ui.cpp
+#, c-format
+msgid "%1$s, day %2$d %3$s"
+msgstr ""
+
 #: src/mission_ui.cpp
 #, c-format
 msgid "Deadline: %s"
@@ -115503,11 +115496,6 @@ msgid_plural "Upgrading %s costs %d points"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/newcharacter.cpp src/npctalk.cpp
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
@@ -117770,7 +117758,7 @@ msgstr ""
 #. ~Martial art style (cost in dollars)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost $%d)"
+msgid "%s ( cost $%d )"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -124617,26 +124605,6 @@ msgstr ""
 msgctxt "air pressure in kPa"
 msgid "%s kPa"
 msgstr "%s kPa"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "spring"
-msgstr "primavera"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "summer"
-msgstr "verão"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "autumn"
-msgstr "outono"
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "winter"
-msgstr "inverno"
 
 #: src/weather_data.cpp
 msgid "Clear"
