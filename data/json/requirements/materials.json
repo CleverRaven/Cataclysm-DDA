@@ -45,7 +45,17 @@
     "id": "glazing",
     "type": "requirement",
     "//": "Materials for glazing pottery",
-    "components": [ [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ], [ "salt_water", 5 ], [ "ash", 5 ], [ "tin", 50 ] ] ]
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "cooking_oil", 1 ],
+        [ "wax", 1 ],
+        [ "lamp_oil", 200 ],
+        [ "salt_water", 5 ],
+        [ "ash", 5 ],
+        [ "tin", 50 ]
+      ]
+    ]
   },
   {
     "id": "rope_natural",
