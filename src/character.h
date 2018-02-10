@@ -630,10 +630,10 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         Character();
-        Character( const Character & ) = default;
-        Character( Character && ) = default;
-        Character &operator=( const Character & ) = default;
-        Character &operator=( Character && ) = default;
+        Character( const Character & );
+        Character( Character && );
+        Character &operator=( const Character & );
+        Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
             char key = ' ';

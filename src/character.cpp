@@ -3,6 +3,7 @@
 #include "map.h"
 #include "bionics.h"
 #include "map_selector.h"
+#include "effect.h"
 #include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
@@ -137,6 +138,10 @@ Character::Character() : Creature(), visitable<Character>()
 }
 
 Character::~Character() = default;
+Character::Character( const Character & ) = default;
+Character::Character( Character && ) = default;
+Character &Character::operator=( const Character & ) = default;
+Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
 {
