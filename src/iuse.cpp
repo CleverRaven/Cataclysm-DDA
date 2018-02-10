@@ -2957,20 +2957,19 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int turns;
+    const time_duration duration = 30_minutes;
+    const bool mineable = g->m.is_bashable( dirp ) &&
+                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
+                          !g->m.has_flag( "TREE", dirp );
+    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
+                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
 
-    if( ( g->m.is_bashable( dirp ) &&
-      ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
-      !g->m.has_flag( "TREE", dirp ) ) ||
-    ( g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
-      g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass ) ) {
-        turns = MINUTES( 30 );
-    } else {
+    if( !( mineable || not_dirt_or_grass ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), turns * 100, -1, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1, p->get_item_position( it ) );
     p->activity.placement = dirp;
 
     return it->type->charges_to_use();
