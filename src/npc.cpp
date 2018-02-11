@@ -106,7 +106,7 @@ npc::npc()
     companion_mission_time = 0;
     last_updated = calendar::turn;
 
-    path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -2367,19 +2367,19 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings.bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
     // @todo: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
         // Penalty for failure chance is 1/success = 1/(1-failure) = 1/(1-(1/dex)) = dex/(dex-1)
-        path_settings.climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
+        path_settings->climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
     } else {
         // Climbing at this dexterity will always fail
-        path_settings.climb_cost = 0;
+        path_settings->climb_cost = 0;
     }
 
-    return path_settings;
+    return *path_settings;
 }
 
 std::set<tripoint> npc::get_path_avoid() const

@@ -11758,7 +11758,7 @@ bool player::query_yn( const std::string &mes ) const
 
 const pathfinding_settings &player::get_pathfinding_settings() const
 {
-    return path_settings;
+    return *path_settings;
 }
 
 std::set<tripoint> player::get_path_avoid() const
