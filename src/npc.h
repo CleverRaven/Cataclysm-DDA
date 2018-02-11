@@ -644,6 +644,7 @@ class npc : public player
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void move_away_from( const tripoint &p, bool no_bashing = false );
+        void move_away_from( const std::vector<tripoint> &points, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
         const pathfinding_settings &get_pathfinding_settings() const override;
@@ -833,6 +834,7 @@ class npc : public player
         bool dead;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
+        bool sees_dangerous_item( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
 
         std::string companion_mission;

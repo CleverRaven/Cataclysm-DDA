@@ -23,6 +23,7 @@
 #include "field.h"
 #include "sounds.h"
 #include "gates.h"
+#include "visitable.h"
 
 #include <algorithm>
 #include <sstream>
@@ -65,7 +66,13 @@ enum npc_action : int {
     num_npc_actions
 };
 
+namespace
+{
+
 const int avoidance_vehicles_radius = 5;
+const int danger_avoidance_radius = 10;
+
+}
 
 std::string npc_action_name( npc_action action );
 
@@ -138,6 +145,13 @@ tripoint good_escape_direction( const npc &who )
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
     return is_dangerous_fields( g->m.field_at( p ) );
+}
+
+bool npc::sees_dangerous_item( const tripoint &p ) const
+{
+    return map_cursor( p ).has_item_with( []( const item &elem ) {
+        return elem.is_dangerous();
+    } );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -287,6 +301,18 @@ void npc::move()
         } else {
             attitude = NPCATT_KILL;    // Yeah, we think we could take you!
         }
+    }
+
+    // Stay away from dangerous items (anything that's gonna explode).
+    const auto area = closest_tripoints_first( danger_avoidance_radius, pos() );
+    std::vector<tripoint> dangerous_points;
+    std::copy_if( area.begin(), area.end(), std::back_inserter( dangerous_points ), [ this ]( const tripoint &elem ) {
+        return sees_dangerous_item( elem );
+    } );
+
+    if( !dangerous_points.empty() ) {
+        move_away_from( dangerous_points, true );
+        return;
     }
 
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
@@ -1676,6 +1702,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 }
 
 void npc::move_pause()
+
 {
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -1714,6 +1741,41 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
     }
 
     return tripoint_min;
+}
+
+
+void npc::move_away_from( const std::vector<tripoint> &points, bool no_bashing )
+{
+    rl_vec3d dir;
+
+    for( const auto &elem : points ) {
+        const rl_vec3d vec( pos() - elem );
+        dir = dir + vec.normalized();
+    }
+
+    if( dir.is_null() ) {
+        std::vector<tripoint> away_points;
+        std::copy_if( points.begin(), points.end(),
+        std::back_inserter( away_points ), [ this ]( const tripoint & elem ) {
+            return elem != pos();
+        } );
+
+        if( away_points.empty() ) {
+            const rl_vec3d vec( 1.f );
+            const float angle = rng_float( 0.f, 2 * M_PI );
+
+            dir = vec.rotated( angle );
+        } else {
+            const rl_vec3d vec( random_entry( away_points, pos() ) - pos() );
+            const float angle = one_in( 2 ) ? M_PI / 2 : -M_PI / 2;
+
+            dir = vec.rotated( angle );
+        }
+    }
+
+    const tripoint target = pos() + dir.normalized().as_point();
+
+    move_to( nearest_passable( target, pos() ), no_bashing );
 }
 
 void npc::find_item()
