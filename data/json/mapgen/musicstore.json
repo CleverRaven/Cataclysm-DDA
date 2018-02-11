@@ -13,19 +13,13 @@
           { "item": "flute", "prob": 50 },
           { "item": "harmonica_holder", "prob": 70 },
           { "item": "jug_clay", "prob": 20 },
-          { "item": "mp3", "prob": 20 },
+          { "item": "saw", "prob": 20 },
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
           { "item": "ukulele", "prob": 50 },
           { "item": "violin", "prob": 90 },
           { "item": "violin_golden", "prob": 15 },
-          {
-            "collection": [
-              { "item": "spoon" },
-              { "item": "spoon" }
-            ], "prob": 15
-          },
           {
             "collection": [
               { "item": "spoon" },
