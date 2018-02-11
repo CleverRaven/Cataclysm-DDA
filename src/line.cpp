@@ -531,84 +531,100 @@ std::vector<point> squares_in_direction( const int x1, const int y1, const int x
     return adjacent_squares;
 }
 
-float rl_vec2d::norm()
+float rl_vec2d::magnitude() const
 {
     return sqrt(x * x + y * y);
 }
 
-float rl_vec3d::norm()
+float rl_vec3d::magnitude() const
 {
     return sqrt(x * x + y * y + z * z);
 }
 
-rl_vec2d rl_vec2d::normalized()
+rl_vec2d rl_vec2d::normalized() const
 {
     rl_vec2d ret;
     if (is_null()) { // shouldn't happen?
         ret.x = ret.y = 1;
         return ret;
     }
-    float n = norm();
-    ret.x = x / n;
-    ret.y = y / n;
+    const float m = magnitude();
+    ret.x = x / m;
+    ret.y = y / m;
     return ret;
 }
 
-rl_vec3d rl_vec3d::normalized()
+rl_vec3d rl_vec3d::normalized() const
 {
     rl_vec3d ret;
     if (is_null()) { // shouldn't happen?
-        ret.x = ret.y = ret.z = 1;
+        ret.x = ret.y = ret.z = 0;
         return ret;
     }
-    float n = norm();
-    ret.x = x / n;
-    ret.y = y / n;
-    ret.z = z / n;
+    const float m = magnitude();
+    ret.x = x / m;
+    ret.y = y / m;
+    ret.z = z / m;
     return ret;
 }
 
-rl_vec2d rl_vec2d::get_vertical()
+rl_vec2d rl_vec2d::rotated( float angle ) const
 {
-    rl_vec2d ret;
-    ret.x = -y;
-    ret.y = x;
-    return ret;
+    return rl_vec2d(
+        x * cos( angle ) - y * sin( angle ),
+        x * sin( angle ) + y * cos( angle )
+    );
 }
 
-rl_vec3d rl_vec3d::get_vertical()
+rl_vec3d rl_vec3d::rotated( float angle ) const
 {
-    rl_vec3d ret;
-    ret.x = -y;
-    ret.y = x;
-    ret.z = z;
-    return ret;
+    return rl_vec3d(
+        x * cos( angle ) - y * sin( angle ),
+        x * sin( angle ) + y * cos( angle )
+    );
 }
 
-float rl_vec2d::dot_product (rl_vec2d &v)
+float rl_vec2d::dot_product (rl_vec2d &v) const
 {
     float dot = x * v.x + y * v.y;
     return dot;
 }
 
-float rl_vec3d::dot_product (rl_vec3d &v)
+float rl_vec3d::dot_product (rl_vec3d &v) const
 {
     float dot = x * v.x + y * v.y + y * v.z;
     return dot;
 }
 
-bool rl_vec2d::is_null()
+bool rl_vec2d::is_null() const
 {
     return !(x || y);
 }
 
-bool rl_vec3d::is_null()
+point rl_vec2d::as_point() const
+{
+    return point(
+      round( x ),
+      round( y )
+    );
+}
+
+bool rl_vec3d::is_null() const
 {
     return !(x || y || z);
 }
 
+tripoint rl_vec3d::as_point() const
+{
+    return tripoint(
+      round( x ),
+      round( y ),
+      round( z )
+    );
+}
+
 // scale.
-rl_vec2d rl_vec2d::operator* (const float rhs)
+rl_vec2d rl_vec2d::operator*( const float rhs ) const
 {
     rl_vec2d ret;
     ret.x = x * rhs;
@@ -616,7 +632,7 @@ rl_vec2d rl_vec2d::operator* (const float rhs)
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator* (const float rhs)
+rl_vec3d rl_vec3d::operator*( const float rhs ) const
 {
     rl_vec3d ret;
     ret.x = x * rhs;
@@ -626,7 +642,7 @@ rl_vec3d rl_vec3d::operator* (const float rhs)
 }
 
 // subtract
-rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
+rl_vec2d rl_vec2d::operator-( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x - rhs.x;
@@ -634,7 +650,7 @@ rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator- (const rl_vec3d &rhs)
+rl_vec3d rl_vec3d::operator-( const rl_vec3d &rhs ) const
 {
     rl_vec3d ret;
     ret.x = x - rhs.x;
@@ -644,7 +660,7 @@ rl_vec3d rl_vec3d::operator- (const rl_vec3d &rhs)
 }
 
 // unary negation
-rl_vec2d rl_vec2d::operator- ()
+rl_vec2d rl_vec2d::operator-() const
 {
     rl_vec2d ret;
     ret.x = -x;
@@ -652,7 +668,7 @@ rl_vec2d rl_vec2d::operator- ()
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator- ()
+rl_vec3d rl_vec3d::operator-() const
 {
     rl_vec3d ret;
     ret.x = -x;
@@ -661,7 +677,7 @@ rl_vec3d rl_vec3d::operator- ()
     return ret;
 }
 
-rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
+rl_vec2d rl_vec2d::operator+( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x + rhs.x;
@@ -669,7 +685,7 @@ rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator+ (const rl_vec3d &rhs)
+rl_vec3d rl_vec3d::operator+( const rl_vec3d &rhs ) const
 {
     rl_vec3d ret;
     ret.x = x + rhs.x;
@@ -678,7 +694,7 @@ rl_vec3d rl_vec3d::operator+ (const rl_vec3d &rhs)
     return ret;
 }
 
-rl_vec2d rl_vec2d::operator/ (const float rhs)
+rl_vec2d rl_vec2d::operator/( const float rhs ) const
 {
     rl_vec2d ret;
     ret.x = x / rhs;
@@ -686,7 +702,7 @@ rl_vec2d rl_vec2d::operator/ (const float rhs)
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator/ (const float rhs)
+rl_vec3d rl_vec3d::operator/( const float rhs ) const
 {
     rl_vec3d ret;
     ret.x = x / rhs;

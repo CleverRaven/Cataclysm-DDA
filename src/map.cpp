@@ -962,8 +962,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
         //Energy of vehicle1 and vehicle2 before collision
-        float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
-            0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
+        float E = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
+                  0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
 
         // Collision_axis
         point cof1 = veh .rotated_center_of_mass();
@@ -977,7 +977,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         collision_axis_y.x = ( veh.global_x() + x_cof1 ) - ( veh2.global_x() + x_cof2 );
         collision_axis_y.y = ( veh.global_y() + y_cof1 ) - ( veh2.global_y() + y_cof2 );
         collision_axis_y = collision_axis_y.normalized();
-        rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
+        rl_vec2d collision_axis_x = collision_axis_y.rotated( M_PI / 2 );
         // imp? & delta? & final? reworked:
         // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
         // as per http://en.wikipedia.org/wiki/Elastic_collision
@@ -1004,10 +1004,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
         veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.norm();
+        veh.velocity = final1.magnitude();
 
         veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.norm();
+        veh2.velocity = final2.magnitude();
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = (veh2.of_turn + veh.of_turn) / 2;
         if( avg_of_turn < .1f ) {
@@ -1018,8 +1018,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.of_turn = avg_of_turn * 1.1;
 
         //Energy after collision
-        float E_a = 0.5 * m1 * final1.norm() * final1.norm() +
-            0.5 * m2 * final2.norm() * final2.norm();
+        float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
+            0.5 * m2 * final2.magnitude() * final2.magnitude();
         float d_E = E - E_a;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
     } else {
