@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "skill.h"
+#include "craft_command.h"
 #include "rng.h"
 #include "requirements.h"
 #include "mongroup.h"

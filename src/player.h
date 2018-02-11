@@ -8,7 +8,6 @@
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "game_constants.h"
-#include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
@@ -20,6 +19,7 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+class craft_command;
 class recipe_subset;
 enum action_id : int;
 struct bionic;
