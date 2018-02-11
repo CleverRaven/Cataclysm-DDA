@@ -753,13 +753,13 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        learned_recipes.clear();
+        learned_recipes->clear();
         valid_autolearn_skills->clear(); // Invalidates the cache
 
         std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_id( pstr ).obj() );
+                learned_recipes->include( &recipe_id( pstr ).obj() );
             }
         }
     }

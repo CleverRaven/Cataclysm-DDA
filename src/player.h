@@ -6,7 +6,6 @@
 #include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
-#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "craft_command.h"
@@ -21,6 +20,7 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+class recipe_subset;
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -1681,7 +1681,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable recipe_subset learned_recipes;
+        mutable pimpl<recipe_subset> learned_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;

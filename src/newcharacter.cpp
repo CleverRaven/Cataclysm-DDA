@@ -451,7 +451,7 @@ bool player::create(character_type type, std::string tempname)
         points.skill_points = 0;
         // We want to prevent recipes known by the template from being applied to the
         // new character. The recipe list will be rebuilt when entering the game.
-        learned_recipes.clear();
+        learned_recipes->clear();
         tab = NEWCHAR_TAB_MAX;
         break;
     }
