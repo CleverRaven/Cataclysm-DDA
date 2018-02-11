@@ -127,7 +127,7 @@ void character_edit_menu()
         for( const auto &need : np->needs ) {
             data << need << std::endl;
         }
-        data << string_format( _( "Total morale: %d" ), int( np->get_morale_level() ) ) << std::endl;
+        data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
         nmenu.text = data.str();
     } else {
