@@ -73,8 +73,6 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_perm_filthy" ),
 
-            morale_type( "morale_perm_debug" ),
-
             morale_type( "morale_null" )
         }
     };
