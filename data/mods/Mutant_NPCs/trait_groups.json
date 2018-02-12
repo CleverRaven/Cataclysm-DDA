@@ -881,8 +881,7 @@
         { "trait": "SHELL2", "prob": 50 }
     ]
   },
-  
-  
+    
   {
     "type" : "trait_group",
     "id" : "trait_mutant_npc_common",
