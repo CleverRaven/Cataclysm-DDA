@@ -19,7 +19,20 @@
           { "item": "tuba", "prob": 25 },
           { "item": "ukulele", "prob": 50 },
           { "item": "violin", "prob": 90 },
-          { "item": "violin_golden", "prob": 15 },
+          {
+            "collection": [
+              { "item": "case_violin" },
+              { "item": "tommygun" },
+              { "item": "grip" },
+              { "item": "thompson_drum" }
+            ], "prob": 15
+          },
+          {
+            "collection": [
+              { "item": "case_violin" },
+              { "item": "violin_golden" }
+            ], "prob": 15
+          },
           {
             "collection": [
               { "item": "spoon" },
