@@ -732,7 +732,7 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
 {
     if( attack_map.count( wrapper->id ) > 0 ) {
         if( test_mode ) {
-            debugmsg( "Overwritting monster attack with id %s", wrapper->id.c_str() );
+            debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
 
         attack_map.erase( wrapper->id );

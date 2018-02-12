@@ -548,7 +548,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
 
-    // "tile_info" section must exis.
+    // "tile_info" section must exist.
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -730,9 +730,9 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
-        entry.throw_error( "invalid color for ascii", "color" );
+        entry.throw_error( "invalid color for ASCII", "color" );
     }
-    // Add an offset for bold colors (ncrses has this bold attribute,
+    // Add an offset for bold colors (ncurses has this bold attribute,
     // this mimics it). bold does not apply to default color.
     if( FG != -1 && entry.get_bool( "bold", false ) ) {
         FG += 8;

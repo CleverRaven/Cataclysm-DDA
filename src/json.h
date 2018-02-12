@@ -301,7 +301,7 @@ class JsonIn
             }
         }
 
-        // array ~> vector, deque, list
+        // array ~> vector, dequeue, list
         template <typename T, typename std::enable_if<
             !std::is_same<void, typename T::value_type>::value>::type* = nullptr
         >
@@ -539,7 +539,7 @@ class JsonOut
         }
 
         // containers with front() ~> array
-        // vector, deque, forward_list, list
+        // vector, dequeue, forward_list, list
         template <typename T, typename std::enable_if<
             !std::is_same<void, typename T::value_type>::value>::type* = nullptr
         >

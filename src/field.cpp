@@ -2457,7 +2457,7 @@ field::~field()
 /*
 Function: findField
 Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then returns NULL.
-Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
+Good for checking for existance of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
 */
 field_entry *field::findField( const field_id field_to_find )
 {

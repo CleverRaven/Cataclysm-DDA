@@ -3113,7 +3113,7 @@ bool player::in_climate_control()
         }
     }
     if( calendar::turn >= next_climate_control_check ) {
-        // save cpu and simulate acclimation.
+        // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
@@ -3470,7 +3470,7 @@ void player::shout( std::string msg )
     int base = 10;
     int shout_multiplier = 2;
 
-    // Mutations make shouting louder, they also define the defualt message
+    // Mutations make shouting louder, they also define the default message
     if ( has_trait( trait_SHOUT2 ) ) {
         base = 15;
         shout_multiplier = 3;
@@ -4502,7 +4502,7 @@ void player::update_body( int from, int to )
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
-        // Note: mend ticks once per 5 mins, but wants rate in TURNS, not 5 min intervals
+        // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
         mend( five_mins * MINUTES( 5 ) );
     }
 
@@ -4874,7 +4874,7 @@ void player::update_stamina( int turns )
     float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.0f ) +
                                mutation_value( "stamina_regen_modifier" );
     if( stamina_multiplier > 0.0f ) {
-        // But mouth encumberance interferes, even with mutated stamina.
+        // But mouth encumbrance interferes, even with mutated stamina.
         stamina_recovery += stamina_multiplier * std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
@@ -6865,7 +6865,7 @@ std::vector<item *> player::inv_dump()
 std::list<item> player::use_amount(itype_id it, int _quantity)
 {
     std::list<item> ret;
-    long quantity = _quantity; // Don't wanny change the function signature right now
+    long quantity = _quantity; // Don't wanna change the function signature right now
     if (weapon.use_amount(it, quantity, ret)) {
         remove_weapon();
     }
@@ -6942,7 +6942,7 @@ bool player::has_fire(const int quantity) const
     } else if (has_bionic( bio_laser ) && power_level > quantity * 5 ) {
         return true;
     } else if( is_npc() ) {
-        // A hack to make NPCs use their molotovs
+        // A hack to make NPCs use their Molotovs
         return true;
     }
     return false;
@@ -10014,7 +10014,7 @@ std::string player::is_snuggling() const
 float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
-    // that you can generaly see.  There'll still be the haze, but
+    // that you can generally see.  There'll still be the haze, but
     // it's annoying rather than limiting.
     if( is_blind() ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( trait_PER_SLIME_OK ) ) ) {

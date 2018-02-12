@@ -1923,7 +1923,7 @@ bool mattack::dermatik(monster *z)
     // Can the bug penetrate our armor?
     body_part targeted = target->get_random_body_part();
     if (4 < g->u.get_armor_cut(targeted) / 3) {
-        //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+        //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _("The %1$s lands on your %2$s, but can't penetrate your armor."),
                                 z->name().c_str(), body_part_name_accusative(targeted).c_str());
         z->moves -= 150; // Attempted laying takes a while
@@ -1932,7 +1932,7 @@ bool mattack::dermatik(monster *z)
 
     // Success!
     z->moves -= 500; // Successful laying takes a long time
-    //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+    //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
     target->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
     if ( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {

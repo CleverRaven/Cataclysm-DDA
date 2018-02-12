@@ -1922,7 +1922,7 @@ hp_part Character::body_window( const std::string &menu_header,
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
-    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+    /* This struct estabilishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {

@@ -47,7 +47,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         if( count <= 1 ) {
             return message;
         }
-        //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
+        //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
         return string_format( _( "%s x %d" ), message.c_str(), count );
     }
 

@@ -650,7 +650,7 @@ opendir(
  * to 1252 using chcp utility and use Lucida Console font, or (2) use
  * _cprintf function when writing to console.  The _cprinf() will re-encode
  * ANSI strings to the console code page so many non-ASCII characters will
- * display correcly.
+ * display correctly.
  */
 static struct dirent*
 readdir(
@@ -712,7 +712,7 @@ readdir(
         } else {
             /*
              * Cannot convert file name to multi-byte string so construct
-             * an errornous directory entry and return that.  Note that
+             * an erroneous directory entry and return that.  Note that
              * we cannot return NULL as that would stop the processing
              * of directory entries completely.
              */
@@ -801,7 +801,7 @@ dirent_mbstowcs_s_old(
             wcstr[n] = 0;
         }
 
-        /* Length of resuting multi-byte string WITH zero terminator */
+        /* Length of resulting multi-byte string WITH zero terminator */
         if (pReturnValue) {
             *pReturnValue = n + 1;
         }
@@ -859,7 +859,7 @@ dirent_mbstowcs_s(
             wcstr[n] = 0;
         }
 
-        /* Length of resuting multi-byte string WITH zero terminator */
+        /* Length of resulting multi-byte string WITH zero terminator */
         if (pReturnValue) {
             *pReturnValue = n + 1;
         }
@@ -907,7 +907,7 @@ dirent_wcstombs_s_old(
             mbstr[n] = '\0';
         }
 
-        /* Lenght of resulting multi-bytes string WITH zero-terminator */
+        /* Length of resulting multi-bytes string WITH zero-terminator */
         if (pReturnValue) {
             *pReturnValue = n + 1;
         }
@@ -965,7 +965,7 @@ dirent_wcstombs_s(
             mbstr[n] = '\0';
         }
 
-        /* Lenght of resulting multi-bytes string WITH zero-terminator */
+        /* Length of resulting multi-bytes string WITH zero-terminator */
         if (pReturnValue) {
             *pReturnValue = n + 1;
         }

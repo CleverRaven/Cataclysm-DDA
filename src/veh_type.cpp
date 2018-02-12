@@ -654,7 +654,7 @@ void vehicle_prototype::load( JsonObject &jo )
                                          100 ), 0 );
 
         if( spawn_info.has_array( "items" ) ) {
-            //Array of items that all spawn together (ie jack+tire)
+            //Array of items that all spawn together (i.e. jack+tire)
             JsonArray item_group = spawn_info.get_array( "items" );
             while( item_group.has_more() ) {
                 next_spawn.item_ids.push_back( item_group.next_string() );

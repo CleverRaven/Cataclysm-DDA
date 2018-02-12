@@ -372,7 +372,7 @@ void veh_interact::cache_tool_availability()
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
  * should be passed into the various do_whatever functions further down.
- * @param mode The command the player is trying to perform (ie 'r' for repair).
+ * @param mode The command the player is trying to perform (i.e. 'r' for repair).
  * @return CAN_DO if the player has everything they need,
  *         INVALID_TARGET if the command can't target that square,
  *         LACK_TOOLS if the player lacks tools,
@@ -1059,7 +1059,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
-            // display engine fauls (if any)
+            // display engine faults (if any)
             auto msg = [&]( const vehicle_part &pt ) {
                 werase( w_msg );
                 int y = 0;

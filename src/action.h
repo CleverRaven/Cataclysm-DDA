@@ -78,9 +78,9 @@ enum action_id : int {
 
     // Environment Interaction Actions
     /**@{*/
-    /** Open an item (eg a door) */
+    /** Open an item (e.g. a door) */
     ACTION_OPEN,
-    /** Close an item (eg a door) */
+    /** Close an item (e.g. a door) */
     ACTION_CLOSE,
     /** Smash something */
     ACTION_SMASH,
@@ -96,7 +96,7 @@ enum action_id : int {
     ACTION_CHAT,
     /** Toggle look mode */
     ACTION_LOOK,
-    /** Peek through something (eg out of a curtained window) */
+    /** Peek through something (e.g. out of a curtained window) */
     ACTION_PEEK,
     /** List items and monsters in a given square */
     ACTION_LIST_ITEMS,
@@ -130,11 +130,11 @@ enum action_id : int {
     ACTION_WIELD,
     /** Open the martial-arts style menu */
     ACTION_PICK_STYLE,
-    /** Open the load item (eg firearms) select menu */
+    /** Open the load item (e.g. firearms) select menu */
     ACTION_RELOAD,
-    /** Open the unload item (eg firearms) select menu */
+    /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
-    /** Open the mending menu (eg when using a sewing kit) */
+    /** Open the mending menu (e.g. when using a sewing kit) */
     ACTION_MEND,
     /** Open the throw menu */
     ACTION_THROW,
@@ -232,7 +232,7 @@ enum action_id : int {
     /**@{*/
     /** Toggle sidebar layout type */
     ACTION_TOGGLE_SIDEBAR_STYLE,
-    /** Toggle fullscreen mode */
+    /** Toggle full-screen mode */
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
     ACTION_DEBUG,
@@ -264,7 +264,7 @@ enum action_id : int {
  *  The actual filename we read the keymap from is returned by reference, not specified in this
  *  function call.  The filename used is set elsewhere (in a variety of places).  Take a look at
  *  @ref FILENAMES to see where this happens.  The returned file name is used to detect errors, such
- *  as a non-existant file or a file that didn't actually contain a keymap.
+ *  as a non-existent file or a file that didn't actually contain a keymap.
  *
  *  Output is returned as two separate maps:
  *  1. The keymap parameter is used to store the set of keys that were mapped by the file.  This
@@ -274,7 +274,7 @@ enum action_id : int {
  *  2. The unbound_keymap parameter contains keys that the file specifically unmaps.
  *
  *  The caller of this function is intended to set those keys explicitly set in parameter keymap, and
- *  unset those keys explicity unbound in parameter unbound_keymap.  Actions and/or keys that are not
+ *  unset those keys explicitly unbound in parameter unbound_keymap.  Actions and/or keys that are not
  *  mentioned in either output are left in place.  See @ref input_manager::init() for the current way
  *  that this is done.
  *

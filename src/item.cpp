@@ -654,7 +654,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
         svarlen = item_tag.size();
         val_decoded = "";
         var_name = item_tag.substr(1, svarsep - 1); // will assume sanity here for now
-        for(int s = svarsep + 1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+        for(int s = svarsep + 1; s < svarlen; s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
             if(item_tag[s] == ivaresc && s < svarlen - 2 ) {
                 if ( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
                     s += 2;
@@ -2329,7 +2329,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     ret.str( "" );
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
     ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
                           modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
 
@@ -2420,7 +2420,7 @@ int item::price( bool practical ) const
             child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
 
         } else if( e->is_tool() && !e->ammo_type() && e->ammo_capacity() ) {
-            // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+            // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
             child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
         }
 
@@ -2954,7 +2954,7 @@ int item::get_encumber() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
-        // handle wearable guns (eg. shoulder strap) as special case
+        // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
     // it_armor::encumber is signed char
@@ -4022,7 +4022,7 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-    // Dividing dispersion by 3 temporarally as a gross adjustment,
+    // Dividing dispersion by 3 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
     // Absolute minimum gun dispersion is 45.
     dispersion_sum = std::max( dispersion_sum / 3, 45 );
@@ -4524,7 +4524,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         // handle base item plus any auxiliary gunmods
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
-                // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
+                // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
@@ -4903,7 +4903,7 @@ bool item::burn( fire_data &frd, bool contained)
             return false;
         }
 
-        // If fire is contained, burn all of it continously
+        // If fire is contained, burn all of it continuously
         if( bd.chance_in_volume == 0 ||  !contained ) {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
@@ -5887,7 +5887,7 @@ time_duration item::get_plant_epoch() const
     // the default in-game season length to give
     // more accuracy for longer season lengths
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
-    // divied by 3 to get the time it takes from one plant state to the next.
+    // divided by 3 to get the time it takes from one plant state to the next.
     //@todo move this into the islot_seed
     return type->seed->grow * calendar::season_ratio() / 3;
 }

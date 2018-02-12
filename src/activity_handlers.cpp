@@ -1388,7 +1388,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
         if( veh ) {
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
-            // Or not, because the vehicle coords are dropped anyway
+            // Or not, because the vehicle coordinates are dropped anyway
             g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
@@ -1440,7 +1440,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    // Find the vehicle by looking for a remote vehicle first, then by player relative coords
+    // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
     vehicle *veh = g->remoteveh();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
@@ -1559,7 +1559,7 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
 
 void activity_handlers::open_gate_finish( player_activity *act, player * )
 {
-    const tripoint pos = act->placement; // Don't use reference and don't inline, becuase act can change
+    const tripoint pos = act->placement; // Don't use reference and don't inline, because act can change
     gates::open_gate( pos );
     act->set_to_null();
 }

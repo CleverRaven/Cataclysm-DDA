@@ -1266,7 +1266,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     } else if( can_limb_block() ) {
         /** @EFFECT_STR increases attack blocking effectiveness with a limb */
 
-        /** @EFFECT_UNARMED increases attack blocking effectivness with a limb */
+        /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb */
         block_score = str_cur + (int)get_skill_level( skill_melee ) + (int)get_skill_level( skill_unarmed );
     } else {
         // Can't block with items, can't block with limbs

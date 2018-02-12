@@ -263,7 +263,7 @@ class game
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
-         * but it's not of the requested tpye, returns nullptr.
+         * but it's not of the requested type, returns nullptr.
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
         template<typename T = Creature>

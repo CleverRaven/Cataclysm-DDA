@@ -319,7 +319,7 @@ bool options_manager::cOpt::is_hidden() const
 #endif
 
     case COPT_POSIX_CURSES_HIDE:
-        // Check if we on windows and using wincuses.
+        // Check if we on windows and using wincurses.
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         return false;
 #else
@@ -696,7 +696,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
 }
 
 /** Fill a mapping with values.
- * Scans all directores in FILENAMES[dirname_label] directory for
+ * Scans all directories in FILENAMES[dirname_label] directory for
  * a file named FILENAMES[filename_label].
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
@@ -804,7 +804,7 @@ void options_manager::init()
         );
 
     add( "AUTO_PICKUP_ADJACENT", "general", translate_marker( "Auto pickup adjacent" ),
-        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your homebase." ),
+        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
         false
         );
 
@@ -977,7 +977,7 @@ void options_manager::init()
         );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
-        translate_marker( "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31" ),
+        translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
         //~ 12h time, e.g.  11:59pm
         { { "12h", translate_marker( "12h" ) },
         //~ Military time, e.g.  2359

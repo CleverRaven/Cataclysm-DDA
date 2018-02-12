@@ -319,7 +319,7 @@ void mutation_branch::load( JsonObject &jsobj )
         std::set<body_part> bps;
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
-                // Shorthand, since many muts protect whole body
+                // Shorthand, since many mutations protect whole body
                 for( size_t i = 0; i < num_bp; i++ ) {
                     bps.insert( static_cast<body_part>( i ) );
                 }
