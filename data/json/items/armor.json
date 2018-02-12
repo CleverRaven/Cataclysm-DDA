@@ -9915,7 +9915,7 @@
     "type": "GENERIC",
     "name": "violin case",
     "name_plural": "violin case",
-    "description": "Useful to carry your precious musical instrument around protected from any harm.  In this case the case contains not an instrument but a Tommygun, a drum magazine and a forward grip, disassemble to get its contents.",
+    "description": "Useful to carry your precious musical instrument around protected from any harm.",
     "weight": 2800,
     "volume": 20,
     "price": 24000,
