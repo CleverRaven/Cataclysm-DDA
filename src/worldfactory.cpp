@@ -1423,6 +1423,27 @@ void load_world_option( JsonObject &jo )
     }
 }
 
+void load_external_option( JsonObject &jo )
+{
+    auto name = jo.get_string( "name" );
+    auto stype = jo.get_string( "stype" );
+    if( !get_options().has_option( name ) ) {
+        auto sinfo = jo.get_string( "info" );
+        get_options().add_external( name, "world_default", stype, sinfo, sinfo );
+    }
+    if( stype == "float" ) {
+        get_options().get_option( name ).setValue( ( float ) jo.get_float( "value" ) );
+    } else if( stype == "int" ) {
+        get_options().get_option( name ).setValue( jo.get_int( "value" ) );
+    } else if( stype == "bool" ) {
+        get_options().get_option( name ).setValue( jo.get_bool( "value" ) );
+    } else if( stype == "string" ) {
+        get_options().get_option( name ).setValue( jo.get_string( "value" ) );
+    } else {
+        jo.throw_error( "Unknown stype for external option", "stype" );
+    }
+}
+
 mod_manager &worldfactory::get_mod_manager()
 {
     return *mman;

@@ -86,6 +86,7 @@ class options_manager
                 void setValue( std::string sSetIn );
                 void setValue( float fSetIn );
                 void setValue( int iSetIn );
+                void setValue( bool bSetIn );
 
                 template<typename T>
                 T value_as() const;
@@ -162,6 +163,12 @@ class options_manager
         bool has_option( const std::string &name ) const;
 
         cOpt &get_option( const std::string &name );
+
+        //add external option
+        void add_external( const std::string sNameIn, const std::string sPageIn,
+                    const std::string sType,
+                    const std::string sMenuTextIn, const std::string sTooltipIn );
+
 
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,
