@@ -201,7 +201,6 @@
         { "distribution": [ 
             { "trait": "BEAK_PECK", "prob": 50 },
             { "trait": "BEAK_HUM", "prob": 50 } ] }
-
     ]
   },
 
@@ -716,7 +715,6 @@
     "traits": [
         { "trait": "THRESH_ELFA" },
         { "trait": "WAKEFUL3", "prob": 50 }
-
     ]
   },
 
@@ -842,7 +840,6 @@
         { "trait": "PRED4", "prob": 50 },
         { "trait": "SAPIOVORE", "prob": 50 },
         { "trait": "HUGE_OK" }
-
     ]
   },
 
@@ -931,13 +928,6 @@
         { "trait": "SQUEAMISH", "prob": 10  },
         { "trait": "TRIGGERHAPPY", "prob": 10  },
         { "trait": "INCONSPICUOUS", "prob": 10  }
-
-    
     ]
   }
-
-
-
-
-  
 ]
