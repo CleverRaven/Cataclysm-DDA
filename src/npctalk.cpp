@@ -3840,10 +3840,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                price_color, price_str.c_str() );
                 }
                 if( offset > 0 ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 1, "< Back" );
+                    mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
                 }
                 if( offset + entries_per_page < list.size() ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 9, "More >" );
+                    mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
                 }
             }
             wrefresh( w_head );
