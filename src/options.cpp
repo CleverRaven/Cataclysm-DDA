@@ -109,7 +109,7 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
-//add external option
+//add hidden external option with value
 void options_manager::add_external(const std::string sNameIn, const std::string sPageIn,
     const std::string sType,
     const std::string sMenuTextIn, const std::string sTooltipIn)
@@ -652,7 +652,7 @@ void options_manager::cOpt::setPrev()
     }
 }
 
-//set value
+//set float value
 void options_manager::cOpt::setValue(float fSetIn)
 {
     if (sType != "float") {
@@ -665,7 +665,7 @@ void options_manager::cOpt::setValue(float fSetIn)
     }
 }
 
-//set value
+//set int value
 void options_manager::cOpt::setValue( int iSetIn )
 {
     if( sType != "int" ) {
@@ -678,7 +678,7 @@ void options_manager::cOpt::setValue( int iSetIn )
     }
 }
 
-//set value
+//set bool value
 void options_manager::cOpt::setValue( bool bSetIn )
 {
     if (sType != "bool") {
@@ -688,7 +688,7 @@ void options_manager::cOpt::setValue( bool bSetIn )
     bSet = bSetIn;
 }
 
-//set value
+//set string value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
