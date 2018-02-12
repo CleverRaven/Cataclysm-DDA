@@ -1076,11 +1076,13 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
+    // @todo This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
+    mandatory( jo, was_loaded, "locations", locations );
+
     if( is_special ) {
-        mandatory( jo, was_loaded, "locations", locations );
         mandatory( jo, was_loaded, "occurrences", occurrences );
 
         optional( jo, was_loaded, "connections", connections );
