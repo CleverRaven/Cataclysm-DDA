@@ -121,7 +121,6 @@ void options_manager::add_external(const std::string sNameIn, const std::string 
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
 
-    //thisOpt.format = format;
     thisOpt.iMin = INT_MIN;
     thisOpt.iMax = INT_MAX;
 
@@ -129,8 +128,6 @@ void options_manager::add_external(const std::string sNameIn, const std::string 
     thisOpt.fMax = INT_MAX;
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
-
-  
     thisOpt.setSortPos(sPageIn);
 
     options[sNameIn] = thisOpt;
@@ -684,7 +681,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 void options_manager::cOpt::setValue( bool bSetIn )
 {
     if (sType != "bool") {
-        debugmsg("tried to set an int value to a %s option", sType.c_str());
+        debugmsg("tried to set an bool value to a %s option", sType.c_str());
         return;
     }
     bSet = bSetIn;
