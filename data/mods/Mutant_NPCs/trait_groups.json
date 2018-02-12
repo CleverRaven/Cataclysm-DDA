@@ -888,7 +888,6 @@
     "id" : "trait_mutant_npc_common",
     "subtype": "collection",
     "traits": [
-
         { "distribution": [ 
             { "trait": "FASTLEARNER" },
             { "trait": "SLOWLEARNER" } ], "prob": 10 },
