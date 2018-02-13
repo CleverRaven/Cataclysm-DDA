@@ -1416,7 +1416,7 @@ void load_world_option( JsonObject &jo )
 
 void load_external_option( JsonObject &jo )
 {
-    auto name = jo.get_string( "name" );
+    /*auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
@@ -1434,7 +1434,7 @@ void load_external_option( JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
-    }
+    }*/
 }
 
 mod_manager *worldfactory::get_mod_manager()
