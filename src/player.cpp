@@ -4151,7 +4151,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
-    if( hp_cur[hurtpart] <= 0 ) {
+    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() )) {
         remove_effect( effect_mending, hurt );
         add_effect( effect_disabled, 1, hurt, true );
     }
@@ -7555,7 +7555,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else {
             std::string name;
             if ( base.ammo_data() ) {
-                base.ammo_data()->nname( 1 );
+                name = base.ammo_data()->nname( 1 );
             } else if ( base.is_watertight_container() ) {
                 name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
             } else {
@@ -8804,7 +8804,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
     long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
 
-    if( used->is_tool() || used->is_medication() || used->is_container() ) {
+    if( used->is_tool() || used->is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() && charges_used > 0 ) {
         i_rem( used );

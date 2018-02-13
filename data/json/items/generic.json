@@ -382,6 +382,7 @@
         "color": "light_gray",
         "name": "tree spile",
         "description": "A hollow metal cylinder which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+        "category": "tools",
         "price": 5,
         "material": "steel",
         "weight": 11,
@@ -394,6 +395,7 @@
         "color": "light_gray",
         "name": "wire",
         "description": "A length of thin, relatively stiff, steel wire.  Like the sort you find in wire fences.",
+        "category": "spare_parts",
         "price": 20000,
         "price_postapoc": 300,
         "material": "steel",
@@ -432,21 +434,21 @@
         "to_hit": 2
     },
     {
-        "type":"AMMO",
+        "type":"GENERIC",
         "id": "concrete",
         "symbol": "%",
         "color": "light_gray",
         "name": "concrete",
         "name_plural": "concrete",
         "description": "Some concrete, ready to be used in a construction project.",
+        "category": "spare_parts",
         "container" : "bag_canvas",
         "price": 10000,
         "price_postapoc": 100,
         "material": "stone",
         "weight": 2340,
         "volume": 4,
-        "bashing": 4,
-        "ammo_type" : "components"
+        "bashing": 4
         },
     {
         "type":"GENERIC",
@@ -1756,20 +1758,20 @@
         "to_hit": -2
     },
     {
-        "type": "AMMO",
+        "type": "GENERIC",
         "id": "mortar_build",
         "symbol": "%",
         "color": "light_gray",
         "name": "mortar",
         "name_plural": "mortar",
         "description": "Some mortar, ready to be used in building projects.",
+        "category": "spare_parts",
         "container" : "bag_canvas",
         "price": 5000,
         "material": "stone",
         "weight": 2340,
         "volume": 4,
-        "bashing": 4,
-        "ammo_type" : "components"
+        "bashing": 4
     },
     {
         "type":"GENERIC",
