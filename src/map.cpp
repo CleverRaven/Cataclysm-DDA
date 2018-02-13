@@ -1794,32 +1794,32 @@ std::string map::features( const tripoint &p )
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     // Make the caller wrap properly, if it does not already.
-    std::string ret;
+    std::stringstream ret;
     if( is_bashable( p ) ) {
-        ret += _( "Smashable. " );
+        ret << _( "Smashable. " );
     }
     if( has_flag( "DIGGABLE", p ) ) {
-        ret += _( "Diggable. " );
+        ret << _( "Diggable. " );
     }
     if( has_flag( "ROUGH", p ) ) {
-        ret += _( "Rough. " );
+        ret << _( "Rough. " );
     }
     if( has_flag( "UNSTABLE", p ) ) {
-        ret += _( "Unstable. " );
+        ret << _( "Unstable. " );
     }
     if( has_flag( "SHARP", p ) ) {
-        ret += _( "Sharp. " );
+        ret << _( "Sharp. " );
     }
     if( has_flag( "FLAT", p ) ) {
-        ret += _( "Flat. " );
+        ret << _( "Flat. " );
     }
     if( has_flag( "EASY_DECONSTRUCT", p ) ) {
-        ret += _( "Simple. " );
+        ret << _( "Simple. " );
     }
     if( has_flag( "MOUNTABLE", p ) ) {
-        ret += _( "Mountable. " );
+        ret << _( "Mountable. " );
     }
-    return ret;
+    return ret.str();
 }
 
 int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const vehicle *veh, const int vpart) const
