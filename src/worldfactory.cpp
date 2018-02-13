@@ -1434,7 +1434,7 @@ void load_external_option( JsonObject &jo )
     }
     options_manager::cOpt &opt = opts.get_option( name );
     if( stype == "float" ) {
-        opt.setValue( ( float ) jo.get_float( "value" ) );
+        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
     } else if( stype == "int" ) {
         opt.setValue( jo.get_int( "value" ) );
     } else if( stype == "bool" ) {
