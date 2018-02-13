@@ -1427,7 +1427,7 @@ void load_external_option( JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );
-   /* options_manager &opts = get_options();
+   options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         auto sinfo = jo.get_string( "info" );
         opts.add_external( name, "world_default", stype, sinfo, sinfo );
@@ -1438,12 +1438,16 @@ void load_external_option( JsonObject &jo )
     } else if( stype == "int" ) {
         opt.setValue( jo.get_int( "value" ) );
     } else if( stype == "bool" ) {
-        opt.setValue( jo.get_bool( "value" ) );
+        //opt.setValue( jo.get_bool( "value" ) );
+        if (jo.get_bool("value"))
+            opt.setValue("true");
+        else
+            opt.setValue("false");
     } else if( stype == "string" ) {
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
-    }*/
+    }
 }
 
 mod_manager &worldfactory::get_mod_manager()
