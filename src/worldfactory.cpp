@@ -1438,7 +1438,6 @@ void load_external_option( JsonObject &jo )
     } else if( stype == "int" ) {
         opt.setValue( jo.get_int( "value" ) );
     } else if( stype == "bool" ) {
-        //opt.setValue( jo.get_bool( "value" ) );
         if( jo.get_bool( "value" ) ) {
             opt.setValue( "true" );
         } else {
