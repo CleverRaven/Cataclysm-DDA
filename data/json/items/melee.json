@@ -1680,7 +1680,7 @@
     "flags" : ["NONCONDUCTIVE"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 1]]
+    "qualities": [["AXE", 2]]
     },
     {
     "id": "nodachi_fake",
