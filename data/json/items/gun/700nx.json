@@ -14,6 +14,7 @@
     "color": "light_blue",
     "ammo": "700nx",
     "skill": "rifle",
+    "range": 23,
     "dispersion": 90,
     "durability": 8,
     "clip_size": 1,

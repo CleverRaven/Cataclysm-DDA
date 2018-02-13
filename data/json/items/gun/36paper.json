@@ -13,6 +13,7 @@
     "bashing": 8,
     "material": [ "steel", "wood" ],
     "ammo": "36paper",
+    "range": 4,
     "dispersion": 450,
     "durability": 7,
     "clip_size": 6,

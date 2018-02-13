@@ -38,6 +38,7 @@
     "color": "yellow",
     "ammo": "nail",
     "skill": "pistol",
+    "range": 1,
     "dispersion": 800,
     "durability": 8,
     "loudness": 5,
@@ -60,7 +61,7 @@
     "relative": {
       "weight": 1000,
       "volume": 6,
-      "range": 3,
+      "range": 5,
       "ranged_damage": 4
     },
     "proportional": {

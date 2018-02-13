@@ -50,6 +50,7 @@
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "ranged_damage": -5,
+    "range": 3,
     "dispersion": 300,
     "durability": 6,
     "clip_size": 1600,

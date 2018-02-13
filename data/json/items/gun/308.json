@@ -16,6 +16,7 @@
     "color": "dark_gray",
     "ammo": "308",
     "ranged_damage": -1,
+    "range": 10,
     "dispersion": 150,
     "durability": 8,
     "burst": 12,
@@ -42,6 +43,7 @@
     "color": "dark_gray",
     "ammo": "308",
     "ranged_damage": -2,
+    "range": 14,
     "dispersion": 150,
     "durability": 8,
     "modes": [
@@ -70,6 +72,7 @@
     "ammo": "308",
     "skill": "rifle",
     "ranged_damage": -1,
+    "range": 14,
     "dispersion": 200,
     "durability": 9,
     "ups_charges": 1,
@@ -87,6 +90,7 @@
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": 4820,
     "price": 195000,
+    "range": 20,
     "material": [ "steel", "plastic" ],
     "burst": 12,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
@@ -108,6 +112,7 @@
     "color": "brown",
     "ammo": "308",
     "ranged_damage": -1,
+    "range": 18,
     "dispersion": 110,
     "durability": 8,
     "barrel_length": 2,
@@ -132,6 +137,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",
+    "range": 18,
     "dispersion": 200,
     "durability": 9,
     "reload": 400,
@@ -159,6 +165,7 @@
     "color": "dark_gray",
     "ammo": "308",
     "ranged_damage": -1,
+    "range": 20,
     "dispersion": 180,
     "durability": 7,
     "reload": 400,
@@ -188,6 +195,7 @@
     "color": "brown",
     "ammo": "308",
     "ranged_damage": -5,
+    "range": 12,
     "dispersion": 180,
     "durability": 6,
     "clip_size": 6,
@@ -212,6 +220,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "308",
+    "range": 25,
     "dispersion": 90,
     "durability": 9,
     "clip_size": 3,
@@ -227,6 +236,7 @@
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
-    "magazine_well": 1
+    "magazine_well": 1,
+    "relative": { "range": -3 }
   }
 ]

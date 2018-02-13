@@ -43,7 +43,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "762R",
-    "range": 3,
+    "range": 16,
     "dispersion": 90,
     "durability": 10,
     "clip_size": 5,

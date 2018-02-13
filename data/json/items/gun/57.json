@@ -15,6 +15,7 @@
     "ammo": "57",
     "skill": "pistol",
     "ranged_damage": -2,
+    "range": 4,
     "dispersion": 440,
     "durability": 8,
     "valid_mod_locations": [
@@ -46,6 +47,7 @@
     "color": "light_gray",
     "ammo": "57",
     "skill": "smg",
+    "range": 8,
     "dispersion": 260,
     "durability": 8,
     "burst": 15,

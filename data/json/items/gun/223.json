@@ -15,6 +15,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": -1,
+    "range": 20,
     "dispersion": 150,
     "durability": 8,
     "burst": 11,
@@ -42,6 +43,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "range": 20,
     "dispersion": 150,
     "durability": 7,
     "magazines": [
@@ -67,6 +69,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": -2,
+    "range": 13,
     "dispersion": 180,
     "durability": 8,
     "burst": 14,
@@ -91,6 +94,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "range": 20,
     "dispersion": 150,
     "durability": 8,
     "burst": 13,
@@ -117,7 +121,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "223",
-    "range": -8,
+    "range": 2,
     "ranged_damage": -4,
     "dispersion": 380,
     "durability": 8,
@@ -139,6 +143,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
+    "range": 20,
     "dispersion": 90,
     "durability": 3,
     "modes": [
@@ -183,7 +188,7 @@
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
       "weight": 1200,
       "volume": 4,
-      "range": 3,
+      "range": 6,
       "ranged_damage": 3
     }
   },
@@ -203,6 +208,7 @@
     "relative": {
       "weight": 2000,
       "volume": 7,
+      "range": 3,
       "ranged_damage": 2,
       "dispersion": 60
     }
@@ -235,6 +241,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "range": 25,
     "dispersion": 200,
     "durability": 7,
     "reload": 400,
@@ -260,6 +267,7 @@
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "relative": {
+      "range": -3,
       "ranged_damage": 1,
       "durability": 1
     }
@@ -279,6 +287,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "range":20,
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 6,
@@ -304,6 +313,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
+    "range": 14,
     "ranged_damage": 1,
     "dispersion": 100,
     "durability": 8,
@@ -330,6 +340,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "range": 20,
     "ranged_damage": -2,
     "dispersion": 150,
     "durability": 8,
@@ -353,6 +364,7 @@
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": "223",
+     "range": 14,
     "dispersion": 180,
     "durability": 9,
     "modes": [
@@ -382,6 +394,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "223",
+    "range": 14,
     "dispersion": 140,
     "durability": 8,
     "burst": 12,
@@ -410,6 +423,7 @@
     "color": "brown",
     "ammo": "223",
     "ranged_damage": -4,
+    "range": 12,
     "dispersion": 180,
     "durability": 6,
     "loudness": 25,

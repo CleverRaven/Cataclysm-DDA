@@ -15,6 +15,7 @@
     "color": "dark_gray",
     "ammo": "32",
     "skill": "pistol",
+    "range": 5,
     "dispersion": 480,
     "durability": 8,
     "valid_mod_locations": [
@@ -47,6 +48,7 @@
     "color": "dark_gray",
     "ammo": "32",
     "skill": "smg",
+    "range": 7,
     "dispersion": 360,
     "durability": 6,
     "burst": 14,
@@ -80,6 +82,7 @@
     "color": "light_gray",
     "ammo": "32",
     "skill": "pistol",
+    "range": 5,
     "dispersion": 480,
     "durability": 8,
     "valid_mod_locations": [

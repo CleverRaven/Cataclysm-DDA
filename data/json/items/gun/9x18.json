@@ -14,6 +14,7 @@
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "9x18",
+    "range": 4,
     "dispersion": 480,
     "durability": 6,
     "valid_mod_locations": [
