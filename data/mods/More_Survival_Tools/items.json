@@ -549,7 +549,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 1 ] ]
   },
   {
     "id": "makeshift_shovel",

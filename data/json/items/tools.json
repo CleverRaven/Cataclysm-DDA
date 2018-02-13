@@ -482,7 +482,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
