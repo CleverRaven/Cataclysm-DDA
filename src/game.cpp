@@ -1576,6 +1576,9 @@ bool game::do_turn()
     u.apply_wetness_morale( temperature );
     rustCheck();
 
+    // reset the moved state
+    u.moved = false;
+
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
     }
@@ -2689,7 +2692,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(0, -1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(0, -1);
             }
             break;
@@ -2700,7 +2702,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, -1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(1, -1);
             }
             break;
@@ -2711,7 +2712,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, 0);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(1, 0);
             }
             break;
@@ -2722,7 +2722,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(1, 1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(1, 1);
             }
             break;
@@ -2733,7 +2732,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(0, 1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(0, 1);
             }
             break;
@@ -2744,7 +2742,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, 1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(-1, 1);
             }
             break;
@@ -2755,7 +2752,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, 0);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(-1, 0);
             }
             break;
@@ -2766,7 +2762,6 @@ bool game::handle_action()
             } else if (veh_ctrl) {
                 pldrive(-1, -1);
             } else {
-                u.change_move_mode();
                 continue_auto_move = plmove(-1, -1);
             }
             break;
@@ -11269,6 +11264,9 @@ bool game::plmove(int dx, int dy, int dz)
         return false;
     }
 
+    // change move_mode to selected_move_mode before moving
+    u.change_move_mode();
+
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
         dest_loc.x = rng(u.posx() - 1, u.posx() + 1);
@@ -12208,6 +12206,9 @@ void game::on_move_effects()
 
     // apply martial art move bonuses
     u.ma_onmove_effects();
+
+    // set the moved member
+    u.moved = true;
 
     sfx::do_ambient();
 }

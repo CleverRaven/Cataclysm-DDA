@@ -176,7 +176,8 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
-    const int wanted_range = rl_dist( pos(), t );
+    // If monster sees player is checked wanted range is affected by a modifier
+    const int wanted_range = rl_dist( pos(), t ) / ( is_player ? g->u.get_sees_modifier() : 1.0f );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_max &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
@@ -188,9 +189,6 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
-            if( g->u.move_mode == "sneak" ) { // not symmetric if the player is sneaking
-                range /= 2;
-            }
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {

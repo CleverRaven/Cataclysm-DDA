@@ -93,6 +93,7 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_survival( "survival" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -589,6 +590,7 @@ player::player() : Character()
     grab_type = OBJECT_NONE;
     move_mode = "walk";
     selected_move_mode = move_mode;
+    moved = false;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -11195,7 +11197,11 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
-    return MS_MEDIUM;
+    if ( move_mode == "sneak" ) {
+        return MS_SMALL;
+    } else {
+        return MS_MEDIUM;
+    }
 }
 
 int player::get_hp() const
@@ -11350,6 +11356,31 @@ bool player::sees( const Creature &critter ) const
         return true;
     }
     return Creature::sees( critter );
+}
+
+float player::get_sees_modifier() const
+{
+    float modifier = 1.0;
+    if ( get_size() == MS_SMALL ) {
+        // player sillhouete is 50% smaller while sneaking
+        modifier = 0.5;
+    }
+
+    // having moved during last action adds 12.5% to 50% depending on movecost (slower is better)
+    if ( moved ) {
+        modifier += ( 0.25 / ( movecounter / 100.0 ) );
+    }
+
+    // survival skill helps with staying hidden in all circumstances (2.5% per level)
+    modifier -= get_skill_level( skill_survival ) * 0.025;
+
+    // encumbrance on bodyparts has negative effect (every 20 points = 1%)
+    modifier += (float) ( encumb( bp_torso ) + encumb( bp_head ) +
+                          encumb( bp_arm_l ) + encumb( bp_arm_r ) +
+                          encumb( bp_foot_l ) + encumb( bp_foot_r ) +
+                          encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2000.0;
+
+    return modifier;
 }
 
 nc_color player::bodytemp_color(int bp) const
