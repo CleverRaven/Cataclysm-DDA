@@ -1,16 +1,18 @@
 [
     {
-        "type" : "city_building",
+        "type" : "overmap_special",
         "id" : "house_base",
         "locations" : [ "land", "swamp" ],
+        "occurrences" : [0, 0],
         "overmaps" : [
             { "point":[0, 0, 0], "overmap": "house_base_north" },
             { "point":[0, 0, -1], "overmap": "basement" }
         ]
     },{
-        "type" : "city_building",
+        "type" : "overmap_special",
         "id" : "house_two_story_basement",
         "locations" : [ "land", "swamp" ],
+        "occurrences" : [0, 0],
         "overmaps" :
         [
             { "point":[0,0,0], "overmap": "house_2story_base_north" },
