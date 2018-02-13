@@ -1422,7 +1422,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
     tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
-    // We wanna kill!
+    // We want to kill!
     tmp.anger = 100;
     tmp.morale = 100;
     g->add_zombie(tmp);
