@@ -189,7 +189,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
 //add bool option
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn, 
+                            const std::string sMenuTextIn, const std::string sTooltipIn,
                             const bool bDefaultIn, copt_hide_t opt_hide)
 {
     cOpt thisOpt;
