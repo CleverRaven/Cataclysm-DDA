@@ -5,6 +5,7 @@
     "om_terrain": [ "s_gas_rural" ],
     "weight": 333,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "________________________",
         "________________________",
