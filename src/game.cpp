@@ -7827,7 +7827,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
     }
 
-    mvwprintw( w_look, ++line, column, m.features( lp ) );
+    fold_and_print( w_look, ++line, column, max_width, c_light_gray, m.features( lp ) );
     if (line < ending_line) {
         line = ending_line;
     }

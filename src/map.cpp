@@ -1793,7 +1793,6 @@ std::string map::features( const tripoint &p )
     // This is used in an info window that is 46 characters wide, and is expected
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
-    // Make the caller wrap properly, if it does not already.
     std::stringstream ret;
     if( is_bashable( p ) ) {
         ret << _( "Smashable. " );
