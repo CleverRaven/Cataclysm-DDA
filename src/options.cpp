@@ -678,14 +678,14 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set bool value
-void options_manager::cOpt::setValue( bool bSetIn )
-{
-    if (sType != "bool") {
-        debugmsg("tried to set an bool value to a %s option", sType.c_str());
-        return;
-    }
-    bSet = bSetIn;
-}
+//void options_manager::cOpt::setValue( bool bSetIn )
+//{
+//    if (sType != "bool") {
+//        debugmsg("tried to set an bool value to a %s option", sType.c_str());
+//        return;
+//    }
+//    bSet = bSetIn;
+//}
 
 //set string value
 void options_manager::cOpt::setValue(std::string sSetIn)

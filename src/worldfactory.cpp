@@ -1427,7 +1427,7 @@ void load_external_option( JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );
-    /*options_manager &opts = get_options();
+   /* options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         auto sinfo = jo.get_string( "info" );
         opts.add_external( name, "world_default", stype, sinfo, sinfo );
