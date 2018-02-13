@@ -2081,6 +2081,7 @@
         "name_plural" : "handfuls of dandelions",
         "weight" : 96,
         "color" : "yellow",
+        "spoils_in" : 30,
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : 1,
