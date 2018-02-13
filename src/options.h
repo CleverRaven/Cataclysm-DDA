@@ -86,7 +86,6 @@ class options_manager
                 void setValue( std::string sSetIn );
                 void setValue( float fSetIn );
                 void setValue( int iSetIn );
-                //void setValue( bool bSetIn );
 
                 template<typename T>
                 T value_as() const;

@@ -677,16 +677,6 @@ void options_manager::cOpt::setValue( int iSetIn )
     }
 }
 
-//set bool value
-//void options_manager::cOpt::setValue( bool bSetIn )
-//{
-//    if (sType != "bool") {
-//        debugmsg("tried to set an bool value to a %s option", sType.c_str());
-//        return;
-//    }
-//    bSet = bSetIn;
-//}
-
 //set string value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
@@ -1986,9 +1976,9 @@ void options_manager::serialize(JsonOut &json) const
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
                 //Skip hidden option because it is set by mod and should not be saved
-               /* if( opt.hide == COPT_ALWAYS_HIDE ) {
+                if( opt.hide == COPT_ALWAYS_HIDE ) {
                     continue;
-                }*/
+                }
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );

@@ -282,7 +282,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             jout.start_array();
 
             for( auto &elem : world->WORLD_OPTIONS ) {
-                if( elem.second.getDefaultText() != "" /*&& !elem.second.is_hidden()*/ ) {
+                if( elem.second.getDefaultText() != "" && !elem.second.is_hidden() ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );
