@@ -735,6 +735,7 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "use_message",
     "noise_message",
     "bury_question",
     "done_message",
