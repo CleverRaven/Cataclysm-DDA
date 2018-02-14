@@ -68,6 +68,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
+    { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn }
 };
 
@@ -112,6 +113,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_WASH" ), washing_finish },
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
+    { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish }
 };
 
@@ -2117,6 +2119,20 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    g->m.ter_set( pos, t_dirt );
+    g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish chopping the logs." ) );
 
     act->set_to_null();
 }
