@@ -199,7 +199,7 @@
     "material": "stone",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ]
   },
   {
     "id": "atlatl",
@@ -549,7 +549,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ] ]
+    "qualities": [ [ "AXE", 2 ] ]
   },
   {
     "id": "makeshift_shovel",
