@@ -239,14 +239,19 @@ void player::randomize( const bool random_scenario, points_left &points )
     } else {
         g->u.name = MAP_SHARING::getUsername();
     }
+    bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if (!scen.has_flag("CHALLENGE")) {
+            if( !scen.has_flag( "CHALLENGE" ) &&
+                ( !scen.has_flag( "CITY_START" ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
         }
         g->scen = random_entry( scenarios );
+    } else if( !cities_enabled ) {
+        static const string_id<scenario> wilderness_only_scenario( "wilderness" );
+        g->scen = &wilderness_only_scenario.obj();
     }
 
     g->u.prof = g->scen->weighted_random_profession();
