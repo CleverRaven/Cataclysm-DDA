@@ -798,7 +798,7 @@ void player::deserialize(JsonIn &jsin)
         if( savegame_loading_version <= 23 ) {
             // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
             // And it would as often as not be out of bounds (e.g. when a questgiver died).
-            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatability.
+            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
             // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
             if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
                 active_mission = active_missions[tmpactive_mission];
@@ -1557,7 +1557,7 @@ void item::io( Archive& archive )
         std::swap( irridation, poison );
     }
 
-    // Compatiblity for item type changes: for example soap changed from being a generic item
+    // Compatibility for item type changes: for example soap changed from being a generic item
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
@@ -1793,7 +1793,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     }
 
     if( data.has_int( "hp" ) ) {
-        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
         base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
     }
 

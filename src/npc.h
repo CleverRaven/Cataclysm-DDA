@@ -742,7 +742,7 @@ class npc : public player
          * submap_coords defines the overmap the npc is stored on.
          */
         point submap_coords;
-        // Type of complaint->last time we complainted about this type
+        // Type of complaint->last time we complained about this type
         std::map<std::string, int> complaints;
 
         npc_short_term_cache ai_cache;

@@ -1490,7 +1490,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
-    // Can be nullptr! Check before deferencing
+    // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {

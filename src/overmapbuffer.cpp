@@ -778,7 +778,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( int x, int y, in
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
                 return false;
@@ -796,7 +796,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     std::vector<std::shared_ptr<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
                 return false;

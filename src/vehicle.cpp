@@ -329,7 +329,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             destroyTires = true;
         }
     } else if( !one_in(3) ){
-        //most cars should have a desroyed alarm
+        //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
 
@@ -4293,7 +4293,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
     for( size_t i = 0; i < structural_indices.size(); i++ ) {
         const int p = structural_indices[i];
-        // Coords of where part will go due to movement (dx/dy/dz)
+        // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
@@ -4846,7 +4846,7 @@ bool vehicle::add_item( int part, const item &itm )
         return false;
     }
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
-    // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
+    // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
         if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
@@ -5217,7 +5217,7 @@ void vehicle::refresh_pivot() const {
     for (int p : wheelcache) {
         const auto &wheel = parts[p];
 
-        // @todo: load on tyre?
+        // @todo: load on tire?
         float contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
@@ -5809,7 +5809,7 @@ void vehicle::possibly_recover_from_skid() {
     rl_vec2d mv = move_vec();
     rl_vec2d fv = face_vec();
     float dot = mv.dot_product(fv);
-    // Threshold of recovery is gaussianesque.
+    // Threshold of recovery is Gaussianesque.
 
     if( fabs( dot ) * 100 > dice( 9,20 ) ){
         add_msg(_("The %s recovers from its skid."), name.c_str());

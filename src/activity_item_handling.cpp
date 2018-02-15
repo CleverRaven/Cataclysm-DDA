@@ -548,7 +548,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
  */
 void activity_on_turn_move_items()
 {
-    // Drop activity if we don't know destination coords.
+    // Drop activity if we don't know destination coordinates.
     if( g->u.activity.coords.empty() ) {
         g->u.activity = player_activity();
         return;

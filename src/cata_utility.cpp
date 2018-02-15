@@ -446,7 +446,7 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
                 w_str[i] = random_entry( w_gibberish_wide );
             }
         } else {
-            // Only support the case eg. replace current character to symbols like # or ?
+            // Only support the case e.g. replace current character to symbols like # or ?
             if( utf8_width( transformation ) != 1 ) {
                 debugmsg( "target character isn't narrow" );
             }

@@ -89,7 +89,7 @@ point direction_XY( direction dir );
 std::string const &direction_name( direction dir );
 std::string const &direction_name_short( direction dir );
 
-/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+/* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );
 
 /**

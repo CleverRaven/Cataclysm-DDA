@@ -1128,7 +1128,7 @@ int editmap::edit_fld()
                 femenu.return_invalid = true;
                 const field_t &ftype = fieldlist[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
-                femenu.addentry( pgettext( "map editor: used to describe a clean field (eg. without blood)",
+                femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
                 femenu.addentry( string_format( "1: %s", ftype.name( 0 ).c_str() ) );

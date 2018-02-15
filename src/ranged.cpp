@@ -234,7 +234,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporaraly scale by 5x as we adjust MAX_RECOIL.
+        // Temporarily scale by 5x as we adjust MAX_RECOIL.
         recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -452,8 +452,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     proj_effects.insert( "NO_ITEM_DAMAGE" );
 
     if( thrown.active ) {
-        // Can't have molotovs embed into mons
-        // Mons don't have inventory processing
+        // Can't have Molotovs embed into monsters
+        // Monsters don't have inventory processing
         proj_effects.insert( "NO_EMBED" );
     }
 
@@ -679,7 +679,7 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing gaussian integration in their head while aiming.  The result gives the player
+    // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );

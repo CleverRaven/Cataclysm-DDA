@@ -655,7 +655,7 @@ void draw_tabs( const catacurses::window &w, std::string sTab )
     }
 
     int next_pos = 2;
-    // Free space on tabs window. '<', '>' symbols is drawning on free space.
+    // Free space on tabs window. '<', '>' symbols is drawing on free space.
     // Initial value of next_pos is free space too.
     // '1' is used for SDL/curses screen column reference.
     int free_space = (TERMX - tabs_length - 1 - next_pos);

@@ -1069,7 +1069,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
                 experience += rng( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }

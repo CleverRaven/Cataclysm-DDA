@@ -1988,7 +1988,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, 
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// lua mapgen functions
-// wip: need moar bindings. Basic stuff works
+// wip: need more bindings. Basic stuff works
 
 #ifndef LUA
 int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d, const std::string & )

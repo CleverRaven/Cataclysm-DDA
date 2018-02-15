@@ -130,7 +130,7 @@ weather_datum const weather_data( weather_type const type );
 
 std::string weather_forecast( point const &abs_sm_pos );
 
-// Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
+// Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
 // If scale is Celsius:    temperature(100) will return "37C"
 // If scale is Fahrenheit: temperature(100) will return "100F"

@@ -874,7 +874,7 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             case MTRIG_MEAT:
                 // Disable meat checking for now
                 // It's hard to ever see it in action
-                // and even harder to balance it without making it exploity
+                // and even harder to balance it without making it exploitable
 
                 // check_terrain = true;
                 // check_meat = true;

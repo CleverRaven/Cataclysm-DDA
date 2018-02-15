@@ -2882,7 +2882,7 @@ void map::decay_fields_and_scent( const int amount )
     const int amount_fire = amount / 3; // Decay fire by this much
     const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
-    // Coord code copied from lightmap calculations
+    // Coordinate code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
     const auto &outside_cache = get_cache_ref( smz ).outside_cache;
@@ -3547,7 +3547,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     auto bashed_items = i_at( p );
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
-        // the check for active supresses molotovs smashing themselves with their own explosion
+        // the check for active suppresses Molotovs smashing themselves with their own explosion
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in(2) ) {
             params.did_bash = true;
             smashed_glass = true;
@@ -4419,7 +4419,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             return false;
         }
 
-        // Some tiles destroy items (eg. lava)
+        // Some tiles destroy items (e.g. lava)
         if( has_flag( "DESTROY_ITEM", e ) ) {
             return false;
         }
@@ -6038,7 +6038,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         graf = true;
     }
 
-    //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
+    //surprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if( sym == AUTO_WALL_PLACEHOLDER ) {
         sym = determine_wall_corner( p );
     }
@@ -6355,7 +6355,7 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
     const std::vector<int> pos_index {1,2,4,6,8,7,5,3};
 
-    //  All possible constelations (closest_points_first goes clockwise)
+    //  All possible constellations (closest_points_first goes clockwise)
     //  753  531  312  124  246  468  687  875
     //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
     //  642  864  786  578  357  135  213  421

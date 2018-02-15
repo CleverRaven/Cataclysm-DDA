@@ -252,7 +252,7 @@ struct mutation_branch {
      *      "entries": [ x, y, z ]
      * }
      * \endcode
-     * Note that each entrie in the array has to be a JSON object. The other function above
+     * Note that each entry in the array has to be a JSON object. The other function above
      * can also load data from arrays of strings, where the strings are item or group ids.
      */
     static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,

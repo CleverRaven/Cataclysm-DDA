@@ -375,7 +375,7 @@ direction direction_from(int const x1, int const y1, int const x2, int const y2)
 
 direction direction_from(tripoint const &p, tripoint const &q)
 {
-    // Note: Z coord has to be inverted either here or in direction defintions
+    // Note: Z-coordinate has to be inverted either here or in direction definitions
     return direction_from(q.x - p.x, q.y - p.y, -(q.z - p.z) );
 }
 

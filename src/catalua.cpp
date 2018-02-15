@@ -179,7 +179,7 @@ bool lua_report_error( lua_State *L, int err, const char *path, bool simple = fa
  * thefoo.something(); // do something with it, not that myfoo and thefoo are different objects
  * \endcode
  *
- * @param T is the type of object that should be managed. It must be copy-constructable.
+ * @param T is the type of object that should be managed. It must be copy-constructible.
  */
 template<typename T>
 class LuaValue {

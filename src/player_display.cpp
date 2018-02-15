@@ -461,7 +461,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     wrefresh( w_stats );
 
-    // Next, draw encumberment.
+    // Next, draw encumbrance.
     const char *title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
     mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_light_gray, title_ENCUMB );
     print_encumbrance( w_encumb );
@@ -761,7 +761,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 5, 1, c_light_gray, _( "Perception:" ) );
                 wrefresh( w_stats );
                 break;
-            case 2: { // Encumberment tab
+            case 2: { // Encumbrance tab
                 werase( w_encumb );
                 mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, h_light_gray, title_ENCUMB );
                 print_encumbrance( w_encumb, line );

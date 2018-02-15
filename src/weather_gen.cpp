@@ -158,7 +158,7 @@ int weather_generator::get_water_temperature() const
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
     int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
-    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
+    // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
     int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
@@ -168,7 +168,7 @@ int weather_generator::get_water_temperature() const
 
 void weather_generator::test_weather() const
 {
-    // Outputs a Cata year's worth of weather data to a csv file.
+    // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
     //@todo this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.

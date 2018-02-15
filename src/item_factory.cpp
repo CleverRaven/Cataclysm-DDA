@@ -1331,7 +1331,7 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         while( compat.has_more() ) {
@@ -1757,7 +1757,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         // the first magazine for this ammo type is the default;

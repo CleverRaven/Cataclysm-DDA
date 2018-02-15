@@ -107,7 +107,7 @@ bool defense_game::init()
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
-    popup_nowait( _( "Please wait as the map generates [ 0%%]" ) );
+    popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
     // TODO: support multiple defence games? clean up old defence game
     init_map();
     caravan();
@@ -1438,7 +1438,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
     tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
-    // We wanna kill!
+    // We want to kill!
     tmp.anger = 100;
     tmp.morale = 100;
     g->add_zombie( tmp );
