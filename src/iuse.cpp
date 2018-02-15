@@ -4158,7 +4158,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
     const ter_id ter = g->m.ter( dirp );
     if( ter == t_trunk ) {
         /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) * 3 / it->get_quality( AXE ) * 100;
+        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
     } else {
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
