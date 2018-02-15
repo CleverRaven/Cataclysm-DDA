@@ -51,7 +51,7 @@
     "copy-from": "9mm",
     "type": "AMMO",
     "name": "9x19mm +P+",
-    "description": "A step beyond the high-pressure 9mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
+    "description": "A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
     "price": 5200,
     "count": 10,
     "relative": {

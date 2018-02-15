@@ -568,7 +568,8 @@ These are handled through ammo_types.json.  You can tag a weapon with these to h
 - ```762``` 7.62x39mm
 - ```762R``` 7.62x54mm
 - ```8x40mm``` 8mm Caseless
-- ```9mm``` 9mm Luger (and relatives)
+- ```9mm``` 9x19mm Luger (and relatives)
+- ```9x18``` 9x18mm
 - ```12mm``` 12mm
 - ```20x66mm``` 20x66mm Shot (and relatives)
 - ```40mm``` 40mm Grenade

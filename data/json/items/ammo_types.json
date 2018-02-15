@@ -68,7 +68,7 @@
     {
         "type" : "ammunition_type",
         "id" : "9mm",
-        "name" : "9mm",
+        "name" : "9x19mm",
         "default" : "9mm"
     },
     {

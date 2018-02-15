@@ -118,6 +118,7 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
+      { "item": "357_mag_casing", "prob": 80, "count": 20 },
       { "item": "410_hull", "prob": 75, "count": 20 },
       { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
