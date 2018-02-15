@@ -36,6 +36,30 @@
     "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
+    "id": "leather_large",
+    "type": "requirement",
+    "//": "Leather or leather equivalent items for crafting.",
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+  },
+  {
+    "id": "fur_large",
+    "type": "requirement",
+    "//": "Fur or fur equivalent items for crafting.",
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "id": "leather_or_fur_large",
+    "type": "requirement",
+    "//": "For animal skin regardless of presence of hair.",
+    "components": [ [ [ "leather_large", 1, "LIST" ], [ "fur_large", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "bone_material",
+    "type": "requirement",
+    "//": "Bone used for crafting, not for cooking.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ] ]
+  },
+  {
     "id": "filament",
     "type": "requirement",
     "//": "Materials for use when sewing items",
@@ -64,5 +88,17 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "id": "plank_crude",
+    "type": "requirement",
+    "//": "A longer, somewhat straight piece of wood not necessarily as regular as a two-by-four.",
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "id": "fastener",
+    "type": "requirement",
+    "//": "WIP Mainly nails, but would cover dowels or screws if they were implemented.",
+    "components": [ [ [ "nail", 1 ] ] ]
   }
 ]
