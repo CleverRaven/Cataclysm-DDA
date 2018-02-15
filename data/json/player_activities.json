@@ -314,5 +314,11 @@
     "type": "activity_type",
     "stop_phrase": "Stop chopping down?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_JACKHAMMER",
+    "type": "activity_type",
+    "stop_phrase": "Stop drilling?",
+    "based_on": "speed"
   }
 ]

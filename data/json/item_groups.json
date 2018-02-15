@@ -3016,7 +3016,7 @@
       ["tshirt", 80],
       ["bandana", 15],
       ["towel", 90],
-      ["cash_card", 90],
+      { "item": "cash_card", "prob": 90, "charges-min": 0, "charges-max": 50000 },
       ["longshirt", 80],
       ["shorts_cargo", 50],
       ["pants_cargo", 70],

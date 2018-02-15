@@ -1499,7 +1499,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_s", 1 ] ], [ [ "shot_00", 2 ] ] ]
+    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ] ] ]
   },
   {
     "type": "recipe",

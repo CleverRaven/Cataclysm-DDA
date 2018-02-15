@@ -1046,7 +1046,7 @@
       [ "pretzels", 5 ],
       [ "chips", 5 ],
       [ "chaw", 5 ],
-      [ "cash_card", 1 ]
+      { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
     ]
   },
   {
