@@ -51,7 +51,7 @@ enum faction_job {
     FACJOB_ASSASSINS,   // Targeted discreet killing
     FACJOB_RAIDERS,     // Raiding settlements, trade routes, &c
     FACJOB_THIEVES,     // Less violent; theft of property without killing
-    FACJOB_GAMBLING,    // Maitenance of gambling parlors
+    FACJOB_GAMBLING,    // Maintenance of gambling parlors
     FACJOB_DOCTORS,     // Doctors for hire
     FACJOB_FARMERS,     // Farming & sale of food
     FACJOB_DRUGS,       // Drug dealing

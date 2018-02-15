@@ -2,16 +2,20 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "bodypart.h"
-#include "output.h"
 #include "string_id.h"
 #include "string_formatter.h"
 
 #include <string>
 #include <unordered_map>
+#include <map>
+#include <vector>
+#include <set>
 #include <climits>
 
+enum game_message_type : int;
+class nc_color;
 class effect;
 class effects_map;
 namespace catacurses
@@ -565,7 +569,7 @@ class Creature
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
-        copyable_unique_ptr<effects_map> effects;
+        pimpl<effects_map> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
@@ -612,17 +616,12 @@ class Creature
         body_part select_body_part(Creature *source, int hit_roll) const;
  protected:
         /**
-         * This function replaces the "<npcname>" substring with the provided NPC name.
+         * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        inline std::string replace_with_npc_name(std::string input, std::string name) const
-        {
-            replace_substring(input, "<npcname>", name, true);
-            return input;
-        }
-
+        std::string replace_with_npc_name( std::string input ) const;
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

@@ -421,6 +421,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Crafting requirements" ), []() { requirement_data::finalize(); } },
         { _( "Vehicle parts" ), &vpart_info::finalize },
         { _( "Traps" ), &trap::finalize },
+        { _( "Bionics" ), &finalize_bionics },
         { _( "Terrain" ), &set_ter_ids },
         { _( "Furniture" ), &set_furn_ids },
         { _( "Overmap terrain" ), &overmap_terrains::finalize },

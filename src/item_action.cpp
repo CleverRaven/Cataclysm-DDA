@@ -17,6 +17,7 @@
 #include "itype.h"
 #include "ui.h"
 #include "player.h"
+#include "ret_val.h"
 
 #include <algorithm>
 #include <istream>
@@ -113,7 +114,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ) ) ) {
+                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
             if( !actual_item->ammo_sufficient() ) {
@@ -317,6 +318,11 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
+}
+
+ret_val<bool> iuse_actor::can_use( const player &, const item &, bool, const tripoint & ) const
+{
+    return ret_val<bool>::make_success();
 }
 
 bool iuse_actor::is_valid() const

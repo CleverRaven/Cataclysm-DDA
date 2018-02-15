@@ -309,7 +309,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -948,7 +948,7 @@
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
     "weight": 1507,
     "volume": 12,
     "price": 400000,
@@ -1466,7 +1466,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1866,7 +1866,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 1 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -2476,7 +2476,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -4549,7 +4549,7 @@
     "category": "weapons",
     "name": "makeshift machete",
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
-    "weight": 538,
+    "weight": 581,
     "volume": 8,
     "price": 1000,
     "to_hit": 1,
@@ -5709,7 +5709,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 1 ] ]
   },
   {
     "id": "primitive_hammer",
@@ -6083,7 +6083,7 @@
     "id": "scalpel",
     "type": "TOOL",
     "name": "scalpel",
-    "description": "This is a very sharp knife designed for surgical cutting.  It's small, sharp blade allows for precision strikes in the hands of the skilled.",
+    "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": 23,
     "volume": 1,
     "price": 1000,
@@ -6434,7 +6434,7 @@
     "id": "shotgun_trap",
     "type": "TOOL",
     "name": "shotgun trap",
-    "description": "This is a simple tripwire is attached to the trigger of a loaded sawn-off shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": 2922,
     "volume": 7,
     "price": 25000,
@@ -6737,11 +6737,11 @@
     "category": "weapons",
     "name": "survivor machete",
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "weight": 425,
-    "volume": 3,
+    "weight": 565,
+    "volume": 4,
     "price": 2800,
     "to_hit": 2,
-    "bashing": 5,
+    "bashing": 6,
     "cutting": 20,
     "material": "steel",
     "symbol": "/",

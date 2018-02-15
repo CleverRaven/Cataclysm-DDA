@@ -10,6 +10,7 @@
 #include "game.h"
 #include "npc.h"
 #include "map.h"
+#include "output.h"
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -1075,11 +1076,13 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
+    // @todo This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
+    mandatory( jo, was_loaded, "locations", locations );
+
     if( is_special ) {
-        mandatory( jo, was_loaded, "locations", locations );
         mandatory( jo, was_loaded, "occurrences", occurrences );
 
         optional( jo, was_loaded, "connections", connections );
@@ -1468,7 +1471,6 @@ point overmap::display_notes(int z)
             }
         }
     } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    delwin(w_notes);
     return result;
 }
 
@@ -1484,7 +1486,7 @@ const scent_trace &overmap::scent_at( const tripoint &loc ) const
 
 void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
 {
-    // TODO: increase strength of scent trace when applied repeatedlu in a short timespan.
+    // TODO: increase strength of scent trace when applied repeatedly in a short timespan.
     scents[loc] = new_scent;
 }
 
@@ -1643,7 +1645,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     }
 
     // Cities and forests come next.
-    // These're agnostic of adjacent maps, so it's very simple.
+    // These are agnostic of adjacent maps, so it's very simple.
     place_cities();
     place_forest();
 
@@ -1653,7 +1655,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         int tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinte loop...
+        // TODO: In theory this is a potential infinite loop...
         if (north == NULL) {
             do {
                 tmp = rng(10, OMAPX - 11);
@@ -2367,7 +2369,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
-            mvwprintz( w, i, 0, pr.first, "%s", pr.second.c_str() );
+            mvwprintz( w, i, 0, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for (int i = 0; i <= maxlen; i++) {
@@ -2385,7 +2387,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
             mvwputch(w, om_map_height-2, i, c_white, LINE_OXOX);
         }
 
-        mvwprintz(w, om_map_height-1, 0, c_yellow, "%s", sTemp.c_str());
+        mvwprintz( w, om_map_height - 1, 0, c_yellow, sTemp );
         mvwputch(w, om_map_height-2, length, c_white, LINE_OOXX);
         mvwputch(w, om_map_height-1, length, c_white, LINE_XOXO);
     }
@@ -2429,7 +2431,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
 
             const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());
+                mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
             }
         }
     } else {
@@ -2526,7 +2528,7 @@ void overmap::draw_city_labels( const catacurses::window &w, const tripoint &cen
             continue;   // haven't seen it.
         }
 
-        mvwprintz( w, text_y, text_x_min, i_yellow, "%s", element.city->name.c_str() );
+        mvwprintz( w, text_y, text_x_min, i_yellow, element.city->name );
     }
 }
 
@@ -2581,14 +2583,11 @@ tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, in
 //Start drawing the overmap on the screen using the (m)ap command.
 tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
-    delwin(g->w_omlegend);
     g->w_omlegend = catacurses::newwin( TERMY, 28, 0, TERMX - 28 );
-    delwin(g->w_overmap);
     g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0 );
 
     // Draw black padding space to avoid gap between map and legend
     // also clears the pixel minimap in TILES
-    delwin(g->w_blackspace);
     g->w_blackspace = catacurses::newwin( TERMY, TERMX, 0, 0 );
     mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);
@@ -2744,8 +2743,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             int i = 0;
             //Navigate through results
             tripoint tmp = curs;
-            catacurses::window w_search = catacurses::newwin( 13, 27, 3, TERMX - 27 );
-            WINDOW_PTR w_searchptr( w_search );
+            catacurses::window w_search = catacurses::newwin(13, 27, 3, TERMX - 27);
 
             input_context ctxt("OVERMAP_SEARCH");
             ctxt.register_leftright();
@@ -2905,7 +2903,6 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                 uistate.place_terrain = nullptr;
                 uistate.place_special = nullptr;
-                delwin( w_editor );
                 action = "";
             }
         } else if (action == "TIMEOUT") {
@@ -2920,7 +2917,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     } while (action != "QUIT" && action != "CONFIRM");
     werase(g->w_overmap);
     werase(g->w_omlegend);
-    erase();
+    catacurses::erase();
     g->refresh_all();
     return ret;
 }
@@ -3175,7 +3172,7 @@ void overmap::place_forest()
             // forx and fory determine the epicenter of the forest
             forx = rng(0, OMAPX - 1);
             fory = rng(0, OMAPY - 1);
-            // fors determinds its basic size
+            // fors determines its basic size
             fors = rng(settings.forest_size_min, settings.forest_size_max);
             const auto iter = std::find_if(
                 cities.begin(),
@@ -3227,7 +3224,7 @@ void overmap::place_forest()
                 swamps = settings.swamp_maxsize;
             }
 
-            // Place or embiggen forest
+            // Place or enlarge forest
             for ( int mx = -1; mx < 2; mx++ ) {
                 for ( int my = -1; my < 2; my++ ) {
                     grow_forest_oter_id( ter(x + mx, y + my, 0),
@@ -4372,7 +4369,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
             if( x_in_y( min, max) ) {
                 // Min and max are overloaded to be the chance of occurrence,
-                // so reset intances placed to one short of max so we don't place several.
+                // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
             } else {
                 iter = enabled_specials.erase( iter );
@@ -4719,7 +4716,7 @@ void overmap::add_mon_group(const mongroup &group)
             // neighboring overmaps might not have been generated and one can't access
             // them through the overmapbuffer as this would trigger generating them.
             // This would in turn to lead to a call to this function again.
-            // To avoid this, the overmapbufer checks the monster groups when loading
+            // To avoid this, the overmapbuffer checks the monster groups when loading
             // an overmap and moves groups with out-of-bounds position to another overmap.
             add_mon_group( tmp );
             xpop += tmp.population;

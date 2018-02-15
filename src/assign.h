@@ -206,7 +206,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
             } else if( suffix == "L" ) {
                 out = units::from_milliliter( tmp * 1000 );
             } else {
-                obj.throw_error( "unrecognised volumetric unit", name );
+                obj.throw_error( "unrecognized volumetric unit", name );
             }
             return true;
         }

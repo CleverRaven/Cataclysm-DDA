@@ -68,17 +68,12 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
                                 FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
-    WINDOW_PTR w_helpptr( w_help );
-
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y,
-                                  offset_x );
-    WINDOW_PTR w_borderptr( w_border );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                  offset_y, offset_x );
     catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
                                   1 + offset_y, 1 + offset_x );
-    WINDOW_PTR w_headerptr( w_header );
     catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
                            header_height + 1 + offset_y, 1 + offset_x );
-    WINDOW_PTR wptr( w );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
@@ -212,7 +207,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 auto draw_column = [&]( Columns column_in, std::string text_in ) {
                     mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
                                ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
-                               "%s", text_in.c_str()
+                               text_in
                              );
                 };
 
@@ -330,7 +325,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 }
             } else if( column == COLUMN_PROXIMITY && !current_tab[line].whitelist ) {
                 const auto text = string_input_popup()
-                                  .title( _( "Proximity Distance (0=max viewdistance)" ) )
+                                  .title( _( "Proximity Distance (0=max view distance)" ) )
                                   .width( 4 )
                                   .text( to_string( current_tab[line].proximity ) )
                                   .description( _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
@@ -438,10 +433,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
                                             offset_y, offset_x );
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
     catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
             1 + offset_y, 1 + offset_x );
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border( w_test_rule_border );
 
@@ -450,7 +443,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
                                      "%1$d monsters match: %2$s",
                                      nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
     mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
-               "%s", buf.c_str() );
+               buf );
 
     mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
                _( "Lists monsters regardless of their attitude." ) );
@@ -484,8 +477,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
                 wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color, "%s",
-                         creature_list[i].c_str() );
+                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color,
+                         creature_list[i] );
             }
         }
 

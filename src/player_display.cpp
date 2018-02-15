@@ -1,6 +1,7 @@
 #include "player.h"
 #include "game.h"
 #include "mutation.h"
+#include "output.h"
 #include "options.h"
 #include "weather.h"
 #include "string_formatter.h"
@@ -85,7 +86,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         wprintz( win, c_light_gray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
-        // seperator in low toned color
+        // separator in low toned color
         wprintz( win, c_light_gray, "+" );
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d",
                  e.encumbrance - e.armor_encumbrance ).c_str() );
@@ -460,7 +461,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     wrefresh( w_stats );
 
-    // Next, draw encumberment.
+    // Next, draw encumbrance.
     const char *title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
     mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_light_gray, title_ENCUMB );
     print_encumbrance( w_encumb );
@@ -481,7 +482,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const char *title_EFFECTS = _( "EFFECTS" );
     mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
     for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
-        mvwprintz( w_effects, int( i ) + 1, 0, c_light_gray, "%s", effect_name[i].c_str() );
+        mvwprintz( w_effects, int( i ) + 1, 0, c_light_gray, effect_name[i] );
     }
     wrefresh( w_effects );
 
@@ -650,7 +651,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                "%d", newmoves );
     wrefresh( w_speed );
 
-    refresh();
+    catacurses::refresh();
 
     int curtab = 1;
     size_t min, max;
@@ -760,7 +761,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 5, 1, c_light_gray, _( "Perception:" ) );
                 wrefresh( w_stats );
                 break;
-            case 2: { // Encumberment tab
+            case 2: { // Encumbrance tab
                 werase( w_encumb );
                 mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, h_light_gray, title_ENCUMB );
                 print_encumbrance( w_encumb, line );
@@ -831,11 +832,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_traits, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     const auto color = mdata.get_display_color();
                     if( i == line ) {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, hilite( color ), "%s",
-                                   mdata.name.c_str() );
+                        mvwprintz( w_traits, int( 1 + i - min ), 1, hilite( color ),
+                                   mdata.name );
                     } else {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, color, "%s",
-                                   mdata.name.c_str() );
+                        mvwprintz( w_traits, int( 1 + i - min ), 1, color,
+                                   mdata.name );
                     }
                 }
                 if( line < traitslist.size() ) {
@@ -862,7 +863,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         const auto &mdata = traitslist[i].obj();
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
-                        mvwprintz( w_traits, int( i + 1 ), 1, color, "%s", mdata.name.c_str() );
+                        mvwprintz( w_traits, int( i + 1 ), 1, color, mdata.name );
                     }
                     wrefresh( w_traits );
                     line = 0;
@@ -895,9 +896,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 for( size_t i = min; i < max; i++ ) {
                     if( i == line ) {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, h_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( 1 + i - min ), 0, h_light_gray, effect_name[i] );
                     } else {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, c_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( 1 + i - min ), 0, c_light_gray, effect_name[i] );
                     }
                 }
                 if( line < effect_text.size() ) {
@@ -920,7 +921,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
                     mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
-                        mvwprintz( w_effects, int( i + 1 ), 0, c_light_gray, "%s", effect_name[i].c_str() );
+                        mvwprintz( w_effects, int( i + 1 ), 0, c_light_gray, effect_name[i] );
                     }
                     wrefresh( w_effects );
                     line = 0;
@@ -1042,33 +1043,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 }
         }
     } while( !done );
-
-    werase( w_info );
-    werase( w_tip );
-    werase( w_stats );
-    werase( w_encumb );
-    werase( w_traits );
-    werase( w_effects );
-    werase( w_skills );
-    werase( w_speed );
-    werase( w_info );
-    werase( w_grid_top );
-    werase( w_grid_effect );
-    werase( w_grid_skill );
-    werase( w_grid_trait );
-
-    delwin( w_info );
-    delwin( w_tip );
-    delwin( w_stats );
-    delwin( w_encumb );
-    delwin( w_traits );
-    delwin( w_effects );
-    delwin( w_skills );
-    delwin( w_speed );
-    delwin( w_grid_top );
-    delwin( w_grid_effect );
-    delwin( w_grid_skill );
-    delwin( w_grid_trait );
 
     g->refresh_all();
 }

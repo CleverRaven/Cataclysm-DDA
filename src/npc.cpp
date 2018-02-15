@@ -11,6 +11,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "output.h"
 #include "monfaction.h"
 #include "mutation.h"
 #include "npc_class.h"
@@ -1471,8 +1472,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ) {
-        // Live grenade or something similar
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+        // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
 
@@ -2044,27 +2045,27 @@ void npc::setID( int i )
 //message related stuff
 void npc::add_msg_if_npc( const std::string &msg ) const
 {
-    add_msg( replace_with_npc_name( msg, disp_name() ) );
+    add_msg( replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg, disp_name() ) );
+    add_msg( type, replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2292,7 +2293,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
-    if( is_following() && calendar::once_every( HOURS( 1 ) ) &&
+    if( is_following() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
@@ -2348,8 +2349,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    const auto comest = it.type->comestible;
-    if( comest != nullptr ) {
+    if( const auto &comest = it.type->comestible ) {
         if( comest->quench < 0 || it.poison > 0 ) {
             return false;
         }

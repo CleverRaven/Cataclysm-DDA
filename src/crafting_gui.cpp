@@ -138,12 +138,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     const recipe *last_recipe = nullptr;
 
     catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
-    WINDOW_PTR w_head_ptr( w_head );
     catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
-    WINDOW_PTR w_subhead_ptr( w_subhead );
     catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
                                 wStart );
-    WINDOW_PTR w_data_ptr( w_data );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -159,7 +156,6 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
                                     item_info_width );
-    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -480,7 +476,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
                 const std::string text = string_format( _( "Time to complete: %s" ),
-                                                        calendar::print_duration( turns ).c_str() );
+                                                        to_string( time_duration::from_turns( turns ) ) );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
 
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),

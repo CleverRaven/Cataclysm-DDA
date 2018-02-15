@@ -300,7 +300,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            // save compatiblity hack: read the line, initialze new members to 0,
+            // save compatibility hack: read the line, initialize new members to 0,
             // "parse" line,
             std::string tmp;
             getline(fin, tmp);
@@ -545,7 +545,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
-        debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
+        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type, legacy_map.size() );
         dest = activity_id::NULL_ID();
         return;
     }

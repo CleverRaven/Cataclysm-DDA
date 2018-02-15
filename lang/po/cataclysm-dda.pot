@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-19 08:34-0500\n"
+"POT-Creation-Date: 2018-02-09 03:21-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -203,7 +203,7 @@ msgstr ""
 msgid "Safe Mode proximity distance"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show "
 "a warning.  0 = Max player viewdistance."
@@ -1151,21 +1151,25 @@ msgstr ""
 msgid "Initial starting time of day on character generation."
 msgstr ""
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp
 #: src/options.cpp
 msgid "Spring"
 msgstr ""
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp
 #: src/options.cpp
 msgid "Summer"
 msgstr ""
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp
 #: src/options.cpp
 msgid "Autumn"
 msgstr ""
 
+#. ~First letter is supposed to be uppercase
 #: lang/extra/android/options.cpp src/calendar.cpp
 #: src/options.cpp
 msgid "Winter"
@@ -3169,28 +3173,6 @@ msgid ""
 "flamethrower."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
-msgid "concrete"
-msgid_plural "concrete"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for concrete
-#: lang/json/AMMO_from_json.py
-msgid "Some concrete, ready to be used in a construction project."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "mortar"
-msgid_plural "mortar"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mortar
-#: lang/json/AMMO_from_json.py
-msgid "Some mortar, ready to be used in building projects."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
@@ -3664,8 +3646,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an "
-"extremely powerful and accurate cartridge but pays for it's armor "
-"penetration abilities with lowered damage."
+"extremely powerful and accurate cartridge but pays for its armor penetration "
+"abilities with lowered damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4314,7 +4296,7 @@ msgid ""
 "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  "
 "Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
 "extremely popular all over the world.  The bullet has poor wounding "
-"potential due to its stability, only begining to yaw after 26cm."
+"potential due to its stability, only beginning to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4332,6 +4314,15 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M43"
+msgstr ""
+
+#. ~ Description for reloaded 7.62x39mm M43
+#: lang/json/AMMO_from_json.py
+msgid ""
+"7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet "
+"Union the 7.62x39mm round rapidly became extremely popular all over the "
+"world.  The bullet has poor wounding potential due to its stability, only "
+"beginning to yaw after 26cm."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -13592,11 +13583,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Active Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Active Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything "
 "attempting to penetrate this field has a chance of being deflected at the "
-"cost of more energy.  Melee attacks will be stopped more often than bullets."
+"cost of energy.  Bullets will be stopped more often than swords and those in "
+"turn more often than massive objects."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13606,11 +13599,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Advanced Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Advanced Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  This one has been heavily upgraded.  "
-"Warning: minimal radiation shielding."
+"This stripped down mini-reactor is safer than it appears due to integrated "
+"radiation cleansers.  There is no way to shut it down, but you can toggle "
+"additional fuel intake."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13737,11 +13731,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Fusion Blaster Arm CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Fusion Blaster Arm
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use "
-"your energy banks to fire a damaging heat ray; however, you are unable to "
-"use or carry two-handed items, and may only fire handguns."
+"your energy banks to fire a damaging heat ray.  However, you are unable to "
+"use or carry two-handed items, and your strength limits what you can use "
+"with your one hand."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13868,15 +13864,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Close Quarters Battle CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Close Quarters Battle
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Databanks and processors loaded with extensive martial arts combat programs "
-"are integrated directly into your spinal column.  While active, your close "
-"combat skills are superseded by the machine's programming.  You have the "
-"option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms.  "
-"The cybernetic disconnect prevents you from improving the affected combat "
-"skills while this bionic is active.  However, with extended use in combat, "
-"it is possible to learn the chosen martial art."
+"Bionic processors and databanks, loaded with martial arts combat programs, "
+"are integrated into your nervous system.  Whilst active, the CQB module will "
+"improve your hand to hand combat skills."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13915,14 +13908,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Enhanced Hearing CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Enhanced Hearing
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "When this bionic is active, your hearing will be drastically improved, "
 "allowing you to hear ten times better than the average person.  "
 "Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing.  You can also toggle those sound dampeners on "
-"demand, should you wish to reduce the effect of the bionic or become "
-"completely deaf."
+"they can damage your hearing."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14075,11 +14067,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Internal Furnace CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Furnace
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"You can burn nearly any organic material as fuel (use 'E'), recharging your "
-"power level.  Some materials will burn better than others.  Can be toggled "
-"on and off at will."
+"When this bionic is active, you can burn nearly any organic material as fuel "
+"(use 'E'), recharging your power level.  Some materials will burn better "
+"than others."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14177,10 +14170,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Infrared Vision CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Infrared Vision
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark, and even through walls."
+"blooded creatures in the dark."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14337,11 +14331,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Repair Nanobots CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Repair Nanobots
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Inside your body is a fleet of tiny dormant robots.  Once charged from your "
-"energy banks, they will flit about your body, repairing damage and stopping "
-"bleeding."
+"Inside your body is a fleet of tiny dormant robots.  While activated they "
+"will flit about your body, repairing damage and stopping bleeding at the "
+"cost of power."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14377,10 +14372,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Offensive Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Offensive Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a very strong shock, "
+"field does not deflect penetration, but rather delivers a strong shock, "
 "damaging unarmed attackers and those with a conductive weapon."
 msgstr ""
 
@@ -14493,10 +14489,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Air Filtration System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Air Filtration System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins find "
-"their way into your windpipe, the filter will attempt to remove them."
+"Implanted in your trachea is an advanced filtration system.  If toxins, or "
+"airborne diseases find their way into your windpipe, the filter will attempt "
+"to remove them.  Reducing the toxic effects."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14551,10 +14549,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Internal Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  Warning: minimal radiation shielding."
+"This stripped down mini-reactor may not be the best thing to have in your "
+"chest.  There is no way to shut it down, but you can toggle additional fuel "
+"intake."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14606,11 +14606,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Sonic Resonator CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Sonic Resonator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to flexible creatures, stiff "
-"items such as walls, doors, and even robots will be severely damaged."
+"shockwave.  While it will not do much damage to creatures, stiff items such "
+"as walls and doors will be damaged."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14736,12 +14737,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Anti-Glare Compensators CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Anti-Glare Compensators
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your eyes have high-power, quick-reacting transition lenses installed over "
-"them, negating any glare penalties and protecting you from bright flashes "
-"including those of a welder.  Additionally you can toggle them to block out "
-"all light."
+"Your eyes have quick-reacting transition lenses installed over them.  They "
+"negate glare penalties, partially protect you from bright flashes, and "
+"protect your eyes when welding."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14781,11 +14782,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Time Dilation CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Time Dilation
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"At an immense cost of power, you may increase your body speed and reactions "
-"dramatically, essentially freezing time.  You are still delicate, however, "
-"and violent or rapid movements may damage you due to friction."
+"At the cost of all stored bionic power, you may increase your body speed and "
+"reactions dramatically, essentially freezing time.  You are still delicate, "
+"however, and violent or rapid movements may damage you due to friction."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14838,11 +14840,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Unified Power System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Unified Power System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"A UPS fully integrated with your bionic power system.  Allows you to run "
-"devices requiring a UPS off of your internal power, which is much more "
-"efficient than standard battery power."
+"You have a unified power system wired into your power banks.  Objects that "
+"run on a UPS can now draw directly from your internal power supply."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14852,10 +14854,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Internal Chronometer CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Chronometer
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will "
-"always know the current time."
+"always know the current time.  Additionally, it includes a silent alarm "
+"clock function."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -27243,6 +27247,17 @@ msgid ""
 "constructing tougher walls and such."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
+msgid "concrete"
+msgid_plural "concrete"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for concrete
+#: lang/json/GENERIC_from_json.py
+msgid "Some concrete, ready to be used in a construction project."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "log"
 msgid_plural "logs"
@@ -28323,6 +28338,17 @@ msgstr[1] ""
 #. ~ Description for brick
 #: lang/json/GENERIC_from_json.py
 msgid "A fire hardened building block used in masonry construction."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "mortar"
+msgid_plural "mortar"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mortar
+#: lang/json/GENERIC_from_json.py
+msgid "Some mortar, ready to be used in building projects."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -31132,7 +31158,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A vehicle headlight with a cage built around it to protect it from damage "
-"without reducing it's effectiveness."
+"without reducing its effectiveness."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -31234,6 +31260,18 @@ msgstr[1] ""
 #. ~ Description for minifridge
 #: lang/json/GENERIC_from_json.py
 msgid "A very small fridge for keeping food cool."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "washing machine"
+msgid_plural "washing machines"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for washing machine
+#: lang/json/GENERIC_from_json.py
+msgid "A very small washing machine designed for use in vehicles."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34286,12 +34324,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "RMGB500 8x40mm extended magazine"
+msgid "RMGB500 8x40mm drum magazine"
 msgstr ""
 
-#. ~ Description for RMGB500 8x40mm extended magazine
+#. ~ Description for RMGB500 8x40mm drum magazine
 #: lang/json/MAGAZINE_from_json.py
-msgid "A 500 round box magazine for use with Rivtech 8x40mm caseless firearms."
+msgid ""
+"A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -35145,6 +35184,27 @@ msgstr ""
 #. ~ Description for Mundane Zombies
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes all special zombies from the game."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Mutant NPCs"
+msgstr ""
+
+#. ~ Description for Mutant NPCs
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"NPCs wandering the wasteland will occasionally have mutations --- your foes "
+"included. Beware!"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "NPC traits"
+msgstr ""
+
+#. ~ Description for NPC traits
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Add an NPC class that spawns with starting traits, like the player does."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -44531,7 +44591,7 @@ msgstr[1] ""
 #. ~ Description for scalpel
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a very sharp knife designed for surgical cutting.  It's small, sharp "
+"This is a very sharp knife designed for surgical cutting.  Its small, sharp "
 "blade allows for precision strikes in the hands of the skilled."
 msgstr ""
 
@@ -47362,6 +47422,29 @@ msgid ""
 "boat to move."
 msgstr ""
 
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gelatinous track"
+msgstr ""
+
+#. ~ Description for Gelatinous track
+#. ~ Description for Oozing track
+#. ~ Description for Gray track
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"A short, interlocking set of tracks created out of some of your monstrosity "
+"blob based parts.  Similar with what you might see used on light "
+"construction vehicles.  It's significantly stronger than regular tires due "
+"to not being at risk of bursting; but is quite heavy."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Oozing track"
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Gray track"
+msgstr ""
+
 #: lang/json/WHEEL_from_json.py
 msgid "gelacier"
 msgstr ""
@@ -47632,6 +47715,10 @@ msgstr ""
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop cutting the metal?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop chopping down?"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -47917,25 +48004,8 @@ msgstr ""
 msgid "Active Defense System"
 msgstr ""
 
-#. ~ Description for Active Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  Anything "
-"attempting to penetrate this field has a chance of being deflected at the "
-"cost of energy.  Bullets will be stopped more often than swords and those in "
-"turn more often than massive objects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
-msgstr ""
-
-#. ~ Description for Advanced Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor is safer than it appears due to integrated "
-"radiation cleansers.  There is no way to shut it down, but you can toggle "
-"additional fuel intake."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -47983,15 +48053,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Fusion Blaster Arm"
-msgstr ""
-
-#. ~ Description for Fusion Blaster Arm
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your left arm has been replaced by a heavy-duty fusion blaster!  You may use "
-"your energy banks to fire a damaging heat ray.  However, you are unable to "
-"use or carry two-handed items, and your strength limits what you can use "
-"with your one hand."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48042,14 +48103,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Close Quarters Battle"
-msgstr ""
-
-#. ~ Description for Close Quarters Battle
-#: lang/json/bionic_from_json.py
-msgid ""
-"Bionic processors and databanks, loaded with martial arts combat programs, "
-"are integrated into your nervous system.  Whilst active, the CQB module will "
-"improve your hand to hand combat skills."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48121,15 +48174,6 @@ msgstr ""
 msgid "Enhanced Hearing"
 msgstr ""
 
-#. ~ Description for Enhanced Hearing
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, your hearing will be drastically improved, "
-"allowing you to hear ten times better than the average person.  "
-"Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Directional EMP"
 msgstr ""
@@ -48182,14 +48226,6 @@ msgstr ""
 msgid "Internal Furnace"
 msgstr ""
 
-#. ~ Description for Internal Furnace
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, you can burn nearly any organic material as fuel "
-"(use 'E'), recharging your power level.  Some materials will burn better "
-"than others."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Integrated Dosimeter"
 msgstr ""
@@ -48216,13 +48252,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py lang/json/mutation_from_json.py
 msgid "Infrared Vision"
-msgstr ""
-
-#. ~ Description for Infrared Vision
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48292,14 +48321,6 @@ msgstr ""
 msgid "Repair Nanobots"
 msgstr ""
 
-#. ~ Description for Repair Nanobots
-#: lang/json/bionic_from_json.py
-msgid ""
-"Inside your body is a fleet of tiny dormant robots.  While activated they "
-"will flit about your body, repairing damage and stopping bleeding at the "
-"cost of power."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Artificial Night Generator"
 msgstr ""
@@ -48332,14 +48353,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
-msgstr ""
-
-#. ~ Description for Offensive Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a strong shock, "
-"damaging unarmed attackers and those with a conductive weapon."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48414,14 +48427,6 @@ msgstr ""
 msgid "Air Filtration System"
 msgstr ""
 
-#. ~ Description for Air Filtration System
-#: lang/json/bionic_from_json.py
-msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins, or "
-"airborne diseases find their way into your windpipe, the filter will attempt "
-"to remove them.  Reducing the toxic effects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Radiation Scrubber System"
 msgstr ""
@@ -48438,23 +48443,6 @@ msgstr ""
 msgid "Microreactor System"
 msgstr ""
 
-#. ~ Description for Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor may not be the best thing to have in your "
-"chest.  There is no way to shut it down, but you can toggle additional fuel "
-"intake."
-msgstr ""
-
-#: lang/json/bionic_from_json.py
-msgid "Reactor Upgrade"
-msgstr ""
-
-#. ~ Description for Reactor Upgrade
-#: lang/json/bionic_from_json.py
-msgid "You shouldn't see this."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
 msgstr ""
@@ -48465,14 +48453,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sonic Resonator"
-msgstr ""
-
-#. ~ Description for Sonic Resonator
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to creatures, stiff items such "
-"as walls and doors will be damaged."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48538,10 +48518,10 @@ msgid "Synaptic Accelerator"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
-msgid "Wire-induced Stiffness"
+msgid "Wire-Induced Stiffness"
 msgstr ""
 
-#. ~ Description for Wire-induced Stiffness
+#. ~ Description for Wire-Induced Stiffness
 #: lang/json/bionic_from_json.py
 msgid ""
 "Improperly installed wires cause a physical stiffness in most of your body, "
@@ -48557,15 +48537,7 @@ msgid "Muscle Augmentation"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
-msgid "Anti-glare Compensators"
-msgstr ""
-
-#. ~ Description for Anti-glare Compensators
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your eyes have quick-reacting transition lenses installed over them.  They "
-"negate glare penalties, partially protect you from bright flashes, and "
-"protect your eyes when welding."
+msgid "Anti-Glare Compensators"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48590,14 +48562,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Time Dilation"
-msgstr ""
-
-#. ~ Description for Time Dilation
-#: lang/json/bionic_from_json.py
-msgid ""
-"At the cost of all stored bionic power, you may increase your body speed and "
-"reactions dramatically, essentially freezing time.  You are still delicate, "
-"however, and violent or rapid movements may damage you due to friction."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48627,13 +48591,6 @@ msgstr ""
 msgid "Internal Unified Power System"
 msgstr ""
 
-#. ~ Description for Internal Unified Power System
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have a unified power system wired into your power banks.  Objects that "
-"run on a UPS can now draw directly from your internal power supply."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Voice Remodulator"
 msgstr ""
@@ -48649,14 +48606,6 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Internal Chronometer"
-msgstr ""
-
-#. ~ Description for Internal Chronometer
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have been equipped with an internal atomic clock, ensuring that you will "
-"always know the current time.  Additionally, it includes a silent alarm "
-"clock function."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48962,10 +48911,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Chop Down Tree"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -52547,10 +52492,6 @@ msgstr ""
 msgid "Stores books.  Y'know, Those things.  Who reads books anymore?"
 msgstr ""
 
-#: lang/json/furniture_from_json.py
-msgid "washing machine"
-msgstr ""
-
 #. ~ Description for washing machine
 #: lang/json/furniture_from_json.py
 msgid "You could wash your dirty clothes if electricity was running."
@@ -54070,8 +54011,8 @@ msgid "A popular .22 pistol."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "Bushmaster ACR"
-msgid_plural "Bushmaster ACRs"
+msgid "Remington ACR"
+msgid_plural "Remington ACRs"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -54151,6 +54092,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py src/item_factory.cpp
+msgid "semi-auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py
+#: src/item_factory.cpp src/turret.cpp
+msgid "auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "L523-CAR carbine"
 msgid_plural "L523-CAR carbines"
 msgstr[0] ""
@@ -54184,11 +54135,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-#: lang/json/gun_from_json.py src/item_factory.cpp
-msgid "semi-auto"
-msgstr ""
-
-#: lang/json/gun_from_json.py
 msgid "L523-LMG"
 msgid_plural "L523-LMGs"
 msgstr[0] ""
@@ -54205,8 +54151,11 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
-msgid "auto"
+msgid "low auto"
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "high auto"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55439,8 +55388,8 @@ msgstr[1] ""
 msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine "
 "gun was designed for durability and extreme volume of sustained fire under "
-"the worst possible circumstances.  Needs to be mounted because of extreme "
-"recoil.  Accepts RMXB500 box and RMGD250 drum magazines."
+"the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
+"magazines."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -59069,7 +59018,6 @@ msgid "Attach"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-#: lang/json/item_action_from_json.py src/game_inventory.cpp
 msgid "Consume"
 msgstr ""
 
@@ -59276,6 +59224,14 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Activate/deactivate"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Install bionic"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Chop down a tree"
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -59651,6 +59607,36 @@ msgstr ""
 msgid ""
 "This weapon <good>can be used with</good> <info>unarmed fighting styles</"
 "info>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a <bad>faulty</bad> bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic is a power source bionic."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic only has a function when activated, else it causes it's effect "
+"every turn."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a gun bionic and activating it will fire it.  Prevents all "
+"other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This bionic is a weapon bionic and activating it will create (or destroy) "
+"bionic's fake_item in user's hands.  Prevents all other activation effects."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This bionic can provide power to powered armor."
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -70359,6 +70345,220 @@ msgstr ""
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm just trying to stay alive.... and it ain't as easy as it looks."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for mutagen... this world is no place for humans anymore, and I "
+"don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lizard Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lizard mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Medical Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for medical mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Bird Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for bird mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Fish Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for fish mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Beast Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for beast mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Ursine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for ursine mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Feline Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for feline mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Lupine Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for lupine mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cattle Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cattle mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Insect Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for insect mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Plant Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for plant mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Slime Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for slime mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Troglobite Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for troglobite mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Cephalopod Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for cephalopod mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Spider Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for spider mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Rat Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for rat mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Alpha Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for alpha mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Elfa Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for elfa mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Chimera Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for chimera mutagen... this world is no place for humans "
+"anymore, and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Raptor Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for raptor mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "NPC with starting traits"
 msgstr ""
 
 #: lang/json/npc_from_json.py
@@ -89920,11 +90120,6 @@ msgstr ""
 msgid "Invalid direction."
 msgstr ""
 
-#. ~ Sound of a Rat mutant burrowing!
-#: src/activity_handlers.cpp
-msgid "ScratchCrunchScrabbleScurry."
-msgstr ""
-
 #: src/activity_handlers.cpp
 msgid "You figure it'll take about an hour and a half at this rate."
 msgstr ""
@@ -89939,6 +90134,15 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "Almost there! Ten more minutes of work and you'll be through."
+msgstr ""
+
+#. ~ Sound of a Rat mutant burrowing!
+#: src/activity_handlers.cpp
+msgid "ScratchCrunchScrabbleScurry."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish burrowing."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90093,7 +90297,7 @@ msgstr ""
 #: src/activity_handlers.cpp
 msgid ""
 "You slice muscles and tendons, and remove body parts until you're confident "
-"the zombie won't be able to attack you when it reainmates."
+"the zombie won't be able to attack you when it reanimates."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90118,19 +90322,7 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "Ugh.  You figure it'll take about an hour and a half at this rate."
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "If it keeps up like this, you might be through in an hour."
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "Feels like you're making good progress.  Another half an hour, maybe?"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "That's got it.  Ten more minutes of work and it's open."
+msgid "You finish digging."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90356,12 +90548,26 @@ msgstr ""
 msgid "You washed your clothing."
 msgstr ""
 
+#. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You finished cutting the metal."
+msgid "You finish cutting the metal."
+msgstr ""
+
+#. ~ Sound of a wood chopping tool at work!
+#: src/activity_handlers.cpp
+msgid "CHK!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Select a direction for the tree to fall in."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish chopping down a tree."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -90935,7 +91141,7 @@ msgid "Really move everything from your inventory?"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Really remove all your clothes? (woo woo)"
+msgid "Really remove all your clothes? (woo hoo)"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -92344,14 +92550,6 @@ msgstr ""
 msgid "Successfully removed %s."
 msgstr ""
 
-#: src/bionics.cpp
-msgid "There is nothing to upgrade!"
-msgstr ""
-
-#: src/bionics.cpp
-msgid "You have already installed this bionic."
-msgstr ""
-
 #. ~ <Body part name>: <number of slots> more slot(s) needed.
 #: src/bionics.cpp
 #, c-format
@@ -92426,6 +92624,13 @@ msgctxt "memorial_female"
 msgid "Installed bionic: %s."
 msgstr ""
 
+#. ~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+#: src/bionics.cpp
+#, c-format
+msgid "Successfully upgraded %1$s to %2$s."
+msgstr ""
+
+#. ~ %s - name of the bionic.
 #: src/bionics.cpp
 #, c-format
 msgid "Successfully installed %s."
@@ -92651,7 +92856,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/calendar.cpp src/construction.cpp
-#: src/construction.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -92659,7 +92863,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/calendar.cpp src/construction.cpp
-#: src/construction.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -92670,6 +92873,20 @@ msgstr[1] ""
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d season"
+msgid_plural "%d seasons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/calendar.cpp
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -92723,27 +92940,6 @@ msgstr ""
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d season"
-msgid_plural "%d seasons"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d turn"
-msgid_plural "%d turns"
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/calendar.cpp
 msgid "Monday"
@@ -93578,7 +93774,7 @@ msgid "Download data?"
 msgstr ""
 
 #: src/computer.cpp
-msgid "Result: Unknown blood type.  Test nonconclusive."
+msgid "Result: Unknown blood type.  Test non-conclusive."
 msgstr ""
 
 #: src/computer.cpp
@@ -93871,8 +94067,8 @@ msgstr ""
 msgid ""
 "\n"
 "Power:         Backup Only\n"
-"Radion Level:  Very Dangerous\n"
-"Operational:   Overrided\n"
+"Radiation Level:  Very Dangerous\n"
+"Operational:   Overridden\n"
 "\n"
 msgstr ""
 
@@ -94069,10 +94265,6 @@ msgstr ""
 #: src/construction.cpp
 #, c-format
 msgid "You finish your construction: %s."
-msgstr ""
-
-#: src/construction.cpp
-msgid "Press a direction for the tree to fall in:"
 msgstr ""
 
 #: src/construction.cpp src/veh_interact.cpp
@@ -95347,7 +95539,7 @@ msgid "Cycle option value"
 msgstr ""
 
 #: src/defense.cpp
-msgid "Toogle option"
+msgid "Toggle option"
 msgstr ""
 
 #: src/defense.cpp
@@ -97056,7 +97248,7 @@ msgid "the avoidance of drugs"
 msgstr ""
 
 #: src/faction.cpp
-msgid "their adherance to the law"
+msgid "their adherence to the law"
 msgstr ""
 
 #: src/faction.cpp
@@ -99022,6 +99214,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr ""
 
 #: src/game.cpp
+msgid "Test trait group"
+msgstr ""
+
+#: src/game.cpp
 msgid "Quit to Main Menu"
 msgstr ""
 
@@ -99045,13 +99241,6 @@ msgstr ""
 #, c-format
 msgid "%d creature exists.\n"
 msgid_plural "%d creatures exist.\n"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/game.cpp
-#, c-format
-msgid "%d event planned."
-msgid_plural "%d events planned"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -101401,10 +101590,6 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid "Needs at least %d charges"
-msgstr ""
-
-#: src/game_inventory.cpp
-msgid "Install bionic"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -104004,7 +104189,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d storey. Jump down?"
+msgid "Looks like %d story. Jump down?"
 msgid_plural "Looks like %d stories. Jump down?"
 msgstr[0] ""
 msgstr[1] ""
@@ -104065,6 +104250,10 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Traps"
+msgstr ""
+
+#: src/init.cpp
+msgid "Bionics"
 msgstr ""
 
 #: src/init.cpp
@@ -104181,10 +104370,6 @@ msgstr ""
 
 #: src/init.cpp
 msgid "Ammunition types"
-msgstr ""
-
-#: src/init.cpp
-msgid "Bionics"
 msgstr ""
 
 #: src/init.cpp
@@ -105669,17 +105854,17 @@ msgstr ""
 msgid "Invalid tool subtype"
 msgstr ""
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Test which group?"
 msgstr ""
 
 #. ~ Spawn group menu: Menu entry to exit menu
 #: src/item_factory.cpp src/iuse.cpp
-#: src/iuse.cpp
+#: src/iuse.cpp src/trait_group.cpp
 msgid "cancel"
 msgstr ""
 
-#: src/item_factory.cpp
+#: src/item_factory.cpp src/trait_group.cpp
 msgid "Result of 100 spawns:"
 msgstr ""
 
@@ -107424,6 +107609,18 @@ msgid "Cut up what?"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Chop down which tree?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You're not stern enough to shave yourself with THIS."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop down that."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr ""
 
@@ -107839,30 +108036,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Your vision is fine already."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "Your %s doesn't appear to be modded."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can't remove any of the mods from your %s."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can not modify your %s while it's worn."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Remove which modification?"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You remove your %1$s from your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -108787,6 +108960,10 @@ msgid "Countdown: "
 msgstr ""
 
 #: src/iuse_actor.cpp
+msgid "It's already been triggered."
+msgstr ""
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
 msgstr ""
@@ -108932,10 +109109,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "This tool doesn't have enough charges."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr ""
 
@@ -108963,6 +109136,10 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You successfully light a fire."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "This tool doesn't have enough charges."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109084,10 +109261,6 @@ msgid "You need at least %d charges to cauterize wounds."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "You can't cauterize anything underwater."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr ""
 
@@ -109111,6 +109284,12 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You feel horrible for mutilating and enslaving someone's corpse."
+msgstr ""
+
+#. ~ %s - name of the required skill.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You need at least %s 1."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109339,7 +109518,7 @@ msgid "Your %s is already enhanced."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "Refiting"
+msgid "Refitting"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109509,11 +109688,45 @@ msgid "The barrel is too short."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "The barrel is aleady sawn off."
+msgid "The barrel is already sawn-off."
 msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Can't saw off modified barrels."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There is nothing to upgrade."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You have a superior version installed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Remove which modification?"
+msgstr ""
+
+#. ~ %1$s - gunmod, %2$s - gun.
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You remove your %1$s from your %2$s."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Doesn't appear to be modded."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "None of the mods can be removed."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Has to be taken off first."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -109656,7 +109869,7 @@ msgid "A Texas Instruments of Destruction calculator."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
-msgid "It's a dark, amphorous blob of matter."
+msgid "It's a dark, amorphous blob of matter."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -111043,6 +111256,16 @@ msgstr ""
 
 #: src/map.cpp
 #, c-format
+msgid "It should take %d minutes to finish washing items in the %s."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "The washing machine in the %s has finished washing."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
 msgid "You take down the %s."
 msgstr ""
 
@@ -111437,7 +111660,7 @@ msgstr[1] ""
 
 #: src/melee.cpp
 #, c-format
-msgid "You have learnt %s from extensive practice with the CQB Bionic."
+msgid "You have learned %s from extensive practice with the CQB Bionic."
 msgstr ""
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
@@ -112575,6 +112798,12 @@ msgstr ""
 
 #: src/mission_ui.cpp
 msgid "FAILED MISSIONS"
+msgstr ""
+
+#. ~ 1 season name, 2 day of season, 3 time of day
+#: src/mission_ui.cpp
+#, c-format
+msgid "%1$s, day %2$d %3$s"
 msgstr ""
 
 #: src/mission_ui.cpp
@@ -114603,6 +114832,10 @@ msgid "Focus gain per minute"
 msgstr ""
 
 #: src/morale.cpp
+msgid "Nothing affects your morale"
+msgstr ""
+
+#: src/morale.cpp
 msgid "Morale"
 msgstr ""
 
@@ -114612,10 +114845,6 @@ msgstr ""
 
 #: src/morale.cpp
 msgid "Value"
-msgstr ""
-
-#: src/morale.cpp
-msgid "Nothing affects your morale"
 msgstr ""
 
 #: src/mutation.cpp
@@ -115279,11 +115508,6 @@ msgid "Upgrading %s costs %d point"
 msgid_plural "Upgrading %s costs %d points"
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/newcharacter.cpp src/npctalk.cpp
-#, c-format
-msgid "%s"
-msgstr ""
 
 #. ~ 1s - scenario name, 2d - current character points.
 #: src/newcharacter.cpp
@@ -117545,7 +117769,7 @@ msgstr ""
 #. ~Martial art style (cost in dollars)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost $%d)"
+msgid "%s ( cost $%d )"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118256,6 +118480,12 @@ msgid "Pulp Adjacent"
 msgstr ""
 
 #: src/options.cpp
+msgid ""
+"If safe mode is enabled, distance to hostiles at which safe mode should show "
+"a warning.  0 = Max player view distance."
+msgstr ""
+
+#: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
 msgstr ""
 
@@ -118326,7 +118556,7 @@ msgid "Pixel Minimap brightness"
 msgstr ""
 
 #: src/options.cpp
-msgid "Overal brightness of pixel-detail minimap."
+msgid "Overall brightness of pixel-detail minimap."
 msgstr ""
 
 #: src/options.cpp
@@ -118679,6 +118909,14 @@ msgstr ""
 
 #: src/pickup.cpp
 msgid "Examine vehicle"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Deactivate the washing machine"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Activate the washing machine (1.5 hours)"
 msgstr ""
 
 #: src/pickup.cpp
@@ -122213,7 +122451,7 @@ msgid "Safe Mode Rule:"
 msgstr ""
 
 #: src/safemode_ui.cpp
-msgid "Proximity Distance (0=max viewdistance)"
+msgid "Proximity Distance (0=max view distance)"
 msgstr ""
 
 #: src/safemode_ui.cpp
@@ -124242,6 +124480,34 @@ msgstr ""
 msgid " (faulty)"
 msgstr ""
 
+#: src/vehicle.cpp
+msgid ""
+"You turn the washing machine off before it's finished the program, and open "
+"its lid."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid ""
+"You need 24 charges of water in tanks of the %s to fill the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You need 5 charges of detergent for the washing machine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You need to remove all non-filthy items from the washing machine to start "
+"the washing program."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid ""
+"You pour some detergent into the washing machine, close its lid, and turn it "
+"on.  The washing machine is being filled with water from vehicle tanks."
+msgstr ""
+
 #: src/vehicle_group.cpp
 msgid "pile-up"
 msgstr ""
@@ -124343,26 +124609,6 @@ msgstr ""
 #, c-format
 msgctxt "air pressure in kPa"
 msgid "%s kPa"
-msgstr ""
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "spring"
-msgstr ""
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "summer"
-msgstr ""
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "autumn"
-msgstr ""
-
-#: src/weather_data.cpp
-msgctxt "season_name"
-msgid "winter"
 msgstr ""
 
 #: src/weather_data.cpp

@@ -309,7 +309,7 @@ void monster::try_upgrade(bool pin_time) {
         }
 
         if (!upgrades) {
-            // upgraded into a non-upgradable monster
+            // upgraded into a non-upgradeable monster
             return;
         }
 
@@ -422,20 +422,20 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz(w, vStart, column, c_white, "%s ", name().c_str());
 
     const auto att = get_attitude();
-    wprintz( w, att.second, "%s", att.first.c_str() );
+    wprintz( w, att.second, att.first );
 
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
-                    h_white, "%s", effects.c_str() );
+                    h_white, effects );
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
+    mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
-        mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
+        mvwprintz( w, vStart++, column, c_white, lines[i] );
     }
 
     return vStart;
@@ -844,7 +844,7 @@ void monster::process_triggers()
     anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
-// This Adjustes anger/morale levels given a single trigger.
+// This adjusts anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
     if (type->has_anger_trigger(trig)){
@@ -874,7 +874,7 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             case MTRIG_MEAT:
                 // Disable meat checking for now
                 // It's hard to ever see it in action
-                // and even harder to balance it without making it exploity
+                // and even harder to balance it without making it exploitable
 
                 // check_terrain = true;
                 // check_meat = true;
@@ -2003,28 +2003,28 @@ m_size monster::get_size() const {
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( replace_with_npc_name( msg, disp_name() ) );
+        add_msg( replace_with_npc_name( msg ) );
     }
 }
 
 void monster::add_msg_player_or_npc( const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void monster::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( type, replace_with_npc_name( msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( msg ) );
     }
 }
 
 void monster::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( npc_msg ) );
     }
 }
 

@@ -3,6 +3,7 @@
 #include "game.h"
 #include "player.h"
 #include "item.h"
+#include "output.h"
 #include "itype.h"
 #include "string_formatter.h"
 #include "veh_type.h"

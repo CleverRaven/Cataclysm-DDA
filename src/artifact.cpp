@@ -557,11 +557,11 @@ static const std::array<std::string, 20> artifact_noun = { {
 } };
 std::string artifact_name(std::string type);
 
-// Constructrs for artifact itypes.
+// Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool() : itype()
 {
-    tool.reset( new islot_tool() );
-    artifact.reset( new islot_artifact() );
+    tool.emplace();
+    artifact.emplace();
     id = item_controller->create_artifact_id();
     price = 0;
     tool->charges_per_use = 1;
@@ -571,24 +571,24 @@ it_artifact_tool::it_artifact_tool() : itype()
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
-    tool.reset( new islot_tool() );
-    artifact.reset( new islot_artifact() );
+    tool.emplace();
+    artifact.emplace();
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
 it_artifact_armor::it_artifact_armor() : itype()
 {
-    armor.reset( new islot_armor() );
-    artifact.reset( new islot_artifact() );
+    armor.emplace();
+    artifact.emplace();
     id = item_controller->create_artifact_id();
     price = 0;
 }
 
 it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 {
-    armor.reset( new islot_armor() );
-    artifact.reset( new islot_artifact() );
+    armor.emplace();
+    artifact.emplace();
     deserialize( jo );
 }
 

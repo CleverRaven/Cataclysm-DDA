@@ -56,13 +56,6 @@ extern bool use_tiles;
 
 extern bool test_mode;
 
-void delwin_functor::operator()( void *w ) const
-{
-    if( w != nullptr ) {
-        delwin( w );
-    }
-}
-
 // utf8 version
 std::vector<std::string> foldstring( std::string str, int width )
 {
@@ -133,7 +126,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
             seg = rm_prefix( seg );
         }
 
-        wprintz( w, color, "%s", seg.c_str() );
+        wprintz( w, color, seg );
     }
 }
 
@@ -250,7 +243,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
                 if( l != "--" ) { // -- is a separation line!
-                    wprintz( w, color, "%s", rm_prefix( *it ).c_str() );
+                    wprintz( w, color, rm_prefix( *it ) );
                 } else {
                     for( int i = 0; i < width; i++ ) {
                         wputch( w, c_dark_gray, LINE_OXOX );
@@ -287,7 +280,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
             i--;
             center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
             wrefresh( w );
-            refresh();
+            catacurses::refresh();
             inp_mngr.wait_for_any_key();
             werase( w );
             begin_y = 0;
@@ -296,7 +289,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         }
     }
     wrefresh( w );
-    refresh();
+    catacurses::refresh();
     inp_mngr.wait_for_any_key();
 }
 
@@ -331,7 +324,7 @@ void center_print( const catacurses::window &w, const int y, const nc_color FG,
     } else {
         x = ( window_width - string_width ) / 2;
     }
-    mvwprintz( w, y, x, FG, "%s", text.c_str() );
+    mvwprintz( w, y, x, FG, text );
 }
 
 int right_print( const catacurses::window &w, const int line, const int right_indent,
@@ -339,7 +332,7 @@ int right_print( const catacurses::window &w, const int line, const int right_in
 {
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
-    trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
+    trim_and_print( w, line, x, available_width, FG, text );
     return x;
 }
 
@@ -360,7 +353,7 @@ void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, long ch )
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, FG );
 }
 
@@ -376,7 +369,7 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, HC );
 }
 
@@ -392,15 +385,15 @@ void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const 
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, "%s", ch.c_str() );
+    mvwprintw( w, y, x, ch );
     wattroff( w, HC );
 }
 
-void draw_custom_border( const catacurses::window &w, chtype ls, chtype rs,
-                         chtype ts, chtype bs, chtype tl,
-                         chtype tr, chtype bl, chtype br, nc_color FG, int posy,
-                         int height,
-                         int posx, int width )
+void draw_custom_border( const catacurses::window &w, const catacurses::chtype ls,
+                         const catacurses::chtype rs, const catacurses::chtype ts, const catacurses::chtype bs,
+                         const catacurses::chtype tl, const catacurses::chtype tr, const catacurses::chtype bl,
+                         const catacurses::chtype br, const nc_color FG, const int posy, int height, const int posx,
+                         int width )
 {
     wattron( w, FG );
 
@@ -510,7 +503,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
             mvwputch( w, 1, xpos + length + 3, h_white, '>' );
             mvwputch( w, 2, xpos, c_white, LINE_XOOX );
             mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOO );
-            mvwprintz( w, 1, xpos + 1, h_white, "%s", labels[i].c_str() );
+            mvwprintz( w, 1, xpos + 1, h_white, labels[i] );
             for( int x = xpos + 1; x <= xpos + length; x++ ) {
                 mvwputch( w, 0, x, c_white, LINE_OXOX );
                 mvwputch( w, 2, x, c_black, 'x' );
@@ -518,7 +511,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
         } else {
             mvwputch( w, 2, xpos, c_white, LINE_XXOX );
             mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOX );
-            mvwprintz( w, 1, xpos + 1, c_white, "%s", labels[i].c_str() );
+            mvwprintz( w, 1, xpos + 1, c_white, labels[i] );
             for( int x = xpos + 1; x <= xpos + length; x++ ) {
                 mvwputch( w, 0, x, c_white, LINE_OXOX );
             }
@@ -610,10 +603,7 @@ bool query_yn( const std::string &text )
         ch = inp_mngr.get_input_event().get_first_input();
     };
 
-    werase( w );
-    wrefresh( w );
-    delwin( w );
-    refresh();
+    catacurses::refresh();
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
@@ -657,30 +647,30 @@ int menu( bool const cancelable, const char *const mes, ... )
     return ( uimenu( cancelable, mes, options ) );
 }
 
-static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+static catacurses::window create_popup_window( int width, int height, PopupFlags flags )
 {
     if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
-                               std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
-                           ) );
+        return catacurses::newwin(
+                   FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                   std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+                   std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+               );
     } else if( ( flags & PF_ON_TOP ) != 0 ) {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               0,
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return catacurses::newwin(
+                   height, width,
+                   0,
+                   std::max( ( TERMX - width ) / 2, 0 )
+               );
     } else {
-        return WINDOW_PTR( catacurses::newwin(
-                               height, width,
-                               std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
-                               std::max( ( TERMX - width ) / 2, 0 )
-                           ) );
+        return catacurses::newwin(
+                   height, width,
+                   std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+                   std::max( ( TERMX - width ) / 2, 0 )
+               );
     }
 }
 
-WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+catacurses::window create_popup_window( const std::string &text, PopupFlags flags )
 {
     const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
 
@@ -692,18 +682,18 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
     const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
     const int width = text_width + 2;
 
-    WINDOW_PTR result = create_popup_window( width, height, flags );
+    catacurses::window result = create_popup_window( width, height, flags );
 
-    draw_border( result.get() );
+    draw_border( result );
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+        fold_and_print( result, i + 1, 1, width, c_white, folded[i] );
     }
 
     return result;
 }
 
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+catacurses::window create_wait_popup_window( const std::string &text, nc_color bar_color )
 {
     static size_t phase = 0;
 
@@ -726,20 +716,20 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    WINDOW_PTR w = create_popup_window( text, flags );
+    catacurses::window w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w.get() );
+        wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
-            werase( w.get() );
+            werase( w );
             break; // return the first key that got pressed.
         }
     }
-    wrefresh( w.get() );
-    refresh();
+    wrefresh( w );
+    catacurses::refresh();
     refresh_display();
     return ch;
 }
@@ -776,7 +766,6 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
-    delwin( win );
     return result;
 }
 
@@ -1191,7 +1180,7 @@ void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, boo
     mvwputch( w, 1, iOffsetX,      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, 1, iOffsetXRight, c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, 1, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, "%s", sText.c_str() );
+    mvwprintz( w, 1, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, 0, i, c_light_gray, LINE_OXOX );  // -
@@ -1219,7 +1208,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, "%s", sText.c_str() );
+    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
 
     if( bSelected ) {
         mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
@@ -1314,15 +1303,12 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     */
 
     catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
-    if( w_hit == NULL ) {
+    if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    if( w_hit_animation != nullptr ) {
-        delwin( w_hit_animation );
     }
     w_hit_animation = w_hit;
 
-    mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
+    mvwprintz( w_hit, 0, 0, cColor, cTile );
     wrefresh( w_hit );
 
     inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
@@ -1378,7 +1364,7 @@ std::string rewrite_vsnprintf( const char *msg )
         }
 
 
-        // Write porition of the string that was before %
+        // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
         rewritten_msg_optimised << std::string( msg, ptr );
 
@@ -1570,15 +1556,15 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
         std::string prestring = fmt.substr( 0, pos );
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
-        wprintz( w, text_color, "%s", prestring.c_str() );
-        wprintz( w, shortcut_color, "%s", shortcut.c_str() );
-        wprintz( w, text_color, "%s", poststring.c_str() );
+        wprintz( w, text_color, prestring );
+        wprintz( w, shortcut_color, shortcut );
+        wprintz( w, text_color, poststring );
         len = utf8_width( prestring.c_str() );
         len += utf8_width( shortcut.c_str() );
         len += utf8_width( poststring.c_str() );
     } else {
         // no shortcut?
-        wprintz( w, text_color, "%s", fmt.c_str() );
+        wprintz( w, text_color, fmt );
         len = utf8_width( fmt.c_str() );
     }
     return len;
@@ -1669,7 +1655,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, "%s", title.c_str() );
+        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, title );
         for( int i = 0; i < rows * columns; i++ ) {
             if( i + offset * columns >= ( int )data.size() ) {
                 break;
@@ -1951,7 +1937,7 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
  * Match text containing wildcards (*)
  * @param text_in Text to check
  * @param pattern_in Pattern to check text_in against
- * Case insenitive search
+ * Case insensitive search
  * Possible patterns:
  * *
  * wooD
@@ -2069,7 +2055,7 @@ std::string format_volume( const units::volume &volume )
 
 /**
 * Convert, clamp, round up and format a volume,
-* taking into account the specified width (0 for inlimited space),
+* taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
 * optionally returning the formated value as double.
 */
@@ -2131,3 +2117,18 @@ void refresh_display()
 {
 }
 #endif
+
+void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
+                const std::string &text )
+{
+    wattron( w, FG );
+    mvwprintw( w, y, x, text );
+    wattroff( w, FG );
+}
+
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text )
+{
+    wattron( w, FG );
+    wprintw( w, text );
+    wattroff( w, FG );
+}

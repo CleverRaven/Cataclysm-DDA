@@ -185,10 +185,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     allocate_windows();
 }
 
-veh_interact::~veh_interact()
-{
-    deallocate_windows();
-}
+veh_interact::~veh_interact() = default;
 
 void veh_interact::allocate_windows()
 {
@@ -227,8 +224,6 @@ void veh_interact::allocate_windows()
     w_stats = catacurses::newwin( stats_h,   grid_w, stats_y, 1 );
     w_name  = catacurses::newwin( name_h,    grid_w, name_y,  1 );
 
-    w_details = catacurses::window(); // only pops up when in install menu
-
     display_grid();
     display_name();
     display_stats();
@@ -251,7 +246,8 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_approx_duration( moves / 100 ) << "\n";
+    //@todo better have a from_moves function
+    msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : skills ) {
@@ -344,18 +340,6 @@ void veh_interact::do_main_loop()
     }
 }
 
-void veh_interact::deallocate_windows()
-{
-    delwin(w_grid);
-    delwin(w_mode);
-    delwin(w_msg);
-    delwin(w_disp);
-    delwin(w_parts);
-    delwin(w_stats);
-    delwin(w_list);
-    delwin(w_name);
-}
-
 void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->u.crafting_inventory();
@@ -388,7 +372,7 @@ void veh_interact::cache_tool_availability()
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
  * should be passed into the various do_whatever functions further down.
- * @param mode The command the player is trying to perform (ie 'r' for repair).
+ * @param mode The command the player is trying to perform (i.e. 'r' for repair).
  * @return CAN_DO if the player has everything they need,
  *         INVALID_TARGET if the command can't target that square,
  *         LACK_TOOLS if the player lacks tools,
@@ -831,7 +815,6 @@ bool veh_interact::do_install( std::string &msg )
 
     //destroy w_details
     werase(w_details);
-    delwin(w_details);
     w_details = catacurses::window();
 
     //restore windows that had been covered by w_details
@@ -1076,7 +1059,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
-            // display engine fauls (if any)
+            // display engine faults (if any)
             auto msg = [&]( const vehicle_part &pt ) {
                 werase( w_msg );
                 int y = 0;
@@ -1647,7 +1630,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    delwin( w_border );
+    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
@@ -1920,7 +1903,7 @@ void veh_interact::display_mode()
 
     size_t esc_pos = display_esc(w_mode);
 
-    // broken indendation preserved to avoid breaking git history for large number of lines
+    // broken indentation preserved to avoid breaking git history for large number of lines
         const std::array<std::string, 10> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },

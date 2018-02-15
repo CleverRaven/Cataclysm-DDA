@@ -92,7 +92,7 @@ struct WORLD;
 class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
-struct event;
+class event_manager;
 enum event_type : int;
 struct vehicle_part;
 struct ter_t;
@@ -130,7 +130,7 @@ class game
         bool is_core_data_loaded() const;
 
         /**
-         *  Check if mods can be sucessfully loaded
+         *  Check if mods can be successfully loaded
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
@@ -159,6 +159,7 @@ class game
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
         std::unique_ptr<scent_map> scent_ptr;
+        std::unique_ptr<event_manager> event_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -175,7 +176,7 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write statisics to stdout and @return true if sucessful */
+        /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
@@ -204,27 +205,10 @@ class game
         map &m;
         player &u;
         scent_map &scent;
+        event_manager &events;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
 
-        /**
-         * Add an entry to @ref game::events. For further information see event.h
-         * @param type Type of event.
-         * @param on_turn On which turn event should be happened.
-         * @param faction_id Faction of event.
-         * reality bubble. In global submap coordinates.
-         */
-        void add_event(event_type type, int on_turn, int faction_id = -1);
-        /**
-         * Add an entry to @ref game::events. For further information see event.h
-         * @param type Type of event.
-         * @param on_turn On which turn event should be happened.
-         * @param faction_id Faction of event.
-         * @param where The location of the event, optional, defaults to the center of the
-         * reality bubble. In global submap coordinates.
-         */
-        void add_event(event_type type, int on_turn, int faction_id, tripoint where);
-        bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
@@ -242,9 +226,9 @@ class game
 
         /*
          * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
-         * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
+         * @param src source from which shrapnel radiates outwards in a uniformly random distribution
          * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
+         * @param count arbitrary measure of quantity shrapnel emitted affecting number of hits
          * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
          * @param range maximum distance shrapnel may travel
          * @return map containing all tiles considered with value being sum of damage received (if any)
@@ -270,7 +254,7 @@ class game
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
         /**
-         * @return The the living creature with the given id. Returns null if no living
+         * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
          * Currently only the player character and npcs have ids.
          */
@@ -279,7 +263,7 @@ class game
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
-         * but it's not of the requested tpye, returns nullptr.
+         * but it's not of the requested type, returns nullptr.
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
         template<typename T = Creature>
@@ -609,15 +593,15 @@ class game
         int ter_view_x, ter_view_y, ter_view_z;
 
     private:
-        WINDOW_PTR w_terrain_ptr;
-        WINDOW_PTR w_minimap_ptr;
-        WINDOW_PTR w_pixel_minimap_ptr;
-        WINDOW_PTR w_HP_ptr;
-        WINDOW_PTR w_messages_short_ptr;
-        WINDOW_PTR w_messages_long_ptr;
-        WINDOW_PTR w_location_ptr;
-        WINDOW_PTR w_status_ptr;
-        WINDOW_PTR w_status2_ptr;
+        catacurses::window w_terrain_ptr;
+        catacurses::window w_minimap_ptr;
+        catacurses::window w_pixel_minimap_ptr;
+        catacurses::window w_HP_ptr;
+        catacurses::window w_messages_short_ptr;
+        catacurses::window w_messages_long_ptr;
+        catacurses::window w_location_ptr;
+        catacurses::window w_status_ptr;
+        catacurses::window w_status2_ptr;
 
     public:
         catacurses::window w_terrain;
@@ -643,7 +627,7 @@ class game
         void set_driving_view_offset(const point &p);
         // Calculates the driving_view_offset for the given vehicle
         // and sets it (view set_driving_view_offset), if
-        // the options for this feautre is dactivated or if veh is NULL,
+        // the options for this feature is deactivated or if veh is NULL,
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 
@@ -968,7 +952,6 @@ private:
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void rustCheck();        // Degrades practice levels
-        void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
@@ -1035,7 +1018,6 @@ private:
         time_point nextspawn; // The time on which monsters will spawn next.
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

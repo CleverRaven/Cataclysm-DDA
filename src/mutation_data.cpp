@@ -253,7 +253,7 @@ void mutation_branch::load( JsonObject &jsobj )
     }
     // Helps to be able to have a trait require more than one other trait
     // (Individual prereq-lists are "OR", not "AND".)
-    // Traits shoud NOT appear in both lists for a given mutation, unless
+    // Traits should NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
     // These are additional to the first list.
     for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {
@@ -319,7 +319,7 @@ void mutation_branch::load( JsonObject &jsobj )
         std::set<body_part> bps;
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
-                // Shorthand, since many muts protect whole body
+                // Shorthand, since many mutations protect whole body
                 for( size_t i = 0; i < num_bp; i++ ) {
                     bps.insert( static_cast<body_part>( i ) );
                 }

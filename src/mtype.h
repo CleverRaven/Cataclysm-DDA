@@ -222,7 +222,7 @@ struct mtype {
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
         int hp = 0;
-        int speed = 0;          /** eg. human = 100 */
+        int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 

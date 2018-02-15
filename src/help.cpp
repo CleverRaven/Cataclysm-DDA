@@ -5,6 +5,7 @@
 #include "input.h"
 #include "output.h"
 #include "rng.h"
+#include "cursesdef.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
@@ -856,7 +857,7 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
         column += pair_width;
     }
     wrefresh( win );
-    refresh();
+    catacurses::refresh();
     inp_mngr.wait_for_any_key();
 }
 
@@ -1048,7 +1049,7 @@ void display_help()
             draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
             wrefresh( w_help_border );
             help_main( w_help );
-            refresh();
+            catacurses::refresh();
             needs_refresh = false;
         };
         // TODO: use input context
@@ -1154,8 +1155,6 @@ void display_help()
         };
         needs_refresh = true;
     } while( ch != 'q' && ch != KEY_ESCAPE );
-    delwin( w_help );
-    delwin( w_help_border );
 }
 
 std::string get_hint()

@@ -2,6 +2,7 @@
 
 #include "calendar.h"
 #include "game.h"
+#include "output.h"
 #include "player.h"
 #include "monster.h"
 #include "map.h"
@@ -112,13 +113,6 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
     } while( ch != KEY_ESCAPE && ch != '\n' );
-
-    werase( w_head );
-    werase( w_main );
-    wrefresh( w_head );
-    wrefresh( w_main );
-    delwin( w_head );
-    delwin( w_main );
 }
 
 std::string map_data_common_t::extended_description() const
@@ -157,7 +151,7 @@ std::string map_data_common_t::extended_description() const
             // List the seasons first
             ss << enumerate_as_string( range.first, range.second,
             []( const std::pair<harvest_id, season_type> &pr ) {
-                if( pr.second == calendar::turn.get_season() ) {
+                if( pr.second == season_of_year( calendar::turn ) ) {
                     return "<good>" + calendar::name_season( pr.second ) + "</good>";
                 }
 

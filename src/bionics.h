@@ -5,6 +5,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 
+#include <set>
 #include <string>
 #include <vector>
 #include <map>
@@ -80,6 +81,16 @@ struct bionic_data {
      * activated independently.
      */
     std::vector<bionic_id> included_bionics;
+
+    /**
+     * Id of another bionic which this bionic can upgrade.
+     */
+    bionic_id upgraded_bionic;
+    /**
+     * Upgrades available for this bionic (opposite to @ref upgraded_bionic).
+     */
+    std::set<bionic_id> available_upgrades;
+
     bool is_included( const bionic_id &id ) const;
 };
 
@@ -111,6 +122,7 @@ class bionic_collection : public std::vector<bionic>
 };
 
 void check_bionics();
+void finalize_bionics();
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );

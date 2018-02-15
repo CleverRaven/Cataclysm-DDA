@@ -3,7 +3,6 @@
 #define OUTPUT_H
 
 #include "color.h"
-#include "cursesdef.h"
 #include "catacharset.h"
 #include "translations.h"
 #include "string_formatter.h"
@@ -26,7 +25,12 @@ template<typename V, typename U>
 class quantity;
 class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
-}
+} // namespace units
+namespace catacurses
+{
+class window;
+using chtype = int;
+} // namespace catacurses
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -73,14 +77,14 @@ extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 
 enum game_message_type : int {
-    m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
-    m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
+    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
-                  eg. gaining a mutation with mixed effect*/
-    m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
-    m_info,    /* informs the player about something, eg. on examination, seeing an item,
+                  e.g. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
                   about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
 
@@ -283,29 +287,28 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 
+void mvwprintz( const catacurses::window &w, int y, int x, const nc_color &FG,
+                const std::string &text );
 template<typename ...Args>
-inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color FG,
+inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
                        const char *const mes, Args &&... args )
 {
-    wattron( w, FG );
-    mvwprintw( w, y, x, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    mvwprintz( w, y, x, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text );
 template<typename ...Args>
-inline void wprintz( const catacurses::window &w, const nc_color FG, const char *const mes,
+inline void wprintz( const catacurses::window &w, const nc_color &FG, const char *const mes,
                      Args &&... args )
 {
-    wattron( w, FG );
-    wprintw( w, "%s", string_format( mes, std::forward<Args>( args )... ).c_str() );
-    wattroff( w, FG );
+    wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
-void draw_custom_border( const catacurses::window &w, chtype ls = 1, chtype rs = 1, chtype ts = 1,
-                         chtype bs = 1,
-                         chtype tl = 1, chtype tr = 1,
-                         chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0,
-                         int posx = 0, int width = 0 );
+void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
+                         catacurses::chtype rs = 1, catacurses::chtype ts = 1, catacurses::chtype bs = 1,
+                         catacurses::chtype tl = 1, catacurses::chtype tr = 1, catacurses::chtype bl = 1,
+                         catacurses::chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0,
+                         int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   std::string title = "", nc_color title_color = c_light_red );
 void draw_tabs( const catacurses::window &w, int active_tab, ... );
@@ -403,8 +406,9 @@ inline void full_screen_popup( const char *mes, Args &&... args )
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
 }
 
-WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
-WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_light_green );
+catacurses::window create_popup_window( const std::string &text, PopupFlags flags );
+catacurses::window create_wait_popup_window( const std::string &text,
+        nc_color bar_color = c_light_green );
 
 /*@}*/
 

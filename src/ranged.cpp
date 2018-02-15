@@ -119,7 +119,7 @@ bool player::handle_gun_damage( item &it )
     }
 
     const auto &curammo_effects = it.ammo_effects();
-    const islot_gun *firing = it.type->gun.get();
+    const cata::optional<islot_gun> &firing = it.type->gun;
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -186,7 +186,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         return 0;
     }
 
-    // Number of shots to fire is limited by the ammount of remaining ammo
+    // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
@@ -234,7 +234,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporaraly scale by 5x as we adjust MAX_RECOIL.
+        // Temporarily scale by 5x as we adjust MAX_RECOIL.
         recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -452,8 +452,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     proj_effects.insert( "NO_ITEM_DAMAGE" );
 
     if( thrown.active ) {
-        // Can't have molotovs embed into mons
-        // Mons don't have inventory processing
+        // Can't have Molotovs embed into monsters
+        // Monsters don't have inventory processing
         proj_effects.insert( "NO_EMBED" );
     }
 
@@ -471,7 +471,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    // Some minor (skill/2) armor piercing for skillfull throws
+    // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
     for( damage_unit &du : impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
@@ -556,7 +556,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
             title = _( "Set target" );
     }
 
-    trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
+    trim_and_print( w_target, 0, 4, getmaxx( w_target ) - 7, c_red, title );
     wprintz(w_target, c_white, " >");
 
     // Draw the help contents at the bottom of the window, leaving room for monster description
@@ -665,7 +665,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
                                                   (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+        mvwprintw( w, line_number++, 1, steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
                                                              _( "Steadiness" ), '*' );
@@ -679,7 +679,7 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing gaussian integration in their head while aiming.  The result gives the player
+    // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
@@ -1148,7 +1148,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         wrefresh(w_target);
         wrefresh(g->w_terrain);
-        refresh();
+        catacurses::refresh();
 
         std::string action;
         if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
@@ -1276,7 +1276,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 pc.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                delwin( w_target );
                 pc.view_offset = old_offset;
                 set_last_target( dst );
                 return ret;
@@ -1314,7 +1313,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
     } while (true);
 
-    delwin( w_target );
     pc.view_offset = old_offset;
 
     if( ret.empty() ) {
@@ -1343,7 +1341,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, 0, gun.gun_damage(), gun.gun_pierce() );
+    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1367,7 +1365,7 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        const auto ammo = gun.ammo_data()->ammo.get();
+        const auto &ammo = gun.ammo_data()->ammo;
         if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
@@ -1403,7 +1401,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun.get()->skill_used;
+    const skill_id &skill_used = firingt.gun->skill_used;
     auto const it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };
@@ -1584,7 +1582,7 @@ double player::gun_value( const item &weap, long ammo ) const
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default
-    if( weap.type->gun.get() == nullptr ) {
+    if( !weap.type->gun ) {
         return 0.0;
     }
 
@@ -1592,7 +1590,7 @@ double player::gun_value( const item &weap, long ammo ) const
         return 0.0;
     }
 
-    const islot_gun& gun = *weap.type->gun.get();
+    const islot_gun& gun = *weap.type->gun;
     const itype_id ammo_type = weap.ammo_default( true );
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
@@ -1606,7 +1604,7 @@ double player::gun_value( const item &weap, long ammo ) const
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
       effective_dispersion( tmp.sight_dispersion() );
 
-    if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
+    if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;

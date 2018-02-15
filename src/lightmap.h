@@ -17,7 +17,7 @@
 #define LIGHT_TRANSPARENCY_SOLID 0
 // Calculated to run out at 60 squares.
 // Cumulative transparency should drop to 0.1 or lower over 60 squares,
-// Bright sunlinght should drop to LIGHT_AMBIENT_LOW over 60 squares.
+// Bright sunlight should drop to LIGHT_AMBIENT_LOW over 60 squares.
 #define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
 #define LIGHT_TRANSPARENCY_CLEAR 1
 

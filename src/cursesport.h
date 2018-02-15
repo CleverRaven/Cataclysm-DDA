@@ -65,7 +65,7 @@ struct WINDOW {
 };
 
 extern std::array<pairs, 100> colorpairs;
-void curses_drawwindow( WINDOW *win );
+void curses_drawwindow( const catacurses::window &win );
 
 // allow extra logic for framebuffer clears
 extern void handle_additional_window_clear( WINDOW *win );

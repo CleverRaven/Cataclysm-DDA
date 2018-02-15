@@ -3,7 +3,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
@@ -104,16 +104,6 @@ struct special_attack {
 };
 
 class player_morale;
-class player_morale_ptr : public std::unique_ptr<player_morale> {
-    public:
-        player_morale_ptr() = default;
-        player_morale_ptr( const player_morale_ptr &rhs );
-        player_morale_ptr( player_morale_ptr &&rhs );
-        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
-        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
-
-        ~player_morale_ptr();
-};
 
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
@@ -236,7 +226,7 @@ class player : public Character
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
         void update_body( int from, int to );
-        /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -311,7 +301,7 @@ class player : public Character
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( long ch );
-        /** Returns player lumination based on the brightest active item they are carrying */
+        /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -375,7 +365,7 @@ class player : public Character
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
          * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infared vision.
+         * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -752,7 +742,7 @@ class player : public Character
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
 
-        /** Can the food be [theoretically] eaten no matter the consquences? */
+        /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
@@ -856,7 +846,7 @@ class player : public Character
         ret_val<bool> can_wear( const item& it ) const;
 
         /**
-         * Check player capable of takeing off an item.
+         * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
         ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
@@ -910,9 +900,9 @@ class player : public Character
         void mend_item( item_location&& obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -922,7 +912,7 @@ class player : public Character
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
          * @param it Item to calculate storage cost for
          * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -960,9 +950,9 @@ class player : public Character
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Containter containing the item to be wielded
+         * @param container Container containing the item to be wielded
          * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         bool wield_contents( item &container, int pos = 0, bool penalties = true,
@@ -971,7 +961,7 @@ class player : public Character
          * Stores an item inside another consuming moves proportional to weapon skill and volume
          * @param container Container in which to store the item
          * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         void store( item &container, item &put, bool penalties = true,
@@ -1043,7 +1033,7 @@ class player : public Character
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1258,7 +1248,7 @@ class player : public Character
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to to check for disassembly
+         * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
@@ -1390,7 +1380,7 @@ class player : public Character
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
-        copyable_unique_ptr<craft_command> last_craft;
+        pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
         int last_batch;
@@ -1429,7 +1419,7 @@ class player : public Character
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
-        // Returns a multiplier indicating the keeness of a player's hearing.
+        // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
@@ -1588,7 +1578,7 @@ class player : public Character
                                   std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
-         * @param critter Creature to check for visiblity
+         * @param critter Creature to check for visibility
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */
@@ -1659,7 +1649,7 @@ class player : public Character
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        player_morale_ptr morale;
+        pimpl<player_morale> morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

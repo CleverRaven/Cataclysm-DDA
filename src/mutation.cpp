@@ -14,6 +14,8 @@
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
+#include "output.h"
+
 #include <algorithm>
 
 static const trait_id trait_ROBUST( "ROBUST" );
@@ -400,7 +402,7 @@ void player::activate_mutation( const trait_id &mut )
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
@@ -766,14 +768,14 @@ bool player::mutate_towards( const trait_id &mut )
         }
     }
 
-    // Check for threshhold mutation, if needed
+    // Check for threshold mutation, if needed
     bool threshold = mdata.threshold;
     bool profession = mdata.profession;
     bool has_threshreq = false;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation. into a prereq.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;

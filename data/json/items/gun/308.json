@@ -227,7 +227,6 @@
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
-    "burst": 8,
     "magazine_well": 1
   }
 ]

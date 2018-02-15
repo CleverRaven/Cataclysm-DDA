@@ -124,10 +124,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
                 ( elem ) == "AUTUMN" ) {
                 season_limited = true;
-                if( ( calendar::turn.get_season() == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( calendar::turn.get_season() == WINTER && ( elem ) == "WINTER" ) ||
-                    ( calendar::turn.get_season() == SPRING && ( elem ) == "SPRING" ) ||
-                    ( calendar::turn.get_season() == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season_of_year( calendar::turn ) == SUMMER && ( elem ) == "SUMMER" ) ||
+                    ( season_of_year( calendar::turn ) == WINTER && ( elem ) == "WINTER" ) ||
+                    ( season_of_year( calendar::turn ) == SPRING && ( elem ) == "SPRING" ) ||
+                    ( season_of_year( calendar::turn ) == AUTUMN && ( elem ) == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }

@@ -4,6 +4,7 @@
 #include "player.h"
 #include "morale_types.h"
 #include "rng.h"
+#include "output.h"
 #include "translations.h"
 
 const efftype_id effect_hallu( "hallu" );
@@ -88,7 +89,8 @@ void addict_effect( player &u, addiction &add )
             break;
 
         case ADD_PKILLER:
-            if( calendar::once_every( 100 - in * 4 ) && u.get_painkiller() > 20 - in ) {
+            if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
+                u.get_painkiller() > 20 - in ) {
                 u.mod_painkiller( -1 );    // Tolerance increases!
             }
             if( u.get_painkiller() >= 35 ) { // No further effects if we're doped up.

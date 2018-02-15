@@ -5,6 +5,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
+#include "cursesdef.h"
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
@@ -141,8 +142,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
         const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
         // set up window
-        catacurses::window wf_win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-        WINDOW_PTR wf_winptr( wf_win );
+        catacurses::window wf_win = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
@@ -164,7 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         }
     } else { // 'Play NOW'
 #ifndef LUA
-        // Silently remove all Lua mods setted by default.
+        // Silently remove all Lua mods set by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
             MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
@@ -488,7 +488,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for (size_t i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz( w_worlds, i, 0, c_white, "%s", sTemp.str().c_str() );
+            mvwprintz( w_worlds, i, 0, c_white, sTemp.str() );
             wmove( w_worlds, i, 4 );
 
             std::string world_name = (world_pages[selpage])[i];
@@ -674,7 +674,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
             if( iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows) ) {
                 if( mSortCategory[iNum] != "" ) {
                     bKeepIter = true;
-                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, "%s", mSortCategory[iNum].c_str() );
+                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, mSortCategory[iNum] );
 
                 } else {
                     if( iNum == iActive ) {
@@ -690,12 +690,12 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
                     auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, "%s", mod.name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, mod.name );
                     } else {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
 #endif
 
                     if( w_shift ) {
@@ -745,10 +745,8 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     catacurses::window w_border = catacurses::newwin( 13, FULL_SCREEN_WIDTH / 2 - 3, 4 + iOffsetY, iOffsetX );
-    WINDOW_PTR w_borderptr( w_border );
 
     catacurses::window w_mods = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
-    WINDOW_PTR w_modsptr( w_mods );
 
     int start = 0;
     int cursor = 0;
@@ -855,7 +853,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             for (size_t i = 0; i < headers.size(); ++i) {
                 werase(header_windows[i]);
                 const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) / 2;
-                mvwprintz(header_windows[i], 0, header_x , c_cyan, "%s", headers[i].c_str());
+                mvwprintz( header_windows[i], 0, header_x, c_cyan, headers[i] );
 
                 if (active_header == i) {
                     mvwputch(header_windows[i], 0, header_x - 3, c_red, '<');
@@ -937,7 +935,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_active ) {
             draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
         }
-        refresh();
+        catacurses::refresh();
 
         last_active_header = active_header;
         const int next_header = (active_header == 1) ? 0 : 1;
@@ -1082,19 +1080,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
         // end RESOLVE INPUTS
     }
-    werase(w_header1);
-    werase(w_header2);
-    werase(w_shift);
-    werase(w_list);
-    werase(w_active);
-    werase(w_description);
-
-    delwin(w_header1);
-    delwin(w_header2);
-    delwin(w_shift);
-    delwin(w_list);
-    delwin(w_active);
-    delwin(w_description);
     return tab_output;
 }
 
@@ -1108,8 +1093,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     const char* line_of_32_underscores = "________________________________";
 
-    catacurses::window w_confirmation = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_confirmationptr( w_confirmation );
+    catacurses::window w_confirmation = catacurses::newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     unsigned namebar_y = 1;
     unsigned namebar_x = 3 + utf8_width(_("World Name:"));
@@ -1134,7 +1118,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
 to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
+            mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
             if (line == 1) {
                 wprintz(w_confirmation, h_light_gray, "_");
             }
@@ -1146,7 +1130,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 
         wrefresh(win);
         wrefresh(w_confirmation);
-        refresh();
+        catacurses::refresh();
 
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
@@ -1212,7 +1196,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     worldname = wrap.str();
                 }
                 mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, "%s", worldname.c_str());
+                mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
                 wprintz(w_confirmation, h_light_gray, "_");
             }
             break;
@@ -1274,7 +1258,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
                    ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
                   );
     wrefresh(win);
-    refresh();
+    catacurses::refresh();
 }
 
 void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int current )
@@ -1299,8 +1283,8 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
-        draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width( tab_strings[i] ) + 7;
+        draw_tab(w, x, _( tab_strings[i].c_str() ), (i == current) ? true : false);
+        x += utf8_width( _( tab_strings[i].c_str() ) ) + 7;
     }
 
     mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^

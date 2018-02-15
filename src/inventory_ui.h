@@ -10,7 +10,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
-#include "output.h"
 #include "item_location.h"
 
 class Character;
@@ -182,9 +181,7 @@ class inventory_selector_preset
                     func( func ) {}
 
 
-                std::string get_text( const inventory_entry &entry ) const {
-                    return replace_colors( func( entry ) );
-                }
+                std::string get_text( const inventory_entry &entry ) const;
 
                 std::string title;
                 std::string stub;
@@ -544,7 +541,7 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW_PTR w_inv;
+        catacurses::window w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;

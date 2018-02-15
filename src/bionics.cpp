@@ -322,17 +322,16 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
                 if( line <= bad.size() ) {
-                    trim_and_print( w, line, 2, win_w - 3, c_red, "%s", bad[line - 1].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_red, bad[line - 1] );
                 } else {
-                    trim_and_print( w, line, 2, win_w - 3, c_green, "%s",
-                                    good[line - 1 - bad.size()].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_green,
+                                    good[line - 1 - bad.size()] );
                 }
             }
         }
         wrefresh( w );
-        refresh();
+        catacurses::refresh();
         inp_mngr.wait_for_any_key();
-        delwin( w );
     } else if( bio.id == "bio_blood_filter" ) {
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
@@ -695,7 +694,7 @@ void player::process_bionic( int b )
 
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
-        if( calendar::once_every( 5 ) ) {
+        if( calendar::once_every( 5_turns ) ) {
             add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
@@ -873,7 +872,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool substracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,
@@ -943,27 +942,12 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
 bool player::install_bionics( const itype &type, int skill_level )
 {
-    if( type.bionic.get() == nullptr ) {
+    if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
+
     const bionic_id &bioid = type.bionic->id;
-    if( !bioid.is_valid() ) {
-        popup( "invalid / unknown bionic id %s", bioid.c_str() );
-        return false;
-    }
-    if( bioid == "bio_reactor_upgrade" ) {
-        if( !has_bionic( bionic_id( "bio_reactor" ) ) ) {
-            popup( _( "There is nothing to upgrade!" ) );
-            return false;
-        }
-    }
-    if( has_bionic( bioid ) ) {
-        if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
-            popup( _( "You have already installed this bionic." ) );
-            return false;
-        }
-    }
     const int difficult = type.bionic->difficulty;
     int chance_of_success;
     if( skill_level != -1 ) {
@@ -1072,19 +1056,22 @@ bool player::install_bionics( const itype &type, int skill_level )
                           pgettext( "memorial_female", "Installed bionic: %s." ),
                           bioid->name.c_str() );
 
-        add_msg( m_good, _( "Successfully installed %s." ), bioid->name.c_str() );
+        if( bioid->upgraded_bionic ) {
+            remove_bionic( bioid->upgraded_bionic );
+            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+                     bioid->upgraded_bionic->name.c_str(), bioid->name.c_str() );
+        } else {
+            //~ %s - name of the bionic.
+            add_msg( m_good, _( "Successfully installed %s." ), bioid->name.c_str() );
+        }
+
         add_bionic( bioid );
 
         for( const auto &mid : bioid->canceled_mutations ) {
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
             }
-        }
-
-        if( bioid == "bio_reactor_upgrade" ) {
-            remove_bionic( bionic_id( "bio_reactor" ) );
-            remove_bionic( bionic_id( "bio_reactor_upgrade" ) );
-            add_bionic( bionic_id( "bio_advreactor" ) );
         }
     } else {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
@@ -1475,6 +1462,7 @@ void load_bionic( JsonObject &jsobj )
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
+    jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
     std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
@@ -1522,6 +1510,23 @@ void check_bionics()
                 debugmsg( "Bionic %s (included by %s) consumes slots, those should be part of the containing bionic instead.",
                           bid.c_str(), bio.first.c_str() );
             }
+        }
+        if( bio.second.upgraded_bionic ) {
+            if( bio.second.upgraded_bionic == bio.first ) {
+                debugmsg( "Bionic %s is upgraded with itself", bio.first.c_str() );
+            } else if( !bio.second.upgraded_bionic.is_valid() ) {
+                debugmsg( "Bionic %s upgrades undefined bionic %s",
+                          bio.first.c_str(), bio.second.upgraded_bionic.c_str() );
+            }
+        }
+    }
+}
+
+void finalize_bionics()
+{
+    for( const auto &bio : bionics ) {
+        if( bio.second.upgraded_bionic ) {
+            bionics[ bio.second.upgraded_bionic ].available_upgrades.insert( bio.first );
         }
     }
 }

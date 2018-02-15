@@ -93,7 +93,7 @@ bool remove_file(const std::string &path)
 bool rename_file(const std::string &old_path, const std::string &new_path)
 {
     // Windows rename function does not override existing targets, so we
-    // have to remove the target to make it compatible with the linux rename
+    // have to remove the target to make it compatible with the Linux rename
     if (file_exist(new_path)) {
         if(!remove_file(new_path)) {
             return false;

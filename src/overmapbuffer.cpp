@@ -161,7 +161,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
         if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
-            debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
+            debugmsg( "NPC %s is out of bounds, on non-generated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
@@ -778,7 +778,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( int x, int y, in
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
                 return false;
@@ -796,7 +796,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     std::vector<std::shared_ptr<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
                 return false;
@@ -972,7 +972,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it
         // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the sumap to put it.
+        // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );

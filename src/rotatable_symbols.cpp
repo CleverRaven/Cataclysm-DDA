@@ -27,7 +27,7 @@ struct rotatable_symbol {
 
 std::vector<rotatable_symbol> symbols;
 
-} // anonymouse namespace
+} // anonymous namespace
 
 namespace rotatable_symbols
 {

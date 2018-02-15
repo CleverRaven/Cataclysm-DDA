@@ -101,9 +101,9 @@ void game::list_missions()
             }
             const int y = i - top_of_page + 3;
             if( ( int )selection == i ) {
-                mvwprintz( w_missions, y, 1, hilite( col ), "%s", miss->name().c_str() );
+                mvwprintz( w_missions, y, 1, hilite( col ), miss->name() );
             } else {
-                mvwprintz( w_missions, y, 1, col, "%s", miss->name().c_str() );
+                mvwprintz( w_missions, y, 1, col, miss->name() );
             }
         }
 
@@ -111,26 +111,29 @@ void game::list_missions()
             const auto miss = umissions[selection];
             int y = 4;
             if( !miss->get_description().empty() ) {
-                mvwprintz( w_missions, y++, 31, c_white, "%s", miss->get_description().c_str() );
+                mvwprintz( w_missions, y++, 31, c_white, miss->get_description() );
             }
             if( miss->has_deadline() ) {
                 const calendar deadline( miss->get_deadline() );
-                std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
-                                                to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
+                //@todo make a function to print the time (don't we already have one?)
+                //~ 1 season name, 2 day of season, 3 time of day
+                std::string dl = string_format( _( "%1$s, day %2$d %3$s" ),
+                                                calendar::name_season( season_of_year( deadline ) ),
+                                                day_of_season<int>( deadline ) + 1, deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
                     // @TODO: But displaying when you completed it would be useful.
-                    const int remaining_turns = deadline.get_turn() - calendar::turn;
+                    const time_duration remaining = time_duration::from_turns( deadline.get_turn() - calendar::turn );
                     std::string remaining_time;
 
-                    if( remaining_turns <= 0 ) {
+                    if( remaining <= 0_turns ) {
                         remaining_time = _( "None!" );
                     } else if( u.has_watch() ) {
-                        remaining_time = calendar::print_duration( remaining_turns );
+                        remaining_time = to_string( remaining );
                     } else {
-                        remaining_time = calendar::print_approx_duration( remaining_turns );
+                        remaining_time = to_string_approx( remaining );
                     }
 
                     mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
@@ -148,7 +151,7 @@ void game::list_missions()
                 { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, 4, 31, c_light_red, "%s", nope.at( tab ).c_str() );
+            mvwprintz( w_missions, 4, 31, c_light_red, nope.at( tab ) );
         }
 
         wrefresh( w_missions );
@@ -186,7 +189,5 @@ void game::list_missions()
         }
     }
 
-    werase( w_missions );
-    delwin( w_missions );
     refresh_all();
 }

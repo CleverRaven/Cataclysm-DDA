@@ -5,7 +5,7 @@
 #include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
@@ -613,7 +613,7 @@ class Character : public Creature, public visitable<Character>
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
-        copyable_unique_ptr<bionic_collection> my_bionics;
+        pimpl<bionic_collection> my_bionics;
 
     protected:
         void on_stat_change( const std::string &, int ) override {};

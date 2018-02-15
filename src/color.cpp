@@ -387,6 +387,7 @@ void color_manager::load_default()
 
 void init_colors()
 {
+    using namespace catacurses; // to get the base_color enumeration
     init_pair( 1, white,      black );
     init_pair( 2, red,        black );
     init_pair( 3, green,      black );
@@ -683,21 +684,13 @@ void color_manager::show_gui()
     const int iTotalCols = vLines.size();
 
     catacurses::window w_colors_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                       FULL_SCREEN_WIDTH * 3 / 4,
-                                       7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
-    WINDOW_PTR w_colors_helpptr( w_colors_help );
-
+                                       FULL_SCREEN_WIDTH * 3 / 4, 7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
     catacurses::window w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          iOffsetY, iOffsetX );
-    WINDOW_PTR w_colors_borderptr( w_colors_border );
     catacurses::window w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                         1 + iOffsetY,
-                                         1 + iOffsetX );
-    WINDOW_PTR w_colors_headerptr( w_colors_header );
+                                         1 + iOffsetY, 1 + iOffsetX );
     catacurses::window w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                  iHeaderHeight + 1 + iOffsetY,
-                                  1 + iOffsetX );
-    WINDOW_PTR w_colorsptr( w_colors );
+                                  iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX );
 
     draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
     mvwputch( w_colors_border, 3,  0, c_light_gray, LINE_XXXO ); // |-

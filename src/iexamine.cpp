@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
+#include "output.h"
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
@@ -339,7 +340,7 @@ private:
         return true;
     }
 
-    //!Move money from bank acount onto cash card.
+    //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
         item *dst = choose_card(_("Insert card for withdrawal."));
         if (!dst) {
@@ -479,12 +480,8 @@ void iexamine::vending(player &p, const tripoint &examp)
 
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::WINDOW_PTR const w_ptr {catacurses::newwin( window_h, w_items_w, padding_y, padding_x )};
-    catacurses::WINDOW_PTR const w_item_info_ptr {
-        catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 )};
-
-    catacurses::window w           = w_ptr.get();
-    catacurses::window w_item_info = w_item_info_ptr.get();
+    catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 );
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");
@@ -1129,8 +1126,8 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p.pos(), 60, _("an alarm sound!"));
-            if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
+            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
             }
             break;
         case HACK_NOTHING:
@@ -1242,7 +1239,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
     sounds::sound(examp, 80, (""));
     g->m.ter_set(examp, t_rock_floor);
-    g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
+    g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
 
 /**
@@ -1256,13 +1253,13 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
         g->m.i_clear(examp);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else if (p.has_amount("petrified_eye", 1) &&
                query_yn(_("Place your petrified eye on the pedestal?"))) {
         p.use_amount("petrified_eye", 1);
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
-        g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
+        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
     } else
         add_msg(_("This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top."));
@@ -1361,7 +1358,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
         }
     }
     add_msg(m_warning, _("You hear the rumble of rock shifting."));
-    g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
+    g->events.add( EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**
@@ -1369,7 +1366,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
  */
 bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
             add_msg( m_info, _("This flower is dead. You can't get it.") );
         } else {
@@ -1589,7 +1586,7 @@ void iexamine::harvested_plant( player &p, const tripoint &examp )
 
 void iexamine::flower_marloss(player &p, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
+    if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if( can_drink_nectar( p ) ) {
@@ -1611,7 +1608,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
 
 /**
  * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
- * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
+ * Transforms the egg sack furniture into a ruptured egg sack (f_egg_sacke).
  * Also spawns eggs.
  * @param p The player
  * @param examp Location of egg sack
@@ -1901,8 +1898,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            //@todo change season_length to return time_duration
-            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
+            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
             //@todo item should probably clamp the value on its own
@@ -2237,7 +2233,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             add_msg(m_info, _("You don't have any drinks to fill the %s with."), g->m.name(examp).c_str());
             return;
         }
-        // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
+        // Make lists of unique drinks... about third time we do this, maybe we ought to make a function next time
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
@@ -3393,8 +3389,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                     pgettext( "memorial_female", "Set off an alarm." ) );
                 sounds::sound( p.pos(), 60, _( "an alarm sound!" ) );
-                if( examp.z > 0 && !g->event_queued( EVENT_WANTED ) ) {
-                    g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p.global_sm_location() );
+                if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                    g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:
@@ -3469,7 +3465,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 
     const int climb_cost = p.climbing_cost( where, examp );
     const auto fall_mod = p.fall_damage_mod();
-    std::string query_str = ngettext("Looks like %d storey. Jump down?",
+    std::string query_str = ngettext("Looks like %d story. Jump down?",
                                      "Looks like %d stories. Jump down?",
                                      height);
     if( height > 1 && !query_yn(query_str.c_str(), height) ) {

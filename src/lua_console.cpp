@@ -12,13 +12,7 @@ lua_console::lua_console() : cWin( catacurses::newwin( lines, width, 0, 0 ) ),
 {
 }
 
-lua_console::~lua_console()
-{
-    werase( cWin );
-    werase( iWin );
-    delwin( cWin );
-    delwin( iWin );
-}
+lua_console::~lua_console() = default;
 
 std::string lua_console::get_input()
 {
@@ -58,7 +52,7 @@ void lua_console::draw()
     int stack_size = text_stack.size() - scroll;
     for( int i = lines; i > lines - stack_size && i >= 0; i-- ) {
         auto line = text_stack[stack_size - 1 - ( lines - i )];
-        mvwprintz( cWin, i - 1, 0, line.second, "%s", line.first.c_str() );
+        mvwprintz( cWin, i - 1, 0, line.second, line.first );
     }
 
     wrefresh( cWin );

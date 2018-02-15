@@ -6,6 +6,7 @@
 #include "input.h"
 #include "cursesdef.h"
 #include "string_id.h"
+#include "color.h"
 #include "int_id.h"
 #include "requirements.h"
 #include "player_activity.h"
@@ -15,7 +16,6 @@
 #include <map>
 #include <sstream>
 
-class nc_color;
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
 
@@ -202,7 +202,6 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
-        void deallocate_windows();
 };
 
 #endif

@@ -25,7 +25,8 @@
     "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
-    "included_bionics": [ "bio_plutdump" ]
+    "included_bionics": [ "bio_plutdump" ],
+    "upgraded_bionic": "bio_reactor"
   },
   {
     "id": "bio_alarm",
@@ -777,12 +778,6 @@
     "included_bionics": [ "bio_plutdump" ]
   },
   {
-    "id": "bio_reactor_upgrade",
-    "type": "bionic",
-    "name": "Reactor Upgrade",
-    "description": "You shouldn't see this."
-  },
-  {
     "id": "bio_recycler",
     "type": "bionic",
     "name": "Recycler Unit",
@@ -897,7 +892,7 @@
   {
     "id": "bio_stiff",
     "type": "bionic",
-    "name": "Wire-induced Stiffness",
+    "name": "Wire-Induced Stiffness",
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -919,7 +914,7 @@
   {
     "id": "bio_sunglasses",
     "type": "bionic",
-    "name": "Anti-glare Compensators",
+    "name": "Anti-Glare Compensators",
     "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],

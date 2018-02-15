@@ -55,13 +55,12 @@ bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
-bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
+bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
-void done_tree( const tripoint & );
 void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
@@ -197,14 +196,12 @@ void construction_menu()
     const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3);
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    catacurses::WINDOW_PTR w_con_ptr {catacurses::newwin( w_height, w_width, w_y0, w_x0 )};
-    catacurses::window const w_con = w_con_ptr.get();
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
 
     const int w_list_width = int( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
-    catacurses::WINDOW_PTR w_list_ptr {catacurses::newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
-    catacurses::window const w_list = w_list_ptr.get();
+    catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 );
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -328,8 +325,8 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ), "%s",
-                            con_name.c_str() );
+                            construction_color( con_name, highlight ),
+                            con_name );
         }
 
         if( update_info ) {
@@ -358,7 +355,7 @@ void construction_menu()
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
                 trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i, pos_x,
-                                available_window_width, c_white, "%s", notes[i].c_str() );
+                                available_window_width, c_white, notes[i] );
             }
 
             if( !constructs.empty() ) {
@@ -368,7 +365,7 @@ void construction_menu()
                 std::string current_desc = constructs[select];
                 // Print construction name
                 trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                "%s", current_desc.c_str() );
+                                current_desc );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -633,8 +630,8 @@ void construction_menu()
         }
     } while( !exit );
 
-    w_list_ptr.reset();
-    w_con_ptr.reset();
+    w_list = catacurses::window();
+    w_con = catacurses::window();
     g->refresh_all();
 }
 
@@ -865,21 +862,6 @@ bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
     return ( g->get_levz() > -OVERMAP_DEPTH );
-}
-
-void construct::done_tree( const tripoint &p )
-{
-    tripoint dirp;
-    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), dirp ) ) {
-        // try again
-    }
-
-    tripoint to = p + point( 3 * dirp.x + rng( -1, 1 ), 3 * dirp.y + rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
-    for( auto &elem : tree ) {
-        g->m.destroy( elem );
-        g->m.ter_set( elem, t_trunk );
-    }
 }
 
 void construct::done_trunk_log( const tripoint &p )
@@ -1200,7 +1182,6 @@ void load_construction(JsonObject &jo)
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
-        { "done_tree", construct::done_tree },
         { "done_trunk_log", construct::done_trunk_log },
         { "done_trunk_plank", construct::done_trunk_plank },
         { "done_vehicle", construct::done_vehicle },
