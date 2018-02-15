@@ -472,7 +472,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
-    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
     if( corpse->has_flag( MF_CBM_CIV ) ) {
         butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
         butcher_cbm_group( "bionics_common", p->pos(), age, roll_butchery() );

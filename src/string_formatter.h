@@ -2,7 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-//@todo replace with std::optional
+//@todo: replace with std::optional
 #include "optional.h"
 #include "compatibility.h"
 #include "printf_check.h"
@@ -145,7 +145,7 @@ is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&
  * See @ref string_format for usage.
  * Basically it extracts the format specifiers and calls `sprintf` for each one separately
  * and with proper conversion of the input type.
- * For example `printf("%f", 7)` would yield undefined behaviour as "%f" requires a `double`
+ * For example `printf("%f", 7)` would yield undefined behavior as "%f" requires a `double`
  * as argument. This class detects the format specifier and converts the input to `double`
  * before calling `sprintf`. Similar for `printf("%d", "foo")` (yields UB again), but this
  * class will just throw an exception.

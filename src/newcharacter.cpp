@@ -265,7 +265,7 @@ void player::randomize( const bool random_scenario, points_left &points )
     points.skill_points = points.skill_points - g->u.prof->point_cost() - g->scen->point_cost();
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
-    // to many points, therefor they are added back.
+    // to many points, therefore they are added back.
     points.stat_points += 8 * 4;
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;

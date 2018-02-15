@@ -143,7 +143,7 @@ SkillLevel::SkillLevel( int level, int exercise, bool isTraining, const time_poi
       _isTraining( isTraining ), _highestLevel( highestLevel )
 {
     if( _lastPracticed == calendar::time_of_cataclysm ) {
-        //@todo shouldn't that be calendar::start?
+        //@todo: shouldn't that be calendar::start?
         _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }

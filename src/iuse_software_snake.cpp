@@ -82,7 +82,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
-    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) ); //@todo print actual bound keys
+    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) ); //@todo: print actual bound keys
     wrefresh(w_snake);
 }
 
@@ -154,7 +154,7 @@ int snake_game::start_game()
                                                 vSnakeBody[vSnakeBody.size() - 1].second + iDirX));
         }
 
-        //Check if we hit ourself
+        //Check if we hit ourselves
         if (mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second]) {
             //We are dead :(
             break;

@@ -231,7 +231,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
-void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
+void calculate_mapgen_weights() { // @todo: rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
     for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
@@ -311,7 +311,7 @@ std::shared_ptr<mapgen_function>
                 }
                 ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
-            // todo; pass dirname current.json, because the latter two are icky
+            // @todo: pass dirname current.json, because the latter two are icky
             // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
@@ -605,9 +605,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray ) {
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // todo... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val; // @todo: ... support for random furniture? or not.
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // todo, sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // @todo: sanity check?
         pjo.read("chance", tmp_chance );
         pjo.read("rotation", tmp_rotation );
         pjo.read("fuel", tmp_fuel );
@@ -1755,7 +1755,7 @@ void mapgen_function_json_base::setup_common()
     // No fill_ter? No format? GTFO.
     if ( ! qualifies ) {
        jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
-       // todo: write TFM.
+       // @todo: write TFM.
    }
 
     if ( jo.has_array("set") ) {
@@ -1793,7 +1793,7 @@ void mapgen_function_json_base::setup_common()
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
- * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
+ * @todo: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const {
     if( chance != 1 && !one_in( chance ) ) {
@@ -2081,7 +2081,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
-    // todo; make these json or mappable functions
+    // @todo: make these json or mappable functions
     } else if (terrain_type == "office_tower_1_entrance") {
 
         dat.fill_groundcover();
@@ -2803,7 +2803,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
-            // @todo This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
+            // @todo: This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
             const auto is_lab = []( const oter_id &id ) {
                 return is_ot_type( "lab", id ) ||
                        is_ot_type( "lab_stairs", id ) ||
@@ -6975,7 +6975,7 @@ std::vector<item*> map::place_items( const items_location loc, const int chance,
                                      const tripoint &t, const bool ongrass, const time_point &turn,
                                      const int magazine, const int ammo )
 {
-    //@todo implement for 3D
+    //@todo: implement for 3D
     return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
@@ -7283,7 +7283,7 @@ void map::rotate(int turns)
     const tripoint &abs_sub = get_abs_sub();
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
-    // @todo This radius can be smaller - how small?
+    // @todo: This radius can be smaller - how small?
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );

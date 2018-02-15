@@ -32,7 +32,7 @@ typedef string_id<Trait_group> Trait_group_tag;
 
 }
 
-// @todo Move to better suited file (rng.h/.cpp?)
+// @todo: Move to better suited file (rng.h/.cpp?)
 class distribution
 {
     private:
@@ -115,7 +115,7 @@ class npc_class
         static void check_consistency();
 };
 
-// @todo Get rid of that
+// @todo: Get rid of that
 extern npc_class_id NC_NONE;
 extern npc_class_id NC_EVAC_SHOPKEEP;
 extern npc_class_id NC_SHOPKEEP;

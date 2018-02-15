@@ -918,7 +918,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
         newit.invlet = '\0';
     }
 
-    // Remove letters that are not in the favourites cache
+    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
         auto invlet_list_iter = invlet_cache.find( newit.typeId() );
         bool found = false;

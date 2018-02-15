@@ -251,7 +251,7 @@ class game
         void resonance_cascade( const tripoint &p );
         /** Triggers a scrambler blast at p. */
         void scrambler_blast( const tripoint &p );
-        /** Triggers an emp blast at p. */
+        /** Triggers an EMP blast at p. */
         void emp_blast( const tripoint &p );
         /**
          * @return The living creature with the given id. Returns null if no living
@@ -523,7 +523,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // @todo Move these functions to game_menus::inv and isolate them.
+        // @todo: Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_flag( const std::string &flag, const std::string &title );

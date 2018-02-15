@@ -1848,7 +1848,7 @@ int Character::get_fatigue() const
 
 void Character::reset_bonuses()
 {
-    // Reset all bonuses to 0 and mults to 1.0
+    // Reset all bonuses to 0 and multipliers to 1.0
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -2355,7 +2355,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo Waiting/reading/being unconscious on bed/sofa/grass
+    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2413,7 +2413,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool main ) const
 {
-    // @todo Remove broken parts, parts removed by mutations etc.
+    // @todo: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
         bp_head,
         bp_eyes,
@@ -2441,10 +2441,10 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
     return main ? main_bps : all_bps;
 }
 
-// @todo Better place for it?
+// @todo: Better place for it?
 std::string tag_colored_string( const std::string &s, nc_color color )
 {
-    // @todo Make this tag generation a function, put it in good place
+    // @todo: Make this tag generation a function, put it in good place
     std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
     return color_tag_open + s;
 }
@@ -2485,7 +2485,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << tag_colored_string( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo Integrate into get_hp_bar somehow
+        // @todo: Integrate into get_hp_bar somehow
         ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2524,7 +2524,7 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo Get rid of if/else ladder
+    // @todo: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2553,7 +2553,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo Cache
+    // @todo: Cache
     float awake_rate = mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {

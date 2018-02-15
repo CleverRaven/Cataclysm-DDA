@@ -636,7 +636,7 @@ void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem
     }
 
     // Decay intensity if supposed to do so
-    // @todo Remove effects that would decay to 0 intensity?
+    // @todo: Remove effects that would decay to 0 intensity?
     if( intensity > 1 && eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0 ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
     }

@@ -366,7 +366,7 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     } else {
         // This should fail and return, but currently crafting_command isn't saved
         // Meaning there are still cases where has_cached_selections will be false
-        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        // @todo: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
         const auto &req = making->requirements();
         for( const auto &it : req.get_components() ) {
             std::list<item> tmp = consume_items( it, batch_size );
@@ -382,7 +382,7 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
 
 void player::complete_craft()
 {
-    //@todo change making to be a reference, it can never be null anyway
+    //@todo: change making to be a reference, it can never be null anyway
     const recipe *making = &recipe_id( activity.name ).obj(); // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
@@ -526,7 +526,7 @@ void player::complete_craft()
     int used_age_count = 0;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
-        // messages, learning of recipe, food spoilage calc only once
+        // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
             first = false;
             if( knows_recipe( making ) ) {
@@ -590,7 +590,7 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    //@todo encapsulate this into some function
+    //@todo: encapsulate this into some function
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
@@ -1346,7 +1346,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );//@todo change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );//@todo: change to forward an id or a reference
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname().c_str() );
             } else {

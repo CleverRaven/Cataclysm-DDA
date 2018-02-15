@@ -182,7 +182,7 @@ void item::add_rain_to_container(bool acid, int charges)
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if (!acid) {
-            // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
+            // Funnels aren't always clean enough for water. // @todo: disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
         ret.charges = std::min<long>( charges, capa );
@@ -285,7 +285,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0;
         auto items = g->m.i_at( loc );
-        if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
+        if (one_in(turns_per_charge)) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -497,7 +497,7 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
-// Script from wikipedia:
+// Script from Wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
 // Local conditions
@@ -591,7 +591,7 @@ std::string weather_forecast( point const &abs_sm_pos )
 }
 
 /**
- * Print temperature (and convert to celsius if celsius display is enabled.)
+ * Print temperature (and convert to Celsius if Celsius display is enabled.)
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {

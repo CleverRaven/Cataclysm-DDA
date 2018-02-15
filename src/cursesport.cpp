@@ -123,7 +123,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
     int i, j;
@@ -233,7 +233,7 @@ void catacurses::mvwvline(const window &win, int y, int x, chtype ch, int n)
 void catacurses::wrefresh(const window &win_)
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    //@todo log win == nullptr
+    //@todo: log win == nullptr
     if( win != nullptr && win->draw ) {
         cata_cursesport::curses_drawwindow( win_ );
     }
@@ -391,7 +391,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
 void catacurses::wprintw(const window &win, const std::string &printbuf )
 {
     if( !win ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
 
@@ -412,7 +412,7 @@ void catacurses::werase(const window &win_)
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
 
@@ -471,7 +471,7 @@ void catacurses::wclear( const window &win_)
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     werase(win_);
     if( win == nullptr ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
 
@@ -524,7 +524,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
 
@@ -545,7 +545,7 @@ void catacurses::wattroff(const window &win_, int)
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo log this
+        //@todo: log this
         return;
     }
 

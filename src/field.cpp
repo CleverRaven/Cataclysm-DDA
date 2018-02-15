@@ -709,7 +709,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
-    field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
+    field_id curtype; //Holds cur->getFieldType() as that is what the old system used before rewrite.
 
     tripoint thep;
     thep.z = submap_z;
@@ -2457,7 +2457,7 @@ field::~field()
 /*
 Function: findField
 Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then returns NULL.
-Good for checking for existance of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
+Good for checking for existence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
 */
 field_entry *field::findField( const field_id field_to_find )
 {

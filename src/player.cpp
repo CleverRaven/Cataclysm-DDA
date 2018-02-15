@@ -1624,9 +1624,9 @@ int player::floor_warmth( const tripoint &pos ) const
     const int item_warmth = floor_item_warmth( pos );
     int bedding_warmth = floor_bedding_warmth( pos );
 
-    // If the PC has fur, etc, that'll apply too
+    // If the PC has fur, etc, that will apply too
     int floor_mut_warmth = bodytemp_modifier_traits_floor();
-    // DOWN doesn't provide floor insulation, though.
+    // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
     if( ( !( has_trait( trait_DOWN ) ) ) && ( floor_mut_warmth >= 200 ) ) {
         bedding_warmth = std::max( 0, bedding_warmth );
@@ -2151,7 +2151,7 @@ bool player::is_immune_damage( const damage_type dt ) const
 
 double player::recoil_vehicle() const
 {
-    // @todo vary penalty dependent upon vehicle part on which player is boarded
+    // @todo: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
         vehicle *veh = g->m.veh_at( pos() );
@@ -2257,7 +2257,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << eol;
     memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << eol;
     if( epitaph.length() > 0 ) { //Don't record empty epitaphs
-        //~ The "%s" will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
+        //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << eol << eol;
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
@@ -3045,7 +3045,7 @@ void player::set_highest_cat_level()
 
     // For each of our mutations...
     for( auto &mut : my_mutations ) {
-        // ...build up a map of all prereq/replacement mutations along the tree, along with their distance from the current mutation
+        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0);
 
@@ -3418,7 +3418,7 @@ void player::pause()
                 continue;
             }
 
-            // @todo Tools and skills
+            // @todo: Tools and skills
             total_left += eff.get_duration();
             // Being on the ground will smother the fire much faster because you can roll
             int dur_removed = on_ground ? eff.get_duration() / 2 + 2 : 1;
@@ -3636,7 +3636,7 @@ int player::talk_skill() const
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait( trait_SAPIOVORE )) {
-        ret -= 20; // Friendly convo with your prey? unlikely
+        ret -= 20; // Friendly convolution with your prey? unlikely
     } else if (has_trait( trait_UGLY )) {
         ret -= 3;
     } else if (has_trait( trait_DEFORMED )) {
@@ -3971,16 +3971,16 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             break;
         case bp_mouth: // Fall through to head damage
         case bp_head:
-            // @todo Some daze maybe? Move drain?
+            // @todo: Some daze maybe? Move drain?
             break;
         default:
             debugmsg( "Wacky body part hit!" );
     }
 
-    // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
+    // @todo: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
-    //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
+    //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
         if ( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
@@ -4302,7 +4302,7 @@ int player::impact( const int force, const tripoint &p )
     float mod = 1.0f;
     int effective_force = force;
     int cut = 0;
-    // Percentage arpen - armor won't help much here
+    // Percentage armor penetration - armor won't help much here
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
 
@@ -5405,7 +5405,7 @@ double player::vomit_mod()
 
 void player::suffer()
 {
-    // @todo Remove this section and encapsulate hp_cur
+    // @todo: Remove this section and encapsulate hp_cur
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         if( hp_cur[i] <= 0 ) {
@@ -6607,7 +6607,7 @@ void player::update_body_wetness( const w_point &weather )
             drying_chance = 1;
         }
 
-        // @todo Make evaporation reduce body heat
+        // @todo: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
             body_wetness[i] -= 1;
             if( body_wetness[i] < 0 ) {
@@ -6950,8 +6950,8 @@ bool player::has_fire(const int quantity) const
 
 void player::use_fire(const int quantity)
 {
-//Ok, so checks for nearby fires first,
-//then held lit torch or candle, bio tool/lighter/laser
+//Okay, so checks for nearby fires first,
+//then held lit torch or candle, bionic tool/lighter/laser
 //tries to use 1 charge of lighters, matches, flame throwers
 //If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
 // (home made, military), hotplate, welder in that order.
@@ -7167,7 +7167,7 @@ int player::drink_from_hands(item& water) {
     return charges_consumed;
 }
 
-// @todo Properly split medications and food instead of hacking around
+// @todo: Properly split medications and food instead of hacking around
 bool player::consume_med( item &target )
 {
     if( !target.is_medication() ) {
@@ -7192,7 +7192,7 @@ bool player::consume_med( item &target )
         }
     }
 
-    // @todo Get the target it was used on
+    // @todo: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     consume_effects( target );
     mod_moves( -250 );
@@ -8091,7 +8091,7 @@ void player::mend_item( item_location&& obj, bool interactive )
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
-            //@todo better have a from_moves function
+            //@todo: better have a from_moves function
             descr << "> " << to_string_approx( time_duration::from_turns( f.first->time() / 100 ) ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
@@ -8513,7 +8513,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
             activity.values.push_back( item_pair.second );
         }
     }
-    // @todo Remove the hack. Its here because npcs don't process activities
+    // @todo: Remove the hack. Its here because npcs don't process activities
     if( is_npc() ) {
         activity.do_turn( this );
     }
@@ -8586,7 +8586,7 @@ hint_rating player::rate_action_unload( const item &it ) const
 
 hint_rating player::rate_action_mend( const item &it ) const
 {
-    // @todo check also if item damage could be repaired via a tool
+    // @todo: check also if item damage could be repaired via a tool
     if( !it.faults.empty() ) {
         return HINT_GOOD;
     }
@@ -8928,7 +8928,7 @@ void player::gunmod_add( item &gun, item &mod )
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
                        gun.tname().c_str() ) ) {
             add_msg_if_player( _( "Never mind." ) );
-            return; // player cancelled installation
+            return; // player canceled installation
         }
     }
 
@@ -8968,7 +8968,7 @@ void player::gunmod_add( item &gun, item &mod )
         prompt.query();
         if( prompt.ret < 0 ) {
             add_msg_if_player( _( "Never mind." ) );
-            return; // player cancelled installation
+            return; // player canceled installation
         }
         actions[ prompt.ret ]();
     }
@@ -8996,7 +8996,7 @@ void player::toolmod_add( item_location tool, item_location mod )
     if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod->tname().c_str(),
                     tool->tname().c_str() ) ) {
         add_msg_if_player( _( "Never mind." ) );
-        return; // player cancelled installation
+        return; // player canceled installation
     }
 
     assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
@@ -10014,7 +10014,7 @@ std::string player::is_snuggling() const
 float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
-    // that you can generally see.  There'll still be the haze, but
+    // that you can generally see.  There still will be the haze, but
     // it's annoying rather than limiting.
     if( is_blind() ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
@@ -10405,7 +10405,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             // Heat damage can set armor on fire
             // Even though it doesn't cause direct physical damage to it
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
-                // @todo Different fire intensity values based on damage
+                // @todo: Different fire intensity values based on damage
                 fire_data frd{ 2, 0.0f, 0.0f };
                 destroy = armor.burn( frd, true );
                 int fuel = roll_remainder( frd.fuel_produced );
@@ -11060,7 +11060,7 @@ int player::visibility( bool, int ) const
     if ( is_invisible() ) {
         return 0;
     }
-    // todo:
+    // @todo:
     // if ( dark_clothing() && light check ...
     return 100;
 }
@@ -11443,7 +11443,7 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
 }
@@ -11451,7 +11451,7 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range &&
           ( sees( critter ) || sees_with_infrared( critter ) );
     } );
@@ -11460,7 +11460,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
 std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
             rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
@@ -11767,7 +11767,7 @@ std::set<tripoint> player::get_path_avoid() const
         }
     }
 
-    // @todo Add known traps in a way that doesn't destroy performance
+    // @todo: Add known traps in a way that doesn't destroy performance
 
     return ret;
 }

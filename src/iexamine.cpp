@@ -465,7 +465,7 @@ void iexamine::vending(player &p, const tripoint &examp)
     item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
-        return; // player cancelled selection
+        return; // player canceled selection
     } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
@@ -1517,7 +1517,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
-    // Incredibly low priority @todo Allow separating nectar seasons
+    // Incredibly low priority @todo: Allow separating nectar seasons
     if( nectar && drink_nectar( p ) ) {
         return false;
     }
@@ -1901,11 +1901,11 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
-            //@todo item should probably clamp the value on its own
+            //@todo: item should probably clamp the value on its own
             seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefor this hack:
+            // must be on the square of the plant, therefore this hack:
             const auto old_furn = g->m.furn( examp );
             g->m.furn_set( examp, f_null );
             g->m.spawn_item( examp, "fertilizer", 1, 1, (int)calendar::turn );
@@ -2048,7 +2048,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if( !brew_present ) {
-        // @todo Allow using brews from crafting inventory
+        // @todo: Allow using brews from crafting inventory
         const auto b_inv = p.items_with( []( const item &it ) {
             return it.is_brewable();
         } );
@@ -2148,11 +2148,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
     item &brew_i = items_here.front();
     // Does the vat contain unfermented brew, or already fermented booze?
-    // @todo Allow "recursive brewing" to continue without player having to check on it
+    // @todo: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
-        //@todo change brew_time to return time_duration
+        //@todo: change brew_time to return time_duration
         const time_duration brew_time = brew_i.brewing_time();
         const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
@@ -2172,7 +2172,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
             g->m.i_clear( examp );
             for( const auto &result : results ) {
-                // @todo Different age based on settings
+                // @todo: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
                 if( booze.made_of( LIQUID ) ) {
@@ -3419,7 +3419,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         }
 
         cashcard = &( p.i_at( pos ) );
-        // Ok, we have a cash card. Now we need to know what's left in the pump.
+        // Okay, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );
         if( amount >= 0 ) {
