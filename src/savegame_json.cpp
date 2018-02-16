@@ -730,11 +730,11 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "stamina", stamina);
     data.read( "move_mode", move_mode );
-    // TODO: The if clause can be omitted after some time, just there for old savegames
+    // @todo: The if clause can be omitted after some time, just there for old savegames
     if ( !data.read( "selected_move_mode", selected_move_mode ) ) {
        selected_move_mode = move_mode;
     }
-    data.read( "move_mode",  moved );
+    data.read( "moved",  moved );
 
     set_highest_cat_level();
     drench_mut_calc();

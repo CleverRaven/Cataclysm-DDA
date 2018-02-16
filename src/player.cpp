@@ -2936,7 +2936,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         }
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-                 col_per = c_white, col_spd = c_white, col_time = c_white;
+                 col_per = c_white, col_spd = c_white, col_time = c_white, col_mvmd = c_white;
         int str_bonus = get_str_bonus();
         int dex_bonus = get_dex_bonus();
         int int_bonus = get_int_bonus();
@@ -3003,9 +3003,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const auto str_sneak = pgettext( "movement-type", "S" );
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
-        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk :
-                                    ( move_mode == "sneak" ? str_sneak : str_run ) );
-        wprintz( w, c_yellow, " %s", selected_move_mode == "walk" ? str_walk :
+        // yellow color indicates a change in move_mode
+        if ( move_mode != selected_move_mode ) {
+            col_mvmd = c_yellow;
+        }
+        wprintz( w, col_mvmd, " %s", selected_move_mode == "walk" ? str_walk :
                                     ( selected_move_mode == "sneak" ? str_sneak : str_run ) );
 
         if( sideStyle ) {
@@ -11375,10 +11377,10 @@ float player::get_sees_modifier() const
     modifier -= get_skill_level( skill_survival ) * 0.025;
 
     // encumbrance on bodyparts has negative effect (every 20 points = 1%)
-    modifier += (float) ( encumb( bp_torso ) + encumb( bp_head ) +
-                          encumb( bp_arm_l ) + encumb( bp_arm_r ) +
-                          encumb( bp_foot_l ) + encumb( bp_foot_r ) +
-                          encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2000.0;
+    modifier += ( encumb( bp_torso ) + encumb( bp_head ) +
+                  encumb( bp_arm_l ) + encumb( bp_arm_r ) +
+                  encumb( bp_foot_l ) + encumb( bp_foot_r ) +
+                  encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2000.0;
 
     return modifier;
 }
