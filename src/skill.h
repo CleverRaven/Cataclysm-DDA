@@ -78,6 +78,8 @@ class SkillLevel
         int _highestLevel = 0;
 
     public:
+        SkillLevel() {}
+
         bool isTraining() const {
             return _isTraining;
         }
@@ -161,7 +163,8 @@ class SkillLevel
         void deserialize( JsonIn &jsin );
 };
 
-class SkillLevelMap : public std::map<skill_id, SkillLevel> {
+class SkillLevelMap : public std::map<skill_id, SkillLevel>
+{
 };
 
 double price_adjustment( int );
