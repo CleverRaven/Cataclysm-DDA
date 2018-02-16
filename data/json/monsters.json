@@ -3237,7 +3237,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES", "FAT" ]
   },
   {
-	"id": "mon_nakedmolerat_giant",
+    "id": "mon_nakedmolerat_giant",
     "type": "MONSTER",
     "name": "gigantic naked mole-rat",
     "description": "A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has been toughened by constant tunneling.  Its hide is riddled with giant scabs, as a pair of incisors the size of an industrial excavator's buckets gnash constantly and several car-length whiskers twitch at the air.  It regularly makes high-pitched chirps as it roams around.",
@@ -3257,21 +3257,21 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_cut": 10,
-	"dodge": 1,
+    "dodge": 1,
     "armor_bash": 5,
     "armor_cut": 2,
-	"vision_day": 0,
+    "vision_day": 0,
     "vision_night": 0,
     "special_attacks": [
       [ "SHRIEK_ALERT", 10 ],
       [ "SHRIEK_STUN", 1 ],
-	  {
+      {
         "type": "bite",
         "cooldown": 6
       },
       [ "impale", 10 ]
-	],
-	"anger_triggers": [ "HURT", "SOUND", "STALK" ],
+    ],
+    "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "ATTACKMON", "BLEED", "BONES", "BORES", "CAN_DIG", "FAT", "GOODHEARING", "HEARS", "KEENNOSE", "LEATHER", "PATH_AVOID_DANGER_1", "REGENERATES_10", "REGEN_MORALE", "SMELLS", "WARM"  ]
