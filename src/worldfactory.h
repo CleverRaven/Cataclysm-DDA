@@ -115,7 +115,7 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, unsigned int current );
+        static void draw_worldgen_tabs( const catacurses::window &win, int current );
         void show_active_world_mods( const std::vector<std::string> &world_mods );
 
     protected:
@@ -128,7 +128,7 @@ class worldfactory
         int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
         void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, int &cursor,
+        void draw_mod_list( const catacurses::window &w, int &start, unsigned long &cursor,
                             const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
