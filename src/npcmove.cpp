@@ -298,6 +298,18 @@ void npc::move()
         }
     }
 
+    //NPCs will try to run away for at least 10 tiles from dangerous items such as armed explosives.
+    for( const tripoint &danger_radius : g->m.points_in_radius( pos(), 10 ) ) {
+        const auto items = g->m.i_at( danger_radius );
+        const bool dangerous_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+            return i.is_dangerous();
+        } );
+        if( dangerous_items ) {
+            move_away_from( danger_radius );
+            return;
+        }
+    }
+
     // TODO: Place player-aiding actions here, with a weight
 
     /* NPCs are fairly suicidal so at this point we will do a quick check to see if
