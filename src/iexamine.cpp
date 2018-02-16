@@ -193,6 +193,7 @@ public:
             if( !u.activity.is_null() ) {
                 break;
             }
+            g->draw();
         }
     }
 private:
