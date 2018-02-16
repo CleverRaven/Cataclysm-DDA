@@ -179,7 +179,7 @@ void mod_ui::try_add( const std::string &mod_to_add,
     }
 }
 
-void mod_ui::try_rem( unsigned long selection, std::vector<std::string> &active_list )
+void mod_ui::try_rem( size_t selection, std::vector<std::string> &active_list )
 {
     // first make sure that what we are looking for exists in the list
     if( selection >= active_list.size() ) {
@@ -208,15 +208,15 @@ void mod_ui::try_rem( unsigned long selection, std::vector<std::string> &active_
     }
 }
 
-void mod_ui::try_shift( char direction, unsigned long &selection, std::vector<std::string> &active_list )
+void mod_ui::try_shift( char direction, size_t &selection, std::vector<std::string> &active_list )
 {
     // error catch for out of bounds
     if(selection >= active_list.size() ) {
         return;
     }
 
-    unsigned long newsel;
-    unsigned long oldsel;
+    size_t newsel;
+    size_t oldsel;
     std::string selstring;
     std::string modstring;
     int selshift = 0;
