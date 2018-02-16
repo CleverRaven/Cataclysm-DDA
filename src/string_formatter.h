@@ -136,7 +136,6 @@ is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&
 {
     throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
                      T ).name() ) + " to " + std::string( typeid( RT ).name() ) + ", which is not possible" );
-    return *static_cast<RT *>( nullptr ); // dummy return, will not be reached ever
 }
 /**@}*/
 
@@ -228,7 +227,6 @@ class string_formatter
         RT get_nth_arg_as( const unsigned int requested ) const {
             throw_error( "Requested argument " + to_string( requested ) + " but input has only " + to_string(
                              current_index ) );
-            return *static_cast<RT *>( nullptr ); // dummy return, never reached anyway
         }
         template<typename RT, unsigned int current_index, typename T, typename ...Args>
         RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {
