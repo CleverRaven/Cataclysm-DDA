@@ -3151,6 +3151,17 @@ bool npc::complain()
         return true;
     }
 
+    //Bleeding every 5 minutes
+    if( has_effect( effect_bleed ) ) {
+        body_part bp = bp_affected( *this, effect_bleed );
+        if( do_complain &&
+            complaints[bleed_string] < calendar::turn - MINUTES( 5 ) ) {
+            say( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
+            complaints[bleed_string] = calendar::turn;
+            return true;
+        }
+    }
+
     return false;
 }
 
