@@ -316,7 +316,7 @@
     "type": "MONSTER",
     "name": "fungal child",
     "name_plural": "fungal children",
-    "description": "It is hard to recognize a human child in this creature.  Most of its skin is covered in disgusting-looking mold, and many little fungi is seen growing through the cracks in its skin.",
+    "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 4,
