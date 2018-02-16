@@ -13,6 +13,7 @@
 #include "name.h"
 #include "string_formatter.h"
 #include "options.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
@@ -549,7 +550,7 @@ bool player::create(character_type type, std::string tempname)
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
     for( auto &e : g->u.prof->skills() ) {
-        g->u.boost_skill_level( e.first, e.second );
+        mod_skill_level( e.first, e.second );
     }
 
     // Learn recipes
@@ -1623,7 +1624,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
         // Hack: copy the entire player, boost the clone's skills
         player prof_u = *u;
         for( const auto &sk : prof_skills ) {
-            prof_u.boost_skill_level( sk.first, sk.second );
+            prof_u.mod_skill_level( sk.first, sk.second );
         }
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
@@ -1699,7 +1700,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                           thisSkill->name() );
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                        " (%d)", int(u->get_skill_level(thisSkill->ident())));
+                        " (%d)", u->get_skill_level(thisSkill->ident()));
             }
             for( auto &prof_skill : u->prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
@@ -1732,7 +1733,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
             if( level > 0 ) {
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
                 // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
-                u->boost_skill_level( currentSkill->ident(), ( level == 2 ? -2 : -1 ) );
+                u->mod_skill_level( currentSkill->ident(), level == 2 ? -2 : -1 );
                 // Done *after* the decrementing to get the original cost for incrementing back.
                 points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
@@ -1741,7 +1742,7 @@ tab_direction set_skills( const catacurses::window &w, player *u, points_left &p
             if( level < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
-                u->boost_skill_level( currentSkill->ident(), ( level == 0 ? +2 : +1 ) );
+                u->mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
             }
         } else if (action == "SCROLL_DOWN") {
             selected++;
@@ -2170,8 +2171,8 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
 
             auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-                int const level_a = u->get_skill_level(a.ident()).exercised_level();
-                int const level_b = u->get_skill_level(b.ident()).exercised_level();
+                int const level_a = u->get_skill_level_object( a.ident() ).exercised_level();
+                int const level_b = u->get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || (level_a == level_b && a.name() < b.name());
             });
 
@@ -2404,7 +2405,7 @@ void Character::empty_traits()
 
 void Character::empty_skills()
 {
-    for( auto &sk : _skills ) {
+    for( auto &sk : *_skills ) {
         sk.second.level( 0 );
     }
 }

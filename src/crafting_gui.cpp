@@ -10,6 +10,7 @@
 #include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "output.h"
 #include "json.h"
@@ -470,8 +471,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
-                               // Macs don't seem to like passing this as a class, so force it to int
-                               ( int )g->u.get_skill_level( current[line]->skill_used ) );
+                               g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );

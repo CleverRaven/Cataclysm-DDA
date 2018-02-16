@@ -10,6 +10,7 @@
 #include "io.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "skill.h"
 
 #include <sstream>
 #include <memory>

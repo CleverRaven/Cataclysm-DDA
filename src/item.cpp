@@ -869,12 +869,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-        if( food_item->has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
+        if( food_item->has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
             info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
         }
 
         ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-        if( food_item->has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
+        if( food_item->has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
             info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
         }
 
@@ -1340,7 +1340,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
         if( g->u.has_identified( typeId() ) ) {
             if( book.skill ) {
-                if( g->u.get_skill_level( book.skill ).can_train() ) {
+                if( g->u.get_skill_level_object( book.skill ).can_train() ) {
                     info.push_back( iteminfo( "BOOK", "",
                                               string_format( _( "Can bring your <info>%s skill to</info> <num>" ),
                                                       book.skill.obj().name().c_str() ), book.level ) );
@@ -2019,12 +2019,12 @@ nc_color item::color_in_inventory() const
         if(u->has_identified( typeId() )) {
             auto &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
-                u->get_skill_level( tmp.skill ).can_train() &&
+                u->get_skill_level_object( tmp.skill ).can_train() &&
                 u->get_skill_level( tmp.skill ) >= tmp.req &&
                 u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u->get_skill_level( tmp.skill ).can_train() &&
+                       u->get_skill_level_object( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
@@ -2090,9 +2090,9 @@ void item::on_wield( player &p, int mv )
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
+            d /= std::max( p.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
-            d /= std::max( (float)p.get_skill_level( melee_skill() ), 1.0f );
+            d /= std::max( p.get_skill_level( melee_skill() ), 1 );
         }
 
         int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;

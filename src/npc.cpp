@@ -10,6 +10,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "skill.h"
 #include "mission.h"
 #include "output.h"
 #include "monfaction.h"
@@ -376,7 +377,7 @@ void npc::randomize( const npc_class_id &type )
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    boost_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_barter, rng( 2, 4 ) );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -553,7 +554,7 @@ void npc::randomize_from_faction( faction *fac )
         personality.altruism += rng( 0, 4 );
         int_max += rng( 2, 4 );
         per_max += rng( 0, 2 );
-        boost_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
+        mod_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
     }
     if( fac->has_job( FACJOB_FARMERS ) ) {
         personality.aggression -= rng( 2, 4 );
@@ -570,19 +571,19 @@ void npc::randomize_from_faction( faction *fac )
         personality.bravery -= rng( 0, 2 );
         switch( rng( 1, 4 ) ) {
             case 1:
-                boost_skill_level( skill_mechanics,   dice( 2, 4 ) );
+                mod_skill_level( skill_mechanics,   dice( 2, 4 ) );
                 break;
             case 2:
-                boost_skill_level( skill_electronics, dice( 2, 4 ) );
+                mod_skill_level( skill_electronics, dice( 2, 4 ) );
                 break;
             case 3:
-                boost_skill_level( skill_cooking,     dice( 2, 4 ) );
+                mod_skill_level( skill_cooking,     dice( 2, 4 ) );
                 break;
             case 4:
-                boost_skill_level( skill_tailor,      dice( 2, 4 ) );
+                mod_skill_level( skill_tailor,      dice( 2, 4 ) );
                 break;
             default:
-                boost_skill_level( skill_cooking,     dice( 2, 4 ) );
+                mod_skill_level( skill_cooking,     dice( 2, 4 ) );
                 break;
         }
     }
@@ -610,9 +611,9 @@ void npc::randomize_from_faction( faction *fac )
         per_max += rng( 0, 2 );
         int_max += rng( 0, 4 );
         if( one_in( 3 ) ) {
-            boost_skill_level( skill_mechanics, dice( 2, 3 ) );
-            boost_skill_level( skill_electronics, dice( 2, 3 ) );
-            boost_skill_level( skill_firstaid, dice( 2, 3 ) );
+            mod_skill_level( skill_mechanics, dice( 2, 3 ) );
+            mod_skill_level( skill_electronics, dice( 2, 3 ) );
+            mod_skill_level( skill_firstaid, dice( 2, 3 ) );
         }
     }
     if( fac->has_value( FACVAL_BOOKS ) ) {
@@ -630,7 +631,7 @@ void npc::randomize_from_faction( faction *fac )
         int_max += rng( 0, 2 );
         for( auto const &skill : Skill::skills ) {
             if( one_in( 3 ) ) {
-                boost_skill_level( skill.ident(), int( rng( 2, 4 ) ) );
+                mod_skill_level( skill.ident(), rng( 2, 4 ) );
             }
         }
     }
@@ -842,9 +843,9 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : _skills ) {
+    for( auto const &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second;
+            int const level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;
@@ -1264,9 +1265,9 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
-    for( auto const &skill : Skill::skills ) {
-        const auto &id = skill.ident();
-        if( p.get_skill_level( id ).level() < get_skill_level( id ).level() ) {
+    for( const auto &pair : *_skills ) {
+        const skill_id &id = pair.first;
+        if( p.get_skill_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }

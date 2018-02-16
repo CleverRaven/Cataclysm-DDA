@@ -6,7 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
 #include "bodypart.h"
@@ -16,7 +15,10 @@
 #include <map>
 #include <vector>
 
+class Skill;
 using skill_id = string_id<Skill>;
+class SkillLevel;
+class SkillLevelMap;
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -503,12 +505,14 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &get_skill_level( const skill_id &ident );
+        int get_skill_level( const skill_id &ident ) const;
+        int get_skill_level( const skill_id &ident, const item &context ) const;
 
-        /** for serialization */
-        SkillLevel const &get_skill_level( const skill_id &ident, const item &context = item() ) const;
+        SkillLevel &get_skill_level_object( const skill_id &ident );
+        const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
+
         void set_skill_level( const skill_id &ident, int level );
-        void boost_skill_level( const skill_id &ident, int delta );
+        void mod_skill_level( const skill_id &ident, int delta );
 
         /** Calculates skill difference
          * @param req Required skills to be compared with.
@@ -626,10 +630,10 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         Character();
-        Character( const Character & ) = default;
-        Character( Character && ) = default;
-        Character &operator=( const Character & ) = default;
-        Character &operator=( Character && ) = default;
+        Character( const Character & );
+        Character( Character && );
+        Character &operator=( const Character & );
+        Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
             char key = ' ';
@@ -677,7 +681,7 @@ class Character : public Creature, public visitable<Character>
         void load( JsonObject &jsin );
 
         // --------------- Values ---------------
-        std::map<skill_id, SkillLevel> _skills;
+        pimpl<SkillLevelMap> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;

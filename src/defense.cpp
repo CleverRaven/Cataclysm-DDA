@@ -1327,7 +1327,7 @@ int caravan_price( player &u, int price )
     if( u.get_skill_level( skill_barter ) > 10 ) {
         return int( double( price ) * .5 );
     }
-    return int( double( price ) * ( 1.0 - double( u.get_skill_level( skill_barter ) ) * .05 ) );
+    return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
 }
 
 void defense_game::spawn_wave()

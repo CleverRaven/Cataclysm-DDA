@@ -445,7 +445,7 @@ void player::reach_attack( const tripoint &p )
     int target_size = critter != nullptr ? critter->get_size() : 2;
 
     int move_cost = attack_speed( weapon );
-    int skill = std::min( 10, (int)get_skill_level( skill_stabbing ) );
+    int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
@@ -1262,12 +1262,12 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
         /** @EFFECT_MELEE increases attack blocking effectiveness with a weapon */
         block_bonus = blocking_ability( shield );
-        block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
+        block_score = str_cur + block_bonus + get_skill_level( skill_melee );
     } else if( can_limb_block() ) {
         /** @EFFECT_STR increases attack blocking effectiveness with a limb */
 
         /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb */
-        block_score = str_cur + (int)get_skill_level( skill_melee ) + (int)get_skill_level( skill_unarmed );
+        block_score = str_cur + get_skill_level( skill_melee ) + get_skill_level( skill_unarmed );
     } else {
         // Can't block with items, can't block with limbs
         // What were we supposed to be blocking with then?
@@ -1598,7 +1598,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     std::string target = t.disp_name();
 
     const auto usable_body_parts = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
-    const auto &unarmed = (int)get_skill_level( skill_unarmed );
+    const int unarmed = get_skill_level( skill_unarmed );
 
     for( const auto &pr : my_mutations ) {
         const auto &branch = pr.first.obj();
@@ -1823,7 +1823,7 @@ void player_hit_message( player* attacker, std::string message,
 int player::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
-    const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : (int)get_skill_level( skill_melee );
+    const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
     /** @EFFECT_DEX increases attack speed */

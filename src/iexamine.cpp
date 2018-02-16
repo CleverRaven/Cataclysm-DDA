@@ -1950,7 +1950,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const SkillLevel &skill = p.get_skill_level( skill_fabrication );
+    const int skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -2413,7 +2413,7 @@ void pick_plant(player &p, const tripoint &examp,
         return;
     }
 
-    const SkillLevel &survival = p.get_skill_level( skill_survival );
+    const int survival = p.get_skill_level( skill_survival );
     p.practice( skill_survival, 6 );
 
     int plantBase = rng(2, 5);
