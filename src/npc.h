@@ -834,8 +834,10 @@ class npc : public player
         bool dead;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
-        bool sees_dangerous_item( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
+
+        // Finds locations containing dangerous items (anything that's gonna explode).
+        std::vector<tripoint> find_dangerous_points( int radius ) const;
 
         std::string companion_mission;
 };

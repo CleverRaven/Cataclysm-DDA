@@ -147,13 +147,6 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
     return is_dangerous_fields( g->m.field_at( p ) );
 }
 
-bool npc::sees_dangerous_item( const tripoint &p ) const
-{
-    return map_cursor( p ).has_item_with( []( const item &elem ) {
-        return elem.is_dangerous();
-    } );
-}
-
 bool npc::could_move_onto( const tripoint &p ) const
 {
     if( !g->m.passable( p ) ) {
@@ -177,6 +170,27 @@ bool npc::could_move_onto( const tripoint &p ) const
     }
 
     return true;
+}
+
+std::vector<tripoint> npc::find_dangerous_points( int radius ) const
+{
+    std::vector<tripoint> result;
+
+    const auto active_items = g->m.get_active_items_in_radius( pos(), radius );
+
+    for( const auto &elem : active_items ) {
+        if( !elem->is_dangerous() ) {
+            continue;
+        }
+
+        if( !sees( elem.position() ) ) {
+            continue;   // Stays unaware of the hidden dangers.
+        }
+
+        result.push_back( elem.position() );
+    }
+
+    return result;
 }
 
 // class npc functions!
@@ -303,13 +317,7 @@ void npc::move()
         }
     }
 
-    // Stay away from dangerous items (anything that's gonna explode).
-    const auto area = closest_tripoints_first( danger_avoidance_radius, pos() );
-    std::vector<tripoint> dangerous_points;
-    std::copy_if( area.begin(), area.end(), std::back_inserter( dangerous_points ), [ this ]( const tripoint &elem ) {
-        return sees_dangerous_item( elem );
-    } );
-
+    const auto dangerous_points = find_dangerous_points( danger_avoidance_radius );
     if( !dangerous_points.empty() ) {
         move_away_from( dangerous_points, true );
         return;

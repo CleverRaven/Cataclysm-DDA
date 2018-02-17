@@ -8102,6 +8102,30 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
+std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
+{
+    std::list<item_location> result;
+
+    for( int gx = 0; gx < my_MAPSIZE; ++gx ) {
+        for( int gy = 0; gy < my_MAPSIZE; ++gy ) {
+            const point sm_offset( gx * SEEX, gy * SEEY );
+
+            // @todo Take z into account as well.
+            for( const auto &elem : get_submap_at_grid( gx, gy, center.z )->active_items.get() ) {
+                const tripoint pos( sm_offset + elem.location, center.z );
+
+                if( square_dist( pos, center ) > radius ) {
+                    continue;
+                }
+
+                result.emplace_back( pos, &*elem.item_iterator );
+            }
+        }
+    }
+
+    return result;
+}
+
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
