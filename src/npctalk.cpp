@@ -4369,13 +4369,13 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
         }
 
+        to_eat.charges -= amount_used;
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
     }
 
-    to_eat.charges -= amount_used;
     if( to_eat.charges > 0 ) {
         return CONSUMED_SOME;
     }
