@@ -392,5 +392,152 @@
     "damage_modifier": 80,
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT" ]
+  },
+  {
+    "id": "pool_ball",
+    "type": "AMMO",
+    "name": "pool ball",
+    "description": "A colorful, hard ball.  Essentially a rock.",
+    "weight": 170,
+    "volume": 1,
+    "price": 3000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": "stone",
+    "symbol": "*",
+    "color": "blue",
+    "count": 1,
+    "ammo_type": "h_projectile",
+    "range": 6,
+    "damage": 23,
+    "dispersion": 30,
+    "effects": [ "RECOVER_10", "BEANBAG" ]
+  },
+  {
+    "id": "rock",
+    "type": "AMMO",
+    "name": "rock",
+    "description": "A rock is what you have in your head if you don't know what one is.",
+    "weight": 657,
+    "volume": 1,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": "stone",
+    "symbol": "*",
+    "color": "light_gray",
+    "count": 1,
+    "ammo_type": "h_projectile",
+    "damage": 15,
+    "dispersion": 45,
+    "effects": [ "RECOVER_10", "BEANBAG" ],
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "flamethrower",
+    "copy-from": "flamethrower",
+    "type": "GUN",
+    "name": "flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "flamethrower_crude",
+    "copy-from": "flamethrower_crude",
+    "type": "GUN",
+    "name": "spraycan flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "flamethrower_simple",
+    "copy-from": "flamethrower_simple",
+    "type": "GUN",
+    "name": "simple flamethrower",
+    "range": 2,
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "gasoline",
+    "copy-from": "gasoline",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": "gasoline",
+    "name_plural": "gasoline",
+    "explosion": {
+      "power": 10,
+      "distance_factor": 0.01,
+      "shrapnel": {
+        "count": 25,
+        "mass": 1,
+        "drop": "gasoline",
+        "recovery": 100
+      }
+    }
+  },
+  {
+    "id": "rm451_flamethrower",
+    "copy-from": "rm451_flamethrower",
+    "type": "GUN",
+    "name": "RM451 flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "water",
+    "copy-from": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": "water",
+    "name_plural": "water",
+    "ammo_data": { "ammo_type": "water" },
+    "explosion": {
+      "power": 30,
+      "distance_factor": 0.5,
+      "shrapnel": {
+        "count": 100,
+        "mass": 3,
+        "drop": "water",
+        "recovery": 100
+      }
+    },
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "1cyl_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 85,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion_small",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
+    "price": 6000,
+    "displacement": 60,
+    "faults": [  ]
   }
 ]
