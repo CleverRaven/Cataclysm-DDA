@@ -169,14 +169,18 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( JsonObject &jo );
         static void LoadMonsterWhitelist( JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group,
-                int *quantity = 0, int turn = -1 );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = 0 );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &id );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
         static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
+        /**
+         * Gets a random monster, weighted by frequency.
+         * Ignores cost multiplier.
+         */
+        static const mtype_id &GetRandomMonsterFromGroup( const mongroup_id &group );
 
         static void check_group_definitions();
 
