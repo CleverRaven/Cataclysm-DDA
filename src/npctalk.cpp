@@ -4328,7 +4328,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // @todo Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_food_container();
+    bool consuming_contents = it.is_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {
@@ -4348,7 +4348,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this..." );
             return REFUSED;
         }
-    } else if( to_eat.is_medication() ) {
+    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
