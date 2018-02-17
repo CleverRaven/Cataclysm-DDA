@@ -4337,7 +4337,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( "I don't <swear> trust you enough to eat from your hand..." );
+        reason = _( "I don't <swear> trust you enough to eat THIS..." );
         return REFUSED;
     }
 
