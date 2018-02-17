@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-03 20:52-0500\n"
-"PO-Revision-Date: 2018-02-07 06:02+0000\n"
+"POT-Creation-Date: 2018-02-09 03:21-0500\n"
+"PO-Revision-Date: 2018-02-13 12:25+0000\n"
 "Last-Translator: T itan <un8214@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -234,7 +234,7 @@ msgstr "켜면, 적대적인 괴물/NPC가 접근시 경고합니다."
 msgid "Safe Mode proximity distance"
 msgstr "안전모드 근접 거리"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player viewdistance."
@@ -3152,26 +3152,6 @@ msgid ""
 "flamethrower."
 msgstr "발화 온도를 높이고 표면에 달라붙기 쉽도록 하는 첨가물이 포함된 휘발유. 화염방사기에 사용하기 위한 것입니다."
 
-#: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
-msgid "concrete"
-msgid_plural "concrete"
-msgstr[0] "콘크리트"
-
-#. ~ Description for concrete
-#: lang/json/AMMO_from_json.py
-msgid "Some concrete, ready to be used in a construction project."
-msgstr "건설 작업에 쓰이는 소량의 콘크리트."
-
-#: lang/json/AMMO_from_json.py
-msgid "mortar"
-msgid_plural "mortar"
-msgstr[0] "회반죽"
-
-#. ~ Description for mortar
-#: lang/json/AMMO_from_json.py
-msgid "Some mortar, ready to be used in building projects."
-msgstr "건설 작업에 쓰이는 약간의 회반죽."
-
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
@@ -3639,8 +3619,8 @@ msgstr ".30-06 M2 AP"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an "
-"extremely powerful and accurate cartridge but pays for it's armor "
-"penetration abilities with lowered damage."
+"extremely powerful and accurate cartridge but pays for its armor penetration"
+" abilities with lowered damage."
 msgstr "168gr 무게의 탄두를 사용한 .30-06 M2 FMJ 탄. 이 탄은 매우 강력하고 정확하지만, 그만큼 살상력과 관통력이 줄어들었습니다."
 
 #: lang/json/AMMO_from_json.py
@@ -4280,7 +4260,7 @@ msgid ""
 "Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became "
 "extremely popular all over the world.  The bullet has poor wounding "
 "potential due to its stability, only beginning to yaw after 26cm."
-msgstr ""
+msgstr "121.9gr 무게의 탄두를 사용한 7.62x39mm 57-N-231 FMJ 탄. 제2차 세계대전 당시 소련에서 개발된 7.62x39mm탄은 얼마 지나지 않아 전세계적으로 널리 쓰이게 되었습니다. 탄두가 관통 후 안정성이 높아 인체나 탄도학 젤라틴에 박혔을 때 26cm 를 관통 한 후부터 흔들리기 시작하기 때문에 상대적으로 작은 상처만 남깁니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M67"
@@ -4306,7 +4286,7 @@ msgid ""
 "Union the 7.62x39mm round rapidly became extremely popular all over the "
 "world.  The bullet has poor wounding potential due to its stability, only "
 "beginning to yaw after 26cm."
-msgstr ""
+msgstr "121.9gr 무게의 탄두를 사용한 7.62x39mm 탄. 제2차 세계대전 당시 소련에서 개발된 7.62x39mm탄은 얼마 지나지 않아 전세계적으로 널리 쓰이게 되었습니다. 탄두가 관통 후 안정성이 높아 인체나 탄도학 젤라틴에 박혔을 때 26cm 를 관통 한 후부터 흔들리기 시작하기 때문에 상대적으로 작은 상처만 남깁니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M67"
@@ -7172,7 +7152,7 @@ msgid ""
 "suit has had its servos and cooling system stripped out, meaning it no "
 "longer requires power, but also encumbers you greatly and doesn't provide "
 "internal thermal regulation."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. I: 기본형 중장갑 파워 아머. 공격에 대해 훌륭한 방어력을 제공하지만, 움직이기 어려워집니다. 구동 모터와 냉방 시스템이 제거되어 작동에 전력이 필요하지는 않지만, 움직임을 극도로 방해하며 내부 온도 조절이 이루어지지 않습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "salvaged power armor helmet"
@@ -7187,7 +7167,7 @@ msgid ""
 "This suit has had its internal computer and cooling system stripped out, "
 "meaning it no longer requires power, but it has no internal chronometer and "
 "doesn't provide internal thermal regulation."
-msgstr ""
+msgstr "더블테크 파워 아머 Mk. I 용 파워아머 헬멧. 공격과 환경적인 위험 양쪽 모두에 대해 훌륭한 방어력을 제공합니다. 이 헬멧은 내부 컴퓨터와 냉방 시스템이 제거되어 작동에 전력이 필요하지는 않지만, 내부 시계가 작동하지 않으며 내부 온도 조절이 이루어지지 않습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "diamond dental grill"
@@ -12927,12 +12907,14 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "CBM:능동형 방호 시스템"
 
 #. ~ Description for Active Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Active Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
-"cost of more energy.  Melee attacks will be stopped more often than bullets."
-msgstr "작동시 지속적으로 전력을 소모하는 얇은 보호장을 몸 주변에 생성합니다. 어떠한 것이든 통과하려는 것이 있으면 역장이 튕겨낼 가능성이 있으며, 튕겨낼 시 일정 전력을 소모합니다. 이 역장은 총알보다는 근접 공격을 더 잘 튕겨냅니다."
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Advanced Microreactor CBM"
@@ -12940,12 +12922,13 @@ msgid_plural "Advanced Microreactor CBMs"
 msgstr[0] "CBM:개선형 소형반응로"
 
 #. ~ Description for Advanced Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Advanced Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  This one has been heavily upgraded."
-"  Warning: minimal radiation shielding."
-msgstr "방사성 폐기물에서 초소형 반응로에 사용되는 플루토늄을 더욱 신속히 분리하기 위한 필터와 탱크로 구성된 시스템입니다. 상당한 개조가 되어 있습니다. 경고 : 방사능 차폐력 최소."
+"This stripped down mini-reactor is safer than it appears due to integrated "
+"radiation cleansers.  There is no way to shut it down, but you can toggle "
+"additional fuel intake."
+msgstr "불필요한 것을 모두 떼어낸 이 미니 반응로에는 통합 방사능 제거기가 달려 있어 보기보다 안전합니다. 작동을 정지할 방법은 없지만 추가 연료 투입을 켜고 끌 수는 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Alarm System CBM"
@@ -13062,12 +13045,14 @@ msgid_plural "Fusion Blaster Arm CBMs"
 msgstr[0] "CBM:퓨전 블래스터 팔"
 
 #. ~ Description for Fusion Blaster Arm CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Fusion Blaster Arm
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray; however, you are unable to "
-"use or carry two-handed items, and may only fire handguns."
-msgstr "왼팔을 고강도 퓨전 블래스터로 완전히 대체했습니다! 내장 전력을 사용해 엄청난 피해를 주는 열선을 발사할 수 있지만, 양손으로 사용하는 물건을 사용할 수 없기 때문에 권총만 사용 가능하며, 양손으로 물건을 들 수도 없습니다."
+" your energy banks to fire a damaging heat ray.  However, you are unable to "
+"use or carry two-handed items, and your strength limits what you can use "
+"with your one hand."
+msgstr "왼팔을 고강도 퓨전 블래스터로 완전히 대체했습니다! 내장 전력을 사용해 열선을 발사해서 엄청난 피해를 입힐 수 있습니다. 그러나 양손으로 사용하는 물건을 들거나 사용할 수 없으며, 한손으로 사용할 수 있는 물건의 범위는 힘에 의해 제한됩니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Blood Analysis CBM"
@@ -13185,16 +13170,13 @@ msgid_plural "Close Quarters Battle CBMs"
 msgstr[0] "CBM:근접 전투"
 
 #. ~ Description for Close Quarters Battle CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Close Quarters Battle
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Databanks and processors loaded with extensive martial arts combat programs "
-"are integrated directly into your spinal column.  While active, your close "
-"combat skills are superseded by the machine's programming.  You have the "
-"option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms."
-"  The cybernetic disconnect prevents you from improving the affected combat "
-"skills while this bionic is active.  However, with extended use in combat, "
-"it is possible to learn the chosen martial art."
-msgstr ""
+"Bionic processors and databanks, loaded with martial arts combat programs, "
+"are integrated into your nervous system.  Whilst active, the CQB module will"
+" improve your hand to hand combat skills."
+msgstr "척추 신경에 직접 연결되는 바이오닉 프로세서와 다양한 전투 무술을 탑재한 데이터 저장소를 장착했습니다. 활성화하면 CQB모듈이 비무장 전투력을 향상시킬 것입니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Wired Reflexes CBM"
@@ -13230,15 +13212,14 @@ msgid_plural "Enhanced Hearing CBMs"
 msgstr[0] "CBM:청력 향상장치"
 
 #. ~ Description for Enhanced Hearing CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Enhanced Hearing
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "When this bionic is active, your hearing will be drastically improved, "
 "allowing you to hear ten times better than the average person.  "
 "Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing.  You can also toggle those sound dampeners on "
-"demand, should you wish to reduce the effect of the bionic or become "
-"completely deaf."
-msgstr "활성화하면 청력이 일반인보다 10배 이상, 극적으로 향상됩니다. 고음의 소음은 자동으로 감쇄하여 청력을 보호하며, 바이오닉의 효과를 줄이고 싶거나, 청력을 상실하고 싶다면 필요에 따라 감쇄 기능을 끌 수도 있습니다."
+"they can damage your hearing."
+msgstr "이 바이오닉을 활성화하면 당신의 청력이 일반인보다 10배이상 급격히 향상됩니다. 또한 고음의 경우엔 자동으로 감쇠하여 청력을 보호해줍니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Directional EMP CBM"
@@ -13379,12 +13360,13 @@ msgid_plural "Internal Furnace CBMs"
 msgstr[0] "CBM:내장 연소기"
 
 #. ~ Description for Internal Furnace CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Furnace
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"You can burn nearly any organic material as fuel (use 'E'), recharging your "
-"power level.  Some materials will burn better than others.  Can be toggled "
-"on and off at will."
-msgstr "거의 모든 유기물을 연료로 사용해서('E' 키로 사용) 전력을 충전할 수 있습니다. 재질에 따라 효율이 달라집니다. 마음대로 껐다 켰다 할 수 있습니다."
+"When this bionic is active, you can burn nearly any organic material as fuel"
+" (use 'E'), recharging your power level.  Some materials will burn better "
+"than others."
+msgstr "이 바이오닉이 켜져 있을 때 주변의 유기물을 연료로 연소시켜('E' 사용) 전력을 충전할 수 있습니다. 어떤 물질들은 다른 것보다 더 잘 탑니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Dosimeter CBM"
@@ -13474,11 +13456,12 @@ msgid_plural "Infrared Vision CBMs"
 msgstr[0] "CBM:적외선 시야"
 
 #. ~ Description for Infrared Vision CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Infrared Vision
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark, and even through walls."
-msgstr "눈으로 자외선 까지 볼 수 있습니다. 어둠 속에 있는 온혈동물을 볼 수 있으며, 조건에 따라 벽 너머를 볼 수도 있습니다."
+"blooded creatures in the dark."
+msgstr "시야 범위가 적외선까지 확장되어 온혈동물들을 어둠 속에서도 볼 수 있게 되었습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cerebral Booster CBM"
@@ -13623,12 +13606,13 @@ msgid_plural "Repair Nanobots CBMs"
 msgstr[0] "CBM:재생 나노로봇"
 
 #. ~ Description for Repair Nanobots CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Repair Nanobots
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Inside your body is a fleet of tiny dormant robots.  Once charged from your "
-"energy banks, they will flit about your body, repairing damage and stopping "
-"bleeding."
-msgstr "몸 속에 비활성 상태의 로봇 군집이 탑재되어 있습니다. 내부 전력을 사용하면, 로봇들이 몸 속을 돌아다니며 피해를 복구하고 출혈을 멈춥니다."
+"Inside your body is a fleet of tiny dormant robots.  While activated they "
+"will flit about your body, repairing damage and stopping bleeding at the "
+"cost of power."
+msgstr "몸 속에 비활성 상태의 로봇 군집이 탑재되어 있습니다.  작동시키면, 로봇들이 몸 속을 돌아다니며 피해를 복구하고 출혈을 멈춥니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Artificial Night Generator CBM"
@@ -13660,11 +13644,12 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "CBM:공격형 방호 시스템"
 
 #. ~ Description for Offensive Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Offensive Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a very strong shock,"
-" damaging unarmed attackers and those with a conductive weapon."
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
 msgstr "작동시 지속적으로 전력을 소모하는 얇은 보호장을 몸 주변에 생성합니다. 이 장은 무언가를 튕겨내지는 못하지만, 대신 비무장 공격 혹은 금속 같이 전도체로 된 무기로 근접 공격을 가하는 적에게 강력한 충격을 줍니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13768,10 +13753,12 @@ msgid_plural "Air Filtration System CBMs"
 msgstr[0] "CBM:공기 여과 시스템"
 
 #. ~ Description for Air Filtration System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Air Filtration System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins find "
-"their way into your windpipe, the filter will attempt to remove them."
+"Implanted in your trachea is an advanced filtration system.  If toxins, or "
+"airborne diseases find their way into your windpipe, the filter will attempt"
+" to remove them.  Reducing the toxic effects."
 msgstr "기도에 고성능 여과장치를 설치했습니다. 기도를 통해 독소의 침입이 발견되면 필터가 걸러 냅니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13822,12 +13809,13 @@ msgid_plural "Internal Microreactor CBMs"
 msgstr[0] "CBM:내장 소형반응로"
 
 #. ~ Description for Internal Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  Warning: minimal radiation "
-"shielding."
-msgstr "저장 탱크가 달린 경량형 플루토늄 반응로. 소량의 플루토늄으로 전력을 생산합니다. 경고: 방사능 차폐력 최소."
+"This stripped down mini-reactor may not be the best thing to have in your "
+"chest.  There is no way to shut it down, but you can toggle additional fuel "
+"intake."
+msgstr "불필요한 것을 모두 떼어내고 핵심만 남긴 이 미니 반응로는 아마 가슴에 넣어 둘 만한 것은 아닙니다. 작동을 정지할 방법이 없으나 추가 연료 투입을 켜고 끌 수는 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Microreactor Upgrade CBM"
@@ -13874,12 +13862,13 @@ msgid_plural "Sonic Resonator CBMs"
 msgstr[0] "CBM:음파 공명장치"
 
 #. ~ Description for Sonic Resonator CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Sonic Resonator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to flexible creatures, stiff "
-"items such as walls, doors, and even robots will be severely damaged."
-msgstr "전신이 강력하게 진동하여 근거리 충격파를 생성합니다. 일반적인 생물체에겐 큰 피해를 줄 수 없지만, 문 같은 딱딱한 물체에는 큰 효과가 있습니다. 로봇에게도 강력한 피해를 줄 수 있습니다."
+"shockwave.  While it will not do much damage to creatures, stiff items such "
+"as walls and doors will be damaged."
+msgstr "전신이 강력하게 진동하여 근거리 충격파를 생성합니다. 생물체에겐 큰 피해를 줄 수 없지만, 벽이나 문 등의 딱딱한 물체엔 효과가 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Olfactory Mask CBM"
@@ -13995,13 +13984,13 @@ msgid_plural "Anti-Glare Compensators CBMs"
 msgstr[0] "CBM:눈부심 보정기"
 
 #. ~ Description for Anti-Glare Compensators CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Anti-Glare Compensators
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your eyes have high-power, quick-reacting transition lenses installed over "
-"them, negating any glare penalties and protecting you from bright flashes "
-"including those of a welder.  Additionally you can toggle them to block out "
-"all light."
-msgstr "눈에 고성능, 고속 작동식 눈부심 제거 렌즈를 탑재했습니다. 용접 시 발생하는 밝은 빛 같은 것에서 눈을 보호하며, 눈부심을 제거해 줍니다. 추가적으로 켜서 모든 빛을 막을 수도 있습니다."
+"Your eyes have quick-reacting transition lenses installed over them.  They "
+"negate glare penalties, partially protect you from bright flashes, and "
+"protect your eyes when welding."
+msgstr "눈에 신속반응 전환렌즈가 설치되었다. 밝은 빛으로 인한 부정적 효과를 방지하고, 섬광에서 눈을 부분적으로 보호하고 용접시 완벽히 보호한다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Targeting System CBM"
@@ -14037,12 +14026,13 @@ msgid_plural "Time Dilation CBMs"
 msgstr[0] "CBM:시간 지연"
 
 #. ~ Description for Time Dilation CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Time Dilation
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"At an immense cost of power, you may increase your body speed and reactions "
-"dramatically, essentially freezing time.  You are still delicate, however, "
-"and violent or rapid movements may damage you due to friction."
-msgstr "막대한 전력을 소모하는 대신, 신체의 속도와 반응 속도를 극적으로 증가시킬 수 있습니다. 간단히 말해, 거의 시간을 멈추는게 가능합니다. 하지만 엄청난 속도로 움직이기 때문에, 마찰력으로 몸에 피해를 입을 수도 있습니다."
+"At the cost of all stored bionic power, you may increase your body speed and"
+" reactions dramatically, essentially freezing time.  You are still delicate,"
+" however, and violent or rapid movements may damage you due to friction."
+msgstr "전력을 모두 소모하는 대신, 신체의 속도와 반응 속도를 극적으로 증가시킬 수 있습니다. 간단히 말해, 거의 시간을 멈추는게 가능합니다. 하지만 엄청난 속도로 움직이기 때문에, 마찰력으로 몸에 피해를 입을 수도 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Toolset CBM"
@@ -14090,12 +14080,12 @@ msgid_plural "Unified Power System CBMs"
 msgstr[0] "CBM:통합 전원장치"
 
 #. ~ Description for Unified Power System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Unified Power System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"A UPS fully integrated with your bionic power system.  Allows you to run "
-"devices requiring a UPS off of your internal power, which is much more "
-"efficient than standard battery power."
-msgstr "UPS가 바이오닉 내부 전력 시스템과 완전히 통합되었습니다. UPS로 동작하는 장치들을 내장 전력을 이용하여 작동시킬 수 있게 되었으며, 표준 배터리를 사용하는 것보다 훨씬 효율적이게 되었습니다."
+"You have a unified power system wired into your power banks.  Objects that "
+"run on a UPS can now draw directly from your internal power supply."
+msgstr "당신은 체내 전력 저장소에 통합 전원장치를 탑재해 연결했습니다. UPS를 사용하는 장치를 체내 전력 저장소의 전력으로 대신 사용할 수 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Internal Chronometer CBM"
@@ -14103,11 +14093,13 @@ msgid_plural "Internal Chronometer CBMs"
 msgstr[0] "CBM:내부 정밀시계"
 
 #. ~ Description for Internal Chronometer CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Chronometer
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time."
-msgstr "몸속 내부에 원자 시계를 탑재해 언제나 현재 시각을 알 수 있습니다."
+" always know the current time.  Additionally, it includes a silent alarm "
+"clock function."
+msgstr "당신의 몸속에 원자 시계가 탑재되었습니다. 언제 어디서나 현재 시간을 알 수 있으며, 무음 알람 시계 기능도 갖고 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Water Extraction Unit CBM"
@@ -14157,7 +14149,7 @@ msgstr "강력한 이온화 에너지 발생기가 몸속에 설치되었다. �
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Autonomous Surgical Razors CBM"
 msgid_plural "Autonomous Surgical Razors CBMs"
-msgstr[0] ""
+msgstr[0] "자동화된 수술용 레이저 CBM"
 
 #. ~ Description for Autonomous Surgical Razors CBM
 #. ~ Description for autonomous surgical razors
@@ -14168,7 +14160,7 @@ msgid ""
 "Implanted on the user's fingers is a system of surgical grade razors.  While"
 " activated, they will continously drain power to make automated precise cuts"
 " but you will be unable to wield anything."
-msgstr ""
+msgstr "사용자의 손가락에 수술용 레이저를 이식했습니다. 작동시키면, 전력을 지속적으로 소모하면서 자동으로 정밀한 절단을 할 수 있지만 아무것도 장비할 수 없습니다."
 
 #: lang/json/BOOK_from_json.py
 msgid "Lessons for the Novice Bowhunter"
@@ -14669,7 +14661,7 @@ msgstr "전 세계의 춤에 대해 아주 자세히 적힌, 아주 크고 오�
 #: lang/json/BOOK_from_json.py
 msgid "AAA Guide"
 msgid_plural "AAA Guide"
-msgstr[0] ""
+msgstr[0] "AAA 가이드"
 
 #. ~ Description for AAA Guide
 #: lang/json/BOOK_from_json.py
@@ -14769,7 +14761,7 @@ msgstr "이 시트의 한쪽면에는 문자들이 무의미하게 뒤섞여서 
 #: lang/json/BOOK_from_json.py
 msgid "Augmentative Tech Review"
 msgid_plural "Augmentative Tech Review"
-msgstr[0] ""
+msgstr[0] "확장 기술 보고서"
 
 #. ~ Description for Augmentative Tech Review
 #: lang/json/BOOK_from_json.py
@@ -25845,6 +25837,16 @@ msgid ""
 "constructing tougher walls and such."
 msgstr "좋은 근접 무기를 만들 수 있으며, 보다 더 강한 벽을 건설하는데 유용한 철근입니다."
 
+#: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
+msgid "concrete"
+msgid_plural "concrete"
+msgstr[0] "콘크리트"
+
+#. ~ Description for concrete
+#: lang/json/GENERIC_from_json.py
+msgid "Some concrete, ready to be used in a construction project."
+msgstr "건설 작업에 쓰이는 소량의 콘크리트."
+
 #: lang/json/GENERIC_from_json.py
 msgid "log"
 msgid_plural "logs"
@@ -26839,6 +26841,16 @@ msgstr[0] "벽돌"
 #: lang/json/GENERIC_from_json.py
 msgid "A fire hardened building block used in masonry construction."
 msgstr "불에 구워 만든 건축자재. 건설 작업에 사용된다."
+
+#: lang/json/GENERIC_from_json.py
+msgid "mortar"
+msgid_plural "mortar"
+msgstr[0] "회반죽"
+
+#. ~ Description for mortar
+#: lang/json/GENERIC_from_json.py
+msgid "Some mortar, ready to be used in building projects."
+msgstr "건설 작업에 쓰이는 약간의 회반죽."
 
 #: lang/json/GENERIC_from_json.py
 msgid "tanbark"
@@ -29040,7 +29052,7 @@ msgstr "피클이 아직 발효되지 않았습니다."
 msgid ""
 "This jar contains a batch of pickles set to ferment.  You can seal up the "
 "jar once the process is completed."
-msgstr ""
+msgstr "유리병에 피클을 넣어 발효시키고 있는 중입니다. 일단 발효가 다 되면 밀봉해서 보존할 수 있습니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "awl pike"
@@ -29446,7 +29458,7 @@ msgstr[0] "보강된 헤드라이트"
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A vehicle headlight with a cage built around it to protect it from damage "
-"without reducing it's effectiveness."
+"without reducing its effectiveness."
 msgstr "효율성의 감소 없이 손상으로부터 보호하기 위한 창살을 두른 차량용 헤드라이트입니다."
 
 #: lang/json/GENERIC_from_json.py
@@ -29547,12 +29559,12 @@ msgstr "음식을 냉장시키는데 쓰이는 아주 작은 냉장고."
 #: lang/json/vehicle_part_from_json.py
 msgid "washing machine"
 msgid_plural "washing machines"
-msgstr[0] ""
+msgstr[0] "세탁기"
 
 #. ~ Description for washing machine
 #: lang/json/GENERIC_from_json.py
 msgid "A very small washing machine designed for use in vehicles."
-msgstr ""
+msgstr "차량 안에서 사용할 수 있게 고안된 작은 세탁기입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "solar cell"
@@ -32407,14 +32419,14 @@ msgid ""
 msgstr "리브텍 8x40mm 무탄피 총기에 사용되는 25발들이 막대탄창입니다."
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "RMGB500 8x40mm extended magazine"
-msgstr "RMGB500 8x40mm 확장탄창"
+msgid "RMGB500 8x40mm drum magazine"
+msgstr "RMGB500 8x40mm 드럼탄창"
 
-#. ~ Description for RMGB500 8x40mm extended magazine
+#. ~ Description for RMGB500 8x40mm drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 500 round box magazine for use with Rivtech 8x40mm caseless firearms."
-msgstr "리브텍 8x40mm 무탄피 총기에 사용되는 500발들이 박스탄창입니다."
+"A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RMGB50 8x40mm magazine"
@@ -33276,7 +33288,7 @@ msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "NPC traits"
-msgstr ""
+msgstr "NPC 특성"
 
 #. ~ Description for NPC traits
 #: lang/json/MOD_INFO_from_json.py
@@ -33571,12 +33583,12 @@ msgstr "Cataclysm-DDA의 중심 컨텐츠"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Makeshift Items Mod"
-msgstr ""
+msgstr "수제작 아이템 모드"
 
 #. ~ Description for Makeshift Items Mod
 #: lang/json/MOD_INFO_from_json.py
 msgid "Adds more improvised item variants and rebalances existing ones."
-msgstr ""
+msgstr "급조한 아이템을 추가하고 기존의 아이템의 밸런스를 재조정합니다."
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Classes and Scenarios Mod"
@@ -35628,7 +35640,7 @@ msgstr "악마"
 msgid ""
 "Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but"
 " swiftly."
-msgstr ""
+msgstr "뼈로 된 판과 여기저기 튀어나온 뼈 돌기가 있는 시커멓게 타 숯이 된 좀비.  뻣뻣하게 움직이지만 빠릅니다."
 
 #: lang/json/MONSTER_from_json.py
 msgid "firefighter zombie"
@@ -35756,7 +35768,7 @@ msgstr "도미 좀비"
 msgid ""
 "With a crocodile-like snout and rows of protruding teeth, this swimwear-clad"
 " zombie lurks in the water."
-msgstr ""
+msgstr "일렬로 늘어선 이빨과 악어와 비슷한 주둥이를 지닌 좀비. 이 수영복 차림의 좀비는 물속에 숨어 있습니다."
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie master"
@@ -37466,7 +37478,7 @@ msgstr "목에 걸 수 있게 끈이 달린 광학장비로 먼 곳을 볼 때 �
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "head torch"
 msgid_plural "head torches"
-msgstr[0] ""
+msgstr[0] "헤드 랜턴"
 
 #. ~ Use action msg for head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -37501,7 +37513,7 @@ msgstr "머리에 쓰거나 헬멧에 달 수 있도록 조절할 수 있는 끈
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "survivor head torch"
 msgid_plural "survivor head torches"
-msgstr[0] ""
+msgstr[0] "생존용 헤드 랜턴"
 
 #. ~ Use action msg for survivor head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -37891,7 +37903,7 @@ msgstr[0] "간이 스카프"
 #. ~ Use action menu_text for ski mask.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "Loosen"
-msgstr ""
+msgstr "풀기"
 
 #. ~ Use action msg for simple patchwork scarf.
 #. ~ Use action msg for long patchwork scarf.
@@ -38181,7 +38193,7 @@ msgstr[0] "스키 마스크 (열림)"
 #. ~ Use action menu_text for ski mask (open).
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "Tighten"
-msgstr ""
+msgstr "조이기"
 
 #. ~ Use action msg for ski mask (open).
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -38259,7 +38271,7 @@ msgstr[0] "색소폰"
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A brass alto saxophone with a neck strap, so you can wear it while playing."
-msgstr ""
+msgstr "황동 알토 색소폰. 목에 거는 끈이 달려있어서 연주하면서 매고 다닐 수 있다."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "shooter's earmuffs"
@@ -39016,7 +39028,7 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "inactive antimateriel turret"
 msgid_plural "inactive antimateriel turrets"
-msgstr[0] ""
+msgstr[0] "대물 터렛 (꺼짐)"
 
 #. ~ Description for inactive antimateriel turret
 #: lang/json/TOOL_from_json.py
@@ -42294,9 +42306,9 @@ msgstr[0] "메스"
 #. ~ Description for scalpel
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a very sharp knife designed for surgical cutting.  It's small, sharp"
-" blade allows for precision strikes in the hands of the skilled."
-msgstr "외과 수술용으로 쓰이는 매우 예리한 칼. 작지만 매우 예리하기 때문에 숙련자의 손에 들어가면 정확한 일격을 가할 수 있는 무기로 변합니다."
+"This is a very sharp knife designed for surgical cutting.  Its small, sharp "
+"blade allows for precision strikes in the hands of the skilled."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "pair of scissors"
@@ -45529,26 +45541,9 @@ msgstr "아드레날린 펌프"
 msgid "Active Defense System"
 msgstr "능동형 방호 시스템"
 
-#. ~ Description for Active Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  Anything"
-" attempting to penetrate this field has a chance of being deflected at the "
-"cost of energy.  Bullets will be stopped more often than swords and those in"
-" turn more often than massive objects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr "개선형 소형반응로"
-
-#. ~ Description for Advanced Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor is safer than it appears due to integrated "
-"radiation cleansers.  There is no way to shut it down, but you can toggle "
-"additional fuel intake."
-msgstr "불필요한 것을 모두 떼어낸 이 미니 반응로에는 통합 방사능 제거기가 달려 있어 보기보다 안전합니다. 작동을 정지할 방법은 없지만 추가 연료 투입을 켜고 끌 수는 있습니다."
 
 #: lang/json/bionic_from_json.py
 msgid "Alarm System"
@@ -45596,15 +45591,6 @@ msgstr "단분자 칼날"
 #: lang/json/bionic_from_json.py
 msgid "Fusion Blaster Arm"
 msgstr "퓨전 블래스터 팔"
-
-#. ~ Description for Fusion Blaster Arm
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray.  However, you are unable to "
-"use or carry two-handed items, and your strength limits what you can use "
-"with your one hand."
-msgstr "왼팔을 고강도 퓨전 블래스터로 완전히 대체했습니다! 내장 전력을 사용해 열선을 발사해서 엄청난 피해를 입힐 수 있습니다. 그러나 양손으로 사용하는 물건을 들거나 사용할 수 없으며, 한손으로 사용할 수 있는 물건의 범위는 힘에 의해 제한됩니다."
 
 #: lang/json/bionic_from_json.py
 msgid "Optical Dampers"
@@ -45654,14 +45640,6 @@ msgstr "클로킹 시스템"
 #: lang/json/bionic_from_json.py
 msgid "Close Quarters Battle"
 msgstr "근접 전투"
-
-#. ~ Description for Close Quarters Battle
-#: lang/json/bionic_from_json.py
-msgid ""
-"Bionic processors and databanks, loaded with martial arts combat programs, "
-"are integrated into your nervous system.  Whilst active, the CQB module will"
-" improve your hand to hand combat skills."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic-Induced Deformity"
@@ -45733,15 +45711,6 @@ msgstr "청력 향상장치가 정지중일 때 활성화하면 소리를 완전
 msgid "Enhanced Hearing"
 msgstr "청력 향상장치"
 
-#. ~ Description for Enhanced Hearing
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, your hearing will be drastically improved, "
-"allowing you to hear ten times better than the average person.  "
-"Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing."
-msgstr "이 바이오닉을 활성화하면 당신의 청력이 일반인보다 10배이상 급격히 향상됩니다. 또한 고음의 경우엔 자동으로 감쇠하여 청력을 보호해줍니다."
-
 #: lang/json/bionic_from_json.py
 msgid "Directional EMP"
 msgstr "방향성 EMP"
@@ -45794,14 +45763,6 @@ msgstr "두개골내 광소자"
 msgid "Internal Furnace"
 msgstr "내부 용광로"
 
-#. ~ Description for Internal Furnace
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, you can burn nearly any organic material as fuel"
-" (use 'E'), recharging your power level.  Some materials will burn better "
-"than others."
-msgstr "이 바이오닉이 켜져 있을 때 주변의 유기물을 연료로 연소시켜('E' 사용) 전력을 충전할 수 있습니다. 어떤 물질들은 다른 것보다 더 잘 탑니다."
-
 #: lang/json/bionic_from_json.py
 msgid "Integrated Dosimeter"
 msgstr "적산선량계"
@@ -45829,13 +45790,6 @@ msgstr "유압 근력장치"
 #: lang/json/bionic_from_json.py lang/json/mutation_from_json.py
 msgid "Infrared Vision"
 msgstr "적외선 시야"
-
-#. ~ Description for Infrared Vision
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark."
-msgstr "시야 범위가 적외선까지 확장되어 온혈동물들을 어둠 속에서도 볼 수 있게 되었습니다."
 
 #: lang/json/bionic_from_json.py
 msgid "Cerebral Booster"
@@ -45904,14 +45858,6 @@ msgstr "기상관측"
 msgid "Repair Nanobots"
 msgstr "재생 나노로봇"
 
-#. ~ Description for Repair Nanobots
-#: lang/json/bionic_from_json.py
-msgid ""
-"Inside your body is a fleet of tiny dormant robots.  While activated they "
-"will flit about your body, repairing damage and stopping bleeding at the "
-"cost of power."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Artificial Night Generator"
 msgstr "인공 심야 발생기"
@@ -45945,14 +45891,6 @@ msgstr "어떻게 이 CBM이 코에 설치된 건지는 잘 모르겠지만, 잘
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "공격형 방호 시스템"
-
-#. ~ Description for Offensive Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a strong shock, "
-"damaging unarmed attackers and those with a conductive weapon."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -46026,14 +45964,6 @@ msgstr "확률 이동장치"
 msgid "Air Filtration System"
 msgstr "공기 여과 시스템"
 
-#. ~ Description for Air Filtration System
-#: lang/json/bionic_from_json.py
-msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins, or "
-"airborne diseases find their way into your windpipe, the filter will attempt"
-" to remove them.  Reducing the toxic effects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Radiation Scrubber System"
 msgstr "방사능 제염 시스템"
@@ -46050,14 +45980,6 @@ msgstr "손끝 칼날"
 msgid "Microreactor System"
 msgstr "소형반응로"
 
-#. ~ Description for Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor may not be the best thing to have in your "
-"chest.  There is no way to shut it down, but you can toggle additional fuel "
-"intake."
-msgstr "불필요한 것을 모두 떼어내고 핵심만 남긴 이 미니 반응로는 아마 가슴에 넣어 둘 만한 것은 아닙니다. 작동을 정지할 방법이 없으나 추가 연료 투입을 켜고 끌 수는 있습니다."
-
 #: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
 msgstr "재활용 유닛"
@@ -46069,14 +45991,6 @@ msgstr "원격조종"
 #: lang/json/bionic_from_json.py
 msgid "Sonic Resonator"
 msgstr "음파 공명장치"
-
-#. ~ Description for Sonic Resonator
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to creatures, stiff items such "
-"as walls and doors will be damaged."
-msgstr "전신이 강력하게 진동하여 근거리 충격파를 생성합니다. 생물체에겐 큰 피해를 줄 수 없지만, 벽이나 문 등의 딱딱한 물체엔 효과가 있습니다."
 
 #: lang/json/bionic_from_json.py
 msgid "Olfactory Mask"
@@ -46141,10 +46055,10 @@ msgid "Synaptic Accelerator"
 msgstr "시냅스 가속기"
 
 #: lang/json/bionic_from_json.py
-msgid "Wire-induced Stiffness"
-msgstr "고장: 전선유발 근육지연"
+msgid "Wire-Induced Stiffness"
+msgstr ""
 
-#. ~ Description for Wire-induced Stiffness
+#. ~ Description for Wire-Induced Stiffness
 #: lang/json/bionic_from_json.py
 msgid ""
 "Improperly installed wires cause a physical stiffness in most of your body, "
@@ -46160,16 +46074,8 @@ msgid "Muscle Augmentation"
 msgstr "근력 증강장치"
 
 #: lang/json/bionic_from_json.py
-msgid "Anti-glare Compensators"
-msgstr "방현성 보정기"
-
-#. ~ Description for Anti-glare Compensators
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your eyes have quick-reacting transition lenses installed over them.  They "
-"negate glare penalties, partially protect you from bright flashes, and "
-"protect your eyes when welding."
-msgstr "눈에 신속반응 전환렌즈가 설치되었다. 밝은 빛으로 인한 부정적 효과를 방지하고, 섬광에서 눈을 부분적으로 보호하고 용접시 완벽히 보호한다."
+msgid "Anti-Glare Compensators"
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Targeting System"
@@ -46194,14 +46100,6 @@ msgstr "잘못 설치된 이 바이오닉은 당신의 손가락을 (당신이 �
 #: lang/json/bionic_from_json.py
 msgid "Time Dilation"
 msgstr "시간 지연"
-
-#. ~ Description for Time Dilation
-#: lang/json/bionic_from_json.py
-msgid ""
-"At the cost of all stored bionic power, you may increase your body speed and"
-" reactions dramatically, essentially freezing time.  You are still delicate,"
-" however, and violent or rapid movements may damage you due to friction."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Integrated Toolset"
@@ -46230,13 +46128,6 @@ msgstr "초인적 회피"
 msgid "Internal Unified Power System"
 msgstr "내장 통합 전원장치"
 
-#. ~ Description for Internal Unified Power System
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have a unified power system wired into your power banks.  Objects that "
-"run on a UPS can now draw directly from your internal power supply."
-msgstr "당신은 체내 전력 저장소에 통합 전원장치를 탑재해 연결했습니다. UPS를 사용하는 장치를 체내 전력 저장소의 전력으로 대신 사용할 수 있습니다."
-
 #: lang/json/bionic_from_json.py
 msgid "Voice Remodulator"
 msgstr "고장: 음성 재변조기"
@@ -46253,14 +46144,6 @@ msgstr "당신은 이제부터 남은 평생을 왜 CBM을 설치하는 동안�
 #: lang/json/bionic_from_json.py
 msgid "Internal Chronometer"
 msgstr "내부 정밀시계"
-
-#. ~ Description for Internal Chronometer
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time.  Additionally, it includes a silent alarm "
-"clock function."
-msgstr "당신의 몸속에 원자 시계가 탑재되었습니다. 언제 어디서나 현재 시간을 알 수 있으며, 무음 알람 시계 기능도 갖고 있습니다."
 
 #: lang/json/bionic_from_json.py
 msgid "Water Extraction Unit"
@@ -52862,8 +52745,8 @@ msgstr[0] "RM298 HMG"
 msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine "
 "gun was designed for durability and extreme volume of sustained fire under "
-"the worst possible circumstances.  Needs to be mounted because of extreme "
-"recoil.  Accepts RMXB500 box and RMGD250 drum magazines."
+"the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
+"magazines."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -80844,7 +80727,7 @@ msgstr "이런. 누군가가 케이크를 잘랐어. 나는 너가 올 때까지
 
 #: lang/json/speech_from_json.py
 msgid "This is your fault.  It didn't have to be like this."
-msgstr ""
+msgstr "이게 다 너 때문이야. 꼭 이렇게까지 할 필요는 없었잖아."
 
 #: lang/json/speech_from_json.py
 msgid "You're not a good person.  You know that, right?"
@@ -80866,7 +80749,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "What was that? Did you say something? "
-msgstr ""
+msgstr "뭐라고? 방금 뭐라고 했지?"
 
 #: lang/json/speech_from_json.py
 msgid ""
@@ -87489,8 +87372,8 @@ msgstr "노예 좀비로 만들 시체가 없다!"
 #: src/activity_handlers.cpp
 msgid ""
 "You slice muscles and tendons, and remove body parts until you're confident "
-"the zombie won't be able to attack you when it reainmates."
-msgstr "근육과 힘줄을 잘라내고, 좀비가 되살아나도 공격할 수 없다는 확신감이 들 때까지 신체 조직을 제거했다."
+"the zombie won't be able to attack you when it reanimates."
+msgstr ""
 
 #: src/activity_handlers.cpp
 msgid ""
@@ -88324,8 +88207,8 @@ msgid "Really move everything from your inventory?"
 msgstr "정말로 소지품창에 있는 모든 물품을 옮기시겠습니까?"
 
 #: src/advanced_inv.cpp
-msgid "Really remove all your clothes? (woo woo)"
-msgstr "정말로 지금 입고 있는 옷을 전부 벗으시겠습니까?"
+msgid "Really remove all your clothes? (woo hoo)"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Skipping filled buckets to avoid spilling their contents."
@@ -90943,8 +90826,8 @@ msgid "Download data?"
 msgstr "데이터를 다운로드하시겠습니까?"
 
 #: src/computer.cpp
-msgid "Result: Unknown blood type.  Test nonconclusive."
-msgstr "결과: 확인되지 않은 혈액형. 결과확인 불능."
+msgid "Result: Unknown blood type.  Test non-conclusive."
+msgstr ""
 
 #: src/computer.cpp
 msgid "PROCESSING DATA"
@@ -91236,10 +91119,10 @@ msgstr "접근 코드가 필요합니다!"
 msgid ""
 "\n"
 "Power:         Backup Only\n"
-"Radion Level:  Very Dangerous\n"
-"Operational:   Overrided\n"
+"Radiation Level:  Very Dangerous\n"
+"Operational:   Overridden\n"
 "\n"
-msgstr "\n전력: 예비용\n방사 이온 위험도: 아주 위험\n가동상태: 강제가동 상태\n\n"
+msgstr ""
 
 #: src/computer.cpp
 msgid "The console shuts down."
@@ -92695,7 +92578,7 @@ msgid "Cycle option value"
 msgstr ""
 
 #: src/defense.cpp
-msgid "Toogle option"
+msgid "Toggle option"
 msgstr ""
 
 #: src/defense.cpp
@@ -94404,8 +94287,8 @@ msgid "the avoidance of drugs"
 msgstr "마약 배척"
 
 #: src/faction.cpp
-msgid "their adherance to the law"
-msgstr "질서에 대한 집착"
+msgid "their adherence to the law"
+msgstr ""
 
 #: src/faction.cpp
 msgid "their cruelty"
@@ -101225,9 +101108,9 @@ msgstr "여기선 아래로 내려갈 수 없다"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d storey. Jump down?"
+msgid "Looks like %d story. Jump down?"
 msgid_plural "Looks like %d stories. Jump down?"
-msgstr[0] "%d 층 높이에 있습니다. 뛰어내립니까?"
+msgstr[0] ""
 
 #: src/iexamine.cpp
 msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
@@ -106548,8 +106431,8 @@ msgid "Your %s is already enhanced."
 msgstr "%s은(는) 이미 보강된 상태이다."
 
 #: src/iuse_actor.cpp
-msgid "Refiting"
-msgstr "치수 맞춤"
+msgid "Refitting"
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Practicing"
@@ -106718,7 +106601,7 @@ msgid "The barrel is too short."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "The barrel is aleady sawn off."
+msgid "The barrel is already sawn-off."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -106899,8 +106782,8 @@ msgid "A Texas Instruments of Destruction calculator."
 msgstr "파괴의 텍사스 인스트루먼츠 계산기입니다."
 
 #: src/iuse_software_kitten.cpp
-msgid "It's a dark, amphorous blob of matter."
-msgstr "짙은색의 일정한 형태가 없는 블럽."
+msgid "It's a dark, amorphous blob of matter."
+msgstr ""
 
 #: src/iuse_software_kitten.cpp
 msgid "Just a pincushion."
@@ -108692,8 +108575,8 @@ msgstr[0] "적 공격으로 %d 피해!"
 
 #: src/melee.cpp
 #, c-format
-msgid "You have learnt %s from extensive practice with the CQB Bionic."
-msgstr "CQB 바이오닉으로 연습해서 %s을(를) 배웠다."
+msgid "You have learned %s from extensive practice with the CQB Bionic."
+msgstr ""
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
@@ -115472,6 +115355,12 @@ msgid "Pulp Adjacent"
 msgstr "근처 부수기"
 
 #: src/options.cpp
+msgid ""
+"If safe mode is enabled, distance to hostiles at which safe mode should show"
+" a warning.  0 = Max player view distance."
+msgstr ""
+
+#: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
 msgstr ""
 
@@ -115542,7 +115431,7 @@ msgid "Pixel Minimap brightness"
 msgstr ""
 
 #: src/options.cpp
-msgid "Overal brightness of pixel-detail minimap."
+msgid "Overall brightness of pixel-detail minimap."
 msgstr ""
 
 #: src/options.cpp
@@ -119432,8 +119321,8 @@ msgid "Safe Mode Rule:"
 msgstr "안전모드 규칙:"
 
 #: src/safemode_ui.cpp
-msgid "Proximity Distance (0=max viewdistance)"
-msgstr "근접 거리 (0=최대 시야거리)"
+msgid "Proximity Distance (0=max view distance)"
+msgstr ""
 
 #: src/safemode_ui.cpp
 msgid "Option: "
