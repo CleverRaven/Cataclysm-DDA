@@ -938,7 +938,7 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
 /**
  * If there is a 2x4 around, prompt placing it across pit.
  */
-void iexamine::pit(player &p, const tripoint &examp)
+void iexamine::pit( player &p, const tripoint &examp )
 {
     const inventory &crafting_inv = p.crafting_inventory();
     if( !crafting_inv.has_amount( "2x4", 1 ) ) {
@@ -950,14 +950,14 @@ void iexamine::pit(player &p, const tripoint &examp)
 
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
         p.consume_items( planks );
-        if( g->m.ter(examp) == t_pit ) {
-            g->m.ter_set(examp, t_pit_covered);
-        } else if( g->m.ter(examp) == t_pit_spiked ) {
-            g->m.ter_set(examp, t_pit_spiked_covered);
-        } else if( g->m.ter(examp) == t_pit_glass ) {
-            g->m.ter_set(examp, t_pit_glass_covered);
+        if( g->m.ter( examp ) == t_pit ) {
+            g->m.ter_set( examp, t_pit_covered );
+        } else if( g->m.ter( examp ) == t_pit_spiked ) {
+            g->m.ter_set( examp, t_pit_spiked_covered );
+        } else if( g->m.ter( examp ) == t_pit_glass ) {
+            g->m.ter_set( examp, t_pit_glass_covered );
         }
-        add_msg(_("You place a plank of wood over the pit."));
+        add_msg( _( "You place a plank of wood over the pit." ) );
     }
 }
 
