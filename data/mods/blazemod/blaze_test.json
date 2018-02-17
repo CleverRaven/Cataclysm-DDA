@@ -165,7 +165,7 @@
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
-      [ [ "nail", 60 ], [ "duct_tape", 100 ], [ "superglue", 5 ] ],
+      [ [ "nail", 60 ], [ "adhesive", 5, "LIST" ] ],
       [ [ "steel_chunk", 24 ], [ "steel_lump", 6 ] ],
       [ [ "string_36", 12 ] ],
       [ [ "foot_crank", 1 ] ],

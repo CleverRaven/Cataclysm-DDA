@@ -4633,11 +4633,11 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "adhesive", 1 ] ],
   "tools": [],
   "components": [
     [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ],
-    [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
+    [ [ "stick", 1 ], [ "2x4", 1 ] ]
   ]
 },{
   "type" : "recipe",

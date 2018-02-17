@@ -118,7 +118,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbomb", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -134,7 +134,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbomb2", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -150,7 +150,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfire", 1 ], [ "molotov", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -166,7 +166,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfire2", 1 ], [ "40mm_incendiary", 1 ], [ "grenade_inc", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -182,7 +182,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40mm_frag", 1 ], [ "pipebomb", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -215,7 +215,7 @@
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
       [ [ "mininuke", 1 ] ],
-      [ [ "string_36", 1 ], [ "superglue", 1 ], [ "duct_tape", 25 ], [ "bone_glue", 1 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
