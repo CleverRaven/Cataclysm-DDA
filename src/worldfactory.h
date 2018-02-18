@@ -115,7 +115,7 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, int current );
+        static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
         void show_active_world_mods( const std::vector<std::string> &world_mods );
 
     protected:

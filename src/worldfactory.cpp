@@ -144,21 +144,22 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // set up window
         catacurses::window wf_win = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
-        int curtab = 0;
-        int lasttab; // give placement memory to menus, sorta.
+        size_t curtab = 0;
+        size_t lasttab; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
-        while (curtab >= 0 && curtab < numtabs) {
+        while (curtab < numtabs) {
             lasttab = curtab;
             draw_worldgen_tabs(wf_win, curtab);
             curtab += tabs[curtab](wf_win, retworld);
 
-            if (curtab < 0) {
+            // If it is -1, or for unsigned size_t, it would be max. 
+            if (curtab == (size_t)-1) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {
                     curtab = lasttab;
                 }
             }
         }
-        if (curtab < 0) {
+        if (curtab == (size_t)-1) {
             delete retworld;
             return nullptr;
         }
@@ -485,11 +486,11 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         }
 
         //Draw World Names
-        for (int i = 0; i < (int)world_pages[selpage].size(); ++i) {
+        for (size_t i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz( w_worlds, i, 0, c_white, sTemp.str() );
-            wmove( w_worlds, i, 4 );
+            mvwprintz( w_worlds, (int)i, 0, c_white, sTemp.str() );
+            wmove( w_worlds, (int)i, 4 );
 
             std::string world_name = (world_pages[selpage])[i];
             size_t saves_num = get_world( world_name )->world_saves.size();
@@ -672,10 +673,10 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        size_t larger = (iMaxRows > iModNum) ? iModNum : size_t(iMaxRows);
+        int larger = (iMaxRows > (int)iModNum) ? (int)iModNum : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
             
-            if( iNum >= (unsigned int)start && iNum < start + larger ) {
+            if( iNum >= (unsigned int)start && iNum < (unsigned int)(start + larger) ) {
                 if( mSortCategory[iNum] != "" ) {
                     bKeepIter = true;
                     trim_and_print( w, iNum-start, 1, wwidth, c_magenta, mSortCategory[iNum] );
@@ -1270,7 +1271,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
     catacurses::refresh();
 }
 
-void worldfactory::draw_worldgen_tabs( const catacurses::window &w, int current )
+void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t current )
 {
     werase(w);
 
