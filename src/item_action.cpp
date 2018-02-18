@@ -301,6 +301,7 @@ void game::item_action_menu()
     }
 
     draw_ter();
+    wrefresh( w_terrain );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
@@ -343,4 +344,3 @@ std::string use_function::get_name() const
         return errstring;
     }
 }
-
