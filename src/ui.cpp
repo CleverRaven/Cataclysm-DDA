@@ -924,3 +924,4 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     menu->redraw( false );
     menu->show();
 }
+
