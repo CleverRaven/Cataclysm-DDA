@@ -2590,7 +2590,7 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return weight() / 10000_gram < 1 ? 1 : weight() / 1000_gram / g->u.get_str();
+    return weight() / 10000_gram < 1 ? 1 : weight() / 1000_gram / 10;
 }
 
 int item::attack_time() const
