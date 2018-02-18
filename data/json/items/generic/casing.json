@@ -223,6 +223,15 @@
     "volume": "5ml"
   },
   {
+    "id": "357sig_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 SIG casing",
+    "description": "An empty casing from a .357 SIG round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
     "id": "9x18mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -246,3 +255,5 @@
     "damage_states": [ 0, 0 ]
   }
 ]
+
+
