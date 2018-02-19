@@ -12,7 +12,7 @@
     "color": "light_gray",
     "ammo_type": "357sig",
     "capacity": 15,
-    "reliability": 5,
+    "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
   }
 ]
