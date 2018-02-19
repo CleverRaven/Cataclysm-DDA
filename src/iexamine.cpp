@@ -1444,7 +1444,11 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(m_warning, _("This flower has a heady aroma."));
     }
 
-    if (one_in(3) && resist < 5)  {
+    auto recentWeather = sum_conditions( calendar::turn.get_turn()-10_minutes, calendar::turn.get_turn(), p.pos() );
+
+    // If it has been raining recently, then this event is twice less likely. 
+    if ( ( (recentWeather.rain_amount > 1 && one_in(6) ) || (one_in(3) ) ) &&
+            resist < 5)  {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
