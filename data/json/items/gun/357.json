@@ -4,7 +4,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "SIG P226",
-    "description": "A SIG Sauer P226 chambered for .357 SIG. The P226 is based on the P220 design, modified to take double stack magazines.",
+    "description": "A SIG Sauer P226 chambered for .357 SIG. The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
     "weight": 800,
     "volume": 2,
     "price": 50000,
