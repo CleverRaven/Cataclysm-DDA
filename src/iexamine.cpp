@@ -193,6 +193,7 @@ public:
             if( !u.activity.is_null() ) {
                 break;
             }
+            g->draw();
         }
     }
 private:
@@ -1608,7 +1609,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
 
 /**
  * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
- * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
+ * Transforms the egg sack furniture into a ruptured egg sack (f_egg_sacke).
  * Also spawns eggs.
  * @param p The player
  * @param examp Location of egg sack
@@ -1950,7 +1951,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const SkillLevel &skill = p.get_skill_level( skill_fabrication );
+    const int skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -2233,7 +2234,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             add_msg(m_info, _("You don't have any drinks to fill the %s with."), g->m.name(examp).c_str());
             return;
         }
-        // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
+        // Make lists of unique drinks... about third time we do this, maybe we ought to make a function next time
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
@@ -2413,7 +2414,7 @@ void pick_plant(player &p, const tripoint &examp,
         return;
     }
 
-    const SkillLevel &survival = p.get_skill_level( skill_survival );
+    const int survival = p.get_skill_level( skill_survival );
     p.practice( skill_survival, 6 );
 
     int plantBase = rng(2, 5);

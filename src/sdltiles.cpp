@@ -222,8 +222,8 @@ static input_event last_input;
 static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
+static Uint32 dpad_delay = 100;   // Delay in milliseconds between registering a d-pad event and processing it.
+static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
 static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size

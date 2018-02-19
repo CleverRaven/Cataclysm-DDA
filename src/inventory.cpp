@@ -649,7 +649,7 @@ int inventory::position_by_type(itype_id type)
 
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
-    long quantity = _quantity; // Don't wanny change the function signature right now
+    long quantity = _quantity; // Don't want to change the function signature right now
     sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {

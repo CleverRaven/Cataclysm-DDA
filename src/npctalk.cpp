@@ -27,6 +27,7 @@
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "skill.h"
 #include "ui.h"
 
 #include "string_formatter.h"
@@ -1490,7 +1491,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
-    // Can be nullptr! Check before deferencing
+    // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -3840,10 +3841,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                price_color, price_str.c_str() );
                 }
                 if( offset > 0 ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 1, "< Back" );
+                    mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
                 }
                 if( offset + entries_per_page < list.size() ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 9, "More >" );
+                    mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
                 }
             }
             wrefresh( w_head );

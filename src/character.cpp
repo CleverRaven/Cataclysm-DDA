@@ -3,6 +3,7 @@
 #include "map.h"
 #include "bionics.h"
 #include "map_selector.h"
+#include "effect.h"
 #include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
@@ -17,6 +18,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "skill.h"
 #include "vehicle.h"
 #include "output.h"
 #include "veh_interact.h"
@@ -136,6 +138,10 @@ Character::Character() : Creature(), visitable<Character>()
 }
 
 Character::~Character() = default;
+Character::Character( const Character & ) = default;
+Character::Character( Character && ) = default;
+Character &Character::operator=( const Character & ) = default;
+Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
 {
@@ -233,7 +239,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
 }
 
 double Character::aim_speed_dex_modifier() const
@@ -1148,56 +1154,57 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level( const skill_id &ident )
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 {
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
-                  get_name().c_str() );
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
     } else {
-        return _skills[ident];
+        return (*_skills)[ident];
     }
 
     null_skill.level( 0 );
     return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).level();
+}
+
+const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
     static const SkillLevel null_skill;
 
-    if( !ident ) {
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
-    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    const auto iter = _skills->find( ident );
 
-    if( iter != _skills.end() ) {
+    if( iter != _skills->end() ) {
         return iter->second;
-    }
-
-    if( ident->is_contextual_skill() ) {
-        if( context.is_null() ) {
-            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
-                      get_name().c_str() );
-        } else {
-            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
-                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
-        }
     }
 
     return null_skill;
 }
 
-void Character::set_skill_level( const skill_id &ident, const int level )
+int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    get_skill_level( ident ).level( level );
+    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) ).level();
 }
 
-void Character::boost_skill_level( const skill_id &ident, const int delta )
+void Character::set_skill_level( const skill_id &ident, const int level )
 {
-    set_skill_level( ident, delta + get_skill_level( ident ) );
+    get_skill_level_object( ident ).level( level );
+}
+
+void Character::mod_skill_level( const skill_id &ident, const int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.level( obj.level() + delta );
 }
 
 std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
@@ -1922,7 +1929,7 @@ hp_part Character::body_window( const std::string &menu_header,
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
-    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+    /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {

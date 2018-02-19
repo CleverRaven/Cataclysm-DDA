@@ -20,6 +20,7 @@
 #include "material.h"
 #include "translations.h"
 #include "vitamin.h"
+#include "skill.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -343,17 +344,10 @@ void Character::load(JsonObject &data)
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    if (data.has_object("skills")) {
-        JsonObject pmap = data.get_object("skills");
-        for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), get_skill_level( skill.ident() ) );
-            } else {
-                debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
-            }
-        }
-    } else {
-        debugmsg("Skills[] no bueno");
+    _skills->clear();
+    JsonObject pmap = data.get_object( "skills" );
+    for( const std::string &member : pmap.get_member_names() ) {
+        pmap.read( member, (*_skills)[skill_id( member )] );
     }
 
     visit_items( [&] ( item *it ) {
@@ -411,8 +405,8 @@ void Character::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident().str(), get_skill_level( skill.ident() ) );
+    for( const auto &pair : *_skills ) {
+        json.member( pair.first.str(), pair.second );
     }
     json.end_object();
 }
@@ -760,7 +754,7 @@ void player::deserialize(JsonIn &jsin)
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
         learned_recipes.clear();
-        valid_autolearn_skills.clear(); // Invalidates the cache
+        valid_autolearn_skills->clear(); // Invalidates the cache
 
         std::string pstr;
         while ( parray.has_more() ) {
@@ -798,7 +792,7 @@ void player::deserialize(JsonIn &jsin)
         if( savegame_loading_version <= 23 ) {
             // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
             // And it would as often as not be out of bounds (e.g. when a questgiver died).
-            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatability.
+            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
             // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
             if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
                 active_mission = active_missions[tmpactive_mission];
@@ -1557,7 +1551,7 @@ void item::io( Archive& archive )
         std::swap( irridation, poison );
     }
 
-    // Compatiblity for item type changes: for example soap changed from being a generic item
+    // Compatibility for item type changes: for example soap changed from being a generic item
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
@@ -1793,7 +1787,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     }
 
     if( data.has_int( "hp" ) ) {
-        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
         base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
     }
 

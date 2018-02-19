@@ -681,7 +681,7 @@ action_id handle_action_menu()
                 entry->txt += "...";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with globalkey
+                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }

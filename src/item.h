@@ -169,7 +169,7 @@ enum layer_level {
 /**
  *  Contains metadata for one category of items
  *
- *  Every item belongs to a category (eg weapons, armor, food, etc).  This class
+ *  Every item belongs to a category (e.g. weapons, armor, food, etc).  This class
  *  contains the info about one such category.  Actual categories are normally added
  *  by class @ref Item_factory from definitions in the json data files.
  */
@@ -516,7 +516,7 @@ class item : public visitable<item>
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
-     * @param what specific type of charge required, eg. 'battery'
+     * @param what specific type of charge required, e.g. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
      * @param used filled with duplicates of each item that provided consumed charges
      * @param pos position at which the charges are being consumed
@@ -1533,7 +1533,7 @@ public:
         gun_mode gun_current_mode();
         const gun_mode gun_current_mode() const;
 
-        /** Get id of mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
+        /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
         std::string gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
@@ -1598,7 +1598,7 @@ public:
          */
         skill_id gun_skill() const;
 
-        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
         /**

@@ -644,7 +644,7 @@ bool player::eat( item &food, bool force )
     if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
             has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
         mutation_category_level["MUTCAT_URSINE"] > 40 ) {
-        //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
+        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other mutcats
         int honey_fun = has_trait( trait_id( "THRESH_URSINE" ) ) ?
                         std::min( mutation_category_level["MUTCAT_URSINE"] / 8, 20 ) :
                         mutation_category_level["MUTCAT_URSINE"] / 12;

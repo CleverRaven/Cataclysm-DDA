@@ -132,7 +132,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
  * "km/h", "ms/s" or "mph".  Used to add abbreviated unit labels to the output of
  * @ref convert_velocity.
  *
- * @param vel_units type of velocity desired (ie wind or vehicle)
+ * @param vel_units type of velocity desired (i.e. wind or vehicle)
  *
  * @return name of unit.
  */
@@ -152,7 +152,7 @@ const char *weight_units();
  * Create an abbreviated units label for a volume value.
  *
  * Returns the abbreviated name for the volume unit for the user selected unit system,
- * ie "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
+ * i.e. "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
  *
  * @return name of unit.
  */
@@ -172,7 +172,7 @@ const char *volume_units_long();
  * Convert internal velocity units to units defined by user.
  *
  * @param velocity A velocity value in internal units.
- * @param vel_units General type of item this velocity is for (eg vehicles or wind)
+ * @param vel_units General type of item this velocity is for (e.g. vehicles or wind)
  *
  * @returns Velocity in the user selected measurement system and in appropriate
  *          units for the object being measured.
@@ -200,7 +200,7 @@ double convert_volume( int volume );
 double convert_volume( int volume, int *out_scale );
 
 /**
- * Convert a temperature from degrees fahrenheit to degrees celsius.
+ * Convert a temperature from degrees Fahrenheit to degrees celsius.
  *
  * @param fahrenheit Temperature in degrees F.
  *

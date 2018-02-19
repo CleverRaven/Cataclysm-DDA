@@ -12,6 +12,7 @@
 #include "vehicle.h"
 #include "string_formatter.h"
 #include "veh_type.h"
+#include "skill.h"
 #include "vitamin.h"
 #include "npc.h"
 #include "ammo.h"

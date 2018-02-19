@@ -775,7 +775,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation. into a prereq.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;

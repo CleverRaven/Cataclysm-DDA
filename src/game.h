@@ -263,7 +263,7 @@ class game
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
-         * but it's not of the requested tpye, returns nullptr.
+         * but it's not of the requested type, returns nullptr.
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
         template<typename T = Creature>
@@ -951,7 +951,6 @@ private:
         // Routine loop functions, approximately in order of execution
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
-        void rustCheck();        // Degrades practice levels
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters

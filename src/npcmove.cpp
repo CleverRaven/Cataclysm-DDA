@@ -889,7 +889,7 @@ npc_action npc::method_of_attack()
 
     long ups_charges = charges_of( "UPS" );
 
-    // get any suitable modes excluding melee, any forbiden to NPCs and those without ammo
+    // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<std::string, item::gun_mode>> modes;
@@ -1203,7 +1203,7 @@ npc_action npc::long_term_goal_action()
     add_msg( m_debug, "long_term_goal_action()" );
 
     if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
-        return npc_pause;    // Shopkeeps just stay put.
+        return npc_pause;    // Shopkeepers just stay put.
     }
 
     // TODO: Follow / look for player
@@ -2394,7 +2394,7 @@ bool npc::alt_attack()
     if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
-        // We want to ignore player-centric rules to avoid carrying live nades
+        // We want to ignore player-centric rules to avoid carrying live explosives
         // @todo Non-grenades
     }
 

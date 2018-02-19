@@ -505,6 +505,7 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
+    add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
@@ -1331,7 +1332,7 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         while( compat.has_more() ) {
@@ -1757,7 +1758,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         // the first magazine for this ammo type is the default;

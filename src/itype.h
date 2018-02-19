@@ -95,7 +95,7 @@ struct islot_tool {
 
 struct islot_comestible
 {
-    /** subtype, eg. FOOD, DRINK, MED */
+    /** subtype, e.g. FOOD, DRINK, MED */
     std::string comesttype;
 
      /** tool needed to consume (e.g. lighter for cigarettes) */
@@ -446,10 +446,10 @@ class gun_type_type
 };
 
 struct islot_gunmod : common_ranged_data {
-    /** Where is this gunmod installed (eg. "stock", "rail")? */
+    /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
-    /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
+    /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
     std::set<gun_type_type> usable;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */

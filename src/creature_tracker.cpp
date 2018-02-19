@@ -52,7 +52,7 @@ std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
 
 bool Creature_tracker::add( monster &critter )
 {
-    if( critter.type->id.is_null() ) { // Don't wanna spawn null monsters o.O
+    if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
         return false;
     }
 

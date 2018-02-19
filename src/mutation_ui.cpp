@@ -58,7 +58,7 @@ void show_mutations_titlebar( const catacurses::window &window, std::string &men
 void player::power_mutations()
 {
     if( !is_player() ) {
-        // TODO: Implement NPCs activating muts
+        // TODO: Implement NPCs activating mutations
         return;
     }
 

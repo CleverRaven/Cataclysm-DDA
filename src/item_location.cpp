@@ -281,7 +281,7 @@ class item_location::impl::item_on_person : public item_location::impl
 
             auto parents = who.parents( *target() );
             if( !parents.empty() && who.is_worn( *parents.back() ) ) {
-                // if outermost parent item is worn status effects (eg. GRABBED) are not applied
+                // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
                 // holsters may also adjust the volume cost factor
 
                 if( parents.back()->can_holster( obj, true ) ) {
