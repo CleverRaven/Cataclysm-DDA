@@ -27,7 +27,7 @@ using namespace std::placeholders;
 std::unique_ptr<worldfactory> world_generator;
 
 save_t::save_t( const std::string &name )
-: name( name )
+    : name( name )
 {
 }
 
@@ -83,10 +83,10 @@ void WORLD::add_save( const save_t &name )
 }
 
 worldfactory::worldfactory()
-: active_world( nullptr )
-, all_worlds()
-, mman( nullptr )
-, mman_ui( nullptr )
+    : active_world( nullptr )
+    , all_worlds()
+    , mman( nullptr )
+    , mman_ui( nullptr )
 {
     mman.reset( new mod_manager );
     mman->refresh_mod_list();
@@ -152,7 +152,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
             draw_worldgen_tabs(wf_win, curtab);
             curtab += tabs[curtab](wf_win, retworld);
 
-            // If it is -1, or for unsigned size_t, it would be max. 
+            // If it is -1, or for unsigned size_t, it would be max.
             if (curtab == (size_t)-1) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {
                     curtab = lasttab;
@@ -619,8 +619,8 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
     return 0;
 }
 
-void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t &cursor, 
-                                  const std::vector<std::string> &mods, bool is_active_list, 
+void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t &cursor,
+                                  const std::vector<std::string> &mods, bool is_active_list,
                                   const std::string &text_if_empty, const catacurses::window &w_shift )
 {
     werase( w );
@@ -675,7 +675,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
         int larger = ((int)iMaxRows > (int)iModNum) ? (int)iModNum : (int)iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            
+
             if( iNum >= (unsigned int)start && iNum < (unsigned int)(start + larger) ) {
                 if( mSortCategory[iNum] != "" ) {
                     bKeepIter = true;
@@ -772,14 +772,14 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
 
         if( action == "UP" ) {
             cursor--;
-            // If it went under 0, loop back to the end of the list. 
+            // If it went under 0, loop back to the end of the list.
             if( cursor > num_mods -1 ) {
                 cursor = num_mods - 1;
             }
 
         } else if( action == "DOWN" ) {
             cursor++;
-            // If it went over the end of the list, loop back to the start of the list. 
+            // If it went over the end of the list, loop back to the start of the list.
             if( cursor > num_mods - 1 ) {
                 cursor = 0;
             }
@@ -1078,7 +1078,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( active_mod_order.empty() ) {
                 cursel[1] = 0;
             } else {
-                // If it goes below 0, it'll loop back to max (or at least, greater than AMO size*10. 
+                // If it goes below 0, it'll loop back to max (or at least, greater than AMO size*10.
                 if( cursel[1] > active_mod_order.size()*10 ) {
                     cursel[1] = 0;
                 }
@@ -1221,14 +1221,16 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
-        1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
-        ( FULL_SCREEN_WIDTH / 2 ) + 2
-    }};
+            1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+            ( FULL_SCREEN_WIDTH / 2 ) + 2
+        }
+    };
     std::array<int, 5> ys = {{FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3}};
     std::array<int, 5> ls = {{
-        FULL_SCREEN_WIDTH - 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
-        ( FULL_SCREEN_WIDTH / 2 ) - 3, FULL_SCREEN_HEIGHT - 11, 1
-    }};
+            FULL_SCREEN_WIDTH - 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+            ( FULL_SCREEN_WIDTH / 2 ) - 3, FULL_SCREEN_HEIGHT - 11, 1
+        }
+    };
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for (int i = 0; i < 5; ++i) {
@@ -1286,10 +1288,11 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
     }
 
     static const std::vector<std::string> tab_strings = { {
-        translate_marker( "World Mods" ),
-        translate_marker( "World Options" ),
-        translate_marker( "Finalize World" )
-    } };
+            translate_marker( "World Mods" ),
+            translate_marker( "World Options" ),
+            translate_marker( "Finalize World" )
+        }
+    };
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
@@ -1443,7 +1446,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 static bool isForbidden(std::string candidate)
 {
     if (candidate.find(FILENAMES["worldoptions"]) != std::string::npos ||
-        candidate.find("mods.json") != std::string::npos) {
+            candidate.find("mods.json") != std::string::npos) {
         return true;
     }
     return false;

@@ -143,7 +143,7 @@ void mod_ui::try_add( const std::string &mod_to_add,
     if( mod.core ) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
         if( ( !active_list.empty() ) && ( active_manager->mod_map[active_list[0]]->core ) &&
-            ( active_list[0] != mod_to_add ) ) {
+                ( active_list[0] != mod_to_add ) ) {
             // remove existing core
             try_rem( 0, active_list );
         }
@@ -280,7 +280,7 @@ bool mod_ui::can_shift_up( long selection, std::vector<std::string> active_list 
     selstring = active_list[oldsel];
 
     if( active_manager->mod_map[modstring]->core ||
-        std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
+            std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
         // can't move up due to a blocker
         return false;
     } else {
@@ -315,7 +315,7 @@ bool mod_ui::can_shift_down( long selection, std::vector<std::string> active_lis
     selstring = active_list[oldsel];
 
     if( active_manager->mod_map[modstring]->core ||
-        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
+            std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
         // can't move down due to a blocker
         return false;
     } else {

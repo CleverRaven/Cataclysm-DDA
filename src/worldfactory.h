@@ -14,32 +14,32 @@
 class JsonIn;
 class JsonObject;
 enum special_game_id : int;
-namespace catacurses
+    namespace catacurses
 {
 class window;
 } // namespace catacurses
 
 class save_t
 {
-    private:
-        std::string name;
+private:
+    std::string name;
 
-        save_t( const std::string &name );
+    save_t( const std::string &name );
 
-    public:
-        std::string player_name() const;
-        std::string base_path() const;
+public:
+    std::string player_name() const;
+    std::string base_path() const;
 
-        static save_t from_player_name( const std::string &name );
-        static save_t from_base_path( const std::string &base_path );
+    static save_t from_player_name( const std::string &name );
+    static save_t from_base_path( const std::string &base_path );
 
-        bool operator==( const save_t &rhs ) const {
-            return name == rhs.name;
-        }
-        bool operator!=( const save_t &rhs ) const {
-            return !operator==( rhs );
-        }
-        save_t &operator=( const save_t & ) = default;
+    bool operator==( const save_t &rhs ) const {
+        return name == rhs.name;
+    }
+    bool operator!=( const save_t &rhs ) const {
+        return !operator==( rhs );
+    }
+    save_t &operator=( const save_t & ) = default;
 };
 
 struct WORLD {
@@ -70,78 +70,78 @@ typedef WORLD *WORLDPTR;
 
 class worldfactory
 {
-    public:
-        /** Default constructor */
-        worldfactory();
-        /** Default destructor */
-        virtual ~worldfactory();
+public:
+    /** Default constructor */
+    worldfactory();
+    /** Default destructor */
+    virtual ~worldfactory();
 
-        // Generate a world
-        WORLDPTR make_new_world( bool show_prompt = true );
-        WORLDPTR make_new_world( special_game_id special_type );
-        // Used for unit tests - does NOT verify if the mods can be loaded
-        WORLDPTR make_new_world( const std::vector<std::string> &mods );
-        WORLDPTR convert_to_world( std::string origin_path );
-        /// Returns the *existing* world of given name.
-        WORLDPTR get_world( const std::string &name );
-        bool has_world( const std::string &name ) const;
+    // Generate a world
+    WORLDPTR make_new_world( bool show_prompt = true );
+    WORLDPTR make_new_world( special_game_id special_type );
+    // Used for unit tests - does NOT verify if the mods can be loaded
+    WORLDPTR make_new_world( const std::vector<std::string> &mods );
+    WORLDPTR convert_to_world( std::string origin_path );
+    /// Returns the *existing* world of given name.
+    WORLDPTR get_world( const std::string &name );
+    bool has_world( const std::string &name ) const;
 
-        void set_active_world( WORLDPTR world );
-        bool save_world( WORLDPTR world = NULL, bool is_conversion = false );
+    void set_active_world( WORLDPTR world );
+    bool save_world( WORLDPTR world = NULL, bool is_conversion = false );
 
-        void init();
+    void init();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+    WORLDPTR pick_world( bool show_prompt = true );
 
-        WORLDPTR active_world;
+    WORLDPTR active_world;
 
-        std::vector<std::string> all_worldnames() const;
+    std::vector<std::string> all_worldnames() const;
 
-        mod_manager *get_mod_manager();
+    mod_manager *get_mod_manager();
 
-        void remove_world( std::string worldname );
-        bool valid_worldname( std::string name, bool automated = false );
+    void remove_world( std::string worldname );
+    bool valid_worldname( std::string name, bool automated = false );
 
-        /**
-         * World need CDDA build with Lua support
-         * @param world_name World name to test
-         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
-         */
-        bool world_need_lua_build( std::string world_name );
-        /**
-         * @param delete_folder If true: delete all the files and directories  of the given
-         * world folder. Else just avoid deleting the config files and the directory
-         * itself.
-         */
-        void delete_world( const std::string &worldname, bool delete_folder );
+    /**
+     * World need CDDA build with Lua support
+     * @param world_name World name to test
+     * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
+     */
+    bool world_need_lua_build( std::string world_name );
+    /**
+     * @param delete_folder If true: delete all the files and directories  of the given
+     * world folder. Else just avoid deleting the config files and the directory
+     * itself.
+     */
+    void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
-        void show_active_world_mods( const std::vector<std::string> &world_mods );
+    static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
+    void show_active_world_mods( const std::vector<std::string> &world_mods );
 
-    protected:
-    private:
-        std::map<std::string, WORLDPTR> all_worlds;
+protected:
+private:
+    std::map<std::string, WORLDPTR> all_worlds;
 
-        std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
+    std::string pick_random_name();
+    int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
+    int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
+    int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
-        void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, size_t &cursor,
-                            const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
-                            const catacurses::window &w_shift );
+    void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
+    void draw_mod_list( const catacurses::window &w, int &start, size_t &cursor,
+                        const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
+                        const catacurses::window &w_shift );
 
-        bool load_world_options( WORLDPTR &world );
+    bool load_world_options( WORLDPTR &world );
 
-        WORLDPTR add_world( WORLDPTR world );
+    WORLDPTR add_world( WORLDPTR world );
 
-        std::unique_ptr<mod_manager> mman;
-        std::unique_ptr<mod_ui> mman_ui;
+    std::unique_ptr<mod_manager> mman;
+    std::unique_ptr<mod_ui> mman_ui;
 
-        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+    typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
 
-        std::vector<worldgen_display> tabs;
+    std::vector<worldgen_display> tabs;
 };
 
 void load_world_option( JsonObject &jo );
