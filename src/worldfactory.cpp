@@ -147,7 +147,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         size_t curtab = 0;
         size_t lasttab; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
-        while (curtab < numtabs) {
+        while ((unsigned long)curtab < (unsigned long)numtabs) {
             lasttab = curtab;
             draw_worldgen_tabs(wf_win, curtab);
             curtab += tabs[curtab](wf_win, retworld);
@@ -495,7 +495,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             std::string world_name = (world_pages[selpage])[i];
             size_t saves_num = get_world( world_name )->world_saves.size();
 
-            if (i == sel) {
+            if ((unsigned long)i == (unsigned long)sel) {
                 wprintz(w_worlds, c_yellow, ">> ");
             } else {
                 wprintz(w_worlds, c_yellow, "   ");
@@ -673,7 +673,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int larger = (iMaxRows > (int)iModNum) ? (int)iModNum : iMaxRows;
+        int larger = ((int)iMaxRows > (int)iModNum) ? (int)iModNum : (int)iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
             
             if( iNum >= (unsigned int)start && iNum < (unsigned int)(start + larger) ) {
