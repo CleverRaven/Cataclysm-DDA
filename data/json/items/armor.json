@@ -8938,7 +8938,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO" ],
-    "coverage": 60,
+    "coverage": 40,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -9485,7 +9485,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "TORSO" ],
-    "coverage": 40,
+    "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
