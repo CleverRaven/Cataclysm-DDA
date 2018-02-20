@@ -68,7 +68,7 @@ class DynamicDataLoader
 
     protected:
         /**
-         * Maps the type string (comming from json) to the
+         * Maps the type string (coming from json) to the
          * functor that loads that kind of object from json.
          */
         t_type_function_map type_function_map;

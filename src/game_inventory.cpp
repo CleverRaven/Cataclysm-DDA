@@ -11,6 +11,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "skill.h"
 
 #include <algorithm>
 #include <functional>
@@ -628,7 +629,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level( book.skill ).can_train() ) {
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return string_format( _( "%s to %d" ), book.skill->name().c_str(), book.level );
                 }
                 return std::string();

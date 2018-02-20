@@ -16,7 +16,7 @@ class utf8_wrapper;
 /**
  * Shows a window querying the user for input.
  *
- * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
+ * Returns the input that was entered. If the user cancels the input (e.g. by pressing Escape),
  * an empty string is returned. An empty string may also be returned when the user does not enter
  * any text and confirms the input (by pressing ENTER).
  *

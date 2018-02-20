@@ -135,7 +135,7 @@
   {
     "id": "9mmrack",
     "type": "vehicle_part",
-    "name": "9mm rack",
+    "name": "9x19mm rack",
     "item": "metal_tank_little",
     "location": "under",
     "fuel_type": "9mm",

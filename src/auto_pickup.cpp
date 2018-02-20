@@ -339,7 +339,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
-            // @todo Now that NPCs use this function, it could be used for them too
+            // @todo: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {

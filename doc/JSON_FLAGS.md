@@ -292,16 +292,26 @@ Flags used to describe monsters and define their properties and abilities.
 ### Special attacks
 
 Some special attacks are also valid use actions for tools and weapons.
+See monsters.json for examples on how to use these attacks.
+Also see monster_attacks.json for more special attacks, for example, impale and scratch
 
 - ```NONE``` No special attack.
 - ```ACID``` Spit acid.
+- ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
+- ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
+- ```BIO_OP_TAKEDOWN``` Sttack with special martial art takedown manoeuvres.
+- ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER``` Spit bile.
+- ```BOOMER_GLOW``` Spit glowing bile.
 - ```BRANDISH``` Brandish a knife at the player.
 - ```BREATHE``` Spawns a `breather`
+- ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
 - ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
+- ```DANCE``` Monster dances.
+- ```DARKMAN``` Can cause darkness and wraiths to spawn.
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.
 - ```DISAPPEAR``` Hallucination disappears.
@@ -312,30 +322,51 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```FORMBLOB``` Spawns blobs?
 - ```FRAG_TUR``` MGL fires frag rounds.
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
+- ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
+- ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
+- ```FUNGUS_FORTIFY``` Grows Fungal hedgerows, and advances player on the mycus threshold path.
 - ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
+- ```FUNGUS_HAZE``` Spawns fungal fields.
+- ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
 - ```GENERATOR``` Regenerates health.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
+- ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
+- ```GRAB``` GRAB the target, and drag it around.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
 - ```GROW_VINE``` Grows creeper vines.
 - ```HOWL``` "an ear-piercing howl!"
+- ```JACKSON``` Converts zombies into zombie dancers.
 - ```LASER``` Laser turret fires.
+- ```LEAP``` leap away to an unobstructed tile.
+- ```LONGSWIPE``` Does high damage claw attack, which can even hit some distance away.
+- ```LUNGE``` Perfom a jumping attack from some distance away, which can down the target.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
+- ```RANGED_PULL``` Pull targets towards attacker.
 - ```RATKING``` Inflicts disease `rat`
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```RESURRECT``` Revives the dead--again.
 - ```RIFLE_TUR``` Rifle turret fires.
+- ```RIOTBOT``` Sprays teargas or relaxation gas, can handcuff players, and can use a blinding flash.
 - ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
+- ```SEARCHLIGHT``` Tracks targets with a searchlight.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
 - ```SHRIEK``` "a terrible shriek!"
+- ```SHRIEK_ALERT``` "a very terrible shriek!"
+- ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
+- ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
+- ```SMASH``` Smashes the target for massive damage, sending it flying.
 - ```SMG``` SMG turret fires.
 - ```SPIT_SAP``` Spit sap.
 - ```STARE``` Stare at the player and inflict teleglow.
+- ```STRETCH_ATTACK``` Long ranged piercing attack.
+- ```STRETCH_BITE``` Long ranged bite attack.
+- ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shock the player.
 - ```TENTACLE``` Lashes a tentacle at the player.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
@@ -537,7 +568,8 @@ These are handled through ammo_types.json.  You can tag a weapon with these to h
 - ```762``` 7.62x39mm
 - ```762R``` 7.62x54mm
 - ```8x40mm``` 8mm Caseless
-- ```9mm``` 9mm Luger (and relatives)
+- ```9mm``` 9x19mm Luger (and relatives)
+- ```9x18``` 9x18mm
 - ```12mm``` 12mm
 - ```20x66mm``` 20x66mm Shot (and relatives)
 - ```40mm``` 40mm Grenade

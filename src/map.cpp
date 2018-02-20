@@ -330,7 +330,7 @@ void map::vehmove()
     }
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
-    // But 15 is too low for V12 deathbikes, let's put 100 here
+    // But 15 is too low for V12 death-bikes, let's put 100 here
     for( int count = 0; count < 100; count++ ) {
         if( !vehproceed() ) {
             break;
@@ -1256,7 +1256,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     const tripoint dst = p2;
 
     if( !inbounds( src ) ) {
-        add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
+        add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
                         src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return nullptr;
     }
@@ -1301,7 +1301,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         return veh;
     }
 
-    // Need old coords to check for remote control
+    // Need old coordinates to check for remote control
     const bool remote = veh->remote_controlled( g->u );
 
     // record every passenger inside
@@ -1385,7 +1385,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     }
 
     if( remote ) {
-        // Has to be after update_map or coords won't be valid
+        // Has to be after update_map or coordinates won't be valid
         g->setremoteveh( veh );
     }
 
@@ -1566,7 +1566,7 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_floor_cache_dirty( p.z );
     }
 
-    // @todo Limit to changes that affect move cost, traps and stairs
+    // @todo: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     // Make sure the furniture falls if it needs to
@@ -1701,7 +1701,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const {
 
 /**
  * Examines the tile pos, with character as the "examinator"
- * Casts Character to player because player/npc split isn't done yet
+ * Casts Character to player because player/NPC split isn't done yet
  */
 void map::examine( Character &p, const tripoint &pos )
 {
@@ -1770,7 +1770,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
         support_cache_dirty.insert( p );
     }
 
-    // @todo Limit to changes that affect move cost, traps and stairs
+    // @todo: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1793,30 +1793,32 @@ std::string map::features( const tripoint &p )
     // This is used in an info window that is 46 characters wide, and is expected
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
-    // Make the caller wrap properly, if it does not already.
-    std::string ret;
-    if (is_bashable(p)) {
-        ret += _("Smashable. ");
+    std::stringstream ret;
+    if( is_bashable( p ) ) {
+        ret << _( "Smashable. " );
     }
-    if (has_flag("DIGGABLE", p)) {
-        ret += _("Diggable. ");
+    if( has_flag( "DIGGABLE", p ) ) {
+        ret << _( "Diggable. " );
     }
-    if (has_flag("ROUGH", p)) {
-        ret += _("Rough. ");
+    if( has_flag( "ROUGH", p ) ) {
+        ret << _( "Rough. " );
     }
-    if (has_flag("UNSTABLE", p)) {
-        ret += _("Unstable. ");
+    if( has_flag( "UNSTABLE", p ) ) {
+        ret << _( "Unstable. " );
     }
-    if (has_flag("SHARP", p)) {
-        ret += _("Sharp. ");
+    if( has_flag( "SHARP", p ) ) {
+        ret << _( "Sharp. " );
     }
-    if (has_flag("FLAT", p)) {
-        ret += _("Flat. ");
+    if( has_flag( "FLAT", p ) ) {
+        ret << _( "Flat. " );
     }
-    if (has_flag("EASY_DECONSTRUCT", p)) {
-        ret += _("Simple. ");
+    if( has_flag( "EASY_DECONSTRUCT", p ) ) {
+        ret << _( "Simple. " );
     }
-    return ret;
+    if( has_flag( "MOUNTABLE", p ) ) {
+        ret << _( "Mountable. " );
+    }
+    return ret.str();
 }
 
 int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const vehicle *veh, const int vpart) const
@@ -2060,7 +2062,7 @@ double map::ranged_target_size( const tripoint &p ) const
         return 0.0;
     }
 
-    // @todo Handle cases like shrubs, trees, furniture, sandbags...
+    // @todo: Handle cases like shrubs, trees, furniture, sandbags...
     return 0.1;
 }
 
@@ -2880,7 +2882,7 @@ void map::decay_fields_and_scent( const int amount )
     const int amount_fire = amount / 3; // Decay fire by this much
     const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
-    // Coord code copied from lightmap calculations
+    // Coordinate code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
     const auto &outside_cache = get_cache_ref( smz ).outside_cache;
@@ -3545,7 +3547,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     auto bashed_items = i_at( p );
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
-        // the check for active supresses molotovs smashing themselves with their own explosion
+        // the check for active suppresses Molotovs smashing themselves with their own explosion
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in(2) ) {
             params.did_bash = true;
             smashed_glass = true;
@@ -3634,7 +3636,7 @@ void map::crush( const tripoint &p )
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
             hit = bp_torso;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
-            // Legs take the next most through transfered force
+            // Legs take the next most through transferred force
             hit = bp_leg_l;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
             hit = bp_leg_r;
@@ -4417,7 +4419,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             return false;
         }
 
-        // Some tiles destroy items (eg. lava)
+        // Some tiles destroy items (e.g. lava)
         if( has_flag( "DESTROY_ITEM", e ) ) {
             return false;
         }
@@ -4796,7 +4798,7 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         // Find the cargo part and coordinates corresponding to the current active item.
         auto const part_index = static_cast<size_t>(*it);
         const point partloc = cur_veh->global_pos() + cur_veh->parts[part_index].precalc[0];
-        // TODO: Make this 3D when vehicles know their Z coord
+        // TODO: Make this 3D when vehicles know their Z-coordinate
         const tripoint item_location = tripoint( partloc, abs_sub.z );
         auto items = cur_veh->get_items(static_cast<int>(part_index));
         if(!processor(items, active_item.item_iterator, item_location, signal)) {
@@ -5008,7 +5010,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         if( iter != stack.end() ) {
             item furn_item( itt, -1, iter->charges );
             // The item constructor limits the charges to the (type specific) maximum.
-            // Setting it separately circumvents that - syncron with the code that creates
+            // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
             furn_item.charges = iter->charges;
             if( furn_item.use_charges( type, quantity, ret, p ) ) {
@@ -5595,7 +5597,7 @@ void map::add_splash( const field_id type, const tripoint &center, int radius, i
     if( type == fd_null ) {
         return;
     }
-    // TODO: use bresenham here and take obstacles into account
+    // TODO: use Bresenham here and take obstacles into account
     for( const tripoint &pnt : points_in_radius( center, radius ) ) {
         if( trig_dist( pnt, center ) <= radius && !one_in( density ) ) {
             add_splatter( type, pnt );
@@ -6036,7 +6038,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         graf = true;
     }
 
-    //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
+    //surprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if( sym == AUTO_WALL_PLACEHOLDER ) {
         sym = determine_wall_corner( p );
     }
@@ -6230,7 +6232,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
 std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) const
 {
-    // TODO: Push this junk down into the bresenham method, it's already doing it.
+    // TODO: Push this junk down into the Bresenham method, it's already doing it.
     const int dx = destination.x - source.x;
     const int dy = destination.y - source.y;
     const int ax = std::abs(dx) * 2;
@@ -6353,7 +6355,7 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
     const std::vector<int> pos_index {1,2,4,6,8,7,5,3};
 
-    //  All possible constelations (closest_points_first goes clockwise)
+    //  All possible constellations (closest_points_first goes clockwise)
     //  753  531  312  124  246  468  687  875
     //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
     //  642  864  786  578  357  135  213  421
@@ -6673,7 +6675,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
         const oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
 
-        // @todo Replace with json mapgen functions.
+        // @todo: Replace with json mapgen functions.
         if( terrain_type == air ) {
             generate_uniform( newmapx, newmapy, gridz, t_open_air );
         } else if( terrain_type == rock ) {
@@ -6704,7 +6706,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
         auto *veh = *iter;
         if( !veh->parts.empty() ) {
-            // Always fix submap coords for easier z-level-related operations
+            // Always fix submap coordinates for easier Z-level-related operations
             veh->smx = gridx;
             veh->smy = gridy;
             veh->smz = gridz;
@@ -7486,7 +7488,7 @@ void map::build_outside_cache( const int zlev )
                         cur_submap->get_furn( sx, sy ).obj().has_flag( TFLAG_INDOORS ) ) {
                         const int x = sx + ( smx * SEEX );
                         const int y = sy + ( smy * SEEY );
-                        // Add 1 to both coords, because we're operating on the padded cache
+                        // Add 1 to both coordinates, because we're operating on the padded cache
                         for( int dx = 0; dx <= 2; dx++ )
                         {
                             for( int dy = 0; dy <= 2; dy++ )
@@ -7986,7 +7988,7 @@ template<typename Functor>
         for( smx = min_smx; smx <= max_smx; smx++ ) {
             for( smy = min_smy; smy <= max_smy; smy++ ) {
                 submap const *cur_submap = get_submap_at_grid( smx, smy, z );
-                // Bounds on the submap coords
+                // Bounds on the submap coordinates
                 const int sm_minx = smx > min_smx ? 0 : minx % SEEX;
                 const int sm_miny = smy > min_smy ? 0 : miny % SEEY;
                 const int sm_maxx = smx < max_smx ? (SEEX - 1) : maxx % SEEX;
@@ -8026,7 +8028,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MA
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_WALL;
     auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
-        // We need to generate the x/y coords, because we can't get them "for free"
+        // We need to generate the x/y coordinates, because we can't get them "for free"
         const int x = gp.x * SEEX + lp.x;
         const int y = gp.y * SEEY + lp.y;
         if( sm->get_ter( lp.x, lp.y ).obj().has_flag( block ) ) {

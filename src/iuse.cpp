@@ -1178,7 +1178,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
             p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
                                 pgettext("memorial_female", m_category.memorial_message.c_str()));
             // Manually removing Carnivore, since it tends to creep in
-            // This is because carnivore is a prereq for the
+            // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
             if( mutation_category == "MUTCAT_URSINE" && p->has_trait( trait_CARNIVORE ) ) {
                 p->unset_mutation( trait_CARNIVORE );
@@ -1212,7 +1212,7 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
     }
 
     for( auto& iter : mutation_category_trait::get_all() ) {
-        // @todo Get rid of this revolting string hack
+        // @todo: Get rid of this revolting string hack
         if( !it->has_flag( iter.second.mutagen_flag ) ) {
             continue;
         }
@@ -2945,34 +2945,33 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
+
     tripoint dirp = pos;
     if (!choose_adjacent( _( "Drill where?" ), dirp ) ) {
         return 0;
     }
 
-    int &dirx = dirp.x;
-    int &diry = dirp.y;
-
-    if (dirx == p->posx() && diry == p->posy()) {
+    if ( dirp == p->pos() ) {
         p->add_msg_if_player( _( "My god! Let's talk it over OK?" ) );
-
         p->add_msg_if_player( _( "Don't do anything rash." ) );
-
         return 0;
     }
 
-    if (
-           (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry))&&
-                g->m.ter(dirx, diry) != t_tree) ||
-           (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
-                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
-        g->m.destroy( dirp, true );
-        p->moves -= 500;
-        sounds::sound( dirp, 45, _( "TATATATATATATAT!" ) );
-    } else {
+    const time_duration duration = 30_minutes;
+    const bool mineable = g->m.is_bashable( dirp ) &&
+                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
+                          !g->m.has_flag( "TREE", dirp );
+    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
+                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
+
+    if( !( mineable || not_dirt_or_grass ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
+
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
     return it->type->charges_to_use();
 }
 
@@ -4138,6 +4137,34 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
     }
 
     p->assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
+}
+
+int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Chop which which tree trunk?" ), dirp ) ) {
+        return 0;
+    }
+
+    int moves;
+
+    const ter_id ter = g->m.ter( dirp );
+    if( ter == t_trunk ) {
+        /** @EFFECT_STR reduces time required to chop down a tree */
+        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
+    } else {
+        add_msg( m_info, _( "You can't chop that." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = dirp;
 
     return it->type->charges_to_use();
@@ -5400,7 +5427,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             uimenu pick_robot;
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
-            std::vector< monster* > mons; // @todo change into vector<Creature*>
+            std::vector< monster* > mons; // @todo: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( monster &candidate : g->all_monsters() ) {

@@ -27,6 +27,7 @@
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "skill.h"
 #include "ui.h"
 
 #include "string_formatter.h"
@@ -164,7 +165,7 @@ struct talk_response {
      * Text (already folded) and color that is used to display this response.
      * This is set up in @ref do_formatting.
      */
-    std::vector<std::string> formated_text;
+    std::vector<std::string> formatted_text;
     nc_color color = c_white;
 
     void do_formatting( const dialogue &d, char letter );
@@ -449,7 +450,7 @@ static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */
 // Rescale values from "mission scale" to "opinion scale"
 static int cash_to_favor( const npc &, int cash )
 {
-    // @todo It should affect different NPCs to a different degree
+    // @todo: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
@@ -1490,7 +1491,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
-    // Can be nullptr! Check before deferencing
+    // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -3304,7 +3305,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
 
 void dialogue::clear_window_texts()
 {
-    // Note: don't erase the borders, therefor start and end one unit inwards.
+    // Note: don't erase the borders, therefore start and end one unit inwards.
     // Note: start at second line because the first line contains the headers which are not
     // reprinted.
     // TODO: make this call werase and reprint the border & the header
@@ -3359,7 +3360,7 @@ bool dialogue::print_responses( int const yoffset )
     int curline = min_line - ( int ) yoffset;
     size_t i;
     for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        auto const &folded = responses[i].formated_text;
+        auto const &folded = responses[i].formatted_text;
         auto const &color = responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             if( curline < min_line ) {
@@ -3447,7 +3448,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     parse_tags( ftext, *d.alpha, *d.beta );
     // Remaining width of the responses area, -2 for the border, -2 for indentation
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
-    formated_text = foldstring( ftext, fold_width );
+    formatted_text = foldstring( ftext, fold_width );
 
     if( text[0] == '!' ) {
         color = c_red;
@@ -3549,7 +3550,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
     }
 
     // We can't set both skill and style or training will bug out
-    // @todo Allow setting both skill and style
+    // @todo: Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
         beta->chatbin.style = matype_id::NULL_ID();
@@ -3652,7 +3653,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
     invslice slice = u.inv.slice();
     for( auto &i : slice ) {
-        // @todo Sane way of handling multi-item stacks
+        // @todo: Sane way of handling multi-item stacks
         check_item( item_location( u, &i->front() ) );
     }
 
@@ -3840,10 +3841,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                price_color, price_str.c_str() );
                 }
                 if( offset > 0 ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 1, "< Back" );
+                    mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
                 }
                 if( offset + entries_per_page < list.size() ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 9, "More >" );
+                    mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
                 }
             }
             wrefresh( w_head );
@@ -4327,8 +4328,8 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    // @todo Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_food_container();
+    // @todo: Unify this with 'player::consume_item()'
+    bool consuming_contents = it.is_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {
@@ -4337,7 +4338,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( "I don't <swear> trust you enough to eat from your hand..." );
+        reason = _( "I don't <swear> trust you enough to eat THIS..." );
         return REFUSED;
     }
 
@@ -4348,7 +4349,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this..." );
             return REFUSED;
         }
-    } else if( to_eat.is_medication() ) {
+    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -4369,13 +4370,13 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
         }
 
+        to_eat.charges -= amount_used;
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
     }
 
-    to_eat.charges -= amount_used;
     if( to_eat.charges > 0 ) {
         return CONSUMED_SOME;
     }
@@ -4398,7 +4399,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
-        // Bio weapon or shackles
+        // Bionic weapon or shackles
         return _( "How?" );
     }
 

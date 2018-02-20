@@ -2,9 +2,9 @@
 #ifndef TILERAY_H
 #define TILERAY_H
 
-// Class for calculating tile coords
+// Class for calculating tile coordinates
 // of a point that moves along the ray with given
-// direction (dir) or delta tile coords (dx, dy).
+// direction (dir) or delta tile coordinates (dx, dy).
 // Advance method will move to the next tile
 // along ray
 // Direction is angle in degrees from positive x-axis to positive y-axis:
@@ -20,7 +20,7 @@ class tileray
     private:
         int deltax;     // ray delta x
         int deltay;     // ray delta y
-        int leftover;   // counter to shift coords
+        int leftover;   // counter to shift coordinates
         int direction;  // ray direction
         int last_dx;    // dx of last advance
         int last_dy;    // dy of last advance

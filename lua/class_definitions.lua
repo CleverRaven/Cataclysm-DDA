@@ -472,7 +472,7 @@ classes = {
             { name = "blossoms", rval = nil, args = { } },
             { name = "bodytemp_color", rval = "nc_color", args = { "int" } },
             { name = "bonus_item_warmth", rval = "int", args = { "body_part" } },
-            { name = "boost_skill_level", rval = nil, args = { "skill_id", "int" } },
+            { name = "mod_skill_level", rval = nil, args = { "skill_id", "int" } },
             { name = "burn_move_stamina", rval = nil, args = { "int" } },
             { name = "calc_focus_equilibrium", rval = "int", args = { } },
             { name = "can_arm_block", rval = "bool", args = { } },

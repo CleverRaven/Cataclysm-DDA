@@ -969,7 +969,7 @@ std::string fac_respect_text(int val)
         return _("Spoken Of");
     }
 
-    // Disrepected, laughed at, etc.
+    // Disrespected, laughed at, etc.
     if (val <= -100) {
         return _("Worthless Scum");
     }

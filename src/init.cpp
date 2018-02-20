@@ -404,7 +404,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo Make it print to stdout?
+    // @todo: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }

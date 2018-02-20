@@ -649,7 +649,7 @@ void mission_start::point_cabin_strange( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->attitude = NPCATT_FOLLOW;// NPC joins you
 
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
@@ -657,7 +657,7 @@ void mission_start::recruit_tracker( mission *miss )
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->randomize( NC_COWBOY );
-    // NPCs spawn with submap coordinates, site is in overmap terrain coords
+    // NPCs spawn with submap coordinates, site is in overmap terrain coordinates
     temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
     overmap_buffer.insert_npc( temp );
     temp->attitude = NPCATT_TALK;

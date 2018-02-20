@@ -1,47 +1,29 @@
 [
   {
-    "type": "BIONIC_ITEM",
-    "category": "bionics",
     "id": "bio_emp_armgun",
-    "symbol": ":",
-    "color": "yellow",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
     "name": "EMP Projector CBM",
     "description": "A ranged emp generator system is implanted on the palm of the user's right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
     "price": 220000,
-    "material": [ "steel", "plastic" ],
-    "weight": 2058,
-    "volume": 10,
-    "bashing": 8,
     "difficulty": 5
   },
   {
-    "type": "BIONIC_ITEM",
-    "category": "bionics",
     "id": "bio_chest_gun",
-    "symbol": ":",
-    "color": "yellow",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
     "name": "Ionic Overload Generator CBM",
     "description": "A powerful ion energy generator is implanted on the user's chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact. Close range use is highly discouraged.",
     "price": 220000,
-    "material": [ "steel", "plastic" ],
-    "weight": 2058,
-    "volume": 10,
-    "bashing": 8,
     "difficulty": 8
   },
   {
-    "type": "BIONIC_ITEM",
-    "category": "bionics",
     "id": "bio_surgical_razor",
-    "symbol": ":",
-    "color": "yellow",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
     "name": "Autonomous Surgical Razors CBM",
     "description": "Implanted on the user's fingers is a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
     "price": 220000,
-    "material": [ "steel", "plastic" ],
-    "weight": 2058,
-    "volume": 10,
-    "bashing": 8,
     "difficulty": 4
   }
 ]

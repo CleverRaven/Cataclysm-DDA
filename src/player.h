@@ -553,7 +553,7 @@ class player : public Character
         float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
-        /** Returns the chance to crit given a hit roll and target's dodge roll */
+        /** Returns the chance to critical given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap ) const;
@@ -596,7 +596,7 @@ class player : public Character
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
         float get_dodge() const override;
-        /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
         float dodge_roll() override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
@@ -742,7 +742,7 @@ class player : public Character
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
 
-        /** Can the food be [theoretically] eaten no matter the consquences? */
+        /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
@@ -900,9 +900,9 @@ class player : public Character
         void mend_item( item_location&& obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -912,7 +912,7 @@ class player : public Character
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
          * @param it Item to calculate storage cost for
          * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -950,9 +950,9 @@ class player : public Character
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Containter containing the item to be wielded
+         * @param container Container containing the item to be wielded
          * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         bool wield_contents( item &container, int pos = 0, bool penalties = true,
@@ -961,7 +961,7 @@ class player : public Character
          * Stores an item inside another consuming moves proportional to weapon skill and volume
          * @param container Container in which to store the item
          * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         void store( item &container, item &put, bool penalties = true,
@@ -1448,6 +1448,9 @@ class player : public Character
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
+
+        //@todo make protected and move into Character
+        void do_skill_rust();
 
         // drawing related stuff
         /**

@@ -10,9 +10,9 @@
 
 class utf8_wrapper;
 
-// get a unicode character from a utf8 string
+// get a Unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
-// from wcwidth.c, return "cell" width of a unicode char
+// from wcwidth.c, return "cell" width of a Unicode char
 int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position
 int cursorx_to_position( const char *line, int cursorx, int *prevppos = NULL, int maxlen = -1 );
@@ -110,10 +110,10 @@ class utf8_wrapper
             return _data;
         }
 
-        // Returns unicode character at position start
+        // Returns Unicode character at position start
         long at( size_t start ) const;
 
-        // Returns number of unicode characters
+        // Returns number of Unicode characters
         size_t size() const {
             return _length;
         }
