@@ -4,9 +4,7 @@
 
 #include <vector>
 
-#include "int_id.h"
 #include "string_id.h"
-#include "overmap.h"
 
 class JsonObject;
 

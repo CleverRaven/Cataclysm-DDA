@@ -1,27 +1,27 @@
 #include "npc_destination.h"
+#include "int_id.h"
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
-#include "overmap.h"
+#include "omdata.h"
 
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
-/*
+namespace
+{
 
+generic_factory<oter_t> terrains( "overmap terrain" );
+
+}
+
+/** @relates string_id */
 template<>
 bool string_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
-
-template<>
-bool oter_str_id::is_valid() const
-{
-    return terrains.is_valid( *this );
-}
-*/
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
