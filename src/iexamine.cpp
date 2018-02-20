@@ -466,7 +466,7 @@ void iexamine::vending(player &p, const tripoint &examp)
     item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
-        return; // player cancelled selection
+        return; // player canceled selection
     } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
@@ -939,44 +939,26 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
 /**
  * If there is a 2x4 around, prompt placing it across pit.
  */
-void iexamine::pit(player &p, const tripoint &examp)
+void iexamine::pit( player &p, const tripoint &examp )
 {
-    inventory map_inv;
-    map_inv.form_from_map( p.pos(), 1);
-
-    bool player_has = p.has_amount("2x4", 1);
-    bool map_has = map_inv.has_amount("2x4", 1);
-
-    // return if there is no 2x4 around
-    if (!player_has && !map_has) {
+    const inventory &crafting_inv = p.crafting_inventory();
+    if( !crafting_inv.has_amount( "2x4", 1 ) ) {
         none( p, examp );
         return;
     }
+    std::vector<item_comp> planks;
+    planks.push_back( item_comp( "2x4", 1 ) );
 
-    if (query_yn(_("Place a plank over the pit?"))) {
-        // if both have, then ask to use the one on the map
-        if (player_has && map_has) {
-            if (query_yn(_("Use the plank at your feet?"))) {
-                long quantity = 1;
-                g->m.use_amount( p.pos(), 1, "2x4", quantity);
-            } else {
-                p.use_amount("2x4", 1);
-            }
-        } else if (player_has && !map_has) { // only player has plank
-            p.use_amount("2x4", 1);
-        } else if (!player_has && map_has) { // only map has plank
-            long quantity = 1;
-            g->m.use_amount( p.pos(), 1, "2x4", quantity);
+    if( query_yn( _( "Place a plank over the pit?" ) ) ) {
+        p.consume_items( planks );
+        if( g->m.ter( examp ) == t_pit ) {
+            g->m.ter_set( examp, t_pit_covered );
+        } else if( g->m.ter( examp ) == t_pit_spiked ) {
+            g->m.ter_set( examp, t_pit_spiked_covered );
+        } else if( g->m.ter( examp ) == t_pit_glass ) {
+            g->m.ter_set( examp, t_pit_glass_covered );
         }
-
-        if( g->m.ter(examp) == t_pit ) {
-            g->m.ter_set(examp, t_pit_covered);
-        } else if( g->m.ter(examp) == t_pit_spiked ) {
-            g->m.ter_set(examp, t_pit_spiked_covered);
-        } else if( g->m.ter(examp) == t_pit_glass ) {
-            g->m.ter_set(examp, t_pit_glass_covered);
-        }
-        add_msg(_("You place a plank of wood over the pit."));
+        add_msg( _( "You place a plank of wood over the pit." ) );
     }
 }
 
@@ -1033,7 +1015,7 @@ void iexamine::slot_machine( player &p, const tripoint& )
 
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
- * 
+ *
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
@@ -1407,7 +1389,7 @@ bool drink_nectar( player &p )
 
 /**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
- * 
+ *
  * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
  * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
@@ -1518,7 +1500,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
-    // Incredibly low priority @todo Allow separating nectar seasons
+    // Incredibly low priority @todo: Allow separating nectar seasons
     if( nectar && drink_nectar( p ) ) {
         return false;
     }
@@ -1902,11 +1884,11 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
-            //@todo item should probably clamp the value on its own
+            //@todo: item should probably clamp the value on its own
             seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefor this hack:
+            // must be on the square of the plant, therefore this hack:
             const auto old_furn = g->m.furn( examp );
             g->m.furn_set( examp, f_null );
             g->m.spawn_item( examp, "fertilizer", 1, 1, (int)calendar::turn );
@@ -2049,7 +2031,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if( !brew_present ) {
-        // @todo Allow using brews from crafting inventory
+        // @todo: Allow using brews from crafting inventory
         const auto b_inv = p.items_with( []( const item &it ) {
             return it.is_brewable();
         } );
@@ -2149,11 +2131,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
     item &brew_i = items_here.front();
     // Does the vat contain unfermented brew, or already fermented booze?
-    // @todo Allow "recursive brewing" to continue without player having to check on it
+    // @todo: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
-        //@todo change brew_time to return time_duration
+        //@todo: change brew_time to return time_duration
         const time_duration brew_time = brew_i.brewing_time();
         const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
@@ -2173,7 +2155,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
             g->m.i_clear( examp );
             for( const auto &result : results ) {
-                // @todo Different age based on settings
+                // @todo: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
                 if( booze.made_of( LIQUID ) ) {
@@ -2655,7 +2637,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
 /**
  * Returns the weight of all the items on tile made of specific material.
- * 
+ *
  * @param &stack item stack.
  * @param &material the material whose mass we want.
  * @param remove_items are the items getting consumed in the process?
@@ -3420,7 +3402,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         }
 
         cashcard = &( p.i_at( pos ) );
-        // Ok, we have a cash card. Now we need to know what's left in the pump.
+        // Okay, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );
         if( amount >= 0 ) {

@@ -553,7 +553,7 @@ class player : public Character
         float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
-        /** Returns the chance to crit given a hit roll and target's dodge roll */
+        /** Returns the chance to critical given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap ) const;
@@ -596,7 +596,7 @@ class player : public Character
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
         float get_dodge() const override;
-        /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
         float dodge_roll() override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/

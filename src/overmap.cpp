@@ -300,7 +300,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // fixme constify
+void set_oter_ids()   // @todo: fixme constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -394,7 +394,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
         return true;
     }
 
-    // only ok for partial if next char is an underscore
+    // only okay for partial if next char is an underscore
     return oter_str.str()[compare_size] == '_';
 }
 
@@ -566,7 +566,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 
 bool oter_t::has_connection( om_direction::type dir ) const
 {
-    // @todo It's a DAMN UGLY hack. Remove it as soon as possible.
+    // @todo: It's a DAMN UGLY hack. Remove it as soon as possible.
     static const oter_str_id road_manhole( "road_nesw_manhole" );
     if( id == road_manhole ) {
         return true;
@@ -576,7 +576,7 @@ bool oter_t::has_connection( om_direction::type dir ) const
 
 bool oter_t::is_hardcoded() const
 {
-    // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
+    // @todo: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
         "anthill",
         "fema",
@@ -1076,7 +1076,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
-    // @todo This comparison is a hack. Separate them properly.
+    // @todo: This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
@@ -1193,7 +1193,7 @@ oter_id overmap::get_default_terrain( int z ) const
     if( z == 0 ) {
         return settings.default_oter.id();
     } else {
-        // // @todo Get rid of the hard-coded ids.
+        // // @todo: Get rid of the hard-coded ids.
         static const oter_str_id open_air( "open_air" );
         static const oter_str_id empty_rock( "empty_rock" );
 
@@ -2215,7 +2215,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                     cache[cache_next] = std::make_pair( cur_ter, info );
                     cache_next = ( cache_next + 1 ) % cache_size;
                 }
-                // Ok, we found something
+                // Okay, we found something
                 if (info) {
                     // Map tile marked as explored
                     bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
@@ -2824,7 +2824,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 } else {
                     uistate.place_special = oslist[pmenu.ret];
                 }
-                // @todo Unify these things.
+                // @todo: Unify these things.
                 const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() : uistate.place_special->rotatable;
 
                 uistate.omedit_rotation = om_direction::type::none;
@@ -3111,7 +3111,7 @@ void overmap::move_hordes()
 
 /**
 * @param p location of signal
-* @param sig_power - power of signal or max distantion for reaction of zombies
+* @param sig_power - power of signal or max distance for reaction of zombies
 */
 void overmap::signal_hordes( const tripoint &p, const int sig_power)
 {
@@ -3132,7 +3132,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
             const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
             if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
-                // TODO: Z coord for mongroup targets
+                // TODO: Z-coordinate for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
                 if ( targ_dist < 5 ) { // If signal source already pursued by horde
@@ -3829,7 +3829,7 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.x, node.y, z );
         auto &ter_id( ter( pos ) );
-        // @todo Make 'node' support 'om_direction'.
+        // @todo: Make 'node' support 'om_direction'.
         const om_direction::type new_dir( static_cast<om_direction::type>( node.dir ) );
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( ter_id );
 
@@ -4568,7 +4568,7 @@ void overmap::save() const
 
 //////////////////////////
 
-void groundcover_extra::finalize()   // fixme return bool for failure
+void groundcover_extra::finalize()   // @todo: fixme return bool for failure
 {
     default_ter = ter_id( default_ter_str );
 
@@ -4810,7 +4810,7 @@ void building_bin::finalize()
         for( const overmap_special_terrain &ter : cur_special.terrains ) {
             const tripoint &p = ter.p;
             if( p.x != 0 || p.y != 0 ) {
-                debugmsg( "Tried to add city building %s, but it has a part with non-zero x or y coords (not supported yet)",
+                debugmsg( "Tried to add city building %s, but it has a part with non-zero X or Y coordinates (not supported yet)",
                           current_id.c_str() );
                 skip = true;
                 break;
@@ -4827,7 +4827,7 @@ void building_bin::finalize()
 
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
 {
-    // @todo Get rid of the hard-coded ids.
+    // @todo: Get rid of the hard-coded ids.
     static const string_id<overmap_location> land( "land" );
     static const string_id<overmap_location> swamp( "swamp" );
 

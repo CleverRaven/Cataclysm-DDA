@@ -138,21 +138,21 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
     { "subway_straight",    &mapgen_subway },
     { "subway_curved",      &mapgen_subway },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "subway_end",         &mapgen_subway },
     { "subway_tee",         &mapgen_subway },
     { "subway_four_way",    &mapgen_subway },
 
     { "sewer_straight",    &mapgen_sewer_straight },
     { "sewer_curved",      &mapgen_sewer_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "sewer_end",         &mapgen_sewer_straight },
     { "sewer_tee",         &mapgen_sewer_tee },
     { "sewer_four_way",    &mapgen_sewer_four_way },
 
     { "ants_straight",    &mapgen_ants_straight },
     { "ants_curved",      &mapgen_ants_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "ants_end",         &mapgen_ants_straight },
     { "ants_tee",         &mapgen_ants_tee },
     { "ants_four_way",    &mapgen_ants_four_way },
@@ -282,7 +282,7 @@ ter_id mapgendata::groundcover() {
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
 {
-    // @todo De-uglify, implement proper conversion somewhere
+    // @todo: De-uglify, implement proper conversion somewhere
     switch( dir ) {
         case om_direction::type::north:
             return north();
@@ -347,7 +347,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-// todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
+// @todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
     if ( tfid.ter != t_null ) {
         m->ter_set(x, y, tfid.ter );
@@ -386,7 +386,7 @@ void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
         }
     }
 
-    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: take 'rock' out and add as regional biome setting
+    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: take 'rock' out and add as regional biome setting
 }
 
 void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
@@ -410,7 +410,7 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         }
     }
 }
-// todo: more region_settings for forest biome
+// @todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     if (terrain_type == "forest_thick") {
@@ -452,7 +452,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 std::array<std::pair<int, ter_id>, 15> tree_chances = {{
-                        // todo: JSONize this array!
+                        // @todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
@@ -503,7 +503,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
-    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: region settings
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: region settings
 
     if (terrain_type == "forest_water") {
         // Reset *_fac to handle where to place water
@@ -604,7 +604,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 
     //1-2 per overmap, very bad day for low level characters
     if (one_in(10000)) {
-        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // fixme add to monster_group?
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // @todo: fixme add to monster_group?
     }
 
     //Very rare easter egg, ~1 per 10 overmaps
@@ -946,7 +946,7 @@ void nesw_array_rotate( T *array, size_t len, size_t dist ) {
     }
 }
 
-// take x/y coords in a map and rotate them counterclockwise around the center
+// take x/y coordinates in a map and rotate them counterclockwise around the center
 void coord_rotate_cw( int &x, int &y, int rot ) {
     for( ; rot--; ) {
         int temp = y;
@@ -2645,7 +2645,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
             const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-            // @todo Less ugly check
+            // @todo: Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
             if( ( force && ter_here.movecost > 0 ) ||
@@ -2690,7 +2690,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
+    if (one_in(100)) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_door_c || m->ter(i, j) == t_door_locked) {
@@ -2723,7 +2723,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
         m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-    } else if (one_in(150)) { // todo; region_data // No wasps; black widows?
+    } else if (one_in(150)) { // @todo: region_data // No wasps; black widows?
         auto spider_type = mon_spider_widow_giant;
         auto egg_type = f_egg_sackbw;
     if( one_in(2) ) {

@@ -1178,7 +1178,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
             p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
                                 pgettext("memorial_female", m_category.memorial_message.c_str()));
             // Manually removing Carnivore, since it tends to creep in
-            // This is because carnivore is a prereq for the
+            // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
             if( mutation_category == "MUTCAT_URSINE" && p->has_trait( trait_CARNIVORE ) ) {
                 p->unset_mutation( trait_CARNIVORE );
@@ -1212,7 +1212,7 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
     }
 
     for( auto& iter : mutation_category_trait::get_all() ) {
-        // @todo Get rid of this revolting string hack
+        // @todo: Get rid of this revolting string hack
         if( !it->has_flag( iter.second.mutagen_flag ) ) {
             continue;
         }
@@ -5427,7 +5427,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             uimenu pick_robot;
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
-            std::vector< monster* > mons; // @todo change into vector<Creature*>
+            std::vector< monster* > mons; // @todo: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( monster &candidate : g->all_monsters() ) {

@@ -586,7 +586,7 @@ void options_manager::cOpt::setNext()
     }
 }
 
-//set to prev item
+//set to previous item
 void options_manager::cOpt::setPrev()
 {
     if (sType == "string_select") {
@@ -942,7 +942,7 @@ void options_manager::init()
     add( "USE_LANG", "interface", translate_marker( "Language" ), translate_marker( "Switch Language." ),
         { { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
           { "fr",  R"( Français )" },
@@ -1933,7 +1933,7 @@ void options_manager::serialize(JsonOut &json) const
 {
     json.start_array();
 
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2083,7 +2083,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

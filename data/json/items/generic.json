@@ -1334,7 +1334,7 @@
         "id" : "pocketwatch",
         "name" : "pocket watch",
         "description" : "An old fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
-        "weight" : 42,
+        "weight" : 65,
         "to_hit" : -3,
         "color" : "light_gray",
         "symbol" : ",",
@@ -1356,7 +1356,7 @@
         "price": 200,
         "price_postapoc": 0,
         "material": "steel",
-        "weight": 453,
+        "weight": 50,
         "volume": 1
   },{
     "id": "l_HFPack",

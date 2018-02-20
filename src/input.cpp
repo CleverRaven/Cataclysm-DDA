@@ -66,7 +66,7 @@ bool is_mouse_enabled()
 #endif
 }
 
-//helper function for those have problem inputing certain characters.
+//helper function for those have problem inputting certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
     std::string ret;
@@ -611,7 +611,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
             category );
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
-        // TODO: fix for unicode.
+        // TODO: fix for Unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
             events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
             result.push_back( ( char )events_event.sequence.front() );

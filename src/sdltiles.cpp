@@ -546,7 +546,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     static const Uint32 amask = 0xff000000;
 #endif
     const int wf = utf8_wrapper( ch ).display_width();
-    // Note: bits per pixel must be 8 to be synchron with the surface
+    // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface_Ptr surface( SDL_CreateRGBSurface( 0, fontwidth * wf, fontheight, 32,
                                                    rmask, gmask, bmask, amask ) );
@@ -964,7 +964,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         }
     }
 
-    // @todo Get this from UTF system to make sure it is exactly the kind of space we need
+    // @todo: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;
@@ -1142,7 +1142,7 @@ int HandleDPad()
 long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
     switch (keysym.sym) {
-        // This is special: allow entering a unicode character with ALT+number
+        // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
         case SDLK_LALT:
             begin_alt_code();
@@ -1540,7 +1540,7 @@ void catacurses::init_interface()
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
+        throw std::runtime_error( "WinCreate failed" ); //@todo: throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
@@ -1714,7 +1714,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         fh = map_font->fontheight;
     }
 
-    // Translate mouse coords to map coords based on tile size,
+    // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
     const int win_left = capture_win->x * fontwidth;
     const int win_top = capture_win->y * fontheight;
@@ -2221,7 +2221,7 @@ void load_soundset() {
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
 
-    // Get curent soundpack and it's directory path.
+    // Get current soundpack and it's directory path.
     if (current_soundpack.empty()) {
         dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;
