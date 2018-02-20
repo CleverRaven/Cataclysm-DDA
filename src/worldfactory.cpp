@@ -761,7 +761,7 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, (size_t&) cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
+        draw_mod_list( w_mods, start, (size_t)cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
         wrefresh( w_mods );
 
         input_context ctxt( "DEFAULT" );
