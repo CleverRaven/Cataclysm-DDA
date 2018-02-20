@@ -45,12 +45,15 @@ void npc_destination::reset_npc_destinations()
 void npc_destination::check_consistency()
 {
     for( auto &d : npc_destination_factory.get_all() ) {
+        DebugLog( D_INFO, DC_ALL ) << "npc_destination::check_consistency() : npc_destination is [" << d.id.c_str() << "] with size of [" << d.terrains.size() << "]";
         if( d.terrains.empty() ) {
             debugmsg( "NPC destination \"%s\" doesn't have terrains specified.", d.id.c_str() );
         } else {
             for( const auto &t : d.terrains ) {
                 if( !t.is_valid() ) {
                     debugmsg( "NPC destination \"%s\", contains invalid terrain \"%s\".", d.id.c_str(), t.c_str() );
+                } else {
+                    DebugLog( D_INFO, DC_ALL ) << "npc_destination::check_consistency() : terrains contains terrain [" << t.c_str() << "]";
                 }
             }
         }
@@ -64,5 +67,13 @@ void npc_destination::load( JsonObject &jo, const std::string & )
 
 std::string npc_destination::get_random_dest()
 {
-    return random_entry( terrains ).str();
+    //std::string a = ""; //terrains[0].obj().id().c_str();
+    //std::string b = ""; //terrains[0].c_str();
+    //std::string c = ""; //terrains[0].id();
+    string_id<oter_type_t> &d = terrains[0];
+    //DebugLog( D_INFO, DC_ALL ) << "first record in terrains is: [" << a.c_str() << "] or [" << b.c_str() << "] or [" << c.c_str() << "] or [" << d.c_str() << "]";
+    std::string return_value = d->get_type_id().str();
+    //std::string return_value = random_entry( terrains ).str();
+    DebugLog( D_INFO, DC_ALL ) << "npc_destination::get_random_dest() with: [" << id.c_str() << "] going to random_entry of: [" << return_value.c_str() << "]";
+    return return_value;
 }
