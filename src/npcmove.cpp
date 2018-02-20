@@ -23,6 +23,7 @@
 #include "field.h"
 #include "sounds.h"
 #include "gates.h"
+#include "options.h"
 
 #include <algorithm>
 #include <sstream>
@@ -2909,7 +2910,7 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
     add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 

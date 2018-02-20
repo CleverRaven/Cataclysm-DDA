@@ -1433,6 +1433,11 @@ void options_manager::init()
         false
         );
 
+    add( "NPC_DEST_SEARCH_RADIUS", "world_default", translate_marker( "NPC destination search radius" ),
+        translate_marker( "A number determining radius in overmaps to search for NPC destinations.  Warning, big numbers lead to slowdown with enabled npcs." ),
+        1, 10, 5
+        );
+
     mOptionsSort["world_default"]++;
 
     add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
