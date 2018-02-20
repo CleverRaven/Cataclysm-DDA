@@ -527,7 +527,8 @@ bool player::eat( item &food, bool force )
     if( drinkable || chew ) {
         // Those bonuses/penalties only apply to food
         // Not to smoking weed or applying bandages!
-        if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ) {
+        if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ||
+            has_trait( trait_id( "FANGS_SPIDER" ) ) ) {
             mealtime /= 2;
         } else if( has_trait( trait_id( "GOURMAND" ) ) ) {
             // Don't stack those two - that would be 25 moves per item

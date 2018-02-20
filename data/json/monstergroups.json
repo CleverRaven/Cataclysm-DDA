@@ -1174,7 +1174,7 @@
     },{
     "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_UPGRADE",
-    "default" : "mon_zombie_spitter",
+    "default" : "mon_zombie_tough",
     "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
     "monsters" : [
       { "monster" : "mon_zombie_grabber", "freq" : 10, "cost_multiplier" : 5 },

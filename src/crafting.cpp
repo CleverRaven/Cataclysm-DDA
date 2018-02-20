@@ -1112,20 +1112,6 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-// Find out which of the alternative components had been used to craft the item.
-item_comp find_component( const std::vector<item_comp> &altercomps, const item &dis_item )
-{
-    for( auto &comp : altercomps ) {
-        for( auto &elem : dis_item.components ) {
-            if( elem.typeId() == comp.type ) {
-                return comp;
-            }
-        }
-    }
-    // Default is the one listed first in json.
-    return altercomps.front();
-}
-
 item &get_item_for_uncraft( player &p, int item_pos,
                             const tripoint &loc, bool from_ground )
 {
@@ -1272,73 +1258,83 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
     }
 
-    for( const auto &altercomps : dis_requirements.get_components() ) {
-        const item_comp comp = find_component( altercomps, dis_item );
-        int compcount = comp.count;
-        item newit( comp.type, calendar::turn );
-        // Counted-by-charge items that can be disassembled individually
-        // have their component count multiplied by the number of charges.
-        if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
-            compcount *= std::min( dis_item.charges, dis.create_result().charges );
+    // If the components aren't empty, we want items exactly identical to them
+    // Even if the best-fit recipe does not involve those items
+    std::vector<item> components = dis_item.components;
+    // If the components are empty, item is the default kind and made of default components
+    if( components.empty() ) {
+        for( const auto &altercomps : dis_requirements.get_components() ) {
+            const item_comp &comp = altercomps.front();
+            int compcount = comp.count;
+            item newit( comp.type, calendar::turn );
+            // Counted-by-charge items that can be disassembled individually
+            // have their component count multiplied by the number of charges.
+            if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+                compcount *= std::min( dis_item.charges, dis.create_result().charges );
+            }
+            // Compress liquids and counted-by-charges items into one item,
+            // they are added together on the map anyway and handle_liquid
+            // should only be called once to put it all into a container at once.
+            if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
+                newit.charges = compcount;
+                compcount = 1;
+            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                // tools that can be unloaded should be created unloaded,
+                // tools that can't be unloaded will keep their default charges.
+                newit.charges = 0;
+            }
+
+            for( ; compcount > 0; compcount-- ) {
+                components.emplace_back( newit );
+            }
         }
-        // Compress liquids and counted-by-charges items into one item,
-        // they are added together on the map anyway and handle_liquid
-        // should only be called once to put it all into a container at once.
-        if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
-            newit.charges = compcount;
-            compcount = 1;
-        } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-            // tools that can be unloaded should be created unloaded,
-            // tools that can't be unloaded will keep their default charges.
-            newit.charges = 0;
+    }
+
+    for( const item &newit : components ) {
+        const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
+        if( dis.difficulty != 0 && !comp_success ) {
+            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
+            continue;
+        }
+        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+        if( !dmg_success ) {
+            // Show reason for failure (damaged item, tname contains the damage adjective)
+            //~ %1s - material, %2$s - disassembled item
+            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
+                     dis_item.tname().c_str() );
+            continue;
+        }
+        // Use item from components list, or (if not contained)
+        // use newit, the default constructed.
+        item act_item = newit;
+
+        if( filthy ) {
+            act_item.item_tags.insert( "FILTHY" );
         }
 
-        for( ; compcount > 0; compcount-- ) {
-            const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
-            if( dis.difficulty != 0 && !comp_success ) {
-                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
-                continue;
+        for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
+             ++a ) {
+            if( a->type == newit.type ) {
+                act_item = *a;
+                dis_item.components.erase( a );
+                break;
             }
-            const bool dmg_success = component_success_chance > rng_float( 0, 1 );
-            if( !dmg_success ) {
-                // Show reason for failure (damaged item, tname contains the damage adjective)
-                //~ %1s - material, %2$s - disassembled item
-                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
-                         dis_item.tname().c_str() );
-                continue;
-            }
-            // Use item from components list, or (if not contained)
-            // use newit, the default constructed.
-            item act_item = newit;
+        }
 
-            if( filthy ) {
-                act_item.item_tags.insert( "FILTHY" );
-            }
+        int veh_part = -1;
+        vehicle *veh = g->m.veh_at( pos(), veh_part );
+        if( veh != nullptr ) {
+            veh_part = veh->part_with_feature( veh_part, "CARGO" );
+        }
 
-            for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-                 ++a ) {
-                if( a->type == newit.type ) {
-                    act_item = *a;
-                    dis_item.components.erase( a );
-                    break;
-                }
-            }
-
-            int veh_part = -1;
-            vehicle *veh = g->m.veh_at( pos(), veh_part );
-            if( veh != nullptr ) {
-                veh_part = veh->part_with_feature( veh_part, "CARGO" );
-            }
-
-            if( act_item.made_of( LIQUID ) ) {
-                g->handle_all_liquid( act_item, PICKUP_RANGE );
-            } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
-                // add_item did put the items in the vehicle, nothing further to be done
-            } else {
-                // TODO: For items counted by charges, add as much as we can to the vehicle, and
-                // the rest on the ground (see dropping code and @vehicle::add_charges)
-                g->m.add_item_or_charges( pos(), act_item );
-            }
+        if( act_item.made_of( LIQUID ) ) {
+            g->handle_all_liquid( act_item, PICKUP_RANGE );
+        } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            // TODO: For items counted by charges, add as much as we can to the vehicle, and
+            // the rest on the ground (see dropping code and @vehicle::add_charges)
+            g->m.add_item_or_charges( pos(), act_item );
         }
     }
 
