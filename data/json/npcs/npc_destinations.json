@@ -7,7 +7,7 @@
   {
     "type": "npc_destination",
     "id": "need_ammo",
-    "terrains": [ "house" ]
+    "terrains": [ "house", "s_gun" ]
   },
   {
     "type": "npc_destination",
@@ -22,7 +22,7 @@
   {
     "type": "npc_destination",
     "id": "need_drink",
-    "terrains": [ "s_gas", "s_pharm", "s_liquor" ]
+    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
   },
   {
     "type": "npc_destination",
