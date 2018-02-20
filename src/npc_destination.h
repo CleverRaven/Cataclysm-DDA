@@ -4,8 +4,8 @@
 
 #include <vector>
 
-#include "omdata.h"
 #include "string_id.h"
+#include "overmap.h"
 
 class JsonObject;
 
@@ -23,6 +23,9 @@ class npc_destination
         bool was_loaded = false;
 
         npc_destination();
+        npc_destination( std::string npc_destination_id );
+
+        std::vector<string_id<oter_type_t>> &get_terrains();
 
         void load( JsonObject &jo, const std::string &src );
 

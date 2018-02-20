@@ -2,7 +2,6 @@
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
-//#include "omdata.h"
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
@@ -21,6 +20,10 @@ bool string_id<npc_destination>::is_valid() const
 }
 
 npc_destination::npc_destination() : id( "need_none" )
+{
+}
+
+npc_destination::npc_destination( std::string npc_destination_id ) : id( npc_destination_id )
 {
 }
 
@@ -43,16 +46,21 @@ void npc_destination::finalize_all()
 {
     for( auto &d_const : npc_destination_factory.get_all() ) {
         auto &d = const_cast<npc_destination &>( d_const );
-        // TODO: Compare terrain city_size and CITY_SIZE option here?
+        // TODO: Compare terrain city_size and CITY_SIZE option here for city-less worlds (see #22270)?
+        // if (world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0")
     }
 }
 
 void npc_destination::check_consistency()
 {
-    for( auto &destination : npc_destination_factory.get_all() ) {
-        for( const auto &terrain : destination.terrains ) {
-            if( !terrain.is_valid() ) {
-                debugmsg( "In NPC destination \"%s\", terrain \"%s\" is invalid.", destination.id.c_str(), terrain.c_str() );
+    for( auto &d : npc_destination_factory.get_all() ) {
+        if( d.terrains.empty() ) {
+            debugmsg( "NPC destination \"%s\" doesn't have terrains specified.", d.id.c_str() );
+        } else {
+            for( const auto &t : d.terrains ) {
+                if( !t.is_valid() ) {
+                    debugmsg( "NPC destination \"%s\", contains invalid terrain \"%s\".", d.id.c_str(), t.c_str() );
+                }
             }
         }
     }
@@ -61,8 +69,9 @@ void npc_destination::check_consistency()
 void npc_destination::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "terrains", terrains );
+}
 
-    if( terrains.empty() ) {
-        jo.throw_error( "At least one destination terrain must be specified." );
-    }
+std::vector<string_id<oter_type_t>> &npc_destination::get_terrains()
+{
+    return terrains;
 }
