@@ -144,22 +144,22 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // set up window
         catacurses::window wf_win = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
-        size_t curtab = 0;
-        size_t lasttab; // give placement memory to menus, sorta.
+        int curtab = 0;
+        int lasttab; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
         while ((unsigned long)curtab < (unsigned long)numtabs) {
             lasttab = curtab;
-            draw_worldgen_tabs(wf_win, curtab);
+            draw_worldgen_tabs(wf_win, (size_t)curtab);
             curtab += tabs[curtab](wf_win, retworld);
 
             // If it is -1, or for unsigned size_t, it would be max.
-            if (curtab == (size_t)-1) {
+            if (curtab < 0) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {
                     curtab = lasttab;
                 }
             }
         }
-        if (curtab == (size_t)-1) {
+        if (curtab < 0) {
             delete retworld;
             return nullptr;
         }
@@ -754,14 +754,14 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
     catacurses::window w_mods = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
 
     int start = 0;
-    size_t cursor = 0;
+    int cursor = 0;
     const size_t num_mods = world_mods.size();
 
     draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
+        draw_mod_list( w_mods, start, (size_t&) cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
         wrefresh( w_mods );
 
         input_context ctxt( "DEFAULT" );
@@ -773,14 +773,14 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
         if( action == "UP" ) {
             cursor--;
             // If it went under 0, loop back to the end of the list.
-            if( cursor > num_mods -1 ) {
-                cursor = num_mods - 1;
+            if( cursor < 0 ) {
+                cursor = (int)(num_mods - 1);
             }
 
         } else if( action == "DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > num_mods - 1 ) {
+            if( cursor > (int)(num_mods - 1) ) {
                 cursor = 0;
             }
 
