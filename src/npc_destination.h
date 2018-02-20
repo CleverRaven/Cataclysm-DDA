@@ -36,8 +36,6 @@ class npc_destination
 
         static void reset_npc_destinations();
 
-        static void finalize_all();
-
         static void check_consistency();
 };
 

@@ -1084,7 +1084,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;
@@ -1431,11 +1431,6 @@ void options_manager::init()
     add( "RANDOM_NPC", "world_default", translate_marker( "Random npcs" ),
         translate_marker( "If true, the game will randomly spawn NPC during gameplay." ),
         false
-        );
-
-    add( "NPC_DEST_SEARCH_RADIUS", "world_default", translate_marker( "NPC destination search radius" ),
-        translate_marker( "A number determining radius in overmaps to search for NPC destinations.  Warning, big numbers lead to slowdown with enabled npcs." ),
-        1, 10, 5
         );
 
     mOptionsSort["world_default"]++;

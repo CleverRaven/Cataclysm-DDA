@@ -25,6 +25,7 @@
 #include "gates.h"
 #include "options.h"
 #include "npc_destination.h"
+#include "worldfactory.h"
 
 #include <algorithm>
 #include <sstream>
@@ -2870,13 +2871,17 @@ void npc::set_destination()
         needs.push_back( need_none );
     }
 
+    // Hack for city-less worlds (see #22270).
     std::string dest_type = npc_destination( npc_need_name( needs[0] ) ).get_random_dest();
+    if( world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() == "0" ) {
+        dest_type = "field";
+    }
     // We need that, otherwise find_closest won't work properly
     // TODO: Allow finding sewers and stuff
     tripoint surface_omt_loc = npc::global_omt_location();
     surface_omt_loc.z = 0;
 
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
     debugmsg( "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 

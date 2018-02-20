@@ -2,7 +2,6 @@
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
-#include "worldfactory.h"
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
@@ -41,21 +40,6 @@ const std::vector<npc_destination> &npc_destination::get_all()
 void npc_destination::reset_npc_destinations()
 {
     npc_destination_factory.reset();
-}
-
-void npc_destination::finalize_all()
-{
-    const bool cities_enabled = world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() != "0";
-    for( auto &d_const : npc_destination_factory.get_all() ) {
-        auto &d = const_cast<npc_destination &>( d_const );
-        /*
-        for( const auto &t : d.terrains ) {
-            if( t->requires_city() && !cities_enabled ) {
-                // TODO: Hack for city-less worlds (see #22270).
-            }
-        }
-        */
-    }
 }
 
 void npc_destination::check_consistency()
