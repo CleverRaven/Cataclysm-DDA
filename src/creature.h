@@ -2,6 +2,7 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
+#include "effect.h"
 #include "pimpl.h"
 #include "bodypart.h"
 #include "string_id.h"
