@@ -579,4 +579,8 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region);
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
 
+/** @relates string_id */
+template<>
+bool string_id<oter_t>::is_valid() const;
+
 #endif

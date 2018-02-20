@@ -2,31 +2,31 @@
   {
     "type": "npc_destination",
     "id": "need_none",
-    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
+    "destination_terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
   },
   {
     "type": "npc_destination",
     "id": "need_ammo",
-    "terrains": [ "house", "s_gun" ]
+    "destination_terrains": [ "house", "s_gun" ]
   },
   {
     "type": "npc_destination",
     "id": "need_gun",
-    "terrains": [ "s_gun" ]
+    "destination_terrains": [ "s_gun" ]
   },
   {
     "type": "npc_destination",
     "id": "need_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
+    "destination_terrains": [ "s_gun", "s_sports", "s_hardware" ]
   },
   {
     "type": "npc_destination",
     "id": "need_drink",
-    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
+    "destination_terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
   },
   {
     "type": "npc_destination",
     "id": "need_food",
-    "terrains": [ "s_grocery" ]
+    "destination_terrains": [ "s_grocery" ]
   }
 ]

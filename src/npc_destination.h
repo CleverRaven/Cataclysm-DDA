@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "int_id.h"
 #include "string_id.h"
 #include "overmap.h"
 
@@ -15,7 +16,7 @@ using npc_destination_id = string_id<npc_destination>;
 class npc_destination
 {
     private:
-        std::vector<string_id<oter_type_t>> terrains;
+        std::vector<std::string> destination_terrains;
 
     public:
         npc_destination_id id;
