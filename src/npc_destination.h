@@ -23,9 +23,11 @@ class npc_destination
         bool was_loaded = false;
 
         npc_destination();
-        npc_destination( std::string npc_destination_id );
 
-        std::vector<string_id<oter_type_t>> &get_terrains();
+        npc_destination::npc_destination( std::string npc_destination_id );
+
+        std::string &get_random_destination();
+        tripoint &get_random_destination_for_need( npc_need need );
 
         void load( JsonObject &jo, const std::string &src );
 

@@ -2,6 +2,9 @@
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
+#include "worldfactory.h"
+#include "npc.h"
+#include "overmapbuffer.h"
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
@@ -44,10 +47,16 @@ void npc_destination::reset_npc_destinations()
 
 void npc_destination::finalize_all()
 {
+    const bool cities_enabled = world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() != "0";
     for( auto &d_const : npc_destination_factory.get_all() ) {
         auto &d = const_cast<npc_destination &>( d_const );
-        // TODO: Compare terrain city_size and CITY_SIZE option here for city-less worlds (see #22270)?
-        // if (world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0")
+        /*
+        for( const auto &t : d.terrains ) {
+            if( t->requires_city() && !cities_enabled ) {
+                // TODO: Hack for city-less worlds (see #22270).
+            }
+        }
+        */
     }
 }
 
@@ -71,7 +80,30 @@ void npc_destination::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "terrains", terrains );
 }
 
-std::vector<string_id<oter_type_t>> &npc_destination::get_terrains()
+std::string &get_random_destination()
 {
-    return terrains;
+    return random_entry( terrains );
+}
+
+tripoint &npc_destination::get_random_destination_for_need( npc_need need )
+{
+    std::string dest_type;
+    switch ( need )
+    {
+        case npc_need::need_none:
+            dest_type = npc_destination( "need_none" ).;
+            break;
+        default:
+            break;
+    }
+
+    // We need that, otherwise find_closest won't work properly
+    // TODO: Allow finding sewers and stuff
+    tripoint surface_omt_loc = global_omt_location();
+    surface_omt_loc.z = 0;
+
+    tripoint destination = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
+    debugmsg( "New goal: %s at %d,%d,%d", dest_type.c_str(), destination.x, destination.y, destination.z );
+
+    return destination;
 }

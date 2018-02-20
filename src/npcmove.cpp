@@ -2869,41 +2869,9 @@ void npc::set_destination()
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
     }
-    std::vector<string_id<oter_type_t>> destinations;
-    switch( needs[0] ) {
-        case need_ammo:
-            destinations = npc_destination( "need_ammo" ).get_terrains();
-            break;
 
-        case need_gun:
-            destinations = npc_destination( "need_gun" ).get_terrains();
-            break;
-
-        case need_weapon:
-            destinations = npc_destination( "need_weapon" ).get_terrains();
-            break;
-
-        case need_drink:
-            destinations = npc_destination( "need_drink" ).get_terrains();
-            break;
-
-        case need_food:
-            destinations = npc_destination( "need_food" ).get_terrains();
-            break;
-
-        default:
-            destinations = npc_destination( "need_none" ).get_terrains();
-    }
-
-    std::string dest_type = random_entry( destinations ).c_str();
-    // We need that, otherwise find_closest won't work properly
-    // TODO: Allow finding sewers and stuff
-    tripoint surface_omt_loc = global_omt_location();
-    surface_omt_loc.z = 0;
-
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type,
-                                        get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
-    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
+    std::string need = "need_none"; // needs[0];
+    goal = npc_destination( need ).get_random_destination( );
 }
 
 void npc::go_to_destination()
