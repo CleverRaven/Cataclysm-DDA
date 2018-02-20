@@ -125,7 +125,7 @@ struct islot_comestible
     /** stimulant effect */
     int stim = 0;
 
-    /** @todo add documentation */
+    /** @todo: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */

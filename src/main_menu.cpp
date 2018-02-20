@@ -239,7 +239,7 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
 
 void main_menu::display_credits()
 {
-    // astyle got this redundant indent
+    // AStyle got this redundant indent
     catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );

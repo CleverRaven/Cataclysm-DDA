@@ -322,7 +322,7 @@ public:
     /** Processes this mission. */
     void process();
 
-    // @todo Give topics a string_id
+    // @todo: Give topics a string_id
     std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**

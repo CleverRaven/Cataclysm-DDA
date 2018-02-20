@@ -165,7 +165,7 @@ struct talk_response {
      * Text (already folded) and color that is used to display this response.
      * This is set up in @ref do_formatting.
      */
-    std::vector<std::string> formated_text;
+    std::vector<std::string> formatted_text;
     nc_color color = c_white;
 
     void do_formatting( const dialogue &d, char letter );
@@ -450,7 +450,7 @@ static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */
 // Rescale values from "mission scale" to "opinion scale"
 static int cash_to_favor( const npc &, int cash )
 {
-    // @todo It should affect different NPCs to a different degree
+    // @todo: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
@@ -3305,7 +3305,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
 
 void dialogue::clear_window_texts()
 {
-    // Note: don't erase the borders, therefor start and end one unit inwards.
+    // Note: don't erase the borders, therefore start and end one unit inwards.
     // Note: start at second line because the first line contains the headers which are not
     // reprinted.
     // TODO: make this call werase and reprint the border & the header
@@ -3360,7 +3360,7 @@ bool dialogue::print_responses( int const yoffset )
     int curline = min_line - ( int ) yoffset;
     size_t i;
     for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        auto const &folded = responses[i].formated_text;
+        auto const &folded = responses[i].formatted_text;
         auto const &color = responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             if( curline < min_line ) {
@@ -3448,7 +3448,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     parse_tags( ftext, *d.alpha, *d.beta );
     // Remaining width of the responses area, -2 for the border, -2 for indentation
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
-    formated_text = foldstring( ftext, fold_width );
+    formatted_text = foldstring( ftext, fold_width );
 
     if( text[0] == '!' ) {
         color = c_red;
@@ -3550,7 +3550,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
     }
 
     // We can't set both skill and style or training will bug out
-    // @todo Allow setting both skill and style
+    // @todo: Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
         beta->chatbin.style = matype_id::NULL_ID();
@@ -3653,7 +3653,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
     invslice slice = u.inv.slice();
     for( auto &i : slice ) {
-        // @todo Sane way of handling multi-item stacks
+        // @todo: Sane way of handling multi-item stacks
         check_item( item_location( u, &i->front() ) );
     }
 
@@ -4328,7 +4328,7 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    // @todo Unify this with 'player::consume_item()'
+    // @todo: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
@@ -4399,7 +4399,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
-        // Bio weapon or shackles
+        // Bionic weapon or shackles
         return _( "How?" );
     }
 

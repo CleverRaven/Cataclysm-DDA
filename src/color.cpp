@@ -768,7 +768,7 @@ void color_manager::show_gui()
 
         std::string sActive = "";
 
-        // display colormanager
+        // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
                 i < iStartPos + ( ( iContentHeight > iMaxColors ) ? iMaxColors : iContentHeight ) ) {
@@ -779,7 +779,7 @@ void color_manager::show_gui()
                     mvwprintz( w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //colorname
+                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //color name
                 mvwprintz( w_colors, i - iStartPos, 21, entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {

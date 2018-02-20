@@ -132,7 +132,7 @@ std::string utf32_to_utf8(uint32_t ch)
     return out;
 }
 
-//Calculate width of a unicode string
+//Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
 int utf8_width(const char *s, const bool ignore_tags)

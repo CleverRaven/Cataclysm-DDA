@@ -280,11 +280,11 @@ struct mutation_branch {
 struct mutation_category_trait {
     std::string name;
     std::string id;
-    // Mutation catagory i.e "BIRD", "CHIMERA"
+    // Mutation category i.e "BIRD", "CHIMERA"
     std::string category;
     // For some reason most code uses "MUTCAT_category" instead of just "category"
     // This exists only to prevent ugly string hacks
-    // @todo Make this not exist
+    // @todo: Make this not exist
     std::string category_full;
     // The trait that you gain when you break the threshold for this category
     trait_id threshold_mut;

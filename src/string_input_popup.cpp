@@ -186,7 +186,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             if( ( int )ret.length() >= _max_length ) {
                 l = 0; // no more input possible!
             } else if( _position == ( int )ret.length() ) {
-                // one '_' is already printed, formated as cursor
+                // one '_' is already printed, formatted as cursor
                 l = std::min<size_t>( l, _max_length - ret.length() - 1 );
             } else {
                 l = std::min<size_t>( l, _max_length - ret.length() );
@@ -322,7 +322,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= ( int )ret.size() ) {
-                //TODO: it is safe now since you only input ascii chars
+                //TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;
