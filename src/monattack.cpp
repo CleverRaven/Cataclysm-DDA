@@ -7,6 +7,7 @@
 #include "game.h"
 #include "debug.h"
 #include "map.h"
+#include "output.h"
 #include "fungal_effects.h"
 #include "rng.h"
 #include "line.h"
@@ -967,13 +968,13 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
     constexpr int att_cost_acid    = 100;
     constexpr int att_cost_flavor  = 80;
 
-    // radiation attack behaviour
+    // radiation attack behavior
     constexpr int att_rad_dodge_diff    = 16; // how hard it is to dodge
     constexpr int att_rad_mutate_chance = 6;  // (1/x) inverse chance to cause mutation.
     constexpr int att_rad_dose_min      = 20; // min radiation
     constexpr int att_rad_dose_max      = 50; // max radiation
 
-    // acid attack behaviour
+    // acid attack behavior
     constexpr int att_acid_density = 3;
 
     // flavor messages
@@ -1007,7 +1008,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ok, we have a valid target; populate valid attack options...
+    // okay, we have a valid target; populate valid attack options...
     std::array<int, att_enum_size> valid_attacks;
     size_t valid_attack_count = 0;
 
@@ -1034,7 +1035,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         valid_attacks[valid_attack_count++] = att_acid_pool;
     }
 
-    // flavor is always ok
+    // flavor is always okay
     valid_attacks[valid_attack_count++] = att_flavor;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1063,7 +1064,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
 
         // (1) Give the target a chance at an uncanny_dodge.
         // (2) If that fails, always fail to dodge 1 in dodge_skill times.
-        // (3) If ok, dodge if dodge_skill > att_rad_dodge_diff.
+        // (3) If okay, dodge if dodge_skill > att_rad_dodge_diff.
         // (4) Otherwise, fail 1 in (att_rad_dodge_diff - dodge_skill) times.
         if (foe->uncanny_dodge()) {
             break;
@@ -1710,7 +1711,7 @@ bool mattack::fungus_fortify(monster *z)
                 g->u.unset_mutation( trait_MARLOSS_BLUE );
                 g->u.set_mutation( trait_THRESH_MARLOSS );
                 g->m.ter_set(g->u.pos(), t_marloss); // We only show you the door.  You walk through it on your own.
-                g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gatweay."),
+                g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gateway."),
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
                 g->u.add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
                 //~ Beginning to hear the Mycus while conscious: this is it speaking
@@ -1788,7 +1789,7 @@ bool mattack::fungus_fortify(monster *z)
         return true;
     }
 
-    // TODO: 21 damage with no chance to crit isn't scary
+    // TODO: 21 damage with no chance to critical isn't scary
     body_part hit = target->get_random_body_part();
     int dam = rng(15, 21);
     dam = g->u.deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
@@ -1922,7 +1923,7 @@ bool mattack::dermatik(monster *z)
     // Can the bug penetrate our armor?
     body_part targeted = target->get_random_body_part();
     if (4 < g->u.get_armor_cut(targeted) / 3) {
-        //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+        //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _("The %1$s lands on your %2$s, but can't penetrate your armor."),
                                 z->name().c_str(), body_part_name_accusative(targeted).c_str());
         z->moves -= 150; // Attempted laying takes a while
@@ -1931,7 +1932,7 @@ bool mattack::dermatik(monster *z)
 
     // Success!
     z->moves -= 500; // Successful laying takes a long time
-    //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+    //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
     target->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
     if ( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
@@ -2369,7 +2370,7 @@ bool mattack::ranged_pull(monster *z)
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
+    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will immediately be removed
 
     return true;
 }
@@ -2660,8 +2661,7 @@ bool mattack::photograph(monster *z)
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
-    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
-                 g->u.global_sm_location());
+    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0, g->u.global_sm_location() );
 
     return true;
 }
@@ -2909,7 +2909,7 @@ bool mattack::searchlight(monster *z)
     }
 
     //battery charge from the generator is enough for some time of work
-    if( calendar::once_every(MINUTES(10)) ) {
+    if( calendar::once_every( 10_minutes ) ) {
 
         bool generator_ok = false;
 
@@ -3385,7 +3385,7 @@ bool mattack::ratking(monster *z)
 bool mattack::generator(monster *z)
 {
     sounds::sound(z->pos(), 100, "");
-    if( calendar::once_every(MINUTES(1)) && z->get_hp() < z->get_hp_max() ) {
+    if( calendar::once_every( 1_minutes ) && z->get_hp() < z->get_hp_max() ) {
         z->heal( 1 );
     }
 
@@ -3719,7 +3719,7 @@ bool mattack::longswipe(monster *z)
     //Is there something impassable blocking the claw?
     for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
         if( g->m.impassable(pnt) ) {
-            //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
+            //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
@@ -3986,7 +3986,7 @@ bool mattack::riotbot(monster *z)
 
     player *foe = dynamic_cast<player *>( target );
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 4 ) ) {
             if( g->m.passable( dest ) &&
                 g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
@@ -4001,7 +4001,7 @@ bool mattack::riotbot(monster *z)
         ( foe->weapon.typeId() == "e_handcuffs" || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
-        if( calendar::once_every(25) ) {
+        if( calendar::once_every( 25_turns ) ) {
             sounds::sound( z->pos(), 10,
                      _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
@@ -4132,7 +4132,7 @@ bool mattack::riotbot(monster *z)
         return true;
     }
 
-    if( calendar::once_every(5) ) {
+    if( calendar::once_every( 5_turns ) ) {
         sounds::sound( z->pos(), 25, _("Empty your hands and hold your position, citizen!") );
     }
 
@@ -4381,7 +4381,7 @@ bool mattack::kamikaze(monster *z)
         return false;
     }
 
-    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseduo-timer.
+    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
     z->add_effect( effect_countdown, charges + 1);

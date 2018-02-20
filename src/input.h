@@ -176,7 +176,7 @@ class input_manager
          * @param action_descriptor The action ID to get the input events for.
          * @param context The context in which to get the input events. Defaults to "default".
          * @param overwrites_default If this is non-NULL, this will be used as return parameter and will be set to true if the default
-         *                           keybinding is overriden by something else in the given context.
+         *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
                 const std::string context = "default", bool *overwrites_default = NULL );
@@ -198,7 +198,7 @@ class input_manager
         void save();
 
         /**
-         * Return the prvioulsy pressed key, or 0 if there is no previous input
+         * Return the previously pressed key, or 0 if there is no previous input
          * or the previous input wasn't a key.
          */
         long get_previously_pressed_key() const;

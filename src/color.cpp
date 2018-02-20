@@ -387,6 +387,7 @@ void color_manager::load_default()
 
 void init_colors()
 {
+    using namespace catacurses; // to get the base_color enumeration
     init_pair( 1, white,      black );
     init_pair( 2, red,        black );
     init_pair( 3, green,      black );
@@ -683,21 +684,13 @@ void color_manager::show_gui()
     const int iTotalCols = vLines.size();
 
     catacurses::window w_colors_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                       FULL_SCREEN_WIDTH * 3 / 4,
-                                       7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
-    WINDOW_PTR w_colors_helpptr( w_colors_help );
-
+                                       FULL_SCREEN_WIDTH * 3 / 4, 7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
     catacurses::window w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          iOffsetY, iOffsetX );
-    WINDOW_PTR w_colors_borderptr( w_colors_border );
     catacurses::window w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                         1 + iOffsetY,
-                                         1 + iOffsetX );
-    WINDOW_PTR w_colors_headerptr( w_colors_header );
+                                         1 + iOffsetY, 1 + iOffsetX );
     catacurses::window w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                  iHeaderHeight + 1 + iOffsetY,
-                                  1 + iOffsetX );
-    WINDOW_PTR w_colorsptr( w_colors );
+                                  iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX );
 
     draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
     mvwputch( w_colors_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
@@ -775,7 +768,7 @@ void color_manager::show_gui()
 
         std::string sActive = "";
 
-        // display colormanager
+        // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
                 i < iStartPos + ( ( iContentHeight > iMaxColors ) ? iMaxColors : iContentHeight ) ) {
@@ -786,7 +779,7 @@ void color_manager::show_gui()
                     mvwprintz( w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //colorname
+                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //color name
                 mvwprintz( w_colors, i - iStartPos, 21, entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {

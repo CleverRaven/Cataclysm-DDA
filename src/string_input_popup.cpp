@@ -68,16 +68,15 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w_ptr.reset( catacurses::newwin( w_height, w_width, w_y, w_x ) );
-    w = w_ptr.get();
+    w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     draw_border( w );
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, "%s", descformatted[i].c_str() );
+        trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, descformatted[i] );
     }
     for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
+        mvwprintz( w, _starty++, i + 1, title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
@@ -187,7 +186,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             if( ( int )ret.length() >= _max_length ) {
                 l = 0; // no more input possible!
             } else if( _position == ( int )ret.length() ) {
-                // one '_' is already printed, formated as cursor
+                // one '_' is already printed, formatted as cursor
                 l = std::min<size_t>( l, _max_length - ret.length() - 1 );
             } else {
                 l = std::min<size_t>( l, _max_length - ret.length() );
@@ -323,7 +322,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= ( int )ret.size() ) {
-                //TODO: it is safe now since you only input ascii chars
+                //TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;
@@ -372,9 +371,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     return _text;
 }
 
-string_input_popup &string_input_popup::window( WINDOW *w, int startx, int starty, int endx )
+string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+        int endx )
 {
-    w_ptr.reset();
     this->w = w;
     _startx = startx;
     _starty = starty;

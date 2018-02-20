@@ -10,7 +10,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
-#include "output.h"
 #include "item_location.h"
 
 class Character;
@@ -182,9 +181,7 @@ class inventory_selector_preset
                     func( func ) {}
 
 
-                std::string get_text( const inventory_entry &entry ) const {
-                    return replace_colors( func( entry ) );
-                }
+                std::string get_text( const inventory_entry &entry ) const;
 
                 std::string title;
                 std::string stub;
@@ -249,7 +246,7 @@ class inventory_column
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
-        void draw( WINDOW *win, size_t x, size_t y ) const;
+        void draw( const catacurses::window &win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -366,7 +363,7 @@ class inventory_column
             bool visible() const {
                 return current_width > 0;
             }
-            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            /** @return Gap before the cell. Negative value means the cell is shrunk */
             int gap() const {
                 return current_width - real_width;
             }
@@ -491,10 +488,10 @@ class inventory_selector
         size_t get_header_min_width() const;
         size_t get_footer_min_width() const;
 
-        void draw_header( WINDOW *w ) const;
-        void draw_footer( WINDOW *w ) const;
-        void draw_columns( WINDOW *w ) const;
-        void draw_frame( WINDOW *w ) const;
+        void draw_header( const catacurses::window &w ) const;
+        void draw_footer( const catacurses::window &w ) const;
+        void draw_columns( const catacurses::window &w ) const;
+        void draw_frame( const catacurses::window &w ) const;
 
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -544,7 +541,7 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW_PTR w_inv;
+        catacurses::window w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;

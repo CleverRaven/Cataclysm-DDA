@@ -4,12 +4,14 @@
 #include "string_formatter.h"
 #include "item_factory.h"
 #include "uistate.h"
+#include "output.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
 #include "translations.h"
 #include "input.h"
 #include "monster.h"
 #include "ui.h"
+#include "skill.h"
 #include "mutation.h"
 #include "mtype.h"
 #include "player.h"
@@ -76,7 +78,7 @@ class wish_mutate_callback: public uimenu_callback
 
             int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
-                mvwprintw( menu->window, i, startx, "%s", padding.c_str() );
+                mvwprintw( menu->window, i, startx, padding );
             }
 
             mvwprintw( menu->window, 3, startx,
@@ -87,8 +89,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs:" ) );
                 for( auto &j : mdata.prereqs ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -97,8 +99,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs, 2d:" ) );
                 for( auto &j : mdata.prereqs2 ) {
-                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -107,8 +109,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Thresholds required:" ) );
                 for( auto &j : mdata.threshreq ) {
-                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -117,8 +119,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Cancels:" ) );
                 for( auto &j : mdata.cancels ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -127,8 +129,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Becomes:" ) );
                 for( auto &j : mdata.replacements ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -137,8 +139,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray, _( "Add-ons:" ) );
                 for( auto &j : mdata.additions ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
-                               mutation_branch::get_name( j ).c_str() );
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                               mutation_branch::get_name( j ) );
                     line2++;
                 }
             }
@@ -147,7 +149,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
                 for( auto &j : mdata.category ) {
-                    mvwprintw( menu->window, line2, startx + 11, "%s", j.c_str() );
+                    mvwprintw( menu->window, line2, startx + 11, j );
                     line2++;
                 }
             }
@@ -163,12 +165,12 @@ class wish_mutate_callback: public uimenu_callback
             std::vector<std::string> desc = foldstring( mdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
-                mvwprintz( menu->window, line2, startx, c_light_gray, "%s", elem.c_str() );
+                mvwprintz( menu->window, line2, startx, c_light_gray, elem );
                 line2++;
             }
             lastlen = line2 + 1;
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [%s] quit" ),
@@ -186,7 +188,7 @@ void debug_menu::wishmutate( player *p )
     int c = 0;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
+        wmenu.addentry( -1, true, -2, traits_iter.second.name );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
         wmenu.entries[ c ].extratxt.color = c_light_green;
@@ -268,7 +270,7 @@ class wish_monster_callback: public uimenu_callback
         bool friendly;         // spawn friendly critter?
         bool hallucination;
         int group;             // Number of monsters to spawn.
-        WINDOW *w_info;        // ui_parent menu's padding area
+        catacurses::window w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
@@ -281,7 +283,6 @@ class wish_monster_callback: public uimenu_callback
             hallucination = false;
             group = 0;
             lastent = -2;
-            w_info = NULL;
         }
 
         void setup( uimenu *menu ) {
@@ -331,10 +332,9 @@ class wish_monster_callback: public uimenu_callback
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
                                                 group, ( hallucination ? _( " (hallucination)" ) : "" ) );
-            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, "%s",
-                       header.c_str() );
+            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
-            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, "%s", msg.c_str() );
+            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
@@ -350,7 +350,6 @@ class wish_monster_callback: public uimenu_callback
         ~wish_monster_callback() override {
             werase( w_info );
             wrefresh( w_info );
-            delwin( w_info );
         }
 };
 
@@ -370,7 +369,7 @@ void debug_menu::wishmonster( const tripoint &p )
 
     int i = 0;
     for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
-        wmenu.addentry( i, true, 0, "%s", montype.nname().c_str() );
+        wmenu.addentry( i, true, 0, montype.nname() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;
         wmenu.entries[i].extratxt.left = 1;
@@ -432,19 +431,19 @@ class wish_item_callback: public uimenu_callback
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
             for( int y = 2; y < menu->w_height - 1; y++ ) {
-                mvwprintw( menu->window, y, startx - 1, "%s", padding.c_str() );
+                mvwprintw( menu->window, y, startx - 1, padding );
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format( "#%d: %s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        ( incontainer ? _( " (contained)" ) : "" ) );
-            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
-                       header.c_str() );
+            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
+                       header );
 
             fold_and_print( menu->window, starty, startx, menu->pad_right - 1, c_light_gray, tmp.info( true ) );
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg.erase();
 
             input_context ctxt( "UIMENU" );
@@ -537,7 +536,7 @@ void debug_menu::wishskill( player *p )
     origskills.reserve( Skill::skills.size() );
 
     for( auto const &s : Skill::skills ) {
-        auto const level = static_cast<int>( p->get_skill_level( s.ident() ) );
+        const int level = p->get_skill_level( s.ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
                          s.name().c_str() );
         origskills.push_back( level );
@@ -551,20 +550,21 @@ void debug_menu::wishskill( player *p )
         if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
                 skill_id = sksel;
-                skset = ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) +
+                skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
         } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
             skill_id = sksel;
+            const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uimenu sksetmenu;
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( string_format( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() ) );
-            int skcur = ( int )p->get_skill_level( Skill::skills[skill_id].ident() );
+            sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
+            int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
@@ -574,15 +574,16 @@ void debug_menu::wishskill( player *p )
         }
 
         if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
-            p->set_skill_level( Skill::skills[skill_id].ident(), skset );
+            const Skill &skill = Skill::skills[skill_id];
+            p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      Skill::skills[skill_id].name().c_str(),
-                                      ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) ).substr( 0, skmenu.w_width - 4 );
+                                      skill.name(),
+                                      p->get_skill_level( skill.ident() ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                    ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
-                    Skill::skills[skill_id].name().c_str() );
+                    p->get_skill_level( skill.ident() ),
+                    skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
@@ -597,14 +598,15 @@ void debug_menu::wishskill( player *p )
                     skset = ( ( ret - 5 ) * 5 );
                 }
                 for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
-                    int changeto = ( skmod != 0 ? p->get_skill_level( Skill::skills[skill_id].ident() ) + skmod :
+                    const Skill &skill = Skill::skills[skill_id];
+                    int changeto = ( skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
                                      ( skset != -1 ? skset : origskills[skill_id] ) );
-                    p->set_skill_level( Skill::skills[skill_id].ident(), changeto );
+                    p->set_skill_level( skill.ident(), changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                            ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
-                            Skill::skills[skill_id].name().c_str() );
+                            p->get_skill_level( skill.ident() ),
+                            skill.name() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
+                        ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
                 }
             }

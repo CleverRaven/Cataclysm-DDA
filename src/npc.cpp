@@ -10,7 +10,9 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "skill.h"
 #include "mission.h"
+#include "output.h"
 #include "monfaction.h"
 #include "mutation.h"
 #include "npc_class.h"
@@ -21,6 +23,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "iuse_actor.h"
+#include "trait_group.h"
 #include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
@@ -374,7 +377,7 @@ void npc::randomize( const npc_class_id &type )
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    boost_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_barter, rng( 2, 4 ) );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -385,13 +388,13 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, type, male );
     starting_inv( *this, type );
     has_new_items = true;
-    my_traits.clear();
-    my_mutations.clear();
 
-    for( const auto &pr : type->traits ) {
-        if( rng( 1, 100 ) <= pr.second ) {
-            set_mutation( pr.first );
-        }
+    my_mutations.clear();
+    my_traits.clear();
+
+    // Add fixed traits
+    for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
+        set_mutation( tid );
     }
 
     // Run mutation rounds
@@ -551,7 +554,7 @@ void npc::randomize_from_faction( faction *fac )
         personality.altruism += rng( 0, 4 );
         int_max += rng( 2, 4 );
         per_max += rng( 0, 2 );
-        boost_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
+        mod_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
     }
     if( fac->has_job( FACJOB_FARMERS ) ) {
         personality.aggression -= rng( 2, 4 );
@@ -568,19 +571,19 @@ void npc::randomize_from_faction( faction *fac )
         personality.bravery -= rng( 0, 2 );
         switch( rng( 1, 4 ) ) {
             case 1:
-                boost_skill_level( skill_mechanics,   dice( 2, 4 ) );
+                mod_skill_level( skill_mechanics,   dice( 2, 4 ) );
                 break;
             case 2:
-                boost_skill_level( skill_electronics, dice( 2, 4 ) );
+                mod_skill_level( skill_electronics, dice( 2, 4 ) );
                 break;
             case 3:
-                boost_skill_level( skill_cooking,     dice( 2, 4 ) );
+                mod_skill_level( skill_cooking,     dice( 2, 4 ) );
                 break;
             case 4:
-                boost_skill_level( skill_tailor,      dice( 2, 4 ) );
+                mod_skill_level( skill_tailor,      dice( 2, 4 ) );
                 break;
             default:
-                boost_skill_level( skill_cooking,     dice( 2, 4 ) );
+                mod_skill_level( skill_cooking,     dice( 2, 4 ) );
                 break;
         }
     }
@@ -608,9 +611,9 @@ void npc::randomize_from_faction( faction *fac )
         per_max += rng( 0, 2 );
         int_max += rng( 0, 4 );
         if( one_in( 3 ) ) {
-            boost_skill_level( skill_mechanics, dice( 2, 3 ) );
-            boost_skill_level( skill_electronics, dice( 2, 3 ) );
-            boost_skill_level( skill_firstaid, dice( 2, 3 ) );
+            mod_skill_level( skill_mechanics, dice( 2, 3 ) );
+            mod_skill_level( skill_electronics, dice( 2, 3 ) );
+            mod_skill_level( skill_firstaid, dice( 2, 3 ) );
         }
     }
     if( fac->has_value( FACVAL_BOOKS ) ) {
@@ -628,7 +631,7 @@ void npc::randomize_from_faction( faction *fac )
         int_max += rng( 0, 2 );
         for( auto const &skill : Skill::skills ) {
             if( one_in( 3 ) ) {
-                boost_skill_level( skill.ident(), int( rng( 2, 4 ) ) );
+                mod_skill_level( skill.ident(), rng( 2, 4 ) );
             }
         }
     }
@@ -748,14 +751,14 @@ void starting_inv( npc &me, const npc_class_id &type )
             ammo = container;
         }
 
-        // @todo Move to npc_class
+        // @todo: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         long qty = 1 + ( type == NC_COWBOY ||
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && me.can_pickVolume( ammo ) ) {
-            // @todo give NPC a default magazine instead
+            // @todo: give NPC a default magazine instead
             res.push_back( ammo );
         }
     }
@@ -840,9 +843,9 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : _skills ) {
+    for( auto const &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second;
+            int const level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;
@@ -958,7 +961,7 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( encumb_ok && can_wear( it ).success() ) {
-            // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
@@ -1028,7 +1031,7 @@ void npc::form_opinion( const player &u )
 {
     // FEAR
     if( u.weapon.is_gun() ) {
-        // @todo Make bows not guns
+        // @todo: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
@@ -1108,7 +1111,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
-    // @todo More effects
+    // @todo: More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
@@ -1262,9 +1265,9 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
-    for( auto const &skill : Skill::skills ) {
-        const auto &id = skill.ident();
-        if( p.get_skill_level( id ).level() < get_skill_level( id ).level() ) {
+    for( const auto &pair : *_skills ) {
+        const skill_id &id = pair.first;
+        if( p.get_skill_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1470,8 +1473,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() ) {
-        // Live grenade or something similar
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+        // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
 
@@ -1500,14 +1503,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
-            ret += 14; // @todo magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14; // @todo: magazines - don't count ammo as usable if the weapon isn't.
         }
 
         if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
         [&]( const ammotype & e ) {
         return has_gun_for_ammo( e );
         } ) ) {
-            ret += 14; // @todo consider making this cumulative (once was)
+            ret += 14; // @todo: consider making this cumulative (once was)
         }
     }
 
@@ -1654,7 +1657,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         return other.attitude_to( *this );
     }
 
-    // @todo Get rid of the ugly cast without duplicating checks
+    // @todo: Get rid of the ugly cast without duplicating checks
     const monster &m = dynamic_cast<const monster &>( other );
     switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
@@ -1727,7 +1730,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // @todo Allow player to set that
+    // @todo: Allow player to set that
     return 4;
 }
 
@@ -1747,7 +1750,7 @@ nc_color npc::basic_symbol_color() const
     return c_pink;
 }
 
-int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
+int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
     const unsigned int iWidth = getmaxx( w ) - 2;
@@ -1762,7 +1765,7 @@ int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
     nc_color color ) {
-        // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
@@ -1790,7 +1793,7 @@ int npc::print_info( WINDOW *w, int line, int vLines, int column ) const
     [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
         const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
-        // @todo Balance this formula
+        // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
             return mut_branch.name;
@@ -2043,27 +2046,27 @@ void npc::setID( int i )
 //message related stuff
 void npc::add_msg_if_npc( const std::string &msg ) const
 {
-    add_msg( replace_with_npc_name( msg, disp_name() ) );
+    add_msg( replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg, disp_name() ) );
+    add_msg( type, replace_with_npc_name( msg ) );
 }
 
 void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2291,7 +2294,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
-    if( is_following() && calendar::once_every( HOURS( 1 ) ) &&
+    if( is_following() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
@@ -2347,9 +2350,9 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    const auto comest = it.type->comestible;
-    if( comest != nullptr ) {
-        if( comest->quench < 0 || it.poison > 0 ) {
+    if( const auto &comest = it.is_container() ? it.get_contained().type->comestible :
+                             it.type->comestible ) {
+        if( comest->fun < 0 || it.poison > 0 ) {
             return false;
         }
     }
@@ -2365,7 +2368,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings.bash_strength = no_bashing ? 0 : smash_ability();
-    // @todo Extract climb skill
+    // @todo: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
@@ -2383,7 +2386,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
-        // @todo Cache this somewhere
+        // @todo: Cache this somewhere
         ret.insert( critter.pos() );
     }
     return ret;
@@ -2431,7 +2434,7 @@ std::string npc::extended_description() const
     if( hit_by_player ) {
         ss << "--" << std::endl;
         ss << _( "Is still innocent and killing them will be considered murder." );
-        // @todo "But you don't care because you're an edgy psycho"
+        // @todo: "But you don't care because you're an edgy psycho"
     }
 
     return replace_colors( ss.str() );
@@ -2439,8 +2442,8 @@ std::string npc::extended_description() const
 
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
-    //@todo store them separately
-    //@todo set time here as well.
+    //@todo: store them separately
+    //@todo: set time here as well.
     companion_mission = p.name + id;
 }
 

@@ -14,58 +14,20 @@
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
+#include "output.h"
+
 #include <algorithm>
 
 static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_TOUGH( "TOUGH" );
-static const trait_id trait_TOUGH3( "TOUGH3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_FLIMSY( "FLIMSY" );
-static const trait_id trait_FLIMSY2( "FLIMSY2" );
-static const trait_id trait_FLIMSY3( "FLIMSY3" );
-static const trait_id trait_MUT_TOUGH( "MUT_TOUGH" );
-static const trait_id trait_MUT_TOUGH2( "MUT_TOUGH2" );
-static const trait_id trait_MUT_TOUGH3( "MUT_TOUGH3" );
-static const trait_id trait_WEBBED( "WEBBED" );
-static const trait_id trait_PAWS( "PAWS" );
-static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_TALONS( "TALONS" );
-static const trait_id trait_BEAK( "BEAK" );
-static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
-static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
-static const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
-static const trait_id trait_HOOVES( "HOOVES" );
-static const trait_id trait_TOUGH2( "TOUGH2" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
-static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_RAP_TALONS( "RAP_TALONS" );
-static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
-static const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -440,7 +402,7 @@ void player::activate_mutation( const trait_id &mut )
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
@@ -701,7 +663,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo Turn it into the null id
+    // @todo: Turn it into the null id
     if( cat == "MUTCAT_ANY" ) {
         mutate();
         return;
@@ -806,14 +768,14 @@ bool player::mutate_towards( const trait_id &mut )
         }
     }
 
-    // Check for threshhold mutation, if needed
+    // Check for threshold mutation, if needed
     bool threshold = mdata.threshold;
     bool profession = mdata.profession;
     bool has_threshreq = false;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
@@ -835,7 +797,7 @@ bool player::mutate_towards( const trait_id &mut )
         return false;
     }
 
-    // Check if one of the prereqs that we have TURNS INTO this one
+    // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
@@ -975,7 +937,7 @@ bool player::mutate_towards( const trait_id &mut )
 void player::remove_mutation( const trait_id &mut )
 {
     const auto &mdata = mut.obj();
-    // Check if there's a prereq we should shrink back into
+    // Check if there's a prerequisite we should shrink back into
     trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for (size_t i = 0; !replacing && i < originals.size(); i++) {
@@ -1000,8 +962,8 @@ void player::remove_mutation( const trait_id &mut )
         }
     }
 
-    // See if this mutation is cancelled by a base trait
-    //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
+    // See if this mutation is canceled by a base trait
+    //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {

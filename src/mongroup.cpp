@@ -2,12 +2,12 @@
 #include <vector>
 
 #include "rng.h"
-#include "game.h"
 #include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"
 #include "mtype.h"
+#include "calendar.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
@@ -70,16 +70,11 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id& group_name, int *quantity, int turn ){
+    const mongroup_id& group_name, int *quantity ){
     int spawn_chance = rng(1, 1000);
     auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
-    //If the default monster is too difficult, replace this with NULL_ID.
-    if(turn != -1 &&
-       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
-        spawn_details = MonsterGroupResult();
-    }
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
@@ -87,9 +82,6 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         const mtype& mt = it->name.obj();
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
-        // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
-        valid_entry = valid_entry && (turn == -1 ||
-                                      (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(mt.difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
         if(get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
             valid_entry = valid_entry && (mt.in_category("CLASSIC") ||
@@ -124,10 +116,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
                 ( elem ) == "AUTUMN" ) {
                 season_limited = true;
-                if( ( calendar::turn.get_season() == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( calendar::turn.get_season() == WINTER && ( elem ) == "WINTER" ) ||
-                    ( calendar::turn.get_season() == SPRING && ( elem ) == "SPRING" ) ||
-                    ( calendar::turn.get_season() == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season_of_year( calendar::turn ) == SUMMER && ( elem ) == "SUMMER" ) ||
+                    ( season_of_year( calendar::turn ) == WINTER && ( elem ) == "WINTER" ) ||
+                    ( season_of_year( calendar::turn ) == SPRING && ( elem ) == "SPRING" ) ||
+                    ( season_of_year( calendar::turn ) == AUTUMN && ( elem ) == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }
@@ -404,4 +396,19 @@ void MonsterGroupManager::check_group_definitions()
             }
         }
     }
+}
+
+const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
+{
+    int spawn_chance = rng( 1, 1000 );
+    const auto &group = group_name.obj();
+    for( auto it = group.monsters.begin(); it != group.monsters.end(); ++it ) {
+        if( it->frequency >= spawn_chance ) {
+            return it->name;
+        } else {
+            spawn_chance -= it->frequency;
+        }
+    }
+
+    return group.defaultMonster;
 }

@@ -2,7 +2,7 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
-#include "copyable_unique_ptr.h"
+#include "optional.h"
 #include "color.h" // nc_color
 #include "enums.h" // point
 #include "iuse.h" // use_function
@@ -13,6 +13,7 @@
 #include "units.h"
 #include "damage.h"
 #include "translations.h"
+#include "calendar.h"
 
 #include <string>
 #include <vector>
@@ -94,7 +95,7 @@ struct islot_tool {
 
 struct islot_comestible
 {
-    /** subtype, eg. FOOD, DRINK, MED */
+    /** subtype, e.g. FOOD, DRINK, MED */
     std::string comesttype;
 
      /** tool needed to consume (e.g. lighter for cigarettes) */
@@ -124,7 +125,7 @@ struct islot_comestible
     /** stimulant effect */
     int stim = 0;
 
-    /** @todo add documentation */
+    /** @todo: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
@@ -145,8 +146,8 @@ struct islot_brewable {
     /** What are the results of fermenting this item? */
     std::vector<std::string> results;
 
-    /** How many turns for this brew to ferment */
-    int time = 0;
+    /** How long for this brew to ferment. */
+    time_duration time = 0;
 };
 
 struct islot_container {
@@ -287,7 +288,7 @@ struct islot_mod {
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
-    /** Proportional adjusgtment of parent item ammo capacity */
+    /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0;
 };
 
@@ -445,10 +446,10 @@ class gun_type_type
 };
 
 struct islot_gunmod : common_ranged_data {
-    /** Where is this guunmod installed (eg. "stock", "rail")? */
+    /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
-    /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
+    /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
     std::set<gun_type_type> usable;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
@@ -493,7 +494,7 @@ struct islot_magazine {
     itype_id default_ammo = "NULL";
 
     /**
-     * How reliable this this magazine on a range of 0 to 10?
+     * How reliable this magazine on a range of 0 to 10?
      * @see doc/GAME_BALANCE.md
      */
     int reliability = 0;
@@ -537,7 +538,7 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<std::string> ammo_effects;
     /**
-     * Base loudness of ammo (possbily modified by gun/gunmods). If unspecified an
+     * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
@@ -573,9 +574,9 @@ struct islot_bionic {
 
 struct islot_seed {
     /**
-     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
-    int grow = 0;
+    time_duration grow = 0;
     /**
      * Amount of harvested charges of fruits is divided by this number.
      */
@@ -616,23 +617,23 @@ struct itype {
      * this before using it.
      */
     /*@{*/
-    copyable_unique_ptr<islot_container> container;
-    copyable_unique_ptr<islot_tool> tool;
-    copyable_unique_ptr<islot_comestible> comestible;
-    copyable_unique_ptr<islot_brewable> brewable;
-    copyable_unique_ptr<islot_armor> armor;
-    copyable_unique_ptr<islot_book> book;
-    copyable_unique_ptr<islot_mod> mod;
-    copyable_unique_ptr<islot_engine> engine;
-    copyable_unique_ptr<islot_wheel> wheel;
-    copyable_unique_ptr<islot_fuel> fuel;
-    copyable_unique_ptr<islot_gun> gun;
-    copyable_unique_ptr<islot_gunmod> gunmod;
-    copyable_unique_ptr<islot_magazine> magazine;
-    copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_ammo> ammo;
-    copyable_unique_ptr<islot_seed> seed;
-    copyable_unique_ptr<islot_artifact> artifact;
+    cata::optional<islot_container> container;
+    cata::optional<islot_tool> tool;
+    cata::optional<islot_comestible> comestible;
+    cata::optional<islot_brewable> brewable;
+    cata::optional<islot_armor> armor;
+    cata::optional<islot_book> book;
+    cata::optional<islot_mod> mod;
+    cata::optional<islot_engine> engine;
+    cata::optional<islot_wheel> wheel;
+    cata::optional<islot_fuel> fuel;
+    cata::optional<islot_gun> gun;
+    cata::optional<islot_gunmod> gunmod;
+    cata::optional<islot_magazine> magazine;
+    cata::optional<islot_bionic> bionic;
+    cata::optional<islot_ammo> ammo;
+    cata::optional<islot_seed> seed;
+    cata::optional<islot_artifact> artifact;
     /*@}*/
 
 protected:

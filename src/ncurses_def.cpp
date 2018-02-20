@@ -13,11 +13,7 @@
 #include <curses.h>
 #endif
 
-#define CATACURSES_DONT_USE_NAMESPACE_CATACURSES
 #include "cursesdef.h"
-//Now we have included the catacurses namespace (but it's not global), and the
-//native ncurses declarations. We have now declarations of `::catacurses::newwin`
-//and `::newwin`.
 
 #include "catacharset.h"
 #include "color.h"
@@ -30,19 +26,17 @@ extern int VIEW_OFFSET_Y; // Y position of terrain window
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
-        //@todo debug message
+        //@todo: debug message
     }
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
                                        const int begin_x )
 {
-    return window( ::newwin( nlines, ncols, begin_y, begin_x ) ); // @todo check for errors
-}
-
-void catacurses::delwin( const window &win )
-{
-    curses_check_result( ::delwin( win.get<::WINDOW>() ), OK, "delwin" );
+    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo: check for errors
+    return std::shared_ptr<void>( w, []( void *const w ) {
+        ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
+    } );
 }
 
 void catacurses::wrefresh( const window &win )
@@ -207,8 +201,9 @@ catacurses::window catacurses::stdscr;
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
 {
-    catacurses::stdscr = ::initscr();
-    if( catacurses::stdscr == nullptr ) {
+    // ::endwin will free the pointer returned by ::initscr
+    stdscr = std::shared_ptr<void>( ::initscr(), []( void *const ) { } );
+    if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
 #if !(defined __CYGWIN__)
@@ -220,8 +215,8 @@ void catacurses::init_interface()
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
-    set_escdelay( 10 ); // Make escape actually responsive
-    start_color(); //@todo error checking
+    set_escdelay( 10 ); // Make Escape actually responsive
+    start_color(); //@todo: error checking
     init_colors();
 }
 

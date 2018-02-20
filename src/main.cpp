@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--jsonverify", nullptr,
-                "Checks the cdda json files",
+                "Checks the CDDA json files",
                 section_default,
                 [&verifyexit](int, const char **) -> int {
                     verifyexit = true;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--check-mods", "[mods...]",
-                "Checks the json files belonging to cdda mods",
+                "Checks the json files belonging to CDDA mods",
                 section_default,
                 [&check_mods,&opts]( int n, const char *params[] ) -> int {
                     check_mods = true;
@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
-            // Ingore unknown options.
+            // Ignore unknown options.
             if (!arg_handled) {
                 --saved_argc;
                 ++saved_argv;
@@ -475,7 +475,7 @@ int main(int argc, char *argv[])
 
     g->init_ui();
 
-    curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
+    catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
 #if (!(defined _WIN32 || defined WINDOWS))
     struct sigaction sigIntHandler;
@@ -578,7 +578,7 @@ void exit_handler(int s)
     const int old_timeout = inp_mngr.get_timeout();
     inp_mngr.reset_timeout();
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        erase(); // Clear screen
+        catacurses::erase(); // Clear screen
 
         deinitDebug();
 
@@ -587,7 +587,7 @@ void exit_handler(int s)
             delete g;
         }
 
-        endwin();
+        catacurses::endwin();
 
         exit( exit_status );
     }

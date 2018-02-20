@@ -5,6 +5,7 @@
 #include "map.h"
 #include "debug.h"
 #include "enums.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "effect.h"
 #include "translations.h"
@@ -119,7 +120,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
-    // to fight the combanatorial explosion.
+    // to fight the combinatorial explosion.
     std::vector<centroid> sound_clusters;
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), ( size_t ) 10 ),
                                             ( size_t ) log( recent_sounds.size() ) );
@@ -170,15 +171,15 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
 
 int get_signal_for_hordes( const centroid &centr )
 {
-    //Volume in  tiles. Signal fo hordes in submaps
+    //Volume in  tiles. Signal for hordes in submaps
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
     const int min_vol_cap = 60;//Hordes can't hear volume lower than this
-    const int undeground_div = 2;//Coeffficient for volume reduction undeground
-    const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
+    const int underground_div = 2;//Coefficient for volume reduction underground
+    const int hordes_sig_div =  SEEX;//Divider coefficient for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
     const int max_sig_cap = 26;//Signal for hordes can't be higher that this
     //Lower the level - lower the sound
-    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
+    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
         int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
@@ -214,7 +215,7 @@ void sounds::process_sounds()
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
-            // @todo Generalize this to Creature::hear_sound
+            // @todo: Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
@@ -292,7 +293,7 @@ void sounds::process_sound_markers( player *p )
                      p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) {
-                //Not kidding about sleep-thru-firefight
+                //Not kidding about sleep-through-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
             } else {
@@ -360,7 +361,7 @@ void sounds::process_sound_markers( player *p )
             err_offset = 1;
         }
 
-        // If Z coord is different, draw even when you can see the source
+        // If Z-coordinate is different, draw even when you can see the source
         const bool diff_z = pos.z != p->posz();
 
         // Enumerate the valid points the player *cannot* see.

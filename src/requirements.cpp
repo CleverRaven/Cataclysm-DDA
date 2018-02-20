@@ -2,6 +2,7 @@
 
 #include "json.h"
 #include "translations.h"
+#include "output.h"
 #include "game.h"
 #include "player.h"
 #include "debug.h"
@@ -218,7 +219,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo deduplicate qualites and combine other requirements
+    // @todo: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -254,12 +255,6 @@ void requirement_data::save_requirement( const requirement_data &req, const std:
     auto dup = req;
     if( !id.empty() ) {
         dup.id_ = requirement_id( id );
-    }
-
-    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
-        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
     }
 
     requirements_all[ dup.id_ ] = dup;
@@ -401,8 +396,8 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             // The inlined requirement must have ONLY the type of component we are inlining
             // That is, tools or components, not both (nor neither)
             // Also, it must only offer alternatives, not more than one component "family" at a time
-            // @todo Remove the requirement to separate tools and components
-            // @todo Remove the requirement to have only one component "family" per inlined requirement
+            // @todo: Remove the requirement to separate tools and components
+            // @todo: Remove the requirement to have only one component "family" per inlined requirement
             if( req.get_components().size() + req.get_tools().size() != 1 ) {
                 debugmsg( "Tried to inline requirement %s which has more than one set of elements",
                           req_id.c_str() );
@@ -585,7 +580,8 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv, int, std::function<void(int)> ) const
+bool quality_requirement::has( const inventory &crafting_inv, int,
+                               std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -599,7 +595,8 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
     return available == a_true ? "green" : "red";
 }
 
-bool tool_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> visitor ) const
+bool tool_comp::has( const inventory &crafting_inv, int batch,
+                     std::function<void( int )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -620,7 +617,7 @@ bool tool_comp::has( const inventory &crafting_inv, int batch, std::function<voi
         bool has_UPS = false;
         for( const item *it : iter->second ) {
             it->visit_items( [&has_UPS]( const item * e ) {
-                if( e->has_flag( "USE_UPS" ) ){
+                if( e->has_flag( "USE_UPS" ) ) {
                     has_UPS = true;
                     return VisitResponse::ABORT;
                 }
@@ -629,8 +626,8 @@ bool tool_comp::has( const inventory &crafting_inv, int batch, std::function<voi
         }
         if( has_UPS ) {
             int UPS_charges_used =
-              crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
-            if( visitor && UPS_charges_used + charges_found >= ( count * batch )) {
+                crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
+            if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
                 visitor( UPS_charges_used );
             }
             charges_found += UPS_charges_used;
@@ -649,7 +646,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
     return has_one ? "dark_gray" : "red";
 }
 
-bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void(int)> ) const
+bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -667,7 +664,7 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
 {
     if( available == a_insufficent ) {
         return "brown";
-    } else if( has( crafting_inv, batch) ) {
+    } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
     return has_one ? "dark_gray" : "red";

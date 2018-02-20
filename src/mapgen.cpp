@@ -152,7 +152,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
-    // In other words, make city centers dense and perimiters sparse.
+    // In other words, make city centers dense and perimeters sparse.
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
@@ -231,7 +231,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
-void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
+void calculate_mapgen_weights() { // @todo: rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
     for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
@@ -311,7 +311,7 @@ std::shared_ptr<mapgen_function>
                 }
                 ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
-            // todo; pass dirname current.json, because the latter two are icky
+            // @todo: pass dirname current.json, because the latter two are icky
             // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
@@ -605,9 +605,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray ) {
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // todo... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val; // @todo: ... support for random furniture? or not.
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // todo, sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // @todo: sanity check?
         pjo.read("chance", tmp_chance );
         pjo.read("rotation", tmp_rotation );
         pjo.read("fuel", tmp_fuel );
@@ -1565,7 +1565,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
         }
     }
 
-    // manditory: every character in rows must have matching entry, unless fill_ter is set
+    // mandatory: every character in rows must have matching entry, unless fill_ter is set
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_object("terrain") ) {
         JsonObject pjo = jo.get_object("terrain");
@@ -1755,7 +1755,7 @@ void mapgen_function_json_base::setup_common()
     // No fill_ter? No format? GTFO.
     if ( ! qualifies ) {
        jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
-       // todo: write TFM.
+       // @todo: write TFM.
    }
 
     if ( jo.has_array("set") ) {
@@ -1789,11 +1789,11 @@ void mapgen_function_json_base::setup_common()
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
-///// stuff below is the actual in-game mapgeneration (ill)logic
+///// stuff below is the actual in-game map generation (ill)logic
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
- * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
+ * @todo: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const {
     if( chance != 1 && !one_in( chance ) ) {
@@ -1988,7 +1988,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, 
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// lua mapgen functions
-// wip: need moar bindings. Basic stuff works
+// wip: need more bindings. Basic stuff works
 
 #ifndef LUA
 int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d, const std::string & )
@@ -2073,7 +2073,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     const auto fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
+        // int fidx = rng(0, fmapit->second.size() - 1); // simple unweighted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
         const int rlast = weightit->second.rbegin()->first;
         const int roll = rng(1, rlast);
@@ -2081,7 +2081,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
-    // todo; make these json or mappable functions
+    // @todo: make these json or mappable functions
     } else if (terrain_type == "office_tower_1_entrance") {
 
         dat.fill_groundcover();
@@ -2803,7 +2803,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
-            // @todo This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
+            // @todo: This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
             const auto is_lab = []( const oter_id &id ) {
                 return is_ot_type( "lab", id ) ||
                        is_ot_type( "lab_stairs", id ) ||
@@ -2840,7 +2840,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
             }
         } else { // We're below ground, and no sewers
-            // Set up the boudaries of walls (connect to adjacent lab squares)
+            // Set up the boundaries of walls (connect to adjacent lab squares)
             // Are we in an ice lab?
             if ( ice_lab ) {
                 tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
@@ -4126,7 +4126,7 @@ ff.......|....|WWWWWWWW|\n\
                 line(this, t_floor_green, SEEX, 5, SEEX + 1, 5);
                 line(this, t_floor_blue,  SEEX, 6, SEEX + 1, 6);
                 // Now, randomly choose actions
-                // Set up an actions vector so that there's not undue repetion
+                // Set up an actions vector so that there's not undue repetition
                 std::vector<int> actions;
                 actions.push_back(1);
                 actions.push_back(2);
@@ -5997,498 +5997,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         }
 
 
-    } else if (terrain_type == "hospital_entrance") {
-
-        square(this, t_pavement, 0, 0, SEEX * 2 - 1, 5);
-        square(this, t_floor, 0, 6, SEEX * 2 - 1, SEEY * 2 - 1);
-        // Ambulance parking place
-        line(this, t_pavement_y,  5, 1, 22, 1);
-        line(this, t_pavement_y,  5, 2,  5, 5);
-        line(this, t_pavement_y, 22, 2, 22, 5);
-        // Top wall
-        line(this, t_wall, 0, 6, 6, 6);
-        line(this, t_door_glass_c, 3, 6, 4, 6);
-        line(this, t_wall_glass, 7, 6, 19, 6);
-        line(this, t_wall, 20, 6, SEEX * 2 - 1, 6);
-        // Left wall
-        line(this, t_wall, 0, 0, 0, SEEY * 2 - 1);
-        line(this, t_floor, 0, 11, 0, 12);
-        // Waiting area
-        line_furn(this, f_bench,  8, 7, 11,  7);
-        line_furn(this, f_bench, 13, 7, 17,  7);
-        line_furn(this, f_bench, 20, 7, 22,  7);
-        line_furn(this, f_bench, 22, 8, 22, 10);
-        place_items("magazines", 70, 8, 7, 22, 10, false, 0);
-        //Vending
-        std::vector<int> vset;
-        int vnum = rng(1, 3);
-        for(int a = 0; a < 17; a++) {
-            vset.push_back(a);
-        }
-        std::random_shuffle(vset.begin(), vset.end());
-        for(int a = 0; a < vnum; a++) {
-            if (vset[a] < 3) {
-                if (one_in(2)) {
-                    place_vending(5 + vset[a], 7, "vending_food");
-                } else {
-                    place_vending(5 + vset[a], 7, "vending_drink");
-                }
-            } else if (vset[a] < 5) {
-                if (one_in(2)) {
-                    place_vending(1 + vset[a] - 3, 7, "vending_food");
-                } else {
-                    place_vending(1 + vset[a] - 3, 7, "vending_drink");
-                }
-            } else if (vset[a] < 8) {
-                if (one_in(2)) {
-                    place_vending(1, 8 + vset[a] - 5, "vending_food");
-                } else {
-                    place_vending(1, 8 + vset[a] - 5, "vending_drink");
-                }
-            } else if (vset[a] < 13) {
-                if (one_in(2)) {
-                    place_vending(10 + vset[a] - 8, 12, "vending_food");
-                } else {
-                    place_vending(10 + vset[a] - 8, 12, "vending_drink");
-                }
-            } else {
-                if (one_in(2)) {
-                    place_vending(17 + vset[a] - 13, 12, "vending_food");
-                } else {
-                    place_vending(17 + vset[a] - 13, 12, "vending_drink");
-                }
-            }
-        }
-        vset.clear();
-        // Reception and examination rooms
-        line_furn(this, f_counter, 8, 13, 9, 13);
-        line(this, t_wall, 10, 13, SEEX * 2 - 1, 13);
-        line(this, t_door_c, 15, 13, 16, 13);
-        line(this, t_wall,  8, 17, 13, 17);
-        line(this, t_wall, 18, 17, 22, 17);
-        line(this, t_wall,  8, 20, 13, 20);
-        line(this, t_wall, 18, 20, 22, 20);
-        line(this, t_wall,  7, 13,  7, 22);
-        line(this, t_wall, 14, 15, 14, 20);
-        line(this, t_wall, 17, 14, 17, 22);
-        line_furn(this, f_bed,  8, 19,  9, 19);
-        place_items("bed", 60, 8, 19, 9, 19, false, 0);
-        line_furn(this, f_bed, 21, 19, 22, 19);
-        place_items("bed", 60, 21, 19, 22, 19, false, 0);
-        line_furn(this, f_bed, 21, 22, 22, 22);
-        place_items("bed", 60, 21, 22, 22, 22, false, 0);
-        line_furn(this, f_rack, 18, 14, 22, 14);
-        place_items("harddrugs", 80, 18, 14, 22, 14, false, 0);
-        line_furn(this, f_rack, 8, 21, 8, 22);
-        place_items("softdrugs", 70, 8, 21, 8, 22, false, 0);
-        ter_set(14, rng(18, 19), t_door_c);
-        ter_set(17, rng(15, 16), t_door_locked); // Hard drugs room is locked
-        ter_set(17, rng(18, 19), t_door_c);
-        ter_set(17, rng(21, 22), t_door_c);
-        // ER and bottom wall
-        line(this, t_wall, 0, 16, 6, 16);
-        line(this, t_door_c, 3, 16, 4, 16);
-        square_furn(this, f_bed, 3, 19, 4, 20);
-        place_items("bed", 60, 3, 19, 4, 20, false, 0);
-        line_furn(this, f_counter, 1, 22, 6, 22);
-        place_items("surgery", 78, 1, 22, 6, 22, false, 0);
-        line(this, t_wall, 1, 23, 22, 23);
-        line(this, t_floor, 11, 23, 12, 23);
-        // Right side wall (needed sometimes!)
-        line(this, t_wall, 23,  0, 23, 10);
-        line(this, t_wall, 23, 13, 23, 23);
-
-        /*
-        // Generate bodies / zombies
-          rn = rng(10, 15);
-          for (int i = 0; i < rn; i++) {
-           item body;
-           body.make_corpse();
-           int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-           if (ter(zx, zy) == t_bed || one_in(3))
-            add_item(zx, zy, body);
-           else if (passable(zx, zy)) {
-            mon_id zom = mon_zombie;
-            if (one_in(6))
-             zom = mon_zombie_spitter;
-            else if (!one_in(3))
-             zom = mon_boomer;
-            add_spawn(zom, 1, zx, zy);
-           }
-          }
-        */
-        // Rotate to face the road
-        if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
-            rotate(1);
-        }
-        if (is_ot_type("road", t_south) || is_ot_type("bridge", t_south)) {
-            rotate(2);
-        }
-        if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west)) {
-            rotate(3);
-        }
-
-
-    } else if (terrain_type == "hospital") {
-
-        fill_background(this, t_floor);
-        // We always have walls on the left and bottom
-        line(this, t_wall, 0,  0,  0, 22);
-        line(this, t_wall, 0, 23, 23, 23);
-        // These walls contain doors if they lead to more hospital
-        if (t_west == "hospital_entrance" || t_west == "hospital") {
-            line(this, t_door_c, 0, 11, 0, 12);
-        }
-        if (t_south == "hospital_entrance" || t_south == "hospital") {
-            line(this, t_door_c, 11, 23, 12, 23);
-        }
-
-        if ((t_north == "hospital_entrance" || t_north == "hospital") &&
-            (t_east  == "hospital_entrance" || t_east  == "hospital") &&
-            (t_south == "hospital_entrance" || t_south == "hospital") &&
-            (t_west  == "hospital_entrance" || t_west  == "hospital")   ) {
-            // We're in the center; center is always blood lab
-            // Large lab
-            line(this, t_wall,  1,  2, 21,  2);
-            line(this, t_wall,  1, 10, 21, 10);
-            line(this, t_wall, 21,  3, 21,  9);
-            line_furn(this, f_counter, 2,  3,  2,  9);
-            place_items("hospital_lab", 70, 2, 3, 2, 9, false, 0);
-            square_furn(this, f_counter,  5,  4,  6,  8);
-            place_items("hospital_lab", 74, 5, 4, 6, 8, false, 0);
-            square_furn(this, f_counter, 10,  4, 11,  8);
-            spawn_item(5, 17, "record_patient");
-            place_items("hospital_lab", 74, 10, 4, 11, 8, false, 0);
-            square_furn(this, f_counter, 15,  4, 16,  8);
-            place_items("hospital_lab", 74, 15, 4, 16, 8, false, 0);
-            ter_set(rng(3, 18),  2, t_door_c);
-            ter_set(rng(3, 18), 10, t_door_c);
-            if (one_in(4)) { // Door on the right side
-                ter_set(21, rng(4, 8), t_door_c);
-            } else { // Counter on the right side
-                line_furn(this, f_counter, 20, 3, 20, 9);
-                place_items("hospital_lab", 70, 20, 3, 20, 9, false, 0);
-            }
-            // Blood testing facility
-            line(this, t_wall,  1, 13, 10, 13);
-            line(this, t_wall, 10, 14, 10, 22);
-            rn = rng(1, 3);
-            if (rn == 1 || rn == 3) {
-                ter_set(rng(3, 8), 13, t_door_c);
-            }
-            if (rn == 2 || rn == 3) {
-                ter_set(10, rng(15, 21), t_door_c);
-            }
-            line_furn(this, f_counter, 2, 14,  2, 22);
-            place_items("hospital_lab", 60, 2, 14, 2, 22, false, 0);
-            square_furn(this, f_counter, 4, 17, 6, 19);
-            ter_set(4, 18, t_centrifuge);
-            furn_set(4, 18, f_null);
-            line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
-            tmpcomp = add_computer( tripoint( 5,  18, abs_sub.z ), _("Centrifuge"), 0);
-            tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);
-            tmpcomp->add_failure(COMPFAIL_DESTROY_BLOOD);
-            // Sample storage
-            line(this, t_wall, 13, 13, 23, 13);
-            line(this, t_wall, 13, 14, 13, 23);
-            rn = rng(1, 3);
-            if (rn == 1 || rn == 3) {
-                ter_set(rng(14, 22), 13, t_door_c);
-            }
-            if (rn == 2 || rn == 3) {
-                ter_set(13, rng(14, 21), t_door_c);
-            }
-            square_furn(this, f_rack, 16, 16, 21, 17);
-            place_items("hospital_samples", 68, 16, 16, 21, 17, false, 0);
-            place_items("bionics_common", 12, 16, 16, 21, 17, false, 0);
-            square_furn(this, f_rack, 16, 19, 21, 20);
-            place_items("hospital_samples", 68, 16, 19, 21, 20, false, 0);
-            place_items("bionics_common", 12, 16, 19, 21, 20, false, 0);
-            line_furn(this, f_rack, 14, 22, 23, 22);
-            place_items("hospital_samples", 62, 14, 22, 23, 22, false, 0);
-            place_items("bionics_common", 12, 14, 22, 23, 22, false, 0);
-
-        } else { // We're NOT in the center; a random hospital type!
-
-            switch (rng(1, 4)) { // What type?
-            case 1: // Dorms
-                // Upper left rooms
-                line(this, t_wall, 1, 5, 9, 5);
-                for (int i = 1; i <= 7; i += 3) {
-                    line_furn(this, f_bed, i, 1, i, 2);
-                    place_items("hospital_bed", 50, i + 1, 1, i + 1, 3, false, 0);
-                    line(this, t_wall, i + 2, 0, i + 2, 4);
-                    ter_set(rng(i, i + 1), 5, t_door_c);
-                }
-                // Upper right rooms
-                line(this, t_wall, 14, 5, 23, 5);
-                line(this, t_wall, 14, 0, 14, 4);
-                line_furn(this, f_bed, 15, 1, 15, 2);
-                place_items("hospital_bed", 50, 16, 1, 16, 2, false, 0);
-                ter_set(rng(15, 16), 5, t_door_c);
-                line(this, t_wall, 17, 0, 17, 4);
-                line_furn(this, f_bed, 18, 1, 18, 2);
-                place_items("hospital_bed", 50, 19, 1, 19, 2, false, 0);
-                ter_set(rng(18, 19), 5, t_door_c);
-                line(this, t_wall, 20, 0, 20, 4);
-                line_furn(this, f_bed, 21, 1, 21, 2);
-                place_items("hospital_bed", 50, 22, 1, 22, 2, false, 0);
-                ter_set(rng(21, 22), 5, t_door_c);
-                // Waiting area
-                for (int i = 1; i <= 9; i += 4) {
-                    line_furn(this, f_bench, i, 7, i, 10);
-                }
-                line_furn(this, f_table, 3, 8, 3, 9);
-                place_items("magazines", 50, 3, 8, 3, 9, false, 0);
-                line_furn(this, f_table, 7, 8, 7, 9);
-                place_items("magazines", 50, 7, 8, 7, 9, false, 0);
-                // Middle right rooms
-                line(this, t_wall, 14, 7, 14, 10);
-                line(this, t_wall, 15, 7, 23, 7);
-                line(this, t_wall, 15, 10, 23, 10);
-                line(this, t_wall, 19, 8, 19, 9);
-                line_furn(this, f_bed, 18, 8, 18, 9);
-                place_items("hospital_bed", 50, 17, 8, 17, 9, false, 0);
-                line_furn(this, f_bed, 20, 8, 20, 9);
-                place_items("hospital_bed", 50, 21, 8, 21, 9, false, 0);
-                if (one_in(3)) { // Doors to north
-                    ter_set(rng(15, 16), 7, t_door_c);
-                    ter_set(rng(21, 22), 7, t_door_c);
-                } else { // Doors to south
-                    ter_set(rng(15, 16), 10, t_door_c);
-                    ter_set(rng(21, 22), 10, t_door_c);
-                }
-                line(this, t_wall, 14, 13, 14, 16);
-                line(this, t_wall, 15, 13, 23, 13);
-                line(this, t_wall, 15, 16, 23, 16);
-                line(this, t_wall, 19, 14, 19, 15);
-                line_furn(this, f_bed, 18, 14, 18, 15);
-                place_items("hospital_bed", 50, 17, 14, 17, 15, false, 0);
-                line_furn(this, f_bed, 20, 14, 20, 15);
-                place_items("hospital_bed", 50, 21, 14, 21, 15, false, 0);
-                if (one_in(3)) { // Doors to south
-                    ter_set(rng(15, 16), 16, t_door_c);
-                    ter_set(rng(21, 22), 16, t_door_c);
-                } else { // Doors to north
-                    ter_set(rng(15, 16), 13, t_door_c);
-                    ter_set(rng(21, 22), 13, t_door_c);
-                }
-                // Lower left rooms
-                line(this, t_wall, 5, 13, 5, 22);
-                line(this, t_wall, 1, 13, 4, 13);
-                line_furn(this, f_bed, 1, 14, 1, 15);
-                place_items("hospital_bed", 50, 2, 14, 2, 15, false, 0);
-                line(this, t_wall, 1, 17, 4, 17);
-                line_furn(this, f_bed, 1, 18, 1, 19);
-                place_items("hospital_bed", 50, 2, 18, 2, 19, false, 0);
-                line(this, t_wall, 1, 20, 4, 20);
-                line_furn(this, f_bed, 1, 21, 1, 22);
-                place_items("hospital_bed", 50, 2, 21, 2, 22, false, 0);
-                ter_set(5, rng(14, 16), t_door_c);
-                ter_set(5, rng(18, 19), t_door_c);
-                ter_set(5, rng(21, 22), t_door_c);
-                line(this, t_wall, 7, 13, 10, 13);
-                line(this, t_wall, 7, 14, 7, 22);
-                line(this, t_wall, 10, 14, 10, 22);
-                line(this, t_wall, 8, 18, 9, 18);
-                line_furn(this, f_bed, 8, 17, 9, 17);
-                place_items("hospital_bed", 50, 8, 16, 9, 16, false, 0);
-                line_furn(this, f_bed, 8, 22, 9, 22);
-                place_items("hospital_bed", 50, 8, 21, 9, 21, false, 0);
-                if (one_in(3)) { // Doors to west
-                    ter_set(7, rng(14, 16), t_door_c);
-                    ter_set(7, rng(19, 21), t_door_c);
-                } else { // Doors to east
-                    ter_set(10, rng(14, 16), t_door_c);
-                    ter_set(10, rng(19, 21), t_door_c);
-                }
-                // Lower-right rooms
-                line(this, t_wall, 14, 18, 23, 18);
-                for (int i = 14; i <= 20; i += 3) {
-                    line(this, t_wall, i, 19, i, 22);
-                    line_furn(this, f_bed, i + 1, 21, i + 1, 22);
-                    place_items("hospital_bed", 50, i + 2, 21, i + 2, 22, false, 0);
-                    ter_set(rng(i + 1, i + 2), 18, t_door_c);
-                }
-                break;
-
-            case 2: // Offices and cafeteria
-                // Offices to north
-                line(this, t_wall, 10, 0, 10, 8);
-                line(this, t_wall, 13, 0, 13, 8);
-                line(this, t_wall,  1, 5,  9, 5);
-                line(this, t_wall, 14, 5, 23, 5);
-                line(this, t_wall,  1, 9, 23, 9);
-                line(this, t_door_c, 11, 9, 12, 9);
-                line_furn(this, f_table,  3, 3,  7, 3);
-                line_furn(this, f_table, 16, 3, 20, 3);
-                line_furn(this, f_table,  3, 8,  7, 8);
-                line_furn(this, f_table, 16, 8, 20, 8);
-                ter_set(10, rng(2, 3), t_door_c);
-                ter_set(13, rng(2, 3), t_door_c);
-                ter_set(10, rng(6, 7), t_door_c);
-                ter_set(13, rng(6, 7), t_door_c);
-                place_items("office", 70,  1, 1,  9, 3, false, 0);
-                place_items("office", 70, 14, 1, 22, 3, false, 0);
-                place_items("office", 70,  1, 5,  9, 8, false, 0);
-                place_items("office", 70, 14, 5, 22, 8, false, 0);
-                // Cafeteria to south
-                line(this, t_wall,  1, 14,  8, 14);
-                line(this, t_wall, 15, 14, 23, 14);
-                for (int i = 16; i <= 19; i += 3) {
-                    for (int j = 17; j <= 20; j += 3) {
-                        square_furn(this, f_table, i, j, i + 1, j + 1);
-                        place_items("snacks",  60, i, j, i + 1, j + 1, false, 0);
-                        place_items("produce", 65, i, j, i + 1, j + 1, false, 0);
-                    }
-                }
-                for (int i = 3; i <= 6; i += 3) {
-                    for (int j = 17; j <= 20; j += 3) {
-                        square_furn(this, f_table, i, j, i + 1, j + 1);
-                        place_items("snacks",  60, i, j, i + 1, j + 1, false, 0);
-                        place_items("produce", 65, i, j, i + 1, j + 1, false, 0);
-                    }
-                }
-                break;
-
-            case 3: // Operating rooms
-                // First, walls and doors; divide it into four big operating rooms
-                line(this, t_wall, 10,  0, 10,  9);
-                line(this, t_door_c, 10,  4, 10,  5);
-                line(this, t_wall, 13,  0, 13,  9);
-                line(this, t_door_c, 13,  4, 13,  5);
-                line(this, t_wall, 10, 14, 10, 22);
-                line(this, t_door_c, 10, 18, 10, 19);
-                line(this, t_wall, 13, 14, 13, 22);
-                line(this, t_door_c, 13, 18, 13, 19);
-                // Horizontal walls/doors
-                line(this, t_wall,  1, 10, 10, 10);
-                line(this, t_door_c,  5, 10,  6, 10);
-                line(this, t_wall, 13, 10, 23, 10);
-                line(this, t_door_c, 18, 10, 19, 10);
-                line(this, t_wall,  1, 13, 10, 13);
-                line(this, t_door_c,  5, 13,  6, 13);
-                line(this, t_wall, 13, 13, 23, 13);
-                line(this, t_door_c, 18, 13, 19, 13);
-                // Next, the contents of each operating room
-                line_furn(this, f_counter, 1, 1, 1, 9);
-                place_items("surgery", 70, 1, 1, 1, 9, false, 0);
-                place_items("bionics_common", 5, 1, 1, 1, 9, false, 0);
-                square_furn(this, f_bed, 5, 4, 6, 5);
-                place_items("bed", 60, 5, 4, 6, 5, false, 0);
-
-                line_furn(this, f_counter, 1, 14, 1, 22);
-                place_items("surgery", 70, 1, 14, 1, 22, false, 0);
-                place_items("bionics_common", 5, 1, 14, 1, 22, false, 0);
-                square_furn(this, f_bed, 5, 18, 6, 19);
-                place_items("bed", 60, 5, 18, 6, 19, false, 0);
-
-                line_furn(this, f_counter, 14, 6, 14, 9);
-                place_items("surgery", 60, 14, 6, 14, 9, false, 0);
-                line_furn(this, f_counter, 15, 9, 17, 9);
-                place_items("surgery", 60, 15, 9, 17, 9, false, 0);
-                square_furn(this, f_bed, 18, 4, 19, 5);
-                place_items("bed", 60, 18, 4, 19, 5, false, 0);
-
-                line_furn(this, f_counter, 14, 14, 14, 17);
-                place_items("surgery", 60, 14, 14, 14, 17, false, 0);
-                line_furn(this, f_counter, 15, 14, 17, 14);
-                place_items("surgery", 60, 15, 14, 17, 14, false, 0);
-                square_furn(this, f_bed, 18, 18, 19, 19);
-                place_items("bed", 60, 18, 18, 19, 19, false, 0);
-                // computer to begin healing broken bones,
-                tmpcomp = add_computer( tripoint( 16,  16, abs_sub.z ), _("Mr. Stem Cell"), 3);
-                tmpcomp->add_option(_("Stem Cell Treatment"), COMPACT_STEMCELL_TREATMENT, 3);
-                tmpcomp->add_failure(COMPFAIL_ALARM);
-
-                break;
-
-            case 4: // Storage
-                // Soft drug storage
-                line(this, t_wall, 3,  2, 12,  2);
-                line(this, t_wall, 3, 10, 12, 10);
-                line(this, t_wall, 3,  3,  3,  9);
-                ter_set(3, 6, t_door_c);
-                line_furn(this, f_rack,   4,  3, 11,  3);
-                place_items("softdrugs", 90, 4, 3, 11, 3, false, 0);
-                line_furn(this, f_rack,   4,  9, 11,  9);
-                place_items("softdrugs", 90, 4, 9, 11, 9, false, 0);
-                line_furn(this, f_rack, 6, 5, 10, 5);
-                place_items("softdrugs", 80, 6, 5, 10, 5, false, 0);
-                line_furn(this, f_rack, 6, 7, 10, 7);
-                place_items("softdrugs", 80, 6, 7, 10, 7, false, 0);
-                // Hard drug storage
-                line(this, t_wall, 13, 0, 13, 19);
-                ter_set(13, 6, t_door_locked);
-                line_furn(this, f_rack, 14, 1, 14, 4);
-                place_items("harddrugs", 78, 14, 1, 14, 4, false, 0);
-                line_furn(this, f_rack, 17, 1, 17, 7);
-                place_items("harddrugs", 85, 17, 1, 17, 7, false, 0);
-                line_furn(this, f_rack, 20, 1, 20, 7);
-                place_items("harddrugs", 85, 20, 1, 20, 7, false, 0);
-                line(this, t_wall, 20, 10, 23, 10);
-                line_furn(this, f_rack, 16, 10, 19, 10);
-                place_items("harddrugs", 78, 16, 10, 19, 10, false, 0);
-                line_furn(this, f_rack, 16, 12, 19, 12);
-                place_items("harddrugs", 78, 16, 12, 19, 12, false, 0);
-                line(this, t_wall, 14, 14, 19, 14);
-                ter_set(rng(14, 15), 14, t_door_locked);
-                ter_set(rng(16, 18), 14, t_bars);
-                line(this, t_wall, 20, 11, 20, 19);
-                line(this, t_wall, 13, 20, 20, 20);
-                line(this, t_door_c, 16, 20, 17, 20);
-                // Laundry room
-                line(this, t_wall, 1, 13, 10, 13);
-                ter_set(rng(3, 8), 13, t_door_c);
-                line(this, t_wall, 10, 14, 10, 22);
-                ter_set(10, rng(16, 20), t_door_c);
-                line_furn(this, f_counter, 1, 14, 1, 22);
-                place_items("allclothes", 70, 1, 14, 1, 22, false, 0);
-                for (int j = 15; j <= 21; j += 3) {
-                    line_furn(this, f_rack, 4, j, 7, j);
-                    if (one_in(2)) {
-                        place_items("cleaning", 92, 4, j, 7, j, false, 0);
-                    } else if (one_in(5)) {
-                        place_items("cannedfood", 75, 4, j, 7, j, false, 0);
-                    } else {
-                        place_items("allclothes", 50, 4, j, 7, j, false, 0);
-                    }
-                }
-                break;
-            }
-
-
-            // We have walls to the north and east if they're not hospitals
-            if (t_east != "hospital_entrance" && t_east != "hospital") {
-                line(this, t_wall, 23, 0, 23, 23);
-            }
-            if (t_north != "hospital_entrance" && t_north != "hospital") {
-                line(this, t_wall, 0, 0, 23, 0);
-            }
-        }
-        // Generate bodies / zombies
-        rn = rng(15, 20);
-        for (int i = 0; i < rn; i++) {
-            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-            if (passable(zx, zy)) {
-                if (furn(zx, zy) == f_bed || one_in(3)) {
-                    add_item( zx, zy, item::make_corpse() );
-                } else {
-                    mtype_id zom = mon_zombie;
-                    if (one_in(6)) {
-                        zom = mon_zombie_spitter;
-                    } else if (!one_in(3)) {
-                        zom = mon_boomer;
-                    }
-                    add_spawn(zom, 1, zx, zy);
-                }
-            } else {
-                //This is a wall: try again
-                i--;
-            }
-        }
-
-
     } else if (terrain_type == "mansion_entrance") {
         dat.fill_groundcover();
 
@@ -7467,7 +6975,7 @@ std::vector<item*> map::place_items( const items_location loc, const int chance,
                                      const tripoint &t, const bool ongrass, const time_point &turn,
                                      const int magazine, const int ammo )
 {
-    //@todo implement for 3D
+    //@todo: implement for 3D
     return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
@@ -7775,7 +7283,7 @@ void map::rotate(int turns)
     const tripoint &abs_sub = get_abs_sub();
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
-    // @todo This radius can be smaller - how small?
+    // @todo: This radius can be smaller - how small?
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );
@@ -7831,7 +7339,7 @@ void map::rotate(int turns)
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    copyable_unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
+    std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 
@@ -7914,7 +7422,7 @@ void map::rotate(int turns)
             }
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
-            tmpcomp[gridto] = from->comp;
+            tmpcomp[gridto] = std::move( from->comp );
             field_count[gridto] = from->field_count;
             temperature[gridto] = from->temperature;
         }
@@ -7929,7 +7437,7 @@ void map::rotate(int turns)
                 // turn the steering wheel, vehicle::turn does not actually
                 // move the vehicle.
                 veh->turn(turns * 90);
-                // The the facing direction and recalculate the positions of the parts
+                // The facing direction and recalculate the positions of the parts
                 veh->face = veh->turn_dir;
                 veh->precalc_mounts(0, veh->turn_dir, veh->pivot_anchor[0]);
                 // Update coordinates on a submap
@@ -7972,10 +7480,10 @@ void map::rotate(int turns)
                 veh->smy = new_y;
             }
             const auto to = getsubmap( i );
-            // move back to the actuall submap object, vehrot is only temporary
+            // move back to the actual submap object, vehrot is only temporary
             vehrot[i].swap(to->vehicles);
             sprot[i].swap(to->spawns);
-            to->comp = tmpcomp[i];
+            to->comp = std::move( tmpcomp[i] );
             to->field_count = field_count[i];
             to->temperature = temperature[i];
         }
@@ -8019,10 +7527,7 @@ bool connects_to(oter_id there, int dir)
 {
     switch (dir) {
     case 2:
-        if (there == "subway_ns"  || there == "subway_es" || there == "subway_sw" ||
-            there == "subway_nes" || there == "subway_nsw" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
+        if (there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
             there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
             there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
@@ -8031,10 +7536,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 3:
-        if (there == "subway_ew"  || there == "subway_sw" || there == "subway_wn" ||
-            there == "subway_new" || there == "subway_nsw" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
+        if (there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
             there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
             there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
@@ -8043,10 +7545,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 0:
-        if (there == "subway_ns"  || there == "subway_ne" || there == "subway_wn" ||
-            there == "subway_nes" || there == "subway_new" ||
-            there == "subway_nsw" || there == "subway_nesw" ||
-            there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
+        if (there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
             there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
             there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
             there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
@@ -8055,10 +7554,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 1:
-        if (there == "subway_ew"  || there == "subway_ne" || there == "subway_es" ||
-            there == "subway_nes" || there == "subway_new" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
+        if (there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
             there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
             there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||
@@ -8770,7 +8266,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
         m->place_items("bedroom", 65, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
         break;
     default:
-        //Supress warnings
+        //Suppress warnings
         break;
     }
 

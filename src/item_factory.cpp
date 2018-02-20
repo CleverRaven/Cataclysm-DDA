@@ -97,7 +97,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 
 void Item_factory::finalize_pre( itype &obj )
 {
-    // @todo separate repairing from reinforcing/enhancement
+    // @todo: separate repairing from reinforcing/enhancement
     if( obj.damage_max == obj.damage_min ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
@@ -120,7 +120,7 @@ void Item_factory::finalize_pre( itype &obj )
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         obj.use_methods.emplace( func, usage_from_string( func ) );
     } else if( obj.gun ) {
-        const std::string func = "GUN_DETACH_GUNMODS";
+        const std::string func = "detach_gunmods";
         obj.use_methods.emplace( func, usage_from_string( func ) );
     }
 
@@ -199,7 +199,7 @@ void Item_factory::finalize_pre( itype &obj )
            obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
     }
     if( obj.gun ) {
-        // @todo add explicit action field to gun definitions
+        // @todo: add explicit action field to gun definitions
         std::string defmode = _( "semi-auto" );
         if( obj.gun->clip == 1 ) {
             defmode = _( "manual" ); // break-type actions
@@ -218,7 +218,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         if( obj.gun->handling < 0 ) {
-            // @todo specify in JSON via classes
+            // @todo: specify in JSON via classes
             if( obj.gun->skill_used == skill_id( "rifle" ) ||
                 obj.gun->skill_used == skill_id( "smg" ) ||
                 obj.gun->skill_used == skill_id( "shotgun" ) ){
@@ -230,7 +230,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
 
-        // @todo Move to jsons?
+        // @todo: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
             obj.item_tags.insert( "WATERPROOF_GUN" );
@@ -253,7 +253,7 @@ void Item_factory::finalize_pre( itype &obj )
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
 
-            // @todo migrate inedible comestibles to appropriate alternative types.
+            // @todo: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
                 return !m.obj().edible();
             } ), mat.end() );
@@ -359,7 +359,7 @@ void Item_factory::finalize() {
     }
 
     // We may actually have some runtimes here - ones loaded from saved game
-    // @todo support for runtimes that repair
+    // @todo: support for runtimes that repair
     for( auto &e : m_runtimes ) {
         finalize_pre( *e.second );
         finalize_post( *e.second );
@@ -390,7 +390,7 @@ void Item_factory::finalize_item_blacklist()
 
         // remove any recipes used to craft the blacklisted item
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
-            return r.result == e.first;
+            return r.result() == e.first;
         } );
     }
 
@@ -504,6 +504,8 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
+    add_iuse( "CHOP_TREE", &iuse::chop_tree );
+    add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
@@ -541,7 +543,6 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
-    add_iuse( "GUN_DETACH_GUNMODS", &iuse::gun_detach_gunmods );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -661,6 +662,8 @@ void Item_factory::init()
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
     add_actor( new saw_barrel_actor() );
+    add_actor( new install_bionic_actor() );
+    add_actor( new detach_gunmods_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
@@ -765,7 +768,11 @@ void Item_factory::check_definitions() const
                 }
             }
         }
-        if( type->brewable != nullptr ) {
+        if( type->brewable ) {
+            if( type->brewable->time < 1_turns ) {
+                msg << "brewable time is less than 1 turn\n";
+            }
+
             if( type->brewable->results.empty() ) {
                 msg << string_format( "empty product list" ) << "\n";
             }
@@ -777,6 +784,9 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->seed ) {
+            if( type->seed->grow < 1_turns ) {
+                msg << "seed growing time is less than 1 turn\n";
+            }
             if( !has_template( type->seed->fruit_id ) ) {
                 msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
             }
@@ -873,7 +883,7 @@ void Item_factory::check_definitions() const
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
                     if( !mag->magazine || mag->magazine->type != e.first ) {
-                        msg << "invalid magazine " << opt << " in magazine adaptor\n";
+                        msg << "invalid magazine " << opt << " in magazine adapter\n";
                     }
                 }
             }
@@ -934,7 +944,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->container != nullptr ) {
+        if( type->container ) {
             if( type->container->seals && type->container->unseals_into != "null" ) {
                 msg << string_format("Resealable container unseals_into %s", type->container->unseals_into.c_str() ) << "\n";
             }
@@ -955,7 +965,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->fuel != nullptr && !type->count_by_charges() ) {
+        if( type->fuel && !type->count_by_charges() ) {
             msg << "fuel value set, but item isn't count_by_charges.\n";
         }
 
@@ -1020,16 +1030,16 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src )
+void Item_factory::load_slot( cata::optional<SlotType> &slotptr, JsonObject &jo, const std::string &src )
 {
     if( !slotptr ) {
-        slotptr.reset( new SlotType() );
+        slotptr.emplace();
     }
     load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+void Item_factory::load_slot_optional( cata::optional<SlotType> &slotptr, JsonObject &jo,
                                        const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {
@@ -1267,7 +1277,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
 {
     bool strict = src == "dda";
 
-    // @todo update tool slot to use signed integers (int) throughout
+    // @todo: update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
     assign( jo, "max_charges", slot.max_charges, strict, 0L );
     assign( jo, "initial_charges", slot.def_charges, strict, 0L );
@@ -1322,7 +1332,7 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         while( compat.has_more() ) {
@@ -1447,7 +1457,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
 {
-    slot.time = jo.get_int( "time" );
+    assign( jo, "time", slot.time, false, 1_turns );
     slot.results = jo.get_string_array( "results" );
 }
 
@@ -1472,7 +1482,7 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
-    slot.grow = jo.get_int( "grow" );
+    assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.fruit_id = jo.get_string( "fruit" );
@@ -1564,9 +1574,13 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
 {
     bool strict = src == "dda";
 
+    if( jo.has_member( "bionic_id" ) ) {
+        assign( jo, "bionic_id", slot.id, strict );
+    } else {
+        assign( jo, "id", slot.id, strict );
+    }
+
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
-    // TODO: must be the same as the item type id, for compatibility
-    assign( jo, "id", slot.id, strict );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
@@ -1695,7 +1709,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         JsonArray jarr = jo.get_array( "thrown_damage" );
         def.thrown_damage = load_damage_instance( jarr );
     } else {
-        // @todo Move to finalization
+        // @todo: Move to finalization
         def.thrown_damage.clear();
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
@@ -1744,7 +1758,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         // the first magazine for this ammo type is the default;
@@ -1953,7 +1967,7 @@ void Item_factory::clear()
 
     categories.clear();
 
-    // Also clear functions refering to lua
+    // Also clear functions referring to lua
     iuse_function_list.clear();
 
     m_templates.clear();

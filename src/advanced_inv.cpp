@@ -75,11 +75,11 @@ advanced_inventory::advanced_inventory()
         { AIM_WORN,      25, 3, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
     }
 } )
-, head( nullptr )
-, left_window( nullptr )
-, right_window( nullptr )
+, head()
+, left_window()
+, right_window()
 {
-    // initialise screen coordinates for small overview 3x3 grid, depending on control scheme
+    // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
     if( tile_iso && use_tiles ) {
         // Rotate the coordinates.
         squares[1].hscreenx = 33;
@@ -108,11 +108,6 @@ advanced_inventory::~advanced_inventory()
         werase( left_window );
         werase( right_window );
     }
-    delwin( head );
-    delwin( minimap );
-    delwin( mm_border );
-    delwin( left_window );
-    delwin( right_window );
     if( exit ) {
         g->refresh_all();
     }
@@ -144,7 +139,7 @@ void advanced_inventory::load_settings()
             location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         }
         auto square = squares[location];
-        // determine the square's veh/map item presence
+        // determine the square's vehicle/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
             !square.veh->get_items(square.vstor).empty() : false;
         bool has_map_items = !g->m.i_at(square.pos).empty();
@@ -223,7 +218,7 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
-    WINDOW *window = pane.window;
+    const catacurses::window &window = pane.window;
     const auto index = pane.index;
     const int page = index / itemsPerPage;
     bool compact = ( TERMX <= 100 );
@@ -239,7 +234,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
         std::string volume_carried = format_volume( g->u.volume_carried() );
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
-        // align right, so calculate formated head length
+        // align right, so calculate formatted head length
         const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
                                                 volume_carried.c_str(),
@@ -277,7 +272,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                   format_volume( maxvolume ).c_str(),
                                   volume_units_abbr() );
         }
-        mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
+        mvwprintz( window, 4, columns - 1 - head.length(), norm, head );
     }
 
     //print header row and determine max item name length
@@ -338,13 +333,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s",
-                        item_name.c_str() );
+        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
         if( pane.get_area() == AIM_ALL && !compact ) {
-            mvwprintz( window, 6 + x, src_startpos, thiscolor, "%s", squares[sitem.area].shortname.c_str() );
+            mvwprintz( window, 6 + x, src_startpos, thiscolor, squares[sitem.area].shortname );
         }
 
         //print "amount" column
@@ -385,11 +379,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             print_color = ( sitem.volume.value() > 0 ) ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%s", it_vol.c_str() );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, it_vol );
 
         if( active && sitem.autopickup ) {
-            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",
-                       ( compact ? it.tname().substr( 0, 1 ) : ">" ).c_str() );
+            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ),
+                       compact ? it.tname().substr( 0, 1 ) : ">" );
         }
     }
 }
@@ -552,7 +546,7 @@ char advanced_inventory::get_direction_key( aim_location area )
 
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
 {
-    WINDOW *window = pane.window;
+    const catacurses::window &window = pane.window;
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
@@ -1083,8 +1077,8 @@ void advanced_inventory::redraw_pane( side p )
     auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
     auto desc = utf8_truncate(sq.desc[car], width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
-    mvwprintz( w, 1, 2, active ? c_green  : c_light_gray, "%s", name.c_str() );
-    mvwprintz( w, 2, 2, active ? c_light_blue : c_dark_gray, "%s", desc.c_str() );
+    mvwprintz( w, 1, 2, active ? c_green  : c_light_gray, name );
+    mvwprintz( w, 2, 2, active ? c_light_blue : c_dark_gray, desc );
     trim_and_print( w, 3, 2, width, active ? c_cyan : c_dark_gray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
@@ -1121,8 +1115,8 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( ! filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white, "%s",
-                   pane.filter.c_str() );
+        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white,
+                   pane.filter );
         mvwprintz( w, getmaxy( w ) - 1,
                    getmaxx( w ) - std::strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
     }
@@ -1226,7 +1220,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         return false;
     }
     if( spane.get_area() == AIM_WORN &&
-        !query_yn( _( "Really remove all your clothes? (woo woo)" ) ) ) {
+        !query_yn( _( "Really remove all your clothes? (woo hoo)" ) ) ) {
         return false;
     }
     auto &sarea = squares[spane.get_area()];
@@ -1249,7 +1243,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // until all its items are processed. When the drop activity runs out,
         // the inventory menu activity is there waiting and seamlessly returns
         // the player to the menu. If the activity is interrupted instead of
-        // completing, both activities are cancelled.
+        // completing, both activities are canceled.
         // Thanks to kevingranade for the explanation.
         do_return_entry();
     }
@@ -1921,7 +1915,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
-        // Render a fancy ascii grid at the left of the menu.
+        // Render a fancy ASCII grid at the left of the menu.
         menu_square( &menu );
         menu.query( false ); // query, but don't loop
     }
@@ -1985,7 +1979,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
     const char *msg = nullptr;
 
     while(count > 0) {
-        // @todo Make it use same exact methods as regular pickup
+        // @todo: Make it use same exact methods as regular pickup
         if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN || panes[dest].in_vehicle() ) &&
             new_item.is_bucket_nonempty() &&
             !query_yn( _( "Spill contents of %s?" ), new_item.tname().c_str() ) ) {
@@ -2051,7 +2045,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    // @todo Allow buckets here, but require them to be on the ground or wielded
+    // @todo: Allow buckets here, but require them to be on the ground or wielded
     const long amount = dest_container.get_remaining_capacity_for_liquid( src, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );
@@ -2157,7 +2151,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             amount = std::min( weightmax, amount );
         }
     }
-    // handle how many of armour type we can equip (max of 2 per type)
+    // handle how many of armor type we can equip (max of 2 per type)
     if(destarea == AIM_WORN) {
         const auto &id = sitem.items.front()->typeId();
         // how many slots are available for the item?

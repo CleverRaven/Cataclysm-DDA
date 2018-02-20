@@ -140,8 +140,8 @@ public:
      */
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window(cata_cursesport::WINDOW *win);
-    bool draw_window(cata_cursesport::WINDOW *win, int offsetx, int offsety);
+    bool draw_window( const catacurses::window &win );
+    bool draw_window( const catacurses::window &win, int offsetx, int offsety );
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -222,8 +222,8 @@ static input_event last_input;
 static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
+static Uint32 dpad_delay = 100;   // Delay in milliseconds between registering a d-pad event and processing it.
+static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
 static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
@@ -237,13 +237,18 @@ using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
 static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
-static cata_cursesport::WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
+static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+
+static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
+{
+    return lhs == rhs.get();
+}
 
 void ClearScreen()
 {
@@ -541,7 +546,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     static const Uint32 amask = 0xff000000;
 #endif
     const int wf = utf8_wrapper( ch ).display_width();
-    // Note: bits per pixel must be 8 to be synchron with the surface
+    // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface_Ptr surface( SDL_CreateRGBSurface( 0, fontwidth * wf, fontheight, 32,
                                                    rmask, gmask, bmask, amask ) );
@@ -827,10 +832,11 @@ void clear_window_area( const catacurses::window &win_ )
                 win->width * fontwidth, win->height * fontheight, catacurses::black);
 }
 
-void cata_cursesport::curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    WINDOW *const win = w.get<WINDOW>();
     bool update = false;
-    if (g && win == g->w_terrain && use_tiles) {
+    if (g && w == g->w_terrain && use_tiles) {
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
@@ -843,7 +849,7 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 
         update = true;
-    } else if (g && win == g->w_terrain && map_font ) {
+    } else if (g && w == g->w_terrain && map_font ) {
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
         // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
@@ -855,37 +861,37 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         if( partial_height > 0 ) {
             FillRectDIB( win->x * map_font->fontwidth,
                          ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
-                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, black );
+                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, catacurses::black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
             FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
-                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, black );
+                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, catacurses::black );
         }
         // Special font for the terrain window
-        update = map_font->draw_window(win);
-    } else if (g && win == g->w_overmap && overmap_font ) {
+        update = map_font->draw_window( w );
+    } else if (g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
-        update = overmap_font->draw_window(win);
-    } else if (win == w_hit_animation && map_font ) {
+        update = overmap_font->draw_window( w );
+    } else if (w == w_hit_animation && map_font ) {
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
         // The offset must not use the global font, but the map font
         int offsetx = win->x * map_font->fontwidth;
         int offsety = win->y * map_font->fontheight;
-        update = map_font->draw_window(win, offsetx, offsety);
-    } else if (g && win == g->w_blackspace) {
+        update = map_font->draw_window( w, offsetx, offsety );
+    } else if (g && w == g->w_blackspace) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
         int offsetx = win->x * font->fontwidth;
         int offsety = win->y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
-        FillRectDIB(offsetx, offsety, wwidth, wheight, black);
+        FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
         update = true;
-    } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
+    } else if (g && w == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        clear_window_area(win);
+        clear_window_area( w );
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
@@ -893,26 +899,26 @@ void cata_cursesport::curses_drawwindow(WINDOW *win)
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
-        update = font->draw_window(win);
+        update = font->draw_window( w );
     }
     if(update) {
         needupdate = true;
     }
 }
 
-bool Font::draw_window(cata_cursesport::WINDOW *win)
+bool Font::draw_window( const catacurses::window &win )
 {
+    cata_cursesport::WINDOW *const w = win.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
+    return draw_window( win, w->x * ::fontwidth, w->y * ::fontheight );
 }
 
-bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
+bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
 {
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     //Keeping track of the last drawn window
-    if( winBuffer == NULL ) {
-            winBuffer = win;
-    }
+    const cata_cursesport::WINDOW *winBuffer = static_cast<cata_cursesport::WINDOW*>( ::winBuffer.lock().get() );
     if( !fontScaleBuffer ) {
             fontScaleBuffer = tilecontext->get_tile_width();
     }
@@ -926,8 +932,8 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
     invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap ||
-                                            ( win != nullptr && win == w_hit_animation ) );
+    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
+                                            w == w_hit_animation );
 
     /*
     Let's try to keep track of different windows.
@@ -941,14 +947,14 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
 
     Everything else works on strict equality because there aren't yet IDs for some of them.
     */
-    if( g && ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
-         win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
+    if( g && ( w == g->w_terrain || w == g->w_minimap || w == g->w_HP || w == g->w_status ||
+         w == g->w_status2 || w == g->w_messages || w == g->w_location ) ) {
         if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
              winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
              winBuffer == g->w_messages || winBuffer == g->w_location ) {
             oldWinCompatible = true;
         }
-    }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
+    }else if( g && ( w == g->w_overmap || w == g->w_omlegend ) ) {
         if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
             oldWinCompatible = true;
         }
@@ -958,7 +964,7 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
         }
     }
 
-    // @todo Get this from UTF system to make sure it is exactly the kind of space we need
+    // @todo: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;
@@ -1005,8 +1011,8 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
             const int codepoint = UTF8_getch( &utf8str, &len );
-            const base_color FG = cell.FG;
-            const base_color BG = cell.BG;
+            const catacurses::base_color FG = cell.FG;
+            const catacurses::base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
@@ -1024,7 +1030,7 @@ bool Font::draw_window( cata_cursesport::WINDOW *win, int offsetx, int offsety )
     }
     win->draw = false; //We drew the window, mark it as so
     //Keeping track of last drawn window and tilemode zoom level
-    winBuffer = win;
+    ::winBuffer = w.weak_ptr();
     fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
@@ -1165,8 +1171,8 @@ long sdl_keysym_to_curses( SDL_Keysym keysym )
         }
     }
 
-    switch( keysym.sym ) {
-        // This is special: allow entering a unicode character with ALT+number
+    switch (keysym.sym) {
+        // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
         case SDLK_LALT:
             begin_alt_code();
@@ -1374,7 +1380,7 @@ void CheckMessages()
         try_sdl_update();
     }
     if(quit) {
-        endwin();
+        catacurses::endwin();
         exit(0);
     }
 }
@@ -1386,7 +1392,7 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 static void font_folder_list(std::ofstream& fout, std::string path, std::set<std::string> &bitmap_fonts)
@@ -1520,7 +1526,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
     return "";
 }
 
-// bitmap font font size test
+// bitmap font size test
 // return face index that has this size or below
 static int test_face_size(std::string f, int size, int faceIndex)
 {
@@ -1579,7 +1585,7 @@ void catacurses::init_interface()
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
+        throw std::runtime_error( "WinCreate failed" ); //@todo: throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
@@ -1659,7 +1665,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     result.b=b;    //Blue
     result.g=g;    //Green
     result.r=r;    //Red
-    //result.a=0;//The Alpha, isnt used, so just set it to 0
+    //result.a=0;//The Alpha, is not used, so just set it to 0
     return result;
 }
 
@@ -1677,7 +1683,7 @@ input_event input_manager::get_input_event() {
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
 
-    wrefresh( stdscr );
+    wrefresh( catacurses::stdscr );
 
     if (inputdelay < 0)
     {
@@ -1736,7 +1742,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         return false;
     }
 
-    cata_cursesport::WINDOW *const capture_win = catacurses::window( capture_win_.get() ? capture_win_.get() : g->w_terrain ).get<cata_cursesport::WINDOW>();
+    cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ : g->w_terrain ).get<cata_cursesport::WINDOW>();
 
     // this contains the font dimensions of the capture_win,
     // not necessarily the global standard font dimensions.
@@ -1753,7 +1759,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         fh = map_font->fontheight;
     }
 
-    // Translate mouse coords to map coords based on tile size,
+    // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
     const int win_left = capture_win->x * fontwidth;
     const int win_top = capture_win->y * fontheight;
@@ -2260,7 +2266,7 @@ void load_soundset() {
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
 
-    // Get curent soundpack and it's directory path.
+    // Get current soundpack and it's directory path.
     if (current_soundpack.empty()) {
         dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;

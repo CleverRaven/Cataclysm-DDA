@@ -93,7 +93,7 @@
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "milspec turret",
-    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
+    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated M4 carbine.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,

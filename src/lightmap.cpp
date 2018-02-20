@@ -65,20 +65,6 @@ void map::build_transparency_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
-            // Uniform maps get their own special case
-            // They are almost 20 times as common as non-uniform ones
-            if( cur_submap->is_uniform ) {
-                if( !( cur_submap->ter[0][0].obj().transparent &&
-                       cur_submap->frn[0][0].obj().transparent ) ) {
-                    for( int sx = 0; sx < SEEX; ++sx ) {
-                        const int x = sx + smx * SEEX;
-                        std::uninitialized_fill_n( &transparency_cache[x][0], MAPSIZE * SEEY,
-                                                   LIGHT_TRANSPARENCY_SOLID );
-                    }
-                }
-
-                continue;
-            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -777,11 +763,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         return;
     }
 
-    // We're inside a vehicle. Do mirror calcs.
+    // We're inside a vehicle. Do mirror calculations.
     std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
     // Do all the sight checks first to prevent fake multiple reflection
     // from happening due to mirrors becoming visible due to processing order.
-    // Cameras are also handled here, so that we only need to get through all veh parts once
+    // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
     for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
         const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
@@ -1037,7 +1023,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
-    // Normalise (should work with negative values too)
+    // Normalize (should work with negative values too)
     const double wangle = wideangle / 2.0;
 
     int nangle = angle % 360;

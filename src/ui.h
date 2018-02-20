@@ -86,7 +86,7 @@ class ui_container
         int w_y;
         int w_width;
         int w_height;
-        WINDOW *window;
+        catacurses::window window;
         virtual void refresh( bool refresh_children = true ) = 0;
 };
 
@@ -107,7 +107,7 @@ class ui_container
  * }
  * uimenu monmenu;
  * for( size_t i = 0; i < z.size(); ++i ) {
- *   monmenu.addentry("%s", z[i].name.c_str() );
+ *   monmenu.addentry( z[i].name );
  * }
  * monmenu_cb * cb;
  * cb->setptr( &g->z );

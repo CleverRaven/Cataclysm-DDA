@@ -1,5 +1,4 @@
 #include "gamemode.h"
-#include "game.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"

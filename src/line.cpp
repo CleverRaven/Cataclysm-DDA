@@ -1,5 +1,4 @@
 #include "line.h"
-#include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include <cstdlib>
@@ -9,6 +8,8 @@
 #include <cassert>
 
 #define SGN(a) (((a)<0) ? -1 : (((a)>0) ? 1 : 0))
+
+extern bool trigdist;
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
                 const std::function<bool(const point &)> &interact )
@@ -374,7 +375,7 @@ direction direction_from(int const x1, int const y1, int const x2, int const y2)
 
 direction direction_from(tripoint const &p, tripoint const &q)
 {
-    // Note: Z coord has to be inverted either here or in direction defintions
+    // Note: Z-coordinate has to be inverted either here or in direction definitions
     return direction_from(q.x - p.x, q.y - p.y, -(q.z - p.z) );
 }
 

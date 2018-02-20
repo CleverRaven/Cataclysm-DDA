@@ -47,7 +47,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         if( count <= 1 ) {
             return message;
         }
-        //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
+        //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
         return string_format( _( "%s x %d" ), message.c_str(), count );
     }
 
@@ -241,12 +241,10 @@ bool Messages::has_undisplayed_messages()
 
 void Messages::display_messages()
 {
-    catacurses::WINDOW_PTR w_ptr {catacurses::newwin(
-                                      FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                      ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                      ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
-
-    WINDOW *const w = w_ptr.get();
+    catacurses::window w = catacurses::newwin(
+                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
@@ -257,7 +255,7 @@ void Messages::display_messages()
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
      * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
-     * max_padlength refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
+     * max_padlength refers to the length of the LONGEST possible unit of time returned by to_string_clipped() any language has to offer.
      * This variable is, for now, set to '10', which seems most reasonable.
      *
      * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
@@ -327,10 +325,10 @@ void Messages::display_messages()
 
             const game_message &m     = player_messages.impl_->history( retrieve_history );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            std::string long_ago      = timepassed.textify_period();
+            std::string long_ago      = to_string_clipped( time_duration::from_turns( timepassed ) );
             nc_color col              = msgtype_to_color( m.type, false );
 
-            // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
+            // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
             std::string amount = long_ago.substr( 0, amount_len );
@@ -387,8 +385,8 @@ void Messages::display_messages()
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void Messages::display_messages( WINDOW *const ipk_target, int const left, int const top,
-                                 int const right, int const bottom )
+void Messages::display_messages( const catacurses::window &ipk_target, int const left,
+                                 int const top, int const right, int const bottom )
 {
     if( !size() ) {
         return;

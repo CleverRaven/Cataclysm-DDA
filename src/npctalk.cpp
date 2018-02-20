@@ -27,6 +27,7 @@
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "skill.h"
 #include "ui.h"
 
 #include "string_formatter.h"
@@ -164,7 +165,7 @@ struct talk_response {
      * Text (already folded) and color that is used to display this response.
      * This is set up in @ref do_formatting.
      */
-    std::vector<std::string> formated_text;
+    std::vector<std::string> formatted_text;
     nc_color color = c_white;
 
     void do_formatting( const dialogue &d, char letter );
@@ -184,7 +185,7 @@ struct dialogue {
          * TODO: make it a reference, not a pointer.
          */
         npc *beta = nullptr;
-        WINDOW *win = nullptr;
+        catacurses::window win;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -449,7 +450,7 @@ static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */
 // Rescale values from "mission scale" to "opinion scale"
 static int cash_to_favor( const npc &, int cash )
 {
-    // @todo It should affect different NPCs to a different degree
+    // @todo: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
@@ -568,8 +569,8 @@ void npc::talk_to_u()
     decide_needs();
 
     d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     // Main dialogue loop
     do {
@@ -592,7 +593,6 @@ void npc::talk_to_u()
             d.add_topic( next );
         }
     } while( !d.done );
-    delwin( d.win );
     g->refresh_all();
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
@@ -1491,7 +1491,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
-    // Can be nullptr! Check before deferencing
+    // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -2121,7 +2121,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             auto &style = style_id.obj();
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
-            const std::string text = string_format( cost > 0 ? _( "%s (cost $%d)" ) : _( "%s" ),
+            const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
                                                     style.name.c_str(), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
@@ -3305,7 +3305,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
 
 void dialogue::clear_window_texts()
 {
-    // Note: don't erase the borders, therefor start and end one unit inwards.
+    // Note: don't erase the borders, therefore start and end one unit inwards.
     // Note: start at second line because the first line contains the headers which are not
     // reprinted.
     // TODO: make this call werase and reprint the border & the header
@@ -3335,7 +3335,7 @@ void dialogue::print_history( size_t const hilight_lines )
     while( curindex >= 0 && curline >= 2 ) {
         // red for new text, gray for old, similar to coloring of messages
         nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
-        mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
+        mvwprintz( win, curline, 1, col, history[curindex] );
         curline--;
         curindex--;
     }
@@ -3360,7 +3360,7 @@ bool dialogue::print_responses( int const yoffset )
     int curline = min_line - ( int ) yoffset;
     size_t i;
     for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        auto const &folded = responses[i].formated_text;
+        auto const &folded = responses[i].formatted_text;
         auto const &color = responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             if( curline < min_line ) {
@@ -3369,7 +3369,7 @@ bool dialogue::print_responses( int const yoffset )
                 break;
             }
             int const off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
+            mvwprintz( win, curline, xoffset + off, color, folded[j] );
         }
     }
     // Those are always available, their key bindings are fixed as well.
@@ -3448,7 +3448,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     parse_tags( ftext, *d.alpha, *d.beta );
     // Remaining width of the responses area, -2 for the border, -2 for indentation
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
-    formated_text = foldstring( ftext, fold_width );
+    formatted_text = foldstring( ftext, fold_width );
 
     if( text[0] == '!' ) {
         color = c_red;
@@ -3550,7 +3550,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
     }
 
     // We can't set both skill and style or training will bug out
-    // @todo Allow setting both skill and style
+    // @todo: Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
         beta->chatbin.style = matype_id::NULL_ID();
@@ -3653,7 +3653,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
     invslice slice = u.inv.slice();
     for( auto &i : slice ) {
-        // @todo Sane way of handling multi-item stacks
+        // @todo: Sane way of handling multi-item stacks
         check_item( item_location( u, &i->front() ) );
     }
 
@@ -3677,7 +3677,7 @@ bool trade( npc &p, int cost, const std::string &deal )
     const int win_they_w = TERMX / 2;
     catacurses::window w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
     catacurses::window w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
-    WINDOW *w_tmp;
+    catacurses::window w_tmp;
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
@@ -3792,7 +3792,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        cost_string.c_str(), ( double )std::abs( cash ) / 100 );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green, deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
+                           deal.c_str() );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
@@ -3840,10 +3841,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                price_color, price_str.c_str() );
                 }
                 if( offset > 0 ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 1, "< Back" );
+                    mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
                 }
                 if( offset + entries_per_page < list.size() ) {
-                    mvwprintw( w_whose, entries_per_page + 2, 9, "More >" );
+                    mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
                 }
             }
             wrefresh( w_head );
@@ -3872,14 +3873,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '?':
                 update = true;
                 w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
-                                30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
+                                            30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
                 mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
                 draw_border( w_tmp );
                 wrefresh( w_tmp );
                 // TODO: use input context
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
-                werase( w_tmp );
-                delwin( w_tmp );
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
                 update = true;
@@ -3998,15 +3997,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             g->u.practice( skill_barter, practice / 2 );
         }
     }
-    werase( w_head );
-    werase( w_you );
-    werase( w_them );
-    wrefresh( w_head );
-    wrefresh( w_you );
-    wrefresh( w_them );
-    delwin( w_head );
-    delwin( w_you );
-    delwin( w_them );
     g->refresh_all();
     return traded;
 }
@@ -4338,17 +4328,17 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    // @todo Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_food_container();
+    // @todo: Unify this with 'player::consume_item()'
+    bool consuming_contents = it.is_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto comest = to_eat.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = to_eat.type->comestible;
+    if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( "I don't <swear> trust you enough to eat from your hand..." );
+        reason = _( "I don't <swear> trust you enough to eat THIS..." );
         return REFUSED;
     }
 
@@ -4359,7 +4349,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this..." );
             return REFUSED;
         }
-    } else if( to_eat.is_medication() ) {
+    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -4380,13 +4370,13 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
         }
 
+        to_eat.charges -= amount_used;
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
     }
 
-    to_eat.charges -= amount_used;
     if( to_eat.charges > 0 ) {
         return CONSUMED_SOME;
     }
@@ -4409,7 +4399,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
-        // Bio weapon or shackles
+        // Bionic weapon or shackles
         return _( "How?" );
     }
 
@@ -4426,6 +4416,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
             return _( "Here we go..." );
         }
     }
@@ -4555,8 +4548,6 @@ npc_follower_rules::npc_follower_rules()
     allow_pulp = true;
 
     close_doors = false;
-
-    pickup_whitelist.reset( new auto_pickup() );
 };
 
 npc_follower_rules::~npc_follower_rules() = default;

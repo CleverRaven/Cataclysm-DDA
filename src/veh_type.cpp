@@ -1,7 +1,6 @@
 #include "veh_type.h"
 #include "requirements.h"
 #include "vehicle.h"
-#include "game.h"
 #include "debug.h"
 #include "item_group.h"
 #include "json.h"
@@ -12,6 +11,7 @@
 #include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
+#include "output.h"
 #include "generic_factory.h"
 #include "character.h"
 
@@ -75,6 +75,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
+    { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -320,7 +321,7 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
-        // @todo deprecate once requirements are entirely loaded from JSON
+        // @todo: deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
@@ -361,7 +362,7 @@ void vpart_info::check()
         }
 
         // add the base item to the installation requirements
-        // @todo support multiple/alternative base items
+        // @todo: support multiple/alternative base items
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
@@ -456,15 +457,15 @@ void vpart_info::check()
         if( !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
             part.fuel_type = "null";
-        } else if( part.fuel_type != "null" && item::find_type( part.fuel_type )->fuel == nullptr &&
-                   ( base_item_type.container == nullptr || !base_item_type.container->watertight ) ) {
+        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+                   ( !base_item_type.container || !base_item_type.container->watertight ) ) {
             // Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
             part.fuel_type = "null";
         }
-        if( part.has_flag( "TURRET" ) && base_item_type.gun == nullptr ) {
+        if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
@@ -550,7 +551,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
 
     int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( ch.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
@@ -605,7 +606,7 @@ void vehicle_prototype::load( JsonObject &jo )
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
     // If there are already parts defined, this vehicle prototype overrides an existing one.
     // If the json contains a name, it means a completely new prototype (replacing the
-    // original one), therefor the old data has to be cleared.
+    // original one), therefore the old data has to be cleared.
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
@@ -653,7 +654,7 @@ void vehicle_prototype::load( JsonObject &jo )
                                          100 ), 0 );
 
         if( spawn_info.has_array( "items" ) ) {
-            //Array of items that all spawn together (ie jack+tire)
+            //Array of items that all spawn together (i.e. jack+tire)
             JsonArray item_group = spawn_info.get_array( "items" );
             while( item_group.has_more() ) {
                 next_spawn.item_ids.push_back( item_group.next_string() );

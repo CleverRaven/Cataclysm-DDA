@@ -14,16 +14,18 @@ std::map<skill_id, Skill> Skill::contextual_skills;
 
 static const Skill invalid_skill;
 
-const Skill &Skill::get( const skill_id &id )
+/** @relates string_id */
+template<>
+const Skill &string_id<Skill>::obj() const
 {
     for( const Skill &skill : Skill::skills ) {
-        if( skill.ident() == id ) {
+        if( skill.ident() == *this ) {
             return skill;
         }
     }
 
-    const auto iter = contextual_skills.find( id );
-    if( iter != contextual_skills.end() ) {
+    const auto iter = Skill::contextual_skills.find( *this );
+    if( iter != Skill::contextual_skills.end() ) {
         return iter->second;
     }
 
@@ -32,16 +34,9 @@ const Skill &Skill::get( const skill_id &id )
 
 /** @relates string_id */
 template<>
-const Skill &string_id<Skill>::obj() const
-{
-    return Skill::get( *this );
-}
-
-/** @relates string_id */
-template<>
 bool string_id<Skill>::is_valid() const
 {
-    return Skill::get( *this ) != invalid_skill;
+    return &obj() != &invalid_skill;
 }
 
 Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
@@ -90,8 +85,6 @@ void Skill::load_skill( JsonObject &jsobj )
                     _( jsobj.get_string( "description" ).c_str() ),
                     jsobj.get_tags( "tags" ) );
 
-    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << sk.name();
-
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
     } else {
@@ -123,11 +116,6 @@ skill_id Skill::random_skill()
     return skills[rng( 0, skills.size() - 1 )].ident();
 }
 
-size_t Skill::skill_count()
-{
-    return Skill::skills.size();
-}
-
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
@@ -137,28 +125,6 @@ bool Skill::is_combat_skill() const
 bool Skill::is_contextual_skill() const
 {
     return _tags.count( "contextual_skill" ) > 0;
-}
-
-SkillLevel::SkillLevel( int level, int exercise, bool isTraining, int lastPracticed,
-                        int highestLevel )
-    : _level( level ), _exercise( exercise ), _lastPracticed( lastPracticed ),
-      _isTraining( isTraining ), _highestLevel( highestLevel )
-{
-    if( lastPracticed <= 0 ) {
-        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
-    }
-    if( _highestLevel < _level ) {
-        _highestLevel = _level;
-    }
-}
-
-SkillLevel::SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise,
-                        bool isTraining,
-                        int lastPracticed, int highestLevel )
-    : SkillLevel( rng( minLevel, maxLevel ), rng( minExercise, maxExercise ), isTraining,
-                  lastPracticed, highestLevel )
-
-{
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )
@@ -204,13 +170,13 @@ int rustRate( int level )
 bool SkillLevel::isRusting() const
 {
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           ( calendar::turn - _lastPracticed ) > rustRate( _level );
+           to_turns<int>( calendar::turn - _lastPracticed ) > rustRate( _level );
 }
 
 bool SkillLevel::rust( bool charged_bio_mem )
 {
-    calendar const delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) ) {
+    const time_duration delta = calendar::turn - _lastPracticed;
+    if( _level <= 0 || delta <= 0 || to_turns<int>( delta ) % rustRate( _level ) ) {
         return false;
     }
 

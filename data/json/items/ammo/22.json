@@ -8,11 +8,11 @@
     "price": 1800,
     "count": 100,
     "stack_size": 150,
+    "recoil": 39,
     "proportional": {
       "range": 0.6,
       "damage": 0.5,
-      "dispersion": 1.2,
-      "recoil": 0.6
+      "dispersion": 1.2
     },
     "extend": { "effects": [ "NOGIB" ] }
   },

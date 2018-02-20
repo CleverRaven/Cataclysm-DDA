@@ -2001,7 +2001,7 @@
     "category": "armor",
     "name": "salvaged power armor",
     "//": "These are much cheaper than powered suits, because they're extremely heavy and impractical.  The good stuff is gone!",
-    "description": "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
+    "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
     "weight": 12214,
     "volume": 100,
     "price": 70000,
@@ -2024,7 +2024,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "salvaged power armor helmet",
-    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  Offers excellent protection from both attacks and environmental hazards.  This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
+    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
     "weight": 2416,
     "volume": 20,
     "price": 30000,
@@ -2168,7 +2168,7 @@
     "encumbrance": 10,
     "warmth": 12,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NO_REPAIR" ]
   },
   {
     "id": "dress",
@@ -3072,7 +3072,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER" ]
   },
   {
     "id": "glove_jackson",
@@ -5395,7 +5395,7 @@
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
@@ -5721,7 +5721,7 @@
     "category": "armor",
     "name": "pair of steel leg guards",
     "name_plural": "pairs of steel leg guards",
-    "description": "A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "description": "A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "weight": 4080,
     "volume": 24,
     "price": 20000,
@@ -7279,7 +7279,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "basic power armor",
-    "description": "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 20339,
     "volume": 100,
     "price": 7000000,
@@ -7328,7 +7328,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "heavy power armor",
-    "description": "A suit of DoubleTech Power Armor, Mk.  II-H.  This model offers several improvements over the Mk.  I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several improvements over the Mk. I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 29009,
     "volume": 120,
     "price": 11500000,
@@ -7356,7 +7356,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "basic power armor helmet",
-    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 3628,
     "volume": 20,
     "price": 2500000,
@@ -7380,7 +7380,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "heavy power armor helmet",
-    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  II-H.  This improved design is heavier than the Mk.  I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H.  This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 5442,
     "volume": 28,
     "price": 3750000,
@@ -7404,7 +7404,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light power armor helmet",
-    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  II-L.  This improved design is lighter and cooler than the Mk.  I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 1814,
     "volume": 16,
     "price": 3750000,
@@ -7428,7 +7428,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light power armor",
-    "description": "A suit of DoubleTech Power Armor, Mk.  II-L.  This model offers several improvements over the Mk.  I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several improvements over the Mk. I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 7670,
     "volume": 60,
     "price": 11500000,
@@ -8803,7 +8803,7 @@
     "encumbrance": 25,
     "storage": 20,
     "warmth": 35,
-    "material_thickness": 6,
+    "material_thickness": 7,
     "environmental_protection": 4,
     "flags": [ "POCKETS", "STURDY" ]
   },
@@ -8938,7 +8938,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO" ],
-    "coverage": 60,
+    "coverage": 40,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -9485,7 +9485,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "TORSO" ],
-    "coverage": 40,
+    "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9909,5 +9909,26 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "case_violin",
+    "type": "ARMOR",
+    "name": "violin case",
+    "name_plural": "violin case",
+    "description": "Useful to carry your precious musical instrument around protected from any harm.",
+    "weight": 2800,
+    "volume": 20,
+    "price": 24000,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel", "leather" ],
+    "symbol": "&",
+    "color": "dark_gray",
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 50,
+    "storage": 14,
+    "material_thickness": 5,
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   }
 ]

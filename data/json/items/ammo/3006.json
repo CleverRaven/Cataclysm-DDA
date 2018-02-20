@@ -50,7 +50,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": ".30-06 M2 AP",
-    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for it's armor penetration abilities with lowered damage.",
+    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
     "relative": {
       "damage": -4,
       "pierce": 8

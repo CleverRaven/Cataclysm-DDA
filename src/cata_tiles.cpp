@@ -28,6 +28,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 #include "submap.h"
+#include "output.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
 #include "cursesport.h"
@@ -144,20 +145,20 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 
     switch( type ) {
         case m_good:
-            return iBold + green;
+            return iBold + catacurses::green;
         case m_bad:
-            return iBold + red;
+            return iBold + catacurses::red;
         case m_mixed:
         case m_headshot:
-            return iBold + magenta;
+            return iBold + catacurses::magenta;
         case m_neutral:
-            return iBold + white;
+            return iBold + catacurses::white;
         case m_warning:
         case m_critical:
-            return iBold + yellow;
+            return iBold + catacurses::yellow;
         case m_info:
         case m_grazing:
-            return iBold + blue;
+            return iBold + catacurses::blue;
         default:
             break;
     }
@@ -213,7 +214,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id ) {
         return;
     }
-    //@todo move into clear or somewhere else.
+    //@todo: move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
@@ -427,6 +428,13 @@ void tileset_loader::load_tileset( std::string img_path )
 
     SDL_RendererInfo info;
     throwErrorIf( SDL_GetRendererInfo( renderer, &info ) != 0, "SDL_GetRendererInfo failed" );
+    // Software rendering stores textures as surfaces with run-length encoding, which makes extracting a part
+    // in the middle of the texture slow. Therefore this "simulates" that the renderer only supports one tile
+    // per texture. Each tile will go on its own texture object.
+    if( info.flags & SDL_RENDERER_SOFTWARE ) {
+        info.max_texture_width = sprite_width;
+        info.max_texture_height = sprite_height;
+    }
     // for debugging only: force a very small maximal texture size, as to trigger
     // splitting the tile atlas.
 #if 0
@@ -441,11 +449,15 @@ void tileset_loader::load_tileset( std::string img_path )
     if( info.max_texture_width == 0 ){
         info.max_texture_width = sprite_width * min_tile_xcount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " << info.max_texture_width;
+    } else {
+        throwErrorIf( info.max_texture_width < sprite_width, "Maximal texture width is smaller than tile width" );
     }
 
     if( info.max_texture_height == 0 ){
         info.max_texture_height = sprite_height * min_tile_ycount;
         DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0.  Changing it to " << info.max_texture_height;
+    } else {
+        throwErrorIf( info.max_texture_height < sprite_height, "Maximal texture height is smaller than tile height" );
     }
 
     // Number of tiles in each dimension that fits into a (maximal) SDL texture.
@@ -475,7 +487,7 @@ void tileset_loader::load_tileset( std::string img_path )
         SDL_Surface_Ptr smaller_surf;
 
         if( is_contained( SDL_Rect{ 0, 0, tile_atlas->w, tile_atlas->h }, sub_rect ) ) {
-            // can use tile_atlas directly, it is completely contained in the output rect
+            // can use tile_atlas directly, it is completely contained in the output rectangle
         } else {
             // Need a temporary surface that contains the parts of the tile atlas that fit
             // into sub_rect. But doesn't always need to be as large as sub_rect.
@@ -536,7 +548,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
 
-    // "tile_info" section must exis.
+    // "tile_info" section must exist.
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -700,33 +712,33 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = black;
+        FG = catacurses::black;
     } else if( scolor == "RED" ) {
-        FG = red;
+        FG = catacurses::red;
     } else if( scolor == "GREEN" ) {
-        FG = green;
+        FG = catacurses::green;
     } else if( scolor == "YELLOW" ) {
-        FG = yellow;
+        FG = catacurses::yellow;
     } else if( scolor == "BLUE" ) {
-        FG = blue;
+        FG = catacurses::blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = magenta;
+        FG = catacurses::magenta;
     } else if( scolor == "CYAN" ) {
-        FG = cyan;
+        FG = catacurses::cyan;
     } else if( scolor == "WHITE" ) {
-        FG = white;
+        FG = catacurses::white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
-        entry.throw_error( "invalid color for ascii", "color" );
+        entry.throw_error( "invalid color for ASCII", "color" );
     }
-    // Add an offset for bold colors (ncrses has this bold attribute,
+    // Add an offset for bold colors (ncurses has this bold attribute,
     // this mimics it). bold does not apply to default color.
     if( FG != -1 && entry.get_bool( "bold", false ) ) {
         FG += 8;
     }
     const int base_offset = offset + in_image_offset;
-    // Finally load all 256 ascii chars (actually extended ascii)
+    // Finally load all 256 ASCII chars (actually extended ASCII)
     for( int ascii_char = 0; ascii_char < 256; ascii_char++ ) {
         const int index_in_image = ascii_char + in_image_offset;
         if( index_in_image < 0 || index_in_image >= size ) {
@@ -842,7 +854,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
  * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
- * definition of the same id is overriden.
+ * definition of the same id is overridden.
  * @param size The number of tiles loaded from the current tileset file. This defines the
  * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
  * that range.
@@ -972,7 +984,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     const int min_row = 0;
     const int max_row = sy;
 
-    //limit the render area to maximum view range (121x121 square centred on player)
+    //limit the render area to maximum view range (121x121 square centered on player)
     const int min_visible_x = g->u.posx() % SEEX;
     const int min_visible_y = g->u.posy() % SEEY;
     const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
@@ -1000,7 +1012,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         for( int col = min_col; col < max_col; col ++) {
             if(iso_mode) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
-                //the appropriate tile in valid squares by getting position relative to the screen centre.
+                //the appropriate tile in valid squares by getting position relative to the screen center.
                 if( (row + o_y ) % 2 != (col + o_x) % 2 ) {
                     continue;
                 }
@@ -1551,7 +1563,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
 
-    std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
+    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
 
     const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
     if( tt ) {
@@ -1701,7 +1713,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
         op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
@@ -1978,7 +1990,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op_y;
@@ -2124,7 +2136,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     if (is_draw_field) {
         const std::string fd_name = fieldlist[f.fieldSymbol()].id;
 
-        // for rotation inforomation
+        // for rotation information
         const int neighborhood[4] = {
             static_cast<int> (g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol()), // south
             static_cast<int> (g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol()), // east
@@ -2571,7 +2583,7 @@ void cata_tiles::draw_weather_frame()
             x = weather_iterator->first;
             y = weather_iterator->second;
         } else {
-            // currently in ascii screen coordinates
+            // currently in ASCII screen coordinates
             x = weather_iterator->first + o_x;
             y = weather_iterator->second + o_y;
         }

@@ -4,7 +4,7 @@
     "id" : "everyday_gear",
     "//" : "Small common items carried in a person's pockets, purse, etc. Cash card at roughly 50%.",
     "items":[
-      ["cash_card", 1600],
+      { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
       ["cell_phone", 200],
       {"item": "cig", "prob": 250, "charges-min": 1, "charges-max": 20 },
       ["lighter", 200],

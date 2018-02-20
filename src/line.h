@@ -24,8 +24,8 @@ constexpr double ARCMIN( double v )
 
 /**
  * Calculate base of an isosceles triangle
- * @param distance one of the the equal lengths
- * @param vertex the unequal angle expresed in MoA
+ * @param distance one of the equal lengths
+ * @param vertex the unequal angle expressed in MoA
  * @returns base in equivalent units to distance
  */
 inline double iso_tangent( double distance, double vertex )
@@ -34,8 +34,8 @@ inline double iso_tangent( double distance, double vertex )
     return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
 }
 
-//! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
-//! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
+//! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
+//! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
@@ -89,11 +89,11 @@ point direction_XY( direction dir );
 std::string const &direction_name( direction dir );
 std::string const &direction_name_short( direction dir );
 
-/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+/* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );
 
 /**
- * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,

@@ -49,7 +49,7 @@
     "skill": "smg",
     "dispersion": 360,
     "durability": 6,
-    "burst": 8,
+    "burst": 14,
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],

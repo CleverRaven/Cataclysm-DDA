@@ -3,7 +3,6 @@
 #include "output.h"
 #include "ui.h"
 #include "rng.h"
-#include "map.h"
 #include "input.h"
 #include "catacharset.h"
 #include "translations.h"
@@ -13,6 +12,8 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 minesweeper_game::minesweeper_game()
 {
@@ -26,7 +27,7 @@ minesweeper_game::minesweeper_game()
     iOffsetY = 0;
 }
 
-void minesweeper_game::new_level(WINDOW *w_minesweeper)
+void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 {
     iMaxY = getmaxy(w_minesweeper) - 2;
     iMaxX = getmaxx(w_minesweeper) - 2;
@@ -150,10 +151,7 @@ int minesweeper_game::start_game()
     const int iCenterY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     catacurses::window w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX );
-    WINDOW_PTR w_minesweeper_borderptr( w_minesweeper_border );
-
     catacurses::window w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1 );
-    WINDOW_PTR w_minesweeperptr( w_minesweeper );
 
     draw_border(w_minesweeper_border);
 

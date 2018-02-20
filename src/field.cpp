@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "emit.h"
 #include "vehicle.h"
+#include "output.h"
 #include "calendar.h"
 #include "submap.h"
 #include "mapdata.h"
@@ -130,7 +131,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_sludge",
         {translate_marker( "thin sludge trail" ), translate_marker( "sludge trail" ), translate_marker( "thick sludge trail" )}, '5', 2,
-        {def_c_light_gray,def_c_dark_gray,def_c_black}, {true, true, true}, {true, true, true}, HOURS( 6 ),
+        {def_c_light_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true}, {true, true, true}, HOURS( 6 ),
         {0,0,0},
         LIQUID,
         false
@@ -708,7 +709,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
-    field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
+    field_id curtype; //Holds cur->getFieldType() as that is what the old system used before rewrite.
 
     tripoint thep;
     thep.z = submap_z;
@@ -720,11 +721,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
-            // This is a translation from local coordinates to submap coords.
+            // This is a translation from local coordinates to submap coordinates.
             // All submaps are in one long 1d array.
             thep.x = locx + submap_x * SEEX;
             thep.y = locy + submap_y * SEEY;
-            // A const reference to the tripoint above, so that the code below doesn't accidentaly change it
+            // A const reference to the tripoint above, so that the code below doesn't accidentally change it
             const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
@@ -732,7 +733,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
                 field_entry * cur = &it->second;
-                // The field might have been killed by processing a neighbour field
+                // The field might have been killed by processing a neighbor field
                 if( !cur->isAlive() ) {
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         dirty_transparency_cache = true;
@@ -928,16 +929,25 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     destroy( p, false );
                                 }
 
-                            } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_ASH ) ) {
+                            } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 5 - cur->getFieldDensity();
                                 smoke += 2;
                                 if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
+                                }
+
+                            } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                                // The fire feeds on the ground itself until max density.
+                                time_added += 5 - cur->getFieldDensity();
+                                smoke += 2;
+                                if( cur->getFieldDensity() > 1 &&
+                                    one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     furn_set( p, f_ash );
                                     add_item_or_charges( p, item( "ash" ) );
                                 }
+
                             } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                                 // We're hanging in the air - let's fall down
                                 tripoint dst{p.x, p.y, p.z - 1};
@@ -1022,16 +1032,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             } else if( cur->getFieldAge() < 0 && cur->getFieldDensity() < 3 ) {
                                 // See if we can grow into a stage 2/3 fire, for this
-                                // burning neighbours are necessary in addition to
+                                // burning neighbors are necessary in addition to
                                 // field age < 0, or alternatively, a LOT of fuel.
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
-                                // 3 for at least 2 neighbours.
+                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbor,
+                                // 3 for at least 2 neighbors.
                                 int maximum_density =  1;
 
                                 // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
                                 // 1. Calculate maximum field density based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
-                                // 2. Calculate maximum field density based on neighbours, 3 neighbours is 2(medium), 7 or more neighbours is 3(raging)
+                                // 2. Calculate maximum field density based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
                                 // 3. Pick the higher maximum between 1. and 2.
                                 if( cur->getFieldAge() < -MINUTES(500) ) {
                                     maximum_density = 3;
@@ -1091,9 +1101,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             maptile &dst = neighs[i];
                             // No bounds checking here: we'll treat the invalid neighbors as valid.
-                            // We're using the maptile wrapper, so we can treat invalid tiles as sentinels.
+                            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
                             // This will create small oddities on map edges, but nothing more noticeable than
-                            // "cut-off" that happenes with bounds checks.
+                            // "cut-off" that happens with bounds checks.
 
                             field_entry *nearfire = dst.find_field(fd_fire);
                             if( nearfire != nullptr ) {
@@ -1367,7 +1377,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             mtype_id( "mon_flaming_eye" ), mtype_id( "mon_kreck" ), mtype_id( "mon_gracke" ),
                             mtype_id( "mon_blank" ),
                         } };
-                        if (cur->getFieldDensity() < 3 && calendar::once_every(HOURS(6)) && one_in(10)) {
+                        if( cur->getFieldDensity() < 3 && calendar::once_every( 6_hours ) && one_in( 10 ) ) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
                             g->summon_mon( random_entry( monids ), p);
@@ -2447,7 +2457,7 @@ field::~field()
 /*
 Function: findField
 Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then returns NULL.
-Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
+Good for checking for existence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
 */
 field_entry *field::findField( const field_id field_to_find )
 {

@@ -11,6 +11,7 @@
 #include "weather_gen.h"
 
 #include <array>
+#include <algorithm>
 #include <iosfwd>
 #include <list>
 #include <map>
@@ -25,28 +26,16 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 struct mongroup;
 
 namespace pf
 {
     struct path;
 }
-
-struct building_size {
-    int height = -1;
-    int depth = -1;
-    building_size() : building_size( -1, -1 ) {}
-    building_size( int h, int d ) : height( h ), depth( d ) {}
-    bool operator==( const building_size &other ) const {
-        return height == other.height && depth == other.depth;
-    };
-    bool operator!=( const building_size &other ) const {
-        return !( *this == other );
-    };
-    building_size &operator=( const building_size & ) = default;
-    static building_size max( const building_size &a, const building_size &b );
-};
 
 class building_bin {
     private:
@@ -63,7 +52,7 @@ class building_bin {
 
 struct city_settings {
     int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and a lot of parks + houses......by increasing shop_radius
     building_bin houses;
     building_bin shops;
     building_bin parks;
@@ -122,7 +111,7 @@ struct map_extras {
 
 struct sid_or_sid;
 /*
- * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
+ * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
  */
 struct regional_settings {
@@ -220,14 +209,15 @@ struct overmap_special_placement {
 };
 
 // A batch of overmap specials to place.
-class overmap_special_batch {
-    public:
-    overmap_special_batch( point origin ) : origin_overmap( origin ) {}
-    overmap_special_batch( point origin, std::vector<const overmap_special *> &specials ) :
+class overmap_special_batch
+{
+public:
+    overmap_special_batch( const point &origin ) : origin_overmap( origin ) {}
+    overmap_special_batch( const point &origin, const std::vector<const overmap_special *> &specials ) :
             origin_overmap( origin ) {
-        for( auto special : specials ) {
-            placements.push_back( { 0, special } );
-        }
+        std::transform( specials.begin(), specials.end(), std::back_inserter( placements ), []( const overmap_special *elem ) {
+            return overmap_special_placement{ 0, elem };
+        } );
     }
 
     // Wrapper methods that make overmap_special_batch act like
@@ -248,7 +238,8 @@ class overmap_special_batch {
     point get_origin() const {
         return origin_overmap;
     }
-    private:
+
+private:
     std::vector<overmap_special_placement> placements;
     point origin_overmap;
 };
@@ -317,7 +308,7 @@ class overmap
      * @param clearance Minimal distance from the edges of the overmap
      */
     static bool inbounds( const tripoint &loc, int clearance = 0 );
-    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo This one should be obsoleted
+    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo: This one should be obsoleted
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -340,7 +331,7 @@ class overmap
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
      * @returns The absolute coordinates of the chosen point or
-     * invalid_point if canceled with escape (or similar key).
+     * invalid_point if canceled with Escape (or similar key).
      */
     static tripoint draw_overmap();
     /**
@@ -374,7 +365,7 @@ class overmap
     /** Returns the (0, 0) corner of the overmap in the global coordinates. */
     point global_base_point() const;
 
-    // @todo Should depend on coords
+    // @todo: Should depend on coordinates
     const regional_settings& get_settings() const
     {
         return settings;
@@ -432,7 +423,9 @@ public:
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
-    // Initialise
+    oter_id get_default_terrain( int z ) const;
+
+    // Initialize
     void init_layers();
     // open existing overmap, or generate a new one
     void open( overmap_special_batch &enabled_specials );
@@ -478,33 +471,34 @@ public:
         int iZoneIndex = -1;
     };
     static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
-  /**
-   * Draws the overmap terrain.
-   * @param w The window to draw map in.
-   * @param wbar Window containing status bar
-   * @param center The global overmap terrain coordinate of the center
-   * of the view. The z-component is used to determine the z-level.
-   * @param orig The global overmap terrain coordinates of the player.
-   * It will be marked specially.
-   * @param blink Whether blinking is enabled
-   * @param showExplored Whether display of explored territory is enabled
-   * @param inp_ctxt Input context in this screen
-   * @param data Various other drawing flags, largely regarding debug information
-   */
-  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
-            const tripoint &orig, bool blink, bool showExplored,
-            input_context* inp_ctxt, const draw_data_t &data);
+    /**
+     * Draws the overmap terrain.
+     * @param w The window to draw map in.
+     * @param wbar Window containing status bar
+     * @param center The global overmap terrain coordinate of the center
+     * of the view. The z-component is used to determine the z-level.
+     * @param orig The global overmap terrain coordinates of the player.
+     * It will be marked specially.
+     * @param blink Whether blinking is enabled
+     * @param showExplored Whether display of explored territory is enabled
+     * @param inp_ctxt Input context in this screen
+     * @param data Various other drawing flags, largely regarding debug information
+     */
+    static void draw( const catacurses::window &w, const catacurses::window &wbar,
+                      const tripoint &center, const tripoint &orig, bool blink, bool showExplored,
+                      input_context *inp_ctxt, const draw_data_t &data );
 
-    building_size find_max_size( const tripoint &center, const building_size &limits ) const;
-
-    static void draw_city_labels(WINDOW *w, const tripoint &center);
+    static void draw_city_labels( const catacurses::window &w, const tripoint &center );
 
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
+
   // City Building
+  overmap_special_id pick_random_building_to_place( int town_dist ) const;
+
   void place_cities();
-  void put_building( const tripoint &p, om_direction::type dir, const city &town );
+  void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
@@ -534,6 +528,9 @@ public:
   std::vector<point> get_sectors() const;
 
     om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+
+    bool can_place_special( const overmap_special &special, const tripoint &p, om_direction::type dir ) const;
+
     void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
     /**
      * Iterate over the overmap and place the quota of specials.

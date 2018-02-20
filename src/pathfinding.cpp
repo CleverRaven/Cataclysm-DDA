@@ -2,7 +2,6 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "player.h"
 #include "map.h"
 #include "trap.h"
@@ -279,7 +278,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
-            // @todo Remove this and instead have sentinels at the edges
+            // @todo: Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
                 continue;
             }
@@ -292,7 +291,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
             const auto p_special = pf_cache.special[p.x][p.y];
-            // @todo De-uglify, de-huge-n
+            // @todo: De-uglify, de-huge-n
             if( !( p_special & non_normal ) ) {
                 // Boring flat dirt - the most common case above the ground
                 newg += 2;
@@ -309,7 +308,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
                 if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr && climb_cost <= 0 ) {
-                    layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
+                    layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
                     continue;
                 }
 
@@ -333,7 +332,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             newg += 10; // One turn to open, 4 to move there
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
-                            // @todo Account for armor
+                            // @todo: Account for armor
                             int hp = veh->parts[part].hp();
                             if( hp / 20 > bash ) {
                                 // Threshold damage thing means we just can't bash this down

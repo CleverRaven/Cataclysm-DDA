@@ -9,11 +9,13 @@
 #include "translations.h"
 #include "sounds.h"
 #include "iuse_actor.h"
+#include "skill.h"
 #include "rng.h"
 #include "requirements.h"
 #include "mongroup.h"
 #include "morale_types.h"
 #include "string_formatter.h"
+#include "output.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -64,7 +66,11 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_ATM" ), atm_do_turn },
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
-    { activity_id( "ACT_BUTCHER" ), butcher_do_turn }
+    { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
+    { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
+    { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
+    { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -105,29 +111,40 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
-    { activity_id( "ACT_WASH" ), washing_finish }
+    { activity_id( "ACT_WASH" ), washing_finish },
+    { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
+    { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
+    { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish }
 };
 
-void activity_handlers::burrow_do_turn( player_activity *act, player *p )
-{
-    if( calendar::once_every(MINUTES(1)) ) {
-        //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
-        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
-            p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
-        }
-        if( act->moves_left <= 71000 && act->moves_left > 69000 ) {
-            p->add_msg_if_player(m_info, _("About an hour left to go."));
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player(m_info, _("Shouldn't be more than half an hour or so now!"));
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player(m_info, _("Almost there! Ten more minutes of work and you'll be through."));
-        }
+void messages_in_process( const player_activity &act, const player &p ) {
+    if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
+        p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
+        return;
+    }
+    if( act.moves_left <= 61000 && act.moves_left > 59000 ) {
+        p.add_msg_if_player( m_info, _( "About an hour left to go." ) );
+        return;
+    }
+    if( act.moves_left <= 31000 && act.moves_left > 29000 ) {
+        p.add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
+        return;
+    }
+    if( act.moves_left <= 11000 && act.moves_left > 9000 ) {
+        p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
+        return;
     }
 }
 
+void activity_handlers::burrow_do_turn( player_activity *act, player *p )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Rat mutant burrowing!
+        sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
+        messages_in_process( *act, *p );
+    }
+}
 
 void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
@@ -147,6 +164,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
+    p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
     g->m.destroy( pos, true );
 
     act->set_to_null();
@@ -457,7 +475,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
-    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
     if( corpse->has_flag( MF_CBM_CIV ) ) {
         butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
         butcher_cbm_group( "bionics_common", p->pos(), age, roll_butchery() );
@@ -915,7 +933,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     items_location loc;
     ter_str_id next_ter;
 
-    switch( calendar::turn.get_season() ) {
+    switch( season_of_year( calendar::turn ) ) {
     case SPRING:
         loc = "forage_spring";
         next_ter = ter_str_id( "t_underbrush_harvested_spring" );
@@ -936,7 +954,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     g->m.ter_set( act->placement, next_ter );
 
-    // Survival gives a bigger boost, and Peception is leveled a bit.
+    // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
     ///\EFFECT_SURVIVAL increases forage success chance
 
@@ -948,7 +966,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-    // 10% to drop a item/items from this group. 
+    // 10% to drop a item/items from this group.
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -980,7 +998,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         game_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -1080,7 +1098,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         p->practice( skill_survival, rng(2, 5) );
 
         p->add_msg_if_player(m_good,
-                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+                             _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates."));
 
         body->set_var( "zlave", "zlave" );
         //take into account the chance that the body yet can regenerate not as we need.
@@ -1123,26 +1141,13 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
+void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
-        if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
-            p->add_msg_if_player(m_info,
-                                 _("Ugh.  You figure it'll take about an hour and a half at this rate."));
-        }
-        if( act->moves_left <= 71000 && act->moves_left > 69000 ) {
-            p->add_msg_if_player(m_info, _("If it keeps up like this, you might be through in an hour."));
-        }
-        if( act->moves_left <= 31000 && act->moves_left > 29000 ) {
-            p->add_msg_if_player(m_info,
-                                 _("Feels like you're making good progress.  Another half an hour, maybe?"));
-        }
-        if( act->moves_left <= 11000 && act->moves_left > 9000 ) {
-            p->add_msg_if_player(m_info, _("That's got it.  Ten more minutes of work and it's open."));
-        }
+        sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
+        messages_in_process( *act, *p );
     }
 }
 
@@ -1172,6 +1177,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
+    p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
@@ -1302,8 +1308,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -1388,7 +1393,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
         if( veh ) {
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
-            // Or not, because the vehicle coords are dropped anyway
+            // Or not, because the vehicle coordinates are dropped anyway
             g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
@@ -1413,16 +1418,16 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         p->mod_fatigue(1);
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
-            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40);
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
         }
-        else { 
+        else {
             p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
         }
     }
@@ -1440,7 +1445,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    // Find the vehicle by looking for a remote vehicle first, then by player relative coords
+    // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
     vehicle *veh = g->remoteveh();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
@@ -1494,7 +1499,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= int( charges_used );
 
-    if( calendar::once_every(2) ) {
+    if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
 }
@@ -1528,6 +1533,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "sheet_metal", rng(1, 3) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", rng(1, 19) );
+        g->m.spawn_item( pos, "scrap", rng(1, 8) );
     } else if( ter == t_bars ) {
         if (g->m.ter( {pos.x + 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y + 1, pos.z} ) == t_sewage ||
             g->m.ter( {pos.x - 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y - 1, pos.z} ) == t_sewage) {
@@ -1555,7 +1564,7 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
 
 void activity_handlers::open_gate_finish( player_activity *act, player * )
 {
-    const tripoint pos = act->placement; // Don't use reference and don't inline, becuase act can change
+    const tripoint pos = act->placement; // Don't use reference and don't inline, because act can change
     gates::open_gate( pos );
     act->set_to_null();
 }
@@ -2017,5 +2026,135 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     filthy_item.item_tags.erase( "FILTHY" );
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    act->set_to_null();
+}
+
+void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a metal sawing tool at work!
+        sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+    const ter_id ter = g->m.ter( pos );
+
+    if( g->m.furn( pos ) == f_rack ) {
+        g->m.furn_set( pos, f_null );
+        g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
+        g->m.spawn_item( pos, "steel_chunk" );
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l ) {
+        g->m.ter_set( pos, t_dirt );
+        g->m.spawn_item( pos, "pipe", 6 );
+        g->m.spawn_item( pos, "wire", 20 );
+    } else if( ter == t_chainfence_posts ) {
+        g->m.ter_set( pos, t_dirt );
+        g->m.spawn_item( pos, "pipe", 6);
+    } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( pos, t_window_alarm );
+        g->m.spawn_item( pos, "pipe", 6 );
+    } else if( ter == t_window_bars ) {
+        g->m.ter_set( pos, t_window_empty );
+        g->m.spawn_item( pos, "pipe", 6 );
+    } else if( ter == t_window_enhanced ) {
+        g->m.ter_set( pos, t_window_reinforced );
+        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_window_enhanced_noglass ) {
+        g->m.ter_set( pos, t_window_reinforced_noglass );
+        g->m.spawn_item( pos, "spike", rng( 1, 4 ) );
+    } else if( ter == t_reb_cage ) {
+        g->m.ter_set( pos, t_pit );
+        g->m.spawn_item( pos, "spike", 19);
+        g->m.spawn_item( pos, "scrap", 8);
+    } else if( ter == t_bars ) {
+        if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } ) == t_sewage ||
+            g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) == t_sewage ) {
+            g->m.ter_set( pos, t_sewage );
+            g->m.spawn_item( pos, "pipe", 3 );
+        } else {
+            g->m.ter_set( pos, t_floor );
+            g->m.spawn_item( pos, "pipe", 3 );
+        }
+    } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
+        g->m.ter_set( pos, t_mdoor_frame );
+        g->m.spawn_item( pos, "pipe", 12 );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::chop_tree_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a wood chopping tool at work!
+        sounds::sound( act->placement, 15, _( "CHK!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    tripoint direction;
+    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+        // try again
+    }
+
+    tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
+    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
+    for( auto &elem : tree ) {
+        g->m.destroy( elem );
+        g->m.ter_set( elem, t_trunk );
+    }
+
+    g->m.ter_set( pos, t_dirt );
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    g->m.ter_set( pos, t_dirt );
+    g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish chopping the logs." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::jackhammer_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a jackhammer at work!
+        sounds::sound( act->placement, 15, _( "TATATATATATATAT!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::jackhammer_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    g->m.destroy( pos, true );
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
+
     act->set_to_null();
 }

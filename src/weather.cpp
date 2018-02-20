@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "options.h"
+#include "output.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
@@ -91,55 +92,52 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
-                              const calendar &turn, const int tick_size )
+                              const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
     case WEATHER_DRIZZLE:
-        data.rain_amount += 4 * tick_size;
+        data.rain_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_RAINY:
     case WEATHER_THUNDER:
     case WEATHER_LIGHTNING:
-        data.rain_amount += 8 * tick_size;
+        data.rain_amount += 8 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_DRIZZLE:
-        data.acid_amount += 4 * tick_size;
+        data.acid_amount += 4 * to_turns<int>( tick_size );
         break;
     case WEATHER_ACID_RAIN:
-        data.acid_amount += 8 * tick_size;
+        data.acid_amount += 8 * to_turns<int>( tick_size );
         break;
     default:
         break;
     }
 
-    // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = turn.sunlight() + weather_data( wtype ).light_modifier;
-    data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
+    // TODO: Change this sunlight "sampling" here into a proper interpolation
+    const float tick_sunlight = calendar( to_turn<int>( t ) ).sunlight() + weather_data( wtype ).light_modifier;
+    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
 }
 
 ////// Funnels.
-weather_sum sum_conditions( const calendar &startturn,
-                            const calendar &endturn,
+weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
-    int tick_size = MINUTES(1);
+    time_duration tick_size = 0;
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
-    for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
-        const int diff = endturn - startturn;
-        if( diff <= 0 ) {
-            return data;
-        } else if( diff < 10 ) {
-            tick_size = 1;
-        } else if( diff > DAYS(7) ) {
-            tick_size = HOURS(1);
+    for( time_point t = start; t < end; t += tick_size ) {
+        const time_duration diff = end - t;
+        if( diff < 10_turns ) {
+            tick_size = 1_turns;
+        } else if( diff > 7_days ) {
+            tick_size = 1_hours;
         } else {
-            tick_size = MINUTES(1);
+            tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, turn, g->get_seed() );
-        proc_weather_sum( wtype, data, turn, tick_size );
+        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        proc_weather_sum( wtype, data, t, tick_size );
     }
 
     return data;
@@ -184,7 +182,7 @@ void item::add_rain_to_container(bool acid, int charges)
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if (!acid) {
-            // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
+            // Funnels aren't always clean enough for water. // @todo: disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
         ret.charges = std::min<long>( charges, capa );
@@ -287,7 +285,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0;
         auto items = g->m.i_at( loc );
-        if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
+        if (one_in(turns_per_charge)) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -450,7 +448,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if( calendar::once_every(MINUTES(1)) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 1_minutes ) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
@@ -477,7 +475,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every(2) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 2_turns ) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
@@ -499,7 +497,7 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
-// Script from wikipedia:
+// Script from Wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
 // Local conditions
@@ -593,7 +591,7 @@ std::string weather_forecast( point const &abs_sm_pos )
 }
 
 /**
- * Print temperature (and convert to celsius if celsius display is enabled.)
+ * Print temperature (and convert to Celsius if Celsius display is enabled.)
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {

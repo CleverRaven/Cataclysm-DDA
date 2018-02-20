@@ -649,7 +649,7 @@ int inventory::position_by_type(itype_id type)
 
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
-    long quantity = _quantity; // Don't wanny change the function signature right now
+    long quantity = _quantity; // Don't want to change the function signature right now
     sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
@@ -918,7 +918,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
         newit.invlet = '\0';
     }
 
-    // Remove letters that are not in the favourites cache
+    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
         auto invlet_list_iter = invlet_cache.find( newit.typeId() );
         bool found = false;

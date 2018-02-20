@@ -151,7 +151,7 @@ public:
      * @param radius Maximal distance of npc from (x,y). If the npc
      * is at most this far away from (x,y) it will be returned.
      * A radius of 0 returns only those npcs that are on the
-     * specifc submap.
+     * specific submap.
      */
     std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
         /**
@@ -160,9 +160,9 @@ public:
          */
         std::vector<std::shared_ptr<npc>> get_companion_mission_npcs();
     /**
-     * Uses overmap terrain coords, this also means radius is
+     * Uses overmap terrain coordinates, this also means radius is
      * in overmap terrain.
-     * A radius of 0 returns all npcs that are on that specifc
+     * A radius of 0 returns all npcs that are on that specific
      * overmap terrain tile.
      */
     std::vector<std::shared_ptr<npc>> get_npcs_near_omt( int x, int y, int z, int radius );
@@ -192,9 +192,9 @@ public:
      * Find all places with the specific overmap terrain type.
      * The function only searches on the z-level indicated by
      * origin.
-     * This function may greate a new overmap if needed.
+     * This function may create a new overmap if needed.
      * @param origin Location of search
-     * @param type Terrain type to serch for
+     * @param type Terrain type to search for
      * @param dist The maximum search distance.
      * If 0, OMAPX is used.
      * @param must_be_seen If true, only terrain seen by the player
@@ -218,9 +218,9 @@ public:
         int dist, bool must_be_seen);
 
     /**
-     * Mark a square area around center on z-level z
+     * Mark a square area around center on Z-level z
      * as seen.
-     * @param center is in absolute overmap terrain coords.
+     * @param center is in absolute overmap terrain coordinates.
      * @param radius The half size of the square to make visible.
      * A value of 0 makes only center visible, radius 1 makes a
      * square 3x3 visible.

@@ -56,7 +56,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADCARDIO"],
-        "category" : ["MUTCAT_FISH"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -691,10 +691,10 @@
     },{
         "type" : "mutation",
         "id" : "ANTIWHEAT",
-        "name" : "Wheat Allergy",
+        "name" : "Grain Intolerance",
         "points" : -2,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -2879,7 +2879,7 @@
         "points" : 2,
         "visibility" : 6,
         "ugliness" : 6,
-        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "prereqs" : ["MANDIBLES"],
         "prereqs2" : ["POISONOUS", "POISONOUS2"],
@@ -3950,7 +3950,7 @@
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
-        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "PAWS_LARGE",

@@ -24,7 +24,15 @@ using trait_id = string_id<mutation_branch>;
 typedef std::string Group_tag;
 typedef std::string Mutation_category_tag;
 
-// @todo Move to better suited file (rng.h/.cpp?)
+class Trait_group;
+namespace trait_group
+{
+
+typedef string_id<Trait_group> Trait_group_tag;
+
+}
+
+// @todo: Move to better suited file (rng.h/.cpp?)
 class distribution
 {
     private:
@@ -74,7 +82,7 @@ class npc_class
         Group_tag weapon_override;
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
-        std::map<trait_id, int> traits;
+        trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
 
         npc_class();
 
@@ -107,7 +115,7 @@ class npc_class
         static void check_consistency();
 };
 
-// @todo Get rid of that
+// @todo: Get rid of that
 extern npc_class_id NC_NONE;
 extern npc_class_id NC_EVAC_SHOPKEEP;
 extern npc_class_id NC_SHOPKEEP;

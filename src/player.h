@@ -3,7 +3,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
@@ -12,6 +12,7 @@
 #include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
+#include "calendar.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -36,6 +37,7 @@ enum game_message_type : int;
 class ma_technique;
 class martialart;
 class recipe;
+using recipe_id = string_id<recipe>;
 struct component;
 struct item_comp;
 struct tool_comp;
@@ -102,16 +104,6 @@ struct special_attack {
 };
 
 class player_morale;
-class player_morale_ptr : public std::unique_ptr<player_morale> {
-    public:
-        player_morale_ptr() = default;
-        player_morale_ptr( const player_morale_ptr &rhs );
-        player_morale_ptr( player_morale_ptr &&rhs );
-        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
-        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
-
-        ~player_morale_ptr();
-};
 
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
@@ -185,7 +177,7 @@ class player : public Character
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
-        int print_info(WINDOW *w, int vStart, int vLines, int column) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin );
@@ -200,9 +192,9 @@ class player : public Character
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Print the player's stamina bar. **/
-        void print_stamina_bar( WINDOW *w ) const;
+        void print_stamina_bar( const catacurses::window &w ) const;
         /** Generates the sidebar and it's data in-game */
-        void disp_status(WINDOW *w, WINDOW *w2);
+        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -234,7 +226,7 @@ class player : public Character
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
         void update_body( int from, int to );
-        /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -309,7 +301,7 @@ class player : public Character
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( long ch );
-        /** Returns player lumination based on the brightest active item they are carrying */
+        /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -354,7 +346,6 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        using Creature::sees;
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
@@ -374,7 +365,7 @@ class player : public Character
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
          * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infared vision.
+         * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -562,7 +553,7 @@ class player : public Character
         float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
-        /** Returns the chance to crit given a hit roll and target's dodge roll */
+        /** Returns the chance to critical given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap ) const;
@@ -605,7 +596,7 @@ class player : public Character
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
         float get_dodge() const override;
-        /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
         float dodge_roll() override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
@@ -751,7 +742,7 @@ class player : public Character
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
 
-        /** Can the food be [theoretically] eaten no matter the consquences? */
+        /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
@@ -855,7 +846,7 @@ class player : public Character
         ret_val<bool> can_wear( const item& it ) const;
 
         /**
-         * Check player capable of takeing off an item.
+         * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
         ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
@@ -909,9 +900,9 @@ class player : public Character
         void mend_item( item_location&& obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -921,7 +912,7 @@ class player : public Character
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
          * @param it Item to calculate storage cost for
          * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
@@ -959,9 +950,9 @@ class player : public Character
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Containter containing the item to be wielded
+         * @param container Container containing the item to be wielded
          * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         bool wield_contents( item &container, int pos = 0, bool penalties = true,
@@ -970,7 +961,7 @@ class player : public Character
          * Stores an item inside another consuming moves proportional to weapon skill and volume
          * @param container Container in which to store the item
          * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
         void store( item &container, item &put, bool penalties = true,
@@ -1042,7 +1033,7 @@ class player : public Character
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1243,12 +1234,12 @@ class player : public Character
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
-        bool making_would_work( const std::string & id_to_make, int batch_size );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft( const std::string & id, int batch_size );
-        void make_all_craft( const std::string & id, int batch_size );
+        void make_craft( const recipe_id &id, int batch_size );
+        void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
@@ -1257,7 +1248,7 @@ class player : public Character
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to to check for disassembly
+         * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
@@ -1353,7 +1344,7 @@ class player : public Character
 
         std::map<std::string, int> mutation_category_level;
 
-        int next_climate_control_check;
+        time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
@@ -1388,10 +1379,10 @@ class player : public Character
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
-        copyable_unique_ptr<craft_command> last_craft;
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
+        pimpl<craft_command> last_craft;
 
-        std::string lastrecipe;
+        recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
@@ -1428,7 +1419,7 @@ class player : public Character
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
-        // Returns a multiplier indicating the keeness of a player's hearing.
+        // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
@@ -1457,6 +1448,9 @@ class player : public Character
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
+
+        //@todo make protected and move into Character
+        void do_skill_rust();
 
         // drawing related stuff
         /**
@@ -1521,7 +1515,7 @@ class player : public Character
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
+        void print_encumbrance( const catacurses::window &win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1587,7 +1581,7 @@ class player : public Character
                                   std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
-         * @param critter Creature to check for visiblity
+         * @param critter Creature to check for visibility
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */
@@ -1653,12 +1647,12 @@ class player : public Character
 
         inventory cached_crafting_inventory;
         int cached_moves;
-        int cached_turn;
+        time_point cached_time;
         tripoint cached_position;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        player_morale_ptr morale;
+        pimpl<player_morale> morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

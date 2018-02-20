@@ -268,7 +268,7 @@ bool player::activate_bionic( int b, bool eff_only )
                 // Tetanus infection.
                 { effect_tetanus, _( "Clostridium Tetani Infection" ) },
                 { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
-                // @todo Hallucinations not inducted by chemistry
+                // @todo: Hallucinations not inducted by chemistry
                 { effect_hallu, _( "Hallucinations" ) },
                 { effect_visuals, _( "Hallucinations" ) },
             }
@@ -299,7 +299,7 @@ bool player::activate_bionic( int b, bool eff_only )
             bad.push_back( _( "Irradiated" ) );
         }
 
-        // @todo Expose the player's effects to check it in a cleaner way
+        // @todo: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
                 bad.push_back( pr.second );
@@ -322,17 +322,16 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
                 if( line <= bad.size() ) {
-                    trim_and_print( w, line, 2, win_w - 3, c_red, "%s", bad[line - 1].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_red, bad[line - 1] );
                 } else {
-                    trim_and_print( w, line, 2, win_w - 3, c_green, "%s",
-                                    good[line - 1 - bad.size()].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_green,
+                                    good[line - 1 - bad.size()] );
                 }
             }
         }
         wrefresh( w );
-        refresh();
+        catacurses::refresh();
         inp_mngr.wait_for_any_key();
-        delwin( w );
     } else if( bio.id == "bio_blood_filter" ) {
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
@@ -695,7 +694,7 @@ void player::process_bionic( int b )
 
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
-        if( calendar::once_every( 5 ) ) {
+        if( calendar::once_every( 5_turns ) ) {
             add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
@@ -873,7 +872,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool substracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,
@@ -943,27 +942,12 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
 bool player::install_bionics( const itype &type, int skill_level )
 {
-    if( type.bionic.get() == nullptr ) {
+    if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
+
     const bionic_id &bioid = type.bionic->id;
-    if( !bioid.is_valid() ) {
-        popup( "invalid / unknown bionic id %s", bioid.c_str() );
-        return false;
-    }
-    if( bioid == "bio_reactor_upgrade" ) {
-        if( !has_bionic( bionic_id( "bio_reactor" ) ) ) {
-            popup( _( "There is nothing to upgrade!" ) );
-            return false;
-        }
-    }
-    if( has_bionic( bioid ) ) {
-        if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
-            popup( _( "You have already installed this bionic." ) );
-            return false;
-        }
-    }
     const int difficult = type.bionic->difficulty;
     int chance_of_success;
     if( skill_level != -1 ) {
@@ -1072,19 +1056,22 @@ bool player::install_bionics( const itype &type, int skill_level )
                           pgettext( "memorial_female", "Installed bionic: %s." ),
                           bioid->name.c_str() );
 
-        add_msg( m_good, _( "Successfully installed %s." ), bioid->name.c_str() );
+        if( bioid->upgraded_bionic ) {
+            remove_bionic( bioid->upgraded_bionic );
+            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+                     bioid->upgraded_bionic->name.c_str(), bioid->name.c_str() );
+        } else {
+            //~ %s - name of the bionic.
+            add_msg( m_good, _( "Successfully installed %s." ), bioid->name.c_str() );
+        }
+
         add_bionic( bioid );
 
         for( const auto &mid : bioid->canceled_mutations ) {
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
             }
-        }
-
-        if( bioid == "bio_reactor_upgrade" ) {
-            remove_bionic( bionic_id( "bio_reactor" ) );
-            remove_bionic( bionic_id( "bio_reactor_upgrade" ) );
-            add_bionic( bionic_id( "bio_advreactor" ) );
         }
     } else {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
@@ -1425,6 +1412,21 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
+static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
+                              const bool fallback, const std::string &flags_node = "flags" )
+{
+    const std::set<std::string> flags = jsobj.get_tags( flags_node );
+    bool value = fallback;
+    if( jsobj.has_bool( name ) ) {
+        value = jsobj.get_bool( name, fallback );
+        debugmsg( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" +
+                  flag + "` flag in `" + flags_node + "` node." );
+    } else {
+        value = flags.count( flag );
+    }
+    return value;
+}
+
 void load_bionic( JsonObject &jsobj )
 {
     bionic_data new_bionic;
@@ -1434,7 +1436,7 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.description = _( jsobj.get_string( "description" ).c_str() );
     new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
-    new_bionic.toggled = jsobj.get_bool( "toggled", false );
+    new_bionic.toggled = get_bool_or_flag( jsobj, "toggled", "BIONIC_TOGGLED", false );
     // Requires ability to toggle
     new_bionic.power_deactivate = jsobj.get_int( "deact_cost", 0 );
 
@@ -1444,12 +1446,13 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
-    new_bionic.faulty = jsobj.get_bool( "faulty", false );
-    new_bionic.power_source = jsobj.get_bool( "power_source", false );
+    new_bionic.faulty = get_bool_or_flag( jsobj, "faulty", "BIONIC_FAULTY", false );
+    new_bionic.power_source = get_bool_or_flag( jsobj, "power_source", "BIONIC_POWER_SOURCE", false );
 
-    new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
-    new_bionic.weapon_bionic = jsobj.get_bool( "weapon_bionic", false );
-    new_bionic.armor_interface = jsobj.get_bool( "armor_interface", false );
+    new_bionic.gun_bionic = get_bool_or_flag( jsobj, "gun_bionic", "BIONIC_GUN", false );
+    new_bionic.weapon_bionic = get_bool_or_flag( jsobj, "weapon_bionic", "BIONIC_WEAPON", false );
+    new_bionic.armor_interface = get_bool_or_flag( jsobj, "armor_interface", "BIONIC_ARMOR_INTERFACE",
+                                 false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
@@ -1459,6 +1462,7 @@ void load_bionic( JsonObject &jsobj )
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
+    jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
     std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
@@ -1506,6 +1510,23 @@ void check_bionics()
                 debugmsg( "Bionic %s (included by %s) consumes slots, those should be part of the containing bionic instead.",
                           bid.c_str(), bio.first.c_str() );
             }
+        }
+        if( bio.second.upgraded_bionic ) {
+            if( bio.second.upgraded_bionic == bio.first ) {
+                debugmsg( "Bionic %s is upgraded with itself", bio.first.c_str() );
+            } else if( !bio.second.upgraded_bionic.is_valid() ) {
+                debugmsg( "Bionic %s upgrades undefined bionic %s",
+                          bio.first.c_str(), bio.second.upgraded_bionic.c_str() );
+            }
+        }
+    }
+}
+
+void finalize_bionics()
+{
+    for( const auto &bio : bionics ) {
+        if( bio.second.upgraded_bionic ) {
+            bionics[ bio.second.upgraded_bionic ].available_upgrades.insert( bio.first );
         }
     }
 }

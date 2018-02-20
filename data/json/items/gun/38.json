@@ -114,7 +114,7 @@
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
     ]
   }
 ]

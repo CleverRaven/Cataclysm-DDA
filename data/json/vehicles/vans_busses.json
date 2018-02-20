@@ -773,7 +773,7 @@
       { "x": -4, "y": -1, "part": "windshield" },
       { "x": -4, "y": -1, "part": "v_curtain" },
       { "x": -4, "y": 0, "part": "frame_vertical_2" },
-      { "x": -4, "y": 0, "part": "seat" },
+      { "x": -4, "y": 0, "part": "washing_machine" },
       { "x": -4, "y": 0, "part": "roof" },
       { "x": -4, "y": 1, "part": "frame_vertical_2" },
       { "x": -4, "y": 1, "part": "aisle_horizontal" },

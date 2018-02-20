@@ -3,6 +3,7 @@
 #include "map.h"
 #include "bionics.h"
 #include "map_selector.h"
+#include "effect.h"
 #include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
@@ -17,7 +18,9 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "skill.h"
 #include "vehicle.h"
+#include "output.h"
 #include "veh_interact.h"
 #include "cata_utility.h"
 
@@ -132,11 +135,13 @@ Character::Character() : Creature(), visitable<Character>()
     name = "";
 
     path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
-
-    my_bionics.reset( new bionic_collection() );
 }
 
 Character::~Character() = default;
+Character::Character( const Character & ) = default;
+Character::Character( Character && ) = default;
+Character &Character::operator=( const Character & ) = default;
+Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
 {
@@ -209,13 +214,13 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
     }
 
     for( const auto e : gun.gunmods() ) {
-        const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
+        const islot_gunmod &mod = *e->type->gunmod;
+        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_speed > sight_speed_modifier ) {
-            sight_speed_modifier = mod->aim_speed;
-            limit = effective_dispersion( mod->sight_dispersion );
+        if( effective_dispersion( mod.sight_dispersion ) < recoil && mod.aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = mod.aim_speed;
+            limit = effective_dispersion( mod.sight_dispersion );
         }
     }
     return std::make_pair( sight_speed_modifier, limit );
@@ -234,7 +239,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
 }
 
 double Character::aim_speed_dex_modifier() const
@@ -276,11 +281,11 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     int sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
-        // No suitable sights (already at maxium aim).
+        // No suitable sights (already at maximum aim).
         return 0;
     }
 
-    // Overal strategy for determining aim speed is to sum the factors that contribute to it,
+    // Overall strategy for determining aim speed is to sum the factors that contribute to it,
     // then scale that speed by current recoil level.
     // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
     // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
@@ -308,7 +313,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
     aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
 
-    // Minimum improvment is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
     aim_speed = std::max( aim_speed, 5.0 );
 
     // Never improve by more than the currently used sights permit.
@@ -822,7 +827,7 @@ void Character::i_rem_keep_contents( const int pos )
 bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
-    bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
+    bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it , this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
@@ -1149,56 +1154,57 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level( const skill_id &ident )
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 {
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
-                  get_name().c_str() );
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
     } else {
-        return _skills[ident];
+        return (*_skills)[ident];
     }
 
     null_skill.level( 0 );
     return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).level();
+}
+
+const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
     static const SkillLevel null_skill;
 
-    if( !ident ) {
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
-    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    const auto iter = _skills->find( ident );
 
-    if( iter != _skills.end() ) {
+    if( iter != _skills->end() ) {
         return iter->second;
-    }
-
-    if( ident->is_contextual_skill() ) {
-        if( context.is_null() ) {
-            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
-                      get_name().c_str() );
-        } else {
-            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
-                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
-        }
     }
 
     return null_skill;
 }
 
-void Character::set_skill_level( const skill_id &ident, const int level )
+int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    get_skill_level( ident ).level( level );
+    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) ).level();
 }
 
-void Character::boost_skill_level( const skill_id &ident, const int delta )
+void Character::set_skill_level( const skill_id &ident, const int level )
 {
-    set_skill_level( ident, delta + get_skill_level( ident ) );
+    get_skill_level_object( ident ).level( level );
+}
+
+void Character::mod_skill_level( const skill_id &ident, const int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.level( obj.level() + delta );
 }
 
 std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
@@ -1275,7 +1281,7 @@ void Character::die(Creature* nkiller)
 {
     g->set_critter_died();
     set_killer( nkiller );
-    set_turn_died(int(calendar::turn));
+    set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
         inv.add_item( item( "string_36", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
@@ -1494,14 +1500,14 @@ bool Character::is_wearing_active_power_armor() const
  * These simply add their encumbrance value to each body part they cover.
  * In addition, each article of clothing after the first in a layer imposes an additional penalty.
  * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
- * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * Clothes on separate layers don't interact, so if you wear e.g. a light jacket over a shirt,
  * they're intended to be worn that way, and don't impose a penalty.
  * The default is to assume that clothes do not fit, clothes that are "fitted" either
  * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
  *
  * Use cases:
  * What would typically be considered normal "street clothes" should not be considered encumbering.
- * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * T-shirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
@@ -1849,7 +1855,7 @@ int Character::get_fatigue() const
 
 void Character::reset_bonuses()
 {
-    // Reset all bonuses to 0 and mults to 1.0
+    // Reset all bonuses to 0 and multipliers to 1.0
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -1923,7 +1929,7 @@ hp_part Character::body_window( const std::string &menu_header,
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
-    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+    /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
@@ -2035,10 +2041,7 @@ hp_part Character::body_window( const std::string &menu_header,
             break;
         }
     } while (ch < '1' || ch > '7');
-    werase(hp_window);
-    wrefresh(hp_window);
-    delwin(hp_window);
-    refresh();
+    catacurses::refresh();
 
     return healed_part;
 }
@@ -2359,7 +2362,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo Waiting/reading/being unconscious on bed/sofa/grass
+    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2417,7 +2420,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool main ) const
 {
-    // @todo Remove broken parts, parts removed by mutations etc.
+    // @todo: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
         bp_head,
         bp_eyes,
@@ -2445,10 +2448,10 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
     return main ? main_bps : all_bps;
 }
 
-// @todo Better place for it?
+// @todo: Better place for it?
 std::string tag_colored_string( const std::string &s, nc_color color )
 {
-    // @todo Make this tag generation a function, put it in good place
+    // @todo: Make this tag generation a function, put it in good place
     std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
     return color_tag_open + s;
 }
@@ -2489,7 +2492,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << tag_colored_string( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo Integrate into get_hp_bar somehow
+        // @todo: Integrate into get_hp_bar somehow
         ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2528,7 +2531,7 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo Get rid of if/else ladder
+    // @todo: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2557,7 +2560,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo Cache
+    // @todo: Cache
     float awake_rate = mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {

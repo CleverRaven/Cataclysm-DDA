@@ -23,7 +23,7 @@ struct field_t {
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
 
-     /** Display name for field at given density (eg. light smoke, smoke, heavy smoke) */
+     /** Display name for field at given density (e.g. light smoke, smoke, heavy smoke) */
     std::string untranslated_name[ MAX_FIELD_DENSITY ];
     /// Can be empty! \p density must be in the range [0, MAX_FIELD_DENSITY - 1].
     std::string name( int density ) const;

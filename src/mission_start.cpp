@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
+#include "output.h"
 #include "debug.h"
 #include "name.h"
 #include <sstream>
@@ -582,7 +583,7 @@ void mission_start::reveal_hospital( mission *miss )
         g->u.i_add( item( "vacutainer", 0 ) );
         add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
     }
-    target_om_ter( "hospital", 3, miss, false );
+    target_om_ter( "hospital_2", 3, miss, false );
 }
 
 void mission_start::find_safety( mission *miss )
@@ -648,7 +649,7 @@ void mission_start::point_cabin_strange( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->attitude = NPCATT_FOLLOW;// NPC joins you
 
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
@@ -656,7 +657,7 @@ void mission_start::recruit_tracker( mission *miss )
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->randomize( NC_COWBOY );
-    // NPCs spawn with submap coordinates, site is in overmap terrain coords
+    // NPCs spawn with submap coordinates, site is in overmap terrain coordinates
     temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
     overmap_buffer.insert_npc( temp );
     temp->attitude = NPCATT_TALK;
@@ -999,7 +1000,7 @@ void mission_start::ranch_construct_8(mission *miss)
  bay.ter_set(18, 4, t_pit);
  bay.save();
 
- //Start Toolshed
+ //Start Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
@@ -1024,7 +1025,7 @@ void mission_start::ranch_construct_9(mission *miss)
  bay.place_npc( 17, 4, string_id<npc_template>( "ranch_ill_1" ) );
  bay.save();
 
- //Finish Toolshed
+ //Finish Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_wall_half,t_wall_wood);
@@ -1744,7 +1745,7 @@ void mission_start::reveal_office_tower( mission *miss )
 
 void mission_start::reveal_doctors_office( mission *miss )
 {
-    reveal_any_target( miss, { "office_doctor", "hospital" } );
+    reveal_any_target( miss, { "office_doctor", "hospital_2" } );
 }
 
 void mission_start::reveal_cathedral( mission *miss )

@@ -39,23 +39,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-struct tile {
-    /** Screen coordinates as tile number */
-    int sx, sy;
-    /** World coordinates */
-    int wx, wy;
-
-    tile() {
-        sx = wx = wy = 0;
-    }
-    tile( int x, int y, int x2, int y2 ) {
-        sx = x;
-        sy = y;
-        wx = x2;
-        wy = y2;
-    }
-};
-
 /* Enums */
 enum MULTITILE_TYPE {
     center,
@@ -120,40 +103,6 @@ struct SDL_Surface_deleter {
     void operator()( SDL_Surface *const ptr );
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
-
-// Cache of a single tile, used to avoid redrawing what didn't change.
-struct tile_drawing_cache {
-
-    tile_drawing_cache() { };
-
-    // Sprite indices drawn on this tile.
-    // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type *> sprites;
-    std::vector<int> rotations;
-
-    bool operator==( const tile_drawing_cache &other ) const {
-        if( sprites.size() != other.sprites.size() ) {
-            return false;
-        } else {
-            for( size_t i = 0; i < sprites.size(); ++i ) {
-                if( sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i] ) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    bool operator!=( const tile_drawing_cache &other ) const {
-        return !( this->operator==( other ) );
-    }
-
-    void operator=( const tile_drawing_cache &other ) {
-        this->sprites = other.sprites;
-        this->rotations = other.rotations;
-    }
-};
 
 struct pixel {
     int r;
@@ -395,7 +344,7 @@ class tileset_loader
          * <B>config</B>. That array should contain all the tile definition that
          * should be taken from an tileset image.
          * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
          * sprite offset dictates where each sprite should render in its tile

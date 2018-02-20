@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "player.h"
+#include "output.h"
 #include "gamemode.h"
 #include "debug.h"
 #include "mapbuffer.h"
@@ -26,8 +27,8 @@ void main_menu::on_move() const
     sfx::play_variant_sound( "menu_move", "default", 100 );
 }
 
-void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
-                                  int iOffsetY, int iOffsetX, int spacing )
+void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
+                                  size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
     wmove( w_in, iOffsetY, iOffsetX );
     for( size_t i = 0; i < vItems.size(); ++i ) {
@@ -50,8 +51,8 @@ void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems,
     }
 }
 
-void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                            bool bShowDDA )
+void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
+                            int iMenuOffsetY, bool bShowDDA )
 {
     // Clear Lines
     werase( w_open );
@@ -111,9 +112,9 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
 
     print_menu_items( w_open, vMenuItems, iSel, iMenuOffsetY, final_offset, spacing );
 
-    refresh();
+    catacurses::refresh();
     wrefresh( w_open );
-    refresh();
+    catacurses::refresh();
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -238,7 +239,7 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
 
 void main_menu::display_credits()
 {
-    // astyle got this redundant indent
+    // AStyle got this redundant indent
     catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
@@ -247,11 +248,9 @@ void main_menu::display_credits()
                                    1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
     draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
     wrefresh( w_credits_border );
-    refresh();
+    catacurses::refresh();
     multipage( w_credits, mmenu_credits );
-    delwin( w_credits );
-    delwin( w_credits_border );
-    refresh();
+    catacurses::refresh();
 }
 
 bool main_menu::opening_screen()
@@ -263,7 +262,6 @@ bool main_menu::opening_screen()
     world_generator->init();
 
     w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
-    WINDOW_PTR w_backgroundptr( w_background );
     werase( w_background );
     wrefresh( w_background );
 
@@ -281,7 +279,6 @@ bool main_menu::opening_screen()
     const int y0 = ( TERMY - total_h ) / 2;
 
     w_open = catacurses::newwin( total_h, total_w, y0, x0 );
-    WINDOW_PTR w_openptr( w_open );
 
     iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
@@ -341,7 +338,7 @@ bool main_menu::opening_screen()
                 }
 
                 wrefresh( w_open );
-                refresh();
+                catacurses::refresh();
             }
 
             std::string action = ctxt.handle_input();
@@ -424,7 +421,7 @@ bool main_menu::opening_screen()
                 print_menu_items( w_open, special_names, sel2, yoffset, xoffset - ( xlen / 4 ) );
 
                 wrefresh( w_open );
-                refresh();
+                catacurses::refresh();
                 std::string action = ctxt.handle_input();
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
@@ -484,7 +481,7 @@ bool main_menu::opening_screen()
                 }
                 print_menu_items( w_open, settings_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
                 wrefresh( w_open );
-                refresh();
+                catacurses::refresh();
                 std::string action = ctxt.handle_input();
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
@@ -534,8 +531,6 @@ bool main_menu::opening_screen()
             }
         }
     }
-    w_openptr.reset();
-    w_backgroundptr.reset();
     if( start ) {
         g->refresh_all();
         g->draw();
@@ -571,7 +566,7 @@ bool main_menu::new_character_tab()
 
             print_menu_items( w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX );
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
 
             std::string action = ctxt.handle_input();
             std::string sInput = ctxt.get_raw_input().text;
@@ -652,7 +647,7 @@ bool main_menu::new_character_tab()
                 }
             }
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
             std::string action = ctxt.handle_input();
             if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
@@ -755,7 +750,7 @@ bool main_menu::load_character_tab()
                 }
             }
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
             const std::string action = ctxt.handle_input();
             if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 1;
@@ -812,7 +807,7 @@ bool main_menu::load_character_tab()
                 }
             }
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
             std::string action = ctxt.handle_input();
             if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 2;
@@ -889,7 +884,7 @@ void main_menu::world_tab()
             }
 
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
             std::string action = ctxt.handle_input();
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
@@ -982,7 +977,7 @@ void main_menu::world_tab()
             }
 
             wrefresh( w_open );
-            refresh();
+            catacurses::refresh();
             std::string action = ctxt.handle_input();
 
             if( action == "DOWN" ) {

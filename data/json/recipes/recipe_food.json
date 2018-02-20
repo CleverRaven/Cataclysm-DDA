@@ -3078,7 +3078,9 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "can_beans", 1 ],
       [ "raw_beans", 1 ],
+      [ "beans_cooked", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "mushroom", 1 ],
@@ -5685,6 +5687,7 @@
       [ "can_beans", 2 ],
       [ "raw_beans", 2 ],
       [ "beans_cooked", 2 ],
+      [ "dry_rice", 2 ],
       [ "dandelion_cooked", 2 ],
       [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
@@ -7332,7 +7335,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7360,7 +7362,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 4000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -7460,7 +7461,6 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "book_learn": [[ "cookbook_human", 4 ]],
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8405,7 +8405,9 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "can_beans", 1 ],
       [ "raw_beans", 1 ],
+      [ "beans_cooked", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "mushroom", 1 ],
@@ -8781,7 +8783,6 @@
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
    "time": 3000,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}
@@ -8950,7 +8951,6 @@
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "time": 1500,
-   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1}

@@ -5,13 +5,14 @@
 #include "input.h"
 #include "output.h"
 #include "rng.h"
+#include "cursesdef.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
 #include <cmath>  // max in help_main
 #include <vector>
 
-void help_draw_dir( WINDOW *win, int line_y )
+void help_draw_dir( const catacurses::window &win, int line_y )
 {
     std::array<action_id, 9> movearray = {{
             ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
@@ -38,7 +39,7 @@ void help_draw_dir( WINDOW *win, int line_y )
     }
 }
 
-void help_main( WINDOW *win )
+void help_main( const catacurses::window &win )
 {
     werase( win );
     int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
@@ -88,7 +89,7 @@ Press q or ESC to return to the game." ) ) + 1;
     wrefresh( win );
 }
 
-void help_movement( WINDOW *win )
+void help_movement( const catacurses::window &win )
 {
     werase( win );
     std::vector<std::string> text;
@@ -131,7 +132,7 @@ monsters enter the player's view." ),
     multipage( win, remained_text, "", pos_y );
 }
 
-void help_driving( WINDOW *win )
+void help_driving( const catacurses::window &win )
 {
     std::vector<std::string> text;
     werase( win );
@@ -784,7 +785,7 @@ contain useful crafting recipes." ),
     return text;
 }
 
-void help_map( WINDOW *win )
+void help_map( const catacurses::window &win )
 {
     werase( win );
     mvwprintz( win, 0, 0, c_light_gray,  _( "MAP SYMBOLS:" ) );
@@ -856,7 +857,7 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
         column += pair_width;
     }
     wrefresh( win );
-    refresh();
+    catacurses::refresh();
     inp_mngr.wait_for_any_key();
 }
 
@@ -1028,7 +1029,7 @@ or injured can also make you feel the cold more, so try to avoid these effects b
 
     text.push_back( _( "\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode." ) );
+A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode." ) );
 
     return text;
 }
@@ -1048,7 +1049,7 @@ void display_help()
             draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
             wrefresh( w_help_border );
             help_main( w_help );
-            refresh();
+            catacurses::refresh();
             needs_refresh = false;
         };
         // TODO: use input context
@@ -1154,8 +1155,6 @@ void display_help()
         };
         needs_refresh = true;
     } while( ch != 'q' && ch != KEY_ESCAPE );
-    delwin( w_help );
-    delwin( w_help_border );
 }
 
 std::string get_hint()

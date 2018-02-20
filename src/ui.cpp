@@ -59,7 +59,7 @@ uimenu::uimenu(bool, const char * const mes, ...)
 }
 /**
  * exact usage as menu_vec
- */ 
+ */
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> options)
 {
@@ -103,7 +103,7 @@ uimenu::uimenu(bool cancelable, const char *mes,
 uimenu::uimenu(int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
-    // another quick convenience coonstructor
+    // another quick convenience constructor
     init();
     w_x = startx;
     w_y = starty;
@@ -116,7 +116,7 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
-    // another quick convenience coonstructor
+    // another quick convenience constructor
     init();
     return_invalid = cancelable;
     w_x = startx;
@@ -145,24 +145,24 @@ void uimenu::init()
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
-        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // fixme: scrolling list with offset
+        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
     text = "";             // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    textalign = MENU_ALIGN_LEFT; // todo
+    textalign = MENU_ALIGN_LEFT; // @todo:
     title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
-    window = NULL;         // our window
+    window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
+    entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...@todo: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
-    border = true;         // todo: always true
+    border = true;         // @todo: always true
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -206,7 +206,7 @@ void uimenu::filterlist()
 {
     bool notfiltering = ( ! filtering || filter.size() < 1 );
     int num_entries = entries.size();
-    bool nocase = (filtering_nocase == true); // todo: && is_all_lc( filter )
+    bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
@@ -255,7 +255,7 @@ void uimenu::filterlist()
  */
 std::string uimenu::inputfilter()
 {
-    std::string identifier = ""; // todo: uimenu.filter_identifier ?
+    std::string identifier = ""; // @todo: uimenu.filter_identifier ?
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
     /*
@@ -355,7 +355,7 @@ void uimenu::setup()
             }
         } else {
             if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;    // todo: or +5 if header
+                w_width = txtwidth + pad + 4;    // @todo: or +5 if header
             }
         }
         if ( desc_enabled ) {
@@ -498,7 +498,7 @@ void uimenu::setup()
     started = true;
 }
 
-// @todo replace content of this function by draw_scrollbar() from output.(h|cpp)
+// @todo: replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
     if ( ! scrollbar_auto ) {
@@ -565,7 +565,7 @@ void uimenu::show()
     draw_border(window, border_color);
     if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz( window, title_color, title );
         wprintz(window, border_color, " >");
     }
 
@@ -574,7 +574,7 @@ void uimenu::show()
     int estart = 1;
     if( !textformatted.empty() ) {
         for ( int i = 0; i < text_lines; i++ ) {
-            trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+            trim_and_print( window, 1 + i, 2, getmaxx( window ) - 4, text_color, textformatted[i] );
         }
 
         mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
@@ -598,7 +598,7 @@ void uimenu::show()
                           );
 
             if ( hilight_full ) {
-                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
+                mvwprintz( window, estart + si, pad_left + 1, co, padspaces );
             }
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
@@ -608,7 +608,7 @@ void uimenu::show()
             if( padspaces.size() > 3 ) {
                 // padspaces's length indicates the maximal width of the entry, it is used above to
                 // activate the highlighting, it is used to override previous text there, but in both
-                // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
+                // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) : entries[ ei ].txt );
                 trim_and_print( window, estart + si, pad_left + 4,
@@ -616,7 +616,7 @@ void uimenu::show()
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
+                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.txt );
             }
             if ( entries[ei].extratxt.sym != 0 ) {
                 mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
@@ -626,7 +626,7 @@ void uimenu::show()
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_light_gray , "%s", padspaces.c_str());
+            mvwprintz( window, estart + si, pad_left + 1, c_light_gray, padspaces );
         }
     }
 
@@ -653,7 +653,7 @@ void uimenu::show()
 
     if ( !filter.empty() ) {
         mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz( window, w_height - 1, 4, text_color, "%s", filter.c_str() );
+        mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
 
@@ -679,12 +679,12 @@ void uimenu::redraw( bool redraw_callback )
     draw_border(window, border_color);
     if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz( window, title_color, title );
         wprintz(window, border_color, " >");
     }
     if ( !filter.empty() ) {
         mvwprintz(window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz(window, w_height - 1, 4, text_color, "%s", filter.c_str());
+        mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     (void)redraw_callback; // TODO
     /*
@@ -750,31 +750,25 @@ bool uimenu::scrollby( const int scrollby )
         }
     }
 
-    int iter = ( hilight_disabled ? 1 : fentries.size() );
-
     if ( backwards ) {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected < 0 ) {
                 fselected = fentries.size() - 1;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected--;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            --fselected;
         }
     } else {
-        while ( iter > 0 ) {
-            iter--;
+        for( size_t i = 0; i < fentries.size(); ++i ) {
             if( fselected >= (int)fentries.size() ) {
                 fselected = 0;
             }
-            if ( entries[ fentries [ fselected ] ].enabled == false ) {
-                fselected++;
-            } else {
-                iter = 0;
+            if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
+                break;
             }
+            ++fselected;
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
@@ -785,7 +779,7 @@ bool uimenu::scrollby( const int scrollby )
 
 /**
  * Handle input and update display
- * 
+ *
  */
 void uimenu::query(bool loop)
 {
@@ -869,13 +863,7 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if (window != NULL) {
-        werase(window);
-        wrefresh(window);
-        delwin(window);
-        window = NULL;
-    }
-
+	window = catacurses::window();
     init();
 }
 

@@ -81,11 +81,11 @@ struct map_deconstruct_info {
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing thruogh it
+ * SHARP - May do minor damage to players/monsters passing through it
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
- * MOUNTABLE - Player can fire mounted weapons from here (EG: M2 Browning)
+ * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
  * GOES_UP - Can use '<' to go up a level
@@ -194,7 +194,7 @@ struct map_data_common_t {
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
 
 public:
         std::string name() const;
@@ -329,8 +329,8 @@ void verify_terrain();
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
-the code that can use the perormance boost and refer to core terrain types), and they are -not-
-provided for terrains added by mods. A string equivalent is always present, ie;
+the code that can use the performance boost and refer to core terrain types), and they are -not-
+provided for terrains added by mods. A string equivalent is always present, i.e.;
 t_basalt
 "t_basalt"
 */
@@ -364,6 +364,7 @@ extern ter_id t_null,
     t_reinforced_door_glass_o,
     t_reinforced_door_glass_c,
     t_bars,
+    t_reb_cage,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
@@ -426,7 +427,8 @@ extern ter_id t_null,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-    t_linoleum_white, t_linoleum_gray;
+    t_linoleum_white, t_linoleum_gray,
+    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
 
 /*

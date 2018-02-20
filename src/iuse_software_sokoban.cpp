@@ -2,6 +2,7 @@
 
 #include "output.h"
 #include "input.h"
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "string_formatter.h"
 #include "debug.h"
@@ -17,7 +18,7 @@ sokoban_game::sokoban_game()
 {
 }
 
-void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
+void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {
     std::stringstream ssTemp;
     ssTemp << string_format(_("Level: %d/%d"), iCurrentLevel + 1, iNumLevel) << "    ";
@@ -164,7 +165,7 @@ int sokoban_game::get_wall_connection(const int iY, const int iX)
     return '#';
 }
 
-void sokoban_game::clear_level(WINDOW *w_sokoban)
+void sokoban_game::clear_level( const catacurses::window &w_sokoban )
 {
     const int iOffsetX = (FULL_SCREEN_WIDTH - 2 - mLevelInfo[iCurrentLevel]["MaxLevelX"]) / 2;
     const int iOffsetY = (FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"]) / 2;
@@ -176,7 +177,7 @@ void sokoban_game::clear_level(WINDOW *w_sokoban)
     }
 }
 
-void sokoban_game::draw_level(WINDOW *w_sokoban)
+void sokoban_game::draw_level( const catacurses::window &w_sokoban )
 {
     const int iOffsetX = (FULL_SCREEN_WIDTH - 2 - mLevelInfo[iCurrentLevel]["MaxLevelX"]) / 2;
     const int iOffsetY = (FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"]) / 2;
@@ -241,7 +242,6 @@ int sokoban_game::start_game()
     read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    WINDOW_PTR w_sokobanptr( w_sokoban );
     draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt("SOKOBAN");
     ctxt.register_cardinal();
@@ -358,7 +358,7 @@ int sokoban_game::start_game()
             }
             bNewLevel = true;
         } else if (action == "PREV") {
-            //prev level
+            //previous level
             clear_level(w_sokoban);
             iCurrentLevel--;
             if (iCurrentLevel < 0) {

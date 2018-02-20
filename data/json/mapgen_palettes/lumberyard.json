@@ -1,0 +1,49 @@
+[
+  {
+    "type": "palette",
+    "id": "lumberyard",
+    "terrain": {
+      " ": "t_grass",
+      "_": "t_pavement",
+      ":": "t_pavement_y",
+      "|": "t_wall",
+      "*": "t_underbrush",
+      ";": "t_rdoor_boarded",
+      ".": "t_floor",
+      "6": "t_gates_mech_control",
+      "&": "t_floor",
+      "+": "t_door_c",
+      "!": "t_door_locked_interior",
+      "/": "t_door_glass_c",
+      "-": "t_wall_glass",
+      "C": "t_floor",
+      "D": "t_floor",
+      "S": "t_floor",
+      "X": "t_pavement",
+      "b": "t_floor",
+      "c": "t_floor",
+      "d": "t_floor",
+      "f": "t_floor",
+      "r": "t_railing_v",
+      "s": "t_sidewalk",
+      "t": "t_floor",
+      "v": "t_chainfence_v",
+      "x": "t_floor"
+    },
+    "furniture": {
+      "&": "f_trashcan",
+      "C": "f_counter",
+      "D": "f_vending_c",
+      "F": "f_vending_c",
+      "X": [ "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "S": "f_sink",
+      "b": "f_bench",
+      "c": "f_chair",
+      "d": "f_desk",
+      "f": "f_fridge",
+      "t": "f_toilet",
+      "x": [ "f_crate_c", "f_crate_c", "f_crate_o" ]
+    },
+    "toilets": { "t": {  } }
+  }
+]

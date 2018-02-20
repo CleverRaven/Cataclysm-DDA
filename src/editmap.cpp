@@ -114,7 +114,7 @@ void edit_json( SAVEOBJ *it )
         uimenu tm;
 
         for( auto &elem : fs1 ) {
-            tm.addentry( -1, true, -2, "%s", elem.c_str() );
+            tm.addentry( -1, true, -2, elem );
         }
         if( tmret == 0 ) {
             try {
@@ -129,7 +129,7 @@ void edit_json( SAVEOBJ *it )
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
             for( size_t s = 0; s < fs2.size(); ++s ) {
-                tm.addentry( -1, true, -2, "%s", fs2[s].c_str() );
+                tm.addentry( -1, true, -2, fs2[s] );
                 if( s < fs1.size() && fs2[s] != fs1[s] ) {
                     tm.entries[ tm.entries.size() - 1 ].text_color = c_light_green;
                     tm.entries[s].text_color = c_light_red;
@@ -192,8 +192,8 @@ editmap::editmap()
     fset = undefined_furn_id;
     trsel = undefined_trap_id;
     trset = undefined_trap_id;
-    w_info = 0;
-    w_help = 0;
+    w_info = catacurses::window();
+    w_help = catacurses::window();
     padding = std::string( width - 2, ' ' );
     blink = false;
     altblink = false;
@@ -226,11 +226,7 @@ editmap::editmap()
     uberdraw = false;
 }
 
-editmap::~editmap()
-{
-    delwin( w_info );
-    delwin( w_help );
-}
+editmap::~editmap() = default;
 
 void editmap_hilight::draw( editmap *hm, bool update )
 {
@@ -288,7 +284,7 @@ tripoint editmap::screen2pos( const tripoint &p )
 }
 
 /*
- * standardized escape/back up keys: esc, q, space
+ * standardized Escape/Back up keys: Esc, q, Space
  */
 bool menu_escape( int ch )
 {
@@ -331,8 +327,8 @@ void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
 {
 
     if( txt1 != "" ) {
-        mvwprintw( w_help, 0, 0, "%s", padding.c_str() );
-        mvwprintw( w_help, 1, 0, "%s", padding.c_str() );
+        mvwprintw( w_help, 0, 0, padding );
+        mvwprintw( w_help, 1, 0, padding );
         mvwprintw( w_help, ( txt2 != "" ? 0 : 1 ), 0, txt1.c_str() );
         if( txt2 != "" ) {
             mvwprintw( w_help, 1, 0, txt2.c_str() );
@@ -343,7 +339,7 @@ void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
         mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
         int starttxt = int( ( hwidth - title.size() - 4 ) / 2 );
         mvwprintw( w_help, 2, starttxt, "< " );
-        wprintz( w_help, c_cyan, "%s", title.c_str() );
+        wprintz( w_help, c_cyan, title );
         wprintw( w_help, " >" );
     }
     wrefresh( w_help );
@@ -451,7 +447,7 @@ enum edit_drawmode {
  * This is a map editor after all.
  */
 
-void editmap::uber_draw_ter( WINDOW *w, map *m )
+void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
@@ -574,7 +570,7 @@ void editmap::update_view( bool update_info )
         }
     }
 
-    // custom hilight. todo; optimize
+    // custom hilight. @todo; optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
             elem.second.draw( this );
@@ -593,7 +589,7 @@ void editmap::update_view( bool update_info )
 
     wrefresh( g->w_terrain );
 
-    if( update_info ) {  // only if requested; this messes up windows layered ontop
+    if( update_info ) {  // only if requested; this messes up windows layered on top
         int off = 1;
         draw_border( w_info );
 
@@ -786,7 +782,7 @@ int editmap::edit_ter()
         fymax++;
     }
 
-    tripoint sel_terp = tripoint_min;     // screen coords of current selection
+    tripoint sel_terp = tripoint_min;     // screen coordinates of current selection
     tripoint lastsel_terp = tripoint_min; // and last selection
     tripoint target_terp = tripoint_min;  // and current tile
     tripoint sel_frnp = tripoint_min;     // for furniture ""
@@ -847,10 +843,10 @@ int editmap::edit_ter()
         mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x - 1, c_tercurs, LINE_OXXO );
 
         draw_border( w_pickter );
-        // calc offset, print terrain selection info
+        // calculate offset, print terrain selection info
         int tlen = tymax * 2;
         int off = tstart + tlen;
-        mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
+        mvwprintw( w_pickter, off, 1, padding );
         if( ter_frn_mode == 0 ) { // unless furniture is selected
             const ter_t &pttype = sel_ter.obj();
 
@@ -873,7 +869,7 @@ int editmap::edit_ter()
 
         off += 2;
         int cur_f = 0;
-        int fstart = off; // calc vertical offset, draw furniture icons
+        int fstart = off; // calculate vertical offset, draw furniture icons
         for( int y = fstart; y < pickh && cur_f < ( int ) furn_t::count(); y += 2 ) {
             for( int x = xmin; x < pickw && cur_f < ( int ) furn_t::count(); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
@@ -905,7 +901,7 @@ int editmap::edit_ter()
 
         int flen = fymax * 2;
         off += flen;
-        mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
+        mvwprintw( w_pickter, off, 1, padding );
         if( ter_frn_mode == 1 ) {
             const furn_t &pftype = sel_frn.obj();
 
@@ -1015,7 +1011,7 @@ int editmap::edit_ter()
                 uberdraw = !uberdraw;
                 update_view( false );
             }
-        } else { // todo: cleanup
+        } else { // @todo: cleanup
             if( action == "LEFT" ) {
                 increment( sel_frn, -1, furn_t::count() );
             } else if( action == "RIGHT" ) {
@@ -1052,11 +1048,6 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
-
-    werase( w_pickter );
-    wrefresh( w_pickter );
-
-    delwin( w_pickter );
     return ret;
 }
 
@@ -1089,7 +1080,7 @@ void editmap::setup_fmenu( uimenu *fmenu )
         const field_t &ftype = fieldlist[fid];
         int fdens = 1;
         fname = ftype.name( fdens - 1 );
-        fmenu->addentry( fid, true, -2, "%s", fname.c_str() );
+        fmenu->addentry( fid, true, -2, fname );
         fmenu->entries[fid].extratxt.left = 1;
         fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
         update_fmenu_entry( fmenu, cur_field, fid );
@@ -1137,7 +1128,7 @@ int editmap::edit_fld()
                 femenu.return_invalid = true;
                 const field_t &ftype = fieldlist[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
-                femenu.addentry( pgettext( "map editor: used to describe a clean field (eg. without blood)",
+                femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
                 femenu.addentry( string_format( "1: %s", ftype.name( 0 ).c_str() ) );
@@ -1247,7 +1238,7 @@ int editmap::edit_trp()
         }
         std::string tnam;
         for( int t = tshift; t <= tshift + tmax; t++ ) {
-            mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str() );
+            mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, padding );
             if( t < num_trap_types ) {
                 auto &tr = trap_id( t ).obj();
                 if( tr.is_null() ) {
@@ -1291,9 +1282,6 @@ int editmap::edit_trp()
             update_view( false );
         }
     } while( action != "QUIT" );
-    werase( w_picktrap );
-    wrefresh( w_picktrap );
-    delwin( w_picktrap );
 
     wrefresh( w_info );
 
@@ -1325,7 +1313,7 @@ int editmap::edit_itm()
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
                          an_item.is_emissive() ? " L" : "" );
     }
-    // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
+    // @todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry( -5, true, 'a', _( "Add item" ) );
 
     ilmenu.addentry( -10, true, 'q', _( "Cancel" ) );
@@ -1534,7 +1522,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 }
 
 /*
- * Interactively select, resize, and move the list of target coords
+ * Interactively select, resize, and move the list of target coordinates
  */
 int editmap::select_shape( shapetype shape, int mode )
 {
@@ -1764,7 +1752,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                             s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
                             vehicle *veh1 = srcsm->vehicles[i];
-                            // vehicle *veh1 = veh;   // fixme: is this required?
+                            // vehicle *veh1 = veh;   // @todo: fixme: is this required?
                             veh1->smx = target_sub.x + x;
                             veh1->smy = target_sub.y + y;
                             veh1->smz = target.z;
@@ -1806,7 +1794,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                         destsm->temperature = srcsm->temperature;
                         destsm->turn_last_touched = int( calendar::turn );
-                        destsm->comp = srcsm->comp;
+                        destsm->comp = std::move( srcsm->comp );
                         destsm->camp = srcsm->camp;
 
                         if( spawns_todo > 0 ) {                               // trigger spawnpoints
@@ -1825,7 +1813,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                        omt_ref->get_name().c_str(), omt_ref.id().c_str() );
             }
         } else if( gpmenu.keypress == 'm' ) {
-            // todo; keep preview as is and move target
+            // @todo; keep preview as is and move target
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 
@@ -1838,9 +1826,6 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
     inp_mngr.reset_timeout();
-    werase( w_preview );
-    wrefresh( w_preview );
-    delwin( w_preview );
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter

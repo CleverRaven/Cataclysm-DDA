@@ -3,6 +3,7 @@
 #define _UNICODE 1
 
 #include "cursesport.h"
+#include "cursesdef.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
@@ -37,8 +38,8 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
-HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
+HDC backbuffer;         //an off-screen DC to prevent flickering, lower CPU
+HBITMAP backbit;        //the bitmap that is used in conjunction with the above
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
@@ -168,10 +169,10 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     case WM_CHAR:
         lastchar = (int)wParam;
         switch (lastchar){
-            case VK_RETURN: //Reroute ENTER key for compatilbity purposes
+            case VK_RETURN: //Reroute ENTER key for compatibility purposes
                 lastchar=10;
                 break;
-            case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
+            case VK_BACK: //Reroute BACKSPACE key for compatibility purposes
                 lastchar=127;
                 break;
         }
@@ -319,8 +320,9 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
         memset(&dcbits[x+j*WindowWidth],color,width);
 }
 
-void cata_cursesport::curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    WINDOW *const win = w.get<WINDOW>();
     int i,j,drawx,drawy;
     wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
@@ -457,7 +459,7 @@ int projected_window_height(int)
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
@@ -543,7 +545,7 @@ input_event input_manager::get_input_event()
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh( stdscr );
+    wrefresh( catacurses::stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)
@@ -620,7 +622,7 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     result.rgbBlue=b;    //Blue
     result.rgbGreen=g;    //Green
     result.rgbRed=r;    //Red
-    result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
+    result.rgbReserved=0;//The Alpha, is not used, so just set it to 0
     return result;
 }
 

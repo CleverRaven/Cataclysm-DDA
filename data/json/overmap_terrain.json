@@ -15,12 +15,16 @@
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "abstract" : "generic_city_building",
+        "abstract" : "generic_city_building_no_sidewalk",
         "name" : "city building",
         "sym" : 94,
         "see_cost" : 5,
         "extras" : "build",
-        "mondensity" : 2,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "abstract" : "generic_city_building",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
@@ -892,24 +896,51 @@
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "hospital_entrance",
-        "name" : "hospital",
-        "sym" : 72,
-        "color" : "light_red",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "hospital",
+        "abstract" : "generic_hospital",
         "name" : "hospital",
         "sym" : 72,
         "color" : "red",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_1",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_2",
+        "copy-from" : "generic_hospital",
+        "color" : "light_red"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_3",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_4",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_5",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_6",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_7",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_8",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_9",
+        "copy-from" : "generic_hospital"
     },{
         "type" : "overmap_terrain",
         "id" : "public_works_NE",
@@ -1924,8 +1955,17 @@
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "subway_station",
-        "name" : "subway station",
+        "id" : "sewer_sub_station",
+        "name" : "subway station (sewer level)",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 5,
+        "extras" : "subway",
+        "flags" : [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "underground_sub_station",
+        "name" : "subway station (underground level)",
         "sym" : 83,
         "color" : "yellow",
         "see_cost" : 5,
@@ -1938,6 +1978,21 @@
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "subway",
+        "mapgen_straight": [
+            { "method": "builtin", "name": "subway_straight" }
+        ],
+        "mapgen_curved": [
+            { "method": "builtin", "name": "subway_curved" }
+        ],
+        "mapgen_end": [
+            { "method": "builtin", "name": "subway_end" }
+        ],
+        "mapgen_tee": [
+            { "method": "builtin", "name": "subway_tee" }
+        ],
+        "mapgen_four_way": [
+            { "method": "builtin", "name": "subway_four_way" }
+        ],
         "flags" : [ "LINEAR" ]
     },{
         "type" : "overmap_terrain",
@@ -7141,5 +7196,265 @@
     "id": "mansion_wild_dn",
     "type": "overmap_terrain",
     "copy-from" : "generic_mansion"
+  },
+  {
+    "id": "orchard",
+    "type": "overmap_terrain",
+    "name": "orchard",
+    "sym": 35,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dispensary",
+    "type": "overmap_terrain",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "skate_park",
+    "type": "overmap_terrain",
+    "name": "skate park",
+    "sym": 79,
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_office",
+    "type": "overmap_terrain",
+    "name": "small office",
+    "sym": 111,
+    "color": "brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_wooded_trail",
+    "type": "overmap_terrain",
+    "name": "small wooded trail",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "art_gallery",
+    "type": "overmap_terrain",
+    "name": "art gallery",
+    "sym": 97,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "derelict_property",
+    "type": "overmap_terrain",
+    "name": "derelict property",
+    "sym": 88,
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "state_park_0_0",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_0_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_1_0",
+    "type": "overmap_terrain",
+    "name": "state park parking",
+    "sym": 36,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "state_park_1_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "pavilion",
+    "type": "overmap_terrain",
+    "name": "pavilion",
+    "sym": 65,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_0_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_0_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_1_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_1_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "hunting_blind",
+    "type": "overmap_terrain",
+    "name": "hunting blind",
+    "sym": 72,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "small_storage_units",
+    "type": "overmap_terrain",
+    "name": "small storage units",
+    "sym": 35,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "cemetery_small",
+    "type": "overmap_terrain",
+    "name": "small cemetery",
+    "sym": 67,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_0",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_1",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_0",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_1",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "construction_site",
+    "name": "construction site",
+    "copy-from": "generic_city_building",
+    "sym": 120,
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office",
+    "name": "post office",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop",
+    "name": "candy shop",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "name": "bakery",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "copy-from": "generic_city_building",
+    "color": "white"
   }
 ]

@@ -4,7 +4,6 @@
 
 #include "dependency_tree.h"
 
-#include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>

@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "line.h"
 #include "messages.h"
+#include "output.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "iuse_actor.h"
@@ -280,7 +281,7 @@ void mdeath::triffid_heart(monster *z)
     if (g->u.sees(*z)) {
         add_msg(m_warning, _("The surrounding roots begin to crack and crumble."));
     }
-    g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
+    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus(monster *z)
@@ -741,7 +742,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     item corpse = item::make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.set_damage( damageLvl );
     if( z->has_effect( effect_pacified) && z->type->in_species( ZOMBIE ) ) {
-        // Pacified corpses have a chance of becoming un-pacified when regenerating.
+        // Pacified corpses have a chance of becoming unpacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
     }
     if (z->has_effect( effect_no_ammo)) {

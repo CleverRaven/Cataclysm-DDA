@@ -84,9 +84,14 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
+    const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const bool has_washmachine = washing_machine_part >= 0;
+    bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
+                              veh->parts[washing_machine_part].enabled;
+
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
     } options;
     uimenu selectmenu;
 
@@ -96,7 +101,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
-    if( from_vehicle ) {
+    if( has_washmachine ) {
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W',
+                             washing_machine_on ? _( "Deactivate the washing machine" ) :
+                             _( "Activate the washing machine (1.5 hours)" ) );
+    }
+
+    if( from_vehicle && !washing_machine_on ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
@@ -170,6 +181,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             veh_tool( "hotplate" );
             return DONE;
 
+        case USE_WASHMACHINE: {
+            veh->use_washing_machine( washing_machine_part );
+            return DONE;
+        }
+
         case FILL_CONTAINER:
             g->u.siphon( *veh, "water_clean" );
             return DONE;
@@ -191,7 +207,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
                     act.coords.push_back( pos );
-                    // Finally tell it it is the vehicle part with weldrig
+                    // Finally tell if it is the vehicle part with welding rig
                     act.values.resize( 2 );
                     act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
                 }
@@ -349,7 +365,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     amenu.text = explain;
 
     offered_swap = true;
-    // @todo Gray out if not enough hands
+    // @todo: Gray out if not enough hands
     if( u.is_armed() ) {
         amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name().c_str(),
@@ -669,7 +685,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::reverse( stacked_here.begin(), stacked_here.end() );
 
-    if( min != -1 ) { // don't bother if we're just autopickup-ing
+    if( min != -1 ) { // don't bother if we're just autopickuping
         g->temp_exit_fullscreen();
     }
     bool sideStyle = use_narrow_sidebar();
@@ -712,10 +728,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
         int itemsX = pickupX;
 
-        catacurses::window w_pickup    = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
         catacurses::window w_item_info = catacurses::newwin( itemsH,  itemsW,  itemsY,  itemsX );
-        WINDOW_PTR w_pickupptr( w_pickup );
-        WINDOW_PTR w_item_infoptr( w_item_info );
 
         std::string action;
         long raw_input_char = ' ';
@@ -974,7 +988,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                                    item_name.c_str() );
                     }
                     trim_and_print( w_pickup, 1 + ( cur_it % maxitems ), 6, pickupW - 4, icolor,
-                                    "%s", item_name.c_str() );
+                                    item_name );
                 }
             }
 
@@ -1047,8 +1061,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
         }
         if( action != "CONFIRM" || !item_selected ) {
-            w_pickupptr.reset();
-            w_item_infoptr.reset();
+            w_pickup = catacurses::window();
+            w_item_info = catacurses::window();
             add_msg( _( "Never mind." ) );
             g->reenter_fullscreen();
             g->refresh_all();

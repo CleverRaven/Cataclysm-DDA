@@ -43,7 +43,6 @@
 #include "scenario.h"
 #include "omdata.h"
 #include "options.h"
-#include "game.h"
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
@@ -186,6 +185,7 @@ void DynamicDataLoader::initialize()
     // Non Static Function Access
     add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
     add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
+    add( "trait_group", []( JsonObject &jo ) { mutation_branch::load_trait_group( jo ); } );
     add( "item_action", []( JsonObject &jo ) { item_action_generator::generator().load_item_action( jo ); } );
 
     add( "vehicle_part",  &vpart_info::load );
@@ -404,7 +404,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo Make it print to stdout?
+    // @todo: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }
@@ -421,6 +421,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Crafting requirements" ), []() { requirement_data::finalize(); } },
         { _( "Vehicle parts" ), &vpart_info::finalize },
         { _( "Traps" ), &trap::finalize },
+        { _( "Bionics" ), &finalize_bionics },
         { _( "Terrain" ), &set_ter_ids },
         { _( "Furniture" ), &set_furn_ids },
         { _( "Overmap terrain" ), &overmap_terrains::finalize },

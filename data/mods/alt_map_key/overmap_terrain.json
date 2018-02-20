@@ -982,24 +982,51 @@
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "hospital_entrance",
-        "name" : "hospital",
-        "sym" : 72,
-        "color" : "i_light_red",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "hospital",
+        "abstract" : "generic_hospital",
         "name" : "hospital",
         "sym" : 104,
         "color" : "i_light_red",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_1",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_2",
+        "sym" : 72,
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_3",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_4",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_5",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_6",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_7",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_8",
+        "copy-from" : "generic_hospital"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_9",
+        "copy-from" : "generic_hospital"
     },{
         "type" : "overmap_terrain",
         "id" : "public_works_NE",
@@ -2014,8 +2041,8 @@
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "subway_station",
-        "name" : "subway station",
+        "id" : "sewer_sub_station",
+        "name" : "subway station (underground level)",
         "sym" : 83,
         "color" : "yellow",
         "see_cost" : 5,
@@ -7835,5 +7862,77 @@
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_0",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_0_1",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_0",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_1",
+    "name": "lumberyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 76,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "construction_site",
+    "name": "construction site",
+    "copy-from": "generic_city_building",
+    "sym": 120,
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office",
+    "name": "post office",
+    "copy-from": "generic_city_building",
+    "sym": 80,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop",
+    "name": "candy shop",
+    "copy-from": "generic_city_building",
+    "sym": 67,
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "name": "bakery",
+    "copy-from": "generic_city_building",
+    "sym": 66,
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "copy-from": "generic_city_building",
+    "sym": 73,
+    "color": "white"
   }
 ]

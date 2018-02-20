@@ -2,6 +2,7 @@
 
 #include "calendar.h"
 #include "game.h"
+#include "output.h"
 #include "player.h"
 #include "monster.h"
 #include "map.h"
@@ -13,6 +14,8 @@
 
 const skill_id skill_survival( "survival" );
 
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+
 enum class description_target : int {
     creature,
     furniture,
@@ -21,7 +24,7 @@ enum class description_target : int {
 
 const Creature *seen_critter( const game &g, const tripoint &p )
 {
-    const Creature *critter = g.critter_at( p );
+    const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {
         return critter;
     }
@@ -39,9 +42,9 @@ void game::extended_description( const tripoint &p )
     const int height = bottom - top;
     catacurses::window w_head = catacurses::newwin( top, TERMX, 0, 0 );
     catacurses::window w_main = catacurses::newwin( height, width, top, left );
-    // @todo De-hardcode
+    // @todo: De-hardcode
     std::string header_message = _( "\
-c to describe creatures, f to describe furniture, t to describe terrain, esc/enter to close." );
+c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str() );
 
     // Set up line drawings
@@ -90,8 +93,9 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
         std::string signage = m.get_signage( p );
-        if( signage.size() > 0 ) {
-            desc += string_format( _( "\nSign: %s" ), signage.c_str() );
+        if( !signage.empty() ) {
+            desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
+                        _( "\nSign: %s" ), signage.c_str() );
         }
 
         werase( w_main );
@@ -112,13 +116,6 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         }
 
     } while( ch != KEY_ESCAPE && ch != '\n' );
-
-    werase( w_head );
-    werase( w_main );
-    wrefresh( w_head );
-    wrefresh( w_main );
-    delwin( w_head );
-    delwin( w_main );
 }
 
 std::string map_data_common_t::extended_description() const
@@ -147,7 +144,7 @@ std::string map_data_common_t::extended_description() const
             identical_harvest.insert( std::make_pair( hv, ( season_type )season ) );
         }
         // Now print them in order of seasons
-        // @todo Highlight current season
+        // @todo: Highlight current season
         for( size_t season = SPRING; season <= WINTER; season++ ) {
             const auto range = identical_harvest.equal_range( harvest_by_season[ season ] );
             if( range.first == range.second ) {
@@ -157,7 +154,7 @@ std::string map_data_common_t::extended_description() const
             // List the seasons first
             ss << enumerate_as_string( range.first, range.second,
             []( const std::pair<harvest_id, season_type> &pr ) {
-                if( pr.second == calendar::turn.get_season() ) {
+                if( pr.second == season_of_year( calendar::turn ) ) {
                     return "<good>" + calendar::name_season( pr.second ) + "</good>";
                 }
 
@@ -166,7 +163,7 @@ std::string map_data_common_t::extended_description() const
             ss << ":" << std::endl;
             // List the drops
             // They actually describe what player can get from it now, so it isn't spoily
-            // @todo Allow spoily listing of everything
+            // @todo: Allow spoily listing of everything
             ss << range.first->first.obj().describe( player_skill ) << std::endl;
             // Remove the range from the multimap so that it isn't listed twice
             identical_harvest.erase( range.first, range.second );

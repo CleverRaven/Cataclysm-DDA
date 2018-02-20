@@ -39,7 +39,7 @@
     "id": "762_51_incendiary",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": "7.62 NATO tracer",
+    "name": "7.62x51mm NATO tracer",
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
   },

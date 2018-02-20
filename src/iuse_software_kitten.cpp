@@ -3,6 +3,7 @@
 #include "output.h"
 #include "translations.h"
 #include "posix_time.h"
+#include "cursesdef.h"
 #include "input.h"
 
 #include <cstdlib>  // Needed for rand()
@@ -46,7 +47,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("A signpost saying \"TO KITTEN\". It points in no particular direction."),
         _("A hammock stretched between a tree and a volleyball pole."),
         _("A Texas Instruments of Destruction calculator."),
-        _("It's a dark, amphorous blob of matter."),
+        _("It's a dark, amorphous blob of matter."),
         _("Just a pincushion."),
         _("It's a mighty zombie talking about some love and prosperity."),
         _("\"Dear robot, you may have already won our 10 MILLION DOLLAR prize...\""),
@@ -223,7 +224,7 @@ std::string robot_finds_kitten::getmessage(int idx)
     }
 }
 
-robot_finds_kitten::robot_finds_kitten(WINDOW *w)
+robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
     ret = false;
     char ktile[83] =
@@ -332,7 +333,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
         if(ret == true) {
             break;
         }
-        /* Redraw robot, where avaliable */
+        /* Redraw robot, where available */
         if (!(old_x == robot.x && old_y == robot.y)) {
             wmove(w, old_y, old_x);
             wputch(w, c_white, ' ');
@@ -349,7 +350,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
 }
 
-void robot_finds_kitten::instructions(WINDOW *w)
+void robot_finds_kitten::instructions( const catacurses::window &w )
 {
     int pos = 1;
     pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_light_gray, _("robotfindskitten v22July2008"));
@@ -363,16 +364,16 @@ ported to CDDA gaming system by a nutcase."));
     draw_robot(w);
     wprintz(w, c_light_gray, _(")."));
     pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
-Your job is to find kitten. This task is complicated by the existance of various things \
+Your job is to find kitten. This task is complicated by the existence of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
-The game ends when robotfindskitten. Alternatively, you may end the game by hitting \
-'q', 'Q' or the escape key."));
+The game ends when robot finds kitten. Alternatively, you may end the game by hitting \
+'q', 'Q' or the Escape key."));
     fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("Press any key to start."));
     wrefresh(w);
     inp_mngr.wait_for_any_key();
 }
 
-void robot_finds_kitten::process_input(int input, WINDOW *w)
+void robot_finds_kitten::process_input( int input, const catacurses::window &w )
 {
     timespec ts;
     ts.tv_sec = 1;
@@ -470,7 +471,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             std::vector<std::string> bogusvstr = foldstring( getmessage(
                     bogus_messages[rfkscreen[check_x][check_y] - 2]), rfkCOLS);
             for (size_t c = 0; c < bogusvstr.size(); c++) {
-                mvwprintw (w, c, 0, "%s", bogusvstr[c].c_str());
+                mvwprintw( w, c, 0, bogusvstr[c] );
             }
             wrefresh(w);
         }
@@ -484,12 +485,12 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     robot.y = check_y;
 }
 
-void robot_finds_kitten::draw_robot(WINDOW *w)  /* Draws robot at current position */
+void robot_finds_kitten::draw_robot( const catacurses::window &w )  /* Draws robot at current position */
 {
     wputch(w, robot.color, robot.character);
 }
 
-void robot_finds_kitten::draw_kitten(WINDOW *w)  /* Draws kitten at current position */
+void robot_finds_kitten::draw_kitten( const catacurses::window &w )  /* Draws kitten at current position */
 {
     wputch(w, kitten.color, kitten.character);
 }

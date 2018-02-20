@@ -7,7 +7,7 @@
 /**
  * @name BODYTEMP
  * Body temperature.
- * Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
+ * Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
  * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
  * Most values can be changed with no impact on calculations.
  * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
@@ -126,13 +126,11 @@ struct weather_sum {
     float sunlight = 0.0f;
 };
 
-const std::string season_name( int season );
-const std::string season_name_upper( int season );
 weather_datum const weather_data( weather_type const type );
 
 std::string weather_forecast( point const &abs_sm_pos );
 
-// Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
+// Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
 // If scale is Celsius:    temperature(100) will return "37C"
 // If scale is Fahrenheit: temperature(100) will return "100F"
@@ -147,8 +145,8 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered = 
 int get_local_windpower( double windpower, const oter_id &omter,
                          bool sheltered = false );
 
-weather_sum sum_conditions( const calendar &startturn,
-                            const calendar &endturn,
+weather_sum sum_conditions( const time_point &start,
+                            const time_point &end,
                             const tripoint &location );
 
 /**
