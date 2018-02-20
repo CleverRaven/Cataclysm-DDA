@@ -939,44 +939,26 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
 /**
  * If there is a 2x4 around, prompt placing it across pit.
  */
-void iexamine::pit(player &p, const tripoint &examp)
+void iexamine::pit( player &p, const tripoint &examp )
 {
-    inventory map_inv;
-    map_inv.form_from_map( p.pos(), 1);
-
-    bool player_has = p.has_amount("2x4", 1);
-    bool map_has = map_inv.has_amount("2x4", 1);
-
-    // return if there is no 2x4 around
-    if (!player_has && !map_has) {
+    const inventory &crafting_inv = p.crafting_inventory();
+    if( !crafting_inv.has_amount( "2x4", 1 ) ) {
         none( p, examp );
         return;
     }
+    std::vector<item_comp> planks;
+    planks.push_back( item_comp( "2x4", 1 ) );
 
-    if (query_yn(_("Place a plank over the pit?"))) {
-        // if both have, then ask to use the one on the map
-        if (player_has && map_has) {
-            if (query_yn(_("Use the plank at your feet?"))) {
-                long quantity = 1;
-                g->m.use_amount( p.pos(), 1, "2x4", quantity);
-            } else {
-                p.use_amount("2x4", 1);
-            }
-        } else if (player_has && !map_has) { // only player has plank
-            p.use_amount("2x4", 1);
-        } else if (!player_has && map_has) { // only map has plank
-            long quantity = 1;
-            g->m.use_amount( p.pos(), 1, "2x4", quantity);
+    if( query_yn( _( "Place a plank over the pit?" ) ) ) {
+        p.consume_items( planks );
+        if( g->m.ter( examp ) == t_pit ) {
+            g->m.ter_set( examp, t_pit_covered );
+        } else if( g->m.ter( examp ) == t_pit_spiked ) {
+            g->m.ter_set( examp, t_pit_spiked_covered );
+        } else if( g->m.ter( examp ) == t_pit_glass ) {
+            g->m.ter_set( examp, t_pit_glass_covered );
         }
-
-        if( g->m.ter(examp) == t_pit ) {
-            g->m.ter_set(examp, t_pit_covered);
-        } else if( g->m.ter(examp) == t_pit_spiked ) {
-            g->m.ter_set(examp, t_pit_spiked_covered);
-        } else if( g->m.ter(examp) == t_pit_glass ) {
-            g->m.ter_set(examp, t_pit_glass_covered);
-        }
-        add_msg(_("You place a plank of wood over the pit."));
+        add_msg( _( "You place a plank of wood over the pit." ) );
     }
 }
 
@@ -1033,7 +1015,7 @@ void iexamine::slot_machine( player &p, const tripoint& )
 
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
- * 
+ *
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
@@ -1407,7 +1389,7 @@ bool drink_nectar( player &p )
 
 /**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
- * 
+ *
  * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
  * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
@@ -2655,7 +2637,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
 /**
  * Returns the weight of all the items on tile made of specific material.
- * 
+ *
  * @param &stack item stack.
  * @param &material the material whose mass we want.
  * @param remove_items are the items getting consumed in the process?
