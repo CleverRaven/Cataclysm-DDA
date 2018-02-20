@@ -292,7 +292,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 15 ] ] ]
+    "components": [ [ [ "scrap", 190 ] ] ]
   },
   {
     "result": "chainmail_suit",
