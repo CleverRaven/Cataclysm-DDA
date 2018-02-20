@@ -24,10 +24,9 @@ class npc_destination
 
         npc_destination();
 
-        npc_destination::npc_destination( std::string npc_destination_id );
+        npc_destination( std::string npc_destination_id );
 
-        std::string &get_random_destination();
-        tripoint &get_random_destination_for_need( npc_need need );
+        std::string get_random_dest();
 
         void load( JsonObject &jo, const std::string &src );
 

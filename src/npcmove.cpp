@@ -2870,8 +2870,14 @@ void npc::set_destination()
         needs.push_back( need_none );
     }
 
-    std::string need = "need_none"; // needs[0];
-    goal = npc_destination( need ).get_random_destination( );
+    std::string dest_type = npc_destination( npc_need_name( needs[0] ) ).get_random_dest();
+    // We need that, otherwise find_closest won't work properly
+    // TODO: Allow finding sewers and stuff
+    tripoint surface_omt_loc = npc::global_omt_location();
+    surface_omt_loc.z = 0;
+
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
+    debugmsg( "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 
 void npc::go_to_destination()

@@ -3,8 +3,6 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "worldfactory.h"
-#include "npc.h"
-#include "overmapbuffer.h"
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
@@ -80,30 +78,7 @@ void npc_destination::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "terrains", terrains );
 }
 
-std::string &get_random_destination()
+std::string npc_destination::get_random_dest()
 {
-    return random_entry( terrains );
-}
-
-tripoint &npc_destination::get_random_destination_for_need( npc_need need )
-{
-    std::string dest_type;
-    switch ( need )
-    {
-        case npc_need::need_none:
-            dest_type = npc_destination( "need_none" ).;
-            break;
-        default:
-            break;
-    }
-
-    // We need that, otherwise find_closest won't work properly
-    // TODO: Allow finding sewers and stuff
-    tripoint surface_omt_loc = global_omt_location();
-    surface_omt_loc.z = 0;
-
-    tripoint destination = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
-    debugmsg( "New goal: %s at %d,%d,%d", dest_type.c_str(), destination.x, destination.y, destination.z );
-
-    return destination;
+    return random_entry( terrains ).str();
 }

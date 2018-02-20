@@ -592,6 +592,8 @@ class npc : public player
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
 
+
+
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
 
@@ -875,6 +877,8 @@ struct epilogue {
     epilogue *find_epilogue( std::string ident );
     void random_by_group( std::string group, std::string name );
 };
+
+std::string npc_need_name( npc_need need );
 
 std::ostream &operator<< ( std::ostream &os, npc_need need );
 
