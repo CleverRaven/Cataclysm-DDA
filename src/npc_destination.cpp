@@ -3,25 +3,6 @@
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
-#include "omdata.h"
-
-struct oter_t;
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
-
-namespace
-{
-
-generic_factory<oter_t> terrains( "overmap terrain" );
-
-}
-
-/** @relates string_id */
-template<>
-bool string_id<oter_t>::is_valid() const
-{
-    return terrains.is_valid( *this );
-}
 
 generic_factory<npc_destination> npc_destination_factory( "npc_destination" );
 
@@ -65,18 +46,8 @@ void npc_destination::reset_npc_destinations()
 void npc_destination::check_consistency()
 {
     for( auto &d : npc_destination_factory.get_all() ) {
-        DebugLog( D_INFO, DC_ALL ) << "npc_destination::check_consistency() : npc_destination is [" << d.id.c_str() << "] with size of [" << d.destination_terrains.size() << "]";
         if( d.destination_terrains.empty() ) {
             debugmsg( "NPC destination \"%s\" doesn't have destination_terrains specified.", d.id.c_str() );
-        } else {
-            for( const auto &t : d.destination_terrains ) {
-                const oter_id oter( t );
-                if( !oter.is_valid() ) {
-                    debugmsg( "NPC destination \"%s\", contains invalid terrain \"%s\".", d.id.c_str(), t.c_str() );
-                } else {
-                    DebugLog( D_INFO, DC_ALL ) << "npc_destination::check_consistency() : destination_terrains contains terrain [" << t.c_str() << "]";
-                }
-            }
         }
     }
 }
@@ -84,11 +55,4 @@ void npc_destination::check_consistency()
 void npc_destination::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "destination_terrains", destination_terrains );
-}
-
-std::string npc_destination::get_random_dest()
-{
-    std::string return_value = random_entry( destination_terrains );
-    DebugLog( D_INFO, DC_ALL ) << "npc_destination::get_random_dest() with: [" << id.c_str() << "] going to random_entry of: [" << return_value.c_str() << "]";
-    return return_value;
 }

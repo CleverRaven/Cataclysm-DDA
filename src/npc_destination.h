@@ -13,10 +13,9 @@ using npc_destination_id = string_id<npc_destination>;
 
 class npc_destination
 {
-    private:
+    public:
         std::vector<std::string> destination_terrains;
 
-    public:
         npc_destination_id id;
 
         bool was_loaded = false;
@@ -24,8 +23,6 @@ class npc_destination
         npc_destination();
 
         npc_destination( std::string npc_destination_id );
-
-        std::string get_random_dest();
 
         void load( JsonObject &jo, const std::string &src );
 

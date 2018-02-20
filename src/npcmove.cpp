@@ -2876,16 +2876,19 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
+    std::string npc_name = get_name();
+    std::string need_name = npc_need_name( needs[0] );
     // Hack for city-less worlds (see #22270).
     std::string dest_type = "field";
     if( world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0" ) {
-        dest_type = npc_destination( npc_need_name( needs[0] ) ).get_random_dest();
+        std::vector<std::string> dests = npc_destination( need_name ).destination_terrains;
+        dest_type = random_entry( dests );
         goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 1, false );
     } else {
         goal = overmap_buffer.find_random( surface_omt_loc, dest_type, 1, false );
     }
 
-    DebugLog( D_INFO, DC_ALL ) << "New goal for NPC " << get_name() << " is " << dest_type.c_str() << " in " << goal.x << "," << goal.y << "," << goal.z;
+    DebugLog( D_INFO, DC_ALL ) << "New goal for NPC [" << npc_name.c_str() << "] with [" << need_name.c_str() << "] is [" << dest_type.c_str() << "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
 void npc::go_to_destination()
