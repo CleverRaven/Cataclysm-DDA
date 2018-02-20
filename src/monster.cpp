@@ -83,6 +83,13 @@ const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
 const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
 const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
+const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
+const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
+const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
+const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
+const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
+const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -1916,7 +1923,7 @@ bool monster::make_fungus()
     } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
       tid == mon_zombie_spitter || tid == mon_zombie_brute ||
       tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter ||
       tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
       tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
       tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -1932,6 +1939,10 @@ bool monster::make_fungus()
         polypick = 3;
     } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
+    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
+      tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
+      tid == mon_zombie_waif ) {
+        polypick = 5;
     }
 
     const std::string old_name = name();
@@ -1947,6 +1958,9 @@ bool monster::make_fungus()
             break;
         case 4:
             poly( mon_fungaloid );
+            break;
+        case 5:
+            poly( mon_zombie_child_fungus );
             break;
         default:
             return false;
