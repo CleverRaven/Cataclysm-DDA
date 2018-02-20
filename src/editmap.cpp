@@ -284,7 +284,7 @@ tripoint editmap::screen2pos( const tripoint &p )
 }
 
 /*
- * standardized escape/back up keys: esc, q, space
+ * standardized Escape/Back up keys: Esc, q, Space
  */
 bool menu_escape( int ch )
 {
@@ -570,7 +570,7 @@ void editmap::update_view( bool update_info )
         }
     }
 
-    // custom hilight. todo; optimize
+    // custom hilight. @todo; optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
             elem.second.draw( this );
@@ -782,7 +782,7 @@ int editmap::edit_ter()
         fymax++;
     }
 
-    tripoint sel_terp = tripoint_min;     // screen coords of current selection
+    tripoint sel_terp = tripoint_min;     // screen coordinates of current selection
     tripoint lastsel_terp = tripoint_min; // and last selection
     tripoint target_terp = tripoint_min;  // and current tile
     tripoint sel_frnp = tripoint_min;     // for furniture ""
@@ -843,7 +843,7 @@ int editmap::edit_ter()
         mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x - 1, c_tercurs, LINE_OXXO );
 
         draw_border( w_pickter );
-        // calc offset, print terrain selection info
+        // calculate offset, print terrain selection info
         int tlen = tymax * 2;
         int off = tstart + tlen;
         mvwprintw( w_pickter, off, 1, padding );
@@ -869,7 +869,7 @@ int editmap::edit_ter()
 
         off += 2;
         int cur_f = 0;
-        int fstart = off; // calc vertical offset, draw furniture icons
+        int fstart = off; // calculate vertical offset, draw furniture icons
         for( int y = fstart; y < pickh && cur_f < ( int ) furn_t::count(); y += 2 ) {
             for( int x = xmin; x < pickw && cur_f < ( int ) furn_t::count(); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
@@ -1011,7 +1011,7 @@ int editmap::edit_ter()
                 uberdraw = !uberdraw;
                 update_view( false );
             }
-        } else { // todo: cleanup
+        } else { // @todo: cleanup
             if( action == "LEFT" ) {
                 increment( sel_frn, -1, furn_t::count() );
             } else if( action == "RIGHT" ) {
@@ -1313,7 +1313,7 @@ int editmap::edit_itm()
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
                          an_item.is_emissive() ? " L" : "" );
     }
-    // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
+    // @todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry( -5, true, 'a', _( "Add item" ) );
 
     ilmenu.addentry( -10, true, 'q', _( "Cancel" ) );
@@ -1522,7 +1522,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 }
 
 /*
- * Interactively select, resize, and move the list of target coords
+ * Interactively select, resize, and move the list of target coordinates
  */
 int editmap::select_shape( shapetype shape, int mode )
 {
@@ -1752,7 +1752,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                             s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
                             vehicle *veh1 = srcsm->vehicles[i];
-                            // vehicle *veh1 = veh;   // fixme: is this required?
+                            // vehicle *veh1 = veh;   // @todo: fixme: is this required?
                             veh1->smx = target_sub.x + x;
                             veh1->smy = target_sub.y + y;
                             veh1->smz = target.z;
@@ -1813,7 +1813,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                        omt_ref->get_name().c_str(), omt_ref.id().c_str() );
             }
         } else if( gpmenu.keypress == 'm' ) {
-            // todo; keep preview as is and move target
+            // @todo; keep preview as is and move target
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 

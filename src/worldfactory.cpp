@@ -808,7 +808,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action("PREV_CATEGORY_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
-    ctxt.register_action("CONFIRM", _("Activate / deactive mod"));
+    ctxt.register_action("CONFIRM", _("Activate / deactivate mod"));
     ctxt.register_action("ADD_MOD");
     ctxt.register_action("REMOVE_MOD");
     ctxt.register_action("SAVE_DEFAULT_MODS");

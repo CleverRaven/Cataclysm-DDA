@@ -2879,7 +2879,7 @@
         "points" : 2,
         "visibility" : 6,
         "ugliness" : 6,
-        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "prereqs" : ["MANDIBLES"],
         "prereqs2" : ["POISONOUS", "POISONOUS2"],

@@ -232,9 +232,9 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
         if( line_num >= begin_line ) {
             wmove( w, line_num + begin_y - begin_line, begin_x );
         }
-        // split into colourable sections
+        // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
-        // for each section, get the colour, and print it
+        // for each section, get the color, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
             if( !it->empty() && it->at( 0 ) == '<' ) {
@@ -1761,7 +1761,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
-        // oversize ascii tiles overdrawing messages below them.
+        // oversize ASCII tiles overdrawing messages below them.
         if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
                        p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
 
@@ -2057,7 +2057,7 @@ std::string format_volume( const units::volume &volume )
 * Convert, clamp, round up and format a volume,
 * taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
-* optionally returning the formated value as double.
+* optionally returning the formatted value as double.
 */
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value )

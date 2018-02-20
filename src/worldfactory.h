@@ -105,7 +105,7 @@ class worldfactory
         /**
          * World need CDDA build with Lua support
          * @param world_name World name to test
-         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
+         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's always false).
          */
         bool world_need_lua_build( std::string world_name );
         /**

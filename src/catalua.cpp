@@ -271,7 +271,7 @@ private:
      */
     static int index( lua_State * const L )
     {
-        // -2 is the userdata, -1 is the key (funtion to call)
+        // -2 is the userdata, -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -624,7 +624,7 @@ template<typename T>
 struct LuaType<LuaReference<T>> : public LuaReference<T> {
 };
 
-/** This basically transforms a string (therefor inheriting from LuaType<string>) into a C++
+/** This basically transforms a string (therefore inheriting from LuaType<string>) into a C++
  * enumeration value. It simply contains a table of string-to-enum-values. */
 template<typename E>
 class LuaEnum : private LuaType<std::string> {
@@ -658,7 +658,7 @@ private:
     }
     static int index( lua_State * const L )
     {
-        // -1 is the key (funtion to call)
+        // -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -843,7 +843,7 @@ int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, f
     if( lua_report_error( L, err, scr.c_str() ) ) {
         return err;
     }
-    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // @todo; make use of this
     //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
     lua_pushstring(L, terrain_type.id().c_str());
@@ -854,7 +854,7 @@ int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, f
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
     lua_report_error( L, err, scr.c_str() );
 
-    //    luah_remove_from_registry(L, function_index); // todo: make use of this
+    //    luah_remove_from_registry(L, function_index); // @todo: make use of this
 
     return err;
 }

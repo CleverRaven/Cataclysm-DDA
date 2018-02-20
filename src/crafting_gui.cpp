@@ -10,6 +10,7 @@
 #include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "output.h"
 #include "json.h"
@@ -470,8 +471,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
-                               // Macs don't seem to like passing this as a class, so force it to int
-                               ( int )g->u.get_skill_level( current[line]->skill_used ) );
+                               g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
@@ -635,7 +635,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @fixme replace this hack by proper solution (based on max width of possible content)
+    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );

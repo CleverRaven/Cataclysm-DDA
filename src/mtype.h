@@ -115,7 +115,7 @@ enum m_flag : int {
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
-    MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
+    MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
@@ -205,7 +205,7 @@ struct mtype {
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
-        /** UTF-8 encoded symbol, should be exactyle one cell wide. */
+        /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;
         m_size size;

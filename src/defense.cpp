@@ -108,7 +108,7 @@ bool defense_game::init()
     setup();
     g->u.cash = initial_cash;
     popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
-    // TODO: support multiple defence games? clean up old defence game
+    // TODO: support multiple defense games? clean up old defense game
     init_map();
     caravan();
     return true;
@@ -1327,7 +1327,7 @@ int caravan_price( player &u, int price )
     if( u.get_skill_level( skill_barter ) > 10 ) {
         return int( double( price ) * .5 );
     }
-    return int( double( price ) * ( 1.0 - double( u.get_skill_level( skill_barter ) ) * .05 ) );
+    return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
 }
 
 void defense_game::spawn_wave()

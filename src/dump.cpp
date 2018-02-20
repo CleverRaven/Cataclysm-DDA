@@ -12,6 +12,7 @@
 #include "vehicle.h"
 #include "string_formatter.h"
 #include "veh_type.h"
+#include "skill.h"
 #include "vitamin.h"
 #include "npc.h"
 #include "ammo.h"
@@ -297,7 +298,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "EXPLOSIVE" ) {
         header = {
-            // @todo Should display more useful data: shrapnel damage, safe range
+            // @todo: Should display more useful data: shrapnel damage, safe range
             "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
         };
 

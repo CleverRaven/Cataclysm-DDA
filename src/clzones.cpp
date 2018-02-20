@@ -162,7 +162,7 @@ void zone_manager::deserialize( JsonIn &jsin )
         const bool invert = jo_zone.get_bool( "invert" );
         const bool enabled = jo_zone.get_bool( "enabled" );
 
-        // Z coords need to have a default value - old saves won't have those
+        // Z-coordinates need to have a default value - old saves won't have those
         const int start_x = jo_zone.get_int( "start_x" );
         const int start_y = jo_zone.get_int( "start_y" );
         const int start_z = jo_zone.get_int( "start_z", 0 );
