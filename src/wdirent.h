@@ -672,7 +672,7 @@ readdir(
         /*
          * If the file name cannot be represented by a multi-byte string,
          * then attempt to use old 8+3 file name.  This allows traditional
-         * Unix-code to access some file names despite of unicode
+         * Unix-code to access some file names despite of Unicode
          * characters, although file names may seem unfamiliar to the user.
          *
          * Be ware that the code below cannot come up with a short file

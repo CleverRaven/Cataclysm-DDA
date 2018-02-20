@@ -84,7 +84,7 @@ class options_manager
 
                 //set to next item
                 void setNext();
-                //set to prev item
+                //set to previous item
                 void setPrev();
                 //set value
                 void setValue( std::string sSetIn );

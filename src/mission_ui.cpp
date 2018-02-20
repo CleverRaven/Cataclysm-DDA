@@ -115,7 +115,7 @@ void game::list_missions()
             }
             if( miss->has_deadline() ) {
                 const calendar deadline( miss->get_deadline() );
-                //@todo make a function to print the time (don't we already have one?)
+                //@todo: make a function to print the time (don't we already have one?)
                 //~ 1 season name, 2 day of season, 3 time of day
                 std::string dl = string_format( _( "%1$s, day %2$d %3$s" ),
                                                 calendar::name_season( season_of_year( deadline ) ),

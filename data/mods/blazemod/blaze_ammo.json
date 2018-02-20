@@ -308,26 +308,6 @@
     "effects": [ "RECOVER_20", "LARGE_BEANBAG" ]
   },
   {
-    "id": "pool_ball",
-    "type": "AMMO",
-    "name": "pool ball",
-    "description": "A colorful, hard ball.  Essentially a rock.",
-    "weight": 170,
-    "volume": 1,
-    "price": 3000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": "stone",
-    "symbol": "*",
-    "color": "blue",
-    "count": 1,
-    "ammo_type": "h_projectile",
-    "range": 6,
-    "damage": 23,
-    "dispersion": 30,
-    "effects": [ "RECOVER_10", "BEANBAG" ]
-  },
-  {
     "id": "ripdisk",
     "type": "AMMO",
     "name": "serrated disc",
@@ -345,25 +325,6 @@
     "damage": 25,
     "pierce": 5,
     "effects": [ "RECOVER_3", "NEVER_MISFIRES" ]
-  },
-  {
-    "id": "rock",
-    "type": "AMMO",
-    "name": "rock",
-    "description": "A rock is what you have in your head if you don't know what one is.",
-    "weight": 657,
-    "volume": 1,
-    "to_hit": -2,
-    "bashing": 7,
-    "material": "stone",
-    "symbol": "*",
-    "color": "light_gray",
-    "count": 1,
-    "ammo_type": "h_projectile",
-    "damage": 15,
-    "dispersion": 45,
-    "effects": [ "RECOVER_10", "BEANBAG" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "id": "shards",

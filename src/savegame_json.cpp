@@ -209,7 +209,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        //@todo shouldn't that be calendar::start?
+        //@todo: shouldn't that be calendar::start?
         _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
@@ -539,7 +539,7 @@ void player::store(JsonOut &json) const
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
-    // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
+    // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
 
@@ -1066,7 +1066,7 @@ void npc::load(JsonObject &data)
     }
 
     if( !data.read( "submap_coords", submap_coords ) ) {
-        // Old submap coords are for the point (0, 0, 0) on local map
+        // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
         point old_coords;
         data.read( "mapx", old_coords.x );
@@ -1202,7 +1202,7 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationy", pulp_location.y );
     json.member( "pulp_locationz", pulp_location.z );
 
-    json.member( "mission", mission ); // todo: stringid
+    json.member( "mission", mission ); // @todo: stringid
     if ( fac_id != "" ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -2322,7 +2322,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type", type );
     if( item_type != NULL ) {
-        // @todo refactor player_morale to not require this hack
+        // @todo: refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
     }
     json.member( "bonus", bonus );

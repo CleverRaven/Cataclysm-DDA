@@ -635,7 +635,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @fixme replace this hack by proper solution (based on max width of possible content)
+    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );

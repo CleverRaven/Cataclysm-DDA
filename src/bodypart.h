@@ -71,7 +71,7 @@ struct body_part_struct {
          */
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
-        // @todo Connect head and limbs to torso
+        // @todo: Connect head and limbs to torso
         bodypart_ids main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_ids opposite_part;

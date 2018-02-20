@@ -290,7 +290,7 @@ class calendar
         /**
          * Represents time point 0.
          */
-        //@todo flesh out the documentation
+        //@todo: flesh out the documentation
         static const time_point time_of_cataclysm;
 };
 
@@ -535,16 +535,16 @@ class time_point
         int turn_;
 
     public:
-        //@todo make private
-        //@todo make explicit
+        //@todo: make private
+        //@todo: make explicit
         constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
-        //@todo replace usage of `calendar` with `time_point`, remove this constructor
+        //@todo: replace usage of `calendar` with `time_point`, remove this constructor
         time_point( const calendar &c ) : turn_( c.get_turn() ) { }
         /// Allows writing `time_point p = 0;`
         constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
-        //@todo remove this, nobody should need it, one should use a constant `time_point`
+        //@todo: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
             return time_point( t );
@@ -553,13 +553,13 @@ class time_point
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        //@todo try to get rid of this
+        //@todo: try to get rid of this
         template<typename T>
         friend constexpr T to_turn( const time_point point ) {
             return point.turn_;
         }
 
-        //@todo implement minutes_of_hour and so on and use it.
+        //@todo: implement minutes_of_hour and so on and use it.
 };
 
 constexpr inline bool operator<( const time_point lhs, const time_point rhs )

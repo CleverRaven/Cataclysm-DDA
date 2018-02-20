@@ -102,18 +102,18 @@ public:
     void remove_world( std::string worldname );
     bool valid_worldname( std::string name, bool automated = false );
 
-    /**
-     * World need CDDA build with Lua support
-     * @param world_name World name to test
-     * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
-     */
-    bool world_need_lua_build( std::string world_name );
-    /**
-     * @param delete_folder If true: delete all the files and directories  of the given
-     * world folder. Else just avoid deleting the config files and the directory
-     * itself.
-     */
-    void delete_world( const std::string &worldname, bool delete_folder );
+        /**
+         * World need CDDA build with Lua support
+         * @param world_name World name to test
+         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's always false).
+         */
+        bool world_need_lua_build( std::string world_name );
+        /**
+         * @param delete_folder If true: delete all the files and directories  of the given
+         * world folder. Else just avoid deleting the config files and the directory
+         * itself.
+         */
+        void delete_world( const std::string &worldname, bool delete_folder );
 
     static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
     void show_active_world_mods( const std::vector<std::string> &world_mods );

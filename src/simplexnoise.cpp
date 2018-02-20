@@ -193,16 +193,16 @@ float raw_noise_2d( const float x, const float y ) {
 
     // For the 2D case, the simplex shape is an equilateral triangle.
     // Determine which simplex we are in.
-    int i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
+    int i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coordinates
     if(x0>y0) {i1=1; j1=0;} // lower triangle, XY order: (0,0)->(1,0)->(1,1)
     else {i1=0; j1=1;} // upper triangle, YX order: (0,0)->(0,1)->(1,1)
 
     // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
     // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
     // c = (3-sqrt(3))/6
-    float x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+    float x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coordinates
     float y1 = y0 - j1 + G2;
-    float x2 = x0 - 1.0 + 2.0 * G2; // Offsets for last corner in (x,y) unskewed coords
+    float x2 = x0 - 1.0 + 2.0 * G2; // Offsets for last corner in (x,y) unskewed coordinates
     float y2 = y0 - 1.0 + 2.0 * G2;
 
     // Work out the hashed gradient indices of the three simplex corners
@@ -262,8 +262,8 @@ float raw_noise_3d( const float x, const float y, const float z ) {
 
     // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
     // Determine which simplex we are in.
-    int i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
-    int i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
+    int i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coordinates
+    int i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coordinates
 
     if(x0>=y0) {
         if(y0>=z0) { i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; } // X Y Z order
@@ -280,13 +280,13 @@ float raw_noise_3d( const float x, const float y, const float z ) {
     // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
     // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
     // c = 1/6.
-    float x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
+    float x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coordinates
     float y1 = y0 - j1 + G3;
     float z1 = z0 - k1 + G3;
-    float x2 = x0 - i2 + 2.0*G3; // Offsets for third corner in (x,y,z) coords
+    float x2 = x0 - i2 + 2.0*G3; // Offsets for third corner in (x,y,z) coordinates
     float y2 = y0 - j2 + 2.0*G3;
     float z2 = z0 - k2 + 2.0*G3;
-    float x3 = x0 - 1.0 + 3.0*G3; // Offsets for last corner in (x,y,z) coords
+    float x3 = x0 - 1.0 + 3.0*G3; // Offsets for last corner in (x,y,z) coordinates
     float y3 = y0 - 1.0 + 3.0*G3;
     float z3 = z0 - 1.0 + 3.0*G3;
 
@@ -399,19 +399,19 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     l3 = simplex[c][3]>=1 ? 1 : 0;
     // The fifth corner has all coordinate offsets = 1, so no need to look that up.
 
-    float x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coords
+    float x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coordinates
     float y1 = y0 - j1 + G4;
     float z1 = z0 - k1 + G4;
     float w1 = w0 - l1 + G4;
-    float x2 = x0 - i2 + 2.0*G4; // Offsets for third corner in (x,y,z,w) coords
+    float x2 = x0 - i2 + 2.0*G4; // Offsets for third corner in (x,y,z,w) coordinates
     float y2 = y0 - j2 + 2.0*G4;
     float z2 = z0 - k2 + 2.0*G4;
     float w2 = w0 - l2 + 2.0*G4;
-    float x3 = x0 - i3 + 3.0*G4; // Offsets for fourth corner in (x,y,z,w) coords
+    float x3 = x0 - i3 + 3.0*G4; // Offsets for fourth corner in (x,y,z,w) coordinates
     float y3 = y0 - j3 + 3.0*G4;
     float z3 = z0 - k3 + 3.0*G4;
     float w3 = w0 - l3 + 3.0*G4;
-    float x4 = x0 - 1.0 + 4.0*G4; // Offsets for last corner in (x,y,z,w) coords
+    float x4 = x0 - 1.0 + 4.0*G4; // Offsets for last corner in (x,y,z,w) coordinates
     float y4 = y0 - 1.0 + 4.0*G4;
     float z4 = z0 - 1.0 + 4.0*G4;
     float w4 = w0 - 1.0 + 4.0*G4;

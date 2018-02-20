@@ -358,7 +358,7 @@ int sokoban_game::start_game()
             }
             bNewLevel = true;
         } else if (action == "PREV") {
-            //prev level
+            //previous level
             clear_level(w_sokoban);
             iCurrentLevel--;
             if (iCurrentLevel < 0) {

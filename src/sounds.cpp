@@ -120,7 +120,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
-    // to fight the combanatorial explosion.
+    // to fight the combinatorial explosion.
     std::vector<centroid> sound_clusters;
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), ( size_t ) 10 ),
                                             ( size_t ) log( recent_sounds.size() ) );
@@ -215,7 +215,7 @@ void sounds::process_sounds()
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
-            // @todo Generalize this to Creature::hear_sound
+            // @todo: Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
@@ -361,7 +361,7 @@ void sounds::process_sound_markers( player *p )
             err_offset = 1;
         }
 
-        // If Z coord is different, draw even when you can see the source
+        // If Z-coordinate is different, draw even when you can see the source
         const bool diff_z = pos.z != p->posz();
 
         // Enumerate the valid points the player *cannot* see.

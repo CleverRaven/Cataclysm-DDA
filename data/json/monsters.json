@@ -6406,6 +6406,10 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "upgrades": {
+      "half_life": 28,
+      "into_group": "GROUP_ZOMBIE_UPGRADE"
+    },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
   },
   {

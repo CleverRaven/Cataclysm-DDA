@@ -218,9 +218,9 @@ public:
         int dist, bool must_be_seen);
 
     /**
-     * Mark a square area around center on z-level z
+     * Mark a square area around center on Z-level z
      * as seen.
-     * @param center is in absolute overmap terrain coords.
+     * @param center is in absolute overmap terrain coordinates.
      * @param radius The half size of the square to make visible.
      * A value of 0 makes only center visible, radius 1 makes a
      * square 3x3 visible.

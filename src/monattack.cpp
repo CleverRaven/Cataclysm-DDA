@@ -968,13 +968,13 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
     constexpr int att_cost_acid    = 100;
     constexpr int att_cost_flavor  = 80;
 
-    // radiation attack behaviour
+    // radiation attack behavior
     constexpr int att_rad_dodge_diff    = 16; // how hard it is to dodge
     constexpr int att_rad_mutate_chance = 6;  // (1/x) inverse chance to cause mutation.
     constexpr int att_rad_dose_min      = 20; // min radiation
     constexpr int att_rad_dose_max      = 50; // max radiation
 
-    // acid attack behaviour
+    // acid attack behavior
     constexpr int att_acid_density = 3;
 
     // flavor messages
@@ -1008,7 +1008,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ok, we have a valid target; populate valid attack options...
+    // okay, we have a valid target; populate valid attack options...
     std::array<int, att_enum_size> valid_attacks;
     size_t valid_attack_count = 0;
 
@@ -1035,7 +1035,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         valid_attacks[valid_attack_count++] = att_acid_pool;
     }
 
-    // flavor is always ok
+    // flavor is always okay
     valid_attacks[valid_attack_count++] = att_flavor;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1064,7 +1064,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
 
         // (1) Give the target a chance at an uncanny_dodge.
         // (2) If that fails, always fail to dodge 1 in dodge_skill times.
-        // (3) If ok, dodge if dodge_skill > att_rad_dodge_diff.
+        // (3) If okay, dodge if dodge_skill > att_rad_dodge_diff.
         // (4) Otherwise, fail 1 in (att_rad_dodge_diff - dodge_skill) times.
         if (foe->uncanny_dodge()) {
             break;
@@ -1711,7 +1711,7 @@ bool mattack::fungus_fortify(monster *z)
                 g->u.unset_mutation( trait_MARLOSS_BLUE );
                 g->u.set_mutation( trait_THRESH_MARLOSS );
                 g->m.ter_set(g->u.pos(), t_marloss); // We only show you the door.  You walk through it on your own.
-                g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gatweay."),
+                g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gateway."),
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
                 g->u.add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
                 //~ Beginning to hear the Mycus while conscious: this is it speaking
@@ -1789,7 +1789,7 @@ bool mattack::fungus_fortify(monster *z)
         return true;
     }
 
-    // TODO: 21 damage with no chance to crit isn't scary
+    // TODO: 21 damage with no chance to critical isn't scary
     body_part hit = target->get_random_body_part();
     int dam = rng(15, 21);
     dam = g->u.deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();

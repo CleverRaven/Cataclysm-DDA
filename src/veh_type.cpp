@@ -321,7 +321,7 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
-        // @todo deprecate once requirements are entirely loaded from JSON
+        // @todo: deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
@@ -362,7 +362,7 @@ void vpart_info::check()
         }
 
         // add the base item to the installation requirements
-        // @todo support multiple/alternative base items
+        // @todo: support multiple/alternative base items
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
@@ -606,7 +606,7 @@ void vehicle_prototype::load( JsonObject &jo )
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
     // If there are already parts defined, this vehicle prototype overrides an existing one.
     // If the json contains a name, it means a completely new prototype (replacing the
-    // original one), therefor the old data has to be cleared.
+    // original one), therefore the old data has to be cleared.
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {

@@ -93,7 +93,7 @@ std::string const &direction_name_short( direction dir );
 std::string direction_suffix( const tripoint &p, const tripoint &q );
 
 /**
- * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,

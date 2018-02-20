@@ -247,7 +247,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo better have a from_moves function
+    //@todo: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -1631,7 +1631,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
+    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
@@ -2351,7 +2351,7 @@ void veh_interact::complete_vehicle()
         }
 
         const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
-        //@todo allow boarding for non-players as well.
+        //@todo: allow boarding for non-players as well.
         player * const pl = g->critter_at<player>( vehp );
         if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
             g->m.board_vehicle( vehp, pl );

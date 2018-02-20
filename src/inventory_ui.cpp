@@ -841,7 +841,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-// @todo Move it into some 'item_stack' class.
+// @todo: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                                               const std::list<item>::const_iterator &to )
 {
@@ -1188,14 +1188,14 @@ std::vector<std::string> inventory_selector::get_stats() const
             return format_volume( units::from_milliliter( v ) );
         } )
     }};
-    // Strams for every stat.
+    // Streams for every stat.
     std::array<std::ostringstream, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
         lines[i] << stats[i][0] << ' ';
     }
-    // Now add the rest of the cells and allign them to the right.
+    // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
         // Calculate actual cell width for each stat.
         std::transform( stats.begin(), stats.end(), widths.begin(),
