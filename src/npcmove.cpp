@@ -24,6 +24,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "options.h"
+#include "npc_destination.h"
 
 #include <algorithm>
 #include <sstream>
@@ -2868,49 +2869,40 @@ void npc::set_destination()
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
     }
-    std::vector<std::string> options;
+    std::vector<string_id<oter_type_t>> destinations;
     switch( needs[0] ) {
         case need_ammo:
-            options.push_back( "house" );
-        /* fallthrough */
+            destinations = npc_destination( "need_ammo" ).get_terrains();
+            break;
+
         case need_gun:
-            options.push_back( "s_gun" );
+            destinations = npc_destination( "need_gun" ).get_terrains();
             break;
 
         case need_weapon:
-            options.push_back( "s_gun" );
-            options.push_back( "s_sports" );
-            options.push_back( "s_hardware" );
+            destinations = npc_destination( "need_weapon" ).get_terrains();
             break;
 
         case need_drink:
-            options.push_back( "s_gas" );
-            options.push_back( "s_pharm" );
-            options.push_back( "s_liquor" );
-        /* fallthrough */
+            destinations = npc_destination( "need_drink" ).get_terrains();
+            break;
+
         case need_food:
-            options.push_back( "s_grocery" );
+            destinations = npc_destination( "need_food" ).get_terrains();
             break;
 
         default:
-            options.push_back( "house" );
-            options.push_back( "s_gas" );
-            options.push_back( "s_pharm" );
-            options.push_back( "s_hardware" );
-            options.push_back( "s_sports" );
-            options.push_back( "s_liquor" );
-            options.push_back( "s_gun" );
-            options.push_back( "s_library" );
+            destinations = npc_destination( "need_none" ).get_terrains();
     }
 
-    const std::string dest_type = random_entry( options );
-
+    std::string dest_type = random_entry( destinations ).c_str();
     // We need that, otherwise find_closest won't work properly
     // TODO: Allow finding sewers and stuff
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type,
+                                        get_option<int>( "NPC_DEST_SEARCH_RADIUS" ), false );
     add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 
