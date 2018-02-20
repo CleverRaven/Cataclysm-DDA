@@ -3,7 +3,7 @@
     "id": "357sig_fmj",
     "type": "AMMO",
     "name": ".357 SIG FMJ",
-    "description": "Jacketed .357 SIG ammunition. The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
+    "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "weight": 8,
     "volume": 1,
     "price": 4000,
@@ -26,7 +26,7 @@
     "copy-from": "357sig_fmj",
     "type": "AMMO",
     "name": ".357 SIG JHP",
-    "description": "Jacketed hollow point .357 SIG ammunition. The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
+    "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "relative": { "damage": 4, "pierce": -2 }
   },
   {
