@@ -83,15 +83,13 @@ void player::print_encumbrance( const catacurses::window &win, int line,
                               ( highlighted ? h_green : h_light_gray ) :
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, row, 1, limb_color, out.c_str() );
-        // take into account the new encumbrance system for layers
-        out = string_format( "(%1d) ", static_cast<int>( e.layer_penalty / 10.0 ) );
-        wprintz( win, c_light_gray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
         // separator in low toned color
         wprintz( win, c_light_gray, "+" );
+        // take into account the new encumbrance system for layers
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d",
-                 e.encumbrance - e.armor_encumbrance ).c_str() );
+                 e.layer_penalty ).c_str() );
         // print warmth, tethered to right hand side of the window
         out = string_format( "(% 3d)", temperature_print_rescaling( temp_conv[bp] ) );
         mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );

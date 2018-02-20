@@ -751,14 +751,14 @@ void starting_inv( npc &me, const npc_class_id &type )
             ammo = container;
         }
 
-        // @todo Move to npc_class
+        // @todo: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         long qty = 1 + ( type == NC_COWBOY ||
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && me.can_pickVolume( ammo ) ) {
-            // @todo give NPC a default magazine instead
+            // @todo: give NPC a default magazine instead
             res.push_back( ammo );
         }
     }
@@ -961,7 +961,7 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( encumb_ok && can_wear( it ).success() ) {
-            // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
@@ -1031,7 +1031,7 @@ void npc::form_opinion( const player &u )
 {
     // FEAR
     if( u.weapon.is_gun() ) {
-        // @todo Make bows not guns
+        // @todo: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
@@ -1111,7 +1111,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
-    // @todo More effects
+    // @todo: More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
@@ -1503,14 +1503,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
-            ret += 14; // @todo magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14; // @todo: magazines - don't count ammo as usable if the weapon isn't.
         }
 
         if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
         [&]( const ammotype & e ) {
         return has_gun_for_ammo( e );
         } ) ) {
-            ret += 14; // @todo consider making this cumulative (once was)
+            ret += 14; // @todo: consider making this cumulative (once was)
         }
     }
 
@@ -1657,7 +1657,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         return other.attitude_to( *this );
     }
 
-    // @todo Get rid of the ugly cast without duplicating checks
+    // @todo: Get rid of the ugly cast without duplicating checks
     const monster &m = dynamic_cast<const monster &>( other );
     switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
@@ -1730,7 +1730,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // @todo Allow player to set that
+    // @todo: Allow player to set that
     return 4;
 }
 
@@ -1765,7 +1765,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
     nc_color color ) {
-        // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
@@ -1793,7 +1793,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
         const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
-        // @todo Balance this formula
+        // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
             return mut_branch.name;
@@ -2350,8 +2350,9 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( const auto &comest = it.type->comestible ) {
-        if( comest->quench < 0 || it.poison > 0 ) {
+    if( const auto &comest = it.is_container() ? it.get_contained().type->comestible :
+                             it.type->comestible ) {
+        if( comest->fun < 0 || it.poison > 0 ) {
             return false;
         }
     }
@@ -2367,7 +2368,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings.bash_strength = no_bashing ? 0 : smash_ability();
-    // @todo Extract climb skill
+    // @todo: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
@@ -2385,7 +2386,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
-        // @todo Cache this somewhere
+        // @todo: Cache this somewhere
         ret.insert( critter.pos() );
     }
     return ret;
@@ -2433,7 +2434,7 @@ std::string npc::extended_description() const
     if( hit_by_player ) {
         ss << "--" << std::endl;
         ss << _( "Is still innocent and killing them will be considered murder." );
-        // @todo "But you don't care because you're an edgy psycho"
+        // @todo: "But you don't care because you're an edgy psycho"
     }
 
     return replace_colors( ss.str() );
@@ -2441,8 +2442,8 @@ std::string npc::extended_description() const
 
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
-    //@todo store them separately
-    //@todo set time here as well.
+    //@todo: store them separately
+    //@todo: set time here as well.
     companion_mission = p.name + id;
 }
 

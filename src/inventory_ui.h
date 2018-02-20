@@ -363,7 +363,7 @@ class inventory_column
             bool visible() const {
                 return current_width > 0;
             }
-            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            /** @return Gap before the cell. Negative value means the cell is shrunk */
             int gap() const {
                 return current_width - real_width;
             }

@@ -586,7 +586,7 @@ void options_manager::cOpt::setNext()
     }
 }
 
-//set to prev item
+//set to previous item
 void options_manager::cOpt::setPrev()
 {
     if (sType == "string_select") {
@@ -942,7 +942,7 @@ void options_manager::init()
     add( "USE_LANG", "interface", translate_marker( "Language" ), translate_marker( "Switch Language." ),
         { { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
           { "fr",  R"( Français )" },
@@ -1035,6 +1035,13 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
+    add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+        translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
+        true, COPT_CURSES_HIDE
+        );
+
+    mOptionsSort["interface"]++;
+
     add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
         translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
         true
@@ -1084,7 +1091,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;
@@ -1933,7 +1940,7 @@ void options_manager::serialize(JsonOut &json) const
 {
     json.start_array();
 
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2083,7 +2090,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

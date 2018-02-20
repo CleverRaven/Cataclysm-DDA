@@ -367,7 +367,7 @@ ported to CDDA gaming system by a nutcase."));
 Your job is to find kitten. This task is complicated by the existence of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
 The game ends when robot finds kitten. Alternatively, you may end the game by hitting \
-'q', 'Q' or the escape key."));
+'q', 'Q' or the Escape key."));
     fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("Press any key to start."));
     wrefresh(w);
     inp_mngr.wait_for_any_key();

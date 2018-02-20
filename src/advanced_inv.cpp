@@ -234,7 +234,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
         std::string volume_carried = format_volume( g->u.volume_carried() );
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
-        // align right, so calculate formated head length
+        // align right, so calculate formatted head length
         const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
                                                 volume_carried.c_str(),
@@ -1243,7 +1243,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // until all its items are processed. When the drop activity runs out,
         // the inventory menu activity is there waiting and seamlessly returns
         // the player to the menu. If the activity is interrupted instead of
-        // completing, both activities are cancelled.
+        // completing, both activities are canceled.
         // Thanks to kevingranade for the explanation.
         do_return_entry();
     }
@@ -1915,7 +1915,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
-        // Render a fancy ascii grid at the left of the menu.
+        // Render a fancy ASCII grid at the left of the menu.
         menu_square( &menu );
         menu.query( false ); // query, but don't loop
     }
@@ -1979,7 +1979,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
     const char *msg = nullptr;
 
     while(count > 0) {
-        // @todo Make it use same exact methods as regular pickup
+        // @todo: Make it use same exact methods as regular pickup
         if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN || panes[dest].in_vehicle() ) &&
             new_item.is_bucket_nonempty() &&
             !query_yn( _( "Spill contents of %s?" ), new_item.tname().c_str() ) ) {
@@ -2045,7 +2045,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    // @todo Allow buckets here, but require them to be on the ground or wielded
+    // @todo: Allow buckets here, but require them to be on the ground or wielded
     const long amount = dest_container.get_remaining_capacity_for_liquid( src, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );

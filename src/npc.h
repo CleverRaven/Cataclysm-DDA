@@ -89,7 +89,7 @@ enum npc_need {
     num_needs
 };
 
-// @todo Turn the personality struct into a vector/map?
+// @todo: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
     NPE_AGGRESSION,
     NPE_BRAVERY,
@@ -720,7 +720,7 @@ class npc : public player
         float speed_rating() const override;
 
         /**
-         * Note: this places NPC on a given position in CURRENT MAP coords.
+         * Note: this places NPC on a given position in CURRENT MAP coordinates.
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;

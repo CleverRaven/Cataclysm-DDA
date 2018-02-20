@@ -200,7 +200,7 @@ double convert_volume( int volume );
 double convert_volume( int volume, int *out_scale );
 
 /**
- * Convert a temperature from degrees Fahrenheit to degrees celsius.
+ * Convert a temperature from degrees Fahrenheit to degrees Celsius.
  *
  * @param fahrenheit Temperature in degrees F.
  *

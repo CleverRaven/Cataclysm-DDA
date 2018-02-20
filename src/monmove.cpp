@@ -406,7 +406,7 @@ void monster::move()
 
     // First, use the special attack, if we can!
     // The attack may change `monster::special_attacks` (e.g. by transforming
-    // this into another monster type). Therefor we can not iterate over it
+    // this into another monster type). Therefore we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
     for( const auto &sp_type : type->special_attacks ) {
@@ -561,7 +561,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo Remove z-level stair bullshit teleport after aligning all stairs
+                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -690,7 +690,7 @@ void monster::footsteps( const tripoint &p )
 
 tripoint monster::scent_move()
 {
-    // @todo Remove when scentmap is 3D
+    // @todo: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > 1 ) {
         return { -1, -1, INT_MIN };
     }

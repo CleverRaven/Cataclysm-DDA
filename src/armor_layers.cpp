@@ -357,12 +357,12 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
                        c_light_blue, _( "<empty>" ) );
         }
@@ -414,7 +414,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
@@ -516,7 +516,7 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
-            // @todo Allow making NPCs equip their own stuff
+            // @todo: Allow making NPCs equip their own stuff
             item_location loc = game_menus::inv::wear( g->u );
 
             // only equip if something valid selected!
@@ -534,7 +534,7 @@ void player::sort_armor()
                     // inserts at position before iter (no b0f, phew)
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
-                    // @todo Pass the reason here
+                    // @todo: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }

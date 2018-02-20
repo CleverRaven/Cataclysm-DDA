@@ -367,7 +367,7 @@ item item::split( long qty )
 
 bool item::is_null() const
 {
-    static const std::string s_null("null"); // used alot, no need to repeat
+    static const std::string s_null("null"); // used a lot, no need to repeat
     // Actually, type should never by null at all.
     return (type == nullptr || type == nullitem() || typeId() == s_null);
 }
@@ -1698,7 +1698,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             }
         }
 
-        // @todo Unhide when enforcing limits
+        // @todo: Unhide when enforcing limits
         if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
@@ -2401,7 +2401,7 @@ int item::price( bool practical ) const
 
     visit_items( [&res, practical]( const item *e ) {
         if( e->rotten() ) {
-            // @todo Special case things that stay useful when rotten
+            // @todo: Special case things that stay useful when rotten
             return VisitResponse::NEXT;
         }
 
@@ -2567,7 +2567,7 @@ units::volume item::volume( bool integral ) const
             ret += elem->volume( true );
         }
 
-        // @todo implement stock_length property for guns
+        // @todo: implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
@@ -2646,7 +2646,7 @@ int item::damage_melee( damage_type dt ) const
 
 damage_instance item::base_damage_melee() const
 {
-    // @todo Caching
+    // @todo: Caching
     damage_instance ret;
     for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
         damage_type dt = static_cast<damage_type>( i );
@@ -2661,7 +2661,7 @@ damage_instance item::base_damage_melee() const
 
 damage_instance item::base_damage_thrown() const
 {
-    // @todo Create a separate cache for individual items (for modifiers like diamond etc.)
+    // @todo: Create a separate cache for individual items (for modifiers like diamond etc.)
     return type->thrown_damage;
 }
 
@@ -3329,7 +3329,7 @@ bool item::inc_damage()
 
 nc_color item::damage_color() const
 {
-    // @todo unify with getDurabilityColor
+    // @todo: unify with getDurabilityColor
 
     // reinforced, undamaged and nearly destroyed items are special case
     if( precise_damage() <= min_damage() ) {
@@ -3793,7 +3793,7 @@ bool item::is_funnel_container(units::volume &bigger_than) const
     if ( ! is_watertight_container() ) {
         return false;
     }
-    // todo; consider linking funnel to item or -making- it an active item
+    // @todo; consider linking funnel to item or -making- it an active item
     if ( get_container_capacity() <= bigger_than ) {
         return false; // skip contents check, performance
     }
@@ -3836,7 +3836,7 @@ bool item::is_artifact() const
 
 bool item::can_contain( const item &it ) const
 {
-    // @todo Volume check
+    // @todo: Volume check
     return can_contain( *it.type );
 }
 
@@ -3851,7 +3851,7 @@ bool item::can_contain( const itype &tp ) const
         return false;
     }
 
-    // @todo Acid in waterskins
+    // @todo: Acid in waterskins
     return true;
 }
 
@@ -3971,7 +3971,7 @@ gun_type_type item::gun_type() const
     if( !is_gun() ) {
         return gun_type_type( std::string() );
     }
-    //@todo move to JSON and remove extraction of this from "GUN" (via skill id)
+    //@todo: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
         if( ammo_type() == ammotype( "bolt" ) || typeId() == "bullet_crossbow" ) {
@@ -5267,7 +5267,7 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
     bool destroy = false;
     for( auto e : del ) {
         if( e == this ) {
-            destroy = true; // cannot remove ourself...
+            destroy = true; // cannot remove ourselves...
         } else {
             remove_item( *e );
         }
@@ -5888,7 +5888,7 @@ time_duration item::get_plant_epoch() const
     // more accuracy for longer season lengths
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
     // divided by 3 to get the time it takes from one plant state to the next.
-    //@todo move this into the islot_seed
+    //@todo: move this into the islot_seed
     return type->seed->grow * calendar::season_ratio() / 3;
 }
 

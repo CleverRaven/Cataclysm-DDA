@@ -97,7 +97,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 
 void Item_factory::finalize_pre( itype &obj )
 {
-    // @todo separate repairing from reinforcing/enhancement
+    // @todo: separate repairing from reinforcing/enhancement
     if( obj.damage_max == obj.damage_min ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
@@ -199,7 +199,7 @@ void Item_factory::finalize_pre( itype &obj )
            obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
     }
     if( obj.gun ) {
-        // @todo add explicit action field to gun definitions
+        // @todo: add explicit action field to gun definitions
         std::string defmode = _( "semi-auto" );
         if( obj.gun->clip == 1 ) {
             defmode = _( "manual" ); // break-type actions
@@ -218,7 +218,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         if( obj.gun->handling < 0 ) {
-            // @todo specify in JSON via classes
+            // @todo: specify in JSON via classes
             if( obj.gun->skill_used == skill_id( "rifle" ) ||
                 obj.gun->skill_used == skill_id( "smg" ) ||
                 obj.gun->skill_used == skill_id( "shotgun" ) ){
@@ -230,7 +230,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
 
-        // @todo Move to jsons?
+        // @todo: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
             obj.item_tags.insert( "WATERPROOF_GUN" );
@@ -253,7 +253,7 @@ void Item_factory::finalize_pre( itype &obj )
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
 
-            // @todo migrate inedible comestibles to appropriate alternative types.
+            // @todo: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
                 return !m.obj().edible();
             } ), mat.end() );
@@ -359,7 +359,7 @@ void Item_factory::finalize() {
     }
 
     // We may actually have some runtimes here - ones loaded from saved game
-    // @todo support for runtimes that repair
+    // @todo: support for runtimes that repair
     for( auto &e : m_runtimes ) {
         finalize_pre( *e.second );
         finalize_post( *e.second );
@@ -1277,7 +1277,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
 {
     bool strict = src == "dda";
 
-    // @todo update tool slot to use signed integers (int) throughout
+    // @todo: update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
     assign( jo, "max_charges", slot.max_charges, strict, 0L );
     assign( jo, "initial_charges", slot.def_charges, strict, 0L );
@@ -1709,7 +1709,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         JsonArray jarr = jo.get_array( "thrown_damage" );
         def.thrown_damage = load_damage_instance( jarr );
     } else {
-        // @todo Move to finalization
+        // @todo: Move to finalization
         def.thrown_damage.clear();
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }

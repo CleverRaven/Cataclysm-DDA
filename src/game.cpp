@@ -752,7 +752,7 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    //@todo shouldn't that use calendar::start instead of INITIAL_TIME?
+    //@todo: shouldn't that use calendar::start instead of INITIAL_TIME?
     nextweather = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
@@ -884,7 +884,7 @@ bool game::start_game(std::string worldname)
 
     //Create mutation_category_level
     u.set_highest_cat_level();
-    //Calc mutation drench protection stats
+    //Calculate mutation drench protection stats
     u.drench_mut_calc();
     if ( scen->has_flag("FIRE_START") ){
         start_loc.burn( omtstart, 3, 3 );
@@ -1024,7 +1024,7 @@ bool game::cleanup_at_end()
         for( monster &critter : all_monsters() ) {
             despawn_monster( critter );
         }
-        // Save the factions', missions and set the NPC's overmap coords
+        // Save the factions', missions and set the NPC's overmap coordinates
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
@@ -1622,7 +1622,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
-    //quietly kill the catched
+    //quietly kill the caught
     catchables[index]->no_corpse_quiet = true;
     catchables[index]->die( p );
     catchables.erase (catchables.begin()+index);
@@ -1715,7 +1715,7 @@ void game::update_weather()
         temperature = w.temperature;
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
-        //@todo predict when the weather changes and use that time.
+        //@todo: predict when the weather changes and use that time.
         nextweather = calendar::turn + 50_turns;
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
@@ -1809,7 +1809,7 @@ void game::handle_key_blocking_activity()
 * It use draw_item_info to draw item info and action menu
 *
 * @param pos position of item in inventory
-* @param iStartX Left coord of the item info window
+* @param iStartX Left coordinate of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
@@ -2898,12 +2898,12 @@ bool game::handle_action()
                             break;
 
                         case turret_data::status::ready: {
-                            // if more than one firing mode provide callback to cyle through them
+                            // if more than one firing mode provide callback to cycle through them
                             target_callback switch_mode;
                             if( turret.base()->gun_all_modes().size() > 1 ) {
                                 switch_mode = [&turret]( item *obj ) {
                                     obj->gun_cycle_mode();
-                                    // currently gun modes dont change ammo but they may in the future
+                                    // currently gun modes do not change ammo but they may in the future
                                     return turret.ammo_current() == "null" ? nullptr :
                                            item::find_type( turret.ammo_current() );
                                 };
@@ -5972,7 +5972,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( monster &critter : all_monsters() ) {
-        //@todo can the following code be called for all types of creatures
+        //@todo: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
@@ -6003,7 +6003,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
             knockback( p, critter.pos(), force, stun, dam_mult);
         }
     }
-    //@todo combine the two loops and the case for g->u using all_creatures()
+    //@todo: combine the two loops and the case for g->u using all_creatures()
     for( npc &guy : all_npcs() ) {
         if( rl_dist( guy.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name.c_str() );
@@ -6535,7 +6535,7 @@ template<typename T>
 T *game::critter_by_id( const int id )
 {
     if( id == u.getID() ) {
-        // player is always alive, therefor no is-dead check
+        // player is always alive, therefore no is-dead check
         return dynamic_cast<T*>( &u );
     }
     for( auto &cur_npc : active_npc ) {
@@ -8485,7 +8485,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
         if (!is_draw_tiles_mode() && action != "MOUSE_MOVE") {
             // When tiles are disabled, this refresh is required to update the
-            // selected terrain square with highlighted ascii coloring. When
+            // selected terrain square with highlighted ASCII coloring. When
             // tiles are enabled, the selected square isn't highlighted using
             // this function, and it is too CPU-intensive to call repeatedly
             // in a mouse event loop. If we did want to highlight the tile
@@ -9556,7 +9556,7 @@ void game::grab()
             } else {
                 add_msg(_("You grab the %s."), m.furnname( grabp ).c_str());
             }
-        } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+        } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(m_info, _("There's nothing to grab there!"));
         }
     } else {
@@ -9922,7 +9922,7 @@ void game::plthrow( int pos )
 
 // @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
-    // @todo Make this check not needed
+    // @todo: Make this check not needed
     if( args.relevant == nullptr ) {
         debugmsg( "Can't plfire_check a null" );
         return false;
@@ -10042,7 +10042,7 @@ bool game::plfire()
         if( !gun->ammo_remaining() ) {
             item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
-                // Menu cancelled
+                // Menu canceled
                 return false;
             }
             reload_time += opt.moves();
@@ -10091,7 +10091,7 @@ bool game::plfire()
         shots = 1;
     } else {
         u.moves -= reload_time;
-        // @todo add check for TRIGGERHAPPY
+        // @todo: add check for TRIGGERHAPPY
         if( args.pre_fire ) {
             args.pre_fire( shots );
         }
@@ -10110,7 +10110,7 @@ bool game::plfire()
 
 bool game::plfire( item &weapon, int bp_cost )
 {
-    // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
+    // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
     item::gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
@@ -10869,7 +10869,7 @@ void game::read()
 void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc &guy ) {
-        // @todo Get rid of the z-level check when z-level vision gets "better"
+        // @todo: Get rid of the z-level check when z-level vision gets "better"
         return u.posz() == guy.posz() &&
             u.sees( guy.pos() ) &&
             rl_dist( u.pos(), guy.pos() ) <= 24;
@@ -11017,7 +11017,7 @@ void game::pldrive(int x, int y)
         }
     }
 
-    // @todo Actually check if we're on land on water (or disable water-skidding)
+    // @todo: Actually check if we're on land on water (or disable water-skidding)
     if( veh->skidding && ( veh->valid_wheel_config( false ) || veh->valid_wheel_config( true ) ) ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
@@ -11716,7 +11716,7 @@ void game::place_player( const tripoint &dest_loc )
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
-    // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
+    // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
     //Auto pulp or butcher
     if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
@@ -11967,7 +11967,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     tripoint fpos = u.pos() + u.grab_point;
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
-        // where'd it go? We're grabbing thin air so reset.
+        // Where did it go? We're grabbing thin air so reset.
         add_msg(m_info, _("No furniture at grabbed point.") );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
@@ -12022,7 +12022,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
                 furntype.name().c_str() );
         u.moves -= 100;
-        u.mod_pain(1); // Hurt ourself.
+        u.mod_pain(1); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
     } else if ( !src_item_ok && dst_items > 0 ) {
         add_msg( _("There's stuff in the way.") );
@@ -12646,7 +12646,7 @@ void game::vertical_move(int movez, bool force)
             } );
 
             if( found != candidates.end() ) {
-                // @todo De-uglify
+                // @todo: De-uglify
                 np->setpos( *found );
                 np->place_on_map();
                 np->setpos( *found );
@@ -12662,7 +12662,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     // This ugly check is here because of stair teleport bullshit
-    // @todo Remove stair teleport bullshit
+    // @todo: Remove stair teleport bullshit
     if( rl_dist( g->u.pos(), old_pos ) <= 1 ) {
         for( monster *m : monsters_following ) {
             m->set_dest( g->u.pos() );
@@ -13230,7 +13230,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
             // We're inbounds, so don't despawn after all.
-            // No need to shift z coords, they are absolute
+            // No need to shift Z-coordinates, they are absolute
             continue;
         }
         // Either a vertical shift or the critter is now outside of the reality bubble,

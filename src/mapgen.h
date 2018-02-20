@@ -316,7 +316,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     public:
     const std::string scr;
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
-        // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
+        // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
     void generate(map*, const oter_id &, const mapgendata &, int, float) override;
 };
