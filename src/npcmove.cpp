@@ -2878,11 +2878,11 @@ void npc::set_destination()
     }
     // We need that, otherwise find_closest won't work properly
     // TODO: Allow finding sewers and stuff
-    tripoint surface_omt_loc = npc::global_omt_location();
+    tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
-    debugmsg( "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
+    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 
 void npc::go_to_destination()
