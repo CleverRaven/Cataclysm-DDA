@@ -109,8 +109,10 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
-                   item::nname( bp.first ).c_str() );
+        const int amount = bp.second * batch
+                           * ( item::count_by_charges( bp.first ) ? item::find_type( bp.first )->charges_default() : 1 );
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), amount,
+                   item::nname( bp.first, static_cast<unsigned int>( amount ) ).c_str() );
     }
 
     return ypos - oldy;
