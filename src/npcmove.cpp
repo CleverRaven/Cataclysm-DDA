@@ -2872,17 +2872,19 @@ void npc::set_destination()
     }
 
     // Hack for city-less worlds (see #22270).
-    std::string dest_type = npc_destination( npc_need_name( needs[0] ) ).get_random_dest();
-    if( world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() == "0" ) {
-        dest_type = "field";
+    std::string dest_type = "field";
+    if( world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0" ) {
+        dest_type = npc_destination( npc_need_name( needs[0] ) ).get_random_dest();
     }
+    DebugLog( D_INFO, DC_ALL ) << "New goal: " << dest_type.c_str();
+
     // We need that, otherwise find_closest won't work properly
     // TODO: Allow finding sewers and stuff
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
-    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
+    DebugLog( D_INFO, DC_ALL ) << "New goal: " << dest_type.c_str() << " in " << goal.x << "," << goal.y << "," << goal.z;
 }
 
 void npc::go_to_destination()
