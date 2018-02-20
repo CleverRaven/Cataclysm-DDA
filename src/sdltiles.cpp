@@ -1139,8 +1139,38 @@ int HandleDPad()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-long sdl_keysym_to_curses(SDL_Keysym keysym)
+long sdl_keysym_to_curses( SDL_Keysym keysym )
 {
+
+    if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
+        //Shift + Cursor Arrow (diagonal clockwise)
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+            }
+        }
+        //Ctrl + Cursor Arrow (diagonal counter-clockwise)
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+
     switch (keysym.sym) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -1160,7 +1190,7 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
         case SDLK_ESCAPE:
             return KEY_ESCAPE;
         case SDLK_TAB:
-            if (keysym.mod & KMOD_SHIFT) {
+            if( keysym.mod & KMOD_SHIFT ) {
                 return KEY_BTAB;
             }
             return '\t';
@@ -1180,21 +1210,36 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
             return KEY_HOME;
         case SDLK_END:
             return KEY_END;
-        case SDLK_F1: return KEY_F(1);
-        case SDLK_F2: return KEY_F(2);
-        case SDLK_F3: return KEY_F(3);
-        case SDLK_F4: return KEY_F(4);
-        case SDLK_F5: return KEY_F(5);
-        case SDLK_F6: return KEY_F(6);
-        case SDLK_F7: return KEY_F(7);
-        case SDLK_F8: return KEY_F(8);
-        case SDLK_F9: return KEY_F(9);
-        case SDLK_F10: return KEY_F(10);
-        case SDLK_F11: return KEY_F(11);
-        case SDLK_F12: return KEY_F(12);
-        case SDLK_F13: return KEY_F(13);
-        case SDLK_F14: return KEY_F(14);
-        case SDLK_F15: return KEY_F(15);
+        case SDLK_F1:
+            return KEY_F( 1 );
+        case SDLK_F2:
+            return KEY_F( 2 );
+        case SDLK_F3:
+            return KEY_F( 3 );
+        case SDLK_F4:
+            return KEY_F( 4 );
+        case SDLK_F5:
+            return KEY_F( 5 );
+        case SDLK_F6:
+            return KEY_F( 6 );
+        case SDLK_F7:
+            return KEY_F( 7 );
+        case SDLK_F8:
+            return KEY_F( 8 );
+        case SDLK_F9:
+            return KEY_F( 9 );
+        case SDLK_F10:
+            return KEY_F( 10 );
+        case SDLK_F11:
+            return KEY_F( 11 );
+        case SDLK_F12:
+            return KEY_F( 12 );
+        case SDLK_F13:
+            return KEY_F( 13 );
+        case SDLK_F14:
+            return KEY_F( 14 );
+        case SDLK_F15:
+            return KEY_F( 15 );
         // Every other key is ignored as there is no curses constant for it.
         // TODO: add more if you find more.
         default:
