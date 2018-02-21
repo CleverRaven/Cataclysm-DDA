@@ -4766,7 +4766,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     } else if( t == tr_lava ) {
         part_damage = 500;
-        //@todo Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
+        if( parts[ part ].is_tank() ) {
+            explode_fuel( part, DT_HEAT );
+        }
+        //@todo Make this damage not only wheels, but other parts too
     } else {
         return;
     }
