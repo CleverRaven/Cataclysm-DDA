@@ -796,6 +796,14 @@ void options_manager::init()
         "", 30
         );
 
+    optionNames["male"]      = _("male");
+    optionNames["female"]   = _("female");
+    optionNames["random"]    = _("random");
+    add("DEF_CHAR_SEX", "general", _("Default character sex"),
+        _("Set a default character sex that will be used on character creation."),
+        "male,female,random", "random"
+        );
+
     mOptionsSort["general"]++;
 
     add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
