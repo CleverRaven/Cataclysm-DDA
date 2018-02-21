@@ -1862,6 +1862,14 @@
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "acid_anthill",
+        "name" : "anthill",
+        "sym" : 37,
+        "color" : "brown",
+        "see_cost" : 2,
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
         "id" : "slimepit",
         "name" : "slime pit",
         "sym" : 126,
