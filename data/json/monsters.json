@@ -186,7 +186,7 @@
     "speed": 15,
     "material": [ "iflesh" ],
     "symbol": "a",
-    "color": "light_yellow",
+    "color": "yellow",
     "aggression": -1,
     "morale": 10,
     "melee_skill": 2,
@@ -194,7 +194,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "death_function": [ "ACID", "NORMAL" ],
-    "flags": [ "LARVA", "POISON", "SMELLS", ]
+    "flags": [ "LARVA", "POISON", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_queen",
