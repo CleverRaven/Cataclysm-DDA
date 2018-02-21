@@ -128,7 +128,7 @@ private:
     int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
     void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
-    void draw_mod_list( const catacurses::window &w, int &start, size_t &cursor,
+    void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
                         const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
                         const catacurses::window &w_shift );
 

@@ -619,7 +619,7 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
     return 0;
 }
 
-void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t &cursor,
+void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
                                   const std::vector<std::string> &mods, bool is_active_list,
                                   const std::string &text_if_empty, const catacurses::window &w_shift )
 {
@@ -673,7 +673,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int larger = ((int)iMaxRows > (int)iModNum) ? (int)iModNum : (int)iMaxRows;
+        int larger = (iMaxRows > (int)iModNum) ? (int)iModNum : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
 
             if( iNum >= (unsigned int)start && iNum < (unsigned int)(start + larger) ) {
@@ -1045,7 +1045,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Redraw all the things!
             redraw_headers = true;
-            redraw_description = true;
             redraw_list = true;
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
