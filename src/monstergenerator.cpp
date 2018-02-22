@@ -920,8 +920,8 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 ) {
+                debugmsg( "half_life %d (< 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );

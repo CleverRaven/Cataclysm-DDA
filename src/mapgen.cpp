@@ -6498,16 +6498,16 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         ter_set(rng(3, SEEX * 2 - 4), rng(3, SEEY * 2 - 4), t_slope_up);
         place_items("spider", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
 
-    } else if (terrain_type == "anthill") {
+    } else if ( terrain_type == "anthill" || terrain_type == "acid_anthill" ) {
 
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9) {
-                    ter_set(i, j, dat.groundcover());
-                } else if ((i == 11 || i == 12) && (j == 11 || j == 12)) {
-                    ter_set(i, j, t_slope_down);
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                if( i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9 ) {
+                    ter_set( i, j, dat.groundcover() );
+                } else if( ( i == 11 || i == 12 ) && ( j == 11 || j == 12 ) ) {
+                    ter_set( i, j, t_slope_down );
                 } else {
-                    ter_set(i, j, t_dirtmound);
+                    ter_set( i, j, t_dirtmound );
                 }
             }
         }

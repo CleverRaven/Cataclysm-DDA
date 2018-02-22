@@ -578,7 +578,7 @@ bool oter_t::is_hardcoded() const
 {
     // @todo: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
-        "acid_anthill"
+        "acid_anthill",
         "anthill",
         "fema",
         "fema_entrance",
@@ -625,7 +625,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs",
         "toxic_dump",
         "triffid_finale",
-        "triffid_roots",
+        "triffid_roots"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
@@ -1731,6 +1731,7 @@ bool overmap::generate_sub(int const z)
     std::vector<point> sewer_points;
 
     std::vector<city> ant_points;
+    std::vector<city> antacid_points;
     std::vector<city> goo_points;
     std::vector<city> lab_points;
     std::vector<city> ice_lab_points;
@@ -1784,17 +1785,19 @@ bool overmap::generate_sub(int const z)
                 }
             } else if (oter_above == "cave_rat" && z == -2) {
                 ter(i, j, z) = oter_id( "cave_rat" );
-            } else if (oter_above == "anthill") {
-                int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
-                ant_points.push_back(city(i, j, size));
-                add_mon_group(mongroup( mongroup_id( "GROUP_ANT" ), i * 2, j * 2, z, (size * 3) / 2, rng(6000, 8000)));
-            } else if (oter_above == "acid_anthill") {
-                int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
-                ant_points.push_back(city(i, j, size));
-                add_mon_group(mongroup( mongroup_id( "GROUP_ANT_ACID" ), i * 2, j * 2, z, (size * 3) / 2, rng(6000, 8000)));
-            } else if (oter_above == "slimepit_down") {
-                int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
-                goo_points.push_back(city(i, j, size));
+            } else if( oter_above == "anthill" ) {
+                int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
+                ant_points.push_back( city( i, j, size ) );
+                add_mon_group( mongroup( mongroup_id( "GROUP_ANT" ), i * 2, j * 2, z,
+                                         ( size * 3 ) / 2, rng( 6000, 8000 ) ) );
+            } else if( oter_above == "acid_anthill" ) {
+                int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
+                antacid_points.push_back( city( i, j, size ) );
+                add_mon_group(mongroup( mongroup_id( "GROUP_ANT_ACID" ), i * 2, j * 2, z,
+                                        ( size * 3 ) / 2, rng( 6000, 8000 ) ) );
+            } else if( oter_above == "slimepit_down" ) {
+                int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
+                goo_points.push_back( city( i, j, size ) );
             } else if (oter_above == "forest_water") {
                 ter(i, j, z) = oter_id( "cavern" );
                 chip_rock( i, j, z );
@@ -1863,30 +1866,31 @@ bool overmap::generate_sub(int const z)
             ter(i.x, i.y, z) = oter_id( "ice_lab" );
         }
     }
-    for (auto &i : ant_points) {
-        build_anthill(i.x, i.y, z, i.s);
+    for( auto &i : ant_points ) {
+        build_anthill( i.x, i.y, z, i.s );
     }
-    }
-    for (auto &i : ant_points) {
-        build_acid_anthill(i.x, i.y, z, i.s);
+    for( auto &i : antacid_points ) {
+        build_acid_anthill( i.x, i.y, z, i.s );
     }
 
-    for (auto &i : cities) {
-        if (one_in(3)) {
-            add_mon_group(mongroup( mongroup_id( "GROUP_CHUD" ), i.x * 2, i.y * 2, z, i.s, i.s * 20));
+    for( auto &i : cities ) {
+        if( one_in( 3 ) ) {
+            add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
+                                     i.x * 2, i.y * 2, z, i.s, i.s * 20 ) );
         }
-        if (!one_in(8)) {
-            add_mon_group(mongroup( mongroup_id( "GROUP_SEWER" ), i.x * 2, i.y * 2, z, (i.s * 7) / 2, i.s * 70));
+        if( !one_in( 8 ) ) {
+            add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
+                                     i.x * 2, i.y * 2, z, ( i.s * 7 ) / 2, i.s * 70 ) );
         }
     }
 
-    place_rifts(z);
-    for (auto &i : mine_points) {
-        build_mine(i.x, i.y, z, i.s);
+    place_rifts( z );
+    for( auto &i : mine_points ) {
+        build_mine( i.x, i.y, z, i.s );
     }
 
-    for (auto &i : shaft_points) {
-        ter(i.x, i.y, z) = oter_id( "mine_shaft" );
+    for( auto &i : shaft_points ) {
+        ter( i.x, i.y, z ) = oter_id( "mine_shaft" );
         requires_sub = true;
     }
     return requires_sub;
