@@ -578,7 +578,7 @@ bool oter_t::is_hardcoded() const
 {
     // @todo: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
-        "acid_anthill"
+        "acid_anthill",
         "anthill",
         "fema",
         "fema_entrance",
@@ -625,7 +625,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs",
         "toxic_dump",
         "triffid_finale",
-        "triffid_roots",
+        "triffid_roots"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
@@ -1865,7 +1865,6 @@ bool overmap::generate_sub(int const z)
     }
     for (auto &i : ant_points) {
         build_anthill(i.x, i.y, z, i.s);
-    }
     }
     for (auto &i : ant_points) {
         build_acid_anthill(i.x, i.y, z, i.s);
