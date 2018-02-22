@@ -1866,7 +1866,6 @@ bool overmap::generate_sub(int const z)
     for (auto &i : ant_points) {
         build_anthill(i.x, i.y, z, i.s);
     }
-    }
     for (auto &i : ant_points) {
         build_acid_anthill(i.x, i.y, z, i.s);
     }
