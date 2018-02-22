@@ -51,6 +51,7 @@ const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
 const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 const mtype_id mon_ant_acid_soldier( "mon_ant_acid_soldier" );
+const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_soldier( "mon_ant_soldier" );
 const mtype_id mon_biollante( "mon_biollante" );
@@ -195,7 +196,7 @@ bool mattack::none(monster *)
     return true;
 }
 
-bool mattack::antqueen(monster *z)
+bool mattack::antqueen( monster *z )
 {
     std::vector<tripoint> egg_points;
     std::vector<monster*> ants;
@@ -205,8 +206,8 @@ bool mattack::antqueen(monster *z)
             continue;
         }
 
-        if( monster * const mon = g->critter_at<monster>( dest ) ) {
-            if( mon->type->id == mon_ant_larva || mon->type->id == mon_ant ) {
+        if( monster *const mon = g->critter_at<monster>( dest ) ) {
+            if( mon->type->default_faction == mfaction_id( "ant" ) && mon->type->upgrades ) {
                 ants.push_back( mon );
             }
 
@@ -227,23 +228,20 @@ bool mattack::antqueen(monster *z)
     if( !ants.empty() ) {
         z->moves -= 100; // It takes a while
         monster *ant = random_entry( ants );
-        if( g->u.sees( *z ) && g->u.sees( *ant ) )
-            add_msg(m_warning, _("The %1$s feeds an %2$s and it grows!"), z->name().c_str(),
-                    ant->name().c_str());
-        if (ant->type->id == mon_ant_larva) {
-            ant->poly( mon_ant );
-        } else {
-            ant->poly( mon_ant_soldier );
+        if( g->u.sees( *z ) && g->u.sees( *ant ) ) {
+            add_msg( m_warning, _( "The %1$s feeds an %2$s and it grows!" ), z->name().c_str(),
+                     ant->name().c_str() );
         }
-    } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
+        ant->poly( ant->type->upgrade_into );
+    } else if ( egg_points.empty() ) { // There's no eggs nearby--lay one.
         if( g->u.sees( *z ) ) {
-            add_msg(_("The %s lays an egg!"), z->name().c_str());
+            add_msg( _( "The %s lays an egg!" ), z->name().c_str() );
         }
-        g->m.spawn_item(z->pos(), "ant_egg", 1, 0, calendar::turn);
+        g->m.spawn_item( z->pos(), "ant_egg", 1, 0, calendar::turn );
     } else { // There are eggs nearby.  Let's hatch some.
         z->moves -= 20 * egg_points.size(); // It takes a while
         if( g->u.sees( *z ) ) {
-            add_msg(m_warning, _("The %s tends nearby eggs, and they hatch!"), z->name().c_str());
+            add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name().c_str());
         }
         for( auto &i : egg_points ) {
             auto eggs = g->m.i_at( i );
@@ -252,75 +250,7 @@ bool mattack::antqueen(monster *z)
                     continue;
                 }
                 g->m.i_rem( i, j );
-                monster tmp( mon_ant_larva, i );
-                tmp.make_ally( z );
-                g->add_zombie(tmp);
-                break; // Max one hatch per tile
-            }
-        }
-    }
-
-    return true;
-}
-
-bool mattack::acidantqueen(monster *z)
-{
-    std::vector<tripoint> egg_points;
-    std::vector<monster*> ants;
-    // Count up all adjacent tiles the contain at least one egg.
-    for( const auto &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( g->m.impassable( dest ) ) {
-            continue;
-        }
-
-        if( monster * const mon = g->critter_at<monster>( dest ) ) {
-            if( mon->type->id == mon_ant_acid_larva || mon->type->id == mon_ant_acid ) {
-                ants.push_back( mon );
-            }
-
-            continue;
-        }
-
-        if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
-            for( auto &i : g->m.i_at( dest ) ) {
-                if( i.typeId() == "ant_egg" ) {
-                    egg_points.push_back( dest );
-                    // Done looking at this tile
-                    break;
-                }
-            }
-        }
-    }
-
-    if( !ants.empty() ) {
-        z->moves -= 100; // It takes a while
-        monster *ant = random_entry( ants );
-        if( g->u.sees( *z ) && g->u.sees( *ant ) )
-            add_msg(m_warning, _("The %1$s feeds an %2$s and it grows!"), z->name().c_str(),
-                    ant->name().c_str());
-        if (ant->type->id == mon_ant_acid_larva) {
-            ant->poly( mon_ant_acid );
-        } else {
-            ant->poly( mon_ant_acid_soldier );
-        }
-    } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
-        if( g->u.sees( *z ) ) {
-            add_msg(_("The %s lays an egg!"), z->name().c_str());
-        }
-        g->m.spawn_item(z->pos(), "ant_egg", 1, 0, calendar::turn);
-    } else { // There are eggs nearby.  Let's hatch some.
-        z->moves -= 20 * egg_points.size(); // It takes a while
-        if( g->u.sees( *z ) ) {
-            add_msg(m_warning, _("The %s tends nearby eggs, and they hatch!"), z->name().c_str());
-        }
-        for( auto &i : egg_points ) {
-            auto eggs = g->m.i_at( i );
-            for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].typeId() != "ant_egg" ) {
-                    continue;
-                }
-                g->m.i_rem( i, j );
-                monster tmp( mon_ant_acid_larva, i );
+                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, i );
                 tmp.make_ally( z );
                 g->add_zombie(tmp);
                 break; // Max one hatch per tile
