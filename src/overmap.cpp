@@ -1731,7 +1731,6 @@ bool overmap::generate_sub(int const z)
     std::vector<point> sewer_points;
 
     std::vector<city> ant_points;
-    std::vector<city> antacid_points;
     std::vector<city> goo_points;
     std::vector<city> lab_points;
     std::vector<city> ice_lab_points;
@@ -1785,16 +1784,12 @@ bool overmap::generate_sub(int const z)
                 }
             } else if (oter_above == "cave_rat" && z == -2) {
                 ter(i, j, z) = oter_id( "cave_rat" );
-            } else if( oter_above == "anthill" ) {
+            } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
+                mongroup_id ant_group( oter_above == "anthill" ? "GROUP_ANT" : "GROUP_ANT_ACID" );
                 int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.push_back( city( i, j, size ) );
-                add_mon_group( mongroup( mongroup_id( "GROUP_ANT" ), i * 2, j * 2, z,
+                add_mon_group( mongroup( ant_group, i * 2, j * 2, z,
                                          ( size * 3 ) / 2, rng( 6000, 8000 ) ) );
-            } else if( oter_above == "acid_anthill" ) {
-                int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
-                antacid_points.push_back( city( i, j, size ) );
-                add_mon_group(mongroup( mongroup_id( "GROUP_ANT_ACID" ), i * 2, j * 2, z,
-                                        ( size * 3 ) / 2, rng( 6000, 8000 ) ) );
             } else if( oter_above == "slimepit_down" ) {
                 int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.push_back( city( i, j, size ) );
@@ -1868,9 +1863,6 @@ bool overmap::generate_sub(int const z)
     }
     for( auto &i : ant_points ) {
         build_anthill( i.x, i.y, z, i.s );
-    }
-    for( auto &i : antacid_points ) {
-        build_acid_anthill( i.x, i.y, z, i.s );
     }
 
     for( auto &i : cities ) {
@@ -3587,39 +3579,6 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
 }
 
 void overmap::build_anthill(int x, int y, int z, int s)
-{
-    for( auto dir : om_direction::all ) {
-        build_tunnel( x, y, z, s - rng(0, 3), dir );
-    }
-
-    std::vector<point> queenpoints;
-    for (int i = x - s; i <= x + s; i++) {
-        for (int j = y - s; j <= y + s; j++) {
-            if (check_ot_type("ants", i, j, z)) {
-                queenpoints.push_back(point(i, j));
-            }
-        }
-    }
-    const point target = random_entry( queenpoints );
-    ter(target.x, target.y, z) = oter_id( "ants_queen" );
-
-    // Connect the queen chamber, as it gets placed before polish()
-    for( auto dir : om_direction::all ) {
-        const point p = point( target.x, target.y ) + om_direction::displace( dir );
-        if( check_ot_type( "ants", p.x, p.y, z ) ) {
-            auto &neighbor = ter( p.x, p.y, z );
-            if( neighbor->has_flag( line_drawing ) ) {
-                size_t line = neighbor->get_line();
-                line = om_lines::set_segment( line, om_direction::opposite( dir ) );
-                if( line != neighbor->get_line() ) {
-                    neighbor = neighbor->get_type_id()->get_linear( line );
-                }
-            }
-        }
-    }
-}
-
-void overmap::build_acid_anthill(int x, int y, int z, int s)
 {
     for( auto dir : om_direction::all ) {
         build_tunnel( x, y, z, s - rng(0, 3), dir );
