@@ -9,6 +9,7 @@ namespace mattack
 {
 bool none( monster *z );
 bool antqueen( monster *z );
+bool acidantqueen( monster *z );
 bool shriek( monster *z );
 bool shriek_alert( monster *z );
 bool shriek_stun( monster *z );

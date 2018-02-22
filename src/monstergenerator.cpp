@@ -270,6 +270,7 @@ void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
+    add_hardcoded_attack( "ACIDANTQUEEN", mattack::acidantqueen );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
