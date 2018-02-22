@@ -3510,9 +3510,9 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
 
     uimenu amenu;
     amenu.selected = 0;
-    amenu.text = string_format( _( "Autodoc Mk. XI. Status: %s. Please choose operation." ), status );
+    amenu.text = string_format( _( "Autodoc Mk. XI.  Status: %s.  Please choose operation." ), status );
     amenu.addentry( CONFIGURE, true, 'c', str_to_illiterate_str( _( "Configure Autodoc." ) ) );
-    amenu.addentry( INSTALL_CBM, uistate.iexamine_autodoc_config ? true : false, 'i',
+    amenu.addentry( INSTALL_CBM, uistate.iexamine_autodoc_config, 'i',
                     str_to_illiterate_str( _( "Choose Compact Bionic Module to install." ) ) );
 
     amenu.addentry( CANCEL, true, 'q', str_to_illiterate_str( _( "Do nothing." ) ) );
@@ -3541,11 +3541,11 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
 
         case INSTALL_CBM: {
             if( !adjacent_couch ) {
-                popup( _( "No connected couches found. Operation impossible. Exiting." ) );
+                popup( _( "No connected couches found.  Operation impossible. Exiting." ) );
                 return;
             }
             if( !in_position ) {
-                popup( _( "No patient found located on the connected couches. Operation impossible. Exiting." ) );
+                popup( _( "No patient found located on the connected couches.  Operation impossible. Exiting." ) );
                 return;
             }
 
