@@ -117,8 +117,9 @@ int game::inv_for_filter( const std::string &title, item_filter filter,
 
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(),
-                                title, -1, none_message ).get_item() );
+    const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
+    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
+                                msg ).get_item() );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
