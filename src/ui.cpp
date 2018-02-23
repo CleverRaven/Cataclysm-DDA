@@ -910,6 +910,7 @@ void pointmenu_cb::refresh( uimenu *menu ) {
         last = menu->selected;
         g->u.view_offset = {0, 0, 0};
         g->draw_ter();
+        wrefresh( g->w_terrain );
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;
