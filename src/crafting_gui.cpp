@@ -117,7 +117,7 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
             desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
         } else {
             desc = string_format( "> %d %s", amount,
-                                  t->nname ( static_cast<unsigned int>( amount ) ).c_str() );
+                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
         }
         mvwprintz( w, ypos++, xpos, col, desc.c_str() );
     }
