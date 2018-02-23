@@ -2735,7 +2735,7 @@
         "id" : "MORE_PAIN2",
         "name" : "Hyperalgesia",
         "points" : -3,
-        "description" : "Your body experiences pain out proportion to the physiscal causes.  Pain dealt to you is increased by 50%.",
+        "description" : "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
         "valid" : false,
         "prereqs" : ["MORE_PAIN"],
         "cancels" : ["PAINRESIST", "NOPAIN"],
