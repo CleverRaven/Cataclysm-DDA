@@ -4,6 +4,7 @@
         "type": "COMESTIBLE",
         "comestible_type": "FOOD",
         "name": "seeds",
+        "name_plural": "seeds",
         "category": "other",
         "volume": 1,
         "weight": 1,
@@ -19,6 +20,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "blackberry seeds",
+        "name_plural": "blackberry seeds",
         "description": "Some blackberry seeds.",
         "seed_data": {
             "plant_name": "blackberry",
@@ -45,6 +47,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "cranberry seeds",
+        "name_plural": "cranberry seeds",
         "description": "Some cranberry seeds.",
         "seed_data": {
             "plant_name": "cranberry",
@@ -58,6 +61,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "hop rhizomes",
+        "name_plural": "hop rhizomes",
         "name_plural": "hop rhizomes",
         "description": "Roots of a hop plant, for growing your own.",
         "weight": 152,
@@ -77,6 +81,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "raspberry seeds",
+        "name_plural": "raspberry seeds",
         "description": "Some raspberry seeds.",
         "seed_data": {
             "plant_name": "raspberry",
@@ -90,6 +95,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "strawberry seeds",
+        "name_plural": "strawberry seeds",
         "description": "Some strawberry seeds.",
         "seed_data": {
             "plant_name": "strawberry",
@@ -103,6 +109,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "wheat seeds",
+        "name_plural": "wheat seeds",
         "description": "Some wheat seeds.",
         "weight": 5,
         "price": 50,
