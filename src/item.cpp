@@ -696,8 +696,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 {
     std::stringstream temp1, temp2;
     std::string space = "  ";
-    const bool debug = g != nullptr && ( debug_mode ||
-                                         g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) );
+    const bool debug = g != nullptr && debug_mode;
 
     info.clear();
 
