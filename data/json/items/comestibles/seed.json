@@ -34,6 +34,7 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "blueberry seeds",
+        "name_plural": "blueberry seeds",
         "description": "Some blueberry seeds.",
         "seed_data": {
             "plant_name": "blueberry",
@@ -61,7 +62,6 @@
         "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "hop rhizomes",
-        "name_plural": "hop rhizomes",
         "name_plural": "hop rhizomes",
         "description": "Roots of a hop plant, for growing your own.",
         "weight": 152,
