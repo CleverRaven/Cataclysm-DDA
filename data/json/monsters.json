@@ -432,7 +432,6 @@
     "name": "Smoky bear",
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "default_faction": "bear",
-    "categories": [ "WILDLIFE" ],
     "species": [ "ZOMBIE" ],
     "diff": 10,
     "size": "LARGE",
