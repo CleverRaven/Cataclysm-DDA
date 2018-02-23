@@ -26,6 +26,7 @@
 #include "itype.h"
 #include "text_snippets.h"
 #include "map_selector.h"
+#include "vehicle.h"
 #include "vehicle_selector.h"
 #include "skill.h"
 #include "ui.h"
@@ -2255,6 +2256,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
+            int part;
+            vehicle *veh = g->m.veh_at( p->pos(), part );
+            if( veh != nullptr ) {
+                if( abs( veh->velocity ) > 0 ) {
+                    reasons << _( "Let's not do it in the moving vehicle." ) << std::endl;
+                }
+            }
+
             if( p->has_effect( effect_asked_to_train ) ) {
                 reasons << _( "Give it some time, I'll show you something new later..." ) << std::endl;
             }
