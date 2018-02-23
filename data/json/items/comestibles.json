@@ -5624,7 +5624,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "marloss_seed",
-        "name" : "marloss seeds",
+        "name" : "marloss seed",
         "name_plural" : "marloss seeds",
         "weight" : 177,
         "color" : "cyan",
