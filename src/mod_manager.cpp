@@ -226,6 +226,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "description", modfile->description );
+    assign( jo, "version", modfile->version );
     assign( jo, "dependencies", modfile->dependencies );
     assign( jo, "core", modfile->core );
     assign( jo, "obsolete", modfile->obsolete );
