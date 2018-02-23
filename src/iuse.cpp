@@ -4149,7 +4149,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
     }
 
     tripoint dirp = pos;
-    if( !choose_adjacent( _( "Chop which which tree trunk?" ), dirp ) ) {
+    if( !choose_adjacent( _( "Chop which tree trunk?" ), dirp ) ) {
         return 0;
     }
 
