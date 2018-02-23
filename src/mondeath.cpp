@@ -156,14 +156,29 @@ void mdeath::normal(monster *z)
 void mdeath::acid(monster *z)
 {
     if (g->u.sees(*z)) {
-        if(z->type->dies.size() ==
-           1) { //If this death function is the only function. The corpse gets dissolved.
+        if (z->type->dies.size() ==
+            1) { //If this death function is the only function. The corpse gets dissolved.
             add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
         } else {
             add_msg(m_warning, _("The %s's body leaks acid."), z->name().c_str());
         }
     }
     g->m.add_field(z->pos(), fd_acid, 3, 0);
+}
+
+void mdeath::acidburst(monster *z) // spawn a lot of acid on death
+{
+    if ( g->u.sees(*z) ) {
+        add_msg(m_mixed, _("The %s bursts, showering the nearby area with acid."), z->name().c_str());
+    }
+    const tripoint origin = z->pos();
+    const int radius = 2; // 2 so ranged attacks arent safe per se
+    g->m.add_field( origin, fd_acid, 3, 0 ); // death field, more severe acid
+
+    for ( int i = 0; i < rng(8, 11); i++ ) { // amount of burst and densitiy depends on RNG for now
+        const tripoint dest( origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z );
+        g->m.add_field( dest, fd_acid, rng(1, 2), 0 );
+    }
 }
 
 void mdeath::boomer(monster *z)
