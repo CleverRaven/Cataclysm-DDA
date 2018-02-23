@@ -270,7 +270,6 @@ void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
-    add_hardcoded_attack( "ACIDANTQUEEN", mattack::acidantqueen );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
@@ -920,8 +919,8 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 ) {
+                debugmsg( "half_life %d (< 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );

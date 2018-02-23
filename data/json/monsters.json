@@ -141,6 +141,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "upgrades": { "into": "mon_ant_soldier", "half_life": 0 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
@@ -169,6 +170,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "upgrades": { "into": "mon_ant_acid_soldier", "half_life": 0 },
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
@@ -193,6 +195,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "upgrades": { "into": "mon_ant_acid", "half_life": 0 },
     "death_function": [ "ACID", "NORMAL" ],
     "flags": [ "LARVA", "POISON", "SMELLS" ]
   },
@@ -219,7 +222,7 @@
     "dodge": 1,
     "armor_bash": 8,
     "armor_cut": 16,
-    "special_attacks": [ [ "ACIDANTQUEEN", 1 ] ],
+    "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "ACIDPROOF", "CHITIN", "CLIMBS", "FAT", "HEARS", "QUEEN", "SEES", "SMELLS" ]
@@ -302,6 +305,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "upgrades": { "into": "mon_ant", "half_life": 0 },
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "LARVA" ]
   },
