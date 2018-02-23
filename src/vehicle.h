@@ -1149,14 +1149,19 @@ public:
     void operate_scoop();
     void operate_reaper();
     void operate_plow();
+    void control_boilers();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
     int select_engine();
+    // shows ui menu to select a boiler
+    int select_boiler();
     //returns whether the engine is enabled or not, and has fueltype
     bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not
     bool is_engine_on(int e) const;
+    //returns whether the boiler is enabled or not
+    bool is_boiler_on(int e) const;
     //returns whether the part is enabled or not
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
@@ -1165,6 +1170,7 @@ public:
     bool is_alternator_on(int a) const;
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
+    void toggle_specific_boiler(int p, bool on);
     void toggle_specific_part(int p, bool on);
     //true if an engine exists with specified type
     //If enabled true, this engine must be enabled to return true
@@ -1214,6 +1220,7 @@ public:
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> engines;          // List of engine indices
+    std::vector<int> boilers;          // List of boiler indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> funnels;          // List of funnel indices

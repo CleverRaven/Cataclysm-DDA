@@ -707,6 +707,7 @@ bool veh_interact::do_install( std::string &msg )
                                                    !tab_filters[3](p); };
     tab_filters[5] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag(VPFLAG_ENGINE) || // Internals
+                                                   part.has_flag(VPFLAG_BOILER) ||
                                                    part.has_flag(VPFLAG_ALTERNATOR) ||
                                                    part.has_flag(VPFLAG_CONTROLS) ||
                                                    part.location == "fuel_source" ||
