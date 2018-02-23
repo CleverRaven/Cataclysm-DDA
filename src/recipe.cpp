@@ -19,7 +19,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
-    if( multiplier == 0.0f ) {  // @todo: Don't compare floats this way!
+    if( multiplier == 0.0f ) {
         multiplier =
             1.0f; // If an item isn't craftable in the dark, show the time to complete as if you could craft it
     }
