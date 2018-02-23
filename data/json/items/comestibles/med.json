@@ -479,7 +479,6 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "datura seeds",
-        "name_plural" : "datura seeds",
         "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
         "category" : "other",
         "weight" : 2,
