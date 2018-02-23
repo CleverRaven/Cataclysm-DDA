@@ -852,7 +852,8 @@
     "vision_day": 50,
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "REVIVES", "WARM", "STUMBLES", "CBM_POWER", "HUMAN", "BONES", "NO_NECRO" ]
+    "harvest": "mon_broken_cyborg",
+    "flags": [ "SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "REVIVES", "WARM", "STUMBLES", "HUMAN", "NO_NECRO" ]
   },
   {
     "id": "mon_cat",
