@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-09 03:21-0500\n"
-"PO-Revision-Date: 2018-02-16 10:23+0000\n"
+"POT-Creation-Date: 2018-02-17 03:40-0500\n"
+"PO-Revision-Date: 2018-02-22 10:54+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgstr "啟用物品自動撿取。利用說明選單中的自動撿取規則管
 msgid "Auto pickup adjacent"
 msgstr "自動撿取附近的物品"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can"
 " assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
@@ -488,7 +488,7 @@ msgstr "24h"
 msgid "Time format"
 msgstr "時間格式"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
 "24h, eg: 7:31"
@@ -3673,7 +3673,7 @@ msgstr "使用 147 格令全金屬彈頭的7.62x51mm NATO 彈。因為他的高�
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x51mm NATO tracer"
-msgstr ""
+msgstr "7.62x51mm NATO 曳光彈"
 
 #. ~ Description for 7.62x51mm NATO tracer
 #: lang/json/AMMO_from_json.py
@@ -3702,8 +3702,8 @@ msgstr ".32 ACP 子彈"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
-"powerful as the .38 or the 9mm though."
-msgstr ".32 ACP 是在 20 世紀流行的手槍彈。不比 .38 或 9mm 強就是。"
+"powerful as the .38 or the 9x19mm though."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .32 ACP"
@@ -4484,9 +4484,9 @@ msgstr "9x19mm 超高壓彈"
 #. ~ Description for 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A step beyond the high-pressure 9mm +P round, the +P+ has even higher "
+"A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher "
 "internal pressure offering superior damage, accuracy, and penetration."
-msgstr "比 9mm 高壓彈更進一步，這款超高壓彈具有更強的破壞力、準繩度，以及穿透力。"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm JHP"
@@ -4935,10 +4935,10 @@ msgstr[0] "6.54x42mm 9N8"
 #. ~ Description for 6.54x42mm 9N8
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A 6.54x42mm cartridge, loaded with a 100 gr. FMJ bullet.  Inspired by the "
-"improved .270 British, Alexander Sarafanov himself developed the 6.54x42mm "
+"A 6.54x42mm cartridge, loaded with a 120 gr. FMJBT bullet.  Inspired by the "
+"improved .280 British, Alexander Sarafanov himself developed the 6.54x42mm "
 "rifle cartridge for his new SVS-24 Assault Rifle."
-msgstr "一個 6.54x42mm 彈匣，裝著 100 格令全金屬被甲彈。從改進型 .270 彈藥中獲得啟發，Alexander Sarafanov 為他的新型 SVS-24 突擊步槍設計了6.54x42mm 步槍彈。"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "6.54x42mm 9N12"
@@ -4967,17 +4967,17 @@ msgid ""
 msgstr "這種金屬鋼珠利用電磁加速原理發射，因此完全不會產生聲音、閃光、或是熱。"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 6.54x42mm 9N8"
-msgid_plural "reloaded 6.54x42mm 9N8"
-msgstr[0] "6.54x42mm 9N8（重填彈）"
+msgid "reloaded 6.54x42mm"
+msgid_plural "reloaded 6.54x42mm"
+msgstr[0] ""
 
-#. ~ Description for reloaded 6.54x42mm 9N8
+#. ~ Description for reloaded 6.54x42mm
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Inspired by the improved .270, Alexander Sarafanov himself developed the "
+"Inspired by the improved .280, Alexander Sarafanov himself developed the "
 "6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has "
 "been hand-reloaded."
-msgstr "從改進型 .270 彈藥中獲得啟發， Alexander Sarafanov 為他的新型 SVS-24 突擊步槍設計了6.54x42mm 步槍彈。這顆是手工裝配的重填彈。"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded light rifle ammo"
@@ -20011,7 +20011,7 @@ msgstr "骨粉"
 #. ~ Description for bone meal
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This bone meal can be used to craft fertilizer and some other things."
-msgstr ""
+msgstr "這些骨粉可以用來製作肥料或者其他東西。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted bone meal"
@@ -25425,6 +25425,18 @@ msgid ""
 msgstr "這小型的土製炸彈可以裝在箭上，它會在擊中目標時爆炸。"
 
 #: lang/json/GENERIC_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+
+#. ~ Description for violin case
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] "石灰岩碎片"
@@ -30483,11 +30495,11 @@ msgid "An empty casing from a 7.62x25mm round."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "9mm casing"
-msgid_plural "9mm casings"
-msgstr[0] "9mm 彈殼"
+msgid "9x19mm casing"
+msgid_plural "9x19mm casings"
+msgstr[0] ""
 
-#. ~ Description for 9mm casing
+#. ~ Description for 9x19mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 9x19mm round."
 msgstr "一個9x19mm子彈的彈殼。"
@@ -32428,13 +32440,13 @@ msgstr "一個 25 發的條狀彈匣，適用於 Rivtech 8x40mm 無殼彈。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RMGB500 8x40mm drum magazine"
-msgstr ""
+msgstr "RMGB500 8x40mm 彈鼓"
 
 #. ~ Description for RMGB500 8x40mm drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms."
-msgstr ""
+msgstr "一個 500 發的彈鼓，適用於 Rivtech 8x40mm 無殼彈。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RMGB50 8x40mm magazine"
@@ -32521,9 +32533,9 @@ msgstr "LW-21 彈匣"
 #. ~ Description for LW-21 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 21-round polymer magazine for Leadworks LLC 9mm firearms.  Lightweight and"
-" reliable but somewhat more difficult to reload."
-msgstr "一個 21 發的聚合物彈匣，適用於 Leadworks LLC 9mm 槍支。輕巧可靠，但裝填時有點困難。"
+"A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight "
+"and reliable but somewhat more difficult to reload."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M9 extended magazine"
@@ -32608,8 +32620,8 @@ msgstr "USP 9mm 彈匣"
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A factory specification 15-round box magazine for use with the dependable "
-"H&K USP 9mm pistol."
-msgstr "一個工廠規格的 15 發盒型彈匣，適用於可靠的 H&K USP 9mm 手槍。"
+"H&K USP 9x19mm pistol."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "UZI magazine"
@@ -32791,13 +32803,13 @@ msgid "An improvised magazine made for the pipe SMG: .38, holds 25 rounds."
 msgstr "一個適用於 .38 鋼管衝鋒槍 的粗製彈匣，能容納 25 發子彈。"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "pipe SMG: 9mm magazine"
-msgstr "9mm 鋼管衝鋒槍彈匣"
+msgid "pipe SMG: 9x19mm magazine"
+msgstr ""
 
-#. ~ Description for pipe SMG: 9mm magazine
+#. ~ Description for pipe SMG: 9x19mm magazine
 #: lang/json/MAGAZINE_from_json.py
-msgid "An improvised magazine made for the pipe SMG: 9mm, holds 25 rounds."
-msgstr "一個適用於 9mm 鋼管衝鋒槍 的粗製彈匣，能容納 25 發子彈。"
+msgid "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "pipe SMG: .40 magazine"
@@ -36378,8 +36390,8 @@ msgstr "軍規砲塔"
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
-"Atomics' TX-1 9mm model and an automated M4 carbine."
-msgstr "Leadworks LLC公司製造的T-4A1 哨兵，它使用比 General Atomics' TX-1 9mm 機型更為先進的韌體，並搭載有自動M4 卡賓槍。"
+"Atomics' TX-1 9x19mm model and an automated M4 carbine."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "centipede"
@@ -38219,6 +38231,12 @@ msgstr[0] "哨子"
 msgid "FWEEEET!"
 msgstr "咻~！"
 
+#. ~ Use action use_message for whistle.
+#. ~ Use action use_message for whistle multitool.
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
+msgid "You blow the whistle."
+msgstr ""
+
 #. ~ Description for whistle
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A simple metal whistle, with a cord to wear it around your neck."
@@ -38686,6 +38704,11 @@ msgstr[0] "瓦斯喇叭"
 msgid "HOOOOONK!"
 msgstr "叭~~~！"
 
+#. ~ Use action use_message for compressed air horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk your airhorn."
+msgstr ""
+
 #. ~ Description for compressed air horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -39121,12 +39144,12 @@ msgstr[0] "未啟動的槍塔"
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an inactive turret.  Using this item involves loading the unit with "
-"the factory-loaded 9mm rounds in your inventory (if you wish to divide your "
-"ammunition, set aside whatever 9mm you do NOT want to give the turret) "
-"turning it on, and placing it on the ground, where it will attach itself.  "
-"The turret will then identify you as a friendly, and attack all enemies with"
-" a built-in SMG."
-msgstr "這是一台未啟動的槍塔。使用這個物品會將它啟動，放置在地面上會自動組裝。槍塔能以內建的衝鋒槍掃射敵人，卻不會誤傷到你。"
+"the factory-loaded 9x19mm rounds in your inventory (if you wish to divide "
+"your ammunition, set aside whatever 9x19mm you do NOT want to give the "
+"turret) turning it on, and placing it on the ground, where it will attach "
+"itself.  The turret will then identify you as a friendly, and attack all "
+"enemies with a built-in SMG."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
 msgid "brazier"
@@ -40888,6 +40911,11 @@ msgstr[0] "腳踏車叭噗"
 msgid "honk."
 msgstr "叭叭。"
 
+#. ~ Use action use_message for bicycle horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk the bicycle horn."
+msgstr ""
+
 #. ~ Description for bicycle horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -42577,10 +42605,10 @@ msgstr "你設置了霰彈槍陷阱。"
 #. ~ Description for shotgun trap
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a simple tripwire is attached to the trigger of a loaded sawn-off "
-"shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first "
-"time the trigger is pulled, one or both shells may be discharged."
-msgstr "一個簡單的絆索連接到一個上膛的削短型霰彈槍的扳機。當一被拉動，霰彈槍就會發射。一次使用兩發子彈，一次觸發會使用一發或兩發子彈。"
+"This is a simple tripwire is attached to the trigger of a loaded double-"
+"barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; "
+"the first time the trigger is pulled, one or both shells may be discharged."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "shovel"
@@ -43645,14 +43673,14 @@ msgstr "一個可以將食材切片、剁碎、切絲、磨碎、製漿以及混
 #: lang/json/TOOL_from_json.py
 msgid "cattle fodder"
 msgid_plural "cattle fodder"
-msgstr[0] ""
+msgstr[0] "牛飼料"
 
 #. ~ Description for cattle fodder
 #: lang/json/TOOL_from_json.py
 msgid ""
 "What cattle eat.  Mainly made of grass, silages or legumes.  It's perfect "
 "for ruminants."
-msgstr ""
+msgstr "就是牛吃的東西。主要是以草、青貯飼料或者豆莢製造。非常適合反芻動物。"
 
 #: lang/json/TOOL_from_json.py
 msgid "chainmail sheet"
@@ -45265,6 +45293,10 @@ msgstr ""
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop chopping down?"
+msgstr "要停止伐木？"
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop drilling?"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -45310,8 +45342,8 @@ msgid ".22"
 msgstr ".22"
 
 #: lang/json/ammunition_type_from_json.py
-msgid "9mm"
-msgstr "9mm"
+msgid "9x19mm"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "9x18mm"
@@ -46417,7 +46449,7 @@ msgstr "拆解簡單家具"
 
 #: lang/json/construction_from_json.py
 msgid "Certain terrain and furniture can be deconstructed without any tools."
-msgstr ""
+msgstr "某些地形或傢具不需要任何工具就能拆解。"
 
 #: lang/json/construction_from_json.py
 msgid "Dig Pit"
@@ -46442,10 +46474,6 @@ msgstr "翻土"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "夯實地板"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Tree Trunk Into Logs"
-msgstr "將樹幹劈成原木"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Planks"
@@ -52335,11 +52363,11 @@ msgstr[0] "L39B-45"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"After the success of the 9mm model, Leadworks LLC released an L39B chambered"
-" in .45.  It soon earned a reputation as one of the most intimidating guns "
-"on the market, for firer and target alike.  Similar to other Leadworks "
-"products it doesn't accept third-party modifications."
-msgstr "在9mm系列廣受歡迎之後，Leadworks LLC 推出了L39B系列搭載.45口徑彈膛。很快地它的兇猛性在市場流傳開來，並廣受各方打手喜愛。但就像 Leadworks 的其他產品一樣，它無法安裝市面上的改造模組。"
+"After the success of the 9x19mm model, Leadworks LLC released an L39B "
+"chambered in .45.  It soon earned a reputation as one of the most "
+"intimidating guns on the market, for firer and target alike.  Similar to "
+"other Leadworks products it doesn't accept third-party modifications."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39-45"
@@ -52818,13 +52846,13 @@ msgstr[0] "公事包衝鋒槍"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A custom built 9mm submachine gun camouflaged to look as the average "
+"A custom built 9x19mm submachine gun camouflaged to look as the average "
 "businessman suitcase, panes of cutting edge materials and its clever "
 "internal construction allowed it to bypass even the most scrupulous of "
 "security checkpoints.  Due to the fact that the average security guard is "
 "now only concerned in eating you, this million dollar baby has been reduced "
 "to little more than a novelty item."
-msgstr "一個偽裝成商務公事包的客製化 9mm 衝鋒槍，其高科技材料與巧妙的內部結構讓它能夠脫過各種嚴厲的安檢。雖然事實上你現在只要擔心保全會不會吃了你的腦子，這個東西也就只是個新奇的玩意罷了。"
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Calico M960"
@@ -52846,8 +52874,8 @@ msgstr[0] "Cx4 Storm"
 msgid ""
 "A small pistol caliber carbine designed for police use and civilian self-"
 "defense, the Cx4 Storm uses magazines that are interchangeable with other "
-"Beretta 9mm handguns."
-msgstr "一把使用小手槍子彈口徑的步槍，設計供警察或是平民自衛用。這把 Cx4 Storm 能使用貝瑞塔 9mm 手槍系列的彈匣。"
+"Beretta 9x19mm handguns."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Glock 19"
@@ -52880,8 +52908,8 @@ msgstr[0] "Kel-Tec SUB-2000"
 #: lang/json/gun_from_json.py
 msgid ""
 "A uniquely designed pistol caliber carbine with an integral folding stock "
-"and that makes use of 9mm Glock magazines."
-msgstr "一把設計獨特的手槍口徑卡賓槍，內置折疊槍托，使用 9mm 格洛克彈匣。"
+"and that makes use of 9x19mm Glock magazines."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L2032 Lookout"
@@ -52891,10 +52919,10 @@ msgstr[0] "L2032 監察者自動左輪"
 #: lang/json/gun_from_json.py
 msgid ""
 "After the Enforcer's success, Leadworks LLC reworked their autorevolver "
-"design to cater to the 9mm market.  The Lookout, released in 2032, takes "
-"advantage of the smaller 9mm to hold a seventh round, without sacrificing "
-"the ease of handling or reloading the Enforcer made legendary."
-msgstr "在執法者系列熱賣之後，Leadworks LLC 重新修改了原有的自動左輪設計來迎合市場，於2032年推出了監察者系列，利用9mm子彈體積較小的優勢保有7發裝的填彈數並保有執法者系列優異的填裝與上膛速度。"
+"design to cater to the 9x19mm market.  The Lookout, released in 2032, takes "
+"advantage of the smaller 9x19mm to hold a seventh round, without sacrificing"
+" the ease of handling or reloading the Enforcer made legendary."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39B"
@@ -52903,12 +52931,12 @@ msgstr[0] "L39B"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B "
+"A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B "
 "provides accurate single-shot placement as well as controllable short-range "
 "firepower with its three-round burst mode.  Users praised its accuracy and "
 "fearsome appearance.  Similar to other Leadworks products it doesn't accept "
 "third-party modifications."
-msgstr "一把在2039年推出具有多射擊模式的9mm手槍，型號L39B，由Leadworks LLC生產，同時具有高精準度的單發模式與短距離的三發點放模式。使用者總是對它的準度與嚇人的外型感到讚嘆。但就像 Leadworks 的其他產品一樣，它無法安裝市面上的改造模組。"
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39"
@@ -52917,12 +52945,12 @@ msgstr[0] "L39"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides"
-" accurate single-shot placement in a very robust frame.  Several urban "
-"legends describe using it in ways that would have destroyed a lesser weapon."
-"  Similar to other Leadworks products it doesn't accept third-party "
+"A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 "
+"provides accurate single-shot placement in a very robust frame.  Several "
+"urban legends describe using it in ways that would have destroyed a lesser "
+"weapon.  Similar to other Leadworks products it doesn't accept third-party "
 "modifications."
-msgstr "一把在2039年推出的半自動9mm手槍，型號L39，由Leadworks LLC生產，擁有堅固的框架能提供良好的單發射擊精準度。另外有一些都市傳說記載著這把槍傑出的耐用性。但就像 Leadworks 的其他產品一樣，它無法安裝市面上的改造模組。"
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Beretta M9"
@@ -52931,14 +52959,14 @@ msgstr[0] "貝瑞塔 M9"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A very popular 9mm pistol, the M9 has been the standard issue sidearm of the"
-" US army since 1985."
-msgstr "M9貝瑞塔手槍是一把非常流行的9mm手槍，美軍從1985年開始將它列為單兵次要武器的標準配備。"
+"A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of "
+"the US army since 1985."
+msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "pipe rifle: 9mm"
-msgid_plural "pipe rifles: 9mm"
-msgstr[0] "9mm 鋼管步槍"
+msgid "pipe rifle: 9x19mm"
+msgid_plural "pipe rifles: 9x19mm"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "STEN"
@@ -52984,10 +53012,10 @@ msgstr[0] "烏茲 9mm"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The Uzi 9mm has enjoyed immense popularity, selling more units than any "
+"The Uzi 9x19mm has enjoyed immense popularity, selling more units than any "
 "other submachine gun.  It is widely used as a personal defense weapon, or as"
 " a primary weapon by elite frontline forces."
-msgstr "烏茲 9mm 的高人氣，比其他衝鋒槍銷售到了更多的地區去。這把槍廣泛用於個人防衛武器，或是作為前線菁英部隊的主要武器。"
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Glock 17"
@@ -53543,9 +53571,9 @@ msgid_plural "pipe SMG: .38s"
 msgstr[0] ".38 鋼管衝鋒槍"
 
 #: lang/json/gun_from_json.py
-msgid "pipe SMG: 9mm"
-msgid_plural "pipe SMG: 9mms"
-msgstr[0] "9mm 鋼管衝鋒槍"
+msgid "pipe SMG: 9x19mm"
+msgid_plural "pipe SMG: 9x19mms"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .40"
@@ -53721,7 +53749,7 @@ msgstr[0] "M919"
 #: lang/json/gun_from_json.py
 msgid ""
 "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 "
-"submachine gun is the most accurate 9mm submachine gun on the market.  "
+"submachine gun is the most accurate 9x19mm submachine gun on the market.  "
 "Intended for police use, it is fitted with an integral grenade launcher."
 msgstr ""
 
@@ -55073,10 +55101,10 @@ msgstr[0] ".22 口徑改裝套件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm or "
-".223 firearm converts it to a .22 firearm.  The conversion results in a "
+"Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
+"or .223 firearm converts it to a .22 firearm.  The conversion results in a "
 "slight reduction to accuracy."
-msgstr "將 9mm、.38、.40、5.7mm、4.6mm、7.62x39mm 或 .223 口徑的槍隻修改成使用 .22mm 子彈，會導致準確度輕微下降。"
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "bore"
@@ -55113,9 +55141,10 @@ msgstr[0] ".45 口徑改裝套件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to"
-" a .45 firearm.  The conversion results in a slight reduction to accuracy."
-msgstr "將 9mm、.38、.40 或 .44 口徑的槍支修改成使用 .45 子彈，會導致準確度輕微下降。"
+"Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it"
+" to a .45 firearm.  The conversion results in a slight reduction to "
+"accuracy."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "4.6mm caliber conversion kit"
@@ -55124,10 +55153,10 @@ msgstr[0] "4.6mm 口徑改裝套件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, or "
-".38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
-"and armor penetration."
-msgstr "德國 HK 公司所販賣的改裝套件，用來修改 .22、9mm 或 .38 口徑的武器，使它們可以使用自家的 4.6x30mm 子彈，用來增加準確性與穿透力。"
+"A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, "
+"or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy"
+" and armor penetration."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "5.7mm caliber conversion kit"
@@ -55136,22 +55165,22 @@ msgstr[0] "5.7mm 口徑改裝套件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
-"firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
+"A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38"
+" firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
 "armor penetration."
-msgstr "FN Herstal 所販賣的改裝套件，用來修改 .22、9mm 或 .38 口徑的武器，使它們可以使用 5.7x28mm 子彈，用來增加準確性與穿透力。"
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid "9mm caliber conversion kit"
-msgid_plural "9mm caliber conversion kits"
-msgstr[0] "9mm 口徑改裝套件"
+msgid "9x19mm caliber conversion kit"
+msgid_plural "9x19mm caliber conversion kits"
+msgstr[0] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
-msgstr "將 9x18mm、.38、.40、.44 或 .45 口徑的槍支修改成使用 9mm 子彈，會導致準確度輕微下降。"
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "lightweight replacement furniture"
@@ -55902,24 +55931,24 @@ msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
 "4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
 "conversion results in a slight reduction to accuracy."
-msgstr "將 9mm、.38、.40、10mm、.45 柯爾特、5.7mm、4.6mm、7.62x39mm 或 .223 口徑的槍支修改成使用 .22mm 子彈，會導致準確度輕微下降。"
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
 "firearm converts it to a .45 ACP firearm.  The conversion results in a "
 "slight reduction to accuracy."
-msgstr "將 9mm、.38、.40、10mm、.44 或 .45 柯爾特口徑的槍支修改成使用 .45 ACP 子彈，會導致準確度輕微下降。"
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
-msgstr "將 9x18mm、.38、.40、10mm、.44 或 .45 口徑的槍支修改成使用 9mm 子彈，會導致準確度輕微下降。"
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ".410 bore conversion kit"
@@ -56307,6 +56336,10 @@ msgstr "安裝生化插件"
 
 #: lang/json/item_action_from_json.py
 msgid "Chop down a tree"
+msgstr "砍倒樹木"
+
+#: lang/json/item_action_from_json.py
+msgid "Chop a Tree Trunk into logs"
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -61850,6 +61883,10 @@ msgstr "嘔吐"
 #: lang/json/morale_type_from_json.py
 msgid "Filthy Gear"
 msgstr "骯髒的穿著"
+
+#: lang/json/morale_type_from_json.py
+msgid "Debug Morale"
+msgstr ""
 
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
@@ -84908,8 +84945,9 @@ msgid ""
 "right.  Generally speaking, the more damaging the ammo, the worse the "
 "recoil.  Recoil severely reduces your chance to hit, but you can eliminate "
 "recoil by pausing ('.') for a turn or moving normally.  High strength "
-"reduces recoil, so weak characters might want to stick to .22 or 9mm guns."
-msgstr "開了槍以後，你可能有注意到右下方的後座力警示一般來說，威力越大的子彈，後座力越強，這會嚴重的影響你的命中率，你可以按下 ('.') 結束一回合或是往旁邊移動來回復正常，力量值夠高的話可以減少後座力，如果你不夠壯的話還是回去用.22 或 9 釐米的槍吧。"
+"reduces recoil, so weak characters might want to stick to .22 or 9x19mm "
+"guns."
+msgstr ""
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -86350,12 +86388,12 @@ msgid "automated .308 pipe rifle"
 msgstr "自動 .308 鋼管步槍"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm pipe rifle turret"
-msgstr "9mm 鋼管步槍槍塔"
+msgid "9x19mm pipe rifle turret"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "automated 9mm pipe rifle"
-msgstr "自動 9mm 鋼管步槍"
+msgid "automated 9x19mm pipe rifle"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "flintlock rifle turret"
@@ -86762,8 +86800,8 @@ msgid "5.56mm rack"
 msgstr "5.56mm 子彈架"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm rack"
-msgstr "9mm 子彈架"
+msgid "9x19mm rack"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden floor panel"
@@ -87643,10 +87681,23 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "Select a direction for the tree to fall in."
-msgstr ""
+msgstr "選擇要讓樹倒下的方向"
 
 #: src/activity_handlers.cpp
 msgid "You finish chopping down a tree."
+msgstr "你把樹砍倒了。"
+
+#: src/activity_handlers.cpp
+msgid "You finish chopping the logs."
+msgstr ""
+
+#. ~ Sound of a jackhammer at work!
+#: src/activity_handlers.cpp
+msgid "TATATATATATATAT!"
+msgstr "噠~噠~噠~噠~"
+
+#: src/activity_handlers.cpp
+msgid "You finish drilling."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -92256,6 +92307,11 @@ msgid "Needs:"
 msgstr "需求:"
 
 #: src/debug_menu.cpp
+#, c-format
+msgid "Total morale: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
 msgid "Player"
 msgstr "玩家"
 
@@ -92282,6 +92338,10 @@ msgstr "從物品欄中 穿戴/裝備 物品 [w]"
 #: src/debug_menu.cpp
 msgid "Set [h]it points"
 msgstr "設定 HP [h]"
+
+#: src/debug_menu.cpp
+msgid "Set m[o]rale"
+msgstr ""
 
 #: src/debug_menu.cpp
 msgid "Cause [p]ain"
@@ -92372,6 +92432,11 @@ msgstr "右腿"
 #, c-format
 msgid "Set the hitpoints to? Currently: %d"
 msgstr "將 HP 設置為？目前：%d"
+
+#: src/debug_menu.cpp
+#, c-format
+msgid "Set the morale to? Currently: %d"
+msgstr ""
 
 #: src/debug_menu.cpp
 #, c-format
@@ -92543,7 +92608,7 @@ msgstr "刪除任務（缺乏適當的清理）"
 
 #: src/defense.cpp
 #, c-format
-msgid "Please wait as the map generates [ 0%%]"
+msgid "Please wait as the map generates [ 0%% ]"
 msgstr ""
 
 #: src/defense.cpp
@@ -92586,7 +92651,7 @@ msgid "Cycle option value"
 msgstr ""
 
 #: src/defense.cpp
-msgid "Toggle option"
+msgid "Toogle option"
 msgstr ""
 
 #: src/defense.cpp
@@ -93119,9 +93184,9 @@ msgid "Field effects"
 msgstr "地面影響"
 
 #: src/editmap.cpp
-msgctxt "map editor: used to describe a clean field (eg. without blood)"
+msgctxt "map editor: used to describe a clean field (e.g. without blood)"
 msgid "-clear-"
-msgstr "-清除-"
+msgstr ""
 
 #: src/editmap.cpp
 msgctxt "map editor: traps shortkeys"
@@ -95684,15 +95749,6 @@ msgstr "世界保留。殘存角色：%s"
 #: src/game.cpp
 msgid "Wait till you wake up..."
 msgstr "請稍候至醒來..."
-
-#: src/game.cpp
-msgid "Your heart races as you recall your most recent hunt."
-msgstr "當你想起最近的狩獵，你的心跳加速。"
-
-#: src/game.cpp
-#, c-format
-msgid "Your skill in %s has reduced to %d!"
-msgstr "你的 %s 技能下降到 %d！"
 
 #: src/game.cpp
 msgid "(Y)es, (N)o, (I)gnore further distractions and finish."
@@ -102515,9 +102571,9 @@ msgstr "削短型"
 
 #. ~ This is a string to construct the item name as it is displayed. This
 #. format string has been added for maximum flexibility. The strings are:
-#. %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt").
-#. %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg.
-#. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet)
+#. %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt").
+#. %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g.
+#. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet)
 #. (fits)").
 #: src/item.cpp
 #, c-format
@@ -104075,10 +104131,6 @@ msgid "Don't do anything rash."
 msgstr "別太衝動。"
 
 #: src/iuse.cpp
-msgid "TATATATATATATAT!"
-msgstr "噠~噠~噠~噠~"
-
-#: src/iuse.cpp
 msgid "You can't drill there."
 msgstr "這邊不能鑽洞。"
 
@@ -104517,7 +104569,7 @@ msgstr "你把原木切成了木板。"
 #: src/iuse.cpp
 #, c-format
 msgid "You produce %d planks."
-msgstr ""
+msgstr "你製造了 %d 木板。"
 
 #: src/iuse.cpp
 #, c-format
@@ -104534,7 +104586,7 @@ msgstr "老兄，要切啥？"
 
 #: src/iuse.cpp
 msgid "Chop down which tree?"
-msgstr ""
+msgstr "要砍倒哪棵樹？"
 
 #: src/iuse.cpp
 msgid "You're not stern enough to shave yourself with THIS."
@@ -104542,6 +104594,14 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't chop down that."
+msgstr "你無法砍倒那東西。"
+
+#: src/iuse.cpp
+msgid "Chop which which tree trunk?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop that."
 msgstr ""
 
 #: src/iuse.cpp
@@ -107509,11 +107569,11 @@ msgstr ")。"
 
 #: src/iuse_software_kitten.cpp
 msgid ""
-"Your job is to find kitten. This task is complicated by the existance of "
+"Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
-"they are kitten or not. The game ends when robotfindskitten. Alternatively, "
-"you may end the game by hitting 'q', 'Q' or the escape key."
-msgstr "你的任務是找到小貓。這個任務複雜在於有許多不是小貓的東西存在於此。機器人必須藉著碰觸這些物品來認出它是不是小貓。當機器人找到小貓時遊戲就結束。或是你也可以按下'q', 'Q' 或 'esc' 來結束遊戲。"
+"they are kitten or not. The game ends when robot finds kitten. "
+"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
+msgstr ""
 
 #: src/iuse_software_kitten.cpp
 msgid "Press any key to start."
@@ -108135,6 +108195,10 @@ msgstr "平坦的。"
 
 #: src/map.cpp
 msgid "Simple. "
+msgstr ""
+
+#: src/map.cpp
+msgid "Mountable. "
 msgstr ""
 
 #: src/map.cpp
@@ -108977,7 +109041,7 @@ msgstr "你未能將 %1$s 從 %2$s 處偷取，但對方也沒有注意到。"
 msgid "You failed to steal %1$s from %2$s."
 msgstr "你未能將 %1$s 從 %2$s 處偷取。"
 
-#. ~ Message %s on the message log was repeated %d times, eg. "You hear a
+#. ~ Message %s on the message log was repeated %d times, e.g. "You hear a
 #. whack! x 12"
 #: src/messages.cpp
 #, c-format
@@ -109433,10 +109497,6 @@ msgid ""
 "%s feels more confident in your abilities and is willing to let you "
 "participate in daring raids."
 msgstr "%s 開始信任你的能力，願意讓你參與更危險的作戰行動。"
-
-#: src/mission_companion.cpp
-msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
-msgstr "不幸地，他們被活死人吞噬了… 我很抱歉。"
 
 #: src/mission_companion.cpp
 #, c-format
@@ -110257,13 +110317,13 @@ msgstr "你揮動你的尾巴猛擊 %s！"
 msgid "The %s lands on you, but you swat it off."
 msgstr "%s 嘗試寄生於你，但你擋掉了。"
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lands on your %2$s, but can't penetrate your armor."
 msgstr "%1$s 嘗試寄生於你的 %2$s，但是無法穿透你的護甲。"
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s sinks its ovipositor into your %2$s!"
@@ -115244,6 +115304,14 @@ msgid "You: $%.2f"
 msgstr "你: $%.2f"
 
 #: src/npctalk.cpp
+msgid "< Back"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "More >"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Examine which item?"
 msgstr "檢視哪個物品？"
 
@@ -115333,6 +115401,23 @@ msgid "Select a follower"
 msgstr "選擇一位追隨者"
 
 #: src/options.cpp
+msgid ""
+"If true, will enable to pickup items one tile around to the player.  You can"
+" assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your "
+"homebase."
+msgstr ""
+
+#: src/options.cpp
+msgid "List items within no auto pickup zones"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If false, you will not see messages about items, you step on, within no auto"
+" pickup zones."
+msgstr ""
+
+#: src/options.cpp
 msgid "Auto pulp or butcher"
 msgstr ""
 
@@ -115370,6 +115455,12 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal "
+"24h, e.g. 7:31"
 msgstr ""
 
 #: src/options.cpp
@@ -116257,6 +116348,12 @@ msgstr "沒有殺掉任何的怪物。"
 #, c-format
 msgid "Total kills: %d"
 msgstr "總擊殺數: %d"
+
+#. ~ 1. skill name, 2. skill level, 3. exercise percentage to next level
+#: src/player.cpp
+#, c-format
+msgid "%s: %d (%d %%)"
+msgstr ""
 
 #: src/player.cpp
 msgid "Traits:"
@@ -118083,6 +118180,15 @@ msgstr "任務 \"%s\" 失敗。"
 #, c-format
 msgid "Mission \"%s\" is successfully completed."
 msgstr "任務 \"%s\" 成功完成。"
+
+#: src/player.cpp
+msgid "Your heart races as you recall your most recent hunt."
+msgstr "當你想起最近的狩獵，你的心跳加速。"
+
+#: src/player.cpp
+#, c-format
+msgid "Your skill in %s has reduced to %d!"
+msgstr "你的 %s 技能下降到 %d！"
 
 #: src/player_display.cpp
 #, c-format
