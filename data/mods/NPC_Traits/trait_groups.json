@@ -124,6 +124,7 @@
         { "trait": "LIGHTWEIGHT" },
         { "trait": "VEGETARIAN" },
         { "trait": "MOODSWINGS" },
+        { "trait": "MOREPAIN" },
         { "trait": "MYOPIC" },
         { "trait": "PACIFIST" },
         { "trait": "BADHEARING" },
