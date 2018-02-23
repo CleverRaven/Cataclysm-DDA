@@ -14,7 +14,6 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "catacharset.h"
-#include "game_constants.h"
 #include "string_input_popup.h"
 
 #ifdef TILES
@@ -1079,7 +1078,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;
@@ -1319,6 +1318,13 @@ void options_manager::init()
     add( "DELETE_WORLD", "world_default", translate_marker( "Delete world" ),
         translate_marker( "Delete the world when the last active character dies." ),
         { { "no", translate_marker( "No" ) }, { "yes", translate_marker( "Yes" ) }, { "query", translate_marker( "Query" ) } }, "no"
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add( "OMSPEC_FREQ", "world_default", translate_marker( "Overmap specials frequency" ),
+        translate_marker( "A number determining the length of the side of the square in which each overmap special will be placed.  Lower value means more overmap specials." ),
+        1, OMAPX, 15
         );
 
     mOptionsSort["world_default"]++;

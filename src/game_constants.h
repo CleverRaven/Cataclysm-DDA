@@ -42,7 +42,7 @@
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.
 #define OMAPX 180
-#define OMAPY 180
+#define OMAPY OMAPX
 
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
