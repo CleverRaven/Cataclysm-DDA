@@ -8,7 +8,7 @@
     "weight": 800,
     "volume": 2,
     "price": 50000,
-    "to_hit": 1,
+    "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
