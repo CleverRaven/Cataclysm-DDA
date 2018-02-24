@@ -232,7 +232,7 @@
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
       [ [ "nail", 40 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_he", 3 ], [ "shot_flechette", 12 ], [ "shot_00", 12 ], [ "shot_slug", 12 ], [ "shot_bird", 24 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 72 ], [ "shot_he", 3 ], [ "shot_flechette", 12 ], [ "shot_00", 12 ], [ "shot_slug", 12 ], [ "shot_bird", 24 ] ]
     ]
   },
   {
