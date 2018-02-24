@@ -6,6 +6,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "string_formatter.h"
+#include "effect.h"
 
 #include <string>
 #include <unordered_map>
@@ -16,8 +17,6 @@
 
 enum game_message_type : int;
 class nc_color;
-class effect;
-class effects_map;
 namespace catacurses
 {
 class window;
@@ -41,7 +40,6 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
 struct trap;
-class effect_type;
 using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
 struct mutation_branch;
