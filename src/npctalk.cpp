@@ -2260,7 +2260,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             vehicle *veh = g->m.veh_at( p->pos(), part );
             if( veh != nullptr ) {
                 if( abs( veh->velocity ) > 0 ) {
-                    reasons << _( "Let's not do it in the moving vehicle." ) << std::endl;
+                    reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
                 }
             }
 
