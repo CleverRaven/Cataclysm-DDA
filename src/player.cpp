@@ -4048,19 +4048,15 @@ void player::mod_pain(int npain) {
         if( has_trait( trait_NOPAIN ) ) {
             return;
         }
-        if( has_trait( trait_MOREPAIN ) || has_trait ( trait_MOREPAIN2 ) || has_trait ( trait_MOREPAIN3 ) ){
-            int oldpain = npain;
-            if ( has_trait( trait_MOREPAIN ) ) {
-                npain = roll_remainder( npain * 1.25f );
-            } else if ( has_trait ( trait_MOREPAIN2 ) ){
-                npain = roll_remainder( npain * 1.50f );
-            } else {
-                npain = roll_remainder( npain * 2.0f );
-            }
-            // always increase pain gained by one from these bad mutations
-            if( oldpain == npain )
-                npain++;
+        // always increase pain gained by one from these bad mutations
+        if ( has_trait( trait_MOREPAIN ) ) {
+            npain += std::max(1, roll_remainder( npain * 0.25f ));
+        } else if ( has_trait ( trait_MOREPAIN2 ) ){
+            npain += std::max(1, roll_remainder( npain * 0.5f ));
+        } else if ( has_trait ( trait_MOREPAIN3 ) ) {
+            npain += std::max(1, roll_remainder( npain * 1.0f ));
         }
+
         if( npain > 1 ) {
             // if it's 1 it'll just become 0, which is bad
             if( has_trait( trait_PAINRESIST_TROGLO ) ) {

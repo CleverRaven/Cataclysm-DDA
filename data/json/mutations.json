@@ -2724,10 +2724,11 @@
     },{
         "type" : "mutation",
         "id" : "MORE_PAIN",
-        "name" : "Sensitive to pain",
+        "name" : "Pain Sensitive",
         "points" : -2,
         "description" : "For some reason things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
         "starting_trait" : true,
+        "//" : "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
         "cancels" : ["PAINRESIST", "NOPAIN"],
         "changes_to" : ["MORE_PAIN2"]
     },{
