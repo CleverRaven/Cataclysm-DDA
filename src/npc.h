@@ -644,7 +644,8 @@ class npc : public player
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void move_away_from( const tripoint &p, bool no_bashing = false );
-        void move_away_from( const std::vector<tripoint> &points, bool no_bashing = false );
+        void move_away_from( const std::vector<tripoint> &points, int safe_distance,
+                             bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
         const pathfinding_settings &get_pathfinding_settings() const override;

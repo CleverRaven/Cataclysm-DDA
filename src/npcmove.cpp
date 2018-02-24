@@ -182,11 +182,6 @@ std::vector<tripoint> npc::find_dangerous_points( int radius ) const
         if( !elem->is_dangerous() ) {
             continue;
         }
-
-        if( !sees( elem.position() ) ) {
-            continue;   // Stays unaware of the hidden dangers.
-        }
-
         result.push_back( elem.position() );
     }
 
@@ -319,7 +314,7 @@ void npc::move()
 
     const auto dangerous_points = find_dangerous_points( danger_avoidance_radius );
     if( !dangerous_points.empty() ) {
-        move_away_from( dangerous_points, true );
+        move_away_from( dangerous_points, danger_avoidance_radius, true );
         return;
     }
 
@@ -1752,39 +1747,56 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
 }
 
 
-void npc::move_away_from( const std::vector<tripoint> &points, bool no_bashing )
+void npc::move_away_from( const std::vector<tripoint> &points, int safe_distance, bool no_bashing )
 {
-    rl_vec3d dir;
-
-    for( const auto &elem : points ) {
-        const rl_vec3d vec( pos() - elem );
-        dir = dir + vec.normalized();
+    if( points.empty() ) {
+        return;
     }
 
-    if( dir.is_null() ) {
-        std::vector<tripoint> away_points;
-        std::copy_if( points.begin(), points.end(),
-        std::back_inserter( away_points ), [ this ]( const tripoint & elem ) {
-            return elem != pos();
+    const auto candidate_points = closest_tripoints_first( safe_distance, pos() );
+    int least_danger = std::numeric_limits<int>::max();
+    size_t shortest_path = std::numeric_limits<size_t>::max();
+
+    tripoint best_hideout = pos();
+
+    for( const auto &elem : candidate_points ) {
+        if( g->m.impassable( elem ) ) {
+            continue;
+        }
+
+        const auto danger = std::accumulate( points.begin(), points.end(), 0, [&]( const int sum,
+        const tripoint & p ) {
+            return sum + std::max( safe_distance - rl_dist( elem, p ), 0 );
         } );
 
-        if( away_points.empty() ) {
-            const rl_vec3d vec( 1.f );
-            const float angle = rng_float( 0.f, 2 * M_PI );
-
-            dir = vec.rotated( angle );
-        } else {
-            const rl_vec3d vec( random_entry( away_points, pos() ) - pos() );
-            const float angle = one_in( 2 ) ? M_PI / 2 : -M_PI / 2;
-
-            dir = vec.rotated( angle );
+        if( danger > least_danger ) {
+            continue;
         }
+
+        update_path( elem, no_bashing );
+
+        if( elem != pos() && path.empty() ) {
+            continue;   // Unreachable.
+        }
+
+        if( path.size() > shortest_path && danger == least_danger ) {
+            continue;   // No point.
+        }
+
+        least_danger = danger;
+        shortest_path = path.size();
+        best_hideout = elem;
     }
 
-    const tripoint target = pos() + dir.normalized().as_point();
+    update_path( best_hideout, no_bashing );
 
-    move_to( nearest_passable( target, pos() ), no_bashing );
+    if( !path.empty() ) {
+        move_to_next();
+    } else {
+        move_pause();
+    }
 }
+
 
 void npc::find_item()
 {
