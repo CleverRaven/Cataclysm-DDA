@@ -2597,12 +2597,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Very hungry" ) );
     } else if( get_hunger() > 40 ) {
         wprintz( w, c_yellow, _( "Hungry" ) );
-    } else if( get_hunger() < 0 ) {
-        wprintz( w, c_green,  _( "Full" ) );
-    } else if( get_hunger() < -20 ) {
-        wprintz( w, c_green,  _( "Sated" ) );
     } else if( get_hunger() < -60 ) {
         wprintz( w, c_green,  _( "Engorged" ) );
+    } else if( get_hunger() < -20 ) {
+        wprintz( w, c_green,  _( "Sated" ) );
+    } else if( get_hunger() < 0 ) {
+        wprintz( w, c_green,  _( "Full" ) );
     }
 
     /// Find hottest/coldest bodypart
@@ -2708,12 +2708,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Very thirsty" ) );
     } else if( get_thirst() > 40 ) {
         wprintz( w, c_yellow, _( "Thirsty" ) );
-    } else if( get_thirst() < 0 ) {
-        wprintz( w, c_green,  _( "Slaked" ) );
-    } else if( get_thirst() < -20 ) {
-        wprintz( w, c_green,  _( "Hydrated" ) );
     } else if( get_thirst() < -60 ) {
         wprintz( w, c_green,  _( "Turgid" ) );
+    } else if( get_thirst() < -20 ) {
+        wprintz( w, c_green,  _( "Hydrated" ) );
+    } else if( get_thirst() < 0 ) {
+        wprintz( w, c_green,  _( "Slaked" ) );
     }
 
     wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
