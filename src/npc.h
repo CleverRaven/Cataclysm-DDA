@@ -836,6 +836,7 @@ class npc : public player
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
+        int estimate_path_cost() const;
 
         // Finds locations containing dangerous items (anything that's gonna explode).
         std::vector<tripoint> find_dangerous_points( int radius ) const;

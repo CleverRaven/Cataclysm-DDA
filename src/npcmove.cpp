@@ -172,6 +172,35 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
+int npc::estimate_path_cost() const
+{
+    int res = 0;
+
+    if( path.empty() ) {
+        return res;
+    }
+
+    for( auto it = path.begin(); it != std::prev( path.end() ); ++it ) {
+        const tripoint &cur = *it;
+        const tripoint &next = *std::next( it );
+
+        if( cur.z != next.z ) {
+            res += 100;
+        } else if( g->m.passable( next ) ) {
+            bool diag = trigdist && cur.x != next.x && cur.y != next.y;
+            res += run_cost( g->m.combined_movecost( cur, next ), diag );
+        } else if( g->m.open_door( next, !g->m.is_outside( cur ) ) ) {
+            res += 100;
+        } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", next ) ) {
+            res += 500 - get_dex() * 20 / 2;
+        } else {
+            res += 1000;
+        }
+    }
+
+    return res;
+}
+
 std::vector<tripoint> npc::find_dangerous_points( int radius ) const
 {
     std::vector<tripoint> result;
@@ -1755,7 +1784,7 @@ void npc::move_away_from( const std::vector<tripoint> &points, int safe_distance
 
     const auto candidate_points = closest_tripoints_first( safe_distance, pos() );
     int least_danger = std::numeric_limits<int>::max();
-    size_t shortest_path = std::numeric_limits<size_t>::max();
+    int cheapest_path = std::numeric_limits<int>::max();
 
     tripoint best_hideout = pos();
 
@@ -1779,12 +1808,14 @@ void npc::move_away_from( const std::vector<tripoint> &points, int safe_distance
             continue;   // Unreachable.
         }
 
-        if( path.size() > shortest_path && danger == least_danger ) {
+        const int path_cost = estimate_path_cost();
+
+        if( path_cost > cheapest_path && danger == least_danger ) {
             continue;   // No point.
         }
 
         least_danger = danger;
-        shortest_path = path.size();
+        cheapest_path = path_cost;
         best_hideout = elem;
     }
 
