@@ -664,7 +664,7 @@ void draw_tabs( const catacurses::window &w, std::string sTab )
         spaces = 0;
     }
     for (size_t i = 0; i < tab_captions.size(); ++i) {
-        draw_tab(w, next_pos, tab_captions[i].c_str(), (sTab == tab_captions[i]));
+        draw_tab(w, next_pos, tab_captions[i], (sTab == tab_captions[i]));
         next_pos += tab_len[i] + spaces;
     }
 

@@ -398,7 +398,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["user_dir"])) {
         printf("Can't open or create %s. Check permissions.\n",
                FILENAMES["user_dir"].c_str());
         exit(1);

@@ -274,7 +274,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         if( begin_y == 0 && caption != "" ) {
             begin_y = fold_and_print( w, 0, 1, width - 2, c_white, caption ) + 1;
         }
-        std::vector<std::string> next_paragraph = foldstring( text[i].c_str(), width - 2 );
+        std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
         if( begin_y + ( int )next_paragraph.size() > height - ( ( i + 1 ) < ( int )text.size() ? 1 : 0 ) ) {
             // Next page
             i--;

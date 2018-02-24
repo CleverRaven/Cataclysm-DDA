@@ -2419,7 +2419,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index].c_str() );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, message.c_str() );
+        sounds::ambient_sound( pos, 6, message );
     } else { // Activated
         int ch = 2;
         if( it->ammo_remaining() > 0 ) {
