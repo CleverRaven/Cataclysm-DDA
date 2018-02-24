@@ -612,7 +612,7 @@
   "subcategory": "CSC_AMMO_COMPONENTS",
   "skill_used" : "fabrication",
   "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
-  "difficulty": 6,
+  "difficulty" : 6,
   "time" : 5000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "using": [ [ "soldering_standard", 10 ] ],
@@ -630,11 +630,11 @@
       [ "string_36", 1 ]
     ],
     [
-        ["smpistol_primer", 1 ],
-        ["lgpistol_primer", 1],
-        ["smrifle_primer", 1],
-        ["lgrifle_primer", 1],
-        ["shotgun_primer", 1]
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
     ],
     [
       [ "gunpowder", 20 ],
@@ -715,7 +715,7 @@
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
   "skills_required": [[ "archery", 4 ], [ "mechanics", 3 ]],
-  "difficulty": 5,
+  "difficulty" : 5,
   "time": 10000,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "using": [ [ "soldering_standard", 10 ] ],
@@ -736,11 +736,11 @@
       [ "string_36", 1 ]
     ],
     [
-        ["smpistol_primer", 1 ],
-        ["lgpistol_primer", 1],
-        ["smrifle_primer", 1],
-        ["lgrifle_primer", 1],
-        ["shotgun_primer", 1]
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
     ],
     [
       [ "gunpowder", 20 ],
