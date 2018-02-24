@@ -2081,6 +2081,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                                p->personality.bravery - p->intimidation() ) * 500 );
             FAILURE( "TALK_DENY_EQUIPMENT" );
             FAILURE_OPINION( -3, 1, -3, 5, 0 );
+            FAILURE_ACTION( &talk_function::hostile );
             add_response_none( _( "Eh, never mind." ) );
             add_response_done( _( "Never mind, I'll do without.  Bye." ) );
         }
@@ -2191,6 +2192,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS_OPINION( -4, 3, -1, 4, 0 );
             FAILURE( "TALK_DENY_FOLLOW" );
             FAILURE_OPINION( -4, 0, -5, 10, 0 );
+            FAILURE_ACTION( &talk_function::hostile );
         }
 
     } else if( topic == "TALK_AGREE_FOLLOW" ) {
@@ -2221,6 +2223,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS_OPINION( -1, 1, -1, 1, 0 );
             FAILURE( "TALK_LEADER_STAYS" );
             FAILURE_OPINION( -1, 0, -1, 1, 0 );
+            FAILURE_ACTION( &talk_function::hostile );
         }
         add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
         add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
@@ -3140,7 +3143,10 @@ void talk_function::hostile( npc &p )
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
                            p.name.c_str() );
-    p.attitude = NPCATT_KILL;
+
+    if( one_in( 2 ) ) {
+        p.attitude = NPCATT_KILL;
+    }
 }
 
 void talk_function::flee( npc &p )
