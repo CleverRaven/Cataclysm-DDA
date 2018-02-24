@@ -1525,6 +1525,8 @@
         [ "shot_bird", 24 ],
         [ "shot_00", 12 ],
         [ "shot_slug", 12 ],
+        [ "shot_flechette", 12 ],
+        [ "shot_he", 3 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
         [ "grenade", 1 ]
