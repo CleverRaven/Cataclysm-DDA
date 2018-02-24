@@ -1924,7 +1924,7 @@ double player::melee_value( const item &weap ) const
 double player::unarmed_value() const
 {
     // TODO: Martial arts
-    return melee_value( ret_null );
+    return melee_value( item() );
 }
 
 void player::disarm( npc &target )

@@ -507,7 +507,7 @@ item inventory::remove_item(const item *it)
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
-    return nullitem;
+    return item();
 }
 
 item inventory::remove_item( const int position )
@@ -532,7 +532,7 @@ item inventory::remove_item( const int position )
         ++pos;
     }
 
-    return nullitem;
+    return item();
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )

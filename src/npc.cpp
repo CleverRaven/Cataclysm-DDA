@@ -1005,7 +1005,7 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
-        weapon = ret_null;
+        weapon = item();
         return true;
     }
 

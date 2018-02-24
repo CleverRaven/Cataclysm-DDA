@@ -6162,7 +6162,7 @@ void player::check_and_recover_morale()
 void player::process_active_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = ret_null;
+        weapon = item();
     }
 
     std::vector<item *> inv_active = inv.active_items();
@@ -6267,7 +6267,7 @@ item player::reduce_charges( int position, long quantity )
     item &it = i_at( position );
     if( it.is_null() ) {
         debugmsg( "invalid item position %d for reduce_charges", position );
-        return ret_null;
+        return item();
     }
     if( it.charges <= quantity ) {
         return i_rem( position );
@@ -6282,7 +6282,7 @@ item player::reduce_charges( item *it, long quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
-        return ret_null;
+        return item();
     }
     if( it->charges <= quantity ) {
         return i_rem( it );
@@ -7796,7 +7796,7 @@ bool player::wear( item& to_wear, bool interactive )
     bool was_weapon;
     item to_wear_copy( to_wear );
     if( &to_wear == &weapon ) {
-        weapon = ret_null;
+        weapon = item();
         was_weapon = true;
     } else {
         inv.remove_item( &to_wear );

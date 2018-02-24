@@ -809,7 +809,7 @@ item Character::i_rem(int pos)
  item tmp;
  if (pos == -1) {
      tmp = weapon;
-     weapon = ret_null;
+     weapon = item();
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
      auto iter = worn.begin();
@@ -827,7 +827,7 @@ item Character::i_rem(const item *it)
     auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
-        return ret_null;
+        return item();
     }
     return tmp.front();
 }
@@ -881,7 +881,7 @@ bool Character::has_active_item(const itype_id & id) const
 item Character::remove_weapon()
 {
  item tmp = weapon;
- weapon = ret_null;
+ weapon = item();
  return tmp;
 }
 
@@ -1438,7 +1438,7 @@ void Character::reset_encumbrance()
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
 {
-    return calc_encumbrance( ret_null );
+    return calc_encumbrance( item() );
 }
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
