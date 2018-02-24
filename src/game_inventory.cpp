@@ -11,6 +11,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "skill.h"
 
 #include <algorithm>
 #include <functional>
@@ -116,9 +117,9 @@ int game::inv_for_filter( const std::string &title, item_filter filter,
 
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
-    const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(),
-                                title, -1, none_message ).get_item() );
+    const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
+    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
+                                msg ).get_item() );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
@@ -629,7 +630,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level( book.skill ).can_train() ) {
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return string_format( _( "%s to %d" ), book.skill->name().c_str(), book.level );
                 }
                 return std::string();

@@ -746,5 +746,10 @@
         "type" : "item_action",
         "id" : "CHOP_TREE",
         "name" : "Chop down a tree"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_LOGS",
+        "name" : "Chop a Tree Trunk into logs"
     }
 ]

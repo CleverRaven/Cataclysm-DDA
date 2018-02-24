@@ -107,8 +107,8 @@ bool defense_game::init()
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
-    popup_nowait( _( "Please wait as the map generates [ 0%%]" ) );
-    // TODO: support multiple defence games? clean up old defence game
+    popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
+    // TODO: support multiple defense games? clean up old defense game
     init_map();
     caravan();
     return true;
@@ -500,7 +500,7 @@ void defense_game::setup()
     ctxt.register_action( "DOWN", _( "Next option" ) );
     ctxt.register_action( "LEFT", _( "Cycle option value" ) );
     ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toogle option" ) );
+    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
@@ -1348,7 +1348,7 @@ int caravan_price( player &u, int price )
     if( u.get_skill_level( skill_barter ) > 10 ) {
         return int( double( price ) * .5 );
     }
-    return int( double( price ) * ( 1.0 - double( u.get_skill_level( skill_barter ) ) * .05 ) );
+    return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
 }
 
 void defense_game::spawn_wave()
@@ -1459,7 +1459,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
     tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
-    // We wanna kill!
+    // We want to kill!
     tmp.anger = 100;
     tmp.morale = 100;
     g->add_zombie( tmp );

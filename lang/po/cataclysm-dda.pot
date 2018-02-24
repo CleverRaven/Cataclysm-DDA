@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-09 03:21-0500\n"
+"POT-Creation-Date: 2018-02-23 01:40-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Auto pickup adjacent"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can "
 "assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
@@ -456,7 +456,7 @@ msgstr ""
 msgid "Time format"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
 "24h, eg: 7:31"
@@ -3721,7 +3721,7 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
-"powerful as the .38 or the 9mm though."
+"powerful as the .38 or the 9x19mm though."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4512,7 +4512,7 @@ msgstr ""
 #. ~ Description for 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A step beyond the high-pressure 9mm +P round, the +P+ has even higher "
+"A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher "
 "internal pressure offering superior damage, accuracy, and penetration."
 msgstr ""
 
@@ -4796,7 +4796,7 @@ msgstr[1] ""
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"A soft shiny metal.  Before the apocalypse this would've been worth a small "
 "fortune but now its value is greatly diminished."
 msgstr ""
 
@@ -4973,8 +4973,8 @@ msgstr[1] ""
 #. ~ Description for 6.54x42mm 9N8
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A 6.54x42mm cartridge, loaded with a 100 gr. FMJ bullet.  Inspired by the "
-"improved .270 British, Alexander Sarafanov himself developed the 6.54x42mm "
+"A 6.54x42mm cartridge, loaded with a 120 gr. FMJBT bullet.  Inspired by the "
+"improved .280 British, Alexander Sarafanov himself developed the 6.54x42mm "
 "rifle cartridge for his new SVS-24 Assault Rifle."
 msgstr ""
 
@@ -5007,15 +5007,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 6.54x42mm 9N8"
-msgid_plural "reloaded 6.54x42mm 9N8"
+msgid "reloaded 6.54x42mm"
+msgid_plural "reloaded 6.54x42mm"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 6.54x42mm 9N8
+#. ~ Description for reloaded 6.54x42mm
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Inspired by the improved .270, Alexander Sarafanov himself developed the "
+"Inspired by the improved .280, Alexander Sarafanov himself developed the "
 "6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has "
 "been hand-reloaded."
 msgstr ""
@@ -5742,17 +5742,6 @@ msgid ""
 "if you had something to launch it."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
 msgstr ""
@@ -5761,17 +5750,6 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py
-msgid "A rock is what you have in your head if you don't know what one is."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -5807,6 +5785,18 @@ msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -12411,6 +12401,19 @@ msgstr[1] ""
 #. ~ Description for zubon
 #: lang/json/ARMOR_from_json.py
 msgid "Plain white zubon for use in martial arts."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for violin case
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -25524,12 +25527,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "soylent green"
+msgid "soylent green drink"
 msgid_plural "soylent green drinks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for soylent green
+#. ~ Description for soylent green drink
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
@@ -27143,6 +27146,11 @@ msgstr[1] ""
 #. ~ Description for USB drive
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive.  Useful for holding software."
+msgstr ""
+
+#. ~ Description for pool ball
+#: lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32270,12 +32278,12 @@ msgid "An empty casing from a 7.62x25mm round."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "9mm casing"
-msgid_plural "9mm casings"
+msgid "9x19mm casing"
+msgid_plural "9x19mm casings"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for 9mm casing
+#. ~ Description for 9x19mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 9x19mm round."
 msgstr ""
@@ -34417,8 +34425,8 @@ msgstr ""
 #. ~ Description for LW-21 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 21-round polymer magazine for Leadworks LLC 9mm firearms.  Lightweight and "
-"reliable but somewhat more difficult to reload."
+"A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight "
+"and reliable but somewhat more difficult to reload."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34504,7 +34512,7 @@ msgstr ""
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A factory specification 15-round box magazine for use with the dependable "
-"H&K USP 9mm pistol."
+"H&K USP 9x19mm pistol."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34694,12 +34702,12 @@ msgid "An improvised magazine made for the pipe SMG: .38, holds 25 rounds."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "pipe SMG: 9mm magazine"
+msgid "pipe SMG: 9x19mm magazine"
 msgstr ""
 
-#. ~ Description for pipe SMG: 9mm magazine
+#. ~ Description for pipe SMG: 9x19mm magazine
 #: lang/json/MAGAZINE_from_json.py
-msgid "An improvised magazine made for the pipe SMG: 9mm, holds 25 rounds."
+msgid "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -35597,6 +35605,52 @@ msgstr ""
 msgid ""
 "An enormous red ant covered in chitinous plates.  It possesses a pair of "
 "wriggling antennae and vicious-looking mandibles."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant spitter ant"
+msgstr ""
+
+#. ~ Description for giant spitter ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acid ant larva"
+msgstr ""
+
+#. ~ Description for acid ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its "
+"body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen acid ant"
+msgstr ""
+
+#. ~ Description for queen acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier acid ant"
+msgstr ""
+
+#. ~ Description for soldier acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -36728,6 +36782,20 @@ msgid ""
 "A large omnivorous rodent with a thick furry pelt, found in wetlands across "
 "the northern hemisphere.  It marks its territory with a musky odor for which "
 "it is named."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr ""
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs, "
+"as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -38299,7 +38367,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
-"Atomics' TX-1 9mm model and an automated M4 carbine."
+"Atomics' TX-1 9x19mm model and an automated M4 carbine."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -38529,6 +38597,20 @@ msgid ""
 "Undeath has not been kind to the children of the apocalypse.  This one is "
 "little more than a reanimated membrane of skin stretched across tiny brittle "
 "bones."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal child"
+msgid_plural "fungal children"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fungal child
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It is hard to recognize a human child in this creature.  Disgusting-looking "
+"mold covers most of its skin.  Many cracks perforate its body, with small "
+"fungal stalks poking through."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -40218,6 +40300,12 @@ msgstr[1] ""
 msgid "FWEEEET!"
 msgstr ""
 
+#. ~ Use action use_message for whistle.
+#. ~ Use action use_message for whistle multitool.
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
+msgid "You blow the whistle."
+msgstr ""
+
 #. ~ Description for whistle
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A simple metal whistle, with a cord to wear it around your neck."
@@ -40711,6 +40799,11 @@ msgstr[1] ""
 msgid "HOOOOONK!"
 msgstr ""
 
+#. ~ Use action use_message for compressed air horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk your airhorn."
+msgstr ""
+
 #. ~ Description for compressed air horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41171,11 +41264,11 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an inactive turret.  Using this item involves loading the unit with "
-"the factory-loaded 9mm rounds in your inventory (if you wish to divide your "
-"ammunition, set aside whatever 9mm you do NOT want to give the turret) "
-"turning it on, and placing it on the ground, where it will attach itself.  "
-"The turret will then identify you as a friendly, and attack all enemies with "
-"a built-in SMG."
+"the factory-loaded 9x19mm rounds in your inventory (if you wish to divide "
+"your ammunition, set aside whatever 9x19mm you do NOT want to give the "
+"turret) turning it on, and placing it on the ground, where it will attach "
+"itself.  The turret will then identify you as a friendly, and attack all "
+"enemies with a built-in SMG."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
@@ -43064,6 +43157,11 @@ msgstr[1] ""
 msgid "honk."
 msgstr ""
 
+#. ~ Use action use_message for bicycle horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk the bicycle horn."
+msgstr ""
+
 #. ~ Description for bicycle horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -44869,9 +44967,9 @@ msgstr ""
 #. ~ Description for shotgun trap
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a simple tripwire is attached to the trigger of a loaded sawn-off "
-"shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first "
-"time the trigger is pulled, one or both shells may be discharged."
+"This is a simple tripwire is attached to the trigger of a loaded double-"
+"barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; "
+"the first time the trigger is pulled, one or both shells may be discharged."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47721,6 +47819,10 @@ msgstr ""
 msgid "Stop chopping down?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop drilling?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -47765,7 +47867,7 @@ msgid ".22"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
-msgid "9mm"
+msgid "9x19mm"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -48911,10 +49013,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Chop Tree Trunk Into Logs"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -54092,7 +54190,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-#: lang/json/gun_from_json.py src/item_factory.cpp
+#: src/item_factory.cpp
 msgid "semi-auto"
 msgstr ""
 
@@ -54937,10 +55035,10 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"After the success of the 9mm model, Leadworks LLC released an L39B chambered "
-"in .45.  It soon earned a reputation as one of the most intimidating guns on "
-"the market, for firer and target alike.  Similar to other Leadworks products "
-"it doesn't accept third-party modifications."
+"After the success of the 9x19mm model, Leadworks LLC released an L39B "
+"chambered in .45.  It soon earned a reputation as one of the most "
+"intimidating guns on the market, for firer and target alike.  Similar to "
+"other Leadworks products it doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55458,7 +55556,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A custom built 9mm submachine gun camouflaged to look as the average "
+"A custom built 9x19mm submachine gun camouflaged to look as the average "
 "businessman suitcase, panes of cutting edge materials and its clever "
 "internal construction allowed it to bypass even the most scrupulous of "
 "security checkpoints.  Due to the fact that the average security guard is "
@@ -55488,7 +55586,7 @@ msgstr[1] ""
 msgid ""
 "A small pistol caliber carbine designed for police use and civilian self-"
 "defense, the Cx4 Storm uses magazines that are interchangeable with other "
-"Beretta 9mm handguns."
+"Beretta 9x19mm handguns."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55525,7 +55623,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A uniquely designed pistol caliber carbine with an integral folding stock "
-"and that makes use of 9mm Glock magazines."
+"and that makes use of 9x19mm Glock magazines."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55537,8 +55635,8 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "After the Enforcer's success, Leadworks LLC reworked their autorevolver "
-"design to cater to the 9mm market.  The Lookout, released in 2032, takes "
-"advantage of the smaller 9mm to hold a seventh round, without sacrificing "
+"design to cater to the 9x19mm market.  The Lookout, released in 2032, takes "
+"advantage of the smaller 9x19mm to hold a seventh round, without sacrificing "
 "the ease of handling or reloading the Enforcer made legendary."
 msgstr ""
 
@@ -55550,7 +55648,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B "
+"A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B "
 "provides accurate single-shot placement as well as controllable short-range "
 "firepower with its three-round burst mode.  Users praised its accuracy and "
 "fearsome appearance.  Similar to other Leadworks products it doesn't accept "
@@ -55565,9 +55663,9 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides "
-"accurate single-shot placement in a very robust frame.  Several urban "
-"legends describe using it in ways that would have destroyed a lesser "
+"A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 "
+"provides accurate single-shot placement in a very robust frame.  Several "
+"urban legends describe using it in ways that would have destroyed a lesser "
 "weapon.  Similar to other Leadworks products it doesn't accept third-party "
 "modifications."
 msgstr ""
@@ -55580,13 +55678,13 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A very popular 9mm pistol, the M9 has been the standard issue sidearm of the "
-"US army since 1985."
+"A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of "
+"the US army since 1985."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "pipe rifle: 9mm"
-msgid_plural "pipe rifles: 9mm"
+msgid "pipe rifle: 9x19mm"
+msgid_plural "pipe rifles: 9x19mm"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -55638,7 +55736,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The Uzi 9mm has enjoyed immense popularity, selling more units than any "
+"The Uzi 9x19mm has enjoyed immense popularity, selling more units than any "
 "other submachine gun.  It is widely used as a personal defense weapon, or as "
 "a primary weapon by elite frontline forces."
 msgstr ""
@@ -56120,21 +56218,21 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "The V29 laser pistol was designed in the mid-21st century and was one of the "
-"first firearms to use fusion as its ammunition.  It is larger than most "
-"traditional handguns, but displays no recoil whatsoever."
+"first handheld laser weapons.  It is larger than most traditional handguns, "
+"but displays no recoil whatsoever."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "LACP laser pistol"
-msgid_plural "LACP laser pistols"
+msgid "homemade laser pistol"
+msgid_plural "homemade laser pistols"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The LACP laser pistol was based on the V29 laser pistol designed in the "
-"mid-21st century.  While little more than duct tape and electronics, it runs "
-"on a standard UPS."
+"This laser pistol was based on the V29 laser pistol designed in the mid-21st "
+"century.  While little more than duct tape and electronics, it runs on a "
+"standard UPS."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56248,8 +56346,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
-msgid "pipe SMG: 9mm"
-msgid_plural "pipe SMG: 9mms"
+msgid "pipe SMG: 9x19mm"
+msgid_plural "pipe SMG: 9x19mms"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -56444,7 +56542,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 "
-"submachine gun is the most accurate 9mm submachine gun on the market.  "
+"submachine gun is the most accurate 9x19mm submachine gun on the market.  "
 "Intended for police use, it is fitted with an integral grenade launcher."
 msgstr ""
 
@@ -57922,7 +58020,7 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
+"Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
 "or .223 firearm converts it to a .22 firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr ""
@@ -57965,8 +58063,8 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to "
-"a .45 firearm.  The conversion results in a slight reduction to accuracy."
+"Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it "
+"to a .45 firearm.  The conversion results in a slight reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -57977,7 +58075,7 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, "
+"A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, "
 "or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
 "and armor penetration."
 msgstr ""
@@ -57990,22 +58088,22 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
+"A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38 "
 "firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
 "armor penetration."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid "9mm caliber conversion kit"
-msgid_plural "9mm caliber conversion kits"
+msgid "9x19mm caliber conversion kit"
+msgid_plural "9x19mm caliber conversion kits"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -58820,14 +58918,14 @@ msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
 "4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
 "conversion results in a slight reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
 "firearm converts it to a .45 ACP firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr ""
@@ -58835,8 +58933,8 @@ msgstr ""
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -59232,6 +59330,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Chop down a tree"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Chop a Tree Trunk into logs"
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -64772,6 +64874,10 @@ msgstr ""
 msgid "Filthy Gear"
 msgstr ""
 
+#: lang/json/morale_type_from_json.py
+msgid "Debug Morale"
+msgstr ""
+
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
 msgid "mutagen message here"
@@ -68115,8 +68221,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your mandibles have developed extensible fangs, allowing you to bite quickly "
-"or ensure your venom goes home, as desired.  Activate to extend or retract "
-"your fangs."
+"or ensure your venom goes home, as desired."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -87818,7 +87923,7 @@ msgid ""
 "right.  Generally speaking, the more damaging the ammo, the worse the "
 "recoil.  Recoil severely reduces your chance to hit, but you can eliminate "
 "recoil by pausing ('.') for a turn or moving normally.  High strength "
-"reduces recoil, so weak characters might want to stick to .22 or 9mm guns."
+"reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
 msgstr ""
 
 #: lang/json/tutorial_messages_from_json.py
@@ -89260,11 +89365,11 @@ msgid "automated .308 pipe rifle"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm pipe rifle turret"
+msgid "9x19mm pipe rifle turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "automated 9mm pipe rifle"
+msgid "automated 9x19mm pipe rifle"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89672,7 +89777,7 @@ msgid "5.56mm rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm rack"
+msgid "9x19mm rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -90568,6 +90673,19 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You finish chopping down a tree."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish chopping the logs."
+msgstr ""
+
+#. ~ Sound of a jackhammer at work!
+#: src/activity_handlers.cpp
+msgid "TATATATATATATAT!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish drilling."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -94593,7 +94711,7 @@ msgid "<npcname> recharges their battery system with the %s."
 msgstr ""
 
 #: src/consumption.cpp
-msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
+msgid "That is a LOT of plutonium.  Are you sure you want that much?"
 msgstr ""
 
 #: src/consumption.cpp
@@ -95209,6 +95327,11 @@ msgid "Needs:"
 msgstr ""
 
 #: src/debug_menu.cpp
+#, c-format
+msgid "Total morale: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
 msgid "Player"
 msgstr ""
 
@@ -95234,6 +95357,10 @@ msgstr ""
 
 #: src/debug_menu.cpp
 msgid "Set [h]it points"
+msgstr ""
+
+#: src/debug_menu.cpp
+msgid "Set m[o]rale"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -95324,6 +95451,11 @@ msgstr ""
 #: src/debug_menu.cpp
 #, c-format
 msgid "Set the hitpoints to? Currently: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
+#, c-format
+msgid "Set the morale to? Currently: %d"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -95496,7 +95628,7 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Please wait as the map generates [ 0%%]"
+msgid "Please wait as the map generates [ 0%% ]"
 msgstr ""
 
 #: src/defense.cpp
@@ -95539,7 +95671,7 @@ msgid "Cycle option value"
 msgstr ""
 
 #: src/defense.cpp
-msgid "Toggle option"
+msgid "Toogle option"
 msgstr ""
 
 #: src/defense.cpp
@@ -95880,8 +96012,8 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid ""
-"c to describe creatures, f to describe furniture, t to describe terrain, esc/"
-"enter to close."
+"c to describe creatures, f to describe furniture, t to describe terrain, Esc/"
+"Enter to close."
 msgstr ""
 
 #: src/descriptions.cpp
@@ -95894,6 +96026,12 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid "You can't see the terrain here."
+msgstr ""
+
+#: src/descriptions.cpp
+msgid ""
+"\n"
+"Sign: ???"
 msgstr ""
 
 #: src/descriptions.cpp
@@ -96074,7 +96212,7 @@ msgid "Field effects"
 msgstr ""
 
 #: src/editmap.cpp
-msgctxt "map editor: used to describe a clean field (eg. without blood)"
+msgctxt "map editor: used to describe a clean field (e.g. without blood)"
 msgid "-clear-"
 msgstr ""
 
@@ -98636,15 +98774,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Wait till you wake up..."
-msgstr ""
-
-#: src/game.cpp
-msgid "Your heart races as you recall your most recent hunt."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "Your skill in %s has reduced to %d!"
 msgstr ""
 
 #: src/game.cpp
@@ -103070,7 +103199,7 @@ msgstr ""
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
 "A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at "
-"the irc channel #CataclysmDDA on freenode."
+"the IRC channel #CataclysmDDA on freenode."
 msgstr ""
 
 #: src/help.cpp
@@ -103342,10 +103471,6 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Use the plank at your feet?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -105595,7 +105720,7 @@ msgstr ""
 msgid "sawn-off "
 msgstr ""
 
-#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
+#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
 #: src/item.cpp
 #, c-format
 msgid "%1$s%2$s%3$s%4$s%5$s%6$s"
@@ -107151,10 +107276,6 @@ msgid "Don't do anything rash."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "TATATATATATATAT!"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "You can't drill there."
 msgstr ""
 
@@ -107618,6 +107739,14 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't chop down that."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Chop which which tree trunk?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop that."
 msgstr ""
 
 #: src/iuse.cpp
@@ -110584,10 +110713,10 @@ msgstr ""
 
 #: src/iuse_software_kitten.cpp
 msgid ""
-"Your job is to find kitten. This task is complicated by the existance of "
+"Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
-"they are kitten or not. The game ends when robotfindskitten. Alternatively, "
-"you may end the game by hitting 'q', 'Q' or the escape key."
+"they are kitten or not. The game ends when robot finds kitten. "
+"Alternatively, you may end the game by hitting 'q', 'Q' or the Escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -111210,6 +111339,10 @@ msgstr ""
 
 #: src/map.cpp
 msgid "Simple. "
+msgstr ""
+
+#: src/map.cpp
+msgid "Mountable. "
 msgstr ""
 
 #: src/map.cpp
@@ -112054,7 +112187,7 @@ msgstr ""
 msgid "You failed to steal %1$s from %2$s."
 msgstr ""
 
-#. ~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
+#. ~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
 #: src/messages.cpp
 #, c-format
 msgid "%s x %d"
@@ -112535,10 +112668,6 @@ msgstr ""
 msgid ""
 "%s feels more confident in your abilities and is willing to let you "
 "participate in daring raids."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -113310,7 +113439,7 @@ msgstr ""
 
 #: src/monattack.cpp
 msgctxt "memorial_male"
-msgid "Was shown to the Marloss Gatweay."
+msgid "Was shown to the Marloss Gateway."
 msgstr ""
 
 #: src/monattack.cpp
@@ -113363,13 +113492,13 @@ msgstr ""
 msgid "The %s lands on you, but you swat it off."
 msgstr ""
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lands on your %2$s, but can't penetrate your armor."
 msgstr ""
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s sinks its ovipositor into your %2$s!"
@@ -116271,6 +116400,11 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
+msgid "My %s is bleeding!"
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s reloads their %2$s."
 msgstr ""
 
@@ -118361,6 +118495,14 @@ msgid "You: $%.2f"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "< Back"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "More >"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Examine which item?"
 msgstr ""
 
@@ -118375,7 +118517,7 @@ msgid "%s can't carry all that."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I don't <swear> trust you enough to eat from your hand..."
+msgid "I don't <swear> trust you enough to eat THIS..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118450,6 +118592,23 @@ msgid "Select a follower"
 msgstr ""
 
 #: src/options.cpp
+msgid ""
+"If true, will enable to pickup items one tile around to the player.  You can "
+"assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your "
+"homebase."
+msgstr ""
+
+#: src/options.cpp
+msgid "List items within no auto pickup zones"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If false, you will not see messages about items, you step on, within no auto "
+"pickup zones."
+msgstr ""
+
+#: src/options.cpp
 msgid "Auto pulp or butcher"
 msgstr ""
 
@@ -118490,6 +118649,12 @@ msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
 msgstr ""
 
 #: src/options.cpp
+msgid ""
+"12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal "
+"24h, e.g. 7:31"
+msgstr ""
+
+#: src/options.cpp
 msgid "Open default advanced inventory layout"
 msgstr ""
 
@@ -118501,6 +118666,17 @@ msgstr ""
 msgid ""
 "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
 "displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid "Diagonal movement with cursor keys and modifiers"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, allows diagonal movement with cursor keys using CTRL and SHIFT "
+"modifiers.  Diagonal movement action keys are taken from keybindings, so you "
+"need these to be configured."
 msgstr ""
 
 #: src/options.cpp
@@ -119268,7 +119444,7 @@ msgstr ""
 msgid "In memory of: %s"
 msgstr ""
 
-#. ~ The "%s" will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
+#. ~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
 #: src/player.cpp
 #, c-format
 msgctxt "epitaph"
@@ -119364,6 +119540,12 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "Total kills: %d"
+msgstr ""
+
+#. ~ 1. skill name, 2. skill level, 3. exercise percentage to next level
+#: src/player.cpp
+#, c-format
+msgid "%s: %d (%d %%)"
 msgstr ""
 
 #: src/player.cpp
@@ -121196,6 +121378,15 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "Mission \"%s\" is successfully completed."
+msgstr ""
+
+#: src/player.cpp
+msgid "Your heart races as you recall your most recent hunt."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Your skill in %s has reduced to %d!"
 msgstr ""
 
 #: src/player_display.cpp
@@ -124842,7 +125033,7 @@ msgid "Switch to other list"
 msgstr ""
 
 #: src/worldfactory.cpp
-msgid "Activate / deactive mod"
+msgid "Activate / deactivate mod"
 msgstr ""
 
 #: src/worldfactory.cpp

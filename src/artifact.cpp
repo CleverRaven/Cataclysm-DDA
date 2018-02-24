@@ -557,7 +557,7 @@ static const std::array<std::string, 20> artifact_noun = { {
 } };
 std::string artifact_name(std::string type);
 
-// Constructrs for artifact itypes.
+// Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool() : itype()
 {
     tool.emplace();

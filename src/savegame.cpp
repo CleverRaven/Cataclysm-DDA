@@ -174,7 +174,6 @@ void game::unserialize(std::istream & fin)
         }
     }
     std::string linebuf;
-    std::stringstream linein;
 
     int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
@@ -361,7 +360,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
 
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
-            const std::string base = old.substr( 0, old.rfind( "1" ) );
+            const std::string base = old.substr( 0, old.rfind( '1' ) );
             const std::string entr = base + "1_entrance";
             nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
             nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
@@ -795,7 +794,7 @@ void overmap::unserialize( std::istream &fin ) {
             if ( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if ( rit != region_settings_map.end() ) {
-                    settings = rit->second; // todo optimize
+                    settings = rit->second; // @todo: optimize
                 }
             }
         } else if( name == "mongroups" ) {
@@ -1131,7 +1130,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         jout.start_array();
         // Zero the bin position so that it isn't serialized
         // The position is stored separately, in the list
-        // @todo Do it without the copy
+        // @todo: Do it without the copy
         mongroup saved_group = group_bin.first;
         saved_group.pos = tripoint_zero;
         jout.write( saved_group );

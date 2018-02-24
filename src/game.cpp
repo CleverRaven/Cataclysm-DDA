@@ -193,9 +193,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -755,7 +752,7 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    //@todo shouln't that use calendar::start instead of INITIAL_TIME?
+    //@todo: shouldn't that use calendar::start instead of INITIAL_TIME?
     nextweather = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
@@ -887,7 +884,7 @@ bool game::start_game(std::string worldname)
 
     //Create mutation_category_level
     u.set_highest_cat_level();
-    //Calc mutation drench protection stats
+    //Calculate mutation drench protection stats
     u.drench_mut_calc();
     if ( scen->has_flag("FIRE_START") ){
         start_loc.burn( omtstart, 3, 3 );
@@ -1027,7 +1024,7 @@ bool game::cleanup_at_end()
         for( monster &critter : all_monsters() ) {
             despawn_monster( critter );
         }
-        // Save the factions', missions and set the NPC's overmap coords
+        // Save the factions', missions and set the NPC's overmap coordinates
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
@@ -1574,7 +1571,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness( *weather_precise );
     u.apply_wetness_morale( temperature );
-    rustCheck();
+    u.do_skill_rust();
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
@@ -1603,48 +1600,6 @@ void game::set_driving_view_offset(const point &p)
     u.view_offset.y += driving_view_offset.y;
 }
 
-void game::rustCheck()
-{
-    for (auto const &aSkill : Skill::skills) {
-        if (u.rust_rate() <= rng(0, 1000)) {
-            continue;
-        }
-
-        if (aSkill.is_combat_skill() &&
-            ((u.has_trait( trait_id( "PRED2" ) ) && one_in(4)) ||
-             (u.has_trait( trait_id( "PRED3" ) ) && one_in(2)) ||
-             (u.has_trait( trait_id( "PRED4" ) ) && x_in_y(2, 3)))) {
-            // Their brain is optimized to remember this
-            if (one_in(15600)) {
-                // They've already passed the roll to avoid rust at
-                // this point, but print a message about it now and
-                // then.
-                //
-                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
-                // This means PRED2/PRED3/PRED4 think of hunting on
-                // average every 8/4/3 hours, enough for immersion
-                // without becoming an annoyance.
-                //
-                add_msg(_("Your heart races as you recall your most recent hunt."));
-                u.stim++;
-            }
-            continue;
-        }
-
-        bool charged_bio_mem = u.has_active_bionic( bionic_id( "bio_memory" ) ) && u.power_level > 25;
-        int oldSkillLevel = u.get_skill_level(aSkill.ident());
-
-        if (u.get_skill_level(aSkill.ident()).rust(charged_bio_mem)) {
-            u.charge_power(-25);
-        }
-        int newSkill = u.get_skill_level(aSkill.ident());
-        if (newSkill < oldSkillLevel) {
-            add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
-                    aSkill.name().c_str(), newSkill);
-        }
-    }
-}
-
 void game::process_activity()
 {
     if( !u.activity ) {
@@ -1667,7 +1622,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
-    //quietly kill the catched
+    //quietly kill the caught
     catchables[index]->no_corpse_quiet = true;
     catchables[index]->die( p );
     catchables.erase (catchables.begin()+index);
@@ -1760,7 +1715,7 @@ void game::update_weather()
         temperature = w.temperature;
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
-        //@todo predict when the weather changes and use that time.
+        //@todo: predict when the weather changes and use that time.
         nextweather = calendar::turn + 50_turns;
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
@@ -1854,7 +1809,7 @@ void game::handle_key_blocking_activity()
 * It use draw_item_info to draw item info and action menu
 *
 * @param pos position of item in inventory
-* @param iStartX Left coord of the item info window
+* @param iStartX Left coordinate of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
@@ -2943,12 +2898,12 @@ bool game::handle_action()
                             break;
 
                         case turret_data::status::ready: {
-                            // if more than one firing mode provide callback to cyle through them
+                            // if more than one firing mode provide callback to cycle through them
                             target_callback switch_mode;
                             if( turret.base()->gun_all_modes().size() > 1 ) {
                                 switch_mode = [&turret]( item *obj ) {
                                     obj->gun_cycle_mode();
-                                    // currently gun modes dont change ammo but they may in the future
+                                    // currently gun modes do not change ammo but they may in the future
                                     return turret.ammo_current() == "null" ? nullptr :
                                            item::find_type( turret.ammo_current() );
                                 };
@@ -3036,6 +2991,7 @@ bool game::handle_action()
                     u.reach_attack( trajectory.back() );
                 }
                 draw_ter();
+                wrefresh( w_terrain );
                 reenter_fullscreen();
             }
             break;
@@ -5052,8 +5008,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
-
-    wrefresh( w_terrain);
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
@@ -5385,6 +5339,7 @@ void game::draw_minimap()
 
 float game::natural_light_level( const int zlev ) const
 {
+    // ignore while underground or above limits
     if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
         return LIGHT_AMBIENT_MINIMAL;
     }
@@ -5396,17 +5351,15 @@ float game::natural_light_level( const int zlev ) const
 
     float ret = LIGHT_AMBIENT_MINIMAL;
 
-    // Sunlight/moonlight related stuff, ignore while underground
-    if( zlev >= 0 ) {
-        if( !lightning_active ) {
-            ret = calendar::turn.sunlight();
-        } else {
-            // Recent lightning strike has lit the area
-            ret = DAYLIGHT_LEVEL;
-        }
-
-        ret += weather_data(weather).light_modifier;
+    // Sunlight/moonlight related stuff
+    if( !lightning_active ) {
+        ret = calendar::turn.sunlight();
+    } else {
+        // Recent lightning strike has lit the area
+        ret = DAYLIGHT_LEVEL;
     }
+
+    ret += weather_data(weather).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -6017,7 +5970,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( monster &critter : all_monsters() ) {
-        //@todo can the following code be called for all types of creatures
+        //@todo: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
@@ -6048,7 +6001,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
             knockback( p, critter.pos(), force, stun, dam_mult);
         }
     }
-    //@todo combine the two loops and the case for g->u using all_creatures()
+    //@todo: combine the two loops and the case for g->u using all_creatures()
     for( npc &guy : all_npcs() ) {
         if( rl_dist( guy.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name.c_str() );
@@ -6580,7 +6533,7 @@ template<typename T>
 T *game::critter_by_id( const int id )
 {
     if( id == u.getID() ) {
-        // player is always alive, therefor no is-dead check
+        // player is always alive, therefore no is-dead check
         return dynamic_cast<T*>( &u );
     }
     for( auto &cur_npc : active_npc ) {
@@ -7592,9 +7545,7 @@ void game::examine( const tripoint &examp )
     }
 
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = m.veh_at( examp, veh_part );
+    vehicle *veh = m.veh_at( examp, veh_part );
     if( veh != nullptr ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -7635,6 +7586,7 @@ void game::examine( const tripoint &examp )
     if( !m.tr_at( examp ).is_null() ) {
         iexamine::trap( u, examp );
         draw_ter();
+        wrefresh( w_terrain );
     }
 
     // In case of teleport trap or somesuch
@@ -7686,6 +7638,7 @@ void game::peek( const tripoint &p )
     look_around();
     u.setpos( prev );
     draw_ter();
+    wrefresh( w_terrain );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 tripoint game::look_debug()
@@ -8390,6 +8343,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     }
 
     draw_ter( lp );
+    wrefresh( w_terrain );
 
     //change player location to peek location temporarily for minimap update
     tripoint current_pos = u.pos();
@@ -8530,7 +8484,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
         if (!is_draw_tiles_mode() && action != "MOUSE_MOVE") {
             // When tiles are disabled, this refresh is required to update the
-            // selected terrain square with highlighted ascii coloring. When
+            // selected terrain square with highlighted ASCII coloring. When
             // tiles are enabled, the selected square isn't highlighted using
             // this function, and it is too CPU-intensive to call repeatedly
             // in a mouse event loop. If we did want to highlight the tile
@@ -8549,6 +8503,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         if (action == "LIST_ITEMS") {
             list_items_monsters();
             draw_ter( lp, true );
+            wrefresh( w_terrain );
 
         } else if (action == "TOGGLE_FAST_SCROLL") {
             fast_scroll = !fast_scroll;
@@ -8567,8 +8522,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
             u.view_offset.z = new_levz - u.posz();
             lp.z = new_levz;
-            refresh_all();
             draw_ter( lp, true );
+            refresh_all();
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg(_("You can't see that destination."));
@@ -8592,6 +8547,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             extended_description( lp );
             draw_sidebar();
             draw_ter( lp, true );
+            wrefresh( w_terrain );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -8623,6 +8579,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             }
 
             draw_ter( lp, true );
+            wrefresh( w_terrain );
         }
     } while (action != "QUIT" && action != "CONFIRM" && action != "SELECT");
 
@@ -9601,7 +9558,7 @@ void game::grab()
             } else {
                 add_msg(_("You grab the %s."), m.furnname( grabp ).c_str());
             }
-        } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+        } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(m_info, _("There's nothing to grab there!"));
         }
     } else {
@@ -9967,7 +9924,7 @@ void game::plthrow( int pos )
 
 // @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
-    // @todo Make this check not needed
+    // @todo: Make this check not needed
     if( args.relevant == nullptr ) {
         debugmsg( "Can't plfire_check a null" );
         return false;
@@ -10087,7 +10044,7 @@ bool game::plfire()
         if( !gun->ammo_remaining() ) {
             item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
-                // Menu cancelled
+                // Menu canceled
                 return false;
             }
             reload_time += opt.moves();
@@ -10128,6 +10085,7 @@ bool game::plfire()
         return false;
     }
     draw_ter(); // Recenter our view
+    wrefresh( w_terrain );
 
     int shots = 0;
 
@@ -10136,7 +10094,7 @@ bool game::plfire()
         shots = 1;
     } else {
         u.moves -= reload_time;
-        // @todo add check for TRIGGERHAPPY
+        // @todo: add check for TRIGGERHAPPY
         if( args.pre_fire ) {
             args.pre_fire( shots );
         }
@@ -10155,7 +10113,7 @@ bool game::plfire()
 
 bool game::plfire( item &weapon, int bp_cost )
 {
-    // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
+    // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
     item::gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
@@ -10404,6 +10362,7 @@ void game::butcher()
     case BUTCHER_CORPSE:
         {
             draw_ter();
+            wrefresh( w_terrain );
             int index = corpses[indexer_index];
             u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
@@ -10914,7 +10873,7 @@ void game::read()
 void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc &guy ) {
-        // @todo Get rid of the z-level check when z-level vision gets "better"
+        // @todo: Get rid of the z-level check when z-level vision gets "better"
         return u.posz() == guy.posz() &&
             u.sees( guy.pos() ) &&
             rl_dist( u.pos(), guy.pos() ) <= 24;
@@ -11062,7 +11021,7 @@ void game::pldrive(int x, int y)
         }
     }
 
-    // @todo Actually check if we're on land on water (or disable water-skidding)
+    // @todo: Actually check if we're on land on water (or disable water-skidding)
     if( veh->skidding && ( veh->valid_wheel_config( false ) || veh->valid_wheel_config( true ) ) ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
@@ -11103,7 +11062,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     if( u.controlling_vehicle && !get_option<bool>( "SAFEMODEVEH" ) ) {
         return true;
     }
-    // Monsters around and we don't wanna run
+    // Monsters around and we don't want to run
     std::string spotted_creature_name;
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
@@ -11642,7 +11601,7 @@ bool game::walk_move( const tripoint &dest_loc )
         ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if( ( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) ) {
+        if( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
         }
@@ -11761,7 +11720,7 @@ void game::place_player( const tripoint &dest_loc )
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
-    // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
+    // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
     //Auto pulp or butcher
     if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
@@ -12012,7 +11971,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     tripoint fpos = u.pos() + u.grab_point;
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
-        // where'd it go? We're grabbing thin air so reset.
+        // Where did it go? We're grabbing thin air so reset.
         add_msg(m_info, _("No furniture at grabbed point.") );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
@@ -12061,13 +12020,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         add_msg( _("The %s collides with something."), furntype.name().c_str() );
         u.moves -= 50;
         return true;
-    ///\EFFECT_STR determins ability to drag furniture
+    ///\EFFECT_STR determines ability to drag furniture
     } else if ( str_req > u.get_str() &&
                 one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
                 furntype.name().c_str() );
         u.moves -= 100;
-        u.mod_pain(1); // Hurt ourself.
+        u.mod_pain(1); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
     } else if ( !src_item_ok && dst_items > 0 ) {
         add_msg( _("There's stuff in the way.") );
@@ -12691,7 +12650,7 @@ void game::vertical_move(int movez, bool force)
             } );
 
             if( found != candidates.end() ) {
-                // @todo De-uglify
+                // @todo: De-uglify
                 np->setpos( *found );
                 np->place_on_map();
                 np->setpos( *found );
@@ -12707,7 +12666,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     // This ugly check is here because of stair teleport bullshit
-    // @todo Remove stair teleport bullshit
+    // @todo: Remove stair teleport bullshit
     if( rl_dist( g->u.pos(), old_pos ) <= 1 ) {
         for( monster *m : monsters_following ) {
             m->set_dest( g->u.pos() );
@@ -12762,9 +12721,9 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
     // Check the destination area for lava.
     if( mp.ter(stairs) == t_lava ) {
         if( movez < 0 &&
-            !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            !query_yn(_("There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up.")) ) {
             return tripoint_min;
-        } else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+        } else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Push through the half-molten rocks and ascend?  You will not be able to get back down.")) ){
             return tripoint_min;
         }
 
@@ -13275,7 +13234,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
             // We're inbounds, so don't despawn after all.
-            // No need to shift z coords, they are absolute
+            // No need to shift Z-coordinates, they are absolute
             continue;
         }
         // Either a vertical shift or the critter is now outside of the reality bubble,

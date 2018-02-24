@@ -302,7 +302,7 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     if( ex.distance_factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
-        // @todo return map containing distribution of damage
+        // @todo: return map containing distribution of damage
         do_blast( p, ex.power, ex.distance_factor, ex.fire );
     }
 
@@ -401,7 +401,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
             }
         }
 
-        // @todo apply effects of soft cover
+        // @todo: apply effects of soft cover
         return kinetic > 0;
     };
 

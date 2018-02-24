@@ -158,7 +158,7 @@ int weather_generator::get_water_temperature() const
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
     int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
-    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
+    // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
     int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
@@ -168,9 +168,9 @@ int weather_generator::get_water_temperature() const
 
 void weather_generator::test_weather() const
 {
-    // Outputs a Cata year's worth of weather data to a csv file.
+    // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    //@todo this is wrong. weather_generator does not have such a constructor
+    //@todo: this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
@@ -180,7 +180,7 @@ void weather_generator::test_weather() const
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::year_length();
     for( time_point i = begin; i < end; i += 200_turns ) {
-        //@todo a new random value for each call to get_weather? Is this really intended?
+        //@todo: a new random value for each call to get_weather? Is this really intended?
         w_point w = get_weather( tripoint( 0, 0, 0 ), to_turn<int>( i ), rand() );
         testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;

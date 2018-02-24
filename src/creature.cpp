@@ -257,7 +257,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // friendly to the player, not a target for us
             return npc_ptr->attitude == NPCATT_KILL;
         }
-        //@todo what about g->u?
+        //@todo: what about g->u?
         return false;
     } );
     for( auto &m : targets ) {
@@ -374,7 +374,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     body_part bp_hit = select_body_part(source, hit_spread);
     block_hit(source, bp_hit, d);
 
-    // Bashing crit
+    // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
             add_effect( effect_stunned, 1 ); // 1 turn is enough
@@ -1093,7 +1093,7 @@ Creature *Creature::get_killer() const
 void Creature::set_killer( Creature * const killer )
 {
     // Only the first killer will be stored, calling set_killer again with a different
-    // killer would mean it's called on a dead creature and therefor ignored.
+    // killer would mean it's called on a dead creature and therefore ignored.
     if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
         this->killer = killer;
     }

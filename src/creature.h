@@ -584,7 +584,7 @@ class Creature
         int armor_bash_bonus;
         int armor_cut_bonus;
 
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calced off skills
+        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;
         float dodge_bonus;

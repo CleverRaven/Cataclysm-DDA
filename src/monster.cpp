@@ -83,6 +83,13 @@ const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
 const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
 const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
+const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
+const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
+const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
+const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
+const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
+const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -181,7 +188,7 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades;
+    upgrades = type->upgrades && type->half_life;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -239,13 +246,13 @@ bool monster::can_upgrade() {
 
 // For master special attack.
 void monster::hasten_upgrade() {
-    if (!can_upgrade() || upgrade_time < 1) {
+    if( !can_upgrade() || upgrade_time < 1 ) {
         return;
     }
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng(1, scaled_half_life);
-    if (upgrade_time < 0) {
+    upgrade_time -= rng( 1, scaled_half_life );
+    if( upgrade_time < 0 ) {
         upgrade_time = 0;
     }
 }
@@ -255,9 +262,9 @@ void monster::hasten_upgrade() {
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
-    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
-        if (one_in(2)) {
-            day += rng(0, scaled_half_life);
+    for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
+        if( one_in( 2 ) ) {
+            day += rng( 0, scaled_half_life );
             return day;
         } else {
             day += scaled_half_life;
@@ -269,7 +276,7 @@ int monster::next_upgrade_time() {
 }
 
 void monster::try_upgrade(bool pin_time) {
-    if (!can_upgrade()) {
+    if( !can_upgrade() ) {
         return;
     }
 
@@ -301,8 +308,7 @@ void monster::try_upgrade(bool pin_time) {
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const mtype_id &new_type = random_entry( monsters );
+            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             if( new_type ) {
                 poly( new_type );
             }
@@ -874,7 +880,7 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             case MTRIG_MEAT:
                 // Disable meat checking for now
                 // It's hard to ever see it in action
-                // and even harder to balance it without making it exploity
+                // and even harder to balance it without making it exploitable
 
                 // check_terrain = true;
                 // check_meat = true;
@@ -1917,7 +1923,7 @@ bool monster::make_fungus()
     } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
       tid == mon_zombie_spitter || tid == mon_zombie_brute ||
       tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter ||
       tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
       tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
       tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -1933,6 +1939,10 @@ bool monster::make_fungus()
         polypick = 3;
     } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
+    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
+      tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
+      tid == mon_zombie_waif ) {
+        polypick = 5;
     }
 
     const std::string old_name = name();
@@ -1948,6 +1958,9 @@ bool monster::make_fungus()
             break;
         case 4:
             poly( mon_fungaloid );
+            break;
+        case 5:
+            poly( mon_zombie_child_fungus );
             break;
         default:
             return false;

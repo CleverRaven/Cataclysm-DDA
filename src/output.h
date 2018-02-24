@@ -57,7 +57,7 @@ using chtype = int;
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
-// a consistent border colour
+// a consistent border color
 #define BORDER_COLOR c_light_gray
 
 // Display data
@@ -77,14 +77,14 @@ extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 
 enum game_message_type : int {
-    m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
-    m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
+    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
-                  eg. gaining a mutation with mixed effect*/
-    m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
-    m_info,    /* informs the player about something, eg. on examination, seeing an item,
+                  e.g. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
                   about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
 
@@ -331,7 +331,7 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-// for the next two functions, if cancelable is true, esc returns the last option
+// for the next two functions, if cancelable is true, Esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> &options,
                const std::string &hotkeys_override );
@@ -349,7 +349,7 @@ int  menu( bool cancelable, const char *mes, ... );
  * The message is a printf-like string. It may contain @ref color_tags, which are used while printing.
  *
  * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
- *   Without the flag the popup is only canceled when the user enters new-line, space and escape.
+ *   Without the flag the popup is only canceled when the user enters new-line, Space and Escape.
  *   This flag is passed by @ref popup_getkey.
  * - PF_NO_WAIT displays the popup, but does not wait for the user input. The popup window is
  *   immediately destroyed (but will be visible until another window is redrawn over it).
@@ -696,7 +696,7 @@ int get_terminal_height();
  * window.
  *
  * Ideally, of course, we'd have a unified tile drawing and ASCII
- * drawing API and use polymorphy, but for the time being there'll
+ * drawing API and use polymorphy, but for the time being there will
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();

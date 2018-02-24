@@ -38,8 +38,8 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
-HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
+HDC backbuffer;         //an off-screen DC to prevent flickering, lower CPU
+HBITMAP backbit;        //the bitmap that is used in conjunction with the above
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
@@ -169,10 +169,10 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     case WM_CHAR:
         lastchar = (int)wParam;
         switch (lastchar){
-            case VK_RETURN: //Reroute ENTER key for compatilbity purposes
+            case VK_RETURN: //Reroute ENTER key for compatibility purposes
                 lastchar=10;
                 break;
-            case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
+            case VK_BACK: //Reroute BACKSPACE key for compatibility purposes
                 lastchar=127;
                 break;
         }

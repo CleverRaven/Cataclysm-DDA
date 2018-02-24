@@ -110,7 +110,7 @@ class VehicleFunction_builtin : public VehicleFunction
         ~VehicleFunction_builtin() override { }
 
         /**
-         * This will invoke the vehicle spawning fuction on the map.
+         * This will invoke the vehicle spawning function on the map.
          * @param m The map on which to add the vehicle.
          * @param terrainid The name of the terrain being spawned on.
          */
@@ -129,7 +129,7 @@ class VehicleFunction_json : public VehicleFunction
         ~VehicleFunction_json() override { }
 
         /**
-         * This will invoke the vehicle spawning fuction on the map.
+         * This will invoke the vehicle spawning function on the map.
          * @param m The map on which to add the vehicle.
          * @param terrain_name The name of the terrain being spawned on. This is ignored by the json handler.
          */

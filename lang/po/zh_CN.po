@@ -31,13 +31,13 @@
 # zy h <hzy2980426@163.com>, 2016
 # 何方神圣 何 <1366003560@qq.com>, 2016-2018
 # 晨光 马 <448367875@qq.com>, 2017
-# 曾泰瑋 <tavid0000@gmail.com>, 2017
+# 曾泰瑋 <tavid0000@gmail.com>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-03 20:52-0500\n"
-"PO-Revision-Date: 2018-02-06 12:51+0000\n"
+"POT-Creation-Date: 2018-02-17 03:40-0500\n"
+"PO-Revision-Date: 2018-02-22 23:06+0000\n"
 "Last-Translator: 何方神圣 何 <1366003560@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgstr "开启自动拾取功能。自动拾取规则可在帮助菜单3中进�
 msgid "Auto pickup adjacent"
 msgstr "自动拾取相邻物品"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can"
 " assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
@@ -236,7 +236,7 @@ msgstr "开启时，当敌对怪物/NPC接近时，将暂停游戏并显示警�
 msgid "Safe Mode proximity distance"
 msgstr "安全模式判定距离"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player viewdistance."
@@ -482,7 +482,7 @@ msgstr "24小时制"
 msgid "Time format"
 msgstr "时间格式"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
 "24h, eg: 7:31"
@@ -1295,7 +1295,7 @@ msgstr "实验性Z轴"
 msgid ""
 "If true, experimental z-level maps will be enabled.  This feature is not "
 "finished yet and turning it on will only slow the game down."
-msgstr "选择是，将会使用实验性的Z轴地图，本特性尚未完工，打开本选项将会导致游戏运行减慢。"
+msgstr "选择是，将会使用实验性的Z轴地图，本特性尚未彻底完工，打开本选项将会导致游戏运行有所减慢。"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Align up and down stairs"
@@ -1861,7 +1861,7 @@ msgstr "美分"
 #. ~ Description for software
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
-msgstr "如 果 你 看 到 本 句 意 味 着 这 有 一 个 BUG！"
+msgstr "美元的一种，也是硬币的一种，此物品无实际意义，是一个你本不该见到的Bug。"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "thread"
@@ -1870,7 +1870,7 @@ msgstr "缝衣线"
 #. ~ Description for thread
 #: lang/json/AMMO_from_json.py
 msgid "A small quantity of thread that could be used to refill a sewing kit."
-msgstr "一小团通常用于缝合各类服装、可补充缝纫工具的细线。\n\"灾变后，要避免成为裸奔的原始人，就要用最原始的方法去缝纫。\""
+msgstr "一小团通常用于缝合各类服装、可补充缝纫工具的细线。\n\"一针一线将人类文明的尊严重新缝合起来。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "sinew"
@@ -1906,7 +1906,7 @@ msgstr "肥皂条"
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
 msgid "A cleansing agent made into bars."
-msgstr "一块可以用来清洗衣物或者制作其他物品的条状肥皂。\n\"如果丢在地上，会有好基友来捡吗？\""
+msgstr "一块可以用来清洗衣物或者制作其他物品的条状肥皂。\n\"如果丢在地上，会引来基佬丧尸吗？\""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "duct tape"
@@ -1986,7 +1986,7 @@ msgstr "滚珠"
 #. ~ Description for bearings
 #: lang/json/AMMO_from_json.py
 msgid "A box of ball bearings, useful as ammunition for slings."
-msgstr "一些半径不到1厘米钢制小球，通常用于作为轴承的滚珠或弹弓等小型武器的弹药，或有其他用途。\n\"希望可以用这个弹爆小丧尸的鸡鸡。\""
+msgstr "一些半径不到1厘米钢制小球，通常用于作为轴承的滚珠或弹弓等小型武器的弹药，或有其他用途。\n\"希望可以用这个弹爆小丧尸的丑陋生殖器。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "BB"
@@ -2004,7 +2004,7 @@ msgstr "羽毛"
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
 msgid "Feathers from a bird.  Useful for fletching arrows"
-msgstr "一些禽类羽毛，可以制作成箭羽，或有其它用途。\n\"有时间可以做一个羽毛笔，就像哈利波特那样，前提是得会研墨。\""
+msgstr "一些禽类羽毛，可以制作成箭羽，或有其它用途。\n\"有时间可以做一个羽毛笔，就像哈利波特那样，前提是得会研墨和魔法。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
@@ -2151,7 +2151,7 @@ msgstr "橡胶弹头"
 msgid ""
 "Rubber slugs from a shotgun beanbag round.  You could use them to make new "
 "beanbag rounds."
-msgstr "一些从沙包弹里拆出来的橡胶弹头。\n\"用来制作暴力镇压示威份子们的沙包弹。\""
+msgstr "一些从沙包弹里拆出来的橡胶弹头，用来制作暴力镇压示威份子们的沙包弹。。\n\"灾变前维持人类社会公序良俗的必备品。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "copper"
@@ -2162,7 +2162,7 @@ msgstr "铜块"
 msgid ""
 "Copper scraps.  Could be used to craft something, for example makeshift "
 "shotgun shells."
-msgstr "一些可以用来制造物品的废铜料。\n\"在任何游戏中都是最低等级武器的材料，但可以试着用来做个铜锅来做点吃的。\""
+msgstr "一些可以用来制造物品的废铜料。\n\"在任何游戏中都是最低等级武器的材料，但可以试着用来做个铜锅来做些食物。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "solder"
@@ -2190,7 +2190,7 @@ msgstr "医学胶带"
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of medical tape, similar to duct tape."
-msgstr "一卷医用胶布，有一些透气用小孔，总体类似强力胶带。\n\"用于假扮木乃伊，风干肉对丧失而言更具风味。\""
+msgstr "一卷医用胶布，有一些透气用小孔，总体类似强力胶带。\n\"可用于假扮木乃伊，但风干肉对丧尸而言更具风味。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV441B HE rocket"
@@ -2263,7 +2263,7 @@ msgid ""
 " other volatile constituents from animal and vegetation substances.  It is "
 "produced by slowly heating wood or other substances in the absence of "
 "oxygen."
-msgstr "一些在缺氧条件下，通过缓慢加热木材或其他物质以去除水份与其他挥发成份制成的易燃碳基材料。\n\"制作用于木炭是在荒野求生中的必学课程之一。\""
+msgstr "一些在缺氧条件下，通过缓慢加热木材或其他物质以去除水份与其他挥发成份制成的易燃碳基材料。\n\"制作木炭是荒野求生中的必学课程之一。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "coal"
@@ -2474,7 +2474,7 @@ msgid ""
 "A basic wooden arrow, it has a metal arrowhead and fletching.  It's light-"
 "weight, does some damage, and is so-so on accuracy.  Stands a below average "
 "chance of remaining intact once fired."
-msgstr "一支带有金属箭头和箭羽的木制箭矢，它有点轻，造成的伤害一般，精准度一般。射击后仅有小概率可以保持完好。\n\"历史悠久的人类远程武器的弹药，仅次于小石子。\""
+msgstr "一支带有金属箭头和箭羽的木制箭矢，它有点轻，造成的伤害一般，精准度一般。射击后仅有小概率可以保持完好。\n\"历史悠久的人类远程武器的弹药，仅次于小石子与骨头。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy fire-hardened arrow"
@@ -2671,7 +2671,7 @@ msgstr[0] "硫磺块"
 #. ~ Description for chunk of sulfur
 #: lang/json/AMMO_from_json.py
 msgid "A large chunk of pure sulfur.  Break it up to use it."
-msgstr "一大块硫磺结晶，需要拆解后使用。\n\"每一块硫磺的背后都有一个令人炽热的故事。\""
+msgstr "一大块硫磺结晶，需要拆解后使用。\n\"每一块硫磺的背后都有一个令人感到炽热的故事。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "cement"
@@ -2764,7 +2764,7 @@ msgid ""
 "to organic matter and evil clowns.  Although used to prepare a number of "
 "chemicals, it is mostly known as battery acid, due to its widest commercial "
 "application."
-msgstr "一些硫酸，很粘、刺鼻且极具腐蚀性，尤其是对有机物而言，虽然能用于制备很多种化学物质，但它主要是被作为蓄电池酸液而广为人知，因为它主要的商业用途就是制造电池。\n\"哥谭市的罪恶王子由此诞生。\""
+msgstr "一些硫酸，很粘、刺鼻且极具腐蚀性，尤其是对有机物而言，虽然能用于制备很多种化学物质，但它主要是被作为蓄电池酸液而广为人知，因为它主要的商业用途就是制造电池。"
 
 #: lang/json/AMMO_from_json.py
 msgid "acetone"
@@ -2792,7 +2792,7 @@ msgid ""
 "and in woodworking.  Remains quite useful both for making a vast array of "
 "pyrotechnic and explosive agents and as a direct weapon: not many beings "
 "enjoy being doused in nitric acid."
-msgstr "硝酸，强氧化剂和超强腐蚀性材料。主要用于生产合成化肥、蚀刻电路板和木工业。并且不论是制作各类烟火、爆破物还是直接作为武器都很有效：很少有生物会喜欢浸泡在硝酸之中。"
+msgstr "硝酸，强氧化剂和超强腐蚀性材料。主要用于生产合成化肥、蚀刻电路板和木工业。并且不论是制作各类烟火、爆破物还是直接作为武器都很有效：很少有生物会喜欢浸泡在硝酸之中。\n\"除了某只巨大的无敌蜥蜴。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "chromium oxide"
@@ -3154,26 +3154,6 @@ msgid ""
 "flamethrower."
 msgstr "一种混合了一些特殊成分的汽油，使得其可以粘附在物体表面并增加燃烧时的温度。需要配合火焰喷射器使用。"
 
-#: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
-msgid "concrete"
-msgid_plural "concrete"
-msgstr[0] "混凝土"
-
-#. ~ Description for concrete
-#: lang/json/AMMO_from_json.py
-msgid "Some concrete, ready to be used in a construction project."
-msgstr "一堆混凝土，已经准备好，随时可以用到工程建设项目中。"
-
-#: lang/json/AMMO_from_json.py
-msgid "mortar"
-msgid_plural "mortar"
-msgstr[0] "灰泥"
-
-#. ~ Description for mortar
-#: lang/json/AMMO_from_json.py
-msgid "Some mortar, ready to be used in building projects."
-msgstr "一堆灰泥，已经准备好，随时可以用到工程建设项目中。"
-
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
@@ -3323,7 +3303,7 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil.  "
 "This one has been hand-crafted from spare parts."
-msgstr "一包研制于21世纪中期的手工制造简易替代核聚变能源包，能射出接近光速的超高温气体，还没有任何后坐力影响。\n\"个人手工制作，造就克隆人部队卓越的枪法。\""
+msgstr "一包研制于21世纪中期的手工制造简易替代核聚变能源包，能射出接近光速的超高温气体，还没有任何后坐力影响。\n\"造就帝国冲锋队卓越枪法的元凶。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "H&K 12mm"
@@ -3475,11 +3455,11 @@ msgid ""
 "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet "
 "using a primer instead of gunpowder.  The end result is a subsonic round "
 "that is so weak as to be nearly useless given your predicament."
-msgstr "Conical Ball .22（.22 CB）口径弹药是.22口径弹的一种变体，采用子弹底火而非黑火药装填。这使得它变成了一种次音速弹药。\n\"可以完美的无声暗杀目标，但目标只可能是一只小蚂蚁，再大点个头的就不行了。\""
+msgstr "Conical Ball .22（.22 CB）口径弹药是.22口径弹的一种变体，采用子弹底火而非黑火药装填。这使得它变成了一种次音速弹药。\n\"可以完美的无声暗杀一只草履虫。\""
 
 #: lang/json/AMMO_from_json.py
 msgid ".22 FMJ"
-msgstr ".22全金属被甲弹"
+msgstr ".22 全金属被甲弹"
 
 #. ~ Description for .22 FMJ
 #: lang/json/AMMO_from_json.py
@@ -3519,7 +3499,7 @@ msgstr "复装.22 LR弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "handloaded .22 FMJ"
-msgstr "复装.22全金属被甲弹"
+msgstr "复装.22 全金属被甲弹"
 
 #: lang/json/AMMO_from_json.py
 msgid ".223 Remington"
@@ -3641,8 +3621,8 @@ msgstr ".30-06 M2穿甲弹"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an "
-"extremely powerful and accurate cartridge but pays for it's armor "
-"penetration abilities with lowered damage."
+"extremely powerful and accurate cartridge but pays for its armor penetration"
+" abilities with lowered damage."
 msgstr "168格令的.30-06 M2全金属被甲穿甲弹。高动能而且精准的子弹，但是这种型号的子弹通过降低致伤能力来提高穿甲性能。"
 
 #: lang/json/AMMO_from_json.py
@@ -3716,8 +3696,8 @@ msgstr ".32 ACP弹"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
-"powerful as the .38 or the 9mm though."
-msgstr ".32 口径的ACP弹是一种流行于20世纪的手枪弹药。威力不如.38弹及9mm弹，结构紧凑、轻巧，被军方与警方广泛使用。"
+"powerful as the .38 or the 9x19mm though."
+msgstr ".32 ACP弹是20世纪流行的手枪弹药，尽管威力小于.38弹或者9x19mm弹。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .32 ACP"
@@ -3725,7 +3705,7 @@ msgstr "复装.32 ACP弹"
 
 #: lang/json/AMMO_from_json.py
 msgid ".36 paper cartridge"
-msgstr ".36纸卷弹"
+msgstr ".36 纸卷弹"
 
 #. ~ Description for .36 paper cartridge
 #: lang/json/AMMO_from_json.py
@@ -3736,7 +3716,7 @@ msgstr "一颗纸卷弹，里面填充有预先称量好的黑火药和一颗.36
 
 #: lang/json/AMMO_from_json.py
 msgid ".38 FMJ"
-msgstr ".38全金属被甲弹"
+msgstr ".38 全金属被甲弹"
 
 #. ~ Description for .38 FMJ
 #: lang/json/AMMO_from_json.py
@@ -3771,7 +3751,7 @@ msgstr "90格令的.38 超级弹是一种被甲空尖弹。于1929年面世，.3
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .38 FMJ"
-msgstr "复装.38全金属被甲弹"
+msgstr "复装.38 全金属被甲弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .38 Special"
@@ -3799,7 +3779,7 @@ msgstr "180格令的10mm Auto弹是一种全金属被甲弹。这种子弹是威
 #: lang/json/AMMO_from_json.py
 msgid ".40 S&W FMJ"
 msgid_plural ".40 S&W FMJ"
-msgstr[0] ".40 S&W全金属被甲弹"
+msgstr[0] ".40 S&W 全金属被甲弹"
 
 #. ~ Description for .40 S&W FMJ
 #. ~ Description for reloaded .40 S&W FMJ
@@ -3812,7 +3792,7 @@ msgstr "180格令的.40 S&W 全金属被甲弹。.40 S&W 继承了10mm Auto弹�
 
 #: lang/json/AMMO_from_json.py
 msgid ".40 S&W JHP"
-msgstr ".40 S&W空尖弹"
+msgstr ".40 S&W 空尖弹"
 
 #. ~ Description for .40 S&W JHP
 #: lang/json/AMMO_from_json.py
@@ -3829,11 +3809,11 @@ msgstr[0] "复装10mm Auto弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .40 S&W FMJ"
-msgstr "复装.40 S&W全金属被甲弹"
+msgstr "复装.40 S&W 全金属被甲弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .40 S&W JHP"
-msgstr "复装.40 S&W空尖弹"
+msgstr "复装.40 S&W 空尖弹"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "40mm grenade"
@@ -3985,7 +3965,7 @@ msgstr "一颗纸卷弹，里面填充有预先称量好的黑火药和一颗.44
 
 #: lang/json/AMMO_from_json.py
 msgid ".45 ACP FMJ"
-msgstr ".45 ACP全金属被甲弹"
+msgstr ".45 ACP 全金属被甲弹"
 
 #. ~ Description for .45 ACP FMJ
 #: lang/json/AMMO_from_json.py
@@ -4020,7 +4000,7 @@ msgstr "200格令的 .45 口径 ACP 增压被甲空尖弹。增压弹拥有更�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 FMJ"
-msgstr "复装.45全金属被甲弹"
+msgstr "复装.45 全金属被甲弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 ACP JHP"
@@ -4102,7 +4082,7 @@ msgstr "一种相对比较少见的.50勃朗宁机枪弹，它的弹头中原本
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG tracer"
-msgstr "复装 .50 BMG 曳光弹"
+msgstr "复装.50 BMG 曳光弹"
 
 #. ~ Description for reloaded .50 BMG tracer
 #: lang/json/AMMO_from_json.py
@@ -4114,7 +4094,7 @@ msgstr "一些 .50 BMG 狙击弹的曳光弹改进型，曳光弹种可帮助保
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG Ball"
-msgstr "复装 .50 BMG 普通弹"
+msgstr "复装.50 BMG 普通弹"
 
 #. ~ Description for reloaded .50 BMG Ball
 #: lang/json/AMMO_from_json.py
@@ -4127,7 +4107,7 @@ msgstr ".50 BMG 普通弹是非常强大的步枪弹，设计用于长距离使�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG AP"
-msgstr "复装 .50 BMG穿甲弹"
+msgstr "复装.50 BMG 穿甲弹"
 
 #. ~ Description for reloaded .50 BMG AP
 #: lang/json/AMMO_from_json.py
@@ -4191,7 +4171,7 @@ msgstr "5.45x39mm口径子弹是AK枪族自1974年以来的标准弹药。这种
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5.45x39mm AP"
-msgstr "复装5.45x39mm穿甲弹"
+msgstr "复装5.45x39mm 穿甲弹"
 
 #. ~ Description for reloaded 5.45x39mm AP
 #: lang/json/AMMO_from_json.py
@@ -4244,7 +4224,7 @@ msgstr "Rivtech 5x50mm穿甲弹被设计用于对抗现代防弹衣，最大的�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5x50mm flechette"
-msgstr "复装5x50mm镖形弹"
+msgstr "复装5x50mm 镖形弹"
 
 #. ~ Description for reloaded 5x50mm flechette
 #: lang/json/AMMO_from_json.py
@@ -4330,7 +4310,7 @@ msgstr "150格令的7.62x54mmR 全金属被甲弹。7.62x54mmR口径子弹是至
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x54mmR"
-msgstr "复装7.62x54mmR弹"
+msgstr "复装7.62x54mm R弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x25mm JHP"
@@ -4407,7 +4387,7 @@ msgstr "8x40mm无壳弹的民用运动型轻装药量版，专为Rivtech枪支�
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm FMJ"
-msgstr "8x40mm全金属被甲无壳弹"
+msgstr "8x40mm 全金属被甲无壳弹"
 
 #. ~ Description for 8x40mm FMJ
 #: lang/json/AMMO_from_json.py
@@ -4419,7 +4399,7 @@ msgstr "8x40mm无壳弹，全金属被甲。军用级Rivtech枪支弹药。由�
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm HVP"
-msgstr "8x40mm HVP高速无壳弹"
+msgstr "8x40mm HVP 高速无壳弹"
 
 #. ~ Description for 8x40mm HVP
 #: lang/json/AMMO_from_json.py
@@ -4445,7 +4425,7 @@ msgstr "8x40mm无壳弹，装有曳光剂，用于指示射击目标，但有点
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm JHP"
-msgstr "8x40mm空尖无壳弹"
+msgstr "8x40mm 空尖无壳弹"
 
 #. ~ Description for 8x40mm JHP
 #: lang/json/AMMO_from_json.py
@@ -4457,7 +4437,7 @@ msgstr "8x40mm无壳弹的军用级被甲空尖弹型号，专为Rivtech枪支�
 
 #: lang/json/AMMO_from_json.py
 msgid "9x19mm JHP"
-msgstr "9x19mm空尖弹"
+msgstr "9x19mm 空尖弹"
 
 #. ~ Description for 9x19mm JHP
 #: lang/json/AMMO_from_json.py
@@ -4470,7 +4450,7 @@ msgstr "116格令的9x19mm 被甲空尖弹。JHP（被甲空尖弹）的穿甲�
 
 #: lang/json/AMMO_from_json.py
 msgid "9x19mm FMJ"
-msgstr "9x19mm全金属被甲弹"
+msgstr "9x19mm 全金属被甲弹"
 
 #. ~ Description for 9x19mm FMJ
 #: lang/json/AMMO_from_json.py
@@ -4498,17 +4478,17 @@ msgstr "9x19mm +P+弹"
 #. ~ Description for 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A step beyond the high-pressure 9mm +P round, the +P+ has even higher "
+"A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher "
 "internal pressure offering superior damage, accuracy, and penetration."
 msgstr "在9x19mm +P子弹的基础之上更进一步地提高了膛压，可以输出更高伤害、精准度和穿甲力。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm JHP"
-msgstr "复装9x19mm空尖弹"
+msgstr "复装9x19mm 空尖弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm FMJ"
-msgstr "复装9x19mm全金属被甲弹"
+msgstr "复装9x19mm 全金属被甲弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm +P"
@@ -4579,7 +4559,7 @@ msgstr "9x18mm马卡洛夫手枪弹，主要用于马卡洛夫PM手枪的前苏�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x18mm FMJ"
-msgstr "复装9x18mm全金属被甲弹"
+msgstr "复装9x18mm 全金属被甲弹"
 
 #. ~ Description for reloaded 9x18mm FMJ
 #: lang/json/AMMO_from_json.py
@@ -4680,7 +4660,7 @@ msgstr "猎鹿弹"
 msgid ""
 "A shell filled with metal pellets.  Extremely damaging, plus the spread "
 "makes it very accurate at short range.  Favored by SWAT forces."
-msgstr "一种填满了金属圆珠的弹药，威力极强，同时由于这种弹药的散射特性，使其在近距离射击时的命中率很高，因此深受SWAT部队的喜爱。\n\"一枚子弹撂倒一个操蛋的、天杀的发情驼鹿！\""
+msgstr "一种填满了金属圆珠的弹药，威力极强，同时由于这种弹药的散射特性，使其在近距离射击时的命中率很高，因此深受SWAT部队的喜爱。\n\"每一枚子弹撂倒一个操蛋的、天杀的发情驼鹿！\""
 
 #: lang/json/AMMO_from_json.py
 msgid "shotgun beanbag"
@@ -4806,7 +4786,7 @@ msgstr[0] "镁粉"
 msgid ""
 "A gray powder composed of the highly flammable alkaline earth metal "
 "magnesium.  Useful for constructing flares and similar items."
-msgstr "一种灰色粉末，主要成分是高可燃性的碱土金属镁。用于制造信号弹和类似物品。\n\"某个绿皮家伙的克星，不是丧尸，而是火星猎人。\""
+msgstr "一种灰色粉末，主要成分是高可燃性的碱土金属镁。用于制造信号弹和类似物品。\n\"某个绿皮家伙的克星，可惜不是丧尸，而是火星猎人。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "scrap metal"
@@ -4879,7 +4859,7 @@ msgstr "Conical Ball .22（.22 CB）口径弹药是.22口径弹的一种变体�
 
 #: lang/json/AMMO_from_json.py
 msgid "handloaded .22 rat-shot"
-msgstr "复装.22猎鼠弹"
+msgstr "复装.22 猎鼠弹"
 
 #. ~ Description for handloaded .22 rat-shot
 #: lang/json/AMMO_from_json.py
@@ -4949,10 +4929,10 @@ msgstr[0] "6.54x42mm 9N8 弹"
 #. ~ Description for 6.54x42mm 9N8
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A 6.54x42mm cartridge, loaded with a 100 gr. FMJ bullet.  Inspired by the "
-"improved .270 British, Alexander Sarafanov himself developed the 6.54x42mm "
+"A 6.54x42mm cartridge, loaded with a 120 gr. FMJBT bullet.  Inspired by the "
+"improved .280 British, Alexander Sarafanov himself developed the 6.54x42mm "
 "rifle cartridge for his new SVS-24 Assault Rifle."
-msgstr "一种6.52x42mm口径的100格令全金属被甲弹。从改进型.270弹药中获得启发， Alexander Sarafanov为他的新型SVS-24突击步枪设计了6.54x42mm步枪弹。"
+msgstr "一种6.52x42mm口径的120格令全金属被甲弹。从改进型.280弹药中获得启发， Alexander Sarafanov为他的新型SVS-24突击步枪设计了6.54x42mm步枪弹。"
 
 #: lang/json/AMMO_from_json.py
 msgid "6.54x42mm 9N12"
@@ -4981,17 +4961,17 @@ msgid ""
 msgstr "\"恐惧\"金属球弹采用电磁加速原理发射，因此不会产生任何声音、闪光或热信号。"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 6.54x42mm 9N8"
-msgid_plural "reloaded 6.54x42mm 9N8"
-msgstr[0] "复装6.54x42mm 9N8 弹"
+msgid "reloaded 6.54x42mm"
+msgid_plural "reloaded 6.54x42mm"
+msgstr[0] "复装6.54x42mm弹"
 
-#. ~ Description for reloaded 6.54x42mm 9N8
+#. ~ Description for reloaded 6.54x42mm
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Inspired by the improved .270, Alexander Sarafanov himself developed the "
+"Inspired by the improved .280, Alexander Sarafanov himself developed the "
 "6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has "
 "been hand-reloaded."
-msgstr "从改进型.270弹药中获得启发， Alexander Sarafanov为他的新型SVS-24突击步枪设计了6.54x42mm步枪弹。这是手工复装的型号。"
+msgstr "从改进型.280弹药中获得启发， Alexander Sarafanov为他的新型SVS-24突击步枪设计了6.54x42mm步枪弹。这是手工复装的型号。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded light rifle ammo"
@@ -5391,7 +5371,7 @@ msgstr "一颗 30x113mm 高爆机炮燃烧弹。主要用于打击无装甲车�
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 30x113mm"
 msgid_plural "reloaded 30x113mm"
-msgstr[0] "复装30x113mm机炮炮弹"
+msgstr[0] "复装30x113mm 机炮炮弹"
 
 #. ~ Description for reloaded 30x113mm
 #: lang/json/AMMO_from_json.py
@@ -5425,7 +5405,7 @@ msgstr "一颗 120mm 炮弹，使用新的底火并装上大量铅球。效果�
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift 120mm slug"
-msgstr "自制120mm独头炮弹"
+msgstr "自制120mm 独头炮弹"
 
 #. ~ Description for makeshift 120mm slug
 #: lang/json/AMMO_from_json.py
@@ -5447,7 +5427,7 @@ msgstr "155mm反坦克高爆加榴弹，超强的火力能够夷平任何你所�
 
 #: lang/json/AMMO_from_json.py
 msgid "155mm frag"
-msgstr "155mm榴弹"
+msgstr "155mm 榴弹"
 
 #. ~ Description for 155mm frag
 #: lang/json/AMMO_from_json.py
@@ -5458,7 +5438,7 @@ msgstr "155mm口径的高爆榴弹。能给目标及其周围任何东西狠狠�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 155mm shot"
-msgstr "复装 155mm 炮弹"
+msgstr "复装155mm 炮弹"
 
 #. ~ Description for reloaded 155mm shot
 #: lang/json/AMMO_from_json.py
@@ -5470,7 +5450,7 @@ msgstr "一发安装了新式电子底火的 155mm 炮弹，内部填充了大�
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 155mm slug"
-msgstr "复装 155mm 独头炮弹"
+msgstr "复装155mm 独头炮弹"
 
 #. ~ Description for reloaded 155mm slug
 #: lang/json/AMMO_from_json.py
@@ -5530,7 +5510,7 @@ msgstr "超级大炸弹"
 msgid ""
 "An IED composed of a sealed container filled with a payload material that "
 "triggers on impact.  Carries a VERY substantial explosive payload."
-msgstr "一个简易的爆炸装置，说起来就是里边装了杀伤性物质的密封容器，遭遇撞击后触发。这个有 非常 大量的高爆装药。"
+msgstr "一个简易的爆炸装置，说起来就是里边装了杀伤性物质的密封容器，遭遇撞击后触发。这个有非·常·大·量的高爆装药。"
 
 #: lang/json/AMMO_from_json.py
 msgid "fire canister"
@@ -5662,7 +5642,7 @@ msgid ""
 "A heavy modified handheld nuclear device affixed to the end of a large "
 "ballista bolt.  Its case has been cut down and it has been rigged to explode"
 " on impact.  It can no longer be triggered manually."
-msgstr "一个高定制化重型手提式核装置，牢固的固定在一条大型弩炮炮矢的尾端。核装置的防护外壳已经被锯除，现在它一旦受到撞击就会破损，然后造成一场核爆炸。它已经不能被手动引爆了。\n\"魔改到一种境界的产物。\""
+msgstr "一个高定制化重型手提式核装置，牢固的固定在一条大型弩炮炮矢的尾端。核装置的防护外壳已经被锯除，现在它一旦受到撞击就会破损，然后造成一场核爆炸。它已经不能被手动引爆了。\n\"即便最一流的弩哥也不敢轻易发射此杀器。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "wood ballista bolt"
@@ -5747,7 +5727,7 @@ msgstr[0] "变形怪培养物"
 msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
-msgstr "包含了各种有机材料的混合物，提供变形怪健康成长所需要的所有营养。\n\"这大概就是营养吧……\""
+msgstr "包含了各种有机材料的混合物，提供变形怪健康成长所需要的所有营养。\n\"可爱变形怪专用热销饲料。\""
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -5864,22 +5844,22 @@ msgstr "255格令的.45长柯尔特弹药，采用铅制圆形弹头。原本为
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 Long Colt"
 msgid_plural "reloaded .45 Long Colt"
-msgstr[0] "复装.45长柯尔特弹"
+msgstr[0] "复装.45 长柯尔特弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .410 birdshot"
 msgid_plural "reloaded .410 birdshot"
-msgstr[0] "复装.410猎鸟弹"
+msgstr[0] "复装.410 猎鸟弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .410 shot"
 msgid_plural "reloaded .410 shot"
-msgstr[0] "复装.410霰弹"
+msgstr[0] "复装.410 霰弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .410 slug"
 msgid_plural "reloaded .410 slug"
-msgstr[0] "复装.410独头弹"
+msgstr[0] "复装.410 独头弹"
 
 #: lang/json/AMMO_from_json.py
 msgid ".410 shot"
@@ -5954,7 +5934,7 @@ msgid ""
 "A pair of improvised arm guards made from broken pieces of a two by four "
 "that are tied to your arms with rags and string, they offer good protection "
 "but are really uncomfortable to wear."
-msgstr "一对用布条绑上了一些2x4木材碎片的强化双臂护手，能够提供良好的防护，但穿起来很累赘。\n\"似乎和骨折用的夹板没什么太大区别。\""
+msgstr "一对用布条绑上了一些2x4木材碎片的强化双臂护手，能够提供良好的防护，但穿起来很累赘。\n\"看起来和骨折用的夹板没什么区别，但是请遵医嘱。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of 2-by-shin guards"
@@ -5990,7 +5970,7 @@ msgstr[0] "美帝国旗"
 #. ~ Description for American flag
 #: lang/json/ARMOR_from_json.py
 msgid "A large American flag made to fly in even the worst conditions."
-msgstr "一个大大的美国国旗，俗称\"星条旗\"，由13道红白相间的宽条构成，左上角还有一个包含了50颗白色小五角星的蓝色长方形。\n\"听说爱国者们都将这个当被子盖？\""
+msgstr "一个大大的美国国旗，俗称\"星条旗\"，由13道红白相间的宽条构成，左上角还有一个包含了50颗白色小五角星的蓝色长方形。\n\"请沿星条剪开，裁成布条。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "ANBC suit"
@@ -6025,7 +6005,7 @@ msgstr[0] "手臂夹板"
 #. ~ Description for leg splint
 #: lang/json/ARMOR_from_json.py
 msgid "A tool to help set bones and hold them in place."
-msgstr "一个用于固定和矫正骨骼以帮助骨折恢复的工具。\n\"过分作死的代价，得让这玩意陪伴你一段时间了。\""
+msgstr "一个用于固定和矫正骨骼以帮助骨折恢复的工具。\n\"过分作死的必然产品。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of arm warmers"
@@ -6074,7 +6054,7 @@ msgstr "一对外面覆盖了一层厚塑料模具的橡胶护臂，能承受更
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather arm guards"
 msgid_plural "pairs of leather arm guards"
-msgstr[0] "皮护臂"
+msgstr[0] "皮制护臂"
 
 #. ~ Description for pair of leather arm guards
 #: lang/json/ARMOR_from_json.py
@@ -6104,7 +6084,7 @@ msgstr[0] "金属护臂"
 msgid ""
 "A pair of arm guards hammered out from metal.  Perfect for the Post-"
 "Apocalyptic Warrior look."
-msgstr "一中世纪战士金属护臂，造型威武，性能出色，但是不够轻便。\n\"在卡拉迪亚大陆，这玩意我们人手一个。\""
+msgstr "一中世纪战士金属护臂，造型威武，性能出色，但是不够轻便。\n\"在卡拉迪亚大陆，我们人手一个。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of paper arm guards"
@@ -6141,7 +6121,7 @@ msgstr "一件通过化学鞣制硬化、轻便而坚韧的厚皮甲。"
 #: lang/json/ARMOR_from_json.py
 msgid "bone body armor"
 msgid_plural "bone body armors"
-msgstr[0] "骨甲"
+msgstr[0] "嵌骨皮甲"
 
 #. ~ Description for bone body armor
 #: lang/json/ARMOR_from_json.py
@@ -6246,7 +6226,7 @@ msgstr[0] "拾荒者套装"
 msgid ""
 "A sturdy scavenger's outfit made from refitted pre-cataclysm protective "
 "gear.  It has a lot of storage space."
-msgstr "一套由大灾变前的衣物制成、拥有大量储存空间的耐用临时服装。"
+msgstr "一套由大灾变前的衣物制成、拥有大量储存空间的耐用临时服装。\n\"穿上它开开心心的捡破烂。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "scrap suit"
@@ -6259,7 +6239,7 @@ msgid ""
 "A suit of armor forged from scraps of metal; provides decent protection, but"
 " the loose collection of plates jangles and clangs as you walk, attracting "
 "the attention of all nearby."
-msgstr "一套废旧金属制造的盔甲，提供良好的防护，但是松散的金属部件在走路时会叮当响，吸引周围的怪物。\n\"实验证明并不会造成任何额外声响。\""
+msgstr "一套废旧金属制造的盔甲，提供良好的防护，结构松散但进行了基本的降噪加工，装备上走起路来并不会引发太大声响。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "camo tank top"
@@ -6294,7 +6274,7 @@ msgstr "一个布制背包，用一点点累赘换取可观的储存空间。"
 #: lang/json/ARMOR_from_json.py
 msgid "leather backpack"
 msgid_plural "leather backpacks"
-msgstr[0] "皮背包"
+msgstr[0] "皮质背包"
 
 #. ~ Description for leather backpack
 #: lang/json/ARMOR_from_json.py
@@ -6475,7 +6455,7 @@ msgid ""
 "A white suit commonly worn by professional beekeepers with straps on your "
 "ankles and wrists to prevent bees from flying in.  It's not very tough "
 "fabric, but light and has plenty of storage thanks to a chest pocket."
-msgstr "一套白色套装，通常是职业养蜂人穿戴，防止蜜蜂蛰。衣服的纤维不是很硬，在提供轻便之余，胸口的大袋子提供了不少的储物空间。\n\"防的是小蜜蜂，知道吗？不是巨型蜜蜂和巨型黄蜂！\""
+msgstr "一套白色套装，通常是职业养蜂人穿戴，防止蜜蜂蛰。衣服的纤维不是很硬，在提供轻便之余，胸口的大袋子提供了不少的储物空间。\n\"防的是小蜜蜂，而不是巨型蜜蜂和巨型黄蜂。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "beret"
@@ -6556,7 +6536,7 @@ msgstr[0] "棉毯"
 #. ~ Description for blanket
 #: lang/json/ARMOR_from_json.py
 msgid "Hiding under here will not protect you from the monsters."
-msgstr "一个大的棉毯，可以用来当被子，也可以穿上进行保暖。在怪物攻击时躲在它底下并不能保护你。"
+msgstr "一个大的棉毯，可以用来当被子，也可以穿上进行保暖。\n\"在怪物攻击时躲在它底下并不能保护你。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "blazer"
@@ -6588,7 +6568,7 @@ msgstr[0] "紧缚面罩"
 msgid ""
 "A tight mask made of black leather.  The eyes and mouth can be closed using "
 "zippers."
-msgstr "一件黑色皮革制情趣面罩，眼部和口部有拉链。"
+msgstr "一件黑色皮革制情趣面罩，眼部和口部有拉链。\n\"暗黑艺术家的哲学假面。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "bondage suit"
@@ -6600,7 +6580,7 @@ msgstr[0] "紧缚服装"
 msgid ""
 "A suit of snug, black leather.  Has no pockets, but does feature an "
 "abundance of unusually located zippers."
-msgstr "一套黑色皮革制情趣制服，在特殊部位有一些拉链。"
+msgstr "一套黑色皮革制情趣制服，在特殊部位有一些拉链，用做功德箱，存放金钱。\n\"暗黑艺术家的幻想护甲。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "bookplate"
@@ -6612,7 +6592,7 @@ msgstr[0] "纸甲"
 msgid ""
 "A crude form of armor made from stacked paper and rolls of duct tape, this "
 "breastplate offers a surprising amount of protection."
-msgstr "一种由叠纸和胶带卷制成的粗糙胸甲，有着出人意料的防护性能。\n\"书籍是人类防御的护甲。  ——高尔基\""
+msgstr "一种由叠纸和胶带卷制成的粗糙胸甲，有着出人意料的防护性能。\n\"事实上，一叠纸是液压机都搞不定的强悍对手。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "ankle sheath"
@@ -6675,7 +6655,7 @@ msgstr[0] "四角内裤"
 #. ~ Description for boxer briefs
 #: lang/json/ARMOR_from_json.py
 msgid "The age-old question, boxers or briefs?  Your answer?  Yes."
-msgstr "一件同比拳击短裤更加适合当内裤穿的拳击手用短内裤。一个久远的问题，平角内裤还是三角内裤？你的答案？是的。（此处为英语双关）"
+msgstr "一件同比拳击短裤更加适合当内裤穿的拳击手用短内裤。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "boxer shorts"
@@ -6732,7 +6712,7 @@ msgstr[0] "马术长裤"
 msgid ""
 "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  "
 "Comfortable, but lacks pockets."
-msgstr "一条制作精良的老款式裤子，使用的布料没什么弹性，所以制成较为宽松的尺寸。 穿着舒适，但没有口袋。\n\"噫——哈！\""
+msgstr "一条制作精良的老款式裤子，使用的布料没什么弹性，所以制成较为宽松的尺寸。 穿着舒适，但没有口袋。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "briefcase"
@@ -7008,7 +6988,7 @@ msgstr[0] "小丑服"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A colorful and ridiculous costume fit for a clown.  Provides decent storage."
-msgstr "一件五颜六色的滑稽搞笑的小丑装扮服。\n\"'丧尸没有小丑恐惧症。\""
+msgstr "一件五颜六色的滑稽搞笑的小丑装扮服。\n\"丧尸没有小丑恐惧症。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur coat"
@@ -7201,7 +7181,7 @@ msgstr[0] "钻石假牙"
 msgid ""
 "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but "
 "looks very shiny.  For that high class gangsta rap look."
-msgstr "一颗镶有钻石的假牙，套在牙齿上。带上很不舒服，但是异常的闪亮耀眼。穿上后很有高级帮派说唱歌手的风格。\n\"TRAP，TRAP，TRAP！\""
+msgstr "一颗镶有钻石的假牙，套在牙齿上。带上很不舒服，但是异常的闪亮耀眼。穿上后很有高级帮派说唱歌手的风格。\n\"嘻哈音乐在本世纪三十年代已经被灭绝。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "diamond ring"
@@ -7295,7 +7275,7 @@ msgstr[0] "礼服衬衫"
 #. ~ Description for dress shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A white button-down shirt with long sleeves.  Looks professional!"
-msgstr "一件白色纽扣领的长袖衬衫。穿着像个专业人！"
+msgstr "一件白色纽扣领的长袖衬衫。\n\"穿着像个专业人！\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "wedding dress"
@@ -7645,7 +7625,7 @@ msgstr[0] "毛绒尾巴"
 msgid ""
 "A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind "
 "you when you walk."
-msgstr "一串塑料小珠子吊着一条黄色毛茸茸的尾巴，当你走动时会随之摇摆，非常可爱，引人注目。"
+msgstr "一串塑料小珠子吊着一条黄色毛茸茸的尾巴，当你走动时会随之摇摆，非常可爱，引人注目。\n\"一件不是用来穿，而是用‘塞’的饰品。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur kitty collar"
@@ -8103,7 +8083,7 @@ msgid ""
 "A huge duffel bag with backpack attached, both packed to the gills.  Judging"
 " by the feel, a National Guard soldier could have packed this to be ready "
 "for deployment.  Disassemble to unpack and enjoy."
-msgstr "一个配有背带、被绑得严严实实的国民警卫队队员调度前整备好的超大行李袋，拆解它就可以获取袋内的全部物资。\n\"可惜是统一发放的，里面的东西可能都不合乎身材。\""
+msgstr "一个配有背带、被绑得严严实实的国民警卫队队员调度前整备好的超大行李袋，拆解它就可以获取袋内的全部物资。\n\"统一发放，里面的东西可能都不合乎身材。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of ski goggles"
@@ -8936,7 +8916,7 @@ msgstr[0] "绝地武士斗篷"
 #. ~ Description for Jedi cloak
 #: lang/json/ARMOR_from_json.py
 msgid "Stylish cloak."
-msgstr "一条与《星球大战》中的绝地武士同款的披风，覆盖着全身，很保暖，也很酷。\n\"光剑呢？光剑呢？我的光剑呢？。\""
+msgstr "一条与《星球大战》中的绝地武士同款的披风，覆盖着全身，很保暖，也很酷。\n\"光剑呢？我的光剑呢？\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "jerrypack"
@@ -12502,7 +12482,7 @@ msgstr[0] "草履"
 msgid ""
 "Sandals made from straw rope.  Not very comfortable, but can keep your feet "
 "safe."
-msgstr "草绳编织的凉鞋，不舒服，但总比用脚底板排雷好。"
+msgstr "草绳编织的凉鞋，不舒服，但总比用脚底板排雷好。\n\"此乃中国东汉末年潮流热销爆款草鞋。\""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swim fins"
@@ -12929,12 +12909,14 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "主动防御系统CBM"
 
 #. ~ Description for Active Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Active Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
-"cost of more energy.  Melee attacks will be stopped more often than bullets."
-msgstr "当该系统激活时，一层薄薄的护盾会将你身体包围，并持续消耗能量。对护盾的任何攻击都有几率被格挡偏移，代价是消耗更多能量。近战攻击比子弹更容易被格挡。"
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr "当该系统激活时，一层护盾会围绕你的身体，并持续消耗能量。对你的任何攻击，均会被这层护盾格挡或偏移并消耗能量。子弹比刀剑更容易被格挡，而刀剑比更巨大的物体容易被格挡。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Advanced Microreactor CBM"
@@ -12942,12 +12924,13 @@ msgid_plural "Advanced Microreactor CBMs"
 msgstr[0] "高级微型体内核反应堆CBM"
 
 #. ~ Description for Advanced Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Advanced Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  This one has been heavily upgraded."
-"  Warning: minimal radiation shielding."
-msgstr "一台小型钚反应堆及储存罐，能够从少量的钚燃料棒生成能量。这台经过复杂的改造。警告：仅有最低限度的辐射防护。"
+"This stripped down mini-reactor is safer than it appears due to integrated "
+"radiation cleansers.  There is no way to shut it down, but you can toggle "
+"additional fuel intake."
+msgstr "这个小型核反应堆相较于低级版更安全，自带核辐射防护。没有任何手段将它关闭，但至少你能控制燃料棒的输入。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Alarm System CBM"
@@ -13064,12 +13047,14 @@ msgid_plural "Fusion Blaster Arm CBMs"
 msgstr[0] "核聚变臂炮CBM"
 
 #. ~ Description for Fusion Blaster Arm CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Fusion Blaster Arm
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray; however, you are unable to "
-"use or carry two-handed items, and may only fire handguns."
-msgstr "你的左臂被改造成了一只重型核聚变炮！你可以消耗部分能量，释放高温毁灭射线攻击敌！\n※装备该CBM将切除你的左臂，从此将无法再使用或搬运需要使用双手的物品，并且只能使用单手枪械，请慎重考虑。"
+" your energy banks to fire a damaging heat ray.  However, you are unable to "
+"use or carry two-handed items, and your strength limits what you can use "
+"with your one hand."
+msgstr "你的左手臂被改造成了一只重型核聚变炮！你可以消耗部分能量，释放高温毁灭射线攻击敌！作为代价，你将无法使用或搬运需要使用双手的物品，并且只能使用单手枪械。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Blood Analysis CBM"
@@ -13187,16 +13172,13 @@ msgid_plural "Close Quarters Battle CBMs"
 msgstr[0] "近身格斗强化CBM"
 
 #. ~ Description for Close Quarters Battle CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Close Quarters Battle
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Databanks and processors loaded with extensive martial arts combat programs "
-"are integrated directly into your spinal column.  While active, your close "
-"combat skills are superseded by the machine's programming.  You have the "
-"option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms."
-"  The cybernetic disconnect prevents you from improving the affected combat "
-"skills while this bionic is active.  However, with extended use in combat, "
-"it is possible to learn the chosen martial art."
-msgstr "存储有海量武术程序的数据库和处理器可直接整合进你的脊柱。开启后，你的近战技能被计算机程序取代。你可以选择启用空手道、柔道、泰拳或者生化格斗术程序。然而因开启生化插件带来的脑神经控制中断使你无法提升技能等级。不过，随着不断地在战斗中使用，你有可能学会所选择的对应武术流派。"
+"Bionic processors and databanks, loaded with martial arts combat programs, "
+"are integrated into your nervous system.  Whilst active, the CQB module will"
+" improve your hand to hand combat skills."
+msgstr "存储有海量武术程序的数据库和处理器可直接整合进你的脊柱。开启后，这个模块可以提升你的徒手近战技能等级。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Wired Reflexes CBM"
@@ -13232,15 +13214,14 @@ msgid_plural "Enhanced Hearing CBMs"
 msgstr[0] "听力增强CBM"
 
 #. ~ Description for Enhanced Hearing CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Enhanced Hearing
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "When this bionic is active, your hearing will be drastically improved, "
 "allowing you to hear ten times better than the average person.  "
 "Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing.  You can also toggle those sound dampeners on "
-"demand, should you wish to reduce the effect of the bionic or become "
-"completely deaf."
-msgstr "当这件生化插件启动后，你的听力将会大大提升，让你能听到十倍于常人的声音。不仅如此，当启动后，过大的声音将会在伤害到你的听力之前被屏蔽减弱。你也可以手动控制效果，如果你想减弱这项生化插件的效果或者想要完全变聋的话。"
+"they can damage your hearing."
+msgstr "当这个生化插件启用时，你的听力将极大提高，使你能够达到相当于普通人10倍的听力。此外，高分贝的声音将在你听力受到损伤前自动减弱。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Directional EMP CBM"
@@ -13381,12 +13362,13 @@ msgid_plural "Internal Furnace CBMs"
 msgstr[0] "内燃锅炉CBM"
 
 #. ~ Description for Internal Furnace CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Furnace
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"You can burn nearly any organic material as fuel (use 'E'), recharging your "
-"power level.  Some materials will burn better than others.  Can be toggled "
-"on and off at will."
-msgstr "你可以用周围的有机物作为燃烧的燃料（使用<E>键），并回复生化能量。某些材质相较其他材质有额外加成。可根据情况随意开关。"
+"When this bionic is active, you can burn nearly any organic material as fuel"
+" (use 'E'), recharging your power level.  Some materials will burn better "
+"than others."
+msgstr "当这个生化插件启用时，你可以用周围的有机物作为燃烧的燃料（使用<E>键）恢复你的能量值。某些材料有额外加成。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Dosimeter CBM"
@@ -13476,11 +13458,12 @@ msgid_plural "Infrared Vision CBMs"
 msgstr[0] "红外视觉CBM"
 
 #. ~ Description for Infrared Vision CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Infrared Vision
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark, and even through walls."
-msgstr "你的视觉系统扩展到了红外线范围，允许你在黑暗中甚至是隔墙发现恒温生物。"
+"blooded creatures in the dark."
+msgstr "你的视觉系统扩展到了红外线范围，允许你在黑暗中发现恒温生物。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cerebral Booster CBM"
@@ -13625,12 +13608,13 @@ msgid_plural "Repair Nanobots CBMs"
 msgstr[0] "医疗纳米机器人CBM"
 
 #. ~ Description for Repair Nanobots CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Repair Nanobots
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Inside your body is a fleet of tiny dormant robots.  Once charged from your "
-"energy banks, they will flit about your body, repairing damage and stopping "
-"bleeding."
-msgstr "你体内有一群自动休眠的微型纳米机器人。当被你体内的生化能量充能后，他们就可以绕行你的周身，修复伤害以及止血。"
+"Inside your body is a fleet of tiny dormant robots.  While activated they "
+"will flit about your body, repairing damage and stopping bleeding at the "
+"cost of power."
+msgstr "你体内有一群微型纳米机器人。开启时会不断消耗能量，让他们绕行你的周身，修复伤害以及止血。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Artificial Night Generator CBM"
@@ -13662,12 +13646,13 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "反击防御系统CBM"
 
 #. ~ Description for Offensive Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Offensive Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a very strong shock,"
-" damaging unarmed attackers and those with a conductive weapon."
-msgstr "当该系统激活时，一层薄薄的护盾会将你身体包围，并持续消耗能量。这层护盾不会格挡或偏移任何攻击，但是会产生强力电击伤害那些徒手或使用可导电武器的攻击者。"
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr "当该系统激活时，一层护盾会围绕你的身体并持续消耗能量。这层护盾不会格挡或偏移任何攻击，但是会电击徒手或使用金属武器攻击你的目标。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Sensory Dulling CBM"
@@ -13770,11 +13755,13 @@ msgid_plural "Air Filtration System CBMs"
 msgstr[0] "空气过滤系统CBM"
 
 #. ~ Description for Air Filtration System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Air Filtration System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins find "
-"their way into your windpipe, the filter will attempt to remove them."
-msgstr "你的气管植入了一个先进的空气过滤系统。不管进入你气管的是毒气还是空气传播病菌，这个过滤器都会尝试过滤它们。"
+"Implanted in your trachea is an advanced filtration system.  If toxins, or "
+"airborne diseases find their way into your windpipe, the filter will attempt"
+" to remove them.  Reducing the toxic effects."
+msgstr "你气管被植入了一个先进的空气过滤系统。不管进入你气管的是毒气还是空气传播病菌，这个过滤器都会尝试过滤它们。降低它们的危害。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Radiation Scrubber System CBM"
@@ -13824,12 +13811,13 @@ msgid_plural "Internal Microreactor CBMs"
 msgstr[0] "微型体内核反应堆CBM"
 
 #. ~ Description for Internal Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  Warning: minimal radiation "
-"shielding."
-msgstr "存储池及小型钚反应堆，使得你可以通过摄食钚棒来产生能量。警告：几乎没有核辐射防护！"
+"This stripped down mini-reactor may not be the best thing to have in your "
+"chest.  There is no way to shut it down, but you can toggle additional fuel "
+"intake."
+msgstr "这个小型核反应堆也许不是你该在胸部植入的好东西。没有任何手段能将其关闭，但至少你能控制钚燃料棒的输入。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Microreactor Upgrade CBM"
@@ -13876,12 +13864,13 @@ msgid_plural "Sonic Resonator CBMs"
 msgstr[0] "音爆冲击CBM"
 
 #. ~ Description for Sonic Resonator CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Sonic Resonator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to flexible creatures, stiff "
-"items such as walls, doors, and even robots will be severely damaged."
-msgstr "你的全身可以在高能状态下形成共振，并产生一个短距离的冲击波。它对柔韧的物体没有太大伤害，但对坚硬的物体，例如墙壁、门甚至机器人都会造成严重伤害。"
+"shockwave.  While it will not do much damage to creatures, stiff items such "
+"as walls and doors will be damaged."
+msgstr "你的全身在极高的能量下产生共振，制造出一个短距离冲击波。虽然无法对生物造成多少伤害，但是会损坏坚硬的物体，例如墙和门。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Olfactory Mask CBM"
@@ -13997,13 +13986,13 @@ msgid_plural "Anti-Glare Compensators CBMs"
 msgstr[0] "防眩光补偿器CBM"
 
 #. ~ Description for Anti-Glare Compensators CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Anti-Glare Compensators
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your eyes have high-power, quick-reacting transition lenses installed over "
-"them, negating any glare penalties and protecting you from bright flashes "
-"including those of a welder.  Additionally you can toggle them to block out "
-"all light."
-msgstr "你的眼睛上安装了高功率快速反应折射镜头，它能抵消眩光的惩罚，在遭受闪光以及焊接时保护你的眼睛。而且你可以切换它来隔绝所有光线。"
+"Your eyes have quick-reacting transition lenses installed over them.  They "
+"negate glare penalties, partially protect you from bright flashes, and "
+"protect your eyes when welding."
+msgstr "你的眼睛上安装了快速反应折射镜头，它能抵消眩光的惩罚，在遭受闪光以及焊接时保护你的眼睛。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Targeting System CBM"
@@ -14039,12 +14028,13 @@ msgid_plural "Time Dilation CBMs"
 msgstr[0] "时间膨胀CBM"
 
 #. ~ Description for Time Dilation CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Time Dilation
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"At an immense cost of power, you may increase your body speed and reactions "
-"dramatically, essentially freezing time.  You are still delicate, however, "
-"and violent or rapid movements may damage you due to friction."
-msgstr "通过对能量的剧烈消耗，你可以极大的提升自己的速度和反应能力，就好像把时间冻结了一样。要记住的是，超高速下运动产生的空气摩擦可能会导致你受伤。"
+"At the cost of all stored bionic power, you may increase your body speed and"
+" reactions dramatically, essentially freezing time.  You are still delicate,"
+" however, and violent or rapid movements may damage you due to friction."
+msgstr "通过消耗体内所有储存的生化插件能量，你可以极大的提升自己的速度和反应能力，就好像把时间冻结了一样。要记住的是，超高速下运动产生的空气摩擦可能会导致你受伤。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Toolset CBM"
@@ -14092,12 +14082,12 @@ msgid_plural "Unified Power System CBMs"
 msgstr[0] "整合供能系统CBM"
 
 #. ~ Description for Unified Power System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Unified Power System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"A UPS fully integrated with your bionic power system.  Allows you to run "
-"devices requiring a UPS off of your internal power, which is much more "
-"efficient than standard battery power."
-msgstr "你的生化系统内建了一个完整的UPS供能装置，允许你使用内部能量来驱动需要UPS电源的设备，这比用电池给UPS充电有效率多了。"
+"You have a unified power system wired into your power banks.  Objects that "
+"run on a UPS can now draw directly from your internal power supply."
+msgstr "你的能量槽嵌入了UPS系统。使用UPS的物品现在可以直接使用你的内部能源了。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Internal Chronometer CBM"
@@ -14105,11 +14095,13 @@ msgid_plural "Internal Chronometer CBMs"
 msgstr[0] "体内计时器CBM"
 
 #. ~ Description for Internal Chronometer CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Chronometer
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time."
-msgstr "你体内被安装了一个小型原子钟，确保你永远知道当前的时间。"
+" always know the current time.  Additionally, it includes a silent alarm "
+"clock function."
+msgstr "你体内安装了一个小型原子钟，确保你永远知道当前的时间。另外它还有一个无声闹钟功能。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Water Extraction Unit CBM"
@@ -14375,7 +14367,7 @@ msgstr[0] "人类烹饪大全"
 #. ~ Description for To Serve Man
 #: lang/json/BOOK_from_json.py
 msgid "It's...  it's a cookbook!"
-msgstr "一本没有作者署名与标注发行出版社的奇怪烹饪书，内容包含一些令人感到恐怖的食人文化文章与大量烹人配方。\n\"人类，真是美味。\""
+msgstr "一本没有作者署名与标注发行出版社的奇怪烹饪书，内容包含一些令人感到恐怖的食人文化文章与大量“做”人配方。\n\"或是由食人族文化份子编著。\""
 
 #: lang/json/BOOK_from_json.py
 msgid "Cucina Italiana"
@@ -15358,7 +15350,7 @@ msgstr "一本深入讲解各种不同风格的室内近距离战斗的教科书
 #: lang/json/BOOK_from_json.py
 msgid "Close Quarter Fighting Manual"
 msgid_plural "Close Quarter Fighting Manuals"
-msgstr[0] "近战指南"
+msgstr[0] "CQC指南"
 
 #. ~ Description for Close Quarter Fighting Manual
 #: lang/json/BOOK_from_json.py
@@ -15377,7 +15369,7 @@ msgstr[0] "丧尸生存指南"
 msgid ""
 "While this seems like it would be very useful in this situation, the sheer "
 "amount of misinformation present makes it practically useless."
-msgstr "一本看起来似乎很实用，但是里面巨大数量的错误信息使它实际毫无用处的娱乐书。"
+msgstr "一本看起来似乎很实用，但是里面巨大数量的错误信息使它实际上毫无用处的娱乐书。"
 
 #: lang/json/BOOK_from_json.py
 msgid "black box transcript"
@@ -17120,7 +17112,7 @@ msgstr "香浓人肉汤"
 #. ~ Description for sap soup
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A soup made from someone who is a far better meal than person."
-msgstr "一份用人肉蒸煮而成的汤。"
+msgstr "一份用人肉蒸煮而成的汤。\n\"有些人作汤比做汤更合适。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chicken noodle soup"
@@ -17528,7 +17520,7 @@ msgstr "糖水果肉"
 #. ~ Description for kompot
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Clear juice obtained by cooking fruit in a large volume of water."
-msgstr "一些使用大量的水熬煮水果后得到的罐装果肉，保留了水果的营养并使口感更佳更易解渴。\n\"黄桃党，何惧于天下！\""
+msgstr "一些使用大量的水熬煮水果后得到的罐装果肉，保留了水果的营养并使口感更佳更易解渴。\n\"黄桃党、山楂党与草莓党等各路诸侯群雄割据。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "coffee"
@@ -17793,7 +17785,7 @@ msgstr[0] "香蒲秆"
 msgid ""
 "A stiff green stalk from a cattail plant.  It is starchy and fibrous, but it"
 " would be much better if you cooked it."
-msgstr "一根挺拔的香蒲的草秆，富含淀粉和纤维，如果你煮一煮它会更加美味。\n\"据说有人在沼泽中靠这些草秆活了很久。\""
+msgstr "一根挺拔的香蒲的草秆，富含淀粉和纤维，如果你煮一煮它会更加美味。\n\"据说有人在沼泽中靠嚼这些草秆活了很久。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked cattail stalk"
@@ -18094,7 +18086,7 @@ msgstr "人肉香肠"
 msgid ""
 "A hefty long pork sausage that has been cured for long term storage.  Very "
 "tasty, if you're in the market for human flesh."
-msgstr "一根巨大的人肉香肠，被特别加工以便于长期储存，十分美味。\n\"人类的肉和猪肉看起来没什么区别，不过吃起来就大不同了。\""
+msgstr "一根巨大的人肉香肠，被特别加工以便于长期储存，十分美味。\n\"有些人和笨猪一样，下场也一样。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "currywurst"
@@ -18116,7 +18108,7 @@ msgstr "咖喱人肉香肠"
 msgid ""
 "Mannwurst covered in a curry ketchup sauce.  Fairly spicy and impressive at "
 "the same time!"
-msgstr "一份泡在辣味咖喱酱里的人肉香肠，香辣四溢。\n\"肉中散发着咖喱的香味，可能是印度人肉。\""
+msgstr "一份泡在辣味咖喱酱里的人肉香肠，香辣四溢。\n\"肉中散发着咖喱的香味，肉源可能是印度品种。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mannwurst gravy"
@@ -18179,7 +18171,7 @@ msgstr "香蕉"
 msgid ""
 "A long, curved yellow fruit in a peel.  Some people like using them in "
 "desserts.  Those people are probably dead."
-msgstr "一种长弧形黄色可剥皮的水果。一些人喜欢拿来当饭后甜点，但那些人可能已经死了。"
+msgstr "一种长弧形黄色可剥皮的水果，一些人喜欢拿来当饭后甜点。\n\"但那些人已经死了。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "orange"
@@ -18260,7 +18252,7 @@ msgstr[0] "薯片"
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Betcha can't eat just one."
-msgstr "油炸的土豆片，吃的停不下来。"
+msgstr "一份油炸的、一片接着一片的土豆片。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fried seeds"
@@ -18398,7 +18390,7 @@ msgstr "墨西哥式调味玉米片，加了肉。再来点奶酪就更棒了。
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos"
 msgid_plural "niño nachos"
-msgstr[0] "人肉辣味玉米片"
+msgstr[0] "niño辣味玉米片"
 
 #. ~ Description for niño nachos
 #: lang/json/COMESTIBLE_from_json.py
@@ -18420,7 +18412,7 @@ msgstr "墨西哥式调味玉米片，加了肉末，又盖上一层奶酪。这
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos with cheese"
 msgid_plural "niño nachos with cheese"
-msgstr[0] "奶酪人肉辣味玉米片"
+msgstr[0] "niño奶酪辣味玉米片"
 
 #. ~ Description for niño nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
@@ -18553,7 +18545,7 @@ msgstr "人肉冻"
 msgid ""
 "A dish in which human meat has been set into a gelatin made from human "
 "bones.  Murderously delicious - if you're into that sort of thing."
-msgstr "一份加工过的人肉冻，富含人骨胶原蛋白。\n\"扑面而来的杀气腾腾的美味。\""
+msgstr "一份加工过的人肉冻，富含人骨胶原蛋白。\n\"真是个好吃的小滑头。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cracklins"
@@ -18565,7 +18557,7 @@ msgstr[0] "香脆猪油渣"
 msgid ""
 "Also known as pork rinds or chicharrones, these are bits of edible fat and "
 "skin that have been fried until they are crispy and delicious."
-msgstr "一份在油中炸到酥脆可口的可食用的脂肪和皮。\n\"酥脆的流油。\""
+msgstr "一份在油中炸到酥脆可口的可食用的脂肪和皮。\n\"酥脆的流油，俗称‘油吱了’。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pemmican"
@@ -18627,7 +18619,7 @@ msgstr[0] "懒人三明治"
 #. ~ Description for slob sandwich
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Bread and human flesh, surprise!"
-msgstr "一份面包中间夹着人肉的三明治。"
+msgstr "一份面包中间夹着人肉的三明治。\n\"生前夹在家庭与工作之中，如今夹在面包片之中。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peanut butter sandwich"
@@ -19496,7 +19488,7 @@ msgstr[0] "墨西哥辣人酱"
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A spicy stew containing chili peppers, human flesh, tomatoes and beans."
-msgstr "利用人肉、辣椒、番茄和豆子熬制而成。"
+msgstr "利用人肉、辣椒、番茄和豆子熬制而成。\n\"墨西哥毒品战争的始作俑者。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pesto"
@@ -19994,7 +19986,7 @@ msgstr[0] "糖"
 msgid ""
 "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on "
 "its own."
-msgstr "甜甜的糖，不可以多吃哦，会坏牙齿的。"
+msgstr "一个在化学式的表现上类似于“碳”与“水”聚合，故又称之为碳水化合物的甜味调味品。\n\"众所周知，一包糖可以支撑一个成年人生存很多年。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "yeast"
@@ -20111,7 +20103,7 @@ msgstr[0] "炒蛋"
 #. ~ Description for scrambled eggs
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fluffy and delicious scrambled eggs."
-msgstr "蓬松而美味的炒蛋。"
+msgstr "一块蓬松而美味的炒蛋。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe scrambled eggs"
@@ -20123,7 +20115,7 @@ msgstr[0] "美味炒蛋"
 msgid ""
 "Fluffy and delicious scrambled eggs made more delicious with the addition of"
 " other tasty ingredients."
-msgstr "蓬松美味的摊蛋，再加上一些配料，好吃！"
+msgstr "一块蓬松美味的摊蛋，再加上一些配料，好吃！"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "boiled egg"
@@ -20166,7 +20158,7 @@ msgstr "南瓜"
 msgid ""
 "A large vegetable, about the size of your head.  Not very tasty raw, but is "
 "great for cooking."
-msgstr "大型蔬菜，和你的头差不多大。生吃不太好吃，但是烹饪的好材料。\n\"在万圣节，外面的小鬼不再扮丧尸讨糖了，他们改直接要你的肉了！\""
+msgstr "大型蔬菜，和你的头差不多大。生吃不太好吃，但是烹饪的好材料。\n\"不 给脑 就 捣蛋......——儿童丧尸。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pumpkin"
@@ -20583,7 +20575,7 @@ msgid ""
 "Nicknamed the 'Four Fingers of Death' by troops, this is probably the most "
 "disgusting thing you've ever eaten.  Sterilized using radiation, so it's "
 "safe to eat.  Exposed to the atmosphere, it has started to go bad."
-msgstr "被称作\"死神的四根手指\"，这东西正挑战着你的忍耐上限，经过辐照消毒。它已经与空气接触，不再保质。"
+msgstr "夹着法兰克福香肠的热狗，被称作\"死神的四根手指\"，这东西正挑战着你的忍耐上限，经过辐照消毒。它已经与空气接触，不再保质。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated ravioli course"
@@ -20651,12 +20643,12 @@ msgstr "蛋糕"
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Delicious sponge cake with buttercream icing, it says happy birthday on it."
-msgstr "一份裹上了香浓糖衣的新鲜蛋糕，里面还有满满的奶油。\n\"祝你末日快乐！\""
+msgstr "一份裹上了香浓糖衣的新鲜蛋糕，里面还有满满的奶油。\n\"祝我末日快乐！\""
 
 #. ~ Description for cake
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious chocolate cake.  It has all the icing.  All of it."
-msgstr "美味的巧克力蛋糕。糖霜都在。……一点不差。"
+msgstr "一块美味的巧克力蛋糕，糖霜都在，应有尽有。"
 
 #. ~ Description for cake
 #: lang/json/COMESTIBLE_from_json.py
@@ -20710,7 +20702,7 @@ msgstr[0] "罐装人肉"
 msgid ""
 "Low-sodium preserved human meat.  It was boiled and canned.  Contains most "
 "of the nutrition, but little of the savor of cooked meat."
-msgstr "罐装的低盐人肉，有着全方位的营养补充，尝起来却没有熟肉的味道。  \n\"亲爱的朋友，您在罐子里更美丽了。\""
+msgstr "罐装的低盐人肉，有着全方位的营养补充，尝起来却没有熟肉的味道。  \n\"缸中脑，罐中肉。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "salted meat slice"
@@ -20731,7 +20723,7 @@ msgstr "腌人肉片"
 msgid ""
 "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a "
 "pinch."
-msgstr "用盐腌制并真空包装的人肉片。很咸，但必要时很可口。  "
+msgstr "用盐腌制并真空包装的人肉片。很咸，但必要时很可口。  \n\"这份腌肉生前恼人的话很多，现在很安静了。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "salted veggy chunk"
@@ -20742,7 +20734,7 @@ msgstr "腌菜块"
 msgid ""
 "Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only "
 "you can find one."
-msgstr "蔬菜洗了个盐水澡，有了汉堡味道更好！"
+msgstr "一份盐浴蔬菜，配合汉堡味道更佳。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fruit slice"
@@ -20774,7 +20766,7 @@ msgstr[0] "恶棍意面"
 msgid ""
 "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy"
 " that kind of thing."
-msgstr "厚厚的人肉酱汁盖着的意大利面，如果你喜欢这东西的话会感到很美味。  "
+msgstr "厚厚的人肉酱汁盖着的意大利面，如果你喜欢这东西的话会感到很美味。  \n\"可惜人类没有哪个部位可以做成面条......！\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "spaghetti al pesto"
@@ -20806,7 +20798,7 @@ msgstr "人肉千层面"
 msgid ""
 "A very old type of pasta made with several layers of lasagne sheets "
 "alternated with sauces and meats.  Made better with human flesh."
-msgstr "非常古老的面食，由数层面饼与人肉馅、酱汁烹制而成。"
+msgstr "非常古老的面食，由数层面饼与人肉馅、酱汁烹制而成。\n\"他以前很瘦，如今却千层下巴。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cannabis seed"
@@ -21048,7 +21040,7 @@ msgstr "人肉汉堡包"
 #, no-python-format
 msgid ""
 "This hamburger contains more than the FDA allowable 4% human flesh content."
-msgstr "一个填充人肉并洒满调料的美味汉堡，食用方便、风味可口、营养全面，含有过量人肉成分，超过了美国食品和药物管理局规定的4%限量。\n\"我猜你老家一定在德国汉堡市(Hamburg)。\""
+msgstr "一个填充人肉并洒满调料的美味汉堡，食用方便、风味可口、营养全面，含有过量人肉成分，超过了美国食品和药物管理局规定的4%限量。\n\"一位德国汉堡市(Hamburg)的良好市民。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sloppy joe"
@@ -21091,7 +21083,7 @@ msgstr "墨西哥卷人饼"
 msgid ""
 "A taco made with ground human flesh instead of ground beef.  For some reason"
 " you can hear a bell dinging in the distance."
-msgstr "一份墨西哥食人族传统料理，把人肉馅夹在或卷在用玉米面或小麦面烙成的薄饼里制成。"
+msgstr "一份墨西哥传统料理，把人肉馅夹在或卷在用玉米面或小麦面烙成的薄饼里制成。\n\"毒品战争的受害者都变成了这份传统料理。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "BLT"
@@ -21195,7 +21187,7 @@ msgstr "腌人肉"
 msgid ""
 "This is a serving of crisply brined and canned human flesh.  Tasty and "
 "nutritious if you're into that sort of thing."
-msgstr "一份爽口的罐装腌人肉。\n\"朋友，你听过缸中之脑理论吗，哦，你听不见。\""
+msgstr "一份爽口的罐装腌人肉。\n\"该死，又忘了放耳朵了，这罐肉听不见我说话。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate-covered coffee bean"
@@ -21286,7 +21278,7 @@ msgstr[0] "樱桃"
 #. ~ Description for cherry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A red, sweet fruit that grows in trees."
-msgstr "一种长在树上的红色果实，很甜。\n\"砍了樱桃树就能当美国总统！\""
+msgstr "一种长在树上的红色果实，很甜。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cherry"
@@ -21722,7 +21714,7 @@ msgstr[0] "水发人肉"
 msgid ""
 "Reconstituted human flesh flakes, which are much more enjoyable to eat now "
 "that they have been rehydrated."
-msgstr "一些由脱水后再水发的碎人做的人肉片，泡水后口味更佳了。"
+msgstr "一些由脱水后再水发的碎人做的人肉片，泡水后口味更佳了。\n\"处理的非常好，保证不会发生巨人观。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated vegetable"
@@ -21922,7 +21914,7 @@ msgstr "法式奶油面包卷"
 #. ~ Description for brioche
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Filling bread buns, taste good with tea on a Sunday morning breakfast."
-msgstr "一个介于甜点和面包之间的法式面点，用大量鸡蛋和黄油制成，外皮金黄酥脆，内部超级柔软，口感极佳，入口即化。\n\"吃不起面包，就吃蛋糕呗！\""
+msgstr "一个介于甜点和面包之间的法式面点，用大量鸡蛋和黄油制成，外皮金黄酥脆，内部超级柔软，口感极佳，入口即化。\n\"吃不起面包，就吃蛋糕呗！——玛丽·安东尼特 皇后\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "candy cigarette"
@@ -22992,7 +22984,7 @@ msgstr "熟人肉"
 #. ~ Description for cooked creep
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A freshly cooked slice of some unpleasant person.  Tastes great."
-msgstr "一份刚烹熟的人肉片，味道好极了。\n\"切自某个令人讨厌的家伙。\""
+msgstr "一份烹熟的人肉片，味道好极了。\n\"切自某个令人讨厌的家伙。\""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chunk of meat"
@@ -24854,7 +24846,7 @@ msgstr[0] "陶瓷杯"
 #. ~ Description for ceramic cup
 #: lang/json/CONTAINER_from_json.py
 msgid "A ceramic teacup, pinky out!"
-msgstr "一个陶瓷杯具。\n\"似乎正在思考自己的杯具命运。\""
+msgstr "一个陶瓷餐用器皿。\n\"似乎正在思考自己的杯具命运。\""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "clay canister"
@@ -25080,7 +25072,7 @@ msgstr "一只大型动物的胃囊，清洗干净之后用绳子扎好。可以
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank (60L)"
 msgid_plural "metal tank (60L)s"
-msgstr[0] "金属罐（60L）"
+msgstr[0] "大金属罐（60升）"
 
 #. ~ Description for metal tank (60L)
 #: lang/json/CONTAINER_from_json.py
@@ -25090,7 +25082,7 @@ msgstr "用来装液体的大型金属罐，可用于制造其他东西。"
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank (2L)"
 msgid_plural "metal tank (2L)s"
-msgstr[0] "金属罐（2升）"
+msgstr[0] "小金属罐（2升）"
 
 #. ~ Description for metal tank (2L)
 #: lang/json/CONTAINER_from_json.py
@@ -25197,7 +25189,7 @@ msgstr[0] "放射废料桶"
 #. ~ Description for hazardous waste drum
 #: lang/json/CONTAINER_from_json.py
 msgid "A yellow drum meant for the storage of hazardous substances."
-msgstr "一个黄色大桶，用于储存放射性废料。"
+msgstr "一个黄色大桶，上面印有辐射警告标识，用于储存放射性废料。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel bottle"
@@ -25425,6 +25417,18 @@ msgid ""
 "This simple IED is designed to be attached to an arrow and detonate on "
 "impact."
 msgstr "一个简单的IED，被设计为可以附加在箭只上射出去引爆。"
+
+#: lang/json/GENERIC_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] "小提琴盒"
+
+#. ~ Description for violin case
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr "用于随身携带并且保护你珍贵的乐器。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
@@ -25846,6 +25850,16 @@ msgid ""
 "A length of rebar, makes a nice melee weapon, and could be handy in "
 "constructing tougher walls and such."
 msgstr "一个长方形的螺纹钢棍，可以用来制作成房子的墙壁等等。"
+
+#: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
+msgid "concrete"
+msgid_plural "concrete"
+msgstr[0] "混凝土"
+
+#. ~ Description for concrete
+#: lang/json/GENERIC_from_json.py
+msgid "Some concrete, ready to be used in a construction project."
+msgstr "一堆混凝土，已经准备好，随时可以用到工程建设项目中。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "log"
@@ -26843,6 +26857,16 @@ msgid "A fire hardened building block used in masonry construction."
 msgstr "经过火烤硬化后的建筑材料，用在各种砖石结构中。"
 
 #: lang/json/GENERIC_from_json.py
+msgid "mortar"
+msgid_plural "mortar"
+msgstr[0] "灰泥"
+
+#. ~ Description for mortar
+#: lang/json/GENERIC_from_json.py
+msgid "Some mortar, ready to be used in building projects."
+msgstr "一堆灰泥，已经准备好，随时可以用到工程建设项目中。"
+
+#: lang/json/GENERIC_from_json.py
 msgid "tanbark"
 msgid_plural "tanbarks"
 msgstr[0] "鞣料树皮"
@@ -27248,7 +27272,7 @@ msgid ""
 "This is a solid wood 'training' katana, exactingly crafted to mimic the "
 "weight and balance of the real thing.  Despite its lack of a sharp metal "
 "edge, it's still quite capable of inflicting deadly wounds."
-msgstr "一柄用于锻炼的木刀，严格模仿真正武士刀的重量和平衡，尽管缺乏一个锋利的刀锋，但它仍然有相当的能力去造成致命的伤害。"
+msgstr "一柄用于锻炼的木刀，严格模仿真正武士刀的重量和平衡，尽管缺乏一个锋利的刀锋，但它仍然有相当的能力去造成致命的伤害。\n\" 洞 爷 湖 \""
 
 #: lang/json/GENERIC_from_json.py
 msgid "cudgel"
@@ -27436,7 +27460,7 @@ msgstr "钉齿剑，亦称诺德剑。这把木剑从剑刃上伸出很多歪歪
 #: lang/json/GENERIC_from_json.py
 msgid "crude sword"
 msgid_plural "crude swords"
-msgstr[0] "粗制剑"
+msgstr[0] "嵌铁木剑"
 
 #. ~ Description for crude sword
 #: lang/json/GENERIC_from_json.py
@@ -28343,7 +28367,7 @@ msgid ""
 "developed to settle disagreements with cattle, it's better used now for "
 "flaying the rotten flesh off of walking corpses.  Great for when a problem "
 "comes along."
-msgstr "一端有手柄的狭长皮鞭，本来是用来驱赶不听话的牛羊，但是现在可以防止行尸走肉靠近你。\n\"你可以称之为——吸血鬼杀手，但这个世界没有吸血鬼。\""
+msgstr "一端有手柄的狭长皮鞭，本来是用来驱赶不听话的牛羊，但是现在可以防止行尸走肉靠近你。\n\"你可以称之为吸血鬼杀手，但这个世界没有吸血鬼。\""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/TOOL_from_json.py
@@ -28374,7 +28398,7 @@ msgstr "一把弯刀的廉价复制品。源于多数中东及中亚国家。"
 #: lang/json/GENERIC_from_json.py
 msgid "estoc"
 msgid_plural "estocs"
-msgstr[0] "刺甲剑"
+msgstr[0] "穿甲刺剑"
 
 #. ~ Description for estoc
 #: lang/json/GENERIC_from_json.py
@@ -28395,7 +28419,7 @@ msgstr "这是一把细长的类似于长剑的剑的廉价复制品，是西洋
 #: lang/json/TOOL_from_json.py
 msgid "longsword"
 msgid_plural "longswords"
-msgstr[0] "长剑"
+msgstr[0] "手半剑"
 
 #. ~ Description for longsword
 #: lang/json/GENERIC_from_json.py
@@ -28715,7 +28739,7 @@ msgstr[0] "真空装腌人肉片"
 msgid ""
 "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use"
 " to open and eat to enjoy."
-msgstr "塑料封装，真空处理，开袋即食，人肉美味献给你。"
+msgstr "一份腌人肉片，塑料封装，真空处理，开袋即食，人肉美味献给你。\n\"腌制后真空处理——皮肤永葆青春的秘诀。\""
 
 #: lang/json/GENERIC_from_json.py
 msgid "vacuum-packed meat slice"
@@ -29448,7 +29472,7 @@ msgstr[0] "强化车头灯"
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A vehicle headlight with a cage built around it to protect it from damage "
-"without reducing it's effectiveness."
+"without reducing its effectiveness."
 msgstr "一个用铁制框架保护起来的车头灯，抗撞击又不降低可用性。"
 
 #: lang/json/GENERIC_from_json.py
@@ -30242,7 +30266,7 @@ msgstr[0] "弹药弹壳"
 #: lang/json/GENERIC_from_json.py
 msgid ".223 casing"
 msgid_plural ".223 casings"
-msgstr[0] ".223弹壳"
+msgstr[0] ".223 弹壳"
 
 #. ~ Description for .223 casing
 #: lang/json/GENERIC_from_json.py
@@ -30262,7 +30286,7 @@ msgstr ".22 LR弹的空弹壳。无法手工装填火药。"
 #: lang/json/GENERIC_from_json.py
 msgid ".30-06 casing"
 msgid_plural ".30-06 casings"
-msgstr[0] ".30-06弹壳"
+msgstr[0] ".30-06 弹壳"
 
 #. ~ Description for .30-06 casing
 #: lang/json/GENERIC_from_json.py
@@ -30282,7 +30306,7 @@ msgstr ".300 温切斯特 马格南子弹的空弹壳。"
 #: lang/json/GENERIC_from_json.py
 msgid ".308 casing"
 msgid_plural ".308 casings"
-msgstr[0] ".308弹壳"
+msgstr[0] ".308 弹壳"
 
 #. ~ Description for .308 casing
 #: lang/json/GENERIC_from_json.py
@@ -30307,7 +30331,7 @@ msgstr[0] ".38 特制弹弹壳"
 #. ~ Description for .38 Special casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .38 Special round."
-msgstr ".38特制弹的空弹壳。"
+msgstr ".38 特制弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ".40 S&W casing"
@@ -30322,12 +30346,12 @@ msgstr ".40 S&W子弹的空弹壳。"
 #: lang/json/GENERIC_from_json.py
 msgid "40mm canister"
 msgid_plural "40mm canisters"
-msgstr[0] "40mm榴弹壳"
+msgstr[0] "40mm 榴弹壳"
 
 #. ~ Description for 40mm canister
 #: lang/json/GENERIC_from_json.py
 msgid "A large canister from a spent 40mm grenade."
-msgstr "40mm榴弹发射后留下的大号弹壳。"
+msgstr "40mm 榴弹发射后留下的大号弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ".44 Magnum casing"
@@ -30363,7 +30387,7 @@ msgstr ".45 ACP子弹的空弹壳。"
 #: lang/json/GENERIC_from_json.py
 msgid "4.6x30mm casing"
 msgid_plural "4.6x30mm casings"
-msgstr[0] "4.6x30mm弹壳"
+msgstr[0] "4.6x30mm 弹壳"
 
 #. ~ Description for 4.6x30mm casing
 #: lang/json/GENERIC_from_json.py
@@ -30378,7 +30402,7 @@ msgstr[0] "5x50mm 弹壳"
 #. ~ Description for 5x50mm hull
 #: lang/json/GENERIC_from_json.py
 msgid "An empty plastic hull from a 5x50mm flechette round."
-msgstr "5x50mm镖形弹的空弹壳。"
+msgstr "5x50mm 镖形弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ".500 S&W Magnum casing"
@@ -30410,12 +30434,12 @@ msgstr[0] "5.45x39mm 弹壳"
 #. ~ Description for 5.45x39mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 5.45x39mm round."
-msgstr "5.45x39mm子弹的空弹壳。"
+msgstr "5.45x39mm 子弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "5.7x28mm casing"
 msgid_plural "5.7x28mm casings"
-msgstr[0] "5.7x28mm弹壳"
+msgstr[0] "5.7x28mm 弹壳"
 
 #. ~ Description for 5.7x28mm casing
 #: lang/json/GENERIC_from_json.py
@@ -30442,7 +30466,7 @@ msgstr[0] "7.62x54mmR 弹壳"
 #. ~ Description for 7.62x54mmR casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 7.62x54mmR round."
-msgstr "7.62x54mmR子弹的空弹壳。"
+msgstr "7.62x54mm R子弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x39mm casing"
@@ -30457,7 +30481,7 @@ msgstr "7.62x39mm子弹的空弹壳。"
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x25mm casing"
 msgid_plural "7.62x25mm casings"
-msgstr[0] "7.62x25mm弹壳 "
+msgstr[0] "7.62x25mm 弹壳 "
 
 #. ~ Description for 7.62x25mm casing
 #: lang/json/GENERIC_from_json.py
@@ -30465,24 +30489,24 @@ msgid "An empty casing from a 7.62x25mm round."
 msgstr "7.62x25mm子弹的空弹壳。 "
 
 #: lang/json/GENERIC_from_json.py
-msgid "9mm casing"
-msgid_plural "9mm casings"
+msgid "9x19mm casing"
+msgid_plural "9x19mm casings"
 msgstr[0] "9x19mm 弹壳"
 
-#. ~ Description for 9mm casing
+#. ~ Description for 9x19mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 9x19mm round."
-msgstr "9x19mm子弹的空弹壳。"
+msgstr "9x19mm 子弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "9x18mm casing"
 msgid_plural "9x18mm casings"
-msgstr[0] "9x18mm弹壳"
+msgstr[0] "9x18mm 弹壳"
 
 #. ~ Description for 9x18mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 9x18mm round."
-msgstr "9x18mm子弹的空弹壳。"
+msgstr "9x18mm 子弹的空弹壳。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "shotgun hull"
@@ -30925,7 +30949,7 @@ msgstr "一块铅酸蓄电池的电极板"
 #: lang/json/GENERIC_from_json.py
 msgid "forged sword"
 msgid_plural "forged swords"
-msgstr[0] "锻打剑"
+msgstr[0] "短剑"
 
 #. ~ Description for forged sword
 #: lang/json/GENERIC_from_json.py
@@ -31264,7 +31288,7 @@ msgstr "一些核裂变燃料小球，处理时要多加小心。"
 #: lang/json/GENERIC_from_json.py
 msgid "6.54x42mm casing"
 msgid_plural "6.54x42mm casings"
-msgstr[0] "6.54x42mm弹壳"
+msgstr[0] "6.54x42mm 弹壳"
 
 #. ~ Description for 6.54x42mm casing
 #: lang/json/GENERIC_from_json.py
@@ -31442,7 +31466,7 @@ msgid ""
 "A replica of Gungnir, the spear of Odin.  It is rumored to be the perfect "
 "spear, perfectly hitting any target regardless of the wielder's strength or "
 "skill.  It is decorated with gold and silver ornaments."
-msgstr "北欧众神之父奥丁所使用的Gungnir，永恒之枪的复制品。作为奥丁大神的长矛，这货号称可以无视使用者的水平而完美击中其目标。长矛上镶嵌满了金银饰品。"
+msgstr "北欧众神之父奥丁所使用的Gungnir，永恒之枪的复制品。作为奥丁大神的长矛，号称可以无视使用者的水平而完美击中其目标。长矛上镶嵌满了金银饰品。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "a large artillery casing"
@@ -32409,14 +32433,14 @@ msgid ""
 msgstr "25发条形弹匣，可用于使用Rivtech 8x40mm无壳弹的武器。"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "RMGB500 8x40mm extended magazine"
-msgstr "RMGB500 8x40mm 扩充弹匣"
+msgid "RMGB500 8x40mm drum magazine"
+msgstr "RMGD500 8x40mm 弹鼓"
 
-#. ~ Description for RMGB500 8x40mm extended magazine
+#. ~ Description for RMGB500 8x40mm drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 500 round box magazine for use with Rivtech 8x40mm caseless firearms."
-msgstr "500发盒式弹匣，可用于使用Rivtech 8x40mm无壳弹的武器。"
+"A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms."
+msgstr "500发弹鼓，可用于使用Rivtech 8x40mm无壳弹的武器。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RMGB50 8x40mm magazine"
@@ -32503,9 +32527,9 @@ msgstr "LW-21手枪弹匣"
 #. ~ Description for LW-21 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 21-round polymer magazine for Leadworks LLC 9mm firearms.  Lightweight and"
-" reliable but somewhat more difficult to reload."
-msgstr "21发高分子聚合物弹匣，可用于Leadworks LLC 的9mm手枪及与其兼容的武器上。重量很轻，可靠性也很好，但是装填起来比较麻烦。"
+"A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight "
+"and reliable but somewhat more difficult to reload."
+msgstr "21发高分子聚合物弹匣，可用于Leadworks LLC 的9x19mm手枪及与其兼容的武器上。重量很轻，可靠性也很好，但是装填起来比较麻烦。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M9 extended magazine"
@@ -32590,8 +32614,8 @@ msgstr "USP 9mm手枪弹匣"
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A factory specification 15-round box magazine for use with the dependable "
-"H&K USP 9mm pistol."
-msgstr "一个工厂生产的规范的15发弹匣，可用于可靠的H&K USP 9mm手枪。"
+"H&K USP 9x19mm pistol."
+msgstr "一个工厂生产的规范的15发弹匣，可用于可靠的H&K USP 9x19mm手枪。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "UZI magazine"
@@ -32773,13 +32797,13 @@ msgid "An improvised magazine made for the pipe SMG: .38, holds 25 rounds."
 msgstr "一个自制弹匣，用于自制钢管冲锋枪（.38口径）。可以装载25发子弹。"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "pipe SMG: 9mm magazine"
-msgstr "自制钢管冲锋枪（9mm口径）弹匣"
+msgid "pipe SMG: 9x19mm magazine"
+msgstr "自制钢管冲锋枪（9x19mm口径）弹匣"
 
-#. ~ Description for pipe SMG: 9mm magazine
+#. ~ Description for pipe SMG: 9x19mm magazine
 #: lang/json/MAGAZINE_from_json.py
-msgid "An improvised magazine made for the pipe SMG: 9mm, holds 25 rounds."
-msgstr "一个自制弹匣，用于自制钢管冲锋枪（9mm口径）。可以装载25发子弹。"
+msgid "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds."
+msgstr "一个自制弹匣，用于自制钢管冲锋枪（9x19mm口径）。可以装载25发子弹。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "pipe SMG: .40 magazine"
@@ -33205,7 +33229,7 @@ msgstr "肮脏衣物"
 msgid ""
 "Worn dirty clothing (dropped by zombies) will cause morale penalties and, if"
 " hit in combat, infections."
-msgstr "穿着由丧尸掉落的肮脏衣物将导致心情值惩罚。而且在战斗中穿着肮脏衣物的身体部位被击中的话，可能导致感染。"
+msgstr "穿着由丧尸掉落的肮脏衣物将导致心情值惩罚。而且在战斗中穿着肮脏衣物的身体部位被击中的话，可能导致感染，以此模拟真实效果。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Generic Guns"
@@ -33214,7 +33238,7 @@ msgstr "通用式枪械"
 #. ~ Description for Generic Guns
 #: lang/json/MOD_INFO_from_json.py
 msgid "Replaces guns and ammo with generic types."
-msgstr "使用通用型号替代众多枪械与弹药。"
+msgstr "使用单一几种通用型号替代众多枪械与弹药。警告：使用该模组会导致频繁报错、大量物品无法正常生成与无法使用。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Medieval and Historic Content"
@@ -33360,7 +33384,7 @@ msgstr "禁用中世纪物品"
 #. ~ Description for No Medieval Items
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes medieval weapons, armors, and specific books."
-msgstr "移除那些中世纪的武器、盔甲、书籍。"
+msgstr "移除那些中世纪的武器、盔甲、书籍，那些历史不曾存在过。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Disable Mutagens"
@@ -33423,7 +33447,7 @@ msgstr "禁用幸存者装束"
 #. ~ Description for No Survivor Armor
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes survivor armor."
-msgstr "移除那些幸存者专属装备。"
+msgstr "移除那些属性破坏游戏平衡性的幸存者专属装备。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Triffids"
@@ -33564,7 +33588,7 @@ msgstr "若遇到问题请参考mod文件夹中的PAQ.txt。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Dark Days Ahead"
-msgstr "浩劫余生"
+msgstr "黑暗之日"
 
 #. ~ Description for Dark Days Ahead
 #: lang/json/MOD_INFO_from_json.py
@@ -33615,7 +33639,7 @@ msgstr "简单营养"
 #. ~ Description for Simplified Nutrition
 #: lang/json/MOD_INFO_from_json.py
 msgid "Disables vitamin requirements."
-msgstr "禁用维生素需求。"
+msgstr "禁用维生素与微量元素需求。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Extended Realistic Guns"
@@ -33643,7 +33667,7 @@ msgstr "白化变种企鹅"
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked."
-msgstr "八英尺高的阴森白色变种企鹅。一般不会主动攻击你，除非挑衅它。"
+msgstr "一只八英尺高的阴森白色变种企鹅，除非挑衅它，通常不会主动攻击人类。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "alpha razorclaw"
@@ -33873,7 +33897,7 @@ msgstr "一个小型的黑色粘液球，渗出的粘液滴在地上像一团有
 
 #: lang/json/MONSTER_from_json.py
 msgid "blood sacrifice"
-msgstr "血之祭品"
+msgstr "血祭牺牲者"
 
 #. ~ Description for blood sacrifice
 #: lang/json/MONSTER_from_json.py
@@ -33892,7 +33916,7 @@ msgstr "山猫"
 msgid ""
 "A spotted wild cat living across much of North America.  It is not a serious"
 " threat to humans, but it can be aggressive if not left alone."
-msgstr "一只生活于北美的野生动物，中等体型的猫科动物，身体粗壮却极为敏捷，具有一定的攻击性。"
+msgstr "一只生活于北美的野生动物，中等体型的猫科动物，身体粗壮却极为敏捷，具有一定的攻击性，它很可爱，不要打它。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "boomer"
@@ -34080,7 +34104,7 @@ msgid ""
 "The Eastern coyote, also called the tweed wolf, is a territorial canine "
 "descended from the offspring of gray wolves and true coyotes.  It is "
 "intimidated by humans and other predators, but will fight if threatened."
-msgstr "东方郊狼，也被称作花呢狼，是狗与狼的后代。胆小，但在受到威胁时很有进攻性。"
+msgstr "东方郊狼，也被称作花呢狼，是一种来自于灰狼和土著狼杂交而成后代。胆小谨慎，但在受到威胁时很有进攻性。"
 
 #. ~ Description for coyote
 #: lang/json/MONSTER_from_json.py
@@ -34092,14 +34116,14 @@ msgstr "东北郊狼，一种广泛分布的猎手，比狼胆小，但是更加
 
 #: lang/json/MONSTER_from_json.py
 msgid "crawler"
-msgstr "泥泞爬行者"
+msgstr "怪异爬行者"
 
 #. ~ Description for crawler
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A conglomeration of human parts fused together in a horrible mishmash of "
 "function, slowly dragging its eldritch body across the ground."
-msgstr "一团人类的各种各样的部分以某种奇怪的方式融合在一起，他们那怪异的身躯则在地上慢慢拖行。"
+msgstr "一团将各种各样的部分以某种奇怪的方式融合在一起的人类，他们那怪异的身躯则在地上慢慢拖行。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "creeper hub"
@@ -34547,7 +34571,7 @@ msgstr "牛头人"
 msgid ""
 "A monster with an obese human body and the head of a cow.  It treads slowly,"
 " and milky white drool drips from its mouth."
-msgstr "一个重型的野兽般的身体。牛头与人的身体结合，它慢慢地走着，从它的嘴中滴出白色的口水，只穿着一件白色的内衣。"
+msgstr "一个重型的野兽般的、牛头与人躯干结合的身体。它慢慢地走着，从它的嘴中滴出白色的口水，只穿着一件白色的内衣。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "graboid"
@@ -34590,7 +34614,7 @@ msgstr "半截巨蠕虫"
 #. ~ Description for half worm
 #: lang/json/MONSTER_from_json.py
 msgid "A squiggling severed portion of a wounded giant worm."
-msgstr "一个巨虫被切断的部份，还在扭动著。"
+msgstr "一个巨虫被切断的部份，体液从断肢部分渗出，还在不断扭动着。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "your mother"
@@ -34952,7 +34976,7 @@ msgid ""
 "arrests of those participating.  Though its relaxation gas is by far its "
 "best-known weapon, it carries a blinding flash and a low-powered stungun for"
 " self-defense--in addition to its supply of electronic handcuffs."
-msgstr "非暴力警卫机器人。专门用于镇压暴乱，并参与大规模逮捕行动。虽然它的麻醉气体是最著名的武器，但它还带着一个让人瞬间失明的炫光灯和一把低能量的霰弹枪自卫—以及足以拉走众多人员的N多电子手铐。"
+msgstr "非暴力警卫机器人。专门用于镇压暴乱，并参与大规模逮捕行动。虽然它的麻醉气体是最著名的武器，但它还带着一个让人瞬间失明的炫光灯和一把低功率的电击枪自卫—以及足以拉走众多人员的N多电子手铐。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "seweranha"
@@ -35095,7 +35119,7 @@ msgstr "变异的蛞蝓，有一辆高尔夫球车那么宽，毒液不断地从
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cellar spider"
-msgstr "巨型酒窖蛛"
+msgstr "巨型地窖蛛"
 
 #. ~ Description for giant cellar spider
 #: lang/json/MONSTER_from_json.py
@@ -35107,7 +35131,7 @@ msgstr "一个焦躁不安的褐色的变异蜘蛛，有着相对小的身体和
 
 #: lang/json/MONSTER_from_json.py
 msgid "immature giant cellar spider"
-msgstr "巨型酒窖蛛幼体"
+msgstr "巨型地窖蛛幼体"
 
 #. ~ Description for immature giant cellar spider
 #: lang/json/MONSTER_from_json.py
@@ -35854,7 +35878,7 @@ msgstr "烧焦丧尸"
 msgid ""
 "Heavily burned zombie that still reeks of charred flesh.  Its flesh has "
 "mended into a leathery shell."
-msgstr "严重烧伤的丧尸，烧焦的血肉散发着恶臭。它的肉已经融化为一层皮甲似的壳。"
+msgstr "严重烧伤的丧尸，烧焦的血肉散发着恶臭。它的肉已经碳化为一层皮甲似的壳。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "screecher zombie"
@@ -36173,7 +36197,7 @@ msgstr "一只梭鱼。一种很好斗的鱼，小心那些牙齿。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "bluegill"
-msgstr " 翻车鱼"
+msgstr "黑鳟"
 
 #. ~ Description for bluegill
 #: lang/json/MONSTER_from_json.py
@@ -36318,7 +36342,7 @@ msgstr "这些东西曾被认为是不堪食用的害虫，直到某些营销天
 
 #: lang/json/MONSTER_from_json.py
 msgid "Crayfish"
-msgstr "螯虾（小龙虾）"
+msgstr "螯虾"
 
 #. ~ Description for Crayfish
 #: lang/json/MONSTER_from_json.py
@@ -36360,8 +36384,8 @@ msgstr "军用炮塔"
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
-"Atomics' TX-1 9mm model and an automated M4 carbine."
-msgstr "Leadworks LLC公司制造的 T-4A1 \"哨兵\"型炮塔。相对于通用原子公司的TX-1型9mm炮塔拥有更好的固件以及一挺全自动的M4卡宾枪。"
+"Atomics' TX-1 9x19mm model and an automated M4 carbine."
+msgstr "Leadworks LLC公司的 T-4A1 哨兵炮塔。相对于通用原子公司的TX-1 9x19mm型拥有更好的硬件以及一挺全自动M4卡宾。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "centipede"
@@ -37283,7 +37307,7 @@ msgstr[0] "游戏表"
 msgid ""
 "A waterproof digital watch with a built-in electronic game system, powered "
 "by standard batteries.  Activate to play."
-msgstr "一只防水数字手表，内置电子游戏系统，使用标准电池供电。激活它来玩游戏。\n\"老虎牌游戏机？那玩意早就见鬼了！\""
+msgstr "一只防水数字手表，内置电子游戏系统，使用标准电池供电。激活它来玩游戏。\n\"老虎牌游戏机？那玩意早就该下地狱了！\""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "fedora"
@@ -38201,6 +38225,12 @@ msgstr[0] "哨子"
 msgid "FWEEEET!"
 msgstr "咻～～！"
 
+#. ~ Use action use_message for whistle.
+#. ~ Use action use_message for whistle multitool.
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
+msgid "You blow the whistle."
+msgstr "你吹响哨子。"
+
 #. ~ Description for whistle
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A simple metal whistle, with a cord to wear it around your neck."
@@ -38488,7 +38518,7 @@ msgstr "这是一把经典中世纪长剑，体积介乎于骑士剑和后期的
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a classic medieval sword, just the right size to use one-handed."
-msgstr "这是一把经典的中世纪剑，适合单手使用。"
+msgstr "一把经典的中世纪剑，贯穿整个中世纪，前由维京时期的剑发展而来，在战场上，一般配合着大型的盾牌使用。"
 
 #. ~ Description for arming sword
 #: lang/json/TOOL_from_json.py
@@ -38667,6 +38697,11 @@ msgstr[0] "压缩气体喇叭"
 #: lang/json/TOOL_from_json.py
 msgid "HOOOOONK!"
 msgstr "嘟～～嘟～～嘟嘟！"
+
+#. ~ Use action use_message for compressed air horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk your airhorn."
+msgstr "你按下空气喇叭！"
 
 #. ~ Description for compressed air horn
 #: lang/json/TOOL_from_json.py
@@ -39103,12 +39138,12 @@ msgstr[0] "自动炮塔（关）"
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an inactive turret.  Using this item involves loading the unit with "
-"the factory-loaded 9mm rounds in your inventory (if you wish to divide your "
-"ammunition, set aside whatever 9mm you do NOT want to give the turret) "
-"turning it on, and placing it on the ground, where it will attach itself.  "
-"The turret will then identify you as a friendly, and attack all enemies with"
-" a built-in SMG."
-msgstr "一座未激活的9mm机枪炮塔。使用它时需打开它然后放在地上，同时装填会你物品栏内的对应9mm口径弹药。放置后的炮塔会将你识别为友方，并采用内置步枪攻击附近的所有敌人。"
+"the factory-loaded 9x19mm rounds in your inventory (if you wish to divide "
+"your ammunition, set aside whatever 9x19mm you do NOT want to give the "
+"turret) turning it on, and placing it on the ground, where it will attach "
+"itself.  The turret will then identify you as a friendly, and attack all "
+"enemies with a built-in SMG."
+msgstr "一座未激活的9x19mm机枪炮塔。使用它时需打开它然后放在地上，同时装填会你物品栏内的对应9x19mm口径弹药。放置后的炮塔会将你识别为友方，并采用内置步枪攻击附近的所有敌人。"
 
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
 msgid "brazier"
@@ -40870,6 +40905,11 @@ msgstr[0] "自行车铃"
 msgid "honk."
 msgstr "鸣响喇叭。"
 
+#. ~ Use action use_message for bicycle horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk the bicycle horn."
+msgstr "你按了下自行车铃。"
+
 #. ~ Description for bicycle horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41037,7 +41077,7 @@ msgstr[0] "战术匕首"
 msgid ""
 "This is a military combat knife.  It is light and extremely sharp, and could"
 " be deadly in either the right hands or when attached as a bayonet."
-msgstr "这是一把军用战斗匕首。它很轻又很锋利，在熟悉它的人手中将变得很致命。可以当作刺刀使用。"
+msgstr "一把轻而锋利的军用战斗匕首，用于近战搏斗和近战突袭，可以当作刺刀使用。"
 
 #: lang/json/TOOL_from_json.py
 msgid "hunting knife"
@@ -41397,7 +41437,7 @@ msgstr[0] "简易小刀"
 msgid ""
 "A knife consisting of a long, somewhat sharpened, spike and a tightly "
 "wrapped rag as a handle.  It makes a good melee weapon."
-msgstr "一把匕首，刀刃是磨利了的带尖儿废铁，刀柄是一块裹得紧紧的破布。真是神兵利器，嗯……"
+msgstr "一把匕首，刀刃是磨利了的带尖儿废铁，刀柄是一块裹得紧紧的破布。"
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift machete"
@@ -42296,9 +42336,9 @@ msgstr[0] "手术刀"
 #. ~ Description for scalpel
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a very sharp knife designed for surgical cutting.  It's small, sharp"
-" blade allows for precision strikes in the hands of the skilled."
-msgstr "一把小型的，非常锋利的刀具，被广泛应用于各项外科手术中。如果你很擅长近战武器的话，它也会是一件大杀器。"
+"This is a very sharp knife designed for surgical cutting.  Its small, sharp "
+"blade allows for precision strikes in the hands of the skilled."
+msgstr "一把小型的，非常锋利的刀具，被广泛应用于各项外科手术中。如果你很擅长近战武器的话，它也会是一件大杀器。\n\"在寂静岭医院工作的护士们用此解剖过无数活人。\""
 
 #: lang/json/TOOL_from_json.py
 msgid "pair of scissors"
@@ -42559,10 +42599,10 @@ msgstr "你设置了霰弹枪陷阱。"
 #. ~ Description for shotgun trap
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a simple tripwire is attached to the trigger of a loaded sawn-off "
-"shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first "
-"time the trigger is pulled, one or both shells may be discharged."
-msgstr "一根轻巧的棉线轻柔地连在了短管霰弹枪的扳机之上，只要轻轻一拨，霰弹枪就会双管齐发，给那位不幸的家伙一个痛快。"
+"This is a simple tripwire is attached to the trigger of a loaded double-"
+"barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; "
+"the first time the trigger is pulled, one or both shells may be discharged."
+msgstr "一根轻巧的棉线轻柔地连在了一把双管霰弹枪的扳机之上，只要轻轻一拨，霰弹枪就会双管齐发，给那位不幸的家伙一个痛快。"
 
 #: lang/json/TOOL_from_json.py
 msgid "shovel"
@@ -42572,7 +42612,7 @@ msgstr[0] "铁锹"
 #. ~ Description for shovel
 #: lang/json/TOOL_from_json.py
 msgid "This is a digging tool.  Use it to dig pits adjacent to your location."
-msgstr "一个挖坑工具，你可以用它在你周围挖坑。做人莫学南派三叔，挖坑从来不带填。"
+msgstr "一个挖坑工具，你可以用它在你周围挖坑。"
 
 #: lang/json/TOOL_from_json.py
 msgid "sickle"
@@ -42815,7 +42855,7 @@ msgstr[0] "弹簧刀"
 msgid ""
 "This is a long and thin knife with a spring-loaded blade that rests inside "
 "the handle while not in use."
-msgstr "又长又细的弹簧小刀，不用时可以把刀刃收在刀柄里面。"
+msgstr "又长又细的弹簧小刀，不用时可以把刀刃收在刀柄里面，使用时自动弹出。"
 
 #: lang/json/TOOL_from_json.py
 msgid "sword bayonet"
@@ -42910,7 +42950,7 @@ msgid ""
 "Long Japanese knives like this more-modern remake were the samurai's backup "
 "weapon, before the advent of the larger wakizashi.  It's still a deadly "
 "blade, even if it's smaller than its more famous relatives."
-msgstr "日式长匕首，在肋差发明之前曾经是武士们的备用武器。虽然它短了点儿，但依然是一把致命的武器。"
+msgstr "一把日式短刀，不同于肋差与怀刀，此刀仅在护身和最后关头时切腹使用，几乎不参与战斗，一般贴身携带，古时除了武士以外，武家的女子也会携带。\n\"在末世的绝望中可以赋予你更具意义的自尽方式。\""
 
 #: lang/json/TOOL_from_json.py
 msgid "tazer"
@@ -43374,7 +43414,7 @@ msgstr[0] "按摩棒"
 msgid ""
 "This battery-devouring device is just the thing to knead the tension out and"
 " help you relax.  Use it to take a break and unwind."
-msgstr "这个吃电池的工具能够让你暂时忘记大灾变的紧张气氛并让你稍微放松一会。激活它来使用。"
+msgstr "一个具有振动、加热等功能的用于保健按摩的按摩器械，激活它来使用。\n\"好舒服，要变得奇怪了。\""
 
 #: lang/json/TOOL_from_json.py
 msgid "violin"
@@ -43418,7 +43458,7 @@ msgstr "一块遍布漩涡刻痕的石头，四周遍布着孔洞。虽然看上
 msgid ""
 "This is a comparatively-common Japanese short sword.  Smaller and lighter "
 "than a katana, but still effective in combat."
-msgstr "这是一种比较常见的日本短刀。体积更小，比武士刀较轻，但在战斗中仍然有不错的效果。"
+msgstr "一柄常见于日本古代女性与儿童携带的直刃短刀。体积较肋差更小，更轻，在战斗中仍然有不错的效果。"
 
 #: lang/json/TOOL_from_json.py
 msgid "washboard"
@@ -44402,14 +44442,14 @@ msgstr "一只木棍被削成木制的机关，用于制作捕猎陷阱。"
 #: lang/json/TOOL_from_json.py
 msgid "Laevateinn"
 msgid_plural "Laevateinns"
-msgstr[0] "Laevateinn，胜利之剑"
+msgstr[0] "列瓦汀"
 
 #. ~ Description for Laevateinn
 #: lang/json/TOOL_from_json.py
 msgid ""
 "A replica of Laevateinn, the sword of Freyr.  It is rumored to be able to "
 "fight by itself.  It is decorated with gold and silver ornaments."
-msgstr "北欧丰饶之神弗雷所使用的Laevateinn，胜利之剑的复制品。传说它有自我意识，可以自行作战。这把复制品上被金银点缀。"
+msgstr "一柄北欧神话丰饶之神弗雷与巨人苏尔特所使用的魔剑，又名烈焰之剑、胜利之剑，传说中这把剑永远燃烧着火焰，它的光芒如同太阳一样耀眼，于“诸神的黄昏”一战结束时苏尔特持此剑焚毁了整个世界，后下落不明。这把复制品上被金银点缀。"
 
 #: lang/json/TOOL_from_json.py
 msgid "autonomous surgical razors"
@@ -45249,6 +45289,10 @@ msgstr "停止切割金属？"
 msgid "Stop chopping down?"
 msgstr "停止砍树吗？"
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop drilling?"
+msgstr "停止钻孔？"
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ".700 Nitro Express 弹"
@@ -45292,8 +45336,8 @@ msgid ".22"
 msgstr ".22"
 
 #: lang/json/ammunition_type_from_json.py
-msgid "9mm"
-msgstr "9mm"
+msgid "9x19mm"
+msgstr "9x19mm"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "9x18mm"
@@ -45405,11 +45449,11 @@ msgstr "高浓度的酒精"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "20x66mm caseless shotgun"
-msgstr "20x66mm无壳霰弹"
+msgstr "20x66mm 无壳霰弹"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "5x50mm flechette"
-msgstr "5x50mm镖形弹"
+msgstr "5x50mm 镖形弹"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "ferrous rail projectile"
@@ -45531,26 +45575,9 @@ msgstr "肾上腺素泵"
 msgid "Active Defense System"
 msgstr "主动防御系统"
 
-#. ~ Description for Active Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  Anything"
-" attempting to penetrate this field has a chance of being deflected at the "
-"cost of energy.  Bullets will be stopped more often than swords and those in"
-" turn more often than massive objects."
-msgstr "当该系统激活时，一层护盾会围绕你的身体，并持续消耗能量。对你的任何攻击，均会被这层护盾格挡或偏移并消耗能量。子弹比刀剑更容易被格挡，而刀剑比更巨大的物体容易被格挡。"
-
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
 msgstr "高级小型核反应堆系统"
-
-#. ~ Description for Advanced Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor is safer than it appears due to integrated "
-"radiation cleansers.  There is no way to shut it down, but you can toggle "
-"additional fuel intake."
-msgstr "这个小型核反应堆相较于低级版更安全，自带核辐射防护。没有任何手段将它关闭，但至少你能控制燃料棒的输入。"
 
 #: lang/json/bionic_from_json.py
 msgid "Alarm System"
@@ -45598,15 +45625,6 @@ msgstr "单分子刀刃"
 #: lang/json/bionic_from_json.py
 msgid "Fusion Blaster Arm"
 msgstr "核聚变臂炮"
-
-#. ~ Description for Fusion Blaster Arm
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray.  However, you are unable to "
-"use or carry two-handed items, and your strength limits what you can use "
-"with your one hand."
-msgstr "你的左手臂被改造成了一只重型核聚变炮！你可以消耗部分能量，释放高温毁灭射线攻击敌！作为代价，你将无法使用或搬运需要使用双手的物品，并且只能使用单手枪械。"
 
 #: lang/json/bionic_from_json.py
 msgid "Optical Dampers"
@@ -45656,14 +45674,6 @@ msgstr "隐身系统"
 #: lang/json/bionic_from_json.py
 msgid "Close Quarters Battle"
 msgstr "近身格斗强化"
-
-#. ~ Description for Close Quarters Battle
-#: lang/json/bionic_from_json.py
-msgid ""
-"Bionic processors and databanks, loaded with martial arts combat programs, "
-"are integrated into your nervous system.  Whilst active, the CQB module will"
-" improve your hand to hand combat skills."
-msgstr "存储有海量武术程序的数据库和处理器可直接整合进你的脊柱。开启后，这个模块可以提升你的徒手近战技能等级。"
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic-Induced Deformity"
@@ -45735,15 +45745,6 @@ msgstr "当这个生化插件开启时，你可以完全静音（关闭强化听
 msgid "Enhanced Hearing"
 msgstr "听力增强"
 
-#. ~ Description for Enhanced Hearing
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, your hearing will be drastically improved, "
-"allowing you to hear ten times better than the average person.  "
-"Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing."
-msgstr "当这个生化插件启用时，你的听力将极大提高，使你能够达到相当于普通人10倍的听力。此外，高分贝的声音将在你听力受到损伤前自动减弱。"
-
 #: lang/json/bionic_from_json.py
 msgid "Directional EMP"
 msgstr "定向EMP"
@@ -45796,14 +45797,6 @@ msgstr "脑壳手电"
 msgid "Internal Furnace"
 msgstr "内燃锅炉"
 
-#. ~ Description for Internal Furnace
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, you can burn nearly any organic material as fuel"
-" (use 'E'), recharging your power level.  Some materials will burn better "
-"than others."
-msgstr "当这个生化插件启用时，你可以用周围的有机物作为燃烧的燃料（使用<E>键）恢复你的能量值。某些材料有额外加成。"
-
 #: lang/json/bionic_from_json.py
 msgid "Integrated Dosimeter"
 msgstr "内置辐射计"
@@ -45831,13 +45824,6 @@ msgstr "液压肌肉"
 #: lang/json/bionic_from_json.py lang/json/mutation_from_json.py
 msgid "Infrared Vision"
 msgstr "红外视觉"
-
-#. ~ Description for Infrared Vision
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark."
-msgstr "你的视觉系统扩展到了红外线范围，允许你在黑暗中发现恒温生物。"
 
 #: lang/json/bionic_from_json.py
 msgid "Cerebral Booster"
@@ -45906,14 +45892,6 @@ msgstr "气象识别"
 msgid "Repair Nanobots"
 msgstr "医疗纳米机器人"
 
-#. ~ Description for Repair Nanobots
-#: lang/json/bionic_from_json.py
-msgid ""
-"Inside your body is a fleet of tiny dormant robots.  While activated they "
-"will flit about your body, repairing damage and stopping bleeding at the "
-"cost of power."
-msgstr "你体内有一群微型纳米机器人。开启时会不断消耗能量，让他们绕行你的周身，修复伤害以及止血。"
-
 #: lang/json/bionic_from_json.py
 msgid "Artificial Night Generator"
 msgstr "人工黑夜制造机"
@@ -45947,14 +45925,6 @@ msgstr "你真的不知道它是怎么到你鼻子你去的，但不管怎样它
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "反击防御系统"
-
-#. ~ Description for Offensive Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a strong shock, "
-"damaging unarmed attackers and those with a conductive weapon."
-msgstr "当该系统激活时，一层护盾会围绕你的身体并持续消耗能量。这层护盾不会格挡或偏移任何攻击，但是会电击徒手或使用金属武器攻击你的目标。"
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -46028,14 +45998,6 @@ msgstr "穿墙术"
 msgid "Air Filtration System"
 msgstr "空气过滤系统"
 
-#. ~ Description for Air Filtration System
-#: lang/json/bionic_from_json.py
-msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins, or "
-"airborne diseases find their way into your windpipe, the filter will attempt"
-" to remove them.  Reducing the toxic effects."
-msgstr "你气管被植入了一个先进的空气过滤系统。不管进入你气管的是毒气还是空气传播病菌，这个过滤器都会尝试过滤它们。降低它们的危害。"
-
 #: lang/json/bionic_from_json.py
 msgid "Radiation Scrubber System"
 msgstr "辐射清洗系统"
@@ -46052,14 +46014,6 @@ msgstr "指尖剃刀"
 msgid "Microreactor System"
 msgstr "小型核反应堆装置"
 
-#. ~ Description for Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor may not be the best thing to have in your "
-"chest.  There is no way to shut it down, but you can toggle additional fuel "
-"intake."
-msgstr "这个小型核反应堆也许不是你该在胸部植入的好东西。没有任何手段能将其关闭，但至少你能控制钚燃料棒的输入。"
-
 #: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
 msgstr "回收单元"
@@ -46071,14 +46025,6 @@ msgstr "载具遥控"
 #: lang/json/bionic_from_json.py
 msgid "Sonic Resonator"
 msgstr "音爆冲击"
-
-#. ~ Description for Sonic Resonator
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to creatures, stiff items such "
-"as walls and doors will be damaged."
-msgstr "你的全身在极高的能量下产生共振，制造出一个短距离冲击波。虽然无法对生物造成多少伤害，但是会损坏坚硬的物体，例如墙和门。"
 
 #: lang/json/bionic_from_json.py
 msgid "Olfactory Mask"
@@ -46143,10 +46089,10 @@ msgid "Synaptic Accelerator"
 msgstr "神经突触加速器"
 
 #: lang/json/bionic_from_json.py
-msgid "Wire-induced Stiffness"
+msgid "Wire-Induced Stiffness"
 msgstr "感电僵硬"
 
-#. ~ Description for Wire-induced Stiffness
+#. ~ Description for Wire-Induced Stiffness
 #: lang/json/bionic_from_json.py
 msgid ""
 "Improperly installed wires cause a physical stiffness in most of your body, "
@@ -46162,16 +46108,8 @@ msgid "Muscle Augmentation"
 msgstr "人工肌肉纤维"
 
 #: lang/json/bionic_from_json.py
-msgid "Anti-glare Compensators"
+msgid "Anti-Glare Compensators"
 msgstr "防眩光补偿器"
-
-#. ~ Description for Anti-glare Compensators
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your eyes have quick-reacting transition lenses installed over them.  They "
-"negate glare penalties, partially protect you from bright flashes, and "
-"protect your eyes when welding."
-msgstr "你的眼睛上安装了快速反应折射镜头，它能抵消眩光的惩罚，在遭受闪光以及焊接时保护你的眼睛。"
 
 #: lang/json/bionic_from_json.py
 msgid "Targeting System"
@@ -46196,14 +46134,6 @@ msgstr "会自锁的手指紧紧抓住（尽管你不想这么做）并且坚决
 #: lang/json/bionic_from_json.py
 msgid "Time Dilation"
 msgstr "时间膨胀"
-
-#. ~ Description for Time Dilation
-#: lang/json/bionic_from_json.py
-msgid ""
-"At the cost of all stored bionic power, you may increase your body speed and"
-" reactions dramatically, essentially freezing time.  You are still delicate,"
-" however, and violent or rapid movements may damage you due to friction."
-msgstr "通过消耗体内所有储存的生化插件能量，你可以极大的提升自己的速度和反应能力，就好像把时间冻结了一样。要记住的是，超高速下运动产生的空气摩擦可能会导致你受伤。"
 
 #: lang/json/bionic_from_json.py
 msgid "Integrated Toolset"
@@ -46232,13 +46162,6 @@ msgstr "神奇闪避"
 msgid "Internal Unified Power System"
 msgstr "内部整合供电系统"
 
-#. ~ Description for Internal Unified Power System
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have a unified power system wired into your power banks.  Objects that "
-"run on a UPS can now draw directly from your internal power supply."
-msgstr "你的能量槽嵌入了UPS系统。使用UPS的物品现在可以直接使用你的内部能源了。"
-
 #: lang/json/bionic_from_json.py
 msgid "Voice Remodulator"
 msgstr "嗓音异变"
@@ -46255,14 +46178,6 @@ msgstr "你可能会花费你余生的很多时间来向人们说明在安装颈
 #: lang/json/bionic_from_json.py
 msgid "Internal Chronometer"
 msgstr "体内计时器"
-
-#. ~ Description for Internal Chronometer
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time.  Additionally, it includes a silent alarm "
-"clock function."
-msgstr "你体内安装了一个小型原子钟，确保你永远知道当前的时间。另外它还有一个无声闹钟功能。"
 
 #: lang/json/bionic_from_json.py
 msgid "Water Extraction Unit"
@@ -46553,10 +46468,6 @@ msgstr "耕地"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "夯实地面"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Tree Trunk Into Logs"
-msgstr "树干劈成圆木"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Planks"
@@ -49094,7 +49005,7 @@ msgstr "你被缠绕住了。"
 
 #: lang/json/effects_from_json.py
 msgid "The ceiling collapses on you!"
-msgstr "天花板砸在了你身上！"
+msgstr "天花板掉落下来并砸在了你身上！"
 
 #: lang/json/effects_from_json.py
 msgid "Stem cell treatment"
@@ -52446,11 +52357,11 @@ msgstr[0] "L39B-45 手枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"After the success of the 9mm model, Leadworks LLC released an L39B chambered"
-" in .45.  It soon earned a reputation as one of the most intimidating guns "
-"on the market, for firer and target alike.  Similar to other Leadworks "
-"products it doesn't accept third-party modifications."
-msgstr "在9mm型号大获成功之后，Leadworks LLC放出了L39B的.45口径版本。很快这把枪就被评为枪械市场上最为唬人的枪支，而且当然是连枪手带目标一起唬。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
+"After the success of the 9x19mm model, Leadworks LLC released an L39B "
+"chambered in .45.  It soon earned a reputation as one of the most "
+"intimidating guns on the market, for firer and target alike.  Similar to "
+"other Leadworks products it doesn't accept third-party modifications."
+msgstr "在9x19mm型号大获成功之后，Leadworks LLC放出了L39B的.45口径版本。很快这把枪就被评为枪械市场上最为唬人的枪支，而且当然是连枪手带目标一起唬。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
 
 #: lang/json/gun_from_json.py
 msgid "L39-45"
@@ -52864,8 +52775,8 @@ msgstr[0] "RM298 重机枪"
 msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine "
 "gun was designed for durability and extreme volume of sustained fire under "
-"the worst possible circumstances.  Needs to be mounted because of extreme "
-"recoil.  Accepts RMXB500 box and RMGD250 drum magazines."
+"the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
+"magazines."
 msgstr "采用了威力巨大的特殊口径，Rivtech RM298重机枪设计设计来在极端情况提供长时间的持续火力，并且具有良好耐久。这玩意后坐力强的一B，最好架起来使用。能使用RMXB500盒式弹匣以及RMGD250弹鼓。"
 
 #: lang/json/gun_from_json.py
@@ -52929,13 +52840,13 @@ msgstr[0] "手提箱冲锋枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A custom built 9mm submachine gun camouflaged to look as the average "
+"A custom built 9x19mm submachine gun camouflaged to look as the average "
 "businessman suitcase, panes of cutting edge materials and its clever "
 "internal construction allowed it to bypass even the most scrupulous of "
 "security checkpoints.  Due to the fact that the average security guard is "
 "now only concerned in eating you, this million dollar baby has been reduced "
 "to little more than a novelty item."
-msgstr "一把自制的9mm冲锋枪，伪装成手提箱的样子，全塑料材质与精巧的设计让它能够通过各种安检——当然啦，现在大多数安检人员都只想直接吃了你，这个百万美元的宝贝也只能是个新奇玩意。"
+msgstr "一把自制的9x19mm冲锋枪，伪装成手提箱的样子，全塑料材质与精巧的设计让它能够通过各种安检——当然啦，现在大多数安检人员都只想直接吃了你，这个百万美元的宝贝也只能是个新奇玩意。"
 
 #: lang/json/gun_from_json.py
 msgid "Calico M960"
@@ -52957,8 +52868,8 @@ msgstr[0] "伯莱塔 Cx4 \"暴风\"卡宾枪"
 msgid ""
 "A small pistol caliber carbine designed for police use and civilian self-"
 "defense, the Cx4 Storm uses magazines that are interchangeable with other "
-"Beretta 9mm handguns."
-msgstr "一款专为警察用和民用自卫的手枪弹卡宾枪，伯莱塔 Cx4 卡宾枪使用的弹匣可以和同系列的伯莱塔 9mm手枪互换。"
+"Beretta 9x19mm handguns."
+msgstr "一款专为警用和民用自卫的手枪弹卡宾枪，伯莱塔 Cx4 卡宾枪使用的弹匣可以和同系列的伯莱塔 9x19mm型手枪互换。"
 
 #: lang/json/gun_from_json.py
 msgid "Glock 19"
@@ -52991,8 +52902,8 @@ msgstr[0] "Kel-Tec SUB-2000 卡宾枪"
 #: lang/json/gun_from_json.py
 msgid ""
 "A uniquely designed pistol caliber carbine with an integral folding stock "
-"and that makes use of 9mm Glock magazines."
-msgstr "一款专门为手枪弹设计的卡宾枪，有着集成的可折叠枪托并使用9mm 格洛克弹匣。"
+"and that makes use of 9x19mm Glock magazines."
+msgstr "一款专门为手枪弹设计的卡宾枪，有着集成的可折叠枪托并使用9x19mm 格洛克弹匣。"
 
 #: lang/json/gun_from_json.py
 msgid "L2032 Lookout"
@@ -53002,10 +52913,10 @@ msgstr[0] "L2032 \"守望者\"左轮手枪"
 #: lang/json/gun_from_json.py
 msgid ""
 "After the Enforcer's success, Leadworks LLC reworked their autorevolver "
-"design to cater to the 9mm market.  The Lookout, released in 2032, takes "
-"advantage of the smaller 9mm to hold a seventh round, without sacrificing "
-"the ease of handling or reloading the Enforcer made legendary."
-msgstr "当\"执法者\"大获成功之后Leadworks LLC公司重新设立了他们的自动左轮手枪以迎合9mm口径市场。发布于2032年的守望者由于采用较小的9mm手枪弹，可以装载7发子弹，同时保持了让\"执法者\"左轮手枪广受欢迎的手感和装弹容易度。"
+"design to cater to the 9x19mm market.  The Lookout, released in 2032, takes "
+"advantage of the smaller 9x19mm to hold a seventh round, without sacrificing"
+" the ease of handling or reloading the Enforcer made legendary."
+msgstr "当\"执法者\"大获成功之后Leadworks LLC公司重新设计了他们的自动左轮手枪以迎合9x19mm口径市场。发布于2032年的守望者由于采用较小的9x19mm手枪弹，可以装载7发子弹，同时保持了让\"执法者\"左轮手枪广受欢迎的手感和装弹容易度。"
 
 #: lang/json/gun_from_json.py
 msgid "L39B"
@@ -53014,12 +52925,12 @@ msgstr[0] "L39B 手枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B "
+"A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B "
 "provides accurate single-shot placement as well as controllable short-range "
 "firepower with its three-round burst mode.  Users praised its accuracy and "
 "fearsome appearance.  Similar to other Leadworks products it doesn't accept "
 "third-party modifications."
-msgstr "作为2039年上市的9mm口径射击模式可调手枪。 Leadworks LLC  L39B手枪提供了精准的单发模式和近距离下火力可靠的三发点射模式。使用者们不光称赞其精度，还称赞它那可怕的外观。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
+msgstr "作为2039年上市的9x19mm口径射击模式可调手枪。 Leadworks LLC  L39B手枪提供了精准的单发模式和近距离下火力可靠的三发点射模式。使用者们不光称赞其精度，还称赞它那可怕的外观。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
 
 #: lang/json/gun_from_json.py
 msgid "L39"
@@ -53028,12 +52939,12 @@ msgstr[0] "L39 手枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides"
-" accurate single-shot placement in a very robust frame.  Several urban "
-"legends describe using it in ways that would have destroyed a lesser weapon."
-"  Similar to other Leadworks products it doesn't accept third-party "
+"A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 "
+"provides accurate single-shot placement in a very robust frame.  Several "
+"urban legends describe using it in ways that would have destroyed a lesser "
+"weapon.  Similar to other Leadworks products it doesn't accept third-party "
 "modifications."
-msgstr "作为2039年上市的9mm口径半自动手枪。 Leadworks LLC L39手枪提供了精确而可靠的单发射击。在众多都市传说中，该枪在其它枪支可能已经报废的使用强度下依旧保持硬朗。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
+msgstr "作为2039年上市的9x19mm口径半自动手枪。 Leadworks LLC L39手枪提供了精确而可靠的单发射击。在众多都市传说中，该枪在其它枪支可能已经报废的使用强度下依旧保持硬朗。和大多数其他的Leadworks 产品一样，它无法安装第三方改装件。"
 
 #: lang/json/gun_from_json.py
 msgid "Beretta M9"
@@ -53042,14 +52953,14 @@ msgstr[0] "伯莱塔 M9 手枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A very popular 9mm pistol, the M9 has been the standard issue sidearm of the"
-" US army since 1985."
-msgstr "一款非常流行的9mm口径手枪。自从1985年开始，M9手枪始终是美国军队的标准配枪。"
+"A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of "
+"the US army since 1985."
+msgstr "一款非常流行的9x19mm口径手枪。自从1985年开始，M9手枪始终是美国军队的标准配枪。"
 
 #: lang/json/gun_from_json.py
-msgid "pipe rifle: 9mm"
-msgid_plural "pipe rifles: 9mm"
-msgstr[0] "自制钢管步枪（9mm口径）"
+msgid "pipe rifle: 9x19mm"
+msgid_plural "pipe rifles: 9x19mm"
+msgstr[0] "自制钢管步枪（9x19mm口径）"
 
 #: lang/json/gun_from_json.py
 msgid "STEN"
@@ -53095,10 +53006,10 @@ msgstr[0] "Uzi 单兵自卫冲锋枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The Uzi 9mm has enjoyed immense popularity, selling more units than any "
+"The Uzi 9x19mm has enjoyed immense popularity, selling more units than any "
 "other submachine gun.  It is widely used as a personal defense weapon, or as"
 " a primary weapon by elite frontline forces."
-msgstr "Uzi 9mm是世界上销量最高的冲锋枪，通常被用作个人防卫武器，当然也有一些用枪好手会选择它作为在战场上冲锋时的主战武器。"
+msgstr "Uzi 9x19mm型冲锋枪是世界上销量最高的冲锋枪，通常被用作个人防卫武器，当然也有一些用枪好手会选择它作为在战场上冲锋时的主战武器。"
 
 #: lang/json/gun_from_json.py
 msgid "Glock 17"
@@ -53499,7 +53410,7 @@ msgstr "强力电子激光枪，由研究机构\"Aerial Labs\"制造。对电子
 #: lang/json/gun_from_json.py
 msgid "handheld laser cannon"
 msgid_plural "handheld laser cannons"
-msgstr[0] "手持激光加农炮"
+msgstr[0] "手持TX-5LR 激光加农炮"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53523,7 +53434,7 @@ msgstr "最先进的激光步枪，由研究机构\"Aerial Labs\"制造。初始
 #: lang/json/gun_from_json.py
 msgid "fusion blaster rifle"
 msgid_plural "fusion blaster rifles"
-msgstr[0] "热熔步枪"
+msgstr[0] "热熔冲击步枪"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53654,9 +53565,9 @@ msgid_plural "pipe SMG: .38s"
 msgstr[0] "自制钢管冲锋枪（.38口径）"
 
 #: lang/json/gun_from_json.py
-msgid "pipe SMG: 9mm"
-msgid_plural "pipe SMG: 9mms"
-msgstr[0] "自制钢管冲锋枪（9mm口径）"
+msgid "pipe SMG: 9x19mm"
+msgid_plural "pipe SMG: 9x19mms"
+msgstr[0] "自制钢管冲锋枪（9x19mm口径）"
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .40"
@@ -53832,9 +53743,9 @@ msgstr[0] "M919 冲锋枪"
 #: lang/json/gun_from_json.py
 msgid ""
 "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 "
-"submachine gun is the most accurate 9mm submachine gun on the market.  "
+"submachine gun is the most accurate 9x19mm submachine gun on the market.  "
 "Intended for police use, it is fitted with an integral grenade launcher."
-msgstr "由缅因州波特兰市的萨拉苏尔机械制造公司生产，M919冲锋枪是市面上精度最高的9mm口径冲锋枪。设计用于警用，它内置了一个榴弹发射器。"
+msgstr "由缅因州波特兰市的萨拉苏尔机械制造公司生产，M919冲锋枪是市面上精度最高的9x19mm口径冲锋枪。设计用于警用，它内置了一个榴弹发射器。"
 
 #: lang/json/gun_from_json.py
 msgid "Eagle 1776"
@@ -55184,8 +55095,8 @@ msgstr[0] ".22 口径改装件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm or "
-".223 firearm converts it to a .22 firearm.  The conversion results in a "
+"Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
+"or .223 firearm converts it to a .22 firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "这套改装工具可以将9mm、.38、.40、5.7mm、4.6mm、7.62mm及.223口径的枪械改装成 .22口径，会稍微降低命中率。"
 
@@ -55224,8 +55135,9 @@ msgstr[0] ".45 口径改装件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to"
-" a .45 firearm.  The conversion results in a slight reduction to accuracy."
+"Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it"
+" to a .45 firearm.  The conversion results in a slight reduction to "
+"accuracy."
 msgstr "这套改装工具可以将.38、.40、.44和9mm口径的枪械改装成.45口径，会稍微降低命中率。"
 
 #: lang/json/gunmod_from_json.py
@@ -55235,9 +55147,9 @@ msgstr[0] "4.6mm 口径改装件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, or "
-".38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
-"and armor penetration."
+"A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, "
+"or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy"
+" and armor penetration."
 msgstr "这套改装工具可以将.22、9mm和.38口径的枪械改装成4.6x30mm口径，会提升命中率和穿甲能力。"
 
 #: lang/json/gunmod_from_json.py
@@ -55247,21 +55159,21 @@ msgstr[0] "5.7mm 口径改装件"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
-"firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
+"A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38"
+" firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
 "armor penetration."
 msgstr "这套改装工具可以将.22、9mm和.38口径的枪械改装成5.7x28mm口径，会提升命中率和穿甲能力。"
 
 #: lang/json/gunmod_from_json.py
-msgid "9mm caliber conversion kit"
-msgid_plural "9mm caliber conversion kits"
-msgstr[0] "9mm 口径改装件"
+msgid "9x19mm caliber conversion kit"
+msgid_plural "9x19mm caliber conversion kits"
+msgstr[0] "9mm口径转换器"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr "这套改装工具可以将9x18mm、.38、.40、.44和.45口径的枪械改装成9mm口径，会稍微降低命中率。"
 
 #: lang/json/gunmod_from_json.py
@@ -56013,14 +55925,14 @@ msgstr "简单地用即一片回收来的大刀片和一些线绑成的手工制
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
 "4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
 "conversion results in a slight reduction to accuracy."
 msgstr "这套改装模组可以将9mm、.38、.40、10mm、.45长柯尔特、5.7mm、4.6mm、7.62mm及.223口径的枪支改装成.22口径，会稍微降低命中率。"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
 "firearm converts it to a .45 ACP firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "这套改装工具可以将9mm、.38、.40、10mm、.44和.45长柯尔特口径的枪械改装成.45 ACP口径，会稍微降低命中率。"
@@ -56028,8 +55940,8 @@ msgstr "这套改装工具可以将9mm、.38、.40、10mm、.44和.45长柯尔�
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr "这套改装工具可以将9x18mm、.38、.40、10mm、.44和.45口径的枪械改装成9mm口径，会稍微降低命中率。"
 
 #: lang/json/gunmod_from_json.py
@@ -56419,6 +56331,10 @@ msgstr "安装插件"
 #: lang/json/item_action_from_json.py
 msgid "Chop down a tree"
 msgstr "砍倒树木"
+
+#: lang/json/item_action_from_json.py
+msgid "Chop a Tree Trunk into logs"
+msgstr "树干劈成圆木"
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -61962,6 +61878,10 @@ msgstr "呕吐过"
 msgid "Filthy Gear"
 msgstr "脏衣服"
 
+#: lang/json/morale_type_from_json.py
+msgid "Debug Morale"
+msgstr "调试心情值"
+
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
 msgid "mutagen message here"
@@ -63228,7 +63148,7 @@ msgstr "你因背部有旧伤或天生如此，当你背负东西时，你的背
 
 #: lang/json/mutation_from_json.py
 msgid "Bad Temper"
-msgstr "坏脾气"
+msgstr "易怒"
 
 #. ~ Description for Bad Temper
 #: lang/json/mutation_from_json.py
@@ -63406,7 +63326,7 @@ msgstr "成瘾体质"
 msgid ""
 "It's easier for you to become addicted to substances, and harder to rid "
 "yourself of these addictions."
-msgstr "你很容易对其他东西上瘾，烟酒不论。同时，也许是上瘾和戒瘾过于频繁，你想再次戒瘾是很难办到的。"
+msgstr "你很容易对其他东西上瘾，烟酒不论，同时，也许是上瘾和戒瘾过于频繁，你想再次戒瘾是很难办到的。"
 
 #: lang/json/mutation_from_json.py
 msgid "Trigger Happy"
@@ -63532,7 +63452,7 @@ msgstr "你对暴力行为极为的抵触与反感，连想都不愿意想，你
 
 #: lang/json/mutation_from_json.py
 msgid "Mood Swings"
-msgstr "喜怒无常"
+msgstr "情绪反常"
 
 #. ~ Description for Mood Swings
 #: lang/json/mutation_from_json.py
@@ -63541,7 +63461,7 @@ msgstr "你的心情难以控制，常常毫无预料的开心或难过，而且
 
 #: lang/json/mutation_from_json.py
 msgid "Slow Footed"
-msgstr "速度慢"
+msgstr "慢足"
 
 #. ~ Description for Slow Footed
 #: lang/json/mutation_from_json.py
@@ -63719,7 +63639,7 @@ msgstr "你的眼睛发生了变异，所视的阴影似乎并没有那么暗。
 
 #: lang/json/mutation_from_json.py
 msgid "Fey Nightsight"
-msgstr "黑暗视觉"
+msgstr "妖精夜视"
 
 #. ~ Description for Fey Nightsight
 #: lang/json/mutation_from_json.py
@@ -65217,7 +65137,7 @@ msgid ""
 "Your mind and brain have adapted to your new place in the world: as one on "
 "top the food chain.  You can effortlessly master and maintain combat skills,"
 " but your critical thinking has atrophied further."
-msgstr "你的意识和大脑已经适应了你在世界上的新地位：食物链的巅峰。你可以毫不费力地掌握并保持战斗技能，但你的批判性思维进一步萎缩。"
+msgstr "你是顶级掠食者，你的意识和大脑已经适应了你在世界上的新地位：食物链的巅峰。你可以毫不费力地掌握并保持战斗技能，但你的批判性思维进一步萎缩。"
 
 #: lang/json/mutation_from_json.py
 msgid "Sapiovore"
@@ -65262,7 +65182,7 @@ msgid ""
 "You have a pair of large, translucent wings.  They are too small to lift "
 "you, but are powerful enough to greatly speed your movement, with some "
 "effort and noise."
-msgstr "你可以像一个巨型小叮当一样带着嗡嗡声走来走去。这双巨大的半透明的翅膀。虽然不能让你飞起来，但是可以大大加快你的移动速度。"
+msgstr "你可以像一个巨型小叮当一样带着嗡嗡声走来走去。扇动这双巨大的半透明的翅膀，虽然不能让你飞起来，但是可以大大加快你的移动速度。"
 
 #: lang/json/mutation_from_json.py
 msgid "Mouth Tentacles"
@@ -65472,7 +65392,7 @@ msgstr "你明显地长高长壮了。你变得更强壮（力量+2），但是�
 
 #: lang/json/mutation_from_json.py
 msgid "Large"
-msgstr "彪形大汉"
+msgstr "魁梧身躯"
 
 #. ~ Description for Large
 #: lang/json/mutation_from_json.py
@@ -65527,7 +65447,7 @@ msgstr "孔武有力"
 #. ~ Description for Extremely Strong
 #: lang/json/mutation_from_json.py
 msgid "Your muscles are much stronger.  Strength + 4"
-msgstr "你的肌肉变得强壮无比。力量+4"
+msgstr "你的肌肉强度变得更大。力量+4"
 
 #: lang/json/mutation_from_json.py
 msgid "Insanely Strong"
@@ -65536,7 +65456,7 @@ msgstr "力大无穷"
 #. ~ Description for Insanely Strong
 #: lang/json/mutation_from_json.py
 msgid "Your muscles are noticeably bulging.  Strength + 7"
-msgstr "你的肌肉膨胀非常明显。你几乎超越了人类的极限！力量+7"
+msgstr "你的肌肉围度与质量非常之大。你几乎超越了人类的极限！力量+7"
 
 #: lang/json/mutation_from_json.py
 msgid "Prime Strength"
@@ -65662,7 +65582,7 @@ msgstr "你觉得你看得更清楚了。感知+1"
 
 #: lang/json/mutation_from_json.py
 msgid "Very Perceptive"
-msgstr "八面玲珑"
+msgstr "高度敏锐"
 
 #. ~ Description for Very Perceptive
 #: lang/json/mutation_from_json.py
@@ -65671,7 +65591,7 @@ msgstr "你的目光变得敏锐多了。感知+2"
 
 #: lang/json/mutation_from_json.py
 msgid "Extremely Perceptive"
-msgstr "明察秋毫"
+msgstr "洞察一切"
 
 #. ~ Description for Extremely Perceptive
 #: lang/json/mutation_from_json.py
@@ -66109,7 +66029,7 @@ msgstr "你的身体容易脱水。你需要喝更多的水。"
 
 #: lang/json/mutation_from_json.py
 msgid "Very Thirsty"
-msgstr "非常渴"
+msgstr "非常渴水"
 
 #. ~ Description for Very Thirsty
 #: lang/json/mutation_from_json.py
@@ -66802,7 +66722,7 @@ msgstr "你的手臂变成了八条触须，敏捷+1，手掌累赘永久+30，�
 
 #: lang/json/mutation_from_json.py
 msgid "Shell"
-msgstr "忍者神龟"
+msgstr "龟壳"
 
 #. ~ Description for Shell
 #: lang/json/mutation_from_json.py
@@ -66814,7 +66734,7 @@ msgstr "你的身体表面有一个厚厚的外壳，提供优良的装甲。有
 
 #: lang/json/mutation_from_json.py
 msgid "Roomy Shell"
-msgstr "忍者房龟"
+msgstr "大龟壳"
 
 #. ~ Description for Roomy Shell
 #: lang/json/mutation_from_json.py
@@ -67472,7 +67392,7 @@ msgstr "恶棍"
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm just here for the paycheck."
-msgstr "我来这就是为了赚钱。"
+msgstr "我来这就是为了我的钱包。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Scavenger"
@@ -67480,7 +67400,7 @@ msgstr "拾荒者"
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm just trying to survive."
-msgstr "我只是在试着活下去。"
+msgstr "我只是在努力生存下去。"
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Arsonist"
@@ -67512,7 +67432,7 @@ msgstr "蜜蜂人"
 
 #: lang/json/npc_class_from_json.py
 msgid "I'm bugged - I shouldn't talk to you."
-msgstr "我出现了Bug，我不该告诉你的。"
+msgstr "我出现了Bug，我不该跟你说话的。"
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 #: lang/json/npc_from_json.py
@@ -67547,7 +67467,7 @@ msgstr "变种人"
 msgid ""
 "I'm looking for mutagen... this world is no place for humans anymore, and I "
 "don't plan to keep being one."
-msgstr "我在找诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "我在找诱变剂…这个世界已经不适合人类了，我不做人了！"
 
 #: lang/json/npc_class_from_json.py
 msgid "Lizard Mutant"
@@ -67557,7 +67477,7 @@ msgstr "蜥蜴变种人"
 msgid ""
 "I'm looking for lizard mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找蜥蜴诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "嘶嘶——我在找蜥蜴诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Medical Mutant"
@@ -67597,7 +67517,7 @@ msgstr "野兽变种人"
 msgid ""
 "I'm looking for beast mutagen... this world is no place for humans anymore, "
 "and I don't plan to keep being one."
-msgstr "我在找野兽诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "嗷嗷——我在找野兽诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Ursine Mutant"
@@ -67607,7 +67527,7 @@ msgstr "熊科变种人"
 msgid ""
 "I'm looking for ursine mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找熊科诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "呼呼——我在找熊科诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Feline Mutant"
@@ -67617,7 +67537,7 @@ msgstr "猫科变种人"
 msgid ""
 "I'm looking for feline mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找猫类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "我在找猫类诱变剂喵…这个世界已经不适合人类了喵，因此我也不打算做人了喵。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Lupine Mutant"
@@ -67627,7 +67547,7 @@ msgstr "狼类变种人"
 msgid ""
 "I'm looking for lupine mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找狼类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "嗷——我在找狼类诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Cattle Mutant"
@@ -67637,7 +67557,7 @@ msgstr "家畜变种人"
 msgid ""
 "I'm looking for cattle mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找家畜诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "哼哧——我在找家畜诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Insect Mutant"
@@ -67647,7 +67567,7 @@ msgstr "昆虫变种人"
 msgid ""
 "I'm looking for insect mutagen... this world is no place for humans anymore,"
 " and I don't plan to keep being one."
-msgstr "我在找昆虫诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "喀喀喀——我在找昆虫诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Plant Mutant"
@@ -67707,7 +67627,7 @@ msgstr "老鼠变种人"
 msgid ""
 "I'm looking for rat mutagen... this world is no place for humans anymore, "
 "and I don't plan to keep being one."
-msgstr "我在找老鼠诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "吱——我在找老鼠诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Alpha Mutant"
@@ -67727,7 +67647,7 @@ msgstr "精灵变种人"
 msgid ""
 "I'm looking for elfa mutagen... this world is no place for humans anymore, "
 "and I don't plan to keep being one."
-msgstr "我在找精灵诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "诺多！我在找精灵诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Chimera Mutant"
@@ -67737,7 +67657,7 @@ msgstr "奇美拉变种人"
 msgid ""
 "I'm looking for chimera mutagen... this world is no place for humans "
 "anymore, and I don't plan to keep being one."
-msgstr "我在找奇美拉诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
+msgstr "呃啊——我在找奇美拉诱变剂…这个世界已经不适合人类了，因此我也不打算做人了。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Raptor Mutant"
@@ -72406,7 +72326,7 @@ msgstr "你本来来着是为了体验下新英格兰的风味，现在你只希
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Naked and Afraid"
-msgstr "全裸荒野作死秀"
+msgstr "全裸荒野作死哥"
 
 #. ~ Profession (male Naked and Afraid) description
 #: lang/json/professions_from_json.py
@@ -72414,12 +72334,12 @@ msgctxt "prof_desc_male"
 msgid ""
 "You were out filming a reality TV show in the woods and the cast and crew "
 "all seemed to have turned into zombies.  Looks like it's for real now..."
-msgstr "你在森林里拍摄求生真人秀节目，演员和剧组人员似乎都成了丧尸。看起来好像真的一样......"
+msgstr "你在森林里拍摄求生真人秀节目《Naked and Afraid》，剧组要求你脱光全身衣服并卸载CBM后在荒野中等待拍摄开始，但演员和剧组人员似乎都扮成了丧尸。耶，这次节目采取了丧尸末日主题！不过丧尸看起来好像过度逼真了......"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Naked and Afraid"
-msgstr "全裸荒野作死秀"
+msgstr "全裸荒野作死妹"
 
 #. ~ Profession (female Naked and Afraid) description
 #: lang/json/professions_from_json.py
@@ -72427,7 +72347,7 @@ msgctxt "prof_desc_female"
 msgid ""
 "You were out filming a reality TV show in the woods and the cast and crew "
 "all seemed to have turned into zombies.  Looks like it's for real now..."
-msgstr "你在森林里拍摄求生真人秀节目，演员和剧组人员似乎都成了丧尸。看起来好像真的一样......"
+msgstr "你在森林里拍摄求生真人秀节目《Naked and Afraid》，剧组要求你脱光全身衣服袒胸露乳并卸载CBM后在荒野中等待拍摄开始，但演员和剧组人员似乎都扮成了丧尸。耶，这次节目采取了丧尸末日主题！不过丧尸看起来好像过度逼真了......"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -76053,7 +75973,7 @@ msgid ""
 "steadfastly defending her children from an angry bear.  The caption reads:  "
 "\"Rivtech retractable monomolecular blade system.  Failure is never an "
 "option.\" and \"Rivtech Bionics, guaranteed for life.\""
-msgstr "这是Rivtech牌单分子刀CBM的广告，一个手臂上有着单分子刀的女人正为了保护她的子女而合一头愤怒的熊战斗。标题是：\"Rivtech伸缩单分子刀，永远不会失败\"，和\"Rivtech生物，生命的守护\"。"
+msgstr "这是Rivtech牌单分子刀CBM的广告，一个手臂上有着单分子刀的女人正为了保护她的子女而和一头愤怒的熊战斗。标题是：\"Rivtech伸缩单分子刀，永远不会失败\"，和\"Rivtech生物，生命的守护\"。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -77359,7 +77279,7 @@ msgstr "\"好多死掉的妈妈\"（注：NPC任务吐槽）"
 
 #: lang/json/snippet_from_json.py
 msgid "\"FLAMING SWORD HUMANE.  CAUTERIZES WOUNDS.  SURGICAL.\""
-msgstr "\"文火灼烧短剑。再烧烙伤口处。外科技术。\""
+msgstr "\"文·火·灼·烧·短·剑。再·烧·烙·伤·口·处。外·科·技·术。\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"knife screams it screams i cant breathe so scared help me please help\""
@@ -78136,7 +78056,7 @@ msgstr "该死"
 
 #: lang/json/snippet_from_json.py
 msgid "shit"
-msgstr "我操"
+msgstr "狗屎"
 
 #: lang/json/snippet_from_json.py
 msgid "fuckit"
@@ -78328,7 +78248,7 @@ msgstr "<name_b>，<ill_kill_you>"
 
 #: lang/json/snippet_from_json.py
 msgid "I'm not gonna last much longer"
-msgstr "我没法撑更久了"
+msgstr "我撑不下去了"
 
 #: lang/json/snippet_from_json.py
 msgid "I'll be dead soon"
@@ -78476,7 +78396,7 @@ msgstr "你"
 
 #: lang/json/snippet_from_json.py
 msgid "dude"
-msgstr "帅哥"
+msgstr "兄弟"
 
 #: lang/json/snippet_from_json.py
 msgid "buddy"
@@ -78676,7 +78596,7 @@ msgstr "切实"
 
 #: lang/json/snippet_from_json.py
 msgid "REALLY"
-msgstr "真！的！"
+msgstr "真·的！"
 
 #: lang/json/snippet_from_json.py
 msgid "Excuse me, let me pass."
@@ -78848,7 +78768,7 @@ msgstr "他妈的"
 
 #: lang/json/snippet_from_json.py
 msgid "god damn"
-msgstr "天煞的"
+msgstr "天杀的"
 
 #: lang/json/snippet_from_json.py
 msgid "mafuckin'"
@@ -79282,7 +79202,7 @@ msgstr " <given_name>。我们再也没法见到另一个像他那么优秀的�
 
 #: lang/json/snippet_from_json.py
 msgid " <full_name>. Done in by mutant wasps."
-msgstr " <full_name>。被变异黄蜂干翻了。"
+msgstr " <full_name>。被变异黄蜂扎烂了。"
 
 #: lang/json/snippet_from_json.py
 msgid "LIVING INSIDE!"
@@ -79402,7 +79322,7 @@ msgstr "大佬"
 
 #: lang/json/snippet_from_json.py
 msgid "my dude"
-msgstr "帅哥"
+msgstr "老哥"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -79546,7 +79466,7 @@ msgstr "你是我最好的朋友！"
 
 #: lang/json/speech_from_json.py
 msgid "Heehee!"
-msgstr "呵~~呵~~"
+msgstr "嘿——嘿——！"
 
 #: lang/json/speech_from_json.py
 msgid "Let's have fun!"
@@ -79566,7 +79486,7 @@ msgstr "你不应该那样做。"
 
 #: lang/json/speech_from_json.py
 msgid "Let's play... Russian roulette."
-msgstr "让我们玩……俄罗斯轮盘赌。"
+msgstr "让我们玩点……俄罗斯轮盘赌。"
 
 #: lang/json/speech_from_json.py
 msgid "I hate you."
@@ -81472,7 +81392,7 @@ msgstr "我没在这待很长时间，但我总是尽量注意来来往往的那
 
 #: lang/json/talk_topic_from_json.py
 msgid "Keep your head down and stay out of my way."
-msgstr "低下头不准看我，并且别他妈挡我的路！"
+msgstr "低下头不准看我然后别他妈挡我的路！"
 
 #: lang/json/talk_topic_from_json.py
 msgid "OK..."
@@ -85019,7 +84939,8 @@ msgid ""
 "right.  Generally speaking, the more damaging the ammo, the worse the "
 "recoil.  Recoil severely reduces your chance to hit, but you can eliminate "
 "recoil by pausing ('.') for a turn or moving normally.  High strength "
-"reduces recoil, so weak characters might want to stick to .22 or 9mm guns."
+"reduces recoil, so weak characters might want to stick to .22 or 9x19mm "
+"guns."
 msgstr "击发枪支后，你可能会看到右下方出现了后坐力提示。总体来说，子弹的威力越大，后坐力也越大。后坐力会明显降低你射击的命中率，但是你可以按\".\"键等待一回合，或是走动一步来降低后坐力。高力量的角色受到的后坐力较小，所以力量较低的角色可以考虑使用威力较小的.22或9mm枪械。"
 
 #: lang/json/tutorial_messages_from_json.py
@@ -86461,12 +86382,12 @@ msgid "automated .308 pipe rifle"
 msgstr "自制钢管步枪（.308口径）自动炮塔"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm pipe rifle turret"
-msgstr "自制钢管步枪（9mm口径）炮塔"
+msgid "9x19mm pipe rifle turret"
+msgstr "自制钢管步枪（9x19mm口径）炮塔"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "automated 9mm pipe rifle"
-msgstr "自制钢管步枪（9mm口径）自动炮塔"
+msgid "automated 9x19mm pipe rifle"
+msgstr "自制钢管步枪（9x19mm口径）自动炮塔"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "flintlock rifle turret"
@@ -86873,8 +86794,8 @@ msgid "5.56mm rack"
 msgstr "5.56mm 弹药架"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm rack"
-msgstr "9mm 弹药架"
+msgid "9x19mm rack"
+msgstr "9x19mm弹药架"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden floor panel"
@@ -87491,8 +87412,8 @@ msgstr "没有用来制作丧尸奴仆的尸体！"
 #: src/activity_handlers.cpp
 msgid ""
 "You slice muscles and tendons, and remove body parts until you're confident "
-"the zombie won't be able to attack you when it reainmates."
-msgstr "你不停地切除尸体的身体组织，直到你确信丧尸再次复苏时已失去攻击性为止。"
+"the zombie won't be able to attack you when it reanimates."
+msgstr "你不停的切除尸体的身体组织，直到你确信丧尸再次复苏时已失去攻击性为止。"
 
 #: src/activity_handlers.cpp
 msgid ""
@@ -87759,6 +87680,19 @@ msgstr "选择一个树木倒下的方向:"
 #: src/activity_handlers.cpp
 msgid "You finish chopping down a tree."
 msgstr "你砍倒了一棵树。"
+
+#: src/activity_handlers.cpp
+msgid "You finish chopping the logs."
+msgstr "你完成了劈原木。"
+
+#. ~ Sound of a jackhammer at work!
+#: src/activity_handlers.cpp
+msgid "TATATATATATATAT!"
+msgstr "嗒嗒嗒嗒嗒嗒嗒！"
+
+#: src/activity_handlers.cpp
+msgid "You finish drilling."
+msgstr "你完成了钻孔。"
 
 #: src/activity_item_handling.cpp
 #, c-format
@@ -88326,7 +88260,7 @@ msgid "Really move everything from your inventory?"
 msgstr "真的要清空你的物品栏吗？"
 
 #: src/advanced_inv.cpp
-msgid "Really remove all your clothes? (woo woo)"
+msgid "Really remove all your clothes? (woo hoo)"
 msgstr "真的要移除你所有的装备吗？"
 
 #: src/advanced_inv.cpp
@@ -90945,7 +90879,7 @@ msgid "Download data?"
 msgstr "下载数据？"
 
 #: src/computer.cpp
-msgid "Result: Unknown blood type.  Test nonconclusive."
+msgid "Result: Unknown blood type.  Test non-conclusive."
 msgstr "分析结果：未知血液类型。实验证据不足。"
 
 #: src/computer.cpp
@@ -91238,8 +91172,8 @@ msgstr "需要访问密码！"
 msgid ""
 "\n"
 "Power:         Backup Only\n"
-"Radion Level:  Very Dangerous\n"
-"Operational:   Overrided\n"
+"Radiation Level:  Very Dangerous\n"
+"Operational:   Overridden\n"
 "\n"
 msgstr "\n能量： 仅作备用\n放射等级：非常危险\n操作性： 不可控\n\n"
 
@@ -92367,6 +92301,11 @@ msgid "Needs:"
 msgstr "人物需求："
 
 #: src/debug_menu.cpp
+#, c-format
+msgid "Total morale: %d"
+msgstr "总心情值：%d"
+
+#: src/debug_menu.cpp
 msgid "Player"
 msgstr "玩家"
 
@@ -92393,6 +92332,10 @@ msgstr "装备物品 [w]"
 #: src/debug_menu.cpp
 msgid "Set [h]it points"
 msgstr "设置生命值[h]"
+
+#: src/debug_menu.cpp
+msgid "Set m[o]rale"
+msgstr "[o]设置心情值"
 
 #: src/debug_menu.cpp
 msgid "Cause [p]ain"
@@ -92483,6 +92426,11 @@ msgstr "右腿"
 #, c-format
 msgid "Set the hitpoints to? Currently: %d"
 msgstr "设置生命值？当前：%d"
+
+#: src/debug_menu.cpp
+#, c-format
+msgid "Set the morale to? Currently: %d"
+msgstr "设置心情值？当前：%d"
 
 #: src/debug_menu.cpp
 #, c-format
@@ -92654,7 +92602,7 @@ msgstr "强制移除任务"
 
 #: src/defense.cpp
 #, c-format
-msgid "Please wait as the map generates [ 0%%]"
+msgid "Please wait as the map generates [ 0%% ]"
 msgstr "请等待，地图生成中……[ 0%%]"
 
 #: src/defense.cpp
@@ -93230,7 +93178,7 @@ msgid "Field effects"
 msgstr "环境效果"
 
 #: src/editmap.cpp
-msgctxt "map editor: used to describe a clean field (eg. without blood)"
+msgctxt "map editor: used to describe a clean field (e.g. without blood)"
 msgid "-clear-"
 msgstr "-清除-"
 
@@ -94406,7 +94354,7 @@ msgid "the avoidance of drugs"
 msgstr "他们对毒品的禁忌"
 
 #: src/faction.cpp
-msgid "their adherance to the law"
+msgid "their adherence to the law"
 msgstr "他们对秩序的遵守"
 
 #: src/faction.cpp
@@ -95795,15 +95743,6 @@ msgstr "世界保留。剩余人物：%s"
 #: src/game.cpp
 msgid "Wait till you wake up..."
 msgstr "等到你醒来…..."
-
-#: src/game.cpp
-msgid "Your heart races as you recall your most recent hunt."
-msgstr "你想到最近的狩猎就心跳加速。"
-
-#: src/game.cpp
-#, c-format
-msgid "Your skill in %s has reduced to %d!"
-msgstr "你的 %s 技能降到了 %d！"
 
 #: src/game.cpp
 msgid "(Y)es, (N)o, (I)gnore further distractions and finish."
@@ -98207,7 +98146,7 @@ msgstr "你不能拽着东西上下楼梯。"
 
 #: src/game.cpp
 msgid "There is a LOT of heat coming out of there.  Descend anyway?"
-msgstr "那个方向真他娘的热，继续向下？"
+msgstr "你感到那个方向传来高温，继续向下？"
 
 #: src/game.cpp
 msgid "There is a LOT of heat coming out of there.  Ascend anyway?"
@@ -101227,7 +101166,7 @@ msgstr "你无法从那里爬下去"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d storey. Jump down?"
+msgid "Looks like %d story. Jump down?"
 msgid_plural "Looks like %d stories. Jump down?"
 msgstr[0] "看起来有 %d 层楼那么高。要跳下去吗？"
 
@@ -102626,9 +102565,9 @@ msgstr "锯短"
 
 #. ~ This is a string to construct the item name as it is displayed. This
 #. format string has been added for maximum flexibility. The strings are:
-#. %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt").
-#. %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg.
-#. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet)
+#. %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt").
+#. %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g.
+#. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet)
 #. (fits)").
 #: src/item.cpp
 #, c-format
@@ -104186,10 +104125,6 @@ msgid "Don't do anything rash."
 msgstr "不要莽撞行事。"
 
 #: src/iuse.cpp
-msgid "TATATATATATATAT!"
-msgstr "嗒嗒嗒嗒嗒嗒嗒！"
-
-#: src/iuse.cpp
 msgid "You can't drill there."
 msgstr "你不能钻那里。"
 
@@ -104530,7 +104465,7 @@ msgstr "你并不识字，无法读书！"
 
 #: src/iuse.cpp
 msgid "What do you want to play?"
-msgstr "请选择游戏："
+msgstr "请移动光标选择游戏："
 
 #: src/iuse.cpp
 msgid "Robot finds Kitten"
@@ -104542,7 +104477,7 @@ msgstr "贪吃蛇"
 
 #: src/iuse.cpp src/iuse_software_sokoban.cpp
 msgid "Sokoban"
-msgstr "仓库番"
+msgstr "推箱子"
 
 #: src/iuse.cpp src/iuse_software_minesweeper.cpp
 msgid "Minesweeper"
@@ -104654,6 +104589,14 @@ msgstr "你还没强壮到能用这玩意给自己剃胡子。"
 #: src/iuse.cpp
 msgid "You can't chop down that."
 msgstr "你无法砍倒它。"
+
+#: src/iuse.cpp
+msgid "Chop which which tree trunk?"
+msgstr "劈开哪棵树木？"
+
+#: src/iuse.cpp
+msgid "You can't chop that."
+msgstr "你无法劈开它。"
 
 #: src/iuse.cpp
 msgid "You need welding goggles to do that."
@@ -105183,7 +105126,7 @@ msgstr "选择一个侵入的终端点。"
 
 #: src/iuse.cpp
 msgid "No enemy robots in range."
-msgstr "射程内无敌对机器人。"
+msgstr "射程内没有敌对机器人。"
 
 #: src/iuse.cpp
 #, c-format
@@ -106550,7 +106493,7 @@ msgid "Your %s is already enhanced."
 msgstr "%s 已经是增强过的了。"
 
 #: src/iuse_actor.cpp
-msgid "Refiting"
+msgid "Refitting"
 msgstr "改装"
 
 #: src/iuse_actor.cpp
@@ -106720,7 +106663,7 @@ msgid "The barrel is too short."
 msgstr "枪管过短。"
 
 #: src/iuse_actor.cpp
-msgid "The barrel is aleady sawn off."
+msgid "The barrel is already sawn-off."
 msgstr "枪管已经锯短。"
 
 #: src/iuse_actor.cpp
@@ -106901,7 +106844,7 @@ msgid "A Texas Instruments of Destruction calculator."
 msgstr "一个德州毁灭仪器公司出品的计算器。"
 
 #: src/iuse_software_kitten.cpp
-msgid "It's a dark, amphorous blob of matter."
+msgid "It's a dark, amorphous blob of matter."
 msgstr "这是一种深色的，没有形状的粘稠物质。"
 
 #: src/iuse_software_kitten.cpp
@@ -107190,7 +107133,7 @@ msgstr "一个普通的半身像贝多芬……但为什么他被漆成了绿色
 
 #: src/iuse_software_kitten.cpp
 msgid "It's TV's lovable wisecracking Crow! \"Bite me!\", he says."
-msgstr "电视里一只可爱的俏皮乌鸦！\"咬我吧！\"它说到。"
+msgstr "电视里一只可爱的俏皮乌鸦！\"你咬我啊！\"它说到。"
 
 #: src/iuse_software_kitten.cpp
 msgid ""
@@ -107620,10 +107563,10 @@ msgstr "）。"
 
 #: src/iuse_software_kitten.cpp
 msgid ""
-"Your job is to find kitten. This task is complicated by the existance of "
+"Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
-"they are kitten or not. The game ends when robotfindskitten. Alternatively, "
-"you may end the game by hitting 'q', 'Q' or the escape key."
+"they are kitten or not. The game ends when robot finds kitten. "
+"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
 msgstr "你的任务是要找到小猫。它藏在各种混乱的东西里，机器人必须通过碰到物品来检查小猫是否在里边，游戏在机器人找到小猫后就会结束，实际上，你随时都可以按\"q\"/\"Q\"/\"ESC\"键来结束游戏。"
 
 #: src/iuse_software_kitten.cpp
@@ -107967,7 +107910,7 @@ msgstr "确定退出？所有未保存的改变将会丢失。"
 
 #: src/main_menu.cpp
 msgid "Please report bugs to kevin.granade@gmail.com or post on the forums."
-msgstr "汉化说明请查看“贡献者”。游戏bug报告请发邮件至kevin.granade@gmail.com，汉化bug自行翻墙至transifex修改。"
+msgstr "汉化说明请查看“贡献者”。游戏bug报告请发邮件至kevin.granade@gmail.com。"
 
 #: src/main_menu.cpp
 #, c-format
@@ -108249,6 +108192,10 @@ msgid "Simple. "
 msgstr "简易家具"
 
 #: src/map.cpp
+msgid "Mountable. "
+msgstr "可乘坐"
+
+#: src/map.cpp
 #, c-format
 msgid "Falling %s hits you!"
 msgstr "掉落的 %s 击中了你！"
@@ -108293,7 +108240,7 @@ msgstr "金属棒融化了！"
 #: src/map.cpp
 #, c-format
 msgid "It should take %d minutes to finish washing items in the %s."
-msgstr "%s内的物品还需要大概 %d 分钟才能清洗完成。"
+msgstr "还需要大概 %d 分钟才能清洗完%s内的物品。"
 
 #: src/map.cpp
 #, c-format
@@ -108694,7 +108641,7 @@ msgstr[0] "%d 个敌人被击中！"
 
 #: src/melee.cpp
 #, c-format
-msgid "You have learnt %s from extensive practice with the CQB Bionic."
+msgid "You have learned %s from extensive practice with the CQB Bionic."
 msgstr "借助于CQB生化插件的大量练习，你学会了 %s。"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
@@ -109088,7 +109035,7 @@ msgstr "你从 %2$s 偷窃 %1$s 失败了，幸好没有被发觉。"
 msgid "You failed to steal %1$s from %2$s."
 msgstr "你从 %2$s 偷窃 %1$s 失败！"
 
-#. ~ Message %s on the message log was repeated %d times, eg. "You hear a
+#. ~ Message %s on the message log was repeated %d times, e.g. "You hear a
 #. whack! x 12"
 #: src/messages.cpp
 #, c-format
@@ -109544,10 +109491,6 @@ msgid ""
 "%s feels more confident in your abilities and is willing to let you "
 "participate in daring raids."
 msgstr "%s 对你的能力更有信心了，并且愿意让你参与更冒险的劫掠行动。"
-
-#: src/mission_companion.cpp
-msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
-msgstr "不幸的是他们被不死者击败了……我很遗憾。"
 
 #: src/mission_companion.cpp
 #, c-format
@@ -110368,13 +110311,13 @@ msgstr "你用尾巴抽打 %s！"
 msgid "The %s lands on you, but you swat it off."
 msgstr "%s 落在你身上，幸好你拍打掉了它。"
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lands on your %2$s, but can't penetrate your armor."
 msgstr "%1$s 落在了你的 %2$s 上，但是不能刺穿你的装甲。"
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s sinks its ovipositor into your %2$s!"
@@ -112898,7 +112841,7 @@ msgstr "友好"
 
 #: src/npc.cpp
 msgid "Ambivalent"
-msgstr "暧昧"
+msgstr "不明确"
 
 #: src/npc.cpp
 msgid "Pissed off"
@@ -115355,6 +115298,14 @@ msgid "You: $%.2f"
 msgstr "你：$%.2f"
 
 #: src/npctalk.cpp
+msgid "< Back"
+msgstr "< 返回"
+
+#: src/npctalk.cpp
+msgid "More >"
+msgstr "更多 >"
+
+#: src/npctalk.cpp
 msgid "Examine which item?"
 msgstr "检查哪个？"
 
@@ -115444,6 +115395,23 @@ msgid "Select a follower"
 msgstr "选择一个队员"
 
 #: src/options.cpp
+msgid ""
+"If true, will enable to pickup items one tile around to the player.  You can"
+" assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your "
+"homebase."
+msgstr "开启后，玩家周围一格的东西将会被自动拾取。你可以用\"Y\"键的区域管理菜单设置不拾取区域，例如你的宅基地。"
+
+#: src/options.cpp
+msgid "List items within no auto pickup zones"
+msgstr "列出不拾取区域内的物品"
+
+#: src/options.cpp
+msgid ""
+"If false, you will not see messages about items, you step on, within no auto"
+" pickup zones."
+msgstr "开启后，在不拾取区域内右侧消息栏会显示在玩家脚下的物品。"
+
+#: src/options.cpp
 msgid "Auto pulp or butcher"
 msgstr "自动屠宰/砸碎尸体"
 
@@ -115474,8 +115442,20 @@ msgid "Pulp Adjacent"
 msgstr "砸碎附近"
 
 #: src/options.cpp
+msgid ""
+"If safe mode is enabled, distance to hostiles at which safe mode should show"
+" a warning.  0 = Max player view distance."
+msgstr "开启安全模式时，当任何敌对角色进入该距离内，安全模式会给出警告。0 = 玩家最大视野。"
+
+#: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
 msgstr "选择杯（C）、升（L）或者夸脱（qt）作为体积单位。"
+
+#: src/options.cpp
+msgid ""
+"12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal "
+"24h, e.g. 7:31"
+msgstr "12小时制： AM/PM（默认），例：7:31 AM 。军用制：24小时军用时间格式，例：0731。24小时制：24小时标准时间显示，例：7:31\""
 
 #: src/options.cpp
 msgid "Open default advanced inventory layout"
@@ -115544,7 +115524,7 @@ msgid "Pixel Minimap brightness"
 msgstr "小地图亮度"
 
 #: src/options.cpp
-msgid "Overal brightness of pixel-detail minimap."
+msgid "Overall brightness of pixel-detail minimap."
 msgstr "选择小地图的绘制亮度。"
 
 #: src/options.cpp
@@ -116362,6 +116342,12 @@ msgstr "没有杀死任何怪物。"
 #, c-format
 msgid "Total kills: %d"
 msgstr "杀敌合计： %d"
+
+#. ~ 1. skill name, 2. skill level, 3. exercise percentage to next level
+#: src/player.cpp
+#, c-format
+msgid "%s: %d (%d %%)"
+msgstr "%s：%d（%d%%）"
 
 #: src/player.cpp
 msgid "Traits:"
@@ -118189,6 +118175,15 @@ msgstr "任务 \"%s\" 失败。"
 msgid "Mission \"%s\" is successfully completed."
 msgstr "任务 \"%s\" 成功。"
 
+#: src/player.cpp
+msgid "Your heart races as you recall your most recent hunt."
+msgstr "你想到最近的狩猎就心跳加速。"
+
+#: src/player.cpp
+#, c-format
+msgid "Your skill in %s has reduced to %d!"
+msgstr "你的 %s 技能降到了 %d！"
+
 #: src/player_display.cpp
 #, c-format
 msgid "Swimming costs %+d movement point. "
@@ -119434,7 +119429,7 @@ msgid "Safe Mode Rule:"
 msgstr "安全模式规则："
 
 #: src/safemode_ui.cpp
-msgid "Proximity Distance (0=max viewdistance)"
+msgid "Proximity Distance (0=max view distance)"
 msgstr "安全模式判定距离（0=玩家最大视野）"
 
 #: src/safemode_ui.cpp

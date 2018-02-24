@@ -425,7 +425,7 @@ class map
                          const int cost_min, const int cost_max ) const;
 
         /**
-         * Iteratively tries bresenham lines with different biases
+         * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
          * returns the line found, which may be the straight line, but blocked.
          */
@@ -507,13 +507,13 @@ class map
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
-        // Change vehicle coords and move vehicle's driver along.
+        // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
         vehicle *displace_vehicle( tripoint &p, const tripoint &dp );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
-        // Returns the wheel area of the vehicle multipled by traction of the surface
+        // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh ) const;
 
@@ -544,7 +544,8 @@ class map
         std::string name( const int x, const int y );
         bool has_furn( const int x, const int y ) const;
 
-        furn_id furn( const int x, const int y ) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+        // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
+        furn_id furn( const int x, const int y ) const;
 
         void furn_set( const int x, const int y, const furn_id new_furniture );
 
@@ -568,7 +569,7 @@ class map
         std::string furnname( const tripoint &p );
         bool can_move_furniture( const tripoint &pos, player *p = nullptr );
         // Terrain: 2D overloads
-        // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+        // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
         void ter_set( const int x, const int y, const ter_id new_terrain );
@@ -1208,9 +1209,9 @@ class map
             return getabs( p.x, p.y );
         }
         /**
-         * Translates tripoint in local coords (near player) to global,
+         * Translates tripoint in local coordinates (near player) to global,
          * just as the 2D variant of the function.
-         * z-coord remains unchanged (it is always global).
+         * Z-coordinate remains unchanged (it is always global).
          */
         tripoint getabs( const tripoint &p ) const;
         /**
@@ -1229,7 +1230,7 @@ class map
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
         }
 
-        /** Clips the coords of p to fit the map bounds */
+        /** Clips the coordinates of p to fit the map bounds */
         void clip_to_bounds( tripoint &p ) const;
         void clip_to_bounds( int &x, int &y ) const;
         void clip_to_bounds( int &x, int &y, int &z ) const;

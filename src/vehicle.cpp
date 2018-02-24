@@ -329,7 +329,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             destroyTires = true;
         }
     } else if( !one_in(3) ){
-        //most cars should have a desroyed alarm
+        //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
 
@@ -481,7 +481,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             if(blood_inside) {
                 // blood is splattered around (blood_inside_x, blood_inside_y),
-                // coords relative to mount point; the center is always a seat
+                // coordinates relative to mount point; the center is always a seat
                 if (blood_inside_set) {
                     int distSq = std::pow((blood_inside_x - parts[p].mount.x), 2) +
                         std::pow((blood_inside_y - parts[p].mount.y), 2);
@@ -501,7 +501,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             is_locked = true;
 
             if( one_in( 2 ) ) {
-                // if vehicle has immobiliser 50% chance to add additional fault
+                // if vehicle has immobilizer 50% chance to add additional fault
                 parts[ p ].fault_set( fault_immobiliser );
             }
         }
@@ -1086,7 +1086,7 @@ bool vehicle::fold_up() {
 
     // Store data of all parts, iuse::unfold_bicyle only loads
     // some of them, some are expect to be
-    // vehicle specific and therefor constant (like id, mount).
+    // vehicle specific and therefore constant (like id, mount).
     // Writing everything here is easier to manage, as only
     // iuse::unfold_bicyle has to adopt to changes.
     try {
@@ -1172,7 +1172,7 @@ bool vehicle::start_engine( const int e )
         }
     }
 
-    // Immobilisers need removing before the vehicle can be started
+    // Immobilizers need removing before the vehicle can be started
     if( eng.faults().count( fault_immobiliser ) ) {
         add_msg( _( "The %s makes a long beeping sound." ), eng.name().c_str() );
         return false;
@@ -1849,7 +1849,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     if( new_part.is_engine() ) {
         enable = true;
     } else {
-        // @todo read toggle groups from JSON
+        // @todo: read toggle groups from JSON
         static const std::vector<std::string> enable_like = {{
             "CONE_LIGHT",
             "CIRCLE_LIGHT",
@@ -2232,7 +2232,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    // @todo check fuel for combustion engines
+    // @todo: check fuel for combustion engines
 
     if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {
@@ -2869,7 +2869,7 @@ units::volume vehicle::total_folded_volume() const
 
 const point &vehicle::rotated_center_of_mass() const
 {
-    // @todo Bring back caching of this point
+    // @todo: Bring back caching of this point
     calc_mass_center( true );
 
     return mass_center_precalc;
@@ -2890,7 +2890,7 @@ point vehicle::pivot_displacement() const
     // If the pivot point changes, this artificially moves the vehicle, as the position
     // of the old pivot point will appear to move from (posx+0, posy+0) to some other point
     // (posx+dx,posy+dy) even if there is no change in vehicle position or rotation.
-    // This method finds that movement so it can be cancelled out when actually moving
+    // This method finds that movement so it can be canceled out when actually moving
     // the vehicle.
 
     // rotate the old pivot point around the new pivot point with the old rotation angle
@@ -2919,7 +2919,7 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        // @todo Allow NPCs to power those
+        // @todo: Allow NPCs to power those
         vehicle *veh = g->m.veh_at( g->u.pos(), part_under_player );
         bool player_controlling = player_in_control(g->u);
 
@@ -3262,7 +3262,7 @@ float vehicle::k_dynamics() const
 
 float vehicle::k_mass() const
 {
-    // @todo Remove this sum, apply only the relevant wheel type
+    // @todo: Remove this sum, apply only the relevant wheel type
     float wa = wheel_area( false ) + wheel_area( true );
     if( wa <= 0 ) {
        return 0;
@@ -3311,7 +3311,7 @@ float vehicle::strain() const
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
-    // @todo Remove the limitations that boats can't move on land
+    // @todo: Remove the limitations that boats can't move on land
     if( boat || !floats.empty() ) {
         return boat && floats.size() > 2;
     }
@@ -3407,7 +3407,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
     std::map<itype_id, int> ret;
     for( size_t i = 0; i < engines.size(); i++ ) {
         // Note: functions with "engine" in name do NOT take part indices
-        // @todo Use part indices and not engine vector indices
+        // @todo: Use part indices and not engine vector indices
         if( !is_engine_on( i ) ) {
             continue;
         }
@@ -3419,7 +3419,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
             continue;
         }
 
-        // @todo Get rid of this special case
+        // @todo: Get rid of this special case
         if( info.fuel_type == fuel_type_battery ) {
             // Motor epower is in negatives
             ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
@@ -3472,7 +3472,7 @@ void vehicle::consume_fuel( double load = 1.0 )
             fuel_remainder[ ft ] = -amnt_precise;
         }
 
-        add_msg( m_debug, "%s consumes %s: amnt %.2f, rem %.2f",
+        add_msg( m_debug, "%s consumes %s: amount %.2f, remainder %.2f",
                  name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
@@ -3528,10 +3528,9 @@ void vehicle::power_parts()
         }
 
         epower += engine_epower;
-    }
 
-    // Producers of epower
-    if(engine_on) {
+        // Producers of epower
+
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
@@ -4082,7 +4081,7 @@ void vehicle::thrust( int thd ) {
        thrusting = (sgn == thd);
     }
 
-    // @todo Pass this as an argument to avoid recalculating
+    // @todo: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
     if( thrusting && accel == 0 ) {
@@ -4293,7 +4292,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
     for( size_t i = 0; i < structural_indices.size(); i++ ) {
         const int p = structural_indices[i];
-        // Coords of where part will go due to movement (dx/dy/dz)
+        // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
@@ -4705,7 +4704,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     int shrap = 0;
     int part_damage = 0;
     std::string snd;
-    // todo; make trapfuncv?
+    // @todo: make trapfuncv?
 
     if ( t == tr_bubblewrap ) {
         noise = 18;
@@ -4764,6 +4763,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
         falling = true;
         // Don't print message
         return;
+    } else if( t == tr_lava ) {
+        part_damage = 500;
+        //@todo Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
     } else {
         return;
     }
@@ -4845,8 +4847,8 @@ bool vehicle::add_item( int part, const item &itm )
         debugmsg( "int part (%d) is out of range", part );
         return false;
     }
-    // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
-    // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
+    // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
+    // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
         if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
@@ -5110,7 +5112,7 @@ void vehicle::refresh()
         if (vpi.has_flag("STEERABLE") || vpi.has_flag("TRACKED")) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
-            //  (b) still contributes to drag for the center of steering calc
+            //  (b) still contributes to drag for the center of steering calculation
             steering.push_back(p);
         }
         if (vpi.has_flag("SECURITY")){
@@ -5179,7 +5181,7 @@ void vehicle::refresh_pivot() const {
     //                     (xw,yw) and (xc,yc)
     //
     //  Decompose the force into two components, assuming that the wheel is
-    //  aligned along the X axis and we want to apply diffferent weightings to
+    //  aligned along the X axis and we want to apply different weightings to
     //  the in-line vs perpendicular parts of the force:
     //
     //   Resistance force in line with the wheel (X axis)
@@ -5217,7 +5219,7 @@ void vehicle::refresh_pivot() const {
     for (int p : wheelcache) {
         const auto &wheel = parts[p];
 
-        // @todo: load on tyre?
+        // @todo: load on tire?
         float contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
@@ -5389,7 +5391,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
 
     // door motor mechanism is protected by closed doors
     if( part_flag( target_part, "DOOR_MOTOR" ) ) {
-        // find the most strong openable thats not open
+        // find the most strong openable that is not open
         int strongest_door_part = -1;
         int strongest_door_durability = INT_MIN;
         for( int part : pl ) {
@@ -5809,7 +5811,7 @@ void vehicle::possibly_recover_from_skid() {
     rl_vec2d mv = move_vec();
     rl_vec2d fv = face_vec();
     float dot = mv.dot_product(fv);
-    // Threshold of recovery is gaussianesque.
+    // Threshold of recovery is Gaussianesque.
 
     if( fabs( dot ) * 100 > dice( 9,20 ) ){
         add_msg(_("The %s recovers from its skid."), name.c_str());
@@ -6045,7 +6047,7 @@ void vehicle::update_time( const time_point &update_to )
         }
 
         if( epower > 0 ) {
-            add_msg( m_debug, "%s got %d epower from solars", name.c_str(), epower );
+            add_msg( m_debug, "%s got %d epower from solar panels", name.c_str(), epower );
             charge_battery( epower_to_power( epower ) );
         }
     }

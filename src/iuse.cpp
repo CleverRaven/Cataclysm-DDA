@@ -1178,7 +1178,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
             p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
                                 pgettext("memorial_female", m_category.memorial_message.c_str()));
             // Manually removing Carnivore, since it tends to creep in
-            // This is because carnivore is a prereq for the
+            // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
             if( mutation_category == "MUTCAT_URSINE" && p->has_trait( trait_CARNIVORE ) ) {
                 p->unset_mutation( trait_CARNIVORE );
@@ -1212,7 +1212,7 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
     }
 
     for( auto& iter : mutation_category_trait::get_all() ) {
-        // @todo Get rid of this revolting string hack
+        // @todo: Get rid of this revolting string hack
         if( !it->has_flag( iter.second.mutagen_flag ) ) {
             continue;
         }
@@ -1443,7 +1443,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mod_pain(90);
         p.hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p.fall_asleep((6000 - p.int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 6000 - p.int_cur * 10 ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1560,7 +1560,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
-        p->fall_asleep((3000 - p->int_cur * 10));
+        p->fall_asleep( 3000 - p->int_cur * 10 );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
@@ -4142,6 +4142,34 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Chop which tree trunk?" ), dirp ) ) {
+        return 0;
+    }
+
+    int moves;
+
+    const ter_id ter = g->m.ter( dirp );
+    if( ter == t_trunk ) {
+        /** @EFFECT_STR reduces time required to chop down a tree */
+        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
+    } else {
+        add_msg( m_info, _( "You can't chop that." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
+}
+
 int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() ) {
@@ -4779,7 +4807,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         }
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
-                    if (tries < 5) {
+                    if (tries < 5) { // @todo: tries increment is missing, so this expression is always true
                         if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng("DISAPPEAR");
@@ -5399,7 +5427,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             uimenu pick_robot;
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
-            std::vector< monster* > mons; // @todo change into vector<Creature*>
+            std::vector< monster* > mons; // @todo: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( monster &candidate : g->all_monsters() ) {
@@ -6817,8 +6845,6 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
         }
     } else if( choice == 3 ) {
         veh->use_controls( pos );
-    } else {
-        return 0;
     }
 
     g->u.view_offset.x = px;

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-03 20:52-0500\n"
-"PO-Revision-Date: 2018-02-04 12:11+0000\n"
+"POT-Creation-Date: 2018-02-17 03:40-0500\n"
+"PO-Revision-Date: 2018-02-18 10:27+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Activer la prise automatique d'objets. Changer les règles de prise avec
 msgid "Auto pickup adjacent"
 msgstr "Prise automatique des objets adjacents"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can"
 " assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
@@ -213,7 +213,7 @@ msgstr "Si vrai, interrompra la partie et affichera un avertissement quand mon m
 msgid "Safe Mode proximity distance"
 msgstr "Distance de proximité pour le mode prudence"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player viewdistance."
@@ -459,7 +459,7 @@ msgstr "24h"
 msgid "Time format"
 msgstr "Format de l'heure"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
 "24h, eg: 7:31"
@@ -3166,28 +3166,6 @@ msgid ""
 "flamethrower."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
-msgid "concrete"
-msgid_plural "concrete"
-msgstr[0] "béton"
-msgstr[1] "béton"
-
-#. ~ Description for concrete
-#: lang/json/AMMO_from_json.py
-msgid "Some concrete, ready to be used in a construction project."
-msgstr "Du ciment, prêt à être utilisé dans un projet de construction."
-
-#: lang/json/AMMO_from_json.py
-msgid "mortar"
-msgid_plural "mortar"
-msgstr[0] "mortier"
-msgstr[1] "mortier"
-
-#. ~ Description for mortar
-#: lang/json/AMMO_from_json.py
-msgid "Some mortar, ready to be used in building projects."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
@@ -3661,8 +3639,8 @@ msgstr ".30-06 M2 AP"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an "
-"extremely powerful and accurate cartridge but pays for it's armor "
-"penetration abilities with lowered damage."
+"extremely powerful and accurate cartridge but pays for its armor penetration"
+" abilities with lowered damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3736,7 +3714,7 @@ msgstr ".32 ACP"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
-"powerful as the .38 or the 9mm though."
+"powerful as the .38 or the 9x19mm though."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4528,9 +4506,9 @@ msgstr "9x19mm +P+"
 #. ~ Description for 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A step beyond the high-pressure 9mm +P round, the +P+ has even higher "
+"A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher "
 "internal pressure offering superior damage, accuracy, and penetration."
-msgstr "Un pas de plus après la munition sur-pressurisée 9mm +P, la +P+ dispose d'une pression interne encore accrue permettant une meilleure précision, pénétration ainsi que des dégâts plus elevés."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm JHP"
@@ -4989,8 +4967,8 @@ msgstr[1] ""
 #. ~ Description for 6.54x42mm 9N8
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A 6.54x42mm cartridge, loaded with a 100 gr. FMJ bullet.  Inspired by the "
-"improved .270 British, Alexander Sarafanov himself developed the 6.54x42mm "
+"A 6.54x42mm cartridge, loaded with a 120 gr. FMJBT bullet.  Inspired by the "
+"improved .280 British, Alexander Sarafanov himself developed the 6.54x42mm "
 "rifle cartridge for his new SVS-24 Assault Rifle."
 msgstr ""
 
@@ -5023,15 +5001,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 6.54x42mm 9N8"
-msgid_plural "reloaded 6.54x42mm 9N8"
-msgstr[0] "6.54x42mm 9N8 rechargée"
-msgstr[1] "6.54x42mm 9N8 rechargées"
+msgid "reloaded 6.54x42mm"
+msgid_plural "reloaded 6.54x42mm"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for reloaded 6.54x42mm 9N8
+#. ~ Description for reloaded 6.54x42mm
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Inspired by the improved .270, Alexander Sarafanov himself developed the "
+"Inspired by the improved .280, Alexander Sarafanov himself developed the "
 "6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has "
 "been hand-reloaded."
 msgstr ""
@@ -13613,12 +13591,14 @@ msgstr[0] "MBC: Système de Défense Active"
 msgstr[1] "MBCs: Système de Défense Active"
 
 #. ~ Description for Active Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Active Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
 " attempting to penetrate this field has a chance of being deflected at the "
-"cost of more energy.  Melee attacks will be stopped more often than bullets."
-msgstr "Un fin champ de force entoure votre corps, ponctionnant de l'énergie en permanence. Toute tentative de pénétrer ce champ de force a une chance d'être détournée au prix d'une consommation plus importante d'énergie. Les attaques de mêlée seront plus souvent bloquées que les balles."
+"cost of energy.  Bullets will be stopped more often than swords and those in"
+" turn more often than massive objects."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Advanced Microreactor CBM"
@@ -13627,11 +13607,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Advanced Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Advanced Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  This one has been heavily upgraded."
-"  Warning: minimal radiation shielding."
+"This stripped down mini-reactor is safer than it appears due to integrated "
+"radiation cleansers.  There is no way to shut it down, but you can toggle "
+"additional fuel intake."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13758,12 +13739,14 @@ msgstr[0] "MBC: Bras Blaster à Fusion"
 msgstr[1] "MBCs: Bras Blaster à Fusion"
 
 #. ~ Description for Fusion Blaster Arm CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Fusion Blaster Arm
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray; however, you are unable to "
-"use or carry two-handed items, and may only fire handguns."
-msgstr "Votre bras gauche a été remplacé par un blaster à fusion à toute épreuve! Vous pouvez utiliser votre réserve d'énergie pour tirer un rayon de chaleur qui fait des dommages. Mais vous n'êtes plus capable d'utiliser ou porter des objets à deux mains et pouvez uniquement tirer avec des pistolets."
+" your energy banks to fire a damaging heat ray.  However, you are unable to "
+"use or carry two-handed items, and your strength limits what you can use "
+"with your one hand."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Blood Analysis CBM"
@@ -13890,15 +13873,12 @@ msgstr[0] "MBC: Combat Rapproché"
 msgstr[1] "MBCs: Combat Rapproché"
 
 #. ~ Description for Close Quarters Battle CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Close Quarters Battle
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Databanks and processors loaded with extensive martial arts combat programs "
-"are integrated directly into your spinal column.  While active, your close "
-"combat skills are superseded by the machine's programming.  You have the "
-"option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms."
-"  The cybernetic disconnect prevents you from improving the affected combat "
-"skills while this bionic is active.  However, with extended use in combat, "
-"it is possible to learn the chosen martial art."
+"Bionic processors and databanks, loaded with martial arts combat programs, "
+"are integrated into your nervous system.  Whilst active, the CQB module will"
+" improve your hand to hand combat skills."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13938,15 +13918,14 @@ msgstr[0] "MBC: Ouïe Améliorée"
 msgstr[1] "MBCs: Ouïe Améliorée"
 
 #. ~ Description for Enhanced Hearing CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Enhanced Hearing
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "When this bionic is active, your hearing will be drastically improved, "
 "allowing you to hear ten times better than the average person.  "
 "Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing.  You can also toggle those sound dampeners on "
-"demand, should you wish to reduce the effect of the bionic or become "
-"completely deaf."
-msgstr ""
+"they can damage your hearing."
+msgstr "En acivant ce bionique votre ouïe s'améliore drastiquement, vous permettant d'entendre dix fois mieux qu'une personne normale. De plus, les sons très intenses seront automatiquement affaiblis avant qu'ils ne puissent endommager votre audition."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Directional EMP CBM"
@@ -14098,12 +14077,13 @@ msgstr[0] "MBC: Fournaise Interne"
 msgstr[1] "MBCs: Fournaise Interne"
 
 #. ~ Description for Internal Furnace CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Furnace
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"You can burn nearly any organic material as fuel (use 'E'), recharging your "
-"power level.  Some materials will burn better than others.  Can be toggled "
-"on and off at will."
-msgstr "Vous pouvez brûler presque tous les matériaux organiques, servant ainsi de fuel (utilisez 'E') pour recharger votre niveau d'énergie. Certains matériaux brûlent mieux que d'autres. Peut être activé à la demande."
+"When this bionic is active, you can burn nearly any organic material as fuel"
+" (use 'E'), recharging your power level.  Some materials will burn better "
+"than others."
+msgstr "Quand ce bionique est actif, vous pouvez brûler toute matière organique comme combustible (avec 'E'), ce qui recharge votre niveau d'énergie. Certaines matières brûleront mieux que d'autres."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Dosimeter CBM"
@@ -14200,11 +14180,12 @@ msgstr[0] "MBC: Vision Infrarouge"
 msgstr[1] "MBCs: Vision Infrarouge"
 
 #. ~ Description for Infrared Vision CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Infrared Vision
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark, and even through walls."
-msgstr "La gamme spectrale de votre vue s'étend jusqu'aux infrarouges, vous permettant de voir les créatures à sang chaud dans le noir, et même à travers les murs."
+"blooded creatures in the dark."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cerebral Booster CBM"
@@ -14360,12 +14341,13 @@ msgstr[0] "MBC: Nano-Robots de Réparation"
 msgstr[1] "MBCs: Nano-Robots de Réparation"
 
 #. ~ Description for Repair Nanobots CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Repair Nanobots
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Inside your body is a fleet of tiny dormant robots.  Once charged from your "
-"energy banks, they will flit about your body, repairing damage and stopping "
-"bleeding."
-msgstr "Une flotte de petits robots est en sommeil dans votre corps. Une fois rechargé par votre banque d'énergie, ils se promèneront dans votre corps pour réparer les dommages et arrêter les saignements."
+"Inside your body is a fleet of tiny dormant robots.  While activated they "
+"will flit about your body, repairing damage and stopping bleeding at the "
+"cost of power."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Artificial Night Generator CBM"
@@ -14400,12 +14382,13 @@ msgstr[0] "MBC: Système de Défense Offensif"
 msgstr[1] "MBCs: Système de Défense Offensif"
 
 #. ~ Description for Offensive Defense System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Offensive Defense System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a very strong shock,"
-" damaging unarmed attackers and those with a conductive weapon."
-msgstr "Un fin champ de force entoure votre corps, ponctionnant de l'énergie en continu. Ce champ ne protégera pas contre les pénétrations mais délivrera une puissante décharge électrique, endommageant les attaquants non-armés et ceux qui ont une arme conductrice."
+"field does not deflect penetration, but rather delivers a strong shock, "
+"damaging unarmed attackers and those with a conductive weapon."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Sensory Dulling CBM"
@@ -14516,11 +14499,13 @@ msgstr[0] "MBC: Filtre à Air"
 msgstr[1] "MBCs: Filtre à Air"
 
 #. ~ Description for Air Filtration System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Air Filtration System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins find "
-"their way into your windpipe, the filter will attempt to remove them."
-msgstr "Un système avancé de filtration est implanté dans votre trachée. Si des toxines parviennent dans votre trachée, le filtre tentera de les éliminer."
+"Implanted in your trachea is an advanced filtration system.  If toxins, or "
+"airborne diseases find their way into your windpipe, the filter will attempt"
+" to remove them.  Reducing the toxic effects."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Radiation Scrubber System CBM"
@@ -14574,11 +14559,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Internal Microreactor CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Microreactor System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Storage tank and stripped down plutonium reactor, allowing generation of "
-"power from small amounts of plutonium.  Warning: minimal radiation "
-"shielding."
+"This stripped down mini-reactor may not be the best thing to have in your "
+"chest.  There is no way to shut it down, but you can toggle additional fuel "
+"intake."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14630,12 +14616,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Sonic Resonator CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Sonic Resonator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to flexible creatures, stiff "
-"items such as walls, doors, and even robots will be severely damaged."
-msgstr "Votre corps entier peut vibrer très violemment, émettant ainsi une onde de choc de courte portée. Elle ne fera pas beaucoup de dommages aux créature flexibles mais les objets rigides comme les murs, portes et même les robots seront sévèrement endommagés."
+"shockwave.  While it will not do much damage to creatures, stiff items such "
+"as walls and doors will be damaged."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Olfactory Mask CBM"
@@ -14760,13 +14747,13 @@ msgstr[0] "MBC: Compensateurs anti-éblouissement"
 msgstr[1] "MBCs: Compensateurs anti-éblouissement"
 
 #. ~ Description for Anti-Glare Compensators CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Anti-Glare Compensators
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your eyes have high-power, quick-reacting transition lenses installed over "
-"them, negating any glare penalties and protecting you from bright flashes "
-"including those of a welder.  Additionally you can toggle them to block out "
-"all light."
-msgstr ""
+"Your eyes have quick-reacting transition lenses installed over them.  They "
+"negate glare penalties, partially protect you from bright flashes, and "
+"protect your eyes when welding."
+msgstr "Vos yeux sont équipés de lentilles à réaction rapide. Elles annulent les pénalités causées par l'éblouissement, vous protège partiellement des flashs lumineux; vous pouvez aussi souder sans lunettes."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Targeting System CBM"
@@ -14805,12 +14792,13 @@ msgstr[0] "MBC: Dilatation Temporelle"
 msgstr[1] "MBCs: Dilatation Temporelle"
 
 #. ~ Description for Time Dilation CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Time Dilation
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"At an immense cost of power, you may increase your body speed and reactions "
-"dramatically, essentially freezing time.  You are still delicate, however, "
-"and violent or rapid movements may damage you due to friction."
-msgstr "Au prix d'un immense coût en énergie, vous pouvez augmenter radicalement vos vitesse corporelle et temps de réaction, consistant en clair à geler le temps. Vous êtes cependant toujours fragile et les mouvements rapides ou violents peuvent vous endommager à cause de la friction."
+"At the cost of all stored bionic power, you may increase your body speed and"
+" reactions dramatically, essentially freezing time.  You are still delicate,"
+" however, and violent or rapid movements may damage you due to friction."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Toolset CBM"
@@ -14862,12 +14850,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Unified Power System CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Unified Power System
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"A UPS fully integrated with your bionic power system.  Allows you to run "
-"devices requiring a UPS off of your internal power, which is much more "
-"efficient than standard battery power."
-msgstr ""
+"You have a unified power system wired into your power banks.  Objects that "
+"run on a UPS can now draw directly from your internal power supply."
+msgstr "Vous possédez un onduleur dans vos réserves d'énergie. Les appareils qui fonctionnent avec un onduleur pourront s'alimenter avec."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Internal Chronometer CBM"
@@ -14876,10 +14864,12 @@ msgstr[0] "MBC: Chronomètre Interne"
 msgstr[1] "MBCs: Chronomètre Interne"
 
 #. ~ Description for Internal Chronometer CBM
-#: lang/json/BIONIC_ITEM_from_json.py
+#. ~ Description for Internal Chronometer
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time."
+" always know the current time.  Additionally, it includes a silent alarm "
+"clock function."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -26832,6 +26822,19 @@ msgid ""
 msgstr "Ce petit engin explosif improvisé est conçu pour être attaché à une flèche et explose lors de l'impact."
 
 #: lang/json/GENERIC_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for violin case
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] "éclat de calcaire"
@@ -27287,6 +27290,17 @@ msgid ""
 "A length of rebar, makes a nice melee weapon, and could be handy in "
 "constructing tougher walls and such."
 msgstr "Une barre d'armature, une bonne arme de mêlée qui pourrait aussi se rendre utile dans la construction de murs plus résistants ou constructions similaires."
+
+#: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
+msgid "concrete"
+msgid_plural "concrete"
+msgstr[0] "béton"
+msgstr[1] "béton"
+
+#. ~ Description for concrete
+#: lang/json/GENERIC_from_json.py
+msgid "Some concrete, ready to be used in a construction project."
+msgstr "Du ciment, prêt à être utilisé dans un projet de construction."
 
 #: lang/json/GENERIC_from_json.py
 msgid "log"
@@ -28369,6 +28383,17 @@ msgstr[1] "briques"
 #: lang/json/GENERIC_from_json.py
 msgid "A fire hardened building block used in masonry construction."
 msgstr "Une brique cuite dans le feu. Utile pour la maçonnerie."
+
+#: lang/json/GENERIC_from_json.py
+msgid "mortar"
+msgid_plural "mortar"
+msgstr[0] "mortier"
+msgstr[1] "mortier"
+
+#. ~ Description for mortar
+#: lang/json/GENERIC_from_json.py
+msgid "Some mortar, ready to be used in building projects."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "tanbark"
@@ -31178,8 +31203,8 @@ msgstr[1] "phares renforcés"
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A vehicle headlight with a cage built around it to protect it from damage "
-"without reducing it's effectiveness."
-msgstr "Un phare de véhicule recouvert d'une cage pour le protéger des dégâts snas réduire son efficacité."
+"without reducing its effectiveness."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "storage battery case"
@@ -32291,12 +32316,12 @@ msgid "An empty casing from a 7.62x25mm round."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "9mm casing"
-msgid_plural "9mm casings"
-msgstr[0] "douille 9mm"
-msgstr[1] "douilles 9mm"
+msgid "9x19mm casing"
+msgid_plural "9x19mm casings"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for 9mm casing
+#. ~ Description for 9x19mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 9x19mm round."
 msgstr "Une double vide d'un balle de 9x19mm."
@@ -34337,13 +34362,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "RMGB500 8x40mm extended magazine"
-msgstr "chargeur étendu de RMGB500 8x40mm"
+msgid "RMGB500 8x40mm drum magazine"
+msgstr ""
 
-#. ~ Description for RMGB500 8x40mm extended magazine
+#. ~ Description for RMGB500 8x40mm drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 500 round box magazine for use with Rivtech 8x40mm caseless firearms."
+"A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34431,8 +34456,8 @@ msgstr "chargeur de LW-21"
 #. ~ Description for LW-21 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A 21-round polymer magazine for Leadworks LLC 9mm firearms.  Lightweight and"
-" reliable but somewhat more difficult to reload."
+"A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight "
+"and reliable but somewhat more difficult to reload."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34518,7 +34543,7 @@ msgstr "chargeur de USP 9mm"
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A factory specification 15-round box magazine for use with the dependable "
-"H&K USP 9mm pistol."
+"H&K USP 9x19mm pistol."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34708,12 +34733,12 @@ msgid "An improvised magazine made for the pipe SMG: .38, holds 25 rounds."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "pipe SMG: 9mm magazine"
+msgid "pipe SMG: 9x19mm magazine"
 msgstr ""
 
-#. ~ Description for pipe SMG: 9mm magazine
+#. ~ Description for pipe SMG: 9x19mm magazine
 #: lang/json/MAGAZINE_from_json.py
-msgid "An improvised magazine made for the pipe SMG: 9mm, holds 25 rounds."
+msgid "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -38313,8 +38338,8 @@ msgstr "tourelle militaire"
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
-"Atomics' TX-1 9mm model and an automated M4 carbine."
-msgstr "Une tourelle T-4A1 de Leadworks LLC. Elle possède un micrologiciel amélioré du modèle TX-1 9mm et une carabine M4 automatique."
+"Atomics' TX-1 9x19mm model and an automated M4 carbine."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "centipede"
@@ -40230,6 +40255,12 @@ msgstr[1] "sifflets"
 msgid "FWEEEET!"
 msgstr ""
 
+#. ~ Use action use_message for whistle.
+#. ~ Use action use_message for whistle multitool.
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
+msgid "You blow the whistle."
+msgstr ""
+
 #. ~ Description for whistle
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A simple metal whistle, with a cord to wear it around your neck."
@@ -40723,6 +40754,11 @@ msgstr[1] "cornes de brume"
 msgid "HOOOOONK!"
 msgstr "TUUUT TUUUT!"
 
+#. ~ Use action use_message for compressed air horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk your airhorn."
+msgstr ""
+
 #. ~ Description for compressed air horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41182,11 +41218,11 @@ msgstr[1] "tourelles inactives"
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an inactive turret.  Using this item involves loading the unit with "
-"the factory-loaded 9mm rounds in your inventory (if you wish to divide your "
-"ammunition, set aside whatever 9mm you do NOT want to give the turret) "
-"turning it on, and placing it on the ground, where it will attach itself.  "
-"The turret will then identify you as a friendly, and attack all enemies with"
-" a built-in SMG."
+"the factory-loaded 9x19mm rounds in your inventory (if you wish to divide "
+"your ammunition, set aside whatever 9x19mm you do NOT want to give the "
+"turret) turning it on, and placing it on the ground, where it will attach "
+"itself.  The turret will then identify you as a friendly, and attack all "
+"enemies with a built-in SMG."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
@@ -43067,6 +43103,11 @@ msgstr[1] "klaxons de vélo"
 msgid "honk."
 msgstr "klaxon."
 
+#. ~ Use action use_message for bicycle horn.
+#: lang/json/TOOL_from_json.py
+msgid "You honk the bicycle horn."
+msgstr ""
+
 #. ~ Description for bicycle horn
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -44594,9 +44635,9 @@ msgstr[1] "scalpels"
 #. ~ Description for scalpel
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a very sharp knife designed for surgical cutting.  It's small, sharp"
-" blade allows for precision strikes in the hands of the skilled."
-msgstr "C'est un couteau très aiguisé utilisé en chirurgie. Permet des coups précis dans les mains des plus compétents."
+"This is a very sharp knife designed for surgical cutting.  Its small, sharp "
+"blade allows for precision strikes in the hands of the skilled."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "pair of scissors"
@@ -44873,10 +44914,10 @@ msgstr "Vous mettez en place le piège avec fusil à pompe."
 #. ~ Description for shotgun trap
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a simple tripwire is attached to the trigger of a loaded sawn-off "
-"shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first "
-"time the trigger is pulled, one or both shells may be discharged."
-msgstr "Une corde tendue reliée à la gachette d'un fusil."
+"This is a simple tripwire is attached to the trigger of a loaded double-"
+"barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; "
+"the first time the trigger is pulled, one or both shells may be discharged."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "shovel"
@@ -47729,6 +47770,10 @@ msgstr ""
 msgid "Stop chopping down?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop drilling?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -47773,8 +47818,8 @@ msgid ".22"
 msgstr ".22"
 
 #: lang/json/ammunition_type_from_json.py
-msgid "9mm"
-msgstr "9mm"
+msgid "9x19mm"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "9x18mm"
@@ -48012,25 +48057,8 @@ msgstr "Pompe d'Adrénaline"
 msgid "Active Defense System"
 msgstr "Système de Défense Active"
 
-#. ~ Description for Active Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  Anything"
-" attempting to penetrate this field has a chance of being deflected at the "
-"cost of energy.  Bullets will be stopped more often than swords and those in"
-" turn more often than massive objects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Advanced Microreactor System"
-msgstr ""
-
-#. ~ Description for Advanced Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor is safer than it appears due to integrated "
-"radiation cleansers.  There is no way to shut it down, but you can toggle "
-"additional fuel intake."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -48079,15 +48107,6 @@ msgstr "Lame Monomoléculaire"
 #: lang/json/bionic_from_json.py
 msgid "Fusion Blaster Arm"
 msgstr "Bras blaster à fusion"
-
-#. ~ Description for Fusion Blaster Arm
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your left arm has been replaced by a heavy-duty fusion blaster!  You may use"
-" your energy banks to fire a damaging heat ray.  However, you are unable to "
-"use or carry two-handed items, and your strength limits what you can use "
-"with your one hand."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Optical Dampers"
@@ -48138,14 +48157,6 @@ msgstr "Système de Camouflage"
 #: lang/json/bionic_from_json.py
 msgid "Close Quarters Battle"
 msgstr "Combat Rapproché"
-
-#. ~ Description for Close Quarters Battle
-#: lang/json/bionic_from_json.py
-msgid ""
-"Bionic processors and databanks, loaded with martial arts combat programs, "
-"are integrated into your nervous system.  Whilst active, the CQB module will"
-" improve your hand to hand combat skills."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic-Induced Deformity"
@@ -48217,15 +48228,6 @@ msgstr ""
 msgid "Enhanced Hearing"
 msgstr "Ouïe améliorée"
 
-#. ~ Description for Enhanced Hearing
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, your hearing will be drastically improved, "
-"allowing you to hear ten times better than the average person.  "
-"Additionally, high-intensity sounds will be automatically dampened before "
-"they can damage your hearing."
-msgstr "En acivant ce bionique votre ouïe s'améliore drastiquement, vous permettant d'entendre dix fois mieux qu'une personne normale. De plus, les sons très intenses seront automatiquement affaiblis avant qu'ils ne puissent endommager votre audition."
-
 #: lang/json/bionic_from_json.py
 msgid "Directional EMP"
 msgstr "IEM directionnelle"
@@ -48278,14 +48280,6 @@ msgstr "Lampe Crânienne"
 msgid "Internal Furnace"
 msgstr "Fournaise interne"
 
-#. ~ Description for Internal Furnace
-#: lang/json/bionic_from_json.py
-msgid ""
-"When this bionic is active, you can burn nearly any organic material as fuel"
-" (use 'E'), recharging your power level.  Some materials will burn better "
-"than others."
-msgstr "Quand ce bionique est actif, vous pouvez brûler toute matière organique comme combustible (avec 'E'), ce qui recharge votre niveau d'énergie. Certaines matières brûleront mieux que d'autres."
-
 #: lang/json/bionic_from_json.py
 msgid "Integrated Dosimeter"
 msgstr "Dosimètre Intégré"
@@ -48313,13 +48307,6 @@ msgstr "Muscles hydrauliques"
 #: lang/json/bionic_from_json.py lang/json/mutation_from_json.py
 msgid "Infrared Vision"
 msgstr "Vision infrarouge"
-
-#. ~ Description for Infrared Vision
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your range of vision extends into the infrared, allowing you to see warm-"
-"blooded creatures in the dark."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Cerebral Booster"
@@ -48388,14 +48375,6 @@ msgstr "Lecteur Météo"
 msgid "Repair Nanobots"
 msgstr "Nanorobots de Réparation"
 
-#. ~ Description for Repair Nanobots
-#: lang/json/bionic_from_json.py
-msgid ""
-"Inside your body is a fleet of tiny dormant robots.  While activated they "
-"will flit about your body, repairing damage and stopping bleeding at the "
-"cost of power."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Artificial Night Generator"
 msgstr "Générateur de Nuit Artificielle"
@@ -48429,14 +48408,6 @@ msgstr ""
 #: lang/json/bionic_from_json.py
 msgid "Offensive Defense System"
 msgstr "Système de Défense Offensive"
-
-#. ~ Description for Offensive Defense System
-#: lang/json/bionic_from_json.py
-msgid ""
-"A thin forcefield surrounds your body, continually draining power.  This "
-"field does not deflect penetration, but rather delivers a strong shock, "
-"damaging unarmed attackers and those with a conductive weapon."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -48510,14 +48481,6 @@ msgstr ""
 msgid "Air Filtration System"
 msgstr "Système de filtration de l'air"
 
-#. ~ Description for Air Filtration System
-#: lang/json/bionic_from_json.py
-msgid ""
-"Implanted in your trachea is an advanced filtration system.  If toxins, or "
-"airborne diseases find their way into your windpipe, the filter will attempt"
-" to remove them.  Reducing the toxic effects."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Radiation Scrubber System"
 msgstr ""
@@ -48534,14 +48497,6 @@ msgstr ""
 msgid "Microreactor System"
 msgstr ""
 
-#. ~ Description for Microreactor System
-#: lang/json/bionic_from_json.py
-msgid ""
-"This stripped down mini-reactor may not be the best thing to have in your "
-"chest.  There is no way to shut it down, but you can toggle additional fuel "
-"intake."
-msgstr ""
-
 #: lang/json/bionic_from_json.py
 msgid "Recycler Unit"
 msgstr "Unité de recyclage"
@@ -48553,14 +48508,6 @@ msgstr "Télécommande"
 #: lang/json/bionic_from_json.py
 msgid "Sonic Resonator"
 msgstr "Résonateur Sonique"
-
-#. ~ Description for Sonic Resonator
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your entire body may resonate at very high power, creating a short-range "
-"shockwave.  While it will not do much damage to creatures, stiff items such "
-"as walls and doors will be damaged."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Olfactory Mask"
@@ -48625,10 +48572,10 @@ msgid "Synaptic Accelerator"
 msgstr "Accélérateur Synaptique"
 
 #: lang/json/bionic_from_json.py
-msgid "Wire-induced Stiffness"
+msgid "Wire-Induced Stiffness"
 msgstr ""
 
-#. ~ Description for Wire-induced Stiffness
+#. ~ Description for Wire-Induced Stiffness
 #: lang/json/bionic_from_json.py
 msgid ""
 "Improperly installed wires cause a physical stiffness in most of your body, "
@@ -48644,16 +48591,8 @@ msgid "Muscle Augmentation"
 msgstr "Augmentation musculaire"
 
 #: lang/json/bionic_from_json.py
-msgid "Anti-glare Compensators"
-msgstr "Compensateurs anti-éblouissements"
-
-#. ~ Description for Anti-glare Compensators
-#: lang/json/bionic_from_json.py
-msgid ""
-"Your eyes have quick-reacting transition lenses installed over them.  They "
-"negate glare penalties, partially protect you from bright flashes, and "
-"protect your eyes when welding."
-msgstr "Vos yeux sont équipés de lentilles à réaction rapide. Elles annulent les pénalités causées par l'éblouissement, vous protège partiellement des flashs lumineux; vous pouvez aussi souder sans lunettes."
+msgid "Anti-Glare Compensators"
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Targeting System"
@@ -48678,14 +48617,6 @@ msgstr ""
 #: lang/json/bionic_from_json.py
 msgid "Time Dilation"
 msgstr "Dilatation temporelle"
-
-#. ~ Description for Time Dilation
-#: lang/json/bionic_from_json.py
-msgid ""
-"At the cost of all stored bionic power, you may increase your body speed and"
-" reactions dramatically, essentially freezing time.  You are still delicate,"
-" however, and violent or rapid movements may damage you due to friction."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Integrated Toolset"
@@ -48714,13 +48645,6 @@ msgstr "Esquive surnaturelle"
 msgid "Internal Unified Power System"
 msgstr "Onduleur Interne"
 
-#. ~ Description for Internal Unified Power System
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have a unified power system wired into your power banks.  Objects that "
-"run on a UPS can now draw directly from your internal power supply."
-msgstr "Vous possédez un onduleur dans vos réserves d'énergie. Les appareils qui fonctionnent avec un onduleur pourront s'alimenter avec."
-
 #: lang/json/bionic_from_json.py
 msgid "Voice Remodulator"
 msgstr "Remodulateur de voix"
@@ -48737,14 +48661,6 @@ msgstr ""
 #: lang/json/bionic_from_json.py
 msgid "Internal Chronometer"
 msgstr "Chronomètre interne"
-
-#. ~ Description for Internal Chronometer
-#: lang/json/bionic_from_json.py
-msgid ""
-"You have been equipped with an internal atomic clock, ensuring that you will"
-" always know the current time.  Additionally, it includes a silent alarm "
-"clock function."
-msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Water Extraction Unit"
@@ -49050,10 +48966,6 @@ msgstr "Labourer"
 #: lang/json/construction_from_json.py
 msgid "Tamp Ground"
 msgstr "Aplanir le sol"
-
-#: lang/json/construction_from_json.py
-msgid "Chop Tree Trunk Into Logs"
-msgstr "Découper un tronc d'arbre en bûches"
 
 #: lang/json/construction_from_json.py
 msgid "Chop Tree Trunk Into Planks"
@@ -55075,10 +54987,10 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"After the success of the 9mm model, Leadworks LLC released an L39B chambered"
-" in .45.  It soon earned a reputation as one of the most intimidating guns "
-"on the market, for firer and target alike.  Similar to other Leadworks "
-"products it doesn't accept third-party modifications."
+"After the success of the 9x19mm model, Leadworks LLC released an L39B "
+"chambered in .45.  It soon earned a reputation as one of the most "
+"intimidating guns on the market, for firer and target alike.  Similar to "
+"other Leadworks products it doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55527,8 +55439,8 @@ msgstr[1] ""
 msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine "
 "gun was designed for durability and extreme volume of sustained fire under "
-"the worst possible circumstances.  Needs to be mounted because of extreme "
-"recoil.  Accepts RMXB500 box and RMGD250 drum magazines."
+"the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
+"magazines."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55597,7 +55509,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A custom built 9mm submachine gun camouflaged to look as the average "
+"A custom built 9x19mm submachine gun camouflaged to look as the average "
 "businessman suitcase, panes of cutting edge materials and its clever "
 "internal construction allowed it to bypass even the most scrupulous of "
 "security checkpoints.  Due to the fact that the average security guard is "
@@ -55627,7 +55539,7 @@ msgstr[1] ""
 msgid ""
 "A small pistol caliber carbine designed for police use and civilian self-"
 "defense, the Cx4 Storm uses magazines that are interchangeable with other "
-"Beretta 9mm handguns."
+"Beretta 9x19mm handguns."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55664,7 +55576,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A uniquely designed pistol caliber carbine with an integral folding stock "
-"and that makes use of 9mm Glock magazines."
+"and that makes use of 9x19mm Glock magazines."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55676,9 +55588,9 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "After the Enforcer's success, Leadworks LLC reworked their autorevolver "
-"design to cater to the 9mm market.  The Lookout, released in 2032, takes "
-"advantage of the smaller 9mm to hold a seventh round, without sacrificing "
-"the ease of handling or reloading the Enforcer made legendary."
+"design to cater to the 9x19mm market.  The Lookout, released in 2032, takes "
+"advantage of the smaller 9x19mm to hold a seventh round, without sacrificing"
+" the ease of handling or reloading the Enforcer made legendary."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -55689,7 +55601,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B "
+"A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B "
 "provides accurate single-shot placement as well as controllable short-range "
 "firepower with its three-round burst mode.  Users praised its accuracy and "
 "fearsome appearance.  Similar to other Leadworks products it doesn't accept "
@@ -55704,10 +55616,10 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides"
-" accurate single-shot placement in a very robust frame.  Several urban "
-"legends describe using it in ways that would have destroyed a lesser weapon."
-"  Similar to other Leadworks products it doesn't accept third-party "
+"A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 "
+"provides accurate single-shot placement in a very robust frame.  Several "
+"urban legends describe using it in ways that would have destroyed a lesser "
+"weapon.  Similar to other Leadworks products it doesn't accept third-party "
 "modifications."
 msgstr ""
 
@@ -55719,13 +55631,13 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A very popular 9mm pistol, the M9 has been the standard issue sidearm of the"
-" US army since 1985."
-msgstr "Un pistolet 9mm très populaire. Le M9 fait partie des armes de poing de l'armée américaine depuis 1985."
+"A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of "
+"the US army since 1985."
+msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "pipe rifle: 9mm"
-msgid_plural "pipe rifles: 9mm"
+msgid "pipe rifle: 9x19mm"
+msgid_plural "pipe rifles: 9x19mm"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -55777,10 +55689,10 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The Uzi 9mm has enjoyed immense popularity, selling more units than any "
+"The Uzi 9x19mm has enjoyed immense popularity, selling more units than any "
 "other submachine gun.  It is widely used as a personal defense weapon, or as"
 " a primary weapon by elite frontline forces."
-msgstr "Le Uzi 9mm a gagné une énorme popularité, se vendant plus que n'importe quelle autre mitraillette. Il est largement utilisé comme arme de défense personnelle, ou comme arme première des forces élites."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Glock 17"
@@ -56387,8 +56299,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
-msgid "pipe SMG: 9mm"
-msgid_plural "pipe SMG: 9mms"
+msgid "pipe SMG: 9x19mm"
+msgid_plural "pipe SMG: 9x19mms"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -56583,7 +56495,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 "
-"submachine gun is the most accurate 9mm submachine gun on the market.  "
+"submachine gun is the most accurate 9x19mm submachine gun on the market.  "
 "Intended for police use, it is fitted with an integral grenade launcher."
 msgstr ""
 
@@ -58040,8 +57952,8 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm or "
-".223 firearm converts it to a .22 firearm.  The conversion results in a "
+"Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
+"or .223 firearm converts it to a .22 firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr ""
 
@@ -58083,8 +57995,9 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to"
-" a .45 firearm.  The conversion results in a slight reduction to accuracy."
+"Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it"
+" to a .45 firearm.  The conversion results in a slight reduction to "
+"accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -58095,10 +58008,10 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, or "
-".38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
-"and armor penetration."
-msgstr "Un kit produit par Heckler & Koch pour convertir les calibres .22, 9mm, ou .38 dans leur calibre propriétaire 4.6x30mm, des balles conçues pour favoriser la précision et la pénétration d'armure."
+"A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, "
+"or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy"
+" and armor penetration."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "5.7mm caliber conversion kit"
@@ -58108,22 +58021,22 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
-"firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
+"A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38"
+" firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
 "armor penetration."
-msgstr "Un kit vendu par FN Herstal pour convertir les calibres .22, 9mm, ou .38 dans leur calibre propriétaire 5.7x28mm, des balles conçues pour favoriser la précision et la pénétration d'armure."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid "9mm caliber conversion kit"
-msgid_plural "9mm caliber conversion kits"
+msgid "9x19mm caliber conversion kit"
+msgid_plural "9x19mm caliber conversion kits"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -58938,14 +58851,14 @@ msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
 "4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
 "conversion results in a slight reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
+"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
 "firearm converts it to a .45 ACP firearm.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr ""
@@ -58953,8 +58866,8 @@ msgstr ""
 #: lang/json/gunmod_from_json.py
 msgid ""
 "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
+"converts it to a 9x19mm firearm.  The conversion results in a slight "
+"reduction to accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -59345,6 +59258,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Chop down a tree"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Chop a Tree Trunk into logs"
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -64887,6 +64804,10 @@ msgstr ""
 
 #: lang/json/morale_type_from_json.py
 msgid "Filthy Gear"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Debug Morale"
 msgstr ""
 
 #. ~ Mutation class: Any mutagen_message
@@ -87946,8 +87867,9 @@ msgid ""
 "right.  Generally speaking, the more damaging the ammo, the worse the "
 "recoil.  Recoil severely reduces your chance to hit, but you can eliminate "
 "recoil by pausing ('.') for a turn or moving normally.  High strength "
-"reduces recoil, so weak characters might want to stick to .22 or 9mm guns."
-msgstr "Après avoir tiré avec votre arme, vous remarquerez probablement une alerte Recul en bas à droite de l'écran. Globablement, plus les cartouches font des dommages plus le recul est important. Le recul réduit lourdement votre chance de toucher mais vous pouvez éliminer le recul en faisant un pause ('.') pendant un tour ou en vous déplaçant normalement. Être fort réduit le recul, ainsi les personnages faibles peuvent préférer se contenter d'armes de 9mm ou .22."
+"reduces recoil, so weak characters might want to stick to .22 or 9x19mm "
+"guns."
+msgstr ""
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -89388,11 +89310,11 @@ msgid "automated .308 pipe rifle"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm pipe rifle turret"
+msgid "9x19mm pipe rifle turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "automated 9mm pipe rifle"
+msgid "automated 9x19mm pipe rifle"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89800,7 +89722,7 @@ msgid "5.56mm rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm rack"
+msgid "9x19mm rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -90418,7 +90340,7 @@ msgstr "Il n'y a aucun corps pour en faire un esclave zombie!"
 #: src/activity_handlers.cpp
 msgid ""
 "You slice muscles and tendons, and remove body parts until you're confident "
-"the zombie won't be able to attack you when it reainmates."
+"the zombie won't be able to attack you when it reanimates."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -90689,6 +90611,19 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You finish chopping down a tree."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish chopping the logs."
+msgstr ""
+
+#. ~ Sound of a jackhammer at work!
+#: src/activity_handlers.cpp
+msgid "TATATATATATATAT!"
+msgstr "TATATATATATATAT!"
+
+#: src/activity_handlers.cpp
+msgid "You finish drilling."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -91263,7 +91198,7 @@ msgid "Really move everything from your inventory?"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Really remove all your clothes? (woo woo)"
+msgid "Really remove all your clothes? (woo hoo)"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -93890,8 +93825,8 @@ msgid "Download data?"
 msgstr "Télécharger les données?"
 
 #: src/computer.cpp
-msgid "Result: Unknown blood type.  Test nonconclusive."
-msgstr "Résultat: Sang d'origine inconnue. Test non concluant."
+msgid "Result: Unknown blood type.  Test non-conclusive."
+msgstr ""
 
 #: src/computer.cpp
 msgid "PROCESSING DATA"
@@ -94183,10 +94118,10 @@ msgstr "Code d'accès requis!"
 msgid ""
 "\n"
 "Power:         Backup Only\n"
-"Radion Level:  Very Dangerous\n"
-"Operational:   Overrided\n"
+"Radiation Level:  Very Dangerous\n"
+"Operational:   Overridden\n"
 "\n"
-msgstr "\nAlimentation: Réseau de secours uniquement\n Niveau de radion: Extrêmement dangereux\n Système opérationnel : Dépassé\n\n"
+msgstr ""
 
 #: src/computer.cpp
 msgid "The console shuts down."
@@ -95316,6 +95251,11 @@ msgid "Needs:"
 msgstr "Besoins:"
 
 #: src/debug_menu.cpp
+#, c-format
+msgid "Total morale: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
 msgid "Player"
 msgstr ""
 
@@ -95341,6 +95281,10 @@ msgstr ""
 
 #: src/debug_menu.cpp
 msgid "Set [h]it points"
+msgstr ""
+
+#: src/debug_menu.cpp
+msgid "Set m[o]rale"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -95431,6 +95375,11 @@ msgstr "Jambe droite"
 #: src/debug_menu.cpp
 #, c-format
 msgid "Set the hitpoints to? Currently: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
+#, c-format
+msgid "Set the morale to? Currently: %d"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -95603,8 +95552,8 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Please wait as the map generates [ 0%%]"
-msgstr "Veuillez patienter, génération de la carte en cours [ 0%%]"
+msgid "Please wait as the map generates [ 0%% ]"
+msgstr ""
 
 #: src/defense.cpp
 msgid "A caravan approaches!  Press spacebar..."
@@ -95647,7 +95596,7 @@ msgstr "Alterner entre les valeurs possibles"
 
 #: src/defense.cpp
 msgid "Toogle option"
-msgstr "Basculer option"
+msgstr ""
 
 #: src/defense.cpp
 msgid "You must choose at least one monster group!"
@@ -96181,9 +96130,9 @@ msgid "Field effects"
 msgstr ""
 
 #: src/editmap.cpp
-msgctxt "map editor: used to describe a clean field (eg. without blood)"
+msgctxt "map editor: used to describe a clean field (e.g. without blood)"
 msgid "-clear-"
-msgstr "-dégagé-"
+msgstr ""
 
 #: src/editmap.cpp
 msgctxt "map editor: traps shortkeys"
@@ -97357,8 +97306,8 @@ msgid "the avoidance of drugs"
 msgstr "La prévention contre la drogue"
 
 #: src/faction.cpp
-msgid "their adherance to the law"
-msgstr "leur respect de la loi"
+msgid "their adherence to the law"
+msgstr ""
 
 #: src/faction.cpp
 msgid "their cruelty"
@@ -98746,15 +98695,6 @@ msgstr "Monde conservé. Personnages restants:%s"
 #: src/game.cpp
 msgid "Wait till you wake up..."
 msgstr ""
-
-#: src/game.cpp
-msgid "Your heart races as you recall your most recent hunt."
-msgstr "Votre cœur s'emballe lorsque vous vous remémorez votre dernière chasse."
-
-#: src/game.cpp
-#, c-format
-msgid "Your skill in %s has reduced to %d!"
-msgstr "Votre compétence de %s a diminué à %d !"
 
 #: src/game.cpp
 msgid "(Y)es, (N)o, (I)gnore further distractions and finish."
@@ -104189,7 +104129,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d storey. Jump down?"
+msgid "Looks like %d story. Jump down?"
 msgid_plural "Looks like %d stories. Jump down?"
 msgstr[0] ""
 msgstr[1] ""
@@ -105599,9 +105539,9 @@ msgstr ""
 
 #. ~ This is a string to construct the item name as it is displayed. This
 #. format string has been added for maximum flexibility. The strings are:
-#. %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt").
-#. %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg.
-#. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet)
+#. %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt").
+#. %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g.
+#. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet)
 #. (fits)").
 #: src/item.cpp
 #, c-format
@@ -107163,10 +107103,6 @@ msgid "Don't do anything rash."
 msgstr "Pas d'imprudences."
 
 #: src/iuse.cpp
-msgid "TATATATATATATAT!"
-msgstr "TATATATATATATAT!"
-
-#: src/iuse.cpp
 msgid "You can't drill there."
 msgstr "Vous ne pouvez pas forer ici."
 
@@ -107630,6 +107566,14 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't chop down that."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Chop which which tree trunk?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't chop that."
 msgstr ""
 
 #: src/iuse.cpp
@@ -109532,7 +109476,7 @@ msgid "Your %s is already enhanced."
 msgstr "Votre %s est déjà amélioré."
 
 #: src/iuse_actor.cpp
-msgid "Refiting"
+msgid "Refitting"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109702,7 +109646,7 @@ msgid "The barrel is too short."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "The barrel is aleady sawn off."
+msgid "The barrel is already sawn-off."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -109883,7 +109827,7 @@ msgid "A Texas Instruments of Destruction calculator."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
-msgid "It's a dark, amphorous blob of matter."
+msgid "It's a dark, amorphous blob of matter."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -110602,10 +110546,10 @@ msgstr ""
 
 #: src/iuse_software_kitten.cpp
 msgid ""
-"Your job is to find kitten. This task is complicated by the existance of "
+"Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
-"they are kitten or not. The game ends when robotfindskitten. Alternatively, "
-"you may end the game by hitting 'q', 'Q' or the escape key."
+"they are kitten or not. The game ends when robot finds kitten. "
+"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -111231,6 +111175,10 @@ msgid "Simple. "
 msgstr ""
 
 #: src/map.cpp
+msgid "Mountable. "
+msgstr ""
+
+#: src/map.cpp
 #, c-format
 msgid "Falling %s hits you!"
 msgstr ""
@@ -111678,7 +111626,7 @@ msgstr[1] ""
 
 #: src/melee.cpp
 #, c-format
-msgid "You have learnt %s from extensive practice with the CQB Bionic."
+msgid "You have learned %s from extensive practice with the CQB Bionic."
 msgstr ""
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
@@ -112072,7 +112020,7 @@ msgstr ""
 msgid "You failed to steal %1$s from %2$s."
 msgstr ""
 
-#. ~ Message %s on the message log was repeated %d times, eg. "You hear a
+#. ~ Message %s on the message log was repeated %d times, e.g. "You hear a
 #. whack! x 12"
 #: src/messages.cpp
 #, c-format
@@ -112527,10 +112475,6 @@ msgstr ""
 msgid ""
 "%s feels more confident in your abilities and is willing to let you "
 "participate in daring raids."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -113355,13 +113299,13 @@ msgstr ""
 msgid "The %s lands on you, but you swat it off."
 msgstr ""
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lands on your %2$s, but can't penetrate your armor."
 msgstr ""
 
-#. ~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+#. ~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s sinks its ovipositor into your %2$s!"
@@ -118352,6 +118296,14 @@ msgid "You: $%.2f"
 msgstr "Vous: $%.2f"
 
 #: src/npctalk.cpp
+msgid "< Back"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "More >"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Examine which item?"
 msgstr "Examiner quel objet?"
 
@@ -118441,6 +118393,23 @@ msgid "Select a follower"
 msgstr ""
 
 #: src/options.cpp
+msgid ""
+"If true, will enable to pickup items one tile around to the player.  You can"
+" assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your "
+"homebase."
+msgstr ""
+
+#: src/options.cpp
+msgid "List items within no auto pickup zones"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If false, you will not see messages about items, you step on, within no auto"
+" pickup zones."
+msgstr ""
+
+#: src/options.cpp
 msgid "Auto pulp or butcher"
 msgstr ""
 
@@ -118471,7 +118440,19 @@ msgid "Pulp Adjacent"
 msgstr ""
 
 #: src/options.cpp
+msgid ""
+"If safe mode is enabled, distance to hostiles at which safe mode should show"
+" a warning.  0 = Max player view distance."
+msgstr ""
+
+#: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal "
+"24h, e.g. 7:31"
 msgstr ""
 
 #: src/options.cpp
@@ -118541,7 +118522,7 @@ msgid "Pixel Minimap brightness"
 msgstr ""
 
 #: src/options.cpp
-msgid "Overal brightness of pixel-detail minimap."
+msgid "Overall brightness of pixel-detail minimap."
 msgstr ""
 
 #: src/options.cpp
@@ -119359,6 +119340,12 @@ msgstr "Aucun monstre n'a été tué."
 #, c-format
 msgid "Total kills: %d"
 msgstr "Total victimes: %d"
+
+#. ~ 1. skill name, 2. skill level, 3. exercise percentage to next level
+#: src/player.cpp
+#, c-format
+msgid "%s: %d (%d %%)"
+msgstr ""
 
 #: src/player.cpp
 msgid "Traits:"
@@ -121193,6 +121180,15 @@ msgstr ""
 msgid "Mission \"%s\" is successfully completed."
 msgstr ""
 
+#: src/player.cpp
+msgid "Your heart races as you recall your most recent hunt."
+msgstr "Votre cœur s'emballe lorsque vous vous remémorez votre dernière chasse."
+
+#: src/player.cpp
+#, c-format
+msgid "Your skill in %s has reduced to %d!"
+msgstr "Votre compétence de %s a diminué à %d !"
+
 #: src/player_display.cpp
 #, c-format
 msgid "Swimming costs %+d movement point. "
@@ -122446,7 +122442,7 @@ msgid "Safe Mode Rule:"
 msgstr ""
 
 #: src/safemode_ui.cpp
-msgid "Proximity Distance (0=max viewdistance)"
+msgid "Proximity Distance (0=max view distance)"
 msgstr ""
 
 #: src/safemode_ui.cpp

@@ -36,7 +36,7 @@
     "category": "spare_parts",
     "name": "gold",
     "name_plural": "gold",
-    "description": "A hard shiny metal.  Before the apocalypse this would've been worth a small fortune but now its value is greatly diminished.",
+    "description": "A soft shiny metal.  Before the apocalypse this would've been worth a small fortune but now its value is greatly diminished.",
     "weight": 5, "//": "Density 19.32g/cm³ ~ 4.8kg/250ml @ stack 1000 = 5g/unit",
     "volume": 1,
     "price": 100000,

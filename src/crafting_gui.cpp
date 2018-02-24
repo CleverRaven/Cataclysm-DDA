@@ -10,6 +10,7 @@
 #include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "output.h"
 #include "json.h"
@@ -108,8 +109,17 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
-                   item::nname( bp.first ).c_str() );
+        const auto t = item::find_type( bp.first );
+        int amount = bp.second * batch;
+        std::string desc;
+        if( t->count_by_charges() ) {
+            amount *= t->charges_default();
+            desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
+        } else {
+            desc = string_format( "> %d %s", amount,
+                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
+        }
+        mvwprintz( w, ypos++, xpos, col, desc.c_str() );
     }
 
     return ypos - oldy;
@@ -470,8 +480,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
-                               // Macs don't seem to like passing this as a class, so force it to int
-                               ( int )g->u.get_skill_level( current[line]->skill_used ) );
+                               g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
@@ -635,7 +644,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @fixme replace this hack by proper solution (based on max width of possible content)
+    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );

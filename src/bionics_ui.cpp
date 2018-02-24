@@ -146,7 +146,7 @@ void draw_description( const catacurses::window &win, bionic const &bio )
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
-    // @todo Unhide when enforcing limits
+    // @todo: Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
@@ -212,7 +212,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
         mvwhline( win, y, turn_x + 1, LINE_OXOX, last_x - turn_x - 1 );
         mvwputch( win, y, last_x, BORDER_COLOR, '<' );
 
-        // draw amount of consumed slots by this cbm
+        // draw amount of consumed slots by this CBM
         const std::string fmt_num = string_format( "(%d)", elem.second );
         mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
                    c_yellow, fmt_num );
@@ -350,9 +350,7 @@ void player::power_bionics()
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                        ( int )active.size() :
-                                        ( int )passive.size() ) - LIST_HEIGHT );
+    int max_scroll_position = std::max( 0, ( int )active.size() );
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -515,7 +513,7 @@ void player::power_bionics()
             }
 
             if( tmp == nullptr ) {
-                // Selected an non-existing bionic (or escape, or ...)
+                // Selected an non-existing bionic (or Escape, or ...)
                 continue;
             }
             redraw = true;

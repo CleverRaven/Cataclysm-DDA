@@ -319,7 +319,7 @@ bool options_manager::cOpt::is_hidden() const
 #endif
 
     case COPT_POSIX_CURSES_HIDE:
-        // Check if we on windows and using wincuses.
+        // Check if we on windows and using wincurses.
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         return false;
 #else
@@ -586,7 +586,7 @@ void options_manager::cOpt::setNext()
     }
 }
 
-//set to prev item
+//set to previous item
 void options_manager::cOpt::setPrev()
 {
     if (sType == "string_select") {
@@ -696,7 +696,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
 }
 
 /** Fill a mapping with values.
- * Scans all directores in FILENAMES[dirname_label] directory for
+ * Scans all directories in FILENAMES[dirname_label] directory for
  * a file named FILENAMES[filename_label].
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
@@ -804,7 +804,7 @@ void options_manager::init()
         );
 
     add( "AUTO_PICKUP_ADJACENT", "general", translate_marker( "Auto pickup adjacent" ),
-        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your homebase." ),
+        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
         false
         );
 
@@ -942,7 +942,7 @@ void options_manager::init()
     add( "USE_LANG", "interface", translate_marker( "Language" ), translate_marker( "Switch Language." ),
         { { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
           { "fr",  R"( Français )" },
@@ -982,7 +982,7 @@ void options_manager::init()
         );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
-        translate_marker( "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31" ),
+        translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
         //~ 12h time, e.g.  11:59pm
         { { "12h", translate_marker( "12h" ) },
         //~ Military time, e.g.  2359
@@ -1031,6 +1031,13 @@ void options_manager::init()
     add( "INV_USE_ACTION_NAMES", "interface", translate_marker( "Display actions in Use Item menu" ),
         translate_marker( "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be displayed next to the corresponding items." ),
         true
+        );
+
+    mOptionsSort["interface"]++;
+
+    add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+        translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
+        true, COPT_CURSES_HIDE
         );
 
     mOptionsSort["interface"]++;
@@ -1084,7 +1091,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;
@@ -1933,7 +1940,7 @@ void options_manager::serialize(JsonOut &json) const
 {
     json.start_array();
 
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2083,7 +2090,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

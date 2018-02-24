@@ -219,7 +219,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo deduplicate qualities and combine other requirements
+    // @todo: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -396,8 +396,8 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             // The inlined requirement must have ONLY the type of component we are inlining
             // That is, tools or components, not both (nor neither)
             // Also, it must only offer alternatives, not more than one component "family" at a time
-            // @todo Remove the requirement to separate tools and components
-            // @todo Remove the requirement to have only one component "family" per inlined requirement
+            // @todo: Remove the requirement to separate tools and components
+            // @todo: Remove the requirement to have only one component "family" per inlined requirement
             if( req.get_components().size() + req.get_tools().size() != 1 ) {
                 debugmsg( "Tried to inline requirement %s which has more than one set of elements",
                           req_id.c_str() );

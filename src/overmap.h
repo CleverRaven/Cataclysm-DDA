@@ -52,7 +52,7 @@ class building_bin {
 
 struct city_settings {
     int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and a lot of parks + houses......by increasing shop_radius
     building_bin houses;
     building_bin shops;
     building_bin parks;
@@ -308,7 +308,7 @@ class overmap
      * @param clearance Minimal distance from the edges of the overmap
      */
     static bool inbounds( const tripoint &loc, int clearance = 0 );
-    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo This one should be obsoleted
+    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo: This one should be obsoleted
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -331,7 +331,7 @@ class overmap
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
      * @returns The absolute coordinates of the chosen point or
-     * invalid_point if canceled with escape (or similar key).
+     * invalid_point if canceled with Escape (or similar key).
      */
     static tripoint draw_overmap();
     /**
@@ -365,7 +365,7 @@ class overmap
     /** Returns the (0, 0) corner of the overmap in the global coordinates. */
     point global_base_point() const;
 
-    // @todo Should depend on coords
+    // @todo: Should depend on coordinates
     const regional_settings& get_settings() const
     {
         return settings;
@@ -503,6 +503,7 @@ public:
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
+  void build_acid_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);

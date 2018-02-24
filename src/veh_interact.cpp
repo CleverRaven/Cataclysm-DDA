@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
+#include "skill.h"
 #include "messages.h"
 #include "translations.h"
 #include "veh_type.h"
@@ -246,7 +247,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo better have a from_moves function
+    //@todo: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -372,7 +373,7 @@ void veh_interact::cache_tool_availability()
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
  * should be passed into the various do_whatever functions further down.
- * @param mode The command the player is trying to perform (ie 'r' for repair).
+ * @param mode The command the player is trying to perform (i.e. 'r' for repair).
  * @return CAN_DO if the player has everything they need,
  *         INVALID_TARGET if the command can't target that square,
  *         LACK_TOOLS if the player lacks tools,
@@ -1059,7 +1060,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
-            // display engine fauls (if any)
+            // display engine faults (if any)
             auto msg = [&]( const vehicle_part &pt ) {
                 werase( w_msg );
                 int y = 0;
@@ -1630,7 +1631,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
+    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
@@ -2350,7 +2351,7 @@ void veh_interact::complete_vehicle()
         }
 
         const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
-        //@todo allow boarding for non-players as well.
+        //@todo: allow boarding for non-players as well.
         player * const pl = g->critter_at<player>( vehp );
         if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
             g->m.board_vehicle( vehp, pl );

@@ -55,13 +55,12 @@ bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
-bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
+bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
-void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_deconstruct( const tripoint & );
@@ -864,10 +863,6 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-void construct::done_trunk_log( const tripoint &p )
-{
-    g->m.spawn_item( p.x, p.y, "log", rng( 2, 3 ), 0, calendar::turn );
-}
 
 void construct::done_trunk_plank( const tripoint &p )
 {
@@ -1182,7 +1177,6 @@ void load_construction(JsonObject &jo)
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
-        { "done_trunk_log", construct::done_trunk_log },
         { "done_trunk_plank", construct::done_trunk_plank },
         { "done_vehicle", construct::done_vehicle },
         { "done_deconstruct", construct::done_deconstruct },

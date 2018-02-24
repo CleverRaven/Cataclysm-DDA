@@ -42,7 +42,7 @@ struct construction {
         // If true, the requirements are generated during finalization
         bool vehicle_start;
 
-        std::function<bool( const tripoint & )> pre_special; // custom constructability check
+        std::function<bool( const tripoint & )> pre_special; // custom constructibility check
         std::function<void( const tripoint & )> post_special; // custom after-effects
         std::function<void( const tripoint & )> explain_failure; // Custom error message display
 

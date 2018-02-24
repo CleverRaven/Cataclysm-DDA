@@ -88,7 +88,7 @@ void MonsterGenerator::reset()
 
     attack_map.clear();
     // Hardcode attacks need to be re-added here
-    // @todo Move initialization from constructor to init()
+    // @todo: Move initialization from constructor to init()
     init_attack();
 }
 
@@ -507,7 +507,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Name and name plural are not translated here, but when needed in
     // combination with the actual count in `mtype::nname`.
     mandatory( jo, was_loaded, "name", name );
-    // default behaviour: Assume the regular plural form (appending an “s”)
+    // default behavior: Assume the regular plural form (appending an “s”)
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     optional( jo, was_loaded, "description", description );
 
@@ -732,7 +732,7 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
 {
     if( attack_map.count( wrapper->id ) > 0 ) {
         if( test_mode ) {
-            debugmsg( "Overwritting monster attack with id %s", wrapper->id.c_str() );
+            debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
 
         attack_map.erase( wrapper->id );
@@ -919,8 +919,8 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 ) {
+                debugmsg( "half_life %d (< 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );

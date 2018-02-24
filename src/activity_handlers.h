@@ -92,6 +92,7 @@ void aim_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
+void chop_logs_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
