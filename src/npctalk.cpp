@@ -3254,8 +3254,8 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
     size_t fb;
     std::string tag;
     do {
-        fa = phrase.find( "<" );
-        fb = phrase.find( ">" );
+        fa = phrase.find( '<' );
+        fb = phrase.find( '>' );
         int l = fb - fa + 1;
         if( fa != std::string::npos && fb != std::string::npos ) {
             tag = phrase.substr( fa, fb - fa + 1 );

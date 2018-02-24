@@ -1443,7 +1443,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mod_pain(90);
         p.hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p.fall_asleep((6000 - p.int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 6000 - p.int_cur * 10 ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1560,7 +1560,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
-        p->fall_asleep((3000 - p->int_cur * 10));
+        p->fall_asleep( 3000 - p->int_cur * 10 );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
@@ -4807,7 +4807,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         }
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
-                    if (tries < 5) {
+                    if (tries < 5) { // @todo: tries increment is missing, so this expression is always true
                         if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng("DISAPPEAR");
@@ -6845,8 +6845,6 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
         }
     } else if( choice == 3 ) {
         veh->use_controls( pos );
-    } else {
-        return 0;
     }
 
     g->u.view_offset.x = px;

@@ -5339,6 +5339,7 @@ void game::draw_minimap()
 
 float game::natural_light_level( const int zlev ) const
 {
+    // ignore while underground or above limits
     if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
         return LIGHT_AMBIENT_MINIMAL;
     }
@@ -5350,17 +5351,15 @@ float game::natural_light_level( const int zlev ) const
 
     float ret = LIGHT_AMBIENT_MINIMAL;
 
-    // Sunlight/moonlight related stuff, ignore while underground
-    if( zlev >= 0 ) {
-        if( !lightning_active ) {
-            ret = calendar::turn.sunlight();
-        } else {
-            // Recent lightning strike has lit the area
-            ret = DAYLIGHT_LEVEL;
-        }
-
-        ret += weather_data(weather).light_modifier;
+    // Sunlight/moonlight related stuff
+    if( !lightning_active ) {
+        ret = calendar::turn.sunlight();
+    } else {
+        // Recent lightning strike has lit the area
+        ret = DAYLIGHT_LEVEL;
     }
+
+    ret += weather_data(weather).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -7546,9 +7545,7 @@ void game::examine( const tripoint &examp )
     }
 
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = m.veh_at( examp, veh_part );
+    vehicle *veh = m.veh_at( examp, veh_part );
     if( veh != nullptr ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -11604,7 +11601,7 @@ bool game::walk_move( const tripoint &dest_loc )
         ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if( ( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) ) {
+        if( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
         }
