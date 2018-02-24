@@ -638,7 +638,7 @@
     ],
     [
       [ "gunpowder", 20 ],
-      [ "chem_black_powder", 40 ]
+      [ "chem_black_powder", 20 ]
     ]
   ]
 },{
@@ -744,7 +744,7 @@
     ],
     [
       [ "gunpowder", 20 ],
-      [ "chem_black_powder", 40 ]
+      [ "chem_black_powder", 20 ]
     ]
   ]
 },{
