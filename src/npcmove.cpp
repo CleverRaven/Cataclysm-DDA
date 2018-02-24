@@ -1707,6 +1707,11 @@ void npc::escape_explosion()
     if( ai_cache.live_explosives.empty() ) {
         return;
     }
+
+    if( is_following() && one_in( 10 ) ) {
+        say( "<fire_in_the_hole>" );
+    }
+
     move_away_from( ai_cache.live_explosives, explosion_avoidance_radius, true );
 }
 
