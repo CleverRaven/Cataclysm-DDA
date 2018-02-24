@@ -59,10 +59,13 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
-    npc_goto_destination, npc_avoid_friendly_fire,
+    npc_goto_destination,
+    npc_avoid_friendly_fire,
+    npc_escape_explosion,
     npc_base_idle,
     npc_noop,
-    npc_reach_attack, npc_aim,
+    npc_reach_attack,
+    npc_aim,
     num_npc_actions
 };
 
@@ -70,7 +73,7 @@ namespace
 {
 
 const int avoidance_vehicles_radius = 5;
-const int danger_avoidance_radius = 10;
+const int explosion_avoidance_radius = 10;
 
 }
 
@@ -201,7 +204,7 @@ int npc::estimate_path_cost() const
     return res;
 }
 
-std::vector<tripoint> npc::find_dangerous_points( int radius ) const
+std::vector<tripoint> npc::find_live_explosives( int radius ) const
 {
     std::vector<tripoint> result;
 
@@ -315,6 +318,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.live_explosives = find_live_explosives( explosion_avoidance_radius );
     assess_danger();
 
     choose_target();
@@ -341,12 +345,6 @@ void npc::move()
         }
     }
 
-    const auto dangerous_points = find_dangerous_points( danger_avoidance_radius );
-    if( !dangerous_points.empty() ) {
-        move_away_from( dangerous_points, danger_avoidance_radius, true );
-        return;
-    }
-
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
     if( sees_dangerous_field( pos() ) ) {
         const tripoint escape_dir = good_escape_direction( *this );
@@ -367,7 +365,9 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
-    if( target == &g->u && attitude == NPCATT_FLEE ) {
+    if( !ai_cache.live_explosives.empty() ) {
+        action = npc_escape_explosion;
+    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -751,6 +751,10 @@ void npc::execute_action( npc_action action )
 
         case npc_avoid_friendly_fire:
             avoid_friendly_fire();
+            break;
+
+        case npc_escape_explosion:
+            escape_explosion();
             break;
 
         case npc_base_idle:
@@ -1696,6 +1700,14 @@ void npc::avoid_friendly_fire()
         move_pause();
     }
     execute_action( action );
+}
+
+void npc::escape_explosion()
+{
+    if( ai_cache.live_explosives.empty() ) {
+        return;
+    }
+    move_away_from( ai_cache.live_explosives, explosion_avoidance_radius, true );
 }
 
 void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
@@ -3143,6 +3155,8 @@ std::string npc_action_name( npc_action action )
             return _( "Go to destination" );
         case npc_avoid_friendly_fire:
             return _( "Avoid friendly fire" );
+        case npc_escape_explosion:
+            return _( "Escape explosion" );
         default:
             return "Unnamed action";
     }
