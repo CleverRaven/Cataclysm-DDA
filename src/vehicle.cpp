@@ -974,7 +974,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name.c_str() ), keybind( "FOLD_VEHICLE" ) );
-        actions.push_back( [&]{ fold_up(); refresh(); } );
+        actions.push_back( [&]{ fold_up(); } );
     }
 
     if( has_part( "ENGINE" ) ) {
