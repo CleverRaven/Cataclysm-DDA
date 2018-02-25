@@ -137,6 +137,7 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
@@ -868,13 +869,14 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
-    if( !p->has_effect( effect_took_prozac) && p->get_morale_level() < 0 ) {
+    if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 7200);
     } else {
         p->stim += 3;
     }
-    if (one_in(150)) {  // adverse reaction
+    if ( one_in(50) ) {  // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player(m_warning, _("You suddenly feel hollow inside."));
+        p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     return it->type->charges_to_use();
 }
