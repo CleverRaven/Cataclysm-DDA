@@ -663,7 +663,7 @@ void mission_start::recruit_tracker( mission *miss )
     temp->attitude = NPCATT_TALK;
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
-    temp->op_of_u.owed = 10;
+    temp->mod_owed( g->u, 10 );
     temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ), temp->getID() ) );
 }
 

@@ -1140,7 +1140,9 @@ void npc::load(JsonObject &data)
         restock = stock;
     }
 
-    data.read("op_of_u", op_of_u);
+    if( !data.read( "opinion_of_player", opinion_of_player ) ) {
+        data.read( "op_of_u", opinion_of_player );
+    }
     data.read("chatbin", chatbin);
     if( !data.read( "rules", rules ) ) {
         data.read("misc_rules", rules);
@@ -1206,7 +1208,7 @@ void npc::store(JsonOut &json) const
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );
-    json.member("op_of_u", op_of_u);
+    json.member( "opinion_of_player", opinion_of_player );
     json.member("chatbin", chatbin);
     json.member("rules", rules);
 

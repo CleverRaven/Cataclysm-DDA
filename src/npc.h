@@ -48,16 +48,16 @@ enum npc_attitude : int {
     NPCATT_LEGACY_2,
     NPCATT_LEAD,  // Lead the player, wait for them if they're behind
     NPCATT_WAIT,  // Waiting for the player
-    NPCATT_LEGACY_6,
+    NPCATT_LEGACY_3,
     NPCATT_MUG,  // Mug the player
     NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
     NPCATT_KILL,  // Kill the player
     NPCATT_FLEE,  // Get away from the player
-    NPCATT_LEGACY_3,
-    NPCATT_HEAL,  // Get to the player and heal them
-
     NPCATT_LEGACY_4,
-    NPCATT_LEGACY_5
+    NPCATT_LEGACY_5,  // Get to the player and heal them
+
+    NPCATT_LEGACY_6,
+    NPCATT_LEGACY_7
 };
 
 std::string npc_attitude_name( npc_attitude );
@@ -130,7 +130,7 @@ struct npc_opinion {
         owed = 0;
     }
 
-    npc_opinion( int T, int F, int V, int A, int O ) :
+    npc_opinion( int T, int F, int V, int A, int O = 0 ) :
         trust( T ), fear( F ), value( V ), anger( A ), owed( O ) {
     }
 
@@ -143,8 +143,14 @@ struct npc_opinion {
         return *this;
     }
 
-    npc_opinion &operator+( const npc_opinion &rhs ) {
+    npc_opinion operator+( const npc_opinion &rhs ) const {
         return ( npc_opinion( *this ) += rhs );
+    }
+
+    bool operator==( const npc_opinion &rhs ) const {
+        return trust == rhs.trust && fear == rhs.fear &&
+               value == rhs.value && anger == rhs.anger &&
+               owed == rhs.owed;
     }
 
     void serialize( JsonOut &jsout ) const;
@@ -492,8 +498,6 @@ class npc : public player
         std::string pick_talk_topic( const player &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
-        bool turned_hostile() const; // True if our anger is at least equal to...
-        int hostile_anger_level() const; // ... this value!
         void make_angry(); // Called if the player attacks us
         /*
         * Angers and makes the NPC consider the creature an attacker
@@ -796,7 +800,6 @@ class npc : public player
         int companion_mission_time;
         npc_mission mission;
         npc_personality personality;
-        npc_opinion op_of_u;
         npc_chatbin chatbin;
         int patience; // Used when we expect the player to leave the area
         npc_follower_rules rules;
@@ -824,9 +827,36 @@ class npc : public player
         bool has_companion_mission() const;
         std::string get_companion_mission() const;
 
+        /**
+         * Gets NPC's opinion of a character. Currently only of g->u.
+         */
+        const npc_opinion &get_opinion_of( const player &u ) const;
+        /**
+         * Offsets NPC's opinion of a character by some value, then recalculates attitude.
+         * Respects NPC's current attitude.
+         */
+         /*@{*/
+        void mod_opinion_of( const player &u, const npc_opinion &offset );
+        void mod_opinion_of( const player &u, int trust, int fear, int value, int anger );
+        /*@}*/
+
+        /**
+         * Resets NPC's opinion to a given value and recalculates attitude.
+         * @param ignore_attitude If false, NPC's current attitude affects resulting attitude.
+         */
+        void set_opinion_of( const player &u, const npc_opinion &op, bool ignore_attitude );
+
+        /**
+         * Changes the amount of money NPC owes to player.
+         */
+        void mod_owed( const player &u, int amount );
+
     protected:
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
+
+        // @todo Have this support more than one player (in one world). Tie to character id?
+        npc_opinion opinion_of_player;
 
     private:
         void setID( int id );
