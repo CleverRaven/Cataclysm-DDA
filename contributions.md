@@ -15,7 +15,7 @@ title: "Contribution Guidelines"
 
 Contributing code or data to Cataclysm: Dark Days Ahead is easy - simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
-Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license.  The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.  See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license.  The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.  See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
 ## Guidelines
