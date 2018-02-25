@@ -285,13 +285,14 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 3,
     "time": 100000,
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 6 ] ],
+    "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "scrap", 15 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 190 ] ] ]
   },
   {
     "result": "chainmail_suit",
