@@ -1043,6 +1043,8 @@ void vehicle::use_controls( const tripoint &pos )
     menu.query();
     if( menu.ret >= 0 ) {
         actions[menu.ret]();
+        // Don't access `this` from here on, one of the actions above is to call
+        // fold_up(), which may have deleted `this` object.
     }
 }
 
