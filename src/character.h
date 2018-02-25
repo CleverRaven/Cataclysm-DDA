@@ -6,7 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "map_selector.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "pldata.h"

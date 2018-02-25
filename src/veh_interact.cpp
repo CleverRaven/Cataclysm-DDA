@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "string_formatter.h"
+#include "map_selector.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
