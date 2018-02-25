@@ -1,0 +1,95 @@
+[
+  {
+    "type" : "terrain",
+    "id" : "t_gates_mech_control",
+    "name": "mechanical winch",
+    "copy-from": "t_gates_mech_control",
+    "bash": {
+        "str_min": 80, "str_max": 200,
+        "sound": "metal screeching!",
+        "sound_fail": "clang!",
+        "ter_set": "t_floor",
+        "items": [
+            { "item": "steel_chunk", "count": [1, 4] },
+            { "item": "scrap", "count": [3, 6] }
+        ]
+    }
+  },{
+    "type" : "terrain",
+    "id" : "t_gates_control_concrete",
+    "name": "mechanical winch",
+    "copy-from" : "t_gates_control_concrete",
+    "bash": {
+        "str_min": 90, "str_max": 350,
+        "sound": "metal screeching!",
+        "sound_fail": "clang!",
+        "ter_set": "t_rock_floor",
+        "items": [
+            { "item": "steel_chunk", "count": [1, 4] },
+            { "item": "scrap", "count": [3, 6] }
+        ]
+    }
+  },{
+    "type" : "terrain",
+    "id" : "t_gates_control_brick",
+    "name": "mechanical winch",
+    "copy-from" : "t_gates_control_brick",
+    "bash": {
+        "str_min": 60, "str_max": 160,
+        "sound": "metal screeching!",
+        "sound_fail": "clang!",
+        "ter_set": "t_rock_floor",
+        "items": [
+            { "item": "steel_chunk", "count": [1, 4] },
+            { "item": "scrap", "count": [3, 6] }
+        ]
+    }
+  },{
+    "type" : "terrain",
+    "id" : "t_gates_control_metal",
+    "name": "control lever",
+    "copy-from" : "t_gates_control_metal",
+    "bash": {
+        "str_min": 200, "str_max": 600,
+        "sound": "metal screeching!",
+        "sound_fail": "clang!",
+        "ter_set": "t_rock_floor",
+        "items": [
+            { "item": "steel_chunk", "count": [1, 4] },
+            { "item": "scrap", "count": [3, 6] }
+        ]
+    }
+  },{
+    "type" : "terrain",
+    "id" : "t_barndoor",
+    "name": "rope and pulley",
+    "copy-from" : "t_barndoor",
+    "bash": {
+        "str_min": 12, "str_max": 150,
+        "sound": "crunch!",
+        "sound_fail": "whump.",
+        "ter_set": "t_dirtfloor",
+        "items": [
+            { "item": "rope_6", "count": [3, 4] },
+            { "item": "2x4", "count": [1, 4] },
+            { "item": "splinter", "count": [2, 4] }
+        ]
+    }
+  },{
+    "type" : "terrain",
+    "id" : "t_palisade_pulley",
+    "name": "rope and pulley",
+    "copy-from" : "t_palisade_pulley",
+    "bash": {
+        "str_min": 10, "str_max": 150,
+        "sound": "crunch!",
+        "sound_fail": "whump.",
+        "ter_set": "t_null",
+        "items": [
+            { "item": "rope_makeshift_6", "count": [3, 4] },
+            { "item": "2x4", "count": [1, 4] },
+            { "item": "splinter", "count": [2, 4] }
+        ]
+    }
+  }
+]

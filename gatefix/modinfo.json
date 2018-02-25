@@ -1,0 +1,11 @@
+{
+  "type": "MOD_INFO",
+  "mod-type" : "SUPPLEMENTAL",
+  "ident": "gatefix",
+  "name": "Gate Control Fix",
+	"author" : "Shard",
+  "description": "Buffs durability of gate controls so they do not break if sneezed at.",
+  "category": "rebalance",
+  "dependencies": [ "dda" ],
+	"path" : ""
+}
