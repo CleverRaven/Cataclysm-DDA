@@ -97,9 +97,9 @@ int foo;
 ```
 
 Helpful pages:
-http://www.stack.nl/~dimitri/doxygen/manual/commands.html
-http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
-http://www.stack.nl/~dimitri/doxygen/manual/faq.html
+https://www.stack.nl/~dimitri/doxygen/manual/commands.html
+https://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
+https://www.stack.nl/~dimitri/doxygen/manual/faq.html
 
 ### Guidelines for adding documentation
 * Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.

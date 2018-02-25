@@ -13,15 +13,15 @@ As your game begins, you awaken with hazy memories of violence and terror from w
 
 ## Community and Resources
 
-* [Forums](http://discourse.cataclysmdda.org)
+* [Forums](https://discourse.cataclysmdda.org)
 * [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
-* IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](http://webchat.freenode.net/?channels=#CataclysmDDA)
+* IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](https://webchat.freenode.net/?channels=#CataclysmDDA)
 * [Discord (unnofficial)](https://discord.gg/DPxUcX7)
 * [Wiki](http://tools.cataclysmdda.com/wiki)
 * [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
 * [Web Tools](http://tools.cataclysmdda.com/)
 * [Item Browser](http://cdda-trunk.chezzo.com/)
-* [Game Launcher](http://smf.cataclysmdda.com/index.php?topic=11895.0)
+* [Game Launcher](https://discourse.cataclysmdda.org/t/cdda-game-launcher-automatic-updates-and-more)
 
 ## System Requirements
 ### Minimum
