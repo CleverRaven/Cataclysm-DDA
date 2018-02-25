@@ -998,7 +998,7 @@
         "folded_volume": 2,
         "bonus" : 25,
         "item" : "rope_6",
-        "location" : "on_seat",
+        "location" : "on_beltable",
         "requirements": {
           "install": {
             "time": 15000,
@@ -1063,7 +1063,7 @@
         "folded_volume": 4,
         "bonus" : 25,
         "item" : "rope_30",
-        "location" : "on_seat",
+        "location" : "on_beltable",
         "requirements": {
           "install": {
             "time": 30000,
@@ -1096,7 +1096,7 @@
         "durability": 200,
         "bonus": 25,
         "item": "sheet",
-        "location": "on_windshield",
+        "location": "on_window",
         "requirements": {
           "install": {
             "time": 30000,
@@ -2075,6 +2075,7 @@
         "durability" : 50,
         "item" : "motor_small",
         "difficulty" : 2,
+        "location" : "on_openable",
         "folded_volume": 1,
         "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
@@ -2266,6 +2267,21 @@
         "flags" : ["FUNNEL"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "test_item",
+        "name" : "metal funnel",
+        "symbol" : "V",
+        "color" : "light_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "durability" : 20,
+        "item" : "scrap",
+        "difficulty" : 1,
+        "location" : "on_funnel",
+        "breaks_into" : [
+            {"item": "scrap", "count": [0, 1]}
         ]
     },
     {
