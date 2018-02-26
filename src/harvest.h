@@ -34,7 +34,7 @@ class harvest_list
 
         const harvest_id &id() const;
 
-        const std::string message() const;
+        std::string message() const;
 
         bool is_null() const;
 

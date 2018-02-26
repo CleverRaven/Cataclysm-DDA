@@ -40,7 +40,7 @@ const harvest_id &harvest_list::id() const
     return id_;
 }
 
-const std::string harvest_list::message() const
+std::string harvest_list::message() const
 {
     return message_;
 }
