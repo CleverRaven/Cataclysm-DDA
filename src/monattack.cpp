@@ -3051,11 +3051,9 @@ bool mattack::flamethrower(monster *z)
         return false; // TODO: handle friendly monsters
     }
     if (z->friendly != 0) {
-        Creature *target = nullptr;
-
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = z->auto_find_hostile_target( 5, boo_hoo );
+        Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",

@@ -7592,17 +7592,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
     if (height > 4 || width > 4) {
         valid_rooms.push_back(room_chemistry);
+        valid_rooms.push_back(room_goo);
     }
     if ( z != 0 && (height > 7 || width > 7) && height > 2 && width > 2) {
         valid_rooms.push_back(room_teleport);
     }
-    if (height > 4 && width > 4) {
-        valid_rooms.push_back(room_goo);
-    }
     if (height > 7 && width > 7) {
         valid_rooms.push_back(room_bionics);
-    }
-    if (height > 7 && width > 7) {
         valid_rooms.push_back(room_cloning);
     }
     if (area >= 9) {
@@ -8312,15 +8308,11 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
     }
     if (shortest >= 6 && longest <= 10) {
         valid.push_back(room_mansion_kitchen);
+        valid.push_back(room_mansion_game);
+        valid.push_back(room_mansion_study);
     }
     if (longest >= 7 && shortest >= 5) {
         valid.push_back(room_mansion_dining);
-    }
-    if (shortest >= 6 && longest <= 10) {
-        valid.push_back(room_mansion_game);
-    }
-    if (shortest >= 6 && longest <= 10) {
-        valid.push_back(room_mansion_study);
     }
     if (shortest >= 10) {
         valid.push_back(room_mansion_pool);
