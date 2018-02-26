@@ -557,8 +557,8 @@ time_duration rng( time_duration lo, time_duration hi )
 season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;
-    static season_type prev_season = SPRING;
-    static bool is_eternal = false;
+    static season_type prev_season = calendar::initial_season;
+    static bool is_eternal = calendar::eternal_season();
     
     if( p != prev_turn ) {
         prev_turn = p;
