@@ -3888,7 +3888,7 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "REGENERATES_50", "ABSORBS_SPLITS", "REGEN_MORALE", "NOGIB" ]
   },
   {
     "id": "mon_skeleton",
