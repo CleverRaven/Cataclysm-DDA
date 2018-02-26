@@ -7744,27 +7744,27 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 
 void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
-    int ending_line = line + 3;
+    const int max_width = getmaxx( w_look ) - column - 1;
+    int lines;
     std::string tile = m.tername( lp );
     if( m.has_furn( lp ) ) {
         tile += "; " + m.furnname( lp );
     }
 
     if (m.impassable( lp )) {
-        mvwprintw(w_look, line, column, _("%s; Impassable"), tile.c_str());
+        lines = fold_and_print(w_look, line, column, max_width, c_dark_gray, _("%s; Impassable"), tile.c_str());
     } else {
-        mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
+        lines = fold_and_print(w_look, line, column, max_width, c_dark_gray, _("%s; Movement cost %d"), tile.c_str() ,
                   m.move_cost(lp) * 50);
 
         const auto ll = get_light_level(std::max(1.0, LIGHT_AMBIENT_LIT - m.ambient_light_at(lp) + 1.0));
-        mvwprintw(w_look, ++line, column, _("Lighting: "));
+        mvwprintw(w_look, ++lines, column, _("Lighting: "));
         wprintz(w_look, ll.second, ll.first.c_str());
     }
 
-    const int max_width = getmaxx( w_look ) - column - 1;
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++line, column, max_width, c_light_gray,
+        trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
                     u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
@@ -7777,15 +7777,15 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
+            fold_and_print(w_look, ++lines, column, max_width, c_dark_gray, _("Below: %s; No support"), tile_below.c_str() );
         } else {
-            mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
+            fold_and_print(w_look, ++lines, column, max_width, c_dark_gray, _("Below: %s; Walkable"), tile_below.c_str() );
         }
     }
 
-    fold_and_print( w_look, ++line, column, max_width, c_light_gray, m.features( lp ) );
-    if (line < ending_line) {
-        line = ending_line;
+    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray, m.features( lp ) );
+    if (line < lines) {
+        line = lines + map_features - 1;
     }
 }
 
@@ -7794,7 +7794,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry *cur = &fld.second;
-        mvwprintz( w_look, line++, column, cur->color(), cur->name() );
+        mvwprintz( w_look, ++line, column, cur->color(), cur->name() );
     }
 }
 
@@ -7802,7 +7802,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz( w_look, line++, column, tr.color, tr.name() );
+        mvwprintz( w_look, ++line, column, tr.color, tr.name() );
     }
 }
 
@@ -7810,7 +7810,7 @@ void game::print_creature_info( const Creature *creature, const catacurses::wind
                                 const int column, int &line )
 {
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
-        line = creature->print_info( w_look, line, 6, column );
+        line = creature->print_info( w_look, ++line, 6, column );
     }
 }
 
