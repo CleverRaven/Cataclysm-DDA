@@ -7751,21 +7751,24 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         tile += "; " + m.furnname( lp );
     }
 
-    if (m.impassable( lp )) {
-        lines = fold_and_print(w_look, line, column, max_width, c_dark_gray, _("%s; Impassable"), tile.c_str());
+    if( m.impassable( lp ) ) {
+        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Impassable" ),
+                                tile.c_str() );
     } else {
-        lines = fold_and_print(w_look, line, column, max_width, c_dark_gray, _("%s; Movement cost %d"), tile.c_str() ,
-                  m.move_cost(lp) * 50);
+        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Movement cost %d" ),
+                                tile.c_str(),
+                                m.move_cost( lp ) * 50 );
 
-        const auto ll = get_light_level(std::max(1.0, LIGHT_AMBIENT_LIT - m.ambient_light_at(lp) + 1.0));
-        mvwprintw(w_look, ++lines, column, _("Lighting: "));
-        wprintz(w_look, ll.second, ll.first.c_str());
+        const auto ll = get_light_level( std::max( 1.0,
+                                         LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+        mvwprintw( w_look, ++lines, column, _( "Lighting: " ) );
+        wprintz( w_look, ll.second, ll.first.c_str() );
     }
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
-                    u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
+                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -7777,14 +7780,17 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print(w_look, ++lines, column, max_width, c_dark_gray, _("Below: %s; No support"), tile_below.c_str() );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ),
+                            tile_below.c_str() );
         } else {
-            fold_and_print(w_look, ++lines, column, max_width, c_dark_gray, _("Below: %s; Walkable"), tile_below.c_str() );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ),
+                            tile_below.c_str() );
         }
     }
 
-    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray, m.features( lp ) );
-    if (line < lines) {
+    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray,
+                                       m.features( lp ) );
+    if( line < lines ) {
         line = lines + map_features - 1;
     }
 }
