@@ -558,21 +558,17 @@ season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;
     static season_type prev_season = calendar::initial_season;
-    static bool is_eternal = calendar::eternal_season();
     
     if( p != prev_turn ) {
         prev_turn = p;
-        if( ( is_eternal = calendar::eternal_season() ) ) {
+        if( calendar::eternal_season() ) {
             // If we use calendar::start to determine the initial season, and the user shortens the season length
             // mid-game, the result could be the wrong season!
-            return calendar::initial_season;
+            return prev_season = calendar::initial_season;
         }
-        const int season = to_turn<int>( p ) / to_turns<int>( calendar::season_length() );
-        return prev_season = static_cast<season_type>( season % 4 );
-    } else {
-        if( is_eternal ) {
-            return calendar::initial_season;
-        }
+        return prev_season = static_cast<season_type>( 
+            to_turn<int>( p ) / to_turns<int>( calendar::season_length() ) % 4
+        );
     }
     
     return prev_season;
