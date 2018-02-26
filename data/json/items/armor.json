@@ -6978,7 +6978,7 @@
     "storage": 3,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "pants_fur",
