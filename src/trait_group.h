@@ -147,7 +147,7 @@ class Trait_group : public Trait_creation_data
         typedef std::vector<std::unique_ptr<Trait_creation_data>> CreatorList;
 
         Trait_group( int probability );
-        ~Trait_group() override;
+        ~Trait_group() override = default;
 
         void add_trait_entry( const trait_id &tid, int probability );
         void add_group_entry( const trait_group::Trait_group_tag &gid, int probability );
