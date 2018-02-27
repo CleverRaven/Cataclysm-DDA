@@ -170,12 +170,12 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
               _( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc, translated_string_reader,
               _( "The %1$s bites <npcname>'s %2$s!" ) );
-    optional( obj, was_loaded, "miss_msg_npc", miss_msg_monster, translated_string_reader,
-              _( "The %s lunges a the <npcname>, but they dodge!" ) );
-    optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_monster, translated_string_reader,
+    optional( obj, was_loaded, "miss_msg_monster", miss_msg_monster, translated_string_reader,
+              _( "The %s lunges at the <npcname>, but they dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_monster", no_dmg_msg_monster, translated_string_reader,
               _( "The %1$s bites the <npcname>, but fails to penetrate armor!" ) );
-    optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_monster, translated_string_reader,
-              _( "The %1$s bites the <npcname>!" ) );
+    optional( obj, was_loaded, "hit_dmg_monster", hit_dmg_monster, translated_string_reader,
+              _( "The %1$s bites <npcname>!" ) );
 
 
     if( obj.has_array( "body_parts" ) ) {
