@@ -71,10 +71,7 @@ MonsterGenerator::MonsterGenerator()
     init_trigger();
 }
 
-MonsterGenerator::~MonsterGenerator()
-{
-    reset();
-}
+MonsterGenerator::~MonsterGenerator() = default;
 
 void MonsterGenerator::reset()
 {
