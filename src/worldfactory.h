@@ -74,7 +74,7 @@ class worldfactory
         /** Default constructor */
         worldfactory();
         /** Default destructor */
-        virtual ~worldfactory();
+        ~worldfactory();
 
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true );
