@@ -502,7 +502,7 @@ void construction_menu()
                         }
                         current_buffer_location += construct_buffers[i].size();
                         if( i < construct_buffers.size() - 1 ) {
-                            full_construct_buffer.push_back( std::string( "" ) );
+                            full_construct_buffer.push_back( std::string() );
                             current_buffer_location++;
                         }
                     }
