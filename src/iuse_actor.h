@@ -92,7 +92,7 @@ class iuse_transform : public iuse_actor
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
 
-        ~iuse_transform() override;
+        ~iuse_transform() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -115,7 +115,7 @@ class countdown_actor : public iuse_actor
         /** message if player sees activation with %s replaced by item name */
         std::string message;
 
-        ~countdown_actor() override;
+        ~countdown_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -161,7 +161,7 @@ class explosion_iuse : public iuse_actor
 
         explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
-        ~explosion_iuse() override;
+        ~explosion_iuse() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -185,7 +185,7 @@ class unfold_vehicle_iuse : public iuse_actor
 
         unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
 
-        ~unfold_vehicle_iuse() override;
+        ~unfold_vehicle_iuse() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -229,7 +229,7 @@ class consume_drug_iuse : public iuse_actor
 
         consume_drug_iuse( const std::string &type = "consume_drug" ) : iuse_actor( type ) {}
 
-        ~consume_drug_iuse() override;
+        ~consume_drug_iuse() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -260,7 +260,7 @@ class delayed_transform_iuse : public iuse_transform
 
         delayed_transform_iuse( const std::string &type = "delayed_transform" ) : iuse_transform( type ) {}
 
-        ~delayed_transform_iuse() override;
+        ~delayed_transform_iuse() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -290,7 +290,7 @@ class place_monster_iuse : public iuse_actor
         skill_id skill2 = skill_id::NULL_ID();
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
-        ~place_monster_iuse() override;
+        ~place_monster_iuse() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -313,7 +313,7 @@ class ups_based_armor_actor : public iuse_actor
 
         ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
 
-        ~ups_based_armor_actor() override;
+        ~ups_based_armor_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -332,7 +332,7 @@ class pick_lock_actor : public iuse_actor
 
         pick_lock_actor() : iuse_actor( "picklock" ) {}
 
-        ~pick_lock_actor() override;
+        ~pick_lock_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -363,7 +363,7 @@ class reveal_map_actor : public iuse_actor
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
-        ~reveal_map_actor() override;
+        ~reveal_map_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
