@@ -6538,16 +6538,25 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_tie",
+    "id": "t_railroad_track",
     "type": "terrain",
-    "name": "railroad tie",
-    "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_track",
+    "id": "t_railroad_track_h",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v",
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
@@ -6563,6 +6572,33 @@
     "color": [ "cyan" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dgray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_h",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dgray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_v",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dgray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
     "id": "t_railroad_tie_d",
@@ -6583,7 +6619,25 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_track_d_on_tie_d",
+    "id": "t_railroad_track_h_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "x",
+    "color": [ "cyan" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "x",
+    "color": [ "cyan" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d_on_tie",
     "type": "terrain",
     "name": "railroad track",
     "symbol": "x",
