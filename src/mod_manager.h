@@ -161,7 +161,7 @@ class mod_ui
 {
     public:
         mod_ui( mod_manager *modman );
-        virtual ~mod_ui();
+        ~mod_ui();
 
         std::vector<std::string> usable_mods;
         std::string get_information( MOD_INFORMATION *mod );
