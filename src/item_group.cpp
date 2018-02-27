@@ -34,10 +34,6 @@ Single_item_creator::Single_item_creator(const std::string &_id, Type _type, int
 {
 }
 
-Single_item_creator::~Single_item_creator()
-{
-}
-
 item Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     item tmp;

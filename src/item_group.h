@@ -212,7 +212,7 @@ class Single_item_creator : public Item_spawn_data
         } Type;
 
         Single_item_creator( const std::string &id, Type type, int probability );
-        ~Single_item_creator() override;
+        ~Single_item_creator() override = default;
 
         /**
          * Id of the item group or id of the item.
