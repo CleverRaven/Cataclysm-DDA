@@ -2256,8 +2256,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
-            int part;
-            vehicle *veh = g->m.veh_at( p->pos(), part );
+            vehicle *veh = g->m.veh_at( p->pos() );
             if( veh != nullptr ) {
                 if( abs( veh->velocity ) > 0 ) {
                     reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
