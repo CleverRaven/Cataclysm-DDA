@@ -251,7 +251,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
+        typedef std::map<Group_tag, std::unique_ptr<Item_spawn_data>> GroupMap;
         GroupMap m_template_groups;
 
         /** Checks that ammo is listed in ammunition_type::name().

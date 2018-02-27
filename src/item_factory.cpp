@@ -417,10 +417,7 @@ void Item_factory::load_item_blacklist( JsonObject &json )
     add_to_set( item_blacklist, json, "items" );
 }
 
-Item_factory::~Item_factory()
-{
-    clear();
-}
+Item_factory::~Item_factory() = default;
 
 Item_factory::Item_factory()
 {
@@ -666,7 +663,7 @@ void Item_factory::init()
     add_actor( new detach_gunmods_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
+    m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
@@ -1020,7 +1017,7 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     if (group_iter != m_template_groups.end()) {
-        return group_iter->second;
+        return group_iter->second.get();
     }
     return NULL;
 }
@@ -1959,10 +1956,6 @@ void Item_factory::reset()
 
 void Item_factory::clear()
 {
-    // clear groups
-    for( auto &elem : m_template_groups ) {
-        delete elem.second;
-    }
     m_template_groups.clear();
 
     categories.clear();
@@ -1995,12 +1988,12 @@ std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-Item_group *make_group_or_throw( const Group_tag &group_id, Item_spawn_data *&isd, Item_group::Type t,
-                                 int ammo_chance, int magazine_chance )
+Item_group *make_group_or_throw( const Group_tag &group_id, std::unique_ptr<Item_spawn_data> &isd,
+                                 Item_group::Type t, int ammo_chance, int magazine_chance )
 {
-    Item_group *ig = dynamic_cast<Item_group *>( isd );
+    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
-        isd = ig = new Item_group( t, 100, ammo_chance, magazine_chance );
+        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
     } else if( ig->type != t ) {
         throw std::runtime_error("item group \"" + group_id + "\" already defined with type \"" + to_string( ig->type ) + "\"" );
     }
@@ -2164,7 +2157,7 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
                                     int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
-    Item_spawn_data *&isd = m_template_groups[group_id];
+    std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group* const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
     while( entries.has_more() ) {
@@ -2176,8 +2169,8 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
-    Item_spawn_data *&isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>(isd);
+    std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
+    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2378,7 +2371,7 @@ bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag it
     if (m_template_groups.find(group_id) == m_template_groups.end()) {
         return false;
     }
-    Item_spawn_data *group_to_access = m_template_groups[group_id];
+    Item_spawn_data *group_to_access = m_template_groups[group_id].get();
     if (group_to_access->has_item(item_id)) {
         group_to_access->remove_item(item_id);
     }
