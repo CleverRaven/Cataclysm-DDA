@@ -231,7 +231,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = tguy.name.c_str();
+    std::string tmpname = tguy.name;
     if( tmpname[0] == ',' ) {
         name = name + tguy.name;
     } else {
