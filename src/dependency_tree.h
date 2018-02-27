@@ -57,7 +57,7 @@ class dependency_tree
         /** Default constructor */
         dependency_tree();
         /** Default destructor */
-        virtual ~dependency_tree();
+        ~dependency_tree();
 
         void init( std::map<std::string, std::vector<std::string> > key_dependency_map );
 
