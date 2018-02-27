@@ -252,10 +252,8 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
 
 
-// dependency_tree
 dependency_tree::dependency_tree()
 {
-    //ctor
 }
 
 void dependency_tree::init( std::map<std::string, std::vector<std::string> > key_dependency_map )

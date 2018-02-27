@@ -53,7 +53,6 @@ class dependency_node
 class dependency_tree
 {
     public:
-        /** Default constructor */
         dependency_tree();
 
         void init( std::map<std::string, std::vector<std::string> > key_dependency_map );

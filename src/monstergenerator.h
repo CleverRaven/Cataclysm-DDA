@@ -77,7 +77,6 @@ class MonsterGenerator
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
     private:
-        /** Default constructor */
         MonsterGenerator();
 
         // Init functions

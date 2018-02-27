@@ -71,9 +71,7 @@ typedef WORLD *WORLDPTR;
 class worldfactory
 {
     public:
-        /** Default constructor */
         worldfactory();
-        /** Default destructor */
         ~worldfactory();
 
         // Generate a world

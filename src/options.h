@@ -47,7 +47,6 @@ class options_manager
         {
                 friend class options_manager;
             public:
-                //Default constructor
                 cOpt();
 
                 void setSortPos( const std::string sPageIn );
