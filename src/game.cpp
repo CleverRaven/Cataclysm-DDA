@@ -7753,8 +7753,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                                 tile.c_str() );
     } else {
         lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Movement cost %d" ),
-                                tile.c_str(),
-                                m.move_cost( lp ) * 50 );
+                                tile.c_str(), m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
