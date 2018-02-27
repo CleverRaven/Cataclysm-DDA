@@ -188,7 +188,7 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades;
+    upgrades = type->upgrades && type->half_life;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -246,13 +246,13 @@ bool monster::can_upgrade() {
 
 // For master special attack.
 void monster::hasten_upgrade() {
-    if (!can_upgrade() || upgrade_time < 1) {
+    if( !can_upgrade() || upgrade_time < 1 ) {
         return;
     }
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng(1, scaled_half_life);
-    if (upgrade_time < 0) {
+    upgrade_time -= rng( 1, scaled_half_life );
+    if( upgrade_time < 0 ) {
         upgrade_time = 0;
     }
 }
@@ -262,9 +262,9 @@ void monster::hasten_upgrade() {
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
-    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
-        if (one_in(2)) {
-            day += rng(0, scaled_half_life);
+    for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
+        if( one_in( 2 ) ) {
+            day += rng( 0, scaled_half_life );
             return day;
         } else {
             day += scaled_half_life;
@@ -276,7 +276,7 @@ int monster::next_upgrade_time() {
 }
 
 void monster::try_upgrade(bool pin_time) {
-    if (!can_upgrade()) {
+    if( !can_upgrade() ) {
         return;
     }
 

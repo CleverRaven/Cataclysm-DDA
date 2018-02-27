@@ -723,7 +723,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
                 size_t iPos = 0;
                 int iCol = 1;
                 do {
-                    iPos = sLine.find(";");
+                    iPos = sLine.find( ';' );
 
                     std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
 

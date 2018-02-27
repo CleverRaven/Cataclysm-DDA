@@ -1521,8 +1521,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped ||
-                    t == t_window_domestic || t == t_window_domestic_taped ||
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||

@@ -903,10 +903,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
                 deactivate_bionic( i );
             }
         }
-    }
-
-    //If you are paying the doctor to do it, shouldn't use your supplies
-    if( skill_level == -1 ) {
+        //If you are paying the doctor to do it, shouldn't use your supplies
         std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
@@ -1199,7 +1196,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                          old_power - u->max_power_level );
                 }
-                // TODO: What if we can't lose power capacity?  No penalty?
+                // @todo: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 u->add_bionic( id );
@@ -1464,7 +1461,6 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
-    std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {

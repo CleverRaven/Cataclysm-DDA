@@ -563,7 +563,7 @@ void editmap::update_view( bool update_info )
                         t_sym = t_fld->symbol();
                     }
                 }
-                t_col = ( altblink == true ? green_background( t_col ) : cyan_background( t_col ) );
+                t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
                 tripoint scrpos = pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
             }
@@ -1556,11 +1556,10 @@ int editmap::select_shape( shapetype shape, int mode )
     altblink = moveall;
     update_view( false );
     do {
-        uphelp(
-            ( moveall == true ? _( "[s] resize, [y] swap" ) :
-              _( "[m]move, [s]hape, [y] swap, [z] to start" ) ),
-            _( "[enter] accept, [q] abort, [v] showall" ),
-            ( moveall == true ? _( "Moving selection" ) : _( "Resizing selection" ) ) );
+        uphelp( moveall ? _( "[s] resize, [y] swap" ) :
+                _( "[m]move, [s]hape, [y] swap, [z] to start" ),
+                _( "[enter] accept, [q] abort, [v] showall" ),
+                moveall ? _( "Moving selection" ) : _( "Resizing selection" ) );
         action = ctxt.handle_input( BLINK_SPEED );
         if( action == "RESIZE" ) {
             if( ! moveall ) {

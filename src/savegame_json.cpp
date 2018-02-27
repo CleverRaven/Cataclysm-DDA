@@ -913,7 +913,6 @@ void npc_chatbin::serialize(JsonOut &json) const
 void npc_chatbin::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    std::string skill_ident;
 
     if( data.has_int( "first_topic" ) ) {
         int tmptopic = 0;

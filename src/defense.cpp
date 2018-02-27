@@ -479,7 +479,7 @@ void defense_game::setup()
     ctxt.register_action( "DOWN", _( "Next option" ) );
     ctxt.register_action( "LEFT", _( "Cycle option value" ) );
     ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toogle option" ) );
+    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );

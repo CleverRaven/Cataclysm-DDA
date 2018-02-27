@@ -1035,6 +1035,13 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
+    add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+        translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
+        true, COPT_CURSES_HIDE
+        );
+
+    mOptionsSort["interface"]++;
+
     add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
         translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
         true
@@ -1084,7 +1091,7 @@ void options_manager::init()
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
         translate_marker( "Morale display style in sidebar." ),
         //~ aim bar style - bars or numbers
-        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical" 
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;

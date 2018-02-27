@@ -3528,10 +3528,9 @@ void vehicle::power_parts()
         }
 
         epower += engine_epower;
-    }
 
-    // Producers of epower
-    if(engine_on) {
+        // Producers of epower
+
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
@@ -4764,6 +4763,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
         falling = true;
         // Don't print message
         return;
+    } else if( t == tr_lava ) {
+        part_damage = 500;
+        //@todo Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
     } else {
         return;
     }

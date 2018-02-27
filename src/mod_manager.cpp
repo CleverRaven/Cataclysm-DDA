@@ -174,7 +174,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
-        // TODO: change this to make unique ident for the mod
+        // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
@@ -314,7 +314,6 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
             dir_to_make.pop();
         }
 
-        std::ofstream fout;
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;

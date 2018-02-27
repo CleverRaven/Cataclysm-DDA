@@ -6498,16 +6498,16 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         ter_set(rng(3, SEEX * 2 - 4), rng(3, SEEY * 2 - 4), t_slope_up);
         place_items("spider", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
 
-    } else if (terrain_type == "anthill") {
+    } else if ( terrain_type == "anthill" || terrain_type == "acid_anthill" ) {
 
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9) {
-                    ter_set(i, j, dat.groundcover());
-                } else if ((i == 11 || i == 12) && (j == 11 || j == 12)) {
-                    ter_set(i, j, t_slope_down);
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                if( i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9 ) {
+                    ter_set( i, j, dat.groundcover() );
+                } else if( ( i == 11 || i == 12 ) && ( j == 11 || j == 12 ) ) {
+                    ter_set( i, j, t_slope_down );
                 } else {
-                    ter_set(i, j, t_dirtmound);
+                    ter_set( i, j, t_dirtmound );
                 }
             }
         }
@@ -7592,17 +7592,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
     if (height > 4 || width > 4) {
         valid_rooms.push_back(room_chemistry);
+        valid_rooms.push_back(room_goo);
     }
     if ( z != 0 && (height > 7 || width > 7) && height > 2 && width > 2) {
         valid_rooms.push_back(room_teleport);
     }
-    if (height > 4 && width > 4) {
-        valid_rooms.push_back(room_goo);
-    }
     if (height > 7 && width > 7) {
         valid_rooms.push_back(room_bionics);
-    }
-    if (height > 7 && width > 7) {
         valid_rooms.push_back(room_cloning);
     }
     if (area >= 9) {
@@ -8312,15 +8308,11 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
     }
     if (shortest >= 6 && longest <= 10) {
         valid.push_back(room_mansion_kitchen);
+        valid.push_back(room_mansion_game);
+        valid.push_back(room_mansion_study);
     }
     if (longest >= 7 && shortest >= 5) {
         valid.push_back(room_mansion_dining);
-    }
-    if (shortest >= 6 && longest <= 10) {
-        valid.push_back(room_mansion_game);
-    }
-    if (shortest >= 6 && longest <= 10) {
-        valid.push_back(room_mansion_study);
     }
     if (shortest >= 10) {
         valid.push_back(room_mansion_pool);

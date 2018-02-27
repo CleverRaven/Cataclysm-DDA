@@ -544,7 +544,8 @@ class map
         std::string name( const int x, const int y );
         bool has_furn( const int x, const int y ) const;
 
-        furn_id furn( const int x, const int y ) const; // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
+        // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
+        furn_id furn( const int x, const int y ) const;
 
         void furn_set( const int x, const int y, const furn_id new_furniture );
 

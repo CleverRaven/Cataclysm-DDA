@@ -2991,6 +2991,7 @@ bool game::handle_action()
                     u.reach_attack( trajectory.back() );
                 }
                 draw_ter();
+                wrefresh( w_terrain );
                 reenter_fullscreen();
             }
             break;
@@ -5007,8 +5008,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
-
-    wrefresh( w_terrain);
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
@@ -5340,6 +5339,7 @@ void game::draw_minimap()
 
 float game::natural_light_level( const int zlev ) const
 {
+    // ignore while underground or above limits
     if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
         return LIGHT_AMBIENT_MINIMAL;
     }
@@ -5351,17 +5351,15 @@ float game::natural_light_level( const int zlev ) const
 
     float ret = LIGHT_AMBIENT_MINIMAL;
 
-    // Sunlight/moonlight related stuff, ignore while underground
-    if( zlev >= 0 ) {
-        if( !lightning_active ) {
-            ret = calendar::turn.sunlight();
-        } else {
-            // Recent lightning strike has lit the area
-            ret = DAYLIGHT_LEVEL;
-        }
-
-        ret += weather_data(weather).light_modifier;
+    // Sunlight/moonlight related stuff
+    if( !lightning_active ) {
+        ret = calendar::turn.sunlight();
+    } else {
+        // Recent lightning strike has lit the area
+        ret = DAYLIGHT_LEVEL;
     }
+
+    ret += weather_data(weather).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -7547,9 +7545,7 @@ void game::examine( const tripoint &examp )
     }
 
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = m.veh_at( examp, veh_part );
+    vehicle *veh = m.veh_at( examp, veh_part );
     if( veh != nullptr ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -7590,6 +7586,7 @@ void game::examine( const tripoint &examp )
     if( !m.tr_at( examp ).is_null() ) {
         iexamine::trap( u, examp );
         draw_ter();
+        wrefresh( w_terrain );
     }
 
     // In case of teleport trap or somesuch
@@ -7641,6 +7638,7 @@ void game::peek( const tripoint &p )
     look_around();
     u.setpos( prev );
     draw_ter();
+    wrefresh( w_terrain );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 tripoint game::look_debug()
@@ -8345,6 +8343,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     }
 
     draw_ter( lp );
+    wrefresh( w_terrain );
 
     //change player location to peek location temporarily for minimap update
     tripoint current_pos = u.pos();
@@ -8504,6 +8503,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         if (action == "LIST_ITEMS") {
             list_items_monsters();
             draw_ter( lp, true );
+            wrefresh( w_terrain );
 
         } else if (action == "TOGGLE_FAST_SCROLL") {
             fast_scroll = !fast_scroll;
@@ -8522,8 +8522,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
             u.view_offset.z = new_levz - u.posz();
             lp.z = new_levz;
-            refresh_all();
             draw_ter( lp, true );
+            refresh_all();
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg(_("You can't see that destination."));
@@ -8547,6 +8547,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             extended_description( lp );
             draw_sidebar();
             draw_ter( lp, true );
+            wrefresh( w_terrain );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -8578,6 +8579,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             }
 
             draw_ter( lp, true );
+            wrefresh( w_terrain );
         }
     } while (action != "QUIT" && action != "CONFIRM" && action != "SELECT");
 
@@ -10083,6 +10085,7 @@ bool game::plfire()
         return false;
     }
     draw_ter(); // Recenter our view
+    wrefresh( w_terrain );
 
     int shots = 0;
 
@@ -10359,6 +10362,7 @@ void game::butcher()
     case BUTCHER_CORPSE:
         {
             draw_ter();
+            wrefresh( w_terrain );
             int index = corpses[indexer_index];
             u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
@@ -11597,7 +11601,7 @@ bool game::walk_move( const tripoint &dest_loc )
         ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if( ( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) ) {
+        if( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
         }
@@ -12717,9 +12721,9 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
     // Check the destination area for lava.
     if( mp.ter(stairs) == t_lava ) {
         if( movez < 0 &&
-            !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            !query_yn(_("There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up.")) ) {
             return tripoint_min;
-        } else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+        } else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Push through the half-molten rocks and ascend?  You will not be able to get back down.")) ){
             return tripoint_min;
         }
 

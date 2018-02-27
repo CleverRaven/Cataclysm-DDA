@@ -174,7 +174,6 @@ void game::unserialize(std::istream & fin)
         }
     }
     std::string linebuf;
-    std::stringstream linein;
 
     int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
@@ -360,7 +359,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
 
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
-            const std::string base = old.substr( 0, old.rfind( "1" ) );
+            const std::string base = old.substr( 0, old.rfind( '1' ) );
             const std::string entr = base + "1_entrance";
             nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
             nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );

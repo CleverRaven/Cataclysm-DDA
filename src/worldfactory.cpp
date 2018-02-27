@@ -1043,7 +1043,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
             draw_modselection_borders( win, &ctxt );
-            redraw_description = true;
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
@@ -1098,7 +1097,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     unsigned namebar_y = 1;
     unsigned namebar_x = 3 + utf8_width(_("World Name:"));
 
-    int line = 1;
     bool noname = false;
     input_context ctxt("WORLDGEN_CONFIRM_DIALOG");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1119,9 +1117,7 @@ Press <color_yellow>%s</color> when you are satisfied with the world as it is an
 to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
             mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
-            if (line == 1) {
-                wprintz(w_confirmation, h_light_gray, "_");
-            }
+            wprintz(w_confirmation, h_light_gray, "_");
         }
         if (noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
@@ -1175,32 +1171,27 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         } else if (action == "ANY_INPUT") {
             const input_event ev = ctxt.get_raw_input();
             const long ch = ev.get_first_input();
-            switch (line) {
-            case 1: {
-                utf8_wrapper wrap(worldname);
-                utf8_wrapper newtext( ev.text );
-                if( ch == KEY_BACKSPACE ) {
-                    if (!wrap.empty()) {
-                        wrap.erase(wrap.length() - 1, 1);
-                        worldname = wrap.str();
-                    }
-                } else if(ch == KEY_F(2)) {
-                    std::string tmp = get_input_string_from_file();
-                    int tmplen = utf8_width( tmp );
-                    if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
-                        worldname.append(tmp);
-                    }
-                } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                    // No empty string, no slash, no backslash, no control sequence
-                    wrap.append( newtext );
+            utf8_wrapper wrap(worldname);
+            utf8_wrapper newtext( ev.text );
+            if( ch == KEY_BACKSPACE ) {
+                if (!wrap.empty()) {
+                    wrap.erase(wrap.length() - 1, 1);
                     worldname = wrap.str();
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
-                mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
-                wprintz(w_confirmation, h_light_gray, "_");
+            } else if(ch == KEY_F(2)) {
+                std::string tmp = get_input_string_from_file();
+                int tmplen = utf8_width( tmp );
+                if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
+                    worldname.append(tmp);
+                }
+            } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
+                // No empty string, no slash, no backslash, no control sequence
+                wrap.append( newtext );
+                worldname = wrap.str();
             }
-            break;
-            }
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
+            mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
+            wprintz(w_confirmation, h_light_gray, "_");
         }
     } while (true);
 

@@ -42,8 +42,6 @@ void tileray::init( int adx, int ady )
 
 void tileray::init( int adir )
 {
-    deltax = 0;
-    deltay = 0;
     leftover = 0;
     // Clamp adir to the range [0, 359]
     direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
