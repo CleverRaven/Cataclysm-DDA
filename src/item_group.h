@@ -175,7 +175,6 @@ class Item_modifier
         std::vector<std::string> custom_flags;
 
         Item_modifier();
-        ~Item_modifier();
 
         void modify( item &it ) const;
         void check_consistency() const;

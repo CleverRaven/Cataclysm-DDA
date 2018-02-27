@@ -30,7 +30,6 @@ class dependency_node
 
         dependency_node();
         dependency_node( std::string _key );
-        ~dependency_node();
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
@@ -56,8 +55,6 @@ class dependency_tree
     public:
         /** Default constructor */
         dependency_tree();
-        /** Default destructor */
-        ~dependency_tree();
 
         void init( std::map<std::string, std::vector<std::string> > key_dependency_map );
 

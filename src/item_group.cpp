@@ -178,8 +178,6 @@ Item_modifier::Item_modifier()
 {
 }
 
-Item_modifier::~Item_modifier() = default;
-
 void Item_modifier::modify(item &new_item) const
 {
 

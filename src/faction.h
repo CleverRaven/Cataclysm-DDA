@@ -97,7 +97,6 @@ class faction
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
-        ~faction();
         void load_info( std::string data );
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;

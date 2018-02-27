@@ -190,7 +190,6 @@ struct npc_follower_rules {
     pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
-    ~npc_follower_rules();
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );

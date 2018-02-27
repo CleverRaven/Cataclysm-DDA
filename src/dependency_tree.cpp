@@ -19,8 +19,6 @@ dependency_node::dependency_node( std::string _key ): index( -1 ), lowlink( -1 )
     availability = true;
 }
 
-dependency_node::~dependency_node() = default;
-
 void dependency_node::add_parent( dependency_node *parent )
 {
     if( parent ) {
@@ -259,8 +257,6 @@ dependency_tree::dependency_tree()
 {
     //ctor
 }
-
-dependency_tree::~dependency_tree() = default;
 
 void dependency_tree::init( std::map<std::string, std::vector<std::string> > key_dependency_map )
 {

@@ -134,7 +134,6 @@ struct rl_vec2d {
     // vec2d(){}
     rl_vec2d( float X = 0, float Y = 0 ) : x( X ), y( Y ) {}
     rl_vec2d( const rl_vec2d &v ) : x( v.x ), y( v.y ) {}
-    ~rl_vec2d() {}
 
     float norm();
     rl_vec2d normalized();
@@ -158,7 +157,6 @@ struct rl_vec3d {
 
     rl_vec3d( float X = 0, float Y = 0, float Z = 0 ) : x( X ), y( Y ), z( Z ) {}
     rl_vec3d( const rl_vec3d &v ) : x( v.x ), y( v.y ), z( v.z ) {}
-    ~rl_vec3d() {}
 
     float norm();
     rl_vec3d normalized();

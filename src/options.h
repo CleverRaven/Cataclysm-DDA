@@ -50,9 +50,6 @@ class options_manager
                 //Default constructor
                 cOpt();
 
-                //Default deconstructor
-                ~cOpt() {};
-
                 void setSortPos( const std::string sPageIn );
 
                 //helper functions
