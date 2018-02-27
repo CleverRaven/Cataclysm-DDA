@@ -67,7 +67,7 @@ class mod_manager
         typedef std::vector<std::string> t_mod_list;
 
         mod_manager();
-        virtual ~mod_manager();
+        ~mod_manager();
         /**
          * Reload the map of available mods (@ref mod_map).
          * This also reloads the dependency tree.
