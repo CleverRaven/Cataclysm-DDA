@@ -319,18 +319,17 @@ unsigned make_xyz(int const x, int const y, int const z)
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-// ret.second contains z and can be ignored if unused.
-std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
+// std::get<3> contains z and can be ignored if unused.
+std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
 {
     assert(!line.empty() && line.front() != line.back());
     const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
-    std::pair<double, double> retXY = std::make_pair(normDx, normDy);
-    // slope of <x, y> z
-    std::pair<std::pair<double, double>, double> ret = std::make_pair(retXY, normDz);
-    return ret;
+    // slope of <x, y, z>
+    printf("slope_of called successfully).\n");
+    return std::make_tuple(normDx, normDy, normDz);
 }
 
 float get_normalized_angle( const point &start, const point &end )
@@ -352,9 +351,9 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     // routines, erring on the side of readability.
     tripoint res( loc );
     const auto slope = slope_of( line );
-    res.x += distance * slope.first.first;
-    res.y += distance * slope.first.second;
-    res.z += distance * slope.second;
+    res.x += distance * std::get<0>(slope);
+    res.y += distance * std::get<1>(slope);
+    res.z += distance * std::get<2>(slope);
     return res;
 }
 
