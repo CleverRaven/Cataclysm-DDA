@@ -8803,6 +8803,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname().c_str() );
+        return false;
     }
 
     long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
