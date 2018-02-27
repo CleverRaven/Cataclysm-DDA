@@ -11,7 +11,6 @@
 #else
 #define FILE_SEP '/'
 #endif // if
-#define is_filesep(ch) (ch == '/' || ch == '\\')
 #endif // ifndef
 
 extern std::map<std::string, std::string> FILENAMES;
