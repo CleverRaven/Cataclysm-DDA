@@ -232,10 +232,10 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         if( target->is_player() || target->is_npc() || target->has_flag( MF_HUMANOID ) ) {
             target->add_msg_player_or_npc( msg_type, miss_msg_u.c_str(), miss_msg_npc.c_str(),
-                z.name().c_str() );
+                                           z.name().c_str() );
         } else {
             target->add_msg_player_or_npc( msg_type, miss_msg_u.c_str(), miss_msg_monster.c_str(),
-                z.name().c_str() );
+                                           z.name().c_str() );
         }
         return true;
     }
@@ -262,10 +262,10 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         if( target->is_player() || target->is_npc() || target->has_flag( MF_HUMANOID ) ) {
             target->add_msg_player_or_npc( no_dmg_msg_u.c_str(), no_dmg_msg_npc.c_str(), z.name().c_str(),
-                body_part_name_accusative( bp_hit ).c_str() );
+                                           body_part_name_accusative( bp_hit ).c_str() );
         } else {
             target->add_msg_player_or_npc( no_dmg_msg_u.c_str(), no_dmg_msg_monster.c_str(), z.name().c_str(),
-                body_part_name_accusative( bp_hit ).c_str() );
+                                           body_part_name_accusative( bp_hit ).c_str() );
         }
     }
 
@@ -284,10 +284,10 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
 
     if( target.is_player() || target.is_npc() || target.has_flag( MF_HUMANOID ) ) {
         target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_npc.c_str(), z.name().c_str(),
-                                  body_part_name_accusative( bp ).c_str() );
+                                      body_part_name_accusative( bp ).c_str() );
     } else {
-        target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_monster.c_str(), z.name().c_str(),
-                                  body_part_name_accusative( bp ).c_str() );
+        target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_monster.c_str(),
+                                      z.name().c_str(), body_part_name_accusative( bp ).c_str() );
     }
 
     for( const auto &eff : effects ) {
