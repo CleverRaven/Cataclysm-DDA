@@ -157,7 +157,7 @@ public:
 class CachedTTFFont : public Font {
 public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
-    virtual ~CachedTTFFont();
+    ~CachedTTFFont() override = default;
 
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
@@ -193,7 +193,7 @@ protected:
 class BitmapFont : public Font {
 public:
     BitmapFont( int w, int h, const std::string &path );
-    virtual ~BitmapFont();
+    ~BitmapFont() override = default;
 
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
     void OutputChar(long t, int x, int y, unsigned char color);
@@ -1800,8 +1800,6 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::~BitmapFont() = default;
-
 BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 : Font( w, h )
 {
@@ -1888,8 +1886,6 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 }
 
 
-
-CachedTTFFont::~CachedTTFFont() = default;
 
 CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize, const bool fontblending )
 : Font( w, h )
