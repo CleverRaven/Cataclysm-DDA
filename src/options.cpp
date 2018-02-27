@@ -597,7 +597,7 @@ void options_manager::cOpt::setPrev()
 
         sSet = vItems[iPrev].first;
 
-    } else if (sType == "string_select") {
+    } else if (sType == "string_input") {
         setNext();
 
     } else if (sType == "bool") {
