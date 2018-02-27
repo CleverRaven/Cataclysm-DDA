@@ -227,7 +227,6 @@ class uimenu: public ui_container
         void settext( std::string str );
 
         void reset();
-        ~uimenu();
 
         operator int() const;
 
