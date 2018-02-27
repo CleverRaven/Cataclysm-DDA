@@ -170,6 +170,13 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
               _( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc, translated_string_reader,
               _( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "miss_msg_npc", miss_msg_monster, translated_string_reader,
+              _( "The %s lunges a the <npcname>, but they dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_monster, translated_string_reader,
+              _( "The %1$s bites the <npcname>, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_monster, translated_string_reader,
+              _( "The %1$s bites the <npcname>!" ) );
+
 
     if( obj.has_array( "body_parts" ) ) {
         JsonArray jarr = obj.get_array( "body_parts" );
@@ -223,8 +230,13 @@ bool melee_actor::call( monster &z ) const
         auto msg_type = target == &g->u ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, miss_msg_u.c_str(), miss_msg_npc.c_str(),
-                                       z.name().c_str() );
+        if( target->is_player() || target->is_npc() || target->has_flag( MF_HUMANOID ) ) {
+            target->add_msg_player_or_npc( msg_type, miss_msg_u.c_str(), miss_msg_npc.c_str(),
+                z.name().c_str() );
+        } else {
+            target->add_msg_player_or_npc( msg_type, miss_msg_u.c_str(), miss_msg_monster.c_str(),
+                z.name().c_str() );
+        }
         return true;
     }
 
@@ -248,8 +260,13 @@ bool melee_actor::call( monster &z ) const
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( no_dmg_msg_u.c_str(), no_dmg_msg_npc.c_str(), z.name().c_str(),
-                                       body_part_name_accusative( bp_hit ).c_str() );
+        if( target->is_player() || target->is_npc() || target->has_flag( MF_HUMANOID ) ) {
+            target->add_msg_player_or_npc( no_dmg_msg_u.c_str(), no_dmg_msg_npc.c_str(), z.name().c_str(),
+                body_part_name_accusative( bp_hit ).c_str() );
+        } else {
+            target->add_msg_player_or_npc( no_dmg_msg_u.c_str(), no_dmg_msg_monster.c_str(), z.name().c_str(),
+                body_part_name_accusative( bp_hit ).c_str() );
+        }
     }
 
     return true;
@@ -264,8 +281,14 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     }
     auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
     const body_part bp = dealt.bp_hit;
-    target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_npc.c_str(), z.name().c_str(),
+
+    if( target.is_player() || target.is_npc() || target.has_flag( MF_HUMANOID ) ) {
+        target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_npc.c_str(), z.name().c_str(),
                                   body_part_name_accusative( bp ).c_str() );
+    } else {
+        target.add_msg_player_or_npc( msg_type, hit_dmg_u.c_str(), hit_dmg_monster.c_str(), z.name().c_str(),
+                                  body_part_name_accusative( bp ).c_str() );
+    }
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {

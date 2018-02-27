@@ -446,11 +446,14 @@ def extract_monster_attack(item):
         writestr(outfile, item.get("hit_dmg_u"))
     if "hit_dmg_npc" in item:
         writestr(outfile, item.get("hit_dmg_npc"))
+    if "hit_dmg_monster" in item:
+        writestr(outfile, item.get("hit_dmg_monster"))
     if "no_dmg_msg_u" in item:
         writestr(outfile, item.get("no_dmg_msg_u"))
     if "no_dmg_msg_npc" in item:
         writestr(outfile, item.get("no_dmg_msg_npc"))
-
+    if "no_dmg_msg_monster" in item:
+        writestr(outfile, item.get("no_dmg_msg_monster"))
 
 def extract_recipes(item):
     outfile = get_outfile("recipe")

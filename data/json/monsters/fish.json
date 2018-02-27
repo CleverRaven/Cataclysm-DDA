@@ -525,7 +525,7 @@
     "id": "mon_fish_crayfish",
     "type": "MONSTER",
     "name": "Crayfish",
-    "description": "If you could get ahold of a bunch more of these, a hefty pot of boiling water, and some spicy seasonings...",
+    "description": "If you could get a hold of a bunch more of these, a hefty pot of boiling water, and some spicy seasonings...",
     "default_faction": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],

@@ -126,6 +126,7 @@ enum m_flag : int {
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
+    MF_HUMANOID,            // It has a humanoid shaped body, aka: arms, legs, torso, head.
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
     MF_REGENERATES_10,      // Monster regenerates quickly over time
