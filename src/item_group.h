@@ -99,7 +99,7 @@ class Item_spawn_data
         typedef std::vector<Item_tag> RecursionList;
 
         Item_spawn_data( int _probability ) : probability( _probability ) { }
-        virtual ~Item_spawn_data() { }
+        virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.

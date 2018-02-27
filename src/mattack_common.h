@@ -25,7 +25,7 @@ class mattack_actor
 
         void load( JsonObject &jo, const std::string &src );
 
-        virtual ~mattack_actor() { }
+        virtual ~mattack_actor() = default;
         virtual bool call( monster & ) const = 0;
         virtual mattack_actor *clone() const = 0;
         virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;

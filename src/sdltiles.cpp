@@ -133,7 +133,7 @@ using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
 class Font {
 public:
     Font(int w, int h) : fontwidth(w), fontheight(h) { }
-    virtual ~Font() { }
+    virtual ~Font() = default;
     /**
      * Draw character t at (x,y) on the screen,
      * using (curses) color.

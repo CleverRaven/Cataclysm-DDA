@@ -134,7 +134,7 @@ class uimenu_callback
         };
         virtual void refresh( uimenu * ) {};
         virtual void redraw( uimenu * ) {};
-        virtual ~uimenu_callback() {};
+        virtual ~uimenu_callback() = default;
 };
 /*@}*/
 /**
@@ -252,7 +252,7 @@ class pointmenu_cb : public uimenu_callback
         tripoint last_view; // to reposition the view after selecting
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
-        ~pointmenu_cb() override { };
+        ~pointmenu_cb() override = default;
         void select( int num, uimenu *menu ) override;
         void refresh( uimenu *menu ) override;
 };

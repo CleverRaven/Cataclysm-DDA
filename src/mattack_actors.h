@@ -28,7 +28,7 @@ class leap_actor : public mattack_actor
         float max_consider_range;
 
         leap_actor() { }
-        ~leap_actor() override { }
+        ~leap_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
@@ -75,7 +75,7 @@ class melee_actor : public mattack_actor
         std::string hit_dmg_npc;
 
         melee_actor();
-        ~melee_actor() override { }
+        ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
@@ -93,7 +93,7 @@ class bite_actor : public melee_actor
         int no_infection_chance;
 
         bite_actor();
-        ~bite_actor() override { }
+        ~bite_actor() override = default;
 
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
@@ -160,7 +160,7 @@ class gun_actor : public mattack_actor
         void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
-        ~gun_actor() override { }
+        ~gun_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
