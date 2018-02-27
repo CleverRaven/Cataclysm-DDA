@@ -3522,7 +3522,8 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
     bool adjacent_couch = false;
     bool in_position = false;
     for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
-        if( g->m.furn( couch_loc ).obj().id == "f_autodoc_couch" ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
             adjacent_couch = true;
             if( p.pos() == couch_loc ) {
                 in_position = true;
@@ -3550,13 +3551,13 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
             }
 
             const int bionic = g->inv_for_flag( "CBM", _( "Choose CBM to install" ) );
-            const item &it = p.i_at( bionic );
-            const itype &itemtype = *it.type;
             if( bionic == INT_MIN ) {
                 p.add_msg_if_player( m_info, _( "Never mind." ) );
                 return;
             }
 
+            const item &it = p.i_at( bionic );
+            const itype &itemtype = *it.type;
             const int duration = itemtype.bionic->difficulty * 200;
             if( p.install_bionics( itemtype ) ) {
                 p.add_msg_if_player( m_info,
