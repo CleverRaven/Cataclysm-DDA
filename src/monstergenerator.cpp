@@ -420,6 +420,7 @@ void MonsterGenerator::init_flags()
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
     flag_map["GUILT"] = MF_GUILT;
     flag_map["HUMAN"] = MF_HUMAN;
+    flag_map["HUMANOID"] = MF_HUMANOID;
     flag_map["NO_BREATHE"] = MF_NO_BREATHE;
     flag_map["REGENERATES_50"] = MF_REGENERATES_50;
     flag_map["REGENERATES_10"] = MF_REGENERATES_10;

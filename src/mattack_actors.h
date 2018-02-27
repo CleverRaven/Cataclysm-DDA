@@ -67,12 +67,19 @@ class melee_actor : public mattack_actor
         /** Message for damaging hit against the player. */
         std::string hit_dmg_u;
 
-        /** Message for missed attack against a non-player. */
+        /** Message for missed attack against a non-player humanoid. */
         std::string miss_msg_npc;
-        /** Message for 0 damage hit against a non-player. */
+        /** Message for 0 damage hit against a non-player humanoid. */
         std::string no_dmg_msg_npc;
-        /** Message for damaging hit against a non-player. */
+        /** Message for damaging hit against a non-player humanoid. */
         std::string hit_dmg_npc;
+
+        /** Message for missed attack against a non-player, with non-humanoid body. */
+        std::string miss_msg_monster;
+        /** Message for 0 damage hit against a non-player, with non-humanoid body. */
+        std::string no_dmg_msg_monster;
+        /** Message for damaging hit against a non-player, with non-humanoid body. */
+        std::string hit_dmg_monster;
 
         melee_actor();
         ~melee_actor() override { }

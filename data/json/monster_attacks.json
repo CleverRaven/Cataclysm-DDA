@@ -20,8 +20,10 @@
     ],
     "hit_dmg_u": "The %1$s impales your torso!",
     "hit_dmg_npc": "The %1$s impales <npcname>'s torso!",
+    "hit_dmg_monster": "The %1$s impales the <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to impale your torso, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!",
+    "no_dmg_msg_monster": "The %1$s tries to impale the <npcname>, but fails to penetrate its armor!"
   },
   {
     "type": "monster_attack",
@@ -38,7 +40,9 @@
     "body_parts": [ [ "FOOT_L", 2 ],[ "FOOT_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "HEAD", 3 ], [ "EYES", 2 ], [ "MOUTH", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "TORSO", 4 ] ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
+    "hit_dmg_monster": "The %1$s claws the <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to.",
+    "no_dmg_msg_monster": "The %1$s tries to claw the <npcname>, but fails to."
   }
 ]

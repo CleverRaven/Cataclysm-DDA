@@ -40,7 +40,7 @@
     ],
     "death_drops": { "groups": [ [ "wraitheon_infantry", 30 ] ] },
     "death_function": [ "DISINTEGRATE" ],
-    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "HEARS", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "HUMANOID" ]
   },
   {
     "id": "mon_w11b20b4",

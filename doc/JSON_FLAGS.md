@@ -250,6 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
+- ```HUMANOID``` It has a humanoid shaped body, aka: arms, legs, torso, head.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.

@@ -309,7 +309,7 @@
         "death_function":"BROKEN",
         "special_attack":[["PARROT", 0]],
         "description":"A bipedal animatronic bear, nearly twice your size.  It's holding a microphone, and wearing a top hat.  Though it is a robot, it stinks like death.  It looks heavily worn and degraded.",
-        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"],
+        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "HUMANOID"],
         "anger_triggers":["PLAYER_CLOSE", "HURT"]
     },{
         "type" : "MONSTER",
@@ -348,7 +348,7 @@
         "death_function":"BROKEN",
         "special_attack":[["PARROT", 0]],
         "description":"A bipedal animatronic bear, nearly twice your size.  It's holding a microphone, and wearing a top hat.  Its outer layer is made of reinforced plastic.  It looks to be high tech, and in good shape.",
-        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"],
+        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "HUMANOID"],
         "anger_triggers":["PLAYER_CLOSE", "HURT"]
     },{
         "type" : "MONSTER",
@@ -856,7 +856,7 @@
         "death_function":"BROKEN",
         "special_attack":[["PARROT", 0]],
         "description":"A marionette able to move itself around.  There are no strings on him however.",
-        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"],
+        "flags":["SEES", "GRABS", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "HUMANOID"],
         "anger_triggers":["PLAYER_CLOSE", "HURT"]
     },{
         "type" : "MONSTER",

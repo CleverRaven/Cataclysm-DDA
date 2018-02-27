@@ -32,6 +32,7 @@ mtype::mtype()
     luminance = 0;
     bash_skill = 0;
     flags.insert( MF_HUMAN );
+    flags.insert( MF_HUMANOID );
     flags.insert( MF_BONES );
     flags.insert( MF_LEATHER );
 }
