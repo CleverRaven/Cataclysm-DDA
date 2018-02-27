@@ -328,7 +328,6 @@ std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
     // slope of <x, y, z>
-    printf("slope_of called successfully).\n");
     return std::make_tuple(normDx, normDy, normDz);
 }
 
