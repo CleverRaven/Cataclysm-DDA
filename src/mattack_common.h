@@ -43,7 +43,7 @@ struct mtype_special_attack {
         mtype_special_attack( const mtype_special_attack &other ) :
             mtype_special_attack( other.actor->clone() ) { };
 
-        ~mtype_special_attack();
+        ~mtype_special_attack() = default;
 
         void operator=( const mtype_special_attack &other ) {
             actor.reset( other.actor->clone() );
