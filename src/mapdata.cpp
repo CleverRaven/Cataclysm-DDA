@@ -508,7 +508,10 @@ ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    // Railroad and subway
+    t_railroad_rubble,
+    t_railroad_tie, t_railroad_track, t_railroad_track_on_tie,
+    t_railroad_tie_d, t_railroad_track_d, t_railroad_track_d_on_tie_d;
 
 // @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -774,9 +777,12 @@ void set_ter_ids() {
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
+    t_railroad_tie = ter_id( "t_railroad_tie" );
     t_railroad_track = ter_id( "t_railroad_track" );
     t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
-    t_railroad_tie = ter_id( "t_railroad_tie" );
+    t_railroad_tie_d = ter_id( "t_railroad_tie_d" );
+    t_railroad_track_d = ter_id( "t_railroad_track_d" );
+    t_railroad_track_d_on_tie_d = ter_id( "t_railroad_track_d_on_tie_d" );
 
     for( auto &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t&>( elem );

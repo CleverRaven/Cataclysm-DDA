@@ -1297,13 +1297,13 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
     switch ( num_dirs ) {
         case 4: // 4-way intersection
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.^D^^D^.########.^D^^D^.\n\
+^D^^D^..########..^D^^D^\n\
+D^^D^...########...^D^^D\n\
+^^D^.....######.....^D^^\n\
+^D^..................^D^\n\
+D^....................^D\n\
+^......................^\n\
 ........................\n\
 ###......######......###\n\
 ####....########....####\n\
@@ -1314,22 +1314,28 @@ XxX^................^XxX\n\
 ####....########....####\n\
 ###......######......###\n\
 ........................\n\
-^-^..................^-^\n\
-XxX^................^XxX\n\
-^-^X^-............-^X^-^\n\
-^-^-x^...######...^x-^-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+^......................^\n\
+D^....................^D\n\
+^D^..................^D^\n\
+^^D^.....######.....^D^^\n\
+D^^D^...########...^D^^D\n\
+^D^^D^..########..^D^^D^\n\
+.^D^^D^.########.^D^^D^.",
+                    mapf::ter_bind( ". # ^ - X x / D d |",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
+                        t_railroad_tie_d,
+                        t_railroad_track_d,
+                        t_railroad_track_d_on_tie_d,
                         t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                    mapf::furn_bind( ". # ^ - X x / D d |",
+                        f_null,
+                        f_null,
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1340,13 +1346,13 @@ Xx-^^X^.########.^X^^-xX\n\
             break;
         case 3: // tee
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.^D^^D^.########.^D^^D^.\n\
+^D^^D^..########..^D^^D^\n\
+D^^D^...########...^D^^D\n\
+^^D^.....######.....^D^^\n\
+^D^..................^D^\n\
+D^....................^D\n\
+^......................^\n\
 ........................\n\
 ###......######......###\n\
 ####....########....####\n\
@@ -1364,15 +1370,21 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
 ^-^^-^^-^^-^^-^^-^^-^^-^\n\
 ........................",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ - X x / D d |",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
+                        t_railroad_tie_d,
+                        t_railroad_track_d,
+                        t_railroad_track_d_on_tie_d,
                         t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                    mapf::furn_bind( ". # ^ - X x / D d |",
+                        f_null,
+                        f_null,
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1384,39 +1396,45 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^-xX\n\
-.^X^^X^..######...^x-^-^\n\
-.-x--x-...........-^X^-^\n\
-.^X^^X^.............^XxX\n\
-.^X^^X^..............^-^\n\
-.-x--x-.................\n\
-.^X^^X^..######......###\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^..######......###\n\
-.-X--X-.................\n\
-..^X^^X-^^-^^-^^-^^-^^-^\n\
-##.^X^-xXXxXXxXXxXXxXXxX\n\
-###.-x^-^^-^^-^^-^^-^^-^\n\
-####.^X-^^-^^-^^-^^-^^-^\n\
-#####.^XXXxXXxXXxXXxXXxX\n\
-######.-^^-^^-^^-^^-^^-^\n\
-######..................",
-                    mapf::ter_bind( ". # ^ - X x |",
+.^D^^D^..######..^D^^D^.\n\
+..^D^^D^..........^D^^D^\n\
+#..^D^^D^..........^D^^D\n\
+##..^D^^D^..........^D^^\n\
+###..^D^^D^...####...^D^\n\
+####..^D^^D^..#####...^D\n\
+#####..^D^^D^..#####...^\n\
+######..^D^^D^..####....\n\
+#######..^D^^D^..###....\n\
+########..^D^^D^..##...#\n\
+#########..^D^^D^......#\n\
+##########..^D^^D^.....#\n\
+###########..^D^^D^....#\n\
+############..^D^^D^...#\n\
+#############..^D^^D^..#\n\
+##############..^D^^D^..\n\
+###############..^D^^D^.\n\
+################..^D^^D^\n\
+#################..^D^^D\n\
+##################..^D^^\n\
+###################..^D^\n\
+####################..^D\n\
+#####################..^\n\
+######################..",
+                    mapf::ter_bind( ". # ^ - X x / D d |",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
+                        t_railroad_tie_d,
+                        t_railroad_track_d,
+                        t_railroad_track_d_on_tie_d,
                         t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                    mapf::furn_bind( ". # ^ - X x / D d |",
+                        f_null,
+                        f_null,
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1450,15 +1468,21 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 .^X^^X^.########.^X^^X^.\n\
 .-x--x-.########.-x--x-.\n\
 .^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ - X x / D d |",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
+                        t_railroad_tie_d,
+                        t_railroad_track_d,
+                        t_railroad_track_d_on_tie_d,
                         t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                    mapf::furn_bind( ". # ^ - X x / D d |",
+                        f_null,
+                        f_null,
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1494,15 +1518,22 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 ########################\n\
 ########################\n\
 ########################",
-                    mapf::ter_bind( ". # ^ - X x |",
+
+                    mapf::ter_bind( ". # ^ - X x / D d |",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v),
-                    mapf::furn_bind( ". # ^ - X x |",
+                        t_railroad_tie_d,
+                        t_railroad_track_d,
+                        t_railroad_track_d_on_tie_d,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x / D d |",
+                        f_null,
+                        f_null,
+                        f_null,
                         f_null,
                         f_null,
                         f_null,

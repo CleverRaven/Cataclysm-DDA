@@ -30,7 +30,10 @@
       "^": "t_railroad_rubble",
       "-": "t_railroad_tie",
       "X": "t_railroad_track",
-      "x": "t_railroad_track_on_tie"
+      "x": "t_railroad_track_on_tie",
+      "/": "t_railroad_tie_d",
+      "D": "t_railroad_track_d",
+      "d": "t_railroad_track_d_on_tie_d"
     },
     "furniture": { "&": "f_trashcan", "b": "f_bench" }
   }
