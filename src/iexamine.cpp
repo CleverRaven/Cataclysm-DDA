@@ -3505,14 +3505,19 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
         CANCEL,
     };
 
-    std::string status = uistate.iexamine_autodoc_config ? _( "Online" ) :
+    bool configured = false;
+    if( g->m.i_at( examp )[0].typeId() == "autodoc_config" ) {
+        configured = true;
+    }
+
+    std::string status = configured ? _( "Online" ) :
                          _( "Configuration required" );
 
     uimenu amenu;
     amenu.selected = 0;
     amenu.text = string_format( _( "Autodoc Mk. XI.  Status: %s.  Please choose operation." ), status );
     amenu.addentry( CONFIGURE, true, 'c', str_to_illiterate_str( _( "Configure Autodoc." ) ) );
-    amenu.addentry( INSTALL_CBM, uistate.iexamine_autodoc_config, 'i',
+    amenu.addentry( INSTALL_CBM, configured, 'i',
                     str_to_illiterate_str( _( "Choose Compact Bionic Module to install." ) ) );
 
     amenu.addentry( CANCEL, true, 'q', str_to_illiterate_str( _( "Do nothing." ) ) );
@@ -3533,7 +3538,7 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
 
     switch( static_cast<options>( amenu.ret ) ) {
         case CONFIGURE:
-            uistate.iexamine_autodoc_config = true;
+            g->m.spawn_item( examp, "autodoc_config", 1, 1, ( int )calendar::turn );
             //Flavor message to justify using player skills and INT below in install_bionics for determining success chance
             p.add_msg_if_player( m_good,
                                  _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
