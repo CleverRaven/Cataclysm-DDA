@@ -1615,8 +1615,6 @@ int editmap::select_shape( shapetype shape, int mode )
             blink = true;
             update = false;
             recalc_target( shape );
-            altblink = moveall;
-            update_view( false );
         }
         altblink = moveall;
         update_view( false );
