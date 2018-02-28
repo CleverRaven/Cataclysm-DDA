@@ -4050,11 +4050,11 @@ void player::mod_pain( int npain) {
         }
         // always increase pain gained by one from these bad mutations
         if( has_trait( trait_MOREPAIN ) ) {
-            npain += std::max(1, roll_remainder( npain * 0.25 ));
+            npain += std::max( 1, roll_remainder( npain * 0.25 ));
         } else if( has_trait( trait_MOREPAIN2 ) ) {
-            npain += std::max(1, roll_remainder( npain * 0.5 ));
+            npain += std::max( 1, roll_remainder( npain * 0.5 ));
         } else if( has_trait( trait_MOREPAIN3 ) ) {
-            npain += std::max(1, roll_remainder( npain * 1.0 ));
+            npain += std::max( 1, roll_remainder( npain * 1.0 ));
         }
 
         if( npain > 1 ) {
