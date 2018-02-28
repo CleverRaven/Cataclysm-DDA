@@ -371,7 +371,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
 
-    if ( !vRules[iTab][iRow].sRule.empty() ) {
+    if ( vRules[iTab][iRow].sRule.empty() ) {
         return;
     }
 
