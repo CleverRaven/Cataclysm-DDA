@@ -319,7 +319,6 @@ unsigned make_xyz(int const x, int const y, int const z)
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-// std::get<3> contains z and can be ignored if unused.
 std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
 {
     assert(!line.empty() && line.front() != line.back());
