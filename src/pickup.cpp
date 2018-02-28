@@ -332,7 +332,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
             }
 
             if( bPickup ) {
-                getitem[i].pick = bPickup;
+                getitem[i].pick = true;
                 bFoundSomething = true;
             }
         }
