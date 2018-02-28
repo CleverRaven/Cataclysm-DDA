@@ -81,7 +81,6 @@ data/json/items/gun/flammable.json
 data/json/items/gun/metal_rail.json
 data/json/items/gunmod/accessories.json
 data/json/items/gunmod/barrel.json
-data/json/items/gunmod/bore.json
 data/json/items/gunmod/grip.json
 data/json/items/gunmod/laser_gunmods.json
 data/json/items/gunmod/mechanism.json
