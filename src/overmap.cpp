@@ -846,9 +846,7 @@ void load_region_settings( JsonObject &jo )
         const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
                                                          building_bin &dest ) {
             if ( !cjo.has_object( type ) && strict ) {
-                if( strict ) {
-                    jo.throw_error("city: \"" + type + "\": { ... } required for default");
-                }
+                jo.throw_error("city: \"" + type + "\": { ... } required for default");
             } else {
                 JsonObject wjo = cjo.get_object( type );
                 std::set<std::string> keys = wjo.get_member_names();
