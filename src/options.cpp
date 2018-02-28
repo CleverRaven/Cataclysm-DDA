@@ -105,7 +105,6 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 options_manager::cOpt::cOpt()
 {
     sType = "VOID";
-    sPage = "";
     hide = COPT_NO_HIDE;
 }
 
@@ -597,7 +596,7 @@ void options_manager::cOpt::setPrev()
 
         sSet = vItems[iPrev].first;
 
-    } else if (sType == "string_select") {
+    } else if (sType == "string_input") {
         setNext();
 
     } else if (sType == "bool") {
@@ -725,11 +724,11 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
                     getline( fin, sOption );
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
-                        resource_name = "";
+                        resource_name.clear();
                         getline( fin, resource_name );
                         resource_name = trim( resource_name );
                     } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                        view_name = "";
+                        view_name.clear();
                         getline( fin, view_name );
                         view_name = trim( view_name );
                         break;
@@ -1520,18 +1519,18 @@ void options_manager::init()
     //Sort out possible double empty lines after options are hidden
     for (unsigned i = 0; i < vPages.size(); ++i) {
         bool bLastLineEmpty = false;
-        while (mPageItems[i][0] == "") {
+        while( mPageItems[i][0].empty() ) {
             //delete empty lines at the beginning
             mPageItems[i].erase(mPageItems[i].begin());
         }
 
-        while (mPageItems[i][mPageItems[i].size() - 1] == "") {
+        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
             //delete empty lines at the end
             mPageItems[i].erase(mPageItems[i].end() - 1);
         }
 
         for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
-            bool bThisLineEmpty = (mPageItems[i][j] == "");
+            bool bThisLineEmpty = mPageItems[i][j].empty();
 
             if (bLastLineEmpty == true && bThisLineEmpty == true) {
                 //delete empty lines in between
@@ -1804,15 +1803,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 if (iCurrentLine >= (int)mPageItems[iCurrentPage].size()) {
                     iCurrentLine = 0;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == ""));
+            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
                     iCurrentLine = mPageItems[iCurrentPage].size() - 1;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "")
-                   );
+            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
@@ -2029,7 +2027,7 @@ bool options_manager::load_legacy()
         while(!fin.eof()) {
             getline(fin, sLine);
 
-            if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
+            if( !sLine.empty() && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                 int iPos = sLine.find(' ');
                 const std::string loadedvar = sLine.substr(0, iPos);
                 const std::string loadedval = sLine.substr(iPos + 1, sLine.length());

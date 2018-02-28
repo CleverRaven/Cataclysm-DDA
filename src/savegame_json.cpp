@@ -1202,7 +1202,7 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // @todo: stringid
-    if ( fac_id != "" ) { // set in constructor
+    if( !fac_id.empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );
@@ -2113,7 +2113,7 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("id", id);
     jo.read("name", name);
     if ( !jo.read( "desc", desc )) {
-        desc = "";
+        desc.clear();
     }
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);

@@ -523,7 +523,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power( -power_use );
             bio.powered = ctr.active;
         } else {
-            bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
+            bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.id == "bio_plutdump" ) {
         if( query_yn(
@@ -603,7 +603,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
             g->setremoteveh( nullptr );
-        } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
+        } else if( !get_value( "remote_controlling" ).empty() && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
     } else if( bio.id == "bio_tools" ) {
@@ -698,7 +698,7 @@ void player::process_bionic( int b )
             add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
-        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
+        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
             add_msg( m_warning, _( "Your %s has lost connection and is turning off." ),
                      bionics[bio.id].name.c_str() );

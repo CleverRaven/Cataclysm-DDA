@@ -253,7 +253,7 @@ static void get_tile_information(std::string config_path, std::string &json_path
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
+            if( sOption.empty() ) {
                 getline(fin, sOption);
             } else if(sOption[0] == '#') { // Skip comment
                 getline(fin, sOption);
@@ -274,11 +274,11 @@ static void get_tile_information(std::string config_path, std::string &json_path
         tileset_path = default_tileset;
     }
 
-    if (json_path == "") {
+    if( json_path.empty() ) {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
-    if (tileset_path == "") {
+    if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
@@ -2408,26 +2408,26 @@ void cata_tiles::void_bullet()
 {
     do_draw_bullet = false;
     bul_pos = { -1, -1, -1 };
-    bul_id = "";
+    bul_id.clear();
 }
 void cata_tiles::void_hit()
 {
     do_draw_hit = false;
     hit_pos = { -1, -1, -1 };
-    hit_entity_id = "";
+    hit_entity_id.clear();
 }
 void cata_tiles::void_line()
 {
     do_draw_line = false;
     is_target_line = false;
     line_pos = { -1, -1, -1 };
-    line_endpoint_id = "";
+    line_endpoint_id.clear();
     line_trajectory.clear();
 }
 void cata_tiles::void_weather()
 {
     do_draw_weather = false;
-    weather_name = "";
+    weather_name.clear();
     anim_weather.vdrops.clear();
 }
 void cata_tiles::void_sct()

@@ -49,7 +49,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id == "" ) {
+        if( id.empty() ) {
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;

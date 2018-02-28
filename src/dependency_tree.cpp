@@ -10,7 +10,6 @@ std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
 {
-    key = "";
     availability = true;
 }
 

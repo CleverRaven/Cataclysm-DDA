@@ -166,7 +166,6 @@ monster::monster()
     no_extra_death_drops = false;
     dead = false;
     made_footstep = false;
-    unique_name = "";
     hallucination = false;
     ignoring = 0;
     upgrades = false;
@@ -345,7 +344,7 @@ std::string monster::name(unsigned int quantity) const
   debugmsg ("monster::name empty type!");
   return std::string();
  }
- if (unique_name != "")
+ if( !unique_name.empty() )
   return string_format("%s: %s",
                        (type->nname(quantity).c_str()), unique_name.c_str());
  return type->nname(quantity);

@@ -4464,7 +4464,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // if the player can see it
     if (g->u.sees(*z)) {
-        if (data[att].message == "") {
+        if( data[att].message.empty() ) {
             add_msg(m_debug, "Invalid ammo message in grenadier special.");
         } else {
             add_msg(m_bad, data[att].message.c_str(), z->name().c_str());

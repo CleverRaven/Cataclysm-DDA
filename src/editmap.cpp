@@ -326,15 +326,15 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
 {
 
-    if( txt1 != "" ) {
+    if( !txt1.empty() ) {
         mvwprintw( w_help, 0, 0, padding );
         mvwprintw( w_help, 1, 0, padding );
-        mvwprintw( w_help, ( txt2 != "" ? 0 : 1 ), 0, txt1.c_str() );
-        if( txt2 != "" ) {
+        mvwprintw( w_help, ( !txt2.empty() ? 0 : 1 ), 0, txt1.c_str() );
+        if( !txt2.empty() ) {
             mvwprintw( w_help, 1, 0, txt2.c_str() );
         }
     }
-    if( title != "" ) {
+    if( !title.empty() ) {
         int hwidth = getmaxx( w_help );
         mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
         int starttxt = int( ( hwidth - title.size() - 4 ) / 2 );
@@ -1615,8 +1615,6 @@ int editmap::select_shape( shapetype shape, int mode )
             blink = true;
             update = false;
             recalc_target( shape );
-            altblink = moveall;
-            update_view( false );
         }
         altblink = moveall;
         update_view( false );

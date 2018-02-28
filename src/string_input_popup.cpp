@@ -294,7 +294,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-            _text = std::string();
+            _text.clear();
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {

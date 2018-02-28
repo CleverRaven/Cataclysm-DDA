@@ -14,7 +14,6 @@ mtype::mtype()
     id = mtype_id::NULL_ID();
     name = "human";
     name_plural = "humans";
-    description = "";
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;

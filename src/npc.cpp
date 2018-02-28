@@ -92,7 +92,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = NULL;
-    fac_id = "";
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     dead = false;
@@ -102,7 +101,6 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
-    companion_mission = "";
     companion_mission_time = 0;
     last_updated = calendar::turn;
 
@@ -150,7 +148,7 @@ void npc_template::load( JsonObject &jsobj )
 {
     npc guy;
     guy.idz = jsobj.get_string( "id" );
-    guy.name = "";
+    guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
         guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
     }
@@ -267,7 +265,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( fac_id != "" ) {
+    if( !fac_id.empty() ) {
         set_fac( fac_id );
     }
 }
@@ -2449,7 +2447,7 @@ void npc::set_companion_mission( npc &p, const std::string &id )
 
 void npc::reset_companion_mission()
 {
-    companion_mission = "";
+    companion_mission.clear();
 }
 
 bool npc::has_companion_mission() const

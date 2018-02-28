@@ -204,7 +204,7 @@ void game::unserialize(std::istream & fin)
             safe_mode = SAFE_MODE_ON;
         }
 
-        linebuf="";
+        linebuf.clear();
         if ( data.read("grscent",linebuf) ) {
             scent.deserialize( linebuf );
         } else {

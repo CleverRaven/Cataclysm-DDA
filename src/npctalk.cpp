@@ -3881,7 +3881,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
-                update = true;
                 help += offset;
                 if( help < target_list.size() ) {
                     popup( target_list[help].loc.get_item()->info(), PF_NONE );

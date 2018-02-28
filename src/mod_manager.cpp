@@ -202,8 +202,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
             }
         }
 
-        if( !bCatFound && m_cat != "" ) {
-            m_cat = "";
+        if( !bCatFound && !m_cat.empty() ) {
+            m_cat.clear();
         } else {
             break;
         }

@@ -846,9 +846,7 @@ void load_region_settings( JsonObject &jo )
         const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
                                                          building_bin &dest ) {
             if ( !cjo.has_object( type ) && strict ) {
-                if( strict ) {
-                    jo.throw_error("city: \"" + type + "\": { ... } required for default");
-                }
+                jo.throw_error("city: \"" + type + "\": { ... } required for default");
             } else {
                 JsonObject wjo = cjo.get_object( type );
                 std::set<std::string> keys = wjo.get_member_names();
@@ -2383,7 +2381,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         mvwputch( w, corner_text.size(), maxlen, c_white, LINE_XOOX );
     }
 
-    if (sZoneName != "" && tripointZone.x == cursx && tripointZone.y == cursy) {
+    if( !sZoneName.empty() && tripointZone.x == cursx && tripointZone.y == cursy ) {
         std::string sTemp = _("Zone:");
         sTemp += " " + sZoneName;
 
@@ -2793,7 +2791,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     curs = tmp;
                 }
             } while(action != "CONFIRM" && action != "QUIT");
-            action = "";
+            action.clear();
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
             // This simplifies overmap_special selection using uimenu
@@ -2908,7 +2906,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                 uistate.place_terrain = nullptr;
                 uistate.place_special = nullptr;
-                action = "";
+                action.clear();
             }
         } else if (action == "TIMEOUT") {
             if (uistate.overmap_blinking) {
@@ -3006,7 +3004,7 @@ void overmap::move_hordes()
             continue;
         }
 
-        if(mg.horde_behaviour == "") {
+        if( mg.horde_behaviour.empty() ) {
             mg.horde_behaviour = one_in(2) ? "city" : "roam";
         }
 

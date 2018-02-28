@@ -1258,7 +1258,7 @@ void inventory_selector::set_filter()
         std::string new_filter = spopup.query_string( false );
 
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
-            filter = "";
+            filter.clear();
         } else {
             filter = new_filter;
         }

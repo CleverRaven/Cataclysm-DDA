@@ -841,7 +841,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         ( *effects )[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
-            if(type.get_apply_message() != "") {
+            if( !type.get_apply_message().empty() ) {
                      add_msg(type.gain_game_message_type(),
                              _(type.get_apply_message().c_str()));
             }
@@ -891,7 +891,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 
     if (is_player()) {
         // Print the removal message and add the memorial log if needed
-        if(type.get_remove_message() != "") {
+        if( !type.get_remove_message().empty() ) {
             add_msg(type.lose_game_message_type(),
                          _(type.get_remove_message().c_str()));
         }

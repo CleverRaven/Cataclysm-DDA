@@ -45,7 +45,6 @@ struct dream {
     int strength; // The category strength required for the dream
 
     dream() {
-        category = "";
         strength = 0;
     }
 };

@@ -615,7 +615,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray ) {
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back(tmp);
-        tmpval = "";
+        tmpval.clear();
     }
 
 }
@@ -830,7 +830,7 @@ public:
         if( charges == 0 ) {
             charges = rng( 10000, 50000 );
         }
-        if (fuel != "") {
+        if( !fuel.empty() ) {
             dat.m.place_gas_pump( rx, ry, charges, fuel );
         } else {
             dat.m.place_gas_pump( rx, ry, charges );
@@ -1640,7 +1640,7 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
     if( jo.has_string("lua") ) { // minified into one\nline
         luascript = jo.get_string("lua");
     } else if( jo.has_array("lua") ) { // or 1 line per entry array
-        luascript = "";
+        luascript.clear();
         JsonArray jascr = jo.get_array("lua");
         while ( jascr.has_more() ) {
             luascript += jascr.next_string();

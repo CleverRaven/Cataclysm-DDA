@@ -633,7 +633,7 @@ std::string new_artifact()
         art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
         art->melee[DT_STAB] = rng(weapon->stab_min, weapon->stab_max);
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-        if( weapon->tag != "" ) {
+        if( !weapon->tag.empty() ) {
             art->item_tags.insert(weapon->tag);
         }
         // Add an extra weapon perhaps?
@@ -647,7 +647,7 @@ std::string new_artifact()
                 art->melee[DT_CUT] += rng(weapon->cut_min, weapon->cut_max);
                 art->melee[DT_STAB] += rng(weapon->stab_min, weapon->stab_max);
                 art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
-                if( weapon->tag != "" ) {
+                if( !weapon->tag.empty() ) {
                     art->item_tags.insert(weapon->tag);
                 }
                 std::ostringstream newname;
@@ -967,7 +967,7 @@ std::string architects_cube()
     art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
     art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
     art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-    if( weapon->tag != "" ) {
+    if( !weapon->tag.empty() ) {
         art->item_tags.insert(weapon->tag);
     }
     // Add an extra weapon perhaps?

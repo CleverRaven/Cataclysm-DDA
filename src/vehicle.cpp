@@ -2649,7 +2649,7 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
 
     // print the label for this location
     const std::string label = get_label(parts[p].mount.x, parts[p].mount.y);
-    if (label != "" && y <= max_y) {
+    if( !label.empty() && y <= max_y ) {
         mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label.c_str());
     }
 
