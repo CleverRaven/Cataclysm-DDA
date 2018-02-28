@@ -2383,7 +2383,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         mvwputch( w, corner_text.size(), maxlen, c_white, LINE_XOOX );
     }
 
-    if (sZoneName != "" && tripointZone.x == cursx && tripointZone.y == cursy) {
+    if( !sZoneName.empty() && tripointZone.x == cursx && tripointZone.y == cursy ) {
         std::string sTemp = _("Zone:");
         sTemp += " " + sZoneName;
 
@@ -3006,7 +3006,7 @@ void overmap::move_hordes()
             continue;
         }
 
-        if(mg.horde_behaviour == "") {
+        if( mg.horde_behaviour.empty() ) {
             mg.horde_behaviour = one_in(2) ? "city" : "roam";
         }
 

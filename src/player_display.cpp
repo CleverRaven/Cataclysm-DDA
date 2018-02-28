@@ -209,7 +209,7 @@ void player::disp_info()
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
-            if( tmp != "" ) {
+            if( !tmp.empty() ) {
                 effect_name.push_back( tmp );
                 effect_text.push_back( _effect_it.second.disp_desc() );
             }

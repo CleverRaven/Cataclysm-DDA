@@ -656,7 +656,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
         int iCatBeforeCursor = 0;
 
         for( int i = 0; i <= iActive; i++ ) {
-            if( mSortCategory[i] != "" ) {
+            if( !mSortCategory[i].empty() ) {
                 iActive++;
                 iCatBeforeCursor++;
             }
@@ -665,14 +665,14 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
         calcStartPos( start, iActive, iMaxRows, iModNum );
 
         for( int i = 0; i < start; i++ ) {
-            if( mSortCategory[i] != "" ) {
+            if( !mSortCategory[i].empty() ) {
                 iNum++;
             }
         }
 
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
             if( iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows) ) {
-                if( mSortCategory[iNum] != "" ) {
+                if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, iNum - start, 1, wwidth, c_magenta, mSortCategory[iNum] );
 
@@ -1361,7 +1361,7 @@ void WORLD::load_legacy_options( std::istream &fin )
     std::string sLine;
     while( !fin.eof() ) {
         getline( fin, sLine );
-        if( sLine != "" && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
+        if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
             int ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else

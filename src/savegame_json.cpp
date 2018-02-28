@@ -1202,7 +1202,7 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // @todo: stringid
-    if ( fac_id != "" ) { // set in constructor
+    if( !fac_id.empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );

@@ -5765,7 +5765,7 @@ static const std::string &photo_quality_name( const int index )
 int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) {
-        if( it->get_var( "EIPC_MUSIC_ON" ) != "" && ( it->ammo_remaining() > 0 ) ) {
+        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() && ( it->ammo_remaining() > 0 ) ) {
             if( calendar::once_every( 5_minutes ) ) {
                 it->ammo_consume( 1, p->pos() );
             }
@@ -5826,16 +5826,16 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
         }
 
-        if (it->get_var( "RECIPE" ) != "") {
+        if( !it->get_var( "RECIPE" ).empty() ) {
             const item dummy(it->get_var( "RECIPE" ), 0);
             amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
         }
 
-        if (it->get_var( "EIPC_RECIPES" ) != "") {
+        if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
             amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
-        if (it->get_var( "EINK_MONSTER_PHOTOS" ) != "") {
+        if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
             amenu.addentry(ei_monsters, true, 'y', _("Your collection of monsters"));
         } else {
             amenu.addentry(ei_monsters, false, 'y', _("Collection of monsters is empty"));
@@ -6109,7 +6109,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
     amenu.addentry(c_shot, true, 'p', _("Take a photo"));
-    if (it->get_var( "CAMERA_MONSTER_PHOTOS" ) != "") {
+    if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
         amenu.addentry(c_photos, true, 'l', _("List photos"));
         amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
     } else {
@@ -6214,7 +6214,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     const std::string mtype = z.type->id.str();
 
                     auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
-                    if (monster_photos == "") {
+                    if( monster_photos.empty() ) {
                         monster_photos = "," + mtype + "," + string_format("%d",
                                 photo_quality) + ",";
                     } else {
@@ -6614,7 +6614,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, const tripoint& )
         if (it->charges == 0) {
             it->active = false;
             p->remove_value( "remote_controlling" );
-        } else if( p->get_value( "remote_controlling" ) == "" ) {
+        } else if( p->get_value( "remote_controlling" ).empty() ) {
             it->active = false;
         }
 
@@ -7007,7 +7007,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
                 if (p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
-                    if (upgr == "" ) {
+                    if( upgr.empty() ) {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
                         if (upgr == "UPGRADE") {

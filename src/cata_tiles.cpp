@@ -253,7 +253,7 @@ static void get_tile_information(std::string config_path, std::string &json_path
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
+            if( sOption.empty() ) {
                 getline(fin, sOption);
             } else if(sOption[0] == '#') { // Skip comment
                 getline(fin, sOption);
@@ -274,11 +274,11 @@ static void get_tile_information(std::string config_path, std::string &json_path
         tileset_path = default_tileset;
     }
 
-    if (json_path == "") {
+    if( json_path.empty() ) {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
-    if (tileset_path == "") {
+    if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }

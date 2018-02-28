@@ -267,7 +267,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( fac_id != "" ) {
+    if( !fac_id.empty() ) {
         set_fac( fac_id );
     }
 }

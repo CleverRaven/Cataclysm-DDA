@@ -830,7 +830,7 @@ public:
         if( charges == 0 ) {
             charges = rng( 10000, 50000 );
         }
-        if (fuel != "") {
+        if( !fuel.empty() ) {
             dat.m.place_gas_pump( rx, ry, charges, fuel );
         } else {
             dat.m.place_gas_pump( rx, ry, charges );
