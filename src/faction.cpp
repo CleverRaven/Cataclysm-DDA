@@ -41,13 +41,10 @@ faction::faction()
     mapy = 0;
     size = 0;
     power = 0;
-    id.clear();
-    desc.clear();
 }
 
 faction::faction(std::string uid)
 {
-    name.clear();
     values = 0;
     likes_u = 0;
     respects_u = 0;
@@ -68,7 +65,6 @@ faction::faction(std::string uid)
     food_supply = 0;
     wealth = 0;
     id = uid;
-    desc.clear();
 }
 
 faction_map faction::_all_faction;

@@ -92,7 +92,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = NULL;
-    fac_id.clear();
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     dead = false;
@@ -102,7 +101,6 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
-    companion_mission.clear();
     companion_mission_time = 0;
     last_updated = calendar::turn;
 

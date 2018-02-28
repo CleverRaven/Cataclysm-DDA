@@ -166,7 +166,6 @@ monster::monster()
     no_extra_death_drops = false;
     dead = false;
     made_footstep = false;
-    unique_name.clear();
     hallucination = false;
     ignoring = 0;
     upgrades = false;

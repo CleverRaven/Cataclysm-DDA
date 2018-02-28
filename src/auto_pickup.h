@@ -38,7 +38,6 @@ class auto_pickup
                 bool bExclude;
 
                 cRules() {
-                    this->sRule.clear();
                     this->bActive = false;
                     this->bExclude = false;
                 }

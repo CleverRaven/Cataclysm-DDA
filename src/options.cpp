@@ -105,7 +105,6 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 options_manager::cOpt::cOpt()
 {
     sType = "VOID";
-    sPage.clear();
     hide = COPT_NO_HIDE;
 }
 
