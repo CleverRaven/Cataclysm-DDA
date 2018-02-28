@@ -1444,7 +1444,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(m_warning, _("This flower has a heady aroma."));
     }
 
-    auto recentWeather = sum_conditions( calendar::turn.get_turn()-10_minutes, calendar::turn.get_turn(), p.pos() );
+    auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
 
     // If it has been raining recently, then this event is twice less likely. 
     if ( ( (recentWeather.rain_amount > 1 && one_in(6) ) || (one_in(3) ) ) &&
