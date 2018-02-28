@@ -611,7 +611,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             chosen = nullptr;
             done = true;
         } else if( action == "RESET_FILTER" ) {
-            filterstring = "";
+            filterstring.clear();
             redraw = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {

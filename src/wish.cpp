@@ -190,7 +190,7 @@ void debug_menu::wishmutate( player *p )
     for( auto &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, traits_iter.second.name );
         wmenu.entries[ c ].extratxt.left = 1;
-        wmenu.entries[ c ].extratxt.txt = "";
+        wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
         if( p->has_trait( traits_iter.first ) ) {
             wmenu.entries[ c ].text_color = c_green;
@@ -245,7 +245,7 @@ void debug_menu::wishmutate( player *p )
             uistate.wishmutate_selected = wmenu.ret;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
-                    wmenu.entries[ i ].extratxt.txt = "";
+                    wmenu.entries[ i ].extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
                         wmenu.entries[ i ].text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;

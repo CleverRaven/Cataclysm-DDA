@@ -2793,7 +2793,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     curs = tmp;
                 }
             } while(action != "CONFIRM" && action != "QUIT");
-            action = "";
+            action.clear();
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
             // This simplifies overmap_special selection using uimenu
@@ -2908,7 +2908,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                 uistate.place_terrain = nullptr;
                 uistate.place_special = nullptr;
-                action = "";
+                action.clear();
             }
         } else if (action == "TIMEOUT") {
             if (uistate.overmap_blinking) {

@@ -41,13 +41,13 @@ faction::faction()
     mapy = 0;
     size = 0;
     power = 0;
-    id = "";
-    desc = "";
+    id.clear();
+    desc.clear();
 }
 
 faction::faction(std::string uid)
 {
-    name = "";
+    name.clear();
     values = 0;
     likes_u = 0;
     respects_u = 0;
@@ -68,7 +68,7 @@ faction::faction(std::string uid)
     food_supply = 0;
     wealth = 0;
     id = uid;
-    desc = "";
+    desc.clear();
 }
 
 faction_map faction::_all_faction;
@@ -818,7 +818,7 @@ std::string invent_adj()
     }
     switch (rng(0, 24)) {
     case  0:
-        tmp = "";
+        tmp.clear();
         break;
     case  1:
         tmp = pgettext( "faction adjective", "al" );

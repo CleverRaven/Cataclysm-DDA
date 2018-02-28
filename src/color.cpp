@@ -664,8 +664,8 @@ void color_manager::clear()
     name_map.clear();
     inverted_map.clear();
     for( auto &entry : color_array ) {
-        entry.name_custom = "";
-        entry.name_invert_custom = "";
+        entry.name_custom.clear();
+        entry.name_invert_custom.clear();
     }
 }
 
@@ -827,11 +827,11 @@ void color_manager::show_gui()
 
             if( iCurrentCol == 1 && !entry.name_custom.empty() ) {
                 bStuffChanged = true;
-                entry.name_custom = "";
+                entry.name_custom.clear();
 
             } else if( iCurrentCol == 2 && !entry.name_invert_custom.empty() ) {
                 bStuffChanged = true;
-                entry.name_invert_custom = "";
+                entry.name_invert_custom.clear();
 
             }
 

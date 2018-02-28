@@ -105,7 +105,7 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 options_manager::cOpt::cOpt()
 {
     sType = "VOID";
-    sPage = "";
+    sPage.clear();
     hide = COPT_NO_HIDE;
 }
 
@@ -725,11 +725,11 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
                     getline( fin, sOption );
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
-                        resource_name = "";
+                        resource_name.clear();
                         getline( fin, resource_name );
                         resource_name = trim( resource_name );
                     } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                        view_name = "";
+                        view_name.clear();
                         getline( fin, view_name );
                         view_name = trim( view_name );
                         break;

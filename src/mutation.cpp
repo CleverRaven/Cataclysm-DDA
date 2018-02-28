@@ -616,7 +616,7 @@ void player::mutate()
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
         if( cat.empty() ) {

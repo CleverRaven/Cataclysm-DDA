@@ -6030,7 +6030,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
-        item_sym = ""; // clear the item symbol so `sym` is used instead.
+        item_sym.clear(); // clear the item symbol so `sym` is used instead.
     }
 
     // If there's graffiti here, change background color
