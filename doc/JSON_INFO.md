@@ -1408,7 +1408,7 @@ Optional message to be printed when a creature using the harvest definition is b
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. `drop` value should be the `id` string of the tiem to be produced. `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. `drop` value should be the `id` string of the item to be produced. `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
 
 ### Furniture
 
