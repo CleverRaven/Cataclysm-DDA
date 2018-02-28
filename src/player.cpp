@@ -2662,7 +2662,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( delta ==  1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta ==  0 ) {
-        temp_message.clear();
+        temp_message = "";
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
