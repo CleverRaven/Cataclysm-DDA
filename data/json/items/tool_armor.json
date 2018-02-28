@@ -360,7 +360,7 @@
         "color": "dark_gray",
         "name" : "pair of binoculars",
         "name_plural": "pairs of binoculars",
-        "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Simply carrying or wearing this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
+        "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped  during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
         "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
