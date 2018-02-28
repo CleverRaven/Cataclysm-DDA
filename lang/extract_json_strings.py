@@ -69,7 +69,6 @@ ignorable = {
     "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
-    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
