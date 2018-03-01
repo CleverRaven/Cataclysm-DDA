@@ -430,7 +430,7 @@ extern ter_id t_null,
     t_linoleum_white, t_linoleum_gray,
     // Railroad and subway
     t_railroad_rubble,
-    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
+    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d, t_railroad_track_d_corner_filler,
     t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d,
     t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 

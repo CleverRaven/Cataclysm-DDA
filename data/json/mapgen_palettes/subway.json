@@ -35,6 +35,7 @@
       "H": "t_railroad_track_h",
       "V": "t_railroad_track_v",
       "D": "t_railroad_track_d",
+      "F": "t_railroad_track_d_corner_filler",
       "x": "t_railroad_track_on_tie",
       "h": "t_railroad_track_h_on_tie",
       "v": "t_railroad_track_v_on_tie",

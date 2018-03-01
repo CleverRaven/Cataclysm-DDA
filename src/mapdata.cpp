@@ -511,7 +511,7 @@ ter_id t_null,
     // Railroad and subway
     t_railroad_rubble,
     t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
-    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d,
+    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d_corner_filler,
     t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 
 // @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
@@ -786,6 +786,7 @@ void set_ter_ids() {
     t_railroad_track_h = ter_id( "t_railroad_track_h" );
     t_railroad_track_v = ter_id( "t_railroad_track_v" );
     t_railroad_track_d = ter_id( "t_railroad_track_d" );
+    t_railroad_track_d_corner_filler = ter_id( "t_railroad_track_d_corner_filler" );
     t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
     t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
