@@ -17,6 +17,7 @@
   {
     "id": "mon_broken_cyborg",
     "type": "harvest",
+    "message": "You search for any salvagable bionic hardware in what's left of this failed experiment",
     "entries": [
       { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
       { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
