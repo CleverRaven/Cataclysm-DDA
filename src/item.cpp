@@ -1632,6 +1632,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( is_armor() ) {
+            if( has_flag( "HELMET_COMPAT" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be <info>worn with a helmet</info>." ) ) );
+            }
+
             if( has_flag( "FIT" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );

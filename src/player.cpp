@@ -7672,9 +7672,8 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( _( "You're already wearing footwear!" ) );
     }
 
-    if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
-        return ret_val<bool>::make_failure( wearing_something_on( bp_head ) ?
-                            _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
+    if( it.covers( bp_head ) && !it.has_flag( "HELMET_COMPAT" ) && is_wearing_helmet() ) {
+        return ret_val<bool>::make_failure( wearing_something_on( bp_head ), _( "You can't wear that with other headgear!" ) );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
@@ -10549,6 +10548,21 @@ bool player::is_wearing_shoes(std::string side) const
         }
     }
     return (left && right);
+}
+
+bool player::is_wearing_helmet() const
+{
+    bool ret = false;
+    for (auto &i : worn) {
+        const item *worn_item = &i;
+        if (i.covers(bp_head) &&
+            !worn_item->has_flag("HELMET_COMPAT") &&
+            !worn_item->has_flag("SKINTIGHT")) {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
 }
 
 double player::footwear_factor() const
