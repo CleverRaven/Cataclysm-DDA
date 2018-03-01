@@ -3505,10 +3505,7 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
         CANCEL,
     };
 
-    bool configured = false;
-    if( g->m.i_at( examp )[0].typeId() == "autodoc_config" ) {
-        configured = true;
-    }
+    const bool configured = g->m.i_at( examp )[0].typeId() == "autodoc_config";
 
     std::string status = configured ? _( "Online" ) :
                          _( "Configuration required" );
