@@ -360,7 +360,11 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 40, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [ [ "filament", 40, "LIST" ], [ "cordage_short", 2, "LIST" ], [ "adhesive", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -426,7 +430,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ]
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -454,6 +458,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 80, "LIST" ] ] ]
   },
+
   {
     "type": "recipe",
     "result": "primitive_shovel",
@@ -468,7 +473,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "adhesive", 2, "LIST" ] ]
     ]
   },
   {
@@ -487,7 +492,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "adhesive", 2, "LIST" ] ]
     ]
   },
   {
@@ -505,7 +510,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "adhesive", 2, "LIST" ] ]
     ]
   },
   {
@@ -522,7 +527,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "adhesive", 2, "LIST" ] ]
     ]
   },
   {
