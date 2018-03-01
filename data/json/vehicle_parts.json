@@ -290,7 +290,7 @@
         "requirements": {
           "install": {
             "time": 60000,
-            "components": [ [ [ "rope_6", 1 ] ] ]
+            "using": [ [ "rope_natural_short", 1 ] ]
           },
           "repair": {
             "time": 30000,
@@ -774,7 +774,7 @@
         "requirements": {
           "install": {
             "time": 60000,
-            "components": [ [ [ "rope_6", 1 ] ] ]
+            "using": [ [ "rope_natural_short", 1 ] ]
           },
           "repair": {
             "time": 30000,
@@ -1132,7 +1132,7 @@
           "install": {
             "time": 30000,
             "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ],
-            "components": [ [ [ "rope_6", 1 ] ] ],
+            "using": [ [ "rope_natural_short", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ]
           },
           "repair": {
