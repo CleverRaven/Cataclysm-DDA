@@ -639,7 +639,6 @@ void refresh_display()
     if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
-    SDL_RenderSetLogicalSize( renderer.get(), WindowWidth, WindowHeight );
     if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
