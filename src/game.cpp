@@ -412,7 +412,6 @@ game::~game()
 // Fixed window sizes
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
-static constexpr int LOOK_AROUND_HEIGHT = 13;
 
 #if (defined TILES)
 // defined in sdltiles.cpp
@@ -7869,7 +7868,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 
         const int max_width = getmaxx( w_look ) - column - 1;
         for( auto const &it : item_names ) {
-            if( line >= last_line ) {
+            if( line >= last_line - 2 ) {
                 mvwprintz( w_look, line++, column , c_yellow, _( "More items here..." ) );
                 break;
             }
@@ -7899,7 +7898,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
     lookWidth = getmaxx(w_messages);
-    begin_y = TERMY - LOOK_AROUND_HEIGHT + 1;
+    begin_y = TERMY - getmaxy( w_messages ) + 1;
     if (getbegy(w_messages) < begin_y) {
         begin_y = getbegy(w_messages);
     }
@@ -8360,7 +8359,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
     bool bNewWindow = false;
     if( !w_info ) {
-        w_info = catacurses::newwin( LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX );
+        w_info = catacurses::newwin( getmaxy( w_messages ), lookWidth, lookY, lookX );
         bNewWindow = true;
     }
 
@@ -8471,7 +8470,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else {
             //Look around
             int first_line = 1;
-            const int last_line = LOOK_AROUND_HEIGHT - 2;
+            const int last_line = getmaxy( w_messages ) - 2;
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
