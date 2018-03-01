@@ -44,6 +44,7 @@ struct MOD_INFORMATION {
     std::set<std::string> maintainers;
 
     std::string description;
+    std::string version;
 
     /** What other mods must be loaded prior to this one? */
     std::set<std::string> dependencies;

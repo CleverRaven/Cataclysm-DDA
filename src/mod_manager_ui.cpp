@@ -88,6 +88,11 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
              << "</color>: " << str << "\n";
     }
 
+    if( !mod->version.empty() ) {
+        info << "<color_light_blue>" << _( "Mod version" ) << "</color>: "
+             << mod->version << std::endl;
+    }
+
     if( !mod->description.empty() ) {
         info << _( mod->description.c_str() ) << "\n";
     }
