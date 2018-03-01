@@ -184,10 +184,10 @@ void mod_ui::try_add( const std::string &mod_to_add,
     }
 }
 
-void mod_ui::try_rem( int selection, std::vector<std::string> &active_list )
+void mod_ui::try_rem( size_t selection, std::vector<std::string> &active_list )
 {
     // first make sure that what we are looking for exists in the list
-    if( selection >= ( int )active_list.size() ) {
+    if( selection >= active_list.size() ) {
         // trying to access an out of bounds value! quit early
         return;
     }
@@ -213,15 +213,15 @@ void mod_ui::try_rem( int selection, std::vector<std::string> &active_list )
     }
 }
 
-void mod_ui::try_shift( char direction, int &selection, std::vector<std::string> &active_list )
+void mod_ui::try_shift( char direction, size_t &selection, std::vector<std::string> &active_list )
 {
     // error catch for out of bounds
-    if( selection < 0 || selection >= ( int )active_list.size() ) {
+    if( selection >= active_list.size() ) {
         return;
     }
 
-    int newsel;
-    int oldsel;
+    size_t newsel;
+    size_t oldsel;
     std::string selstring;
     std::string modstring;
     int selshift = 0;
@@ -257,7 +257,7 @@ void mod_ui::try_shift( char direction, int &selection, std::vector<std::string>
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( int selection, std::vector<std::string> active_list )
+bool mod_ui::can_shift_up( long selection, std::vector<std::string> active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
@@ -294,7 +294,7 @@ bool mod_ui::can_shift_up( int selection, std::vector<std::string> active_list )
     }
 }
 
-bool mod_ui::can_shift_down( int selection, std::vector<std::string> active_list )
+bool mod_ui::can_shift_down( long selection, std::vector<std::string> active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
