@@ -368,17 +368,6 @@ enum room_type {
     room_mine_storage,
     room_mine_fuel,
     room_mine_housing,
-    room_mansion_courtyard,
-    room_mansion_entry,
-    room_mansion_bedroom,
-    room_mansion_library,
-    room_mansion_kitchen,
-    room_mansion_dining,
-    room_mansion_game,
-    room_mansion_pool,
-    room_mansion_study,
-    room_mansion_bathroom,
-    room_mansion_gallery,
     room_split
 };
 

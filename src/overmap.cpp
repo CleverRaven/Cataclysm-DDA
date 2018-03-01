@@ -595,8 +595,6 @@ bool oter_t::is_hardcoded() const
         "lab_stairs",
         "lab_finale",
         "looted_building",  // pseudo-terrain
-        "mansion",
-        "mansion_entrance",
         "megastore",
         "megastore_entrance",
         "mine",

@@ -322,7 +322,8 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker", "farm", "farm_field", "subway_station"
+        "bunker", "farm", "farm_field", "subway_station",
+        "mansion", "mansion_entrance"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -671,6 +672,19 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -2, "farm_field", -2, "farm_field", "farm_7_north" } );
             nearby.push_back( {  0, "farm_field", -2, "farm",       "farm_8_north" } );
             nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
+        } else if( old.compare( 0, 7, "mansion" ) == 0 ) {
+            if( old == "mansion_entrance" ) {
+                new_id = oter_id( "mansion_e1_north" );
+            } else if( old == "mansion" ) {
+                nearby.push_back( { -1, "mansion_entrance",  1, "mansion",          "mansion_c1_east" } );
+                nearby.push_back( {  1, "mansion_entrance",  1, "mansion",          "mansion_c3_north" } );
+                nearby.push_back( { -2, "mansion",           1, "mansion",          "mansion_t2_west" } );
+                nearby.push_back( {  0, "mansion",          -1, "mansion_entrance", "mansion_+4_north" } );
+                nearby.push_back( {  2, "mansion",           1, "mansion",          "mansion_t4_east" } );
+                nearby.push_back( { -2, "mansion",          -2, "mansion",          "mansion_c4_south" } );
+                nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
+                nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
+            }
         }
 
         for( const auto &conv : nearby ) {
