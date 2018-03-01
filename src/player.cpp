@@ -9646,13 +9646,13 @@ const recipe_subset &player::get_learned_recipes() const
     if( *_skills != *valid_autolearn_skills ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
             if( meets_skill_requirements( r->autolearn_requirements ) ) {
-                learned_recipes.include( r );
+                learned_recipes->include( r );
             }
         }
         *valid_autolearn_skills = *_skills; // Reassign the validity stamp
     }
 
-    return learned_recipes;
+    return *learned_recipes;
 }
 
 const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
@@ -10727,7 +10727,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
-    learned_recipes.include( rec );
+    learned_recipes->include( rec );
 }
 
 void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
@@ -11759,7 +11759,7 @@ bool player::query_yn( const std::string &mes ) const
 
 const pathfinding_settings &player::get_pathfinding_settings() const
 {
-    return path_settings;
+    return *path_settings;
 }
 
 std::set<tripoint> player::get_path_avoid() const

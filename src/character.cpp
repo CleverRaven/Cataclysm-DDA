@@ -23,8 +23,9 @@
 #include "output.h"
 #include "veh_interact.h"
 #include "cata_utility.h"
-
+#include "pathfinding.h"
 #include "string_formatter.h"
+
 #include <algorithm>
 #include <sstream>
 #include <numeric>
@@ -134,7 +135,7 @@ Character::Character() : Creature(), visitable<Character>()
 
     name.clear();
 
-    path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
 }
 
 Character::~Character() = default;

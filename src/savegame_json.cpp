@@ -626,12 +626,7 @@ void player::serialize(JsonOut &json) const
     json.member( "frostbite_timer", frostbite_timer );
 
     // npc: unimplemented, potentially useful
-    json.member( "learned_recipes" );
-    json.start_array();
-    for( const auto &entry : get_learned_recipes() ) {
-        json.write( entry->ident() );
-    }
-    json.end_array();
+    json.member( "learned_recipes", *learned_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
@@ -751,18 +746,8 @@ void player::deserialize(JsonIn &jsin)
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
-    parray = data.get_array("learned_recipes");
-    if ( !parray.empty() ) {
-        learned_recipes.clear();
-        valid_autolearn_skills->clear(); // Invalidates the cache
-
-        std::string pstr;
-        while ( parray.has_more() ) {
-            if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_id( pstr ).obj() );
-            }
-        }
-    }
+    data.read( "learned_recipes", *learned_recipes );
+    valid_autolearn_skills->clear(); // Invalidates the cache
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
@@ -2409,4 +2394,22 @@ void stats::deserialize( JsonIn &jsin )
     jo.read( "damage_taken", damage_taken );
     jo.read( "damage_healed", damage_healed );
     jo.read( "headshots", headshots );
+}
+
+void serialize( const recipe_subset &value, JsonOut &jsout )
+{
+    jsout.start_array();
+    for( const auto &entry : value ) {
+        jsout.write( entry->ident() );
+    }
+    jsout.end_array();
+}
+
+void deserialize( recipe_subset &value, JsonIn &jsin )
+{
+    value.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        value.include( &recipe_id( jsin.get_string() ).obj() );
+    }
 }

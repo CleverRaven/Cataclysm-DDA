@@ -5,6 +5,7 @@
 #include "visitable.h"
 #include "itype.h"
 #include "map.h"
+#include "map_selector.h"
 #include "rng.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
