@@ -10557,7 +10557,8 @@ bool player::is_wearing_helmet() const
         const item *worn_item = &i;
         if( i.covers( bp_head ) &&
             !worn_item->has_flag( "HELMET_COMPAT" ) &&
-            !worn_item->has_flag( "SKINTIGHT" ) ) {
+            !worn_item->has_flag( "SKINTIGHT" ) &&
+            !worn_item->has_flag( "OVERSIZE" ) ) {
             ret = true;
             break;
         }
