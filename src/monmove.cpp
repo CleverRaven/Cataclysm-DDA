@@ -389,8 +389,8 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) &&
-        g->m.has_items( pos() ) ) {
+    if( !is_hallucination() && ( has_flag( MF_ABSORBS ) || has_flag( MF_ABSORBS_SPLITS ) ) &&
+        !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name().c_str() );
@@ -398,6 +398,21 @@ void monster::move()
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+            if( has_flag( MF_ABSORBS_SPLITS ) && hp * 2 > type->hp ) {
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+                    if( g->is_empty( dest ) && hp * 2 > type->hp ) {
+                        if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
+                            hp -= type->hp;
+                            //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                            spawn->make_ally( this );
+                            if( g->u.sees( *this ) ) {
+                                add_msg( _( "The %s splits in two!" ),
+                                         name().c_str() );
+                            }
+                        }
+                    }
+                }
+            }
         }
         g->m.i_clear( pos() );
     }

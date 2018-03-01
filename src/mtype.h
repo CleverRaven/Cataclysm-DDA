@@ -135,7 +135,8 @@ enum m_flag : int {
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_ABSORBS,             // Consumes objects it moves over.
+    MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
+    MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.

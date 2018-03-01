@@ -206,7 +206,8 @@ Flags used to describe monsters and define their properties and abilities.
 ### Flags
 
 - ```NULL``` Source use only.
-- ```ABSORBS``` Consumes objects it moves over.
+- ```ABSORBS``` Consumes objects it moves over. (Modders use this).
+- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
