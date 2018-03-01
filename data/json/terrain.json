@@ -6565,7 +6565,7 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_track_d",
+    "id": "t_railroad_track_d1",
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
@@ -6574,7 +6574,7 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_track_d_corner_filler",
+    "id": "t_railroad_track_d2",
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
