@@ -332,7 +332,7 @@ void overmap_specials::finalize()
 
 void overmap_specials::check_consistency()
 {
-    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
+    const size_t max_count = ( OMAPX / OMSPEC_FREQ() ) * ( OMAPY / OMSPEC_FREQ() ) / 2;
     const size_t actual_count = std::accumulate(  specials.get_all().begin(), specials.get_all().end(), static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special &elem ) {
         return sum + ( elem.flags.count( "UNIQUE" ) == ( size_t )0 ? ( size_t )std::max( elem.occurrences.min, 0 ) : ( size_t )1 );
@@ -369,6 +369,11 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
     }
 
     return overmap_special_batch( origin, res );
+}
+
+int OMSPEC_FREQ()
+{
+    return get_option<int>( "OMSPEC_FREQ" );
 }
 
 bool is_river(const oter_id &ter)
@@ -4284,9 +4289,9 @@ std::vector<point> overmap::get_sectors() const
 {
     std::vector<point> res;
 
-    res.reserve( ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) );
-    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ ) {
-        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ ) {
+    res.reserve( ( OMAPX / OMSPEC_FREQ() ) * ( OMAPY / OMSPEC_FREQ() ) );
+    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ() ) {
+        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ() ) {
             res.emplace_back( x, y );
         }
     }
@@ -4300,7 +4305,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
     const int x = sector.x;
     const int y = sector.y;
 
-    const tripoint p( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
+    const tripoint p( rng( x, x + OMSPEC_FREQ() - 1 ), rng( y, y + OMSPEC_FREQ() - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
 
     std::random_shuffle( enabled_specials.begin(), enabled_specials.end() );

@@ -577,6 +577,7 @@ void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
+int OMSPEC_FREQ();
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
 
