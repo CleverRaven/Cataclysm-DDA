@@ -6,8 +6,8 @@ data/json/emit.json
 data/json/flags.json
 data/json/harvest.json
 data/json/item_category.json
-data/json/obsolete.json
 data/json/itemgroups/forage.json
+data/json/items/obsolete.json
 data/json/items/ammo/12mm.json
 data/json/items/ammo/300.json
 data/json/items/ammo/32.json
