@@ -669,6 +669,28 @@ void color_manager::clear()
     }
 }
 
+void draw_header( const catacurses::window &w )
+{
+    int tmpx = 0;
+    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,
+                            _( "<R>emove custom color" ) ) + 2;
+    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,
+                            _( "<Arrow Keys> To navigate" ) ) + 2;
+    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w, 0, tmpx, c_white, c_light_green, _( "Load <T>emplate" ) );
+
+    mvwprintz( w, 1, 0, c_white, _( "Some color changes may require a restart." ) );
+
+    mvwhline( w, 2, 0, LINE_OXOX, getmaxx( w ) ); // Draw line under header
+    mvwputch( w, 2, 48, BORDER_COLOR, LINE_OXXX ); //^|^
+
+    mvwprintz( w, 3, 3, c_white, _( "Colorname" ) );
+    mvwprintz( w, 3, 21, c_white, _( "Normal" ) );
+    mvwprintz( w, 3, 52, c_white, _( "Invert" ) );
+
+    wrefresh( w );
+}
+
 void color_manager::show_gui()
 {
     const int iHeaderHeight = 4;
@@ -683,8 +705,6 @@ void color_manager::show_gui()
 
     const int iTotalCols = vLines.size();
 
-    catacurses::window w_colors_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                       FULL_SCREEN_WIDTH * 3 / 4, 7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
     catacurses::window w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          iOffsetY, iOffsetX );
     catacurses::window w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
@@ -693,37 +713,18 @@ void color_manager::show_gui()
                                   iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX );
 
     draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
-    mvwputch( w_colors_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
-    mvwputch( w_colors_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
-
-    for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_colors_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
-    }
+    mvwputch( w_colors_border, 3,  0, BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( w_colors_border, 3, getmaxx( w_colors_border ) - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
     for( auto &iCol : vLines ) {
         if( iCol > -1 ) {
-            mvwputch( w_colors_border, FULL_SCREEN_HEIGHT - 1, iCol + 1, c_light_gray, LINE_XXOX ); // _|_
-            mvwputch( w_colors_header, 2, iCol, c_light_gray, LINE_OXXX );
-            mvwputch( w_colors_header, 3, iCol, c_light_gray, LINE_XOXO );
+            mvwputch( w_colors_border, FULL_SCREEN_HEIGHT - 1, iCol + 1, BORDER_COLOR, LINE_XXOX ); // _|_
+            mvwputch( w_colors_header, 3, iCol, BORDER_COLOR, LINE_XOXO );
         }
     }
     wrefresh( w_colors_border );
 
-    int tmpx = 0;
-    tmpx += shortcut_print( w_colors_header, 0, tmpx, c_white, c_light_green,
-                            _( "<R>emove custom color" ) ) + 2;
-    tmpx += shortcut_print( w_colors_header, 0, tmpx, c_white, c_light_green,
-                            _( "<Arrow Keys> To navigate" ) ) + 2;
-    tmpx += shortcut_print( w_colors_header, 0, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_colors_header, 0, tmpx, c_white, c_light_green, _( "Load <T>emplate" ) );
-
-    mvwprintz( w_colors_header, 1, 0, c_white, _( "Some color changes may require a restart." ) );
-
-    mvwprintz( w_colors_header, 3, 3, c_white, _( "Colorname" ) );
-    mvwprintz( w_colors_header, 3, 21, c_white, _( "Normal" ) );
-    mvwprintz( w_colors_header, 3, 52, c_white, _( "Invert" ) );
-
-    wrefresh( w_colors_header );
+    draw_header( w_colors_header );
 
     int iCurrentLine = 0;
     int iCurrentCol = 1;
@@ -752,7 +753,7 @@ void color_manager::show_gui()
 
                 for( auto &iCol : vLines ) {
                     if( iCol == j ) {
-                        mvwputch( w_colors, i, j, c_light_gray, LINE_XOXO );
+                        mvwputch( w_colors, i, j, BORDER_COLOR, LINE_XOXO );
                     }
                 }
             }
@@ -931,6 +932,8 @@ void color_manager::show_gui()
             }
 
             finalize(); // Need to recalculate caches
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            draw_header( w_colors_header );
         }
     }
 
