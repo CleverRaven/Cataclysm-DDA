@@ -31,6 +31,7 @@
 #include "artifact.h"
 #include "submap.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
@@ -8103,19 +8104,26 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
 {
     std::list<item_location> result;
 
-    for( int gx = 0; gx < my_MAPSIZE; ++gx ) {
-        for( int gy = 0; gy < my_MAPSIZE; ++gy ) {
+    const point minp( center.x - radius, center.y - radius );
+    const point maxp( center.x + radius, center.y + radius );
+
+    const point ming( std::max( minp.x / SEEX, 0 ),
+                      std::max( minp.y / SEEY, 0 ) );
+    const point maxg( std::min( maxp.x / SEEX, my_MAPSIZE - 1 ),
+                      std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
+
+    for( int gx = ming.x; gx <= maxg.x; ++gx ) {
+        for( int gy = ming.y; gy <= maxg.y; ++gy ) {
             const point sm_offset( gx * SEEX, gy * SEEY );
 
-            // @todo Take z into account as well.
             for( const auto &elem : get_submap_at_grid( gx, gy, center.z )->active_items.get() ) {
                 const tripoint pos( sm_offset + elem.location, center.z );
 
-                if( square_dist( pos, center ) > radius ) {
+                if( rl_dist( pos, center ) > radius ) {
                     continue;
                 }
 
-                result.emplace_back( pos, &*elem.item_iterator );
+                result.emplace_back( map_cursor( pos ), &*elem.item_iterator );
             }
         }
     }

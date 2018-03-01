@@ -17,6 +17,7 @@
 #include "veh_type.h"
 #include "monster.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "effect.h"
 #include "vehicle.h"
 #include "mtype.h"
@@ -27,6 +28,7 @@
 #include "cata_algo.h"
 
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 
 // @todo: Get rid of this include
@@ -74,7 +76,6 @@ namespace
 {
 
 const int avoidance_vehicles_radius = 5;
-const int explosion_avoidance_radius = 10;
 
 }
 
@@ -176,17 +177,33 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
-std::vector<tripoint> npc::find_live_explosives( int radius ) const
+std::vector<sphere> npc::find_dangerous_explosives() const
 {
-    std::vector<tripoint> result;
+    std::vector<sphere> result;
 
-    const auto active_items = g->m.get_active_items_in_radius( pos(), radius );
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE );
 
     for( const auto &elem : active_items ) {
-        if( !elem->is_dangerous() ) {
+        const auto use = elem->type->get_use( "explosion" );
+
+        if( !use ) {
             continue;
         }
-        result.push_back( elem.position() );
+
+        const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
+        const int safe_range = actor->explosion.safe_range();
+
+        if( rl_dist( pos(), elem.position() ) >= safe_range ) {
+            continue;   // Far enough.
+        }
+
+        const int turns_to_evacuate = 2 * safe_range / speed_rating();
+
+        if( elem->charges > turns_to_evacuate ) {
+            continue;   // Consider only imminent dangers.
+        }
+
+        result.emplace_back( elem.position(), safe_range );
     }
 
     return result;
@@ -290,7 +307,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
-    ai_cache.live_explosives = find_live_explosives( explosion_avoidance_radius );
+    ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
 
     choose_target();
@@ -337,7 +354,7 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
-    if( !ai_cache.live_explosives.empty() ) {
+    if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
     } else if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
@@ -1676,7 +1693,7 @@ void npc::avoid_friendly_fire()
 
 void npc::escape_explosion()
 {
-    if( ai_cache.live_explosives.empty() ) {
+    if( ai_cache.dangerous_explosives.empty() ) {
         return;
     }
 
@@ -1684,7 +1701,7 @@ void npc::escape_explosion()
         say( "<fire_in_the_hole>" );
     }
 
-    move_away_from( ai_cache.live_explosives, explosion_avoidance_radius, true );
+    move_away_from( ai_cache.dangerous_explosives, true );
 }
 
 void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
@@ -1764,25 +1781,35 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
     return tripoint_min;
 }
 
-void npc::move_away_from( const std::vector<tripoint> &points, int safe_distance, bool no_bashing )
+void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 {
-    if( points.empty() ) {
+    if( spheres.empty() ) {
         return;
     }
 
-    const auto range = g->m.points_in_radius( pos(), safe_distance );
+    tripoint minp( pos() );
+    tripoint maxp( pos() );
+
+    for( const auto &elem : spheres ) {
+        minp.x = std::min( minp.x, elem.center.x - elem.radius );
+        minp.y = std::min( minp.y, elem.center.y - elem.radius );
+        maxp.x = std::max( maxp.x, elem.center.x + elem.radius );
+        maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
+    }
+
+    const tripoint_range range( minp, maxp );
 
     std::vector<tripoint> escape_points;
 
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
-    [&]( const tripoint &elem ) {
+    [&]( const tripoint & elem ) {
         return g->m.passable( elem );
     } );
 
-    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint &elem ) {
-        const int danger = std::accumulate( points.begin(), points.end(), 0,
-        [&]( const int sum, const tripoint & p ) {
-            return sum + std::max( safe_distance - rl_dist( elem, p ), 0 );
+    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+        const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
+        [&]( const int sum, const sphere & s ) {
+            return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );
         } );
 
         const int distance = rl_dist( pos(), elem );
