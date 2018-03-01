@@ -838,7 +838,6 @@ class npc : public player
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
-        int estimate_path_cost() const;
 
         std::vector<tripoint> find_live_explosives( int radius ) const;
 

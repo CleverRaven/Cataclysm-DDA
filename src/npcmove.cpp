@@ -24,6 +24,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "visitable.h"
+#include "cata_algo.h"
 
 #include <algorithm>
 #include <sstream>
@@ -173,35 +174,6 @@ bool npc::could_move_onto( const tripoint &p ) const
     }
 
     return true;
-}
-
-int npc::estimate_path_cost() const
-{
-    int res = 0;
-
-    if( path.empty() ) {
-        return res;
-    }
-
-    for( auto it = path.begin(); it != std::prev( path.end() ); ++it ) {
-        const tripoint &cur = *it;
-        const tripoint &next = *std::next( it );
-
-        if( cur.z != next.z ) {
-            res += 100;
-        } else if( g->m.passable( next ) ) {
-            bool diag = trigdist && cur.x != next.x && cur.y != next.y;
-            res += run_cost( g->m.combined_movecost( cur, next ), diag );
-        } else if( g->m.open_door( next, !g->m.is_outside( cur ) ) ) {
-            res += 100;
-        } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", next ) ) {
-            res += 500 - get_dex() * 20 / 2;
-        } else {
-            res += 1000;
-        }
-    }
-
-    return res;
 }
 
 std::vector<tripoint> npc::find_live_explosives( int radius ) const
@@ -1792,51 +1764,40 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
     return tripoint_min;
 }
 
-
 void npc::move_away_from( const std::vector<tripoint> &points, int safe_distance, bool no_bashing )
 {
     if( points.empty() ) {
         return;
     }
 
-    const auto candidate_points = closest_tripoints_first( safe_distance, pos() );
-    int least_danger = std::numeric_limits<int>::max();
-    int cheapest_path = std::numeric_limits<int>::max();
+    const auto range = g->m.points_in_radius( pos(), safe_distance );
 
-    tripoint best_hideout = pos();
+    std::vector<tripoint> escape_points;
 
-    for( const auto &elem : candidate_points ) {
-        if( g->m.impassable( elem ) ) {
-            continue;
-        }
+    std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
+    [&]( const tripoint &elem ) {
+        return g->m.passable( elem );
+    } );
 
-        const auto danger = std::accumulate( points.begin(), points.end(), 0, [&]( const int sum,
-        const tripoint & p ) {
+    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint &elem ) {
+        const int danger = std::accumulate( points.begin(), points.end(), 0,
+        [&]( const int sum, const tripoint & p ) {
             return sum + std::max( safe_distance - rl_dist( elem, p ), 0 );
         } );
 
-        if( danger > least_danger ) {
-            continue;
-        }
+        const int distance = rl_dist( pos(), elem );
+        const int move_cost = g->m.move_cost( elem );
 
+        return std::make_tuple( danger, distance, move_cost );
+    } );
+
+    for( const auto &elem : escape_points ) {
         update_path( elem, no_bashing );
 
-        if( elem != pos() && path.empty() ) {
-            continue;   // Unreachable.
+        if( elem == pos() || !path.empty() ) {
+            break;
         }
-
-        const int path_cost = estimate_path_cost();
-
-        if( path_cost > cheapest_path && danger == least_danger ) {
-            continue;   // No point.
-        }
-
-        least_danger = danger;
-        cheapest_path = path_cost;
-        best_hideout = elem;
     }
-
-    update_path( best_hideout, no_bashing );
 
     if( !path.empty() ) {
         move_to_next();
