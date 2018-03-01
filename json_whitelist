@@ -7,9 +7,11 @@ data/json/flags.json
 data/json/harvest.json
 data/json/item_category.json
 data/json/itemgroups/forage.json
+data/json/items/obsolete.json
 data/json/items/ammo/12mm.json
 data/json/items/ammo/300.json
 data/json/items/ammo/32.json
+data/json/items/ammo/357.json
 data/json/items/ammo/36paper.json
 data/json/items/ammo/40mm.json
 data/json/items/ammo/44paper.json
@@ -65,6 +67,7 @@ data/json/items/gun/12mm.json
 data/json/items/gun/20x66mm.json
 data/json/items/gun/300.json
 data/json/items/gun/32.json
+data/json/items/gun/357.json
 data/json/items/gun/36paper.json
 data/json/items/gun/44.json
 data/json/items/gun/44paper.json
@@ -98,6 +101,7 @@ data/json/items/magazine/3006.json
 data/json/items/magazine/300.json
 data/json/items/magazine/308.json
 data/json/items/magazine/32.json
+data/json/items/magazine/357.json
 data/json/items/magazine/38.json
 data/json/items/magazine/40.json
 data/json/items/magazine/40mm.json
