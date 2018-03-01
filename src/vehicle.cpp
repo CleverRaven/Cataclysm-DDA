@@ -564,7 +564,7 @@ const std::string vehicle::disp_name() const
 int vehicle::lift_strength() const
 {
     units::mass mass = total_mass();
-    return mass / STR_LIFT_FACTOR + ( mass.value() % STR_LIFT_FACTOR.value() != 0 );
+    return std::max( mass / 10000_gram, 1 );
 }
 
 void vehicle::control_doors() {
