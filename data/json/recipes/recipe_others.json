@@ -970,7 +970,7 @@
     "time": 7500,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 6 ] ]
+    "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ] ] ]
   },
   {
     "type": "recipe",
@@ -994,7 +994,7 @@
     "time": 7500,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rope_6", 5 ], [ "cordage", 30, "LIST" ] ] ]
+    "components": [ [ [ "rope_6", 5 ], [ "string_36", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -3267,7 +3267,7 @@
     "time": 40000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "superglue", 2 ], [ "bone_glue", 4 ] ] ]
+    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3281,7 +3281,7 @@
     "autolearn": true,
     "components": [
       [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
-      [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "superglue", 2 ], [ "bone_glue", 4 ] ]
+      [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "adhesive", 4, "LIST" ] ]
     ]
   },
   {
@@ -3768,7 +3768,7 @@
       [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rag", 3 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 2 ], [ "duct_tape", 25 ], [ "medical_tape", 50 ] ]
+      [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
     ]
   },
   {
