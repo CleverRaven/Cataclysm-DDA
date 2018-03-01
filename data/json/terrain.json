@@ -6551,7 +6551,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": [ "red" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
@@ -6560,7 +6560,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": [ "yellow" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
@@ -6569,7 +6569,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": [ "green" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
@@ -6587,7 +6587,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "color": [ "red_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -6596,7 +6596,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "color": [ "yellow_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -6605,7 +6605,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "color": [ "green_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -6613,7 +6613,7 @@
     "id": "t_railroad_track_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "x",
+    "symbol": "o",
     "color": [ "cyan" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
@@ -6622,8 +6622,8 @@
     "id": "t_railroad_track_h_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "x",
-    "color": [ "cyan" ],
+    "symbol": "o",
+    "color": [ "red" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
@@ -6631,8 +6631,8 @@
     "id": "t_railroad_track_v_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "x",
-    "color": [ "cyan" ],
+    "symbol": "o",
+    "color": [ "yellow" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
@@ -6640,8 +6640,8 @@
     "id": "t_railroad_track_d_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "x",
-    "color": [ "cyan" ],
+    "symbol": "o",
+    "color": [ "green" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ]
   },
