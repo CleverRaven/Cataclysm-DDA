@@ -7820,8 +7820,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if (veh) {
-        mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, line, last_line, getmaxx(w_look), veh_part);
+        mvwprintw(w_look, ++line, column, _("There is a %s there. Parts:"), veh->name.c_str());
+        line = veh->print_part_desc(w_look, ++line, last_line, getmaxx(w_look), veh_part);
     }
 }
 
@@ -7861,9 +7861,9 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
     if( !m.sees_some_items( lp, u ) ) {
         return;
     } else if ( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, line++, column, _( "You cannot see what is inside of it." ) );
+        mvwprintw( w_look, ++line, column, _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
-        mvwprintz( w_look, line++, column, c_yellow,
+        mvwprintz( w_look, ++line, column, c_yellow,
                 _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
@@ -7875,16 +7875,16 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         const int max_width = getmaxx( w_look ) - column - 1;
         for( auto const &it : item_names ) {
             if( line >= last_line ) {
-                mvwprintz( w_look, line++, column , c_yellow, _( "More items here..." ) );
+                mvwprintz( w_look, ++line, column , c_yellow, _( "More items here..." ) );
                 break;
             }
 
             if( it.second > 1 ) {
-                trim_and_print( w_look, line++, column, max_width, c_white,
+                trim_and_print( w_look, ++line, column, max_width, c_white,
                         pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
                         it.first.c_str(), it.second );
             } else {
-                trim_and_print( w_look, line++, column, max_width, c_white, it.first );
+                trim_and_print( w_look, ++line, column, max_width, c_white, it.first );
             }
         }
     }
@@ -7897,7 +7897,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
         return;
     }
     if( m.has_graffiti_at( lp ) ) {
-        mvwprintw(w_look, line++, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
+        mvwprintw(w_look, ++line, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
     }
 }
 
