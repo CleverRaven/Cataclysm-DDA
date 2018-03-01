@@ -356,6 +356,9 @@ static const trait_id trait_MET_RAT( "MET_RAT" );
 static const trait_id trait_MINOTAUR( "MINOTAUR" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
+static const trait_id trait_MOREPAIN( "MORE_PAIN" );
+static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
+static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
 static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
@@ -4040,17 +4043,26 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     return dealt_dams;
 }
 
-void player::mod_pain(int npain) {
+void player::mod_pain( int npain) {
     if( npain > 0 ) {
         if( has_trait( trait_NOPAIN ) ) {
             return;
         }
+        // always increase pain gained by one from these bad mutations
+        if( has_trait( trait_MOREPAIN ) ) {
+            npain += std::max( 1, roll_remainder( npain * 0.25 ));
+        } else if( has_trait( trait_MOREPAIN2 ) ) {
+            npain += std::max( 1, roll_remainder( npain * 0.5 ));
+        } else if( has_trait( trait_MOREPAIN3 ) ) {
+            npain += std::max( 1, roll_remainder( npain * 1.0 ));
+        }
+
         if( npain > 1 ) {
             // if it's 1 it'll just become 0, which is bad
             if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5f );
+                npain = roll_remainder( npain * 0.5 );
             } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67f );
+                npain = roll_remainder( npain * 0.67 );
             }
         }
     }
