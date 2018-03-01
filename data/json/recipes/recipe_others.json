@@ -458,7 +458,6 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 80, "LIST" ] ] ]
   },
-
   {
     "type": "recipe",
     "result": "primitive_shovel",
