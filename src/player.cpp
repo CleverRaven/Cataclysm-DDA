@@ -10553,11 +10553,11 @@ bool player::is_wearing_shoes(std::string side) const
 bool player::is_wearing_helmet() const
 {
     bool ret = false;
-    for (auto &i : worn) {
+    for( auto &i : worn ) {
         const item *worn_item = &i;
-        if (i.covers(bp_head) &&
-            !worn_item->has_flag("HELMET_COMPAT") &&
-            !worn_item->has_flag("SKINTIGHT")) {
+        if( i.covers( bp_head ) &&
+            !worn_item->has_flag( "HELMET_COMPAT" ) &&
+            !worn_item->has_flag( "SKINTIGHT" ) ) {
             ret = true;
             break;
         }
