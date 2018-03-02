@@ -7981,6 +7981,9 @@ void game::zones_manager()
 
     draw_ter();
 
+    int stored_pm_opt = pixel_minimap_option;
+    pixel_minimap_option = 0;
+
     int zone_ui_height = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
@@ -8311,6 +8314,7 @@ void game::zones_manager()
     }
 
     u.view_offset = stored_view_offset;
+    pixel_minimap_option = stored_pm_opt;
 
     refresh_all();
 }
