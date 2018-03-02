@@ -109,7 +109,7 @@ class MonsterGenerator
         friend class string_id<mattack_actor>;
 
         pimpl<generic_factory<mtype>> mon_templates;
-        std::unique_ptr<generic_factory<species_type>> mon_species;
+        pimpl<generic_factory<species_type>> mon_species;
         std::vector<mtype_id> hallucination_monsters;
 
         std::map<std::string, phase_id> phase_map;
