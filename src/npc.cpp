@@ -2316,25 +2316,17 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-std::ostream &operator<< ( std::ostream &os, npc_need need )
+const std::string need_id( npc_need need )
 {
-    switch( need ) {
-        case need_none :
-            return os << "need_none";
-        case need_ammo :
-            return os << "need_ammo";
-        case need_weapon :
-            return os << "need_weapon";
-        case need_gun :
-            return os << "need_gun";
-        case need_food :
-            return os << "need_food";
-        case need_drink :
-            return os << "need_drink";
-        case num_needs :
-            return os << "num_needs";
-    };
-    return os << "unknown need";
+    static const std::array<std::string, num_needs> ids = {{
+       "need_none",
+       "need_ammo",
+       "need_weapon",
+       "need_gun",
+       "need_food",
+       "need_drink"
+    }};
+    return ids[static_cast<size_t>( need )];
 }
 
 bool npc::will_accept_from_player( const item &it ) const

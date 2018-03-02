@@ -89,6 +89,8 @@ enum npc_need {
     num_needs
 };
 
+const std::string need_id( npc_need need );
+
 // @todo: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
     NPE_AGGRESSION,
@@ -874,8 +876,6 @@ struct epilogue {
     epilogue *find_epilogue( std::string ident );
     void random_by_group( std::string group, std::string name );
 };
-
-std::ostream &operator<< ( std::ostream &os, npc_need need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
