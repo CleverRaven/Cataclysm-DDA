@@ -1,8 +1,0 @@
-#Name of the tileset
-NAME: Retrodays20jar
-#Viewing (Option) name of the tileset
-VIEW: RetroDays20jar
-#JSON Path - Default of tile_config.json
-JSON: tile_config.json
-#Tileset Path - Default of tinytile.png
-TILESET: tiles.png
