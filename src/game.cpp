@@ -314,8 +314,8 @@ void game::load_static_data()
 
 bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
 {
-    auto &mods = world_generator->get_mod_manager()->mod_map;
-    auto &tree = world_generator->get_mod_manager()->get_tree();
+    auto &mods = world_generator->get_mod_manager().mod_map;
+    auto &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
@@ -3702,7 +3702,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 
         // require at least one core mod (saves before version 6 may implicitly require dda pack)
         if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager()->mod_map[e]->core;
+            return world_generator->get_mod_manager().mod_map[e]->core;
         } ) ) {
             mods.insert( mods.begin(), "dda" );
         }
@@ -3731,9 +3731,9 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
     std::vector<std::string> missing;
     std::vector<std::string> available;
 
-    mod_manager *mm = world_generator->get_mod_manager();
+    mod_manager &mm = world_generator->get_mod_manager();
     for( const auto &e : packs ) {
-        if( mm->has_mod( e ) ) {
+        if( mm.has_mod( e ) ) {
             available.emplace_back( e );
             ui.add_entry( e );
         } else {
@@ -3743,7 +3743,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = *mm->mod_map[e];
+        MOD_INFORMATION &mod = *mm.mod_map[e];
         load_data_from_dir( mod.path, mod.ident, ui );
 
         // if mod specifies legacy migrations load any that are required

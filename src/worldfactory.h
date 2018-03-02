@@ -96,7 +96,7 @@ class worldfactory
 
         std::vector<std::string> all_worldnames() const;
 
-        mod_manager *get_mod_manager();
+        mod_manager &get_mod_manager();
 
         void remove_world( std::string worldname );
         bool valid_worldname( std::string name, bool automated = false );

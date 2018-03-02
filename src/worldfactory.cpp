@@ -67,7 +67,7 @@ WORLD::WORLD()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
-    active_mod_order = world_generator->get_mod_manager()->get_default_mods();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -1412,9 +1412,9 @@ void load_world_option( JsonObject &jo )
     }
 }
 
-mod_manager *worldfactory::get_mod_manager()
+mod_manager &worldfactory::get_mod_manager()
 {
-    return &*mman;
+    return *mman;
 }
 
 WORLDPTR worldfactory::get_world( const std::string &name )
