@@ -366,11 +366,6 @@
       [ [ "rock", 1 ] ], 
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ] 
     ]
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
-    ]
    },
    {
     "type": "recipe",
