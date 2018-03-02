@@ -251,129 +251,64 @@
     [ "2x4", 1 ],
     [ "pool_cue", 1 ]
   ]]
-},{
-  "type" : "recipe",
-  "result": "spear_stone",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 2,
-  "time": 2400,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ],
-      [ "resin_cord", 1 ],
-      [ "cordage_short", 1, "LIST" ]
-    ],
-    [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "sharp_rock", 1 ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_stone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 2400,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "javelin_stone",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
-  "difficulty": 2,
-  "time": 10000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-  "components":
-  [
-    [
-      [ "spear_wood", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ]
-    ],
-    [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "sharp_rock", 1 ]
+  },
+  {
+    "type": "recipe",
+    "result": "javelin_stone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ], [ "throw", 2 ] ],
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "javelin_copper",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "throw", 2 ],
-  "difficulty": 2,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [
-      [ "surface_heat", 10, "LIST" ]
+  },
+  {
+    "type": "recipe",
+    "result": "javelin_copper",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "throw", 2 ],
+    "difficulty": 2,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "scrap_copper", 1 ], [ "copper", 100 ] ]
     ]
-  ],
-  "components": [
-    [
-      [ "spear_wood", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ]
-    ],
-    [
-      [ "scrap_copper", 1 ],
-      [ "copper", 100 ]
-    ]
-  ]
-},{
+  },
+  {
   "type" : "recipe",
   "result": "hat_hooded",
   "category": "CC_ARMOR",
@@ -586,35 +521,24 @@
      [ "scrap", 12 ]
      ]
     ]
-},{
-  "type" : "recipe",
-  "result": "iggaak",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "tailor",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 2,
-  "time": 8000,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 50 ]
-    ],
-    [
-      [ "2x4", 1 ],
-      [ "stick", 1 ],
-      [ "bone", 1 ],
-      [ "bone_human", 1 ]
+  },
+  {
+    "type": "recipe",
+    "result": "iggaak",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 8000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "cordage_short", 3, "LIST" ], [ "filament", 60, "LIST" ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
     ]
-  ]
-},{
+  },
+  {
   "type" : "recipe",
   "result": "pot_makeshift",
   "category": "CC_OTHER",
@@ -694,65 +618,43 @@
       [ "fur", 2 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_shovel",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 2,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "sheet_metal", 1 ]
-    ],
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_shovel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_axe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 60000,
-  "autolearn": true,
-  "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "steel_chunk", 1 ],
-      [ "steel_lump", 1 ]
-    ],
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_axe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": 60000,
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
     ]
-  ]
-},{
+  },
+  {
   "type" : "recipe",
   "result": "mortar_pestle",
   "category": "CC_OTHER",
