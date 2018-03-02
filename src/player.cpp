@@ -7679,7 +7679,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
     if( it.covers( bp_head ) &&
       ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
       ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
-        return ret_val<bool>::make_failure( _( "You cant wear that much on your head!" ) );
+        return ret_val<bool>::make_failure( _( "You can't wear that much on your head!" ) );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
