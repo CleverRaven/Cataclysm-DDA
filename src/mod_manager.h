@@ -159,11 +159,11 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager *modman );
+        mod_ui( mod_manager &modman );
 
         std::vector<std::string> usable_mods;
         std::string get_information( MOD_INFORMATION *mod );
-        mod_manager *active_manager;
+        mod_manager &active_manager;
         dependency_tree &mm_tree;
 
         void try_add( const std::string &mod_to_add,

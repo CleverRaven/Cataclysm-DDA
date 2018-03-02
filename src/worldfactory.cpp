@@ -89,7 +89,7 @@ worldfactory::worldfactory()
     , mman_ui( nullptr )
 {
     mman.reset( new mod_manager );
-    mman_ui.reset( new mod_ui( mman.get() ) );
+    mman_ui.reset( new mod_ui( *mman ) );
 
     // prepare tab display order
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
