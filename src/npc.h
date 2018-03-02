@@ -875,6 +875,8 @@ struct epilogue {
     void random_by_group( std::string group, std::string name );
 };
 
+std::string npc_need_name( npc_need need );
+
 std::ostream &operator<< ( std::ostream &os, npc_need need );
 
 /** Opens a menu and allows player to select a friendly NPC. */

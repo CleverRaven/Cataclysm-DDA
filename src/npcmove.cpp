@@ -23,6 +23,9 @@
 #include "field.h"
 #include "sounds.h"
 #include "gates.h"
+#include "options.h"
+#include "npc_destination.h"
+#include "worldfactory.h"
 
 #include <algorithm>
 #include <sstream>
@@ -2867,50 +2870,25 @@ void npc::set_destination()
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
     }
-    std::vector<std::string> options;
-    switch( needs[0] ) {
-        case need_ammo:
-            options.push_back( "house" );
-        /* fallthrough */
-        case need_gun:
-            options.push_back( "s_gun" );
-            break;
-
-        case need_weapon:
-            options.push_back( "s_gun" );
-            options.push_back( "s_sports" );
-            options.push_back( "s_hardware" );
-            break;
-
-        case need_drink:
-            options.push_back( "s_gas" );
-            options.push_back( "s_pharm" );
-            options.push_back( "s_liquor" );
-        /* fallthrough */
-        case need_food:
-            options.push_back( "s_grocery" );
-            break;
-
-        default:
-            options.push_back( "house" );
-            options.push_back( "s_gas" );
-            options.push_back( "s_pharm" );
-            options.push_back( "s_hardware" );
-            options.push_back( "s_sports" );
-            options.push_back( "s_liquor" );
-            options.push_back( "s_gun" );
-            options.push_back( "s_library" );
-    }
-
-    const std::string dest_type = random_entry( options );
 
     // We need that, otherwise find_closest won't work properly
     // TODO: Allow finding sewers and stuff
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
-    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
+    std::string npc_name = get_name();
+    std::string need_name = npc_need_name( needs[0] );
+    // Hack for city-less worlds (see #22270).
+    std::string dest_type = "field";
+    if( world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0" ) {
+        std::vector<std::string> dests = npc_destination( need_name ).destination_terrains;
+        dest_type = random_entry( dests );
+        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 1, false );
+    } else {
+        goal = overmap_buffer.find_random( surface_omt_loc, dest_type, 1, false );
+    }
+
+    DebugLog( D_INFO, DC_ALL ) << "New goal for NPC [" << npc_name.c_str() << "] with [" << need_name.c_str() << "] is [" << dest_type.c_str() << "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
 void npc::go_to_destination()
