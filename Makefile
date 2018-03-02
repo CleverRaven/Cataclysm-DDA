@@ -982,7 +982,8 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_WHITELIST = $(shell cat json_whitelist)
+JSON_FILES = $(shell find . -name *.json | sed "s|^\./||")
+JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
 
 style-json: $(JSON_WHITELIST)
 
