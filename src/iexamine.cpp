@@ -472,11 +472,12 @@ void iexamine::vending( player &p, const tripoint &examp )
         return;
     }
 
-    int const padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int const padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 2;
-    int const window_h   = FULL_SCREEN_HEIGHT;
-    int const w_items_w  = FULL_SCREEN_WIDTH / 2;
-    int const w_info_w   = FULL_SCREEN_WIDTH / 2;
+    int const padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+    int const padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+    int const window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+    int const window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const w_items_w  = window_w / 2;
+    int const w_info_w   = window_w - w_items_w;
     int const list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
