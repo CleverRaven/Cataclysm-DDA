@@ -85,10 +85,9 @@ void WORLD::add_save( const save_t &name )
 worldfactory::worldfactory()
     : active_world( nullptr )
     , all_worlds()
-    , mman( nullptr )
+    , mman()
     , mman_ui( nullptr )
 {
-    mman.reset( new mod_manager );
     mman_ui.reset( new mod_ui( *mman ) );
 
     // prepare tab display order
@@ -1417,7 +1416,7 @@ void load_world_option( JsonObject &jo )
 
 mod_manager *worldfactory::get_mod_manager()
 {
-    return mman.get();
+    return &*mman;
 }
 
 WORLDPTR worldfactory::get_world( const std::string &name )

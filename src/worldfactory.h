@@ -3,6 +3,7 @@
 #define WORLDFACTORY_H
 
 #include "options.h"
+#include "pimpl.h"
 
 #include <functional>
 #include <map>
@@ -134,7 +135,7 @@ class worldfactory
 
         WORLDPTR add_world( WORLDPTR world );
 
-        std::unique_ptr<mod_manager> mman;
+        pimpl<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
         typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
