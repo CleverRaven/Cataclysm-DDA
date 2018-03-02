@@ -5406,7 +5406,7 @@
   {
     "id": "mon_zombie_fat",
     "type": "MONSTER",
-    "name": "fat zombie",
+    "name": "body positive zombie",
     "description": "Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],

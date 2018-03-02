@@ -35635,10 +35635,10 @@ msgid "A human body with pale blue flesh, crackling with electrical energy."
 msgstr "这具丧尸的尸体是淡蓝色的，并且周围不断有噼啪的电流环绕。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "fat zombie"
+msgid "body positive zombie"
 msgstr "肥佬丧尸"
 
-#. ~ Description for fat zombie
+#. ~ Description for body positive zombie
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Stumbling as it moves, this corpse of an overweight human regards its "

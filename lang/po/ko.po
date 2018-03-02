@@ -35633,10 +35633,10 @@ msgid "A human body with pale blue flesh, crackling with electrical energy."
 msgstr "피부가 창백하고 푸른 인간 시체로, 주변에 전기가 파직거리고 있습니다."
 
 #: lang/json/MONSTER_from_json.py
-msgid "fat zombie"
+msgid "body positive zombie"
 msgstr "뚱뚱한 좀비"
 
-#. ~ Description for fat zombie
+#. ~ Description for body positive zombie
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Stumbling as it moves, this corpse of an overweight human regards its "
