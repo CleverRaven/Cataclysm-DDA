@@ -475,7 +475,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     int const padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
     int const padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 2;
     int const window_h   = FULL_SCREEN_HEIGHT;
-    int const w_items_w  = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
+    int const w_items_w  = FULL_SCREEN_WIDTH / 2;
     int const w_info_w   = FULL_SCREEN_WIDTH / 2;
     int const list_lines = window_h - 4; // minus for header and footer
 
@@ -483,7 +483,7 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
     catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
-                                           padding_x + w_items_w + 1 );
+                                           padding_x + w_items_w );
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
