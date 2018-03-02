@@ -351,7 +351,17 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 3 ] ] ]
   },
-
+  {
+    "type": "recipe",
+    "result": "primitive_hammer",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 40, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+  },
   {
     "type": "recipe",
     "result": "makeshift_hammer",
@@ -366,8 +376,8 @@
       [ [ "rock", 1 ] ], 
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ] 
     ]
-   },
-   {
+  },
+  {
     "type": "recipe",
     "result": "needle_bone",
     "category": "CC_OTHER",
