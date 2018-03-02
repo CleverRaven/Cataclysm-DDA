@@ -515,11 +515,6 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     int cur_pos = 0;
     for( ;; ) {
-        // | {title}|
-        // 12       3
-        const std::string title = utf8_truncate( string_format(
-                                      _( "Money left: %d" ), card->charges ), static_cast<size_t>( w_items_w - 3 ) );
-
         int const num_items = item_list.size();
         int const page_size = std::min( num_items, list_lines );
 
@@ -530,7 +525,8 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, 0, LINE_XXXO ); // |-
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
-        mvwprintz( w, 1, 2, c_light_gray, title.c_str() );
+        trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
+                        _( "Money left: $%.2f" ), ( double )card->charges / 100 );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
