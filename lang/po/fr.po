@@ -37581,10 +37581,10 @@ msgid "A human body with pale blue flesh, crackling with electrical energy."
 msgstr "Un corps humain à la chair bleu pâle, crépitant d'énergie électrique."
 
 #: lang/json/MONSTER_from_json.py
-msgid "fat zombie"
+msgid "body positive zombie"
 msgstr "gros zombie"
 
-#. ~ Description for fat zombie
+#. ~ Description for body positive zombie
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Stumbling as it moves, this corpse of an overweight human regards its "
