@@ -164,7 +164,7 @@ class mod_ui
         std::vector<std::string> usable_mods;
         std::string get_information( MOD_INFORMATION *mod );
         mod_manager *active_manager;
-        dependency_tree *mm_tree;
+        dependency_tree &mm_tree;
 
         void try_add( const std::string &mod_to_add,
                       std::vector<std::string> &active_list );
