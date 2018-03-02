@@ -136,7 +136,7 @@ class worldfactory
         WORLDPTR add_world( WORLDPTR world );
 
         pimpl<mod_manager> mman;
-        std::unique_ptr<mod_ui> mman_ui;
+        pimpl<mod_ui> mman_ui;
 
         typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
 

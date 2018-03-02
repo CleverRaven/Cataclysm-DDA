@@ -86,10 +86,8 @@ worldfactory::worldfactory()
     : active_world( nullptr )
     , all_worlds()
     , mman()
-    , mman_ui( nullptr )
+    , mman_ui( *mman )
 {
-    mman_ui.reset( new mod_ui( *mman ) );
-
     // prepare tab display order
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
