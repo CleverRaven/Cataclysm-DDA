@@ -70,7 +70,7 @@
         [ [ "shot_hull", 1 ] ],
         [ [ "shotgun_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ],
-        [ [ "chem_rdx", 10 ] ]
+        [ [ "chem_rdx", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },

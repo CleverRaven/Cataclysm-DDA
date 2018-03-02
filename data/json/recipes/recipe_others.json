@@ -1463,7 +1463,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ] ] ]
+    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1521,10 +1521,12 @@
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
         [ "gunpowder", 72 ],
-        [ "chem_black_powder", 144 ],
-        [ "shot_bird", 30 ],
-        [ "shot_00", 15 ],
+        [ "chem_black_powder", 72 ],
+        [ "shot_bird", 24 ],
+        [ "shot_00", 12 ],
         [ "shot_slug", 12 ],
+        [ "shot_flechette", 12 ],
+        [ "shot_he", 3 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
         [ "grenade", 1 ]
