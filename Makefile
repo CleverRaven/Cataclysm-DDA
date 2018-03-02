@@ -987,7 +987,7 @@ JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
 
 style-json: $(JSON_WHITELIST)
 
-$(JSON_WHITELIST): json_whitelist json_formatter
+$(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
 	@tools/format/json_formatter.cgi $@
 else
