@@ -7676,6 +7676,12 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( wearing_something_on( bp_head ), _( "You can't wear that with other headgear!" ) );
     }
 
+    if( it.covers( bp_head ) &&
+      ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
+      ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
+        return ret_val<bool>::make_failure( _( "You cant wear that much on your head!" ) );
+    }
+
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't wear that, it's made of wool!" ) );
     }
@@ -10561,6 +10567,18 @@ bool player::is_wearing_helmet() const
             !worn_item->has_flag( "OVERSIZE" ) ) {
             ret = true;
             break;
+        }
+    }
+    return ret;
+}
+
+int player::head_cloth_encumbrance() const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        const item *worn_item = &i;
+        if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) || worn_item->has_flag( "SKINTIGHT" ) ) ) {
+            ret += worn_item->get_encumber();
         }
     }
     return ret;

@@ -1089,6 +1089,8 @@ class player : public Character
         bool is_wearing_shoes(std::string side = "both") const;
         /** Returns true if the player is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
+        /** Returns the total emcumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
