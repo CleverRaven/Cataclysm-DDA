@@ -360,7 +360,11 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 40, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -487,7 +491,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
     ]
   },
   {
@@ -1120,7 +1124,7 @@
     "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ], [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2269,7 +2273,10 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 100 ], [ "oxy_torch", 20 ] ]
     ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ],
+      [ [ "plastic_chunk", 1 ], [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2283,7 +2290,10 @@
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "plastic_chunk", 1 ], [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2303,7 +2313,10 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
     ],
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [
+      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
+      [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2399,7 +2412,10 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
     ],
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+    "components": [
+      [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "plastic_chunk", 1 ], [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
