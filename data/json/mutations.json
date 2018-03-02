@@ -2737,7 +2737,6 @@
         "name" : "Hyperalgesia",
         "points" : -3,
         "description" : "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
-        "valid" : false,
         "prereqs" : ["MORE_PAIN"],
         "cancels" : ["PAINRESIST", "NOPAIN"],
         "changes_to" : ["MORE_PAIN3"]
@@ -2747,7 +2746,6 @@
         "name" : "Extreme Hyperalgesia",
         "points" : -5,
         "description" : "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
-        "valid" : false,
         "prereqs" : ["MORE_PAIN2"],
         "cancels" : ["PAINRESIST", "NOPAIN"]
     },{
