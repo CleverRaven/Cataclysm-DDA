@@ -933,9 +933,10 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
+        const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
-            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+        src.visit_items( [&src,&nested,&out,&mags,ammo]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
@@ -952,9 +953,13 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
+            if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
+                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                    out = item_location( src, node );
+                }
+            }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
-
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();

@@ -1278,6 +1278,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
+    bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
@@ -1289,7 +1290,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( "RELOAD_ONE" ) ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
                 if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
