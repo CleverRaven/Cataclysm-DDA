@@ -2,7 +2,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "skill.h"
 #include "character.h"
 #include "pimpl.h"
 #include "item.h"

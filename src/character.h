@@ -5,8 +5,6 @@
 #include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
-#include "bionics.h"
-#include "skill.h"
 #include "pimpl.h"
 #include "map_selector.h"
 #include "pathfinding.h"

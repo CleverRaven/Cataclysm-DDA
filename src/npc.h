@@ -4,7 +4,6 @@
 
 #include "player.h"
 #include "faction.h"
-#include "auto_pickup.h"
 #include "pimpl.h"
 
 #include <vector>
