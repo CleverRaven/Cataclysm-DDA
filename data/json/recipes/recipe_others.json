@@ -360,11 +360,7 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -380,8 +376,8 @@
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
     ]
-  },
-  {
+   },
+   {
     "type": "recipe",
     "result": "needle_bone",
     "category": "CC_OTHER",
