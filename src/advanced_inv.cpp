@@ -1785,6 +1785,7 @@ void advanced_inventory::display()
                 }
             } else {
                 popup( _("No vehicle there!") );
+                redraw = true;
             }
         }
     }
