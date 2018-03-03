@@ -4832,7 +4832,7 @@
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs!  Not as appetizing or nutritious as it would be if heated up.",
         "price" : 320,
         "material" : ["flesh", "junk"],
-        "volume" : 5,
+        "volume" : 4,
         "fun" : -3
     },
     {
@@ -4850,7 +4850,7 @@
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs!  Nice and heated up.  It's tastier and more filling, but will also spoil quickly.",
         "price" : 90,
         "material" : ["flesh", "junk"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -6894,7 +6894,7 @@
         "description" : "A delicious baked pie with a sweet fruit filling.",
         "price" : 1250,
         "material" : ["wheat", "fruit"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6915,7 +6915,7 @@
         "description" : "A delicious baked pie with a delicious vegetable filling.",
         "price" : 1250,
         "material" : ["wheat", "veggy"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6936,7 +6936,7 @@
         "description" : "A delicious baked pie with a delicious meat filling.",
         "price" : 1350,
         "material" : ["wheat", "flesh"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6957,7 +6957,7 @@
         "description" : "A meat pie with a little soldier, or maybe scientist, who knows.  God, that's good!",
         "price" : 1950,
         "material" : ["wheat", "hflesh"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6979,7 +6979,7 @@
         "description" : "A sweet and delicious baked pie with pure maple syrup.",
         "price" : 1850,
         "material" : ["wheat", "milk"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 6

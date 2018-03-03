@@ -45,7 +45,6 @@
 #include <iostream>
 
 #include <limits>  // std::numeric_limits
-#define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -4464,7 +4463,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // if the player can see it
     if (g->u.sees(*z)) {
-        if (data[att].message == "") {
+        if( data[att].message.empty() ) {
             add_msg(m_debug, "Invalid ammo message in grenadier special.");
         } else {
             add_msg(m_bad, data[att].message.c_str(), z->name().c_str());

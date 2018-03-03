@@ -16,23 +16,26 @@ lua_console::~lua_console() = default;
 
 std::string lua_console::get_input()
 {
-    std::map<long, std::function<void()>> callbacks {
+    std::map<long, std::function<bool()>> callbacks {
         {
             KEY_ESCAPE, [this]()
             {
                 this->quit();
+                return false;
             }
         },
         {
             KEY_NPAGE, [this]()
             {
                 this->scroll_up();
+                return false;
             }
         },
         {
             KEY_PPAGE, [this]()
             {
                 this->scroll_down();
+                return false;
             }
         } };
     string_input_popup popup;

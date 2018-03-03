@@ -215,7 +215,7 @@ void item::load_info( const std::string &data )
     corpse = NULL;
     getline(dump, corpse_name);
     if( corpse_name == " ''" ) {
-        corpse_name = "";
+        corpse_name.clear();
     } else {
         size_t pos = corpse_name.find_first_of( "@@" );
         while (pos != std::string::npos)  {

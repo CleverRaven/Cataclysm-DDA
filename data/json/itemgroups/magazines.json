@@ -100,7 +100,8 @@
       ["glock40mag", 7],
       ["m1911mag", 25],
       ["mosquitomag", 10],
-      ["sw22mag", 10]
+      ["sw22mag", 10],
+      ["p226mag_15rd_357sig", 25]
     ]
   },
   {

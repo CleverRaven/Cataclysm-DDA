@@ -73,10 +73,6 @@ enum monster_trigger : int {
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
-// mfb(n) converts a flag to its appropriate position in mtype's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
@@ -139,7 +135,8 @@ enum m_flag : int {
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_ABSORBS,             // Consumes objects it moves over.
+    MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
+    MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.

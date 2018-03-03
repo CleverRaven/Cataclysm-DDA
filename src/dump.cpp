@@ -8,6 +8,7 @@
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
+#include "recipe_dictionary.h"
 #include "player.h"
 #include "vehicle.h"
 #include "string_formatter.h"

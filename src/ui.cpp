@@ -147,11 +147,11 @@ void uimenu::init()
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
-    text = "";             // header text, after (maybe) folding, populates:
+    text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     textalign = MENU_ALIGN_LEFT; // @todo:
-    title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
+    title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
@@ -177,7 +177,7 @@ void uimenu::init()
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
     callback = NULL;         // * uimenu_callback
-    filter = "";             // filter string. If "", show everything
+    filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'

@@ -15,7 +15,7 @@
 bool play_videogame( std::string function_name, std::map<std::string, std::string> &game_data,
                      int &score )
 {
-    if( function_name == "" ) {
+    if( function_name.empty() ) {
         score = 15;
         return true; // generic game
     }

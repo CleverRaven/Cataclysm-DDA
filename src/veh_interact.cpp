@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "string_formatter.h"
+#include "map_selector.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
@@ -1082,7 +1083,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
                     right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current().c_str() ),
+                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current() ),
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };

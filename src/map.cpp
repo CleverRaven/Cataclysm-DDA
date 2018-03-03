@@ -61,9 +61,6 @@ extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
 
-#define SGN(a) (((a)<0) ? -1 : 1)
-#define INBOUNDS(x, y) \
- (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -1461,7 +1458,7 @@ bool map::has_furn(const int x, const int y) const
 
 furn_id map::furn(const int x, const int y) const
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         return f_null;
     }
 
@@ -1609,7 +1606,7 @@ std::string map::furnname( const tripoint &p ) {
 
 ter_id map::ter(const int x, const int y) const
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         return t_null;
     }
 
@@ -1866,7 +1863,7 @@ bool map::passable( const int x, const int y ) const
 
 int map::move_cost_ter_furn(const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return 0;
     }
 
@@ -2411,7 +2408,7 @@ bool map::has_flag_furn(const std::string & flag, const int x, const int y) cons
 
 bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return false;
     }
 
@@ -2439,7 +2436,7 @@ bool map::has_flag_furn(const ter_bitflags flag, const int x, const int y) const
 
 bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return false;
     }
 
@@ -2794,7 +2791,7 @@ bool map::is_divable( const tripoint &p ) const
 
 bool map::is_outside(const int x, const int y) const
 {
-    if(!INBOUNDS(x, y)) {
+    if(!inbounds(x, y)) {
         return true;
     }
 
@@ -4184,7 +4181,7 @@ void map::set_temperature( const int x, const int y, int new_temperature )
 // Items: 2D
 map_stack map::i_at( const int x, const int y )
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         nulitems.clear();
         return map_stack{ &nulitems, tripoint( x, y, abs_sub.z ), this };
     }
@@ -6030,7 +6027,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
-        item_sym = ""; // clear the item symbol so `sym` is used instead.
+        item_sym.clear(); // clear the item symbol so `sym` is used instead.
     }
 
     // If there's graffiti here, change background color
@@ -6264,7 +6261,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
     if( f.z == t.z ) {
         if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
-            !INBOUNDS(t.x, t.y) ) {
+            !inbounds(t.x, t.y) ) {
             return false; // Out of range!
         }
         bool is_clear = true;
@@ -7572,7 +7569,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            if( !INBOUNDS( px, py ) ) {
+            if( !inbounds( px, py ) ) {
                 continue;
             }
 

@@ -20,3 +20,19 @@ function mod_callback(callback_name)
         end
     end
 end
+
+function resolve_name(name)
+    local a = _G
+    for key in string.gmatch(name, "([^%.]+)(%.?)") do
+        if a[key] then
+            a = a[key]
+        else
+            return nil
+        end
+    end
+    return a
+end
+
+function function_exists(name)
+    return type(resolve_name(name)) == 'function'
+end

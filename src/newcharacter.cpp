@@ -451,7 +451,7 @@ bool player::create(character_type type, std::string tempname)
         points.skill_points = 0;
         // We want to prevent recipes known by the template from being applied to the
         // new character. The recipe list will be rebuilt when entering the game.
-        learned_recipes.clear();
+        learned_recipes->clear();
         tab = NEWCHAR_TAB_MAX;
         break;
     }
@@ -664,7 +664,7 @@ void draw_tabs( const catacurses::window &w, std::string sTab )
         spaces = 0;
     }
     for (size_t i = 0; i < tab_captions.size(); ++i) {
-        draw_tab(w, next_pos, tab_captions[i].c_str(), (sTab == tab_captions[i]));
+        draw_tab(w, next_pos, tab_captions[i], (sTab == tab_captions[i]));
         next_pos += tab_len[i] + spaces;
     }
 
@@ -2452,16 +2452,51 @@ trait_id Character::random_bad_trait()
 void save_template( player *u, std::string name )
 {
     if( name.empty() ) {
-        name = string_input_popup()
-               .title( _( "Name of template:" ) )
-               .width( 40 )
-               .query_string();
+        static const std::set<long> fname_char_blacklist = {
+#if (defined _WIN32 || defined __WIN32__)
+            '\"'  , '*'   , '/'   , ':'   , '<'   , '>'   , '?'   , '\\'  , '|'   ,
+            '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
+                    '\x0B', '\x0C',         '\x0E', '\x0F', '\x10', '\x11', '\x12',
+            '\x13', '\x14',         '\x16', '\x17', '\x18', '\x19', '\x1A',
+            '\x1C', '\x1D', '\x1E', '\x1F'
+#else
+            '/'
+#endif
+        };
+        std::string title = _( "Name of template:" );
+        std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
 
+        input_context ctxt( "default" );
+        ctxt.register_action( "ANY_INPUT" );
+
+        string_input_popup spop;
+        spop.title( title );
+        spop.description( desc );
+        spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
+        spop.context( ctxt );
+        for( long character : fname_char_blacklist ) {
+            spop.callbacks[ character ] = [](){ return true; };
+        }
+
+        std::string name = spop.query_string( true );
         if( name.empty() ) {
             return;
         }
     }
-    std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
+
+    std::string native = utf8_to_native( name );
+#if (defined _WIN32 || defined __WIN32__)
+    if( native.find_first_of( "\"*/:<>?\\|"
+                            "\x01\x02\x03\x04\x05\x06\x07\x08\x09"
+                            "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12"
+                            "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
+                            "\x1C\x1D\x1E\x1F"
+                            ) != std::string::npos ) {
+        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead" ) );
+        return;
+    }
+#endif
+    std::string playerfile = FILENAMES["templatedir"] + native + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );

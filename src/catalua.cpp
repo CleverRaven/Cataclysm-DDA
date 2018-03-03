@@ -1059,7 +1059,7 @@ void lua_loadmod(std::string base_path, std::string main_file_name)
     if( file_exist( full_path ) ) {
         lua_file_path = base_path;
         lua_dofile( lua_state, full_path.c_str() );
-        lua_file_path = "";
+        lua_file_path.clear();
     }
     // debugmsg("Loading from %s", full_path.c_str());
 }

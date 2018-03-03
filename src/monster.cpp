@@ -33,9 +33,6 @@
 #include "sounds.h"
 #include "npc.h"
 
-#define SGN(a) (((a)<0) ? -1 : 1)
-#define SQR(a) ((a)*(a))
-
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
@@ -166,7 +163,6 @@ monster::monster()
     no_extra_death_drops = false;
     dead = false;
     made_footstep = false;
-    unique_name = "";
     hallucination = false;
     ignoring = 0;
     upgrades = false;
@@ -345,7 +341,7 @@ std::string monster::name(unsigned int quantity) const
   debugmsg ("monster::name empty type!");
   return std::string();
  }
- if (unique_name != "")
+ if( !unique_name.empty() )
   return string_format("%s: %s",
                        (type->nname(quantity).c_str()), unique_name.c_str());
  return type->nname(quantity);

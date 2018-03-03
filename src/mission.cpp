@@ -524,7 +524,6 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 mission::mission()
 {
     type = NULL;
-    description = "";
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;

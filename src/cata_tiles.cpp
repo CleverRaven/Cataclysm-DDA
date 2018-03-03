@@ -45,7 +45,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-#define ITEM_HIGHLIGHT "highlight_item"
+static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -253,7 +253,7 @@ static void get_tile_information(std::string config_path, std::string &json_path
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
+            if( sOption.empty() ) {
                 getline(fin, sOption);
             } else if(sOption[0] == '#') { // Skip comment
                 getline(fin, sOption);
@@ -274,11 +274,11 @@ static void get_tile_information(std::string config_path, std::string &json_path
         tileset_path = default_tileset;
     }
 
-    if (json_path == "") {
+    if( json_path.empty() ) {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
-    if (tileset_path == "") {
+    if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
@@ -1776,9 +1776,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int loc_rand = 0;
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
     if(display_tile.fg.size()>1 || display_tile.bg.size()>1) {
+        static const auto rot32 = []( const unsigned int x, const int k ) {
+            return ( x << k ) | ( x >> ( 32 - k ) );
+        };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-#define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
         unsigned int a = seed, b = -seed, c = seed*seed;
         c ^= b; c -= rot32(b,14);
         a ^= c; a -= rot32(c,11);
@@ -2329,7 +2331,6 @@ void tileset_loader::ensure_default_item_highlight()
     }
     const Uint8 highlight_alpha = 127;
 
-    std::string key = ITEM_HIGHLIGHT;
     int index = ts.tile_values.size();
 
     const SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
@@ -2338,7 +2339,7 @@ void tileset_loader::ensure_default_item_highlight()
     SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
     throwErrorIf( !texture, "Failed to create texture for default item highlight" );
     ts.tile_values.emplace_back( std::move( texture ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
-    ts.tile_ids[key].fg.add(std::vector<int>({index}),1);
+    ts.tile_ids[ITEM_HIGHLIGHT].fg.add(std::vector<int>({index}),1);
 }
 
 /* Animation Functions */
@@ -2408,26 +2409,26 @@ void cata_tiles::void_bullet()
 {
     do_draw_bullet = false;
     bul_pos = { -1, -1, -1 };
-    bul_id = "";
+    bul_id.clear();
 }
 void cata_tiles::void_hit()
 {
     do_draw_hit = false;
     hit_pos = { -1, -1, -1 };
-    hit_entity_id = "";
+    hit_entity_id.clear();
 }
 void cata_tiles::void_line()
 {
     do_draw_line = false;
     is_target_line = false;
     line_pos = { -1, -1, -1 };
-    line_endpoint_id = "";
+    line_endpoint_id.clear();
     line_trajectory.clear();
 }
 void cata_tiles::void_weather()
 {
     do_draw_weather = false;
-    weather_name = "";
+    weather_name.clear();
     anim_weather.vdrops.clear();
 }
 void cata_tiles::void_sct()

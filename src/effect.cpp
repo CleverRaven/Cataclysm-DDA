@@ -460,7 +460,7 @@ std::string effect::disp_name() const
         }
         ret << _( d_name.c_str() );
     } else {
-        if(eff_type->name[0] == "") {
+        if( eff_type->name[0].empty() ) {
             return "";
         }
         ret << _(eff_type->name[0].c_str());
@@ -520,7 +520,7 @@ std::string effect::disp_desc(bool reduced) const
         ret << string_format(_("Speed %d;  "), tmp);
     }
     // Newline if necessary
-    if (ret.str() != "") {
+    if( !ret.str().empty() ) {
         ret << "\n";
     }
 
@@ -597,7 +597,7 @@ std::string effect::disp_desc(bool reduced) const
     }
 
     // Newline if necessary
-    if (ret.str() != "") {
+    if( !ret.str().empty() ) {
         ret << "\n";
     }
 
@@ -1079,7 +1079,7 @@ std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
-    if( eff_type->speed_mod_name != "" ) {
+    if( !eff_type->speed_mod_name.empty() ) {
         return eff_type->speed_mod_name;
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];

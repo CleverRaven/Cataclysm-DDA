@@ -12,6 +12,8 @@
 #include <vector>
 #include <algorithm>
 
+class JsonIn;
+class JsonOut;
 class JsonObject;
 typedef std::string itype_id;
 class recipe;
@@ -143,5 +145,8 @@ class recipe_subset
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 };
+
+void serialize( const recipe_subset &value, JsonOut &jsout );
+void deserialize( recipe_subset &value, JsonIn &jsin );
 
 #endif

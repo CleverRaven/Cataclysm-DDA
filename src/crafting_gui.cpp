@@ -224,7 +224,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 display_mode = 2;
             }
 
-            TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
+            TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
 
@@ -311,7 +311,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             mvwprintz( w_data, dataLines + 1, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
@@ -319,7 +319,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
                            _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings" ) );
             } else {
@@ -611,7 +611,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             chosen = nullptr;
             done = true;
         } else if( action == "RESET_FILTER" ) {
-            filterstring = "";
+            filterstring.clear();
             redraw = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {

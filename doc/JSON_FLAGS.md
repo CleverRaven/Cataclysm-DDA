@@ -206,7 +206,8 @@ Flags used to describe monsters and define their properties and abilities.
 ### Flags
 
 - ```NULL``` Source use only.
-- ```ABSORBS``` Consumes objects it moves over.
+- ```ABSORBS``` Consumes objects it moves over. (Modders use this).
+- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
@@ -771,7 +772,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
-- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant.
+- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant. Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes negative mutations.
 - ```ROYAL_JELLY``` Alleviates many negative conditions and diseases.
 - ```SLEEP``` Greatly increases fatigue.

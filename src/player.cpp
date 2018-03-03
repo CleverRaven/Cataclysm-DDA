@@ -356,6 +356,9 @@ static const trait_id trait_MET_RAT( "MET_RAT" );
 static const trait_id trait_MINOTAUR( "MINOTAUR" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
+static const trait_id trait_MOREPAIN( "MORE_PAIN" );
+static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
+static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
 static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
@@ -2597,12 +2600,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Very hungry" ) );
     } else if( get_hunger() > 40 ) {
         wprintz( w, c_yellow, _( "Hungry" ) );
-    } else if( get_hunger() < 0 ) {
-        wprintz( w, c_green,  _( "Full" ) );
-    } else if( get_hunger() < -20 ) {
-        wprintz( w, c_green,  _( "Sated" ) );
     } else if( get_hunger() < -60 ) {
         wprintz( w, c_green,  _( "Engorged" ) );
+    } else if( get_hunger() < -20 ) {
+        wprintz( w, c_green,  _( "Sated" ) );
+    } else if( get_hunger() < 0 ) {
+        wprintz( w, c_green,  _( "Full" ) );
     }
 
     /// Find hottest/coldest bodypart
@@ -2708,12 +2711,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Very thirsty" ) );
     } else if( get_thirst() > 40 ) {
         wprintz( w, c_yellow, _( "Thirsty" ) );
-    } else if( get_thirst() < 0 ) {
-        wprintz( w, c_green,  _( "Slaked" ) );
-    } else if( get_thirst() < -20 ) {
-        wprintz( w, c_green,  _( "Hydrated" ) );
     } else if( get_thirst() < -60 ) {
         wprintz( w, c_green,  _( "Turgid" ) );
+    } else if( get_thirst() < -20 ) {
+        wprintz( w, c_green,  _( "Hydrated" ) );
+    } else if( get_thirst() < 0 ) {
+        wprintz( w, c_green,  _( "Slaked" ) );
     }
 
     wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
@@ -3074,7 +3077,7 @@ std::string player::get_highest_category() const
             sMaxCat = elem.first;
             iLevel = elem.second;
         } else if( elem.second == iLevel ) {
-            sMaxCat = "";  // no category on ties
+            sMaxCat.clear();  // no category on ties
         }
     }
     return sMaxCat;
@@ -4040,17 +4043,26 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     return dealt_dams;
 }
 
-void player::mod_pain(int npain) {
+void player::mod_pain( int npain) {
     if( npain > 0 ) {
         if( has_trait( trait_NOPAIN ) ) {
             return;
         }
+        // always increase pain gained by one from these bad mutations
+        if( has_trait( trait_MOREPAIN ) ) {
+            npain += std::max( 1, roll_remainder( npain * 0.25 ));
+        } else if( has_trait( trait_MOREPAIN2 ) ) {
+            npain += std::max( 1, roll_remainder( npain * 0.5 ));
+        } else if( has_trait( trait_MOREPAIN3 ) ) {
+            npain += std::max( 1, roll_remainder( npain * 1.0 ));
+        }
+
         if( npain > 1 ) {
             // if it's 1 it'll just become 0, which is bad
             if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5f );
+                npain = roll_remainder( npain * 0.5 );
             } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67f );
+                npain = roll_remainder( npain * 0.67 );
             }
         }
     }
@@ -8803,6 +8815,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname().c_str() );
+        return false;
     }
 
     long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
@@ -9645,13 +9658,13 @@ const recipe_subset &player::get_learned_recipes() const
     if( *_skills != *valid_autolearn_skills ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
             if( meets_skill_requirements( r->autolearn_requirements ) ) {
-                learned_recipes.include( r );
+                learned_recipes->include( r );
             }
         }
         *valid_autolearn_skills = *_skills; // Reassign the validity stamp
     }
 
-    return learned_recipes;
+    return *learned_recipes;
 }
 
 const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
@@ -10726,7 +10739,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
-    learned_recipes.include( rec );
+    learned_recipes->include( rec );
 }
 
 void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
@@ -11758,7 +11771,7 @@ bool player::query_yn( const std::string &mes ) const
 
 const pathfinding_settings &player::get_pathfinding_settings() const
 {
-    return path_settings;
+    return *path_settings;
 }
 
 std::set<tripoint> player::get_path_avoid() const

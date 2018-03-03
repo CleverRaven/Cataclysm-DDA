@@ -137,6 +137,7 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
@@ -353,31 +354,34 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-#define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
+constexpr static int alc_strength( const int strength, const int weak, const int medium, const int strong )
+{
+    return strength == 0 ? weak : strength == 1 ? medium : strong;
+}
+
 int alcohol(player *p, item *it, int strength)
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
+    int duration = alc_strength( strength, 340, 680, 900) - (alc_strength( strength, 6, 10, 12) * p->str_max);
     if (p->has_trait(trait_ALCMET)) {
-        duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
+        duration = alc_strength( strength, 90, 180, 250) - (alc_strength( strength, 6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->mod_hunger( -( abs( it->type->comestible ? it->type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p->stim += abs( it->type->comestible ? it->type->comestible->stim : 0 );
     } else if (p->has_trait(trait_TOLERANCE)) {
-        duration -= STR(120, 300, 450);
+        duration -= alc_strength( strength, 120, 300, 450);
     } else if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration += STR(120, 300, 450);
+        duration += alc_strength( strength, 120, 300, 450);
     }
     if (!(p->has_trait(trait_ALCMET))) {
-        p->mod_painkiller( STR(4, 8, 12) );
+        p->mod_painkiller( alc_strength( strength, 4, 8, 12) );
     }
     p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
 }
-#undef STR
 
 int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
 {
@@ -868,13 +872,14 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
-    if( !p->has_effect( effect_took_prozac) && p->get_morale_level() < 0 ) {
+    if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 7200);
     } else {
         p->stim += 3;
     }
-    if (one_in(150)) {  // adverse reaction
+    if ( one_in(50) ) {  // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player(m_warning, _("You suddenly feel hollow inside."));
+        p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     return it->type->charges_to_use();
 }
@@ -2419,7 +2424,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index].c_str() );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, message.c_str() );
+        sounds::ambient_sound( pos, 6, message );
     } else { // Activated
         int ch = 2;
         if( it->ammo_remaining() > 0 ) {
@@ -5765,7 +5770,7 @@ static const std::string &photo_quality_name( const int index )
 int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) {
-        if( it->get_var( "EIPC_MUSIC_ON" ) != "" && ( it->ammo_remaining() > 0 ) ) {
+        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() && ( it->ammo_remaining() > 0 ) ) {
             if( calendar::once_every( 5_minutes ) ) {
                 it->ammo_consume( 1, p->pos() );
             }
@@ -5826,16 +5831,16 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
         }
 
-        if (it->get_var( "RECIPE" ) != "") {
+        if( !it->get_var( "RECIPE" ).empty() ) {
             const item dummy(it->get_var( "RECIPE" ), 0);
             amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
         }
 
-        if (it->get_var( "EIPC_RECIPES" ) != "") {
+        if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
             amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
-        if (it->get_var( "EINK_MONSTER_PHOTOS" ) != "") {
+        if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
             amenu.addentry(ei_monsters, true, 'y', _("Your collection of monsters"));
         } else {
             amenu.addentry(ei_monsters, false, 'y', _("Collection of monsters is empty"));
@@ -6109,7 +6114,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
     amenu.addentry(c_shot, true, 'p', _("Take a photo"));
-    if (it->get_var( "CAMERA_MONSTER_PHOTOS" ) != "") {
+    if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
         amenu.addentry(c_photos, true, 'l', _("List photos"));
         amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
     } else {
@@ -6214,7 +6219,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     const std::string mtype = z.type->id.str();
 
                     auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
-                    if (monster_photos == "") {
+                    if( monster_photos.empty() ) {
                         monster_photos = "," + mtype + "," + string_format("%d",
                                 photo_quality) + ",";
                     } else {
@@ -6614,7 +6619,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, const tripoint& )
         if (it->charges == 0) {
             it->active = false;
             p->remove_value( "remote_controlling" );
-        } else if( p->get_value( "remote_controlling" ) == "" ) {
+        } else if( p->get_value( "remote_controlling" ).empty() ) {
             it->active = false;
         }
 
@@ -7007,7 +7012,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
                 if (p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
-                    if (upgr == "" ) {
+                    if( upgr.empty() ) {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
                         if (upgr == "UPGRADE") {

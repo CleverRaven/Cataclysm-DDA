@@ -44,6 +44,7 @@ struct MOD_INFORMATION {
     std::set<std::string> maintainers;
 
     std::string description;
+    std::string version;
 
     /** What other mods must be loaded prior to this one? */
     std::set<std::string> dependencies;
@@ -169,11 +170,11 @@ class mod_ui
 
         void try_add( const std::string &mod_to_add,
                       std::vector<std::string> &active_list );
-        void try_rem( int selection, std::vector<std::string> &active_list );
-        void try_shift( char direction, int &selection, std::vector<std::string> &active_list );
+        void try_rem( size_t selection, std::vector<std::string> &active_list );
+        void try_shift( char direction, size_t &selection, std::vector<std::string> &active_list );
 
-        bool can_shift_up( int selection, std::vector<std::string> active_list );
-        bool can_shift_down( int selection, std::vector<std::string> active_list );
+        bool can_shift_up( long selection, std::vector<std::string> active_list );
+        bool can_shift_down( long selection, std::vector<std::string> active_list );
 
     private:
         void set_usable_mods();
