@@ -21,6 +21,8 @@ struct overmap_location {
         // Test if oter meets the terrain restrictions.
         bool test( const int_id<oter_t> &oter ) const;
 
+        const string_id<oter_type_t> get_random_terrain() const;
+
     public:
         // Used by generic_factory
         string_id<overmap_location> id;
@@ -36,6 +38,9 @@ namespace overmap_locations
 void load( JsonObject &jo, const std::string &src );
 void check_consistency();
 void reset();
+
+const std::vector<overmap_location> &get_all();
+const std::string get_random_terrain( const std::string target_location_id );
 
 }
 
