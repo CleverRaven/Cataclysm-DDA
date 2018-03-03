@@ -1007,7 +1007,7 @@ void game::create_starting_npcs()
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
-    tmp->attitude = NPCATT_NULL;
+    tmp->set_attitude( NPCATT_NULL );
     //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
@@ -5598,7 +5598,7 @@ int game::mon_info( const catacurses::window &w )
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             safemode_state = get_safemode().check_monster(get_safemode().npc_type_name(), p->attitude_to( u ), npc_dist);
 
-            if ( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || (safemode_empty && p->attitude == NPCATT_KILL ) ) {
+            if ( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || (safemode_empty && p->get_attitude() == NPCATT_KILL ) ) {
                 if ( !safemode_empty || npc_dist <= iProxyDist ) {
                     newseen++;
                 }
@@ -5692,7 +5692,7 @@ int game::mon_info( const catacurses::window &w )
                 c = c_white;
                 sym = "+";
             } else if (j < typeshere_npc) {
-                switch (unique_types[i][j]->attitude) {
+                switch (unique_types[i][j]->get_attitude()) {
                 case NPCATT_KILL:
                     c = c_red;
                     break;
@@ -9461,7 +9461,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     sText = att.first;
                     color = att.second;
                 } else if( p != nullptr ) {
-                    sText = npc_attitude_name( p->attitude );
+                    sText = npc_attitude_name( p->get_attitude() );
                     color = p->symbol_color();
                 }
                 mvwprintz( w_monsters, y, 28, color, sText );
