@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 03:40-0500\n"
-"PO-Revision-Date: 2018-02-22 23:45+0000\n"
-"Last-Translator: T itan <un8214@naver.com>\n"
+"POT-Creation-Date: 2018-02-23 01:40-0500\n"
+"PO-Revision-Date: 2018-03-02 21:16+0000\n"
+"Last-Translator: 탯새 <lazakul@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4758,9 +4758,9 @@ msgstr[0] "금"
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"A soft shiny metal.  Before the apocalypse this would've been worth a small "
 "fortune but now its value is greatly diminished."
-msgstr "빛이 나는 단단한 금속. 세상이 멸망하기 전에는 꽤나 값이 나갔지만 지금은 그 가치가 크게 줄었습니다."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "lead"
@@ -5665,16 +5665,6 @@ msgid ""
 "if you had something to launch it."
 msgstr "직경 8cm의 무거운 납 공. 발사할만한 장비가 있다면 상당한 살상력을 낼 것 같습니다."
 
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] "당구공"
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr "알록달록하고 딱딱한 공. 돌이나 마찬가지입니다."
-
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
 msgstr "톱날 판"
@@ -5684,16 +5674,6 @@ msgstr "톱날 판"
 msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
 msgstr "톱날이 달린 금속 원반. 이름처럼 위협적으로 생겼습니다."
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] "돌"
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py
-msgid "A rock is what you have in your head if you don't know what one is."
-msgstr "이게 뭔지 모른다면 댁 머리 안엔 이게 들어 있습니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragment"
@@ -5726,6 +5706,16 @@ msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
 msgstr "다양한 유기체 구성물로 이루어진 혼합물. 블럽의 건강에 필요한 모든 것이 들어있는 것 같습니다. 그런 것 같은데..."
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] "당구공"
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] "돌"
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -11827,6 +11817,18 @@ msgstr[0] "즈본"
 #: lang/json/ARMOR_from_json.py
 msgid "Plain white zubon for use in martial arts."
 msgstr "수수해 보이는 하얀색 즈본으로 무술 수련에 쓰입니다."
+
+#: lang/json/ARMOR_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+
+#. ~ Description for violin case
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor utility belt"
@@ -24234,11 +24236,11 @@ msgid ""
 msgstr "돌연변이와 기타 유전자 결함을 없애주는 희귀한 줄기세포 치료제입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "soylent green"
+msgid "soylent green drink"
 msgid_plural "soylent green drinks"
-msgstr[0] "소일렌트 그린 음료"
+msgstr[0] ""
 
-#. ~ Description for soylent green
+#. ~ Description for soylent green drink
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
@@ -25417,18 +25419,6 @@ msgid ""
 msgstr "이 간단한 급조폭발물은 화살에 부착해 명중시 폭발하도록 만들어졌다."
 
 #: lang/json/GENERIC_from_json.py
-msgid "violin case"
-msgid_plural "violin case"
-msgstr[0] ""
-
-#. ~ Description for violin case
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"Useful to carry your precious musical instrument around protected from any "
-"harm."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] "석회석 조각"
@@ -25754,6 +25744,11 @@ msgstr[0] "USB 드라이브"
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive.  Useful for holding software."
 msgstr "휴대용 USB 드라이브. 소프트웨어를 저장할 때 쓰인다."
+
+#. ~ Description for pool ball
+#: lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
+msgstr "알록달록하고 딱딱한 공. 돌이나 마찬가지입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bowling ball"
@@ -33701,6 +33696,52 @@ msgid ""
 msgstr "키틴질 판으로 무장한 거대한 붉은 개미. 대롱거리는 더듬이와 위협적인 턱을 가졌습니다."
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant spitter ant"
+msgstr ""
+
+#. ~ Description for giant spitter ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acid ant larva"
+msgstr ""
+
+#. ~ Description for acid ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen acid ant"
+msgstr ""
+
+#. ~ Description for queen acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier acid ant"
+msgstr ""
+
+#. ~ Description for soldier acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "fungal ant"
 msgstr "진균 개미"
 
@@ -34826,6 +34867,20 @@ msgid ""
 "the northern hemisphere.  It marks its territory with a musky odor for which"
 " it is named."
 msgstr "두꺼운 털가죽을 가진 꽤 큰 잡식성 설치류. 주로 북반구의 늪지대에서 발견되며, 이름에서 알 수 있듯이 자신의 영역을 사향 냄새로 표시한다."
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr ""
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cyclopean"
@@ -36611,6 +36666,19 @@ msgid ""
 "little more than a reanimated membrane of skin stretched across tiny brittle"
 " bones."
 msgstr "대재앙이 닥친 세계의 아이들에게 죽지 않았다는 것은 가혹한 일이었을 겁니다. 이녀석은 빈약한 뼈 위에 되살아난 가죽 막이 겨우 덮였을 뿐인 상태나 다름없습니다."
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal child"
+msgid_plural "fungal children"
+msgstr[0] ""
+
+#. ~ Description for fungal child
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It is hard to recognize a human child in this creature.  Disgusting-looking "
+"mold covers most of its skin.  Many cracks perforate its body, with small "
+"fungal stalks poking through."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie grenadier"
@@ -43585,7 +43653,7 @@ msgstr "조정가능한 반월형 렌치. 근접 무기로 적절하며 기계�
 #: lang/json/TOOL_from_json.py
 msgid "X-Acto knife"
 msgid_plural "X-Acto knives"
-msgstr[0] "다용도 칼"
+msgstr[0] "커터칼"
 
 #. ~ Description for X-Acto knife
 #: lang/json/TOOL_from_json.py
@@ -43594,7 +43662,7 @@ msgid ""
 "or crafts.  It could cause decent damage, but is difficult to hit things "
 "with it.  Its small, sharp blade allows for precision strikes in the hands "
 "of the skilled.  It is too small to butcher corpses with."
-msgstr "섬유를 섬세하게 자르거나 공작품을 만드는데 쓰이는 작고 예리한 칼. 그럭저럭 나쁘지 않은 피해를 주지만, 공격을 명중시키기가 어렵다. 작고 날카로운 칼날은 숙련된 사람이 정확한 공격을 할 수 있도록 해준다. 시체를 도축하기에는 칼이 너무 작다.\r\n(역주: X-Acto는 실존하는 다용도 칼 브랜드. 다용도 칼은 아트나이프라고 불리기도 한다.)"
+msgstr "섬유를 섬세하게 자르거나 공작품을 만드는데 쓰이는 작고 예리한 칼. 그럭저럭 나쁘지 않은 피해를 주지만, 공격을 명중시키기가 어렵다. 작고 날카로운 칼날은 숙련된 사람이 정확한 공격을 할 수 있도록 해준다. 시체를 도축하기에는 칼이 너무 작다."
 
 #: lang/json/TOOL_from_json.py
 msgid "flammenschwert (aus)"
@@ -51573,7 +51641,7 @@ msgid ""
 "barren proto-weapon."
 msgstr "레드웍스 LLC(Leadworks LLC) 사의 불펍 L523 플랫폼은 쉽게 구할 수 있는 5.56mm 탄을 사용하며, 다른 부품으로 빠르고, 안전하게 그리고 효과적으로 교체할 수 있도록 설계되었습니다. 이론적으로는 플랫폼 단독으로도 사용할 수는 있지만, 권장되지 않으며, 제품의 품질 보증이 무효가 될 수 있습니다. 또한, 시중에서 판매되는 개조 부품과는 호환되지 않습니다."
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: lang/json/gun_from_json.py src/item_factory.cpp
 msgid "semi-auto"
 msgstr "반자동"
 
@@ -53448,21 +53516,21 @@ msgstr[0] "V29 레이져 권총"
 #: lang/json/gun_from_json.py
 msgid ""
 "The V29 laser pistol was designed in the mid-21st century and was one of the"
-" first firearms to use fusion as its ammunition.  It is larger than most "
-"traditional handguns, but displays no recoil whatsoever."
-msgstr "V29 레이저 권총은 21세기 중반에 제작되었고 핵융합 전지를 동력원으로 하는 최초의 화기이다. 재래식 권총보다 크지만 반동이 전혀 없다."
+" first handheld laser weapons.  It is larger than most traditional handguns,"
+" but displays no recoil whatsoever."
+msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "LACP laser pistol"
-msgid_plural "LACP laser pistols"
-msgstr[0] "LACP 레이저 권총"
+msgid "homemade laser pistol"
+msgid_plural "homemade laser pistols"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The LACP laser pistol was based on the V29 laser pistol designed in the mid-"
-"21st century.  While little more than duct tape and electronics, it runs on "
-"a standard UPS."
-msgstr "LACP 레이저 권총은 V29 레이저 권총을 기반으로 21세기 중엽에 만들어졌다. 덕트 테이프와 전자 부품만 있으면 표준 UPS로도 작동 가능하다."
+"This laser pistol was based on the V29 laser pistol designed in the mid-21st"
+" century.  While little more than duct tape and electronics, it runs on a "
+"standard UPS."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "sawn-off shotgun"
@@ -57949,7 +58017,7 @@ msgstr "추적 전환"
 
 #: lang/json/keybinding_from_json.py src/turret.cpp src/vehicle.cpp
 msgid "Set turret firing modes"
-msgstr "터렛을 발사 모드로 설정"
+msgstr "터렛의 연사 방식 수정"
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Aim turrets manually"
@@ -57965,7 +58033,7 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Set turret targeting modes"
-msgstr "터렛을 조준 모드로 설정"
+msgstr "터렛 자동조준 설정"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -65223,8 +65291,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your mandibles have developed extensible fangs, allowing you to bite quickly"
-" or ensure your venom goes home, as desired.  Activate to extend or retract "
-"your fangs."
+" or ensure your venom goes home, as desired."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -91035,7 +91102,7 @@ msgid ""
 "  These samples must be accurate and any attempts to cover\n"
 "  incompetencies will result in charges of Federal Corruption\n"
 "  and potentially Treason.\n"
-msgstr ""
+msgstr "\n제목:EPA:모든 잠재적 격납 건물 파손을 다시 입증합니다. 3873643\n받음:모든 SRCF직원에게\n보냄:로버트 쉐인, EPA국장\n\n모든 유해 폐기물 덤프 및 유해 물질 방출(sarcophagi)은 각 운영 누출 시스템의 샘플 3개를 다음 주소로 제출해야 합니다.\n주소:\n미국 질병통제예방센터 생물 테러 연구소\n빌딩 10\n기업 광장 대로\n조지아 주 애틀랜타 30329\n\nEPA지역 8연구소\n16194 W.45번 드라이브\n골든, 콜로라도 80403\n\n이러한 샘플은 정확하고 보호해야 하며 그러하지 않으면\n 연방 정부의 부패 및 잠재적 반역을 초래할 것입니다.\n"
 
 #: src/computer.cpp
 msgid ""
@@ -91695,8 +91762,8 @@ msgid "<npcname> recharges their battery system with the %s."
 msgstr ""
 
 #: src/consumption.cpp
-msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
-msgstr "플루토늄이 너무 많습니다. 정말로 그만큼 넣습니까?"
+msgid "That is a LOT of plutonium.  Are you sure you want that much?"
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
@@ -92984,8 +93051,8 @@ msgstr "%s이(가) 몰려온다!"
 #: src/descriptions.cpp
 msgid ""
 "c to describe creatures, f to describe furniture, t to describe terrain, "
-"esc/enter to close."
-msgstr "c 키로 개체 보기, f 키로 가구 보기, t 키로 지형 보기, Esc 혹은 Enter 키로 닫기."
+"Esc/Enter to close."
+msgstr ""
 
 #: src/descriptions.cpp
 msgid "You do not see any creature here."
@@ -92997,6 +93064,12 @@ msgstr "여기엔 아무 가구도 없다."
 
 #: src/descriptions.cpp
 msgid "You can't see the terrain here."
+msgstr ""
+
+#: src/descriptions.cpp
+msgid ""
+"\n"
+"Sign: ???"
 msgstr ""
 
 #: src/descriptions.cpp
@@ -100050,7 +100123,7 @@ msgstr "Q: 추워서 밤에 잠을 잘 수가 없어요!\nA: 옷가지를 모아
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode."
 msgstr ""
 
 #: src/help.cpp
@@ -100320,10 +100393,6 @@ msgstr "%s을(를) 해체합니까?"
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr "구덩이에 나무판을 올립니까?"
-
-#: src/iexamine.cpp
-msgid "Use the plank at your feet?"
-msgstr "발 밑에 나무판을 내려놓습니까?"
 
 #: src/iexamine.cpp
 msgid "You place a plank of wood over the pit."
@@ -107564,7 +107633,7 @@ msgid ""
 "Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
 "they are kitten or not. The game ends when robot finds kitten. "
-"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
+"Alternatively, you may end the game by hitting 'q', 'Q' or the Escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -110256,7 +110325,7 @@ msgstr ""
 
 #: src/monattack.cpp
 msgctxt "memorial_male"
-msgid "Was shown to the Marloss Gatweay."
+msgid "Was shown to the Marloss Gateway."
 msgstr ""
 
 #: src/monattack.cpp
@@ -113206,6 +113275,11 @@ msgstr "<thirsty>"
 
 #: src/npcmove.cpp
 #, c-format
+msgid "My %s is bleeding!"
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s reloads their %2$s."
 msgstr "%1$s이(가) %2$s을(를) 재장전 했다."
 
@@ -115318,8 +115392,8 @@ msgid "%s can't carry all that."
 msgstr "%s이(가) 들 수 없다."
 
 #: src/npctalk.cpp
-msgid "I don't <swear> trust you enough to eat from your hand..."
-msgstr "<swear>. 네 손에 들고 있는 음식을 못 믿겠어."
+msgid "I don't <swear> trust you enough to eat THIS..."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "It doesn't look like a good idea to consume this..."
@@ -115467,6 +115541,17 @@ msgstr ""
 msgid ""
 "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
 "displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid "Diagonal movement with cursor keys and modifiers"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, allows diagonal movement with cursor keys using CTRL and SHIFT "
+"modifiers.  Diagonal movement action keys are taken from keybindings, so you"
+" need these to be configured."
 msgstr ""
 
 #: src/options.cpp
@@ -116241,7 +116326,7 @@ msgstr "카타클리즘 - 다크 데이즈 어헤드 버젼 %s 메모리얼 파�
 msgid "In memory of: %s"
 msgstr "명복을 빌며: %s"
 
-#. ~ The "%s" will be replaced by an epitaph as displyed in the memorial
+#. ~ The "%s" will be replaced by an epitaph as displayed in the memorial
 #. files. Replace the quotation marks as appropriate for your language.
 #: src/player.cpp
 #, c-format
@@ -121819,8 +121904,8 @@ msgid "Switch to other list"
 msgstr "다른 목록으로 전환"
 
 #: src/worldfactory.cpp
-msgid "Activate / deactive mod"
-msgstr "모드 활성화 / 비활성화"
+msgid "Activate / deactivate mod"
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Mod List"

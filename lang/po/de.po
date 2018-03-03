@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 03:40-0500\n"
-"PO-Revision-Date: 2018-02-18 22:28+0000\n"
-"Last-Translator: Mark Bies\n"
+"POT-Creation-Date: 2018-02-23 01:40-0500\n"
+"PO-Revision-Date: 2018-02-23 10:54+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4796,7 +4796,7 @@ msgstr[1] "Gold"
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"A soft shiny metal.  Before the apocalypse this would've been worth a small "
 "fortune but now its value is greatly diminished."
 msgstr ""
 
@@ -5743,17 +5743,6 @@ msgid ""
 "if you had something to launch it."
 msgstr "Eine schwere Bleikugel, welche einen Durchmesser von etwa 8cm hat. Sie kann ganz schön reinhauen, wenn du etwas hättest, womit du sie abfeuern könntest."
 
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] "Billardkugel"
-msgstr[1] "Billardkugeln"
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr "Eine farbenprächtige harter Kugel. In erster Linie ein Stein."
-
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
 msgstr ""
@@ -5763,17 +5752,6 @@ msgstr ""
 msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
 msgstr "Eine große Metallscheibe, die von gezackten Klingen umrundet ist. Sie ist genau so bedrohlich, wie sie klingt."
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] "Stein"
-msgstr[1] "Steine"
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py
-msgid "A rock is what you have in your head if you don't know what one is."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragment"
@@ -5808,6 +5786,18 @@ msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] "Billardkugel"
+msgstr[1] "Billardkugeln"
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] "Stein"
+msgstr[1] "Steine"
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -12426,6 +12416,19 @@ msgstr[1] "Zubone"
 #: lang/json/ARMOR_from_json.py
 msgid "Plain white zubon for use in martial arts."
 msgstr "Ein rein weißer Zubon, wie er bei Kampfkünsten verwendet wird."
+
+#: lang/json/ARMOR_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for violin case
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor utility belt"
@@ -25559,12 +25562,12 @@ msgid ""
 msgstr "Eine seltene Stammzellenbehandlung, die Mutationen und andere Gendefekte ausklingen lässt."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "soylent green"
+msgid "soylent green drink"
 msgid_plural "soylent green drinks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for soylent green
+#. ~ Description for soylent green drink
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
@@ -26828,19 +26831,6 @@ msgid ""
 msgstr "Diese einfache IED wurde entwickelt um an einem Pfeil befestigt zu werden. Bei Aufprall gibt es eine kleine Detonation."
 
 #: lang/json/GENERIC_from_json.py
-msgid "violin case"
-msgid_plural "violin case"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for violin case
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"Useful to carry your precious musical instrument around protected from any "
-"harm."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] "Kalksteinbruchstück"
@@ -27194,6 +27184,11 @@ msgstr[1] "USB-Sticks"
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive.  Useful for holding software."
 msgstr "A USB thumb drive. Useful for holding software."
+
+#. ~ Description for pool ball
+#: lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
+msgstr "Eine farbenprächtige harter Kugel. In erster Linie ein Stein."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bowling ball"
@@ -35645,6 +35640,52 @@ msgid ""
 msgstr "Eine riesige Feuerameise, die von Chitinplatten überdeckt ist. Sie trägt ein Paar wippende Antennen und bösartig aussehende Mundwerkzeuge."
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant spitter ant"
+msgstr ""
+
+#. ~ Description for giant spitter ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acid ant larva"
+msgstr ""
+
+#. ~ Description for acid ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen acid ant"
+msgstr ""
+
+#. ~ Description for queen acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier acid ant"
+msgstr ""
+
+#. ~ Description for soldier acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "fungal ant"
 msgstr "Fungusameise"
 
@@ -36775,6 +36816,20 @@ msgid ""
 "the northern hemisphere.  It marks its territory with a musky odor for which"
 " it is named."
 msgstr "Ein großer allesfressender Nager, der in Feuchtgebieten über der nördlichen Halbkugel gefunden werden kann, mit einem dicken Fell. Er markiert sein Revier mit einem moschusartigem Geruch."
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr ""
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cyclopean"
@@ -38575,6 +38630,20 @@ msgid ""
 "Undeath has not been kind to the children of the apocalypse.  This one is "
 "little more than a reanimated membrane of skin stretched across tiny brittle"
 " bones."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal child"
+msgid_plural "fungal children"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fungal child
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It is hard to recognize a human child in this creature.  Disgusting-looking "
+"mold covers most of its skin.  Many cracks perforate its body, with small "
+"fungal stalks poking through."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -54148,7 +54217,7 @@ msgid ""
 "barren proto-weapon."
 msgstr "Die Kurzgewehr-L523-Plattform von Leadworks LLC verwendet die allgegenwärtige 5.56-Patrone in mehreren Anwendungsgebieten und wurde so entworfen, dass ihre Teile schnell, sicher und effektiv von einer Form in die nächste Form ausgetauscht werden können. Der Grundmechanismus könnte – theoretisch – alleinestehend verwendet werden, aber das wäre unratsam und würde deine Garantie erlöschen lassen. Es gibt keine wirkliche Stellen, um dieser nutzlosen Protowaffe Modifikationen aus dem Zubehörmarkt anzubringen."
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: lang/json/gun_from_json.py src/item_factory.cpp
 msgid "semi-auto"
 msgstr "semi-automatisch"
 
@@ -56177,21 +56246,21 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "The V29 laser pistol was designed in the mid-21st century and was one of the"
-" first firearms to use fusion as its ammunition.  It is larger than most "
-"traditional handguns, but displays no recoil whatsoever."
+" first handheld laser weapons.  It is larger than most traditional handguns,"
+" but displays no recoil whatsoever."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "LACP laser pistol"
-msgid_plural "LACP laser pistols"
+msgid "homemade laser pistol"
+msgid_plural "homemade laser pistols"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The LACP laser pistol was based on the V29 laser pistol designed in the mid-"
-"21st century.  While little more than duct tape and electronics, it runs on "
-"a standard UPS."
+"This laser pistol was based on the V29 laser pistol designed in the mid-21st"
+" century.  While little more than duct tape and electronics, it runs on a "
+"standard UPS."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -68159,9 +68228,8 @@ msgstr "Einfahrbare Reißzähne"
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your mandibles have developed extensible fangs, allowing you to bite quickly"
-" or ensure your venom goes home, as desired.  Activate to extend or retract "
-"your fangs."
-msgstr "Deinen Mundwerkzeugen sind ausfahrbare Fangzähne gewachsen, wodurch du schnell zubeißen kannst oder, um sicherstellen, wohin dein Gift geht, wie du möchtest. Aktiviere dies, um deine Fangzähne ein- oder auszufahren."
+" or ensure your venom goes home, as desired."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Canine Ears"
@@ -94649,8 +94717,8 @@ msgid "<npcname> recharges their battery system with the %s."
 msgstr ""
 
 #: src/consumption.cpp
-msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
-msgstr "Das ist VIEL Plutonium. Bist du dir sicher, dass du soviel willst?"
+msgid "That is a LOT of plutonium.  Are you sure you want that much?"
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
@@ -95943,8 +96011,8 @@ msgstr "Aufstieg der %s!"
 #: src/descriptions.cpp
 msgid ""
 "c to describe creatures, f to describe furniture, t to describe terrain, "
-"esc/enter to close."
-msgstr "c für Beschreibung der Kreaturen, f für Beschreibung der Einrichtung, t für Beschreibung des Terrains, esc/enter zum Schließen."
+"Esc/Enter to close."
+msgstr ""
 
 #: src/descriptions.cpp
 msgid "You do not see any creature here."
@@ -95956,6 +96024,12 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid "You can't see the terrain here."
+msgstr ""
+
+#: src/descriptions.cpp
+msgid ""
+"\n"
+"Sign: ???"
 msgstr ""
 
 #: src/descriptions.cpp
@@ -103015,7 +103089,7 @@ msgstr "F: Mir ist kalt und ich kann nachts nicht schlafen!\nA: Besorg dir ein p
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode."
 msgstr ""
 
 #: src/help.cpp
@@ -103289,10 +103363,6 @@ msgstr "Das %s abnehmen?"
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr "Eine Planke über die Grube legen?"
-
-#: src/iexamine.cpp
-msgid "Use the plank at your feet?"
-msgstr "Die Planke an deinen Füßen benutzen?"
 
 #: src/iexamine.cpp
 msgid "You place a plank of wood over the pit."
@@ -110555,7 +110625,7 @@ msgid ""
 "Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
 "they are kitten or not. The game ends when robot finds kitten. "
-"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
+"Alternatively, you may end the game by hitting 'q', 'Q' or the Escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -113252,8 +113322,8 @@ msgstr "Du siehst eine klare goldene Flüssigkeit durch die Ranken pumpen – un
 
 #: src/monattack.cpp
 msgctxt "memorial_male"
-msgid "Was shown to the Marloss Gatweay."
-msgstr "Wurde zur Marlosspforte geführt."
+msgid "Was shown to the Marloss Gateway."
+msgstr ""
 
 #: src/monattack.cpp
 msgctxt "memorial_female"
@@ -116211,6 +116281,11 @@ msgstr "<thirsty>"
 
 #: src/npcmove.cpp
 #, c-format
+msgid "My %s is bleeding!"
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s reloads their %2$s."
 msgstr ""
 
@@ -118324,7 +118399,7 @@ msgid "%s can't carry all that."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I don't <swear> trust you enough to eat from your hand..."
+msgid "I don't <swear> trust you enough to eat THIS..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118473,6 +118548,17 @@ msgstr ""
 msgid ""
 "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
 "displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid "Diagonal movement with cursor keys and modifiers"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, allows diagonal movement with cursor keys using CTRL and SHIFT "
+"modifiers.  Diagonal movement action keys are taken from keybindings, so you"
+" need these to be configured."
 msgstr ""
 
 #: src/options.cpp
@@ -119247,7 +119333,7 @@ msgstr "Cataclysm: Dark Days Ahead, version %s – Denkmaldatei"
 msgid "In memory of: %s"
 msgstr "In Gedenken an: %s"
 
-#. ~ The "%s" will be replaced by an epitaph as displyed in the memorial
+#. ~ The "%s" will be replaced by an epitaph as displayed in the memorial
 #. files. Replace the quotation marks as appropriate for your language.
 #: src/player.cpp
 #, c-format
@@ -124842,8 +124928,8 @@ msgid "Switch to other list"
 msgstr "Zur anderen Liste wechseln"
 
 #: src/worldfactory.cpp
-msgid "Activate / deactive mod"
-msgstr "Mod aktivieren/deaktivieren"
+msgid "Activate / deactivate mod"
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Mod List"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 03:40-0500\n"
-"PO-Revision-Date: 2018-02-18 10:27+0000\n"
+"POT-Creation-Date: 2018-02-23 01:40-0500\n"
+"PO-Revision-Date: 2018-02-23 10:54+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -4787,7 +4787,7 @@ msgstr[1] "ouro"
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"A soft shiny metal.  Before the apocalypse this would've been worth a small "
 "fortune but now its value is greatly diminished."
 msgstr ""
 
@@ -5734,17 +5734,6 @@ msgid ""
 "if you had something to launch it."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] "bola de sinuca"
-msgstr[1] "bolas de sinuca"
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr "Uma bola colorida e dura. Basicamente uma rocha."
-
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
 msgstr ""
@@ -5753,17 +5742,6 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] "rocha"
-msgstr[1] "rochas"
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py
-msgid "A rock is what you have in your head if you don't know what one is."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -5799,6 +5777,18 @@ msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] "bola de sinuca"
+msgstr[1] "bolas de sinuca"
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] "rocha"
+msgstr[1] "rochas"
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -12416,6 +12406,19 @@ msgstr[1] ""
 #. ~ Description for zubon
 #: lang/json/ARMOR_from_json.py
 msgid "Plain white zubon for use in martial arts."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for violin case
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -25550,12 +25553,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "soylent green"
+msgid "soylent green drink"
 msgid_plural "soylent green drinks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for soylent green
+#. ~ Description for soylent green drink
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
@@ -26819,19 +26822,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "violin case"
-msgid_plural "violin case"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for violin case
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"Useful to carry your precious musical instrument around protected from any "
-"harm."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] ""
@@ -27185,6 +27175,11 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive.  Useful for holding software."
 msgstr ""
+
+#. ~ Description for pool ball
+#: lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
+msgstr "Uma bola colorida e dura. Basicamente uma rocha."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bowling ball"
@@ -35636,6 +35631,52 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant spitter ant"
+msgstr ""
+
+#. ~ Description for giant spitter ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acid ant larva"
+msgstr ""
+
+#. ~ Description for acid ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen acid ant"
+msgstr ""
+
+#. ~ Description for queen acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier acid ant"
+msgstr ""
+
+#. ~ Description for soldier acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "fungal ant"
 msgstr ""
 
@@ -36765,6 +36806,20 @@ msgid ""
 "A large omnivorous rodent with a thick furry pelt, found in wetlands across "
 "the northern hemisphere.  It marks its territory with a musky odor for which"
 " it is named."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr ""
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -38566,6 +38621,20 @@ msgid ""
 "Undeath has not been kind to the children of the apocalypse.  This one is "
 "little more than a reanimated membrane of skin stretched across tiny brittle"
 " bones."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal child"
+msgid_plural "fungal children"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fungal child
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It is hard to recognize a human child in this creature.  Disgusting-looking "
+"mold covers most of its skin.  Many cracks perforate its body, with small "
+"fungal stalks poking through."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -54139,7 +54208,7 @@ msgid ""
 "barren proto-weapon."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: lang/json/gun_from_json.py src/item_factory.cpp
 msgid "semi-auto"
 msgstr ""
 
@@ -56168,21 +56237,21 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "The V29 laser pistol was designed in the mid-21st century and was one of the"
-" first firearms to use fusion as its ammunition.  It is larger than most "
-"traditional handguns, but displays no recoil whatsoever."
+" first handheld laser weapons.  It is larger than most traditional handguns,"
+" but displays no recoil whatsoever."
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "LACP laser pistol"
-msgid_plural "LACP laser pistols"
+msgid "homemade laser pistol"
+msgid_plural "homemade laser pistols"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The LACP laser pistol was based on the V29 laser pistol designed in the mid-"
-"21st century.  While little more than duct tape and electronics, it runs on "
-"a standard UPS."
+"This laser pistol was based on the V29 laser pistol designed in the mid-21st"
+" century.  While little more than duct tape and electronics, it runs on a "
+"standard UPS."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -68150,8 +68219,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your mandibles have developed extensible fangs, allowing you to bite quickly"
-" or ensure your venom goes home, as desired.  Activate to extend or retract "
-"your fangs."
+" or ensure your venom goes home, as desired."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -94640,7 +94708,7 @@ msgid "<npcname> recharges their battery system with the %s."
 msgstr ""
 
 #: src/consumption.cpp
-msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
+msgid "That is a LOT of plutonium.  Are you sure you want that much?"
 msgstr ""
 
 #: src/consumption.cpp
@@ -95934,7 +96002,7 @@ msgstr ""
 #: src/descriptions.cpp
 msgid ""
 "c to describe creatures, f to describe furniture, t to describe terrain, "
-"esc/enter to close."
+"Esc/Enter to close."
 msgstr ""
 
 #: src/descriptions.cpp
@@ -95947,6 +96015,12 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid "You can't see the terrain here."
+msgstr ""
+
+#: src/descriptions.cpp
+msgid ""
+"\n"
+"Sign: ???"
 msgstr ""
 
 #: src/descriptions.cpp
@@ -103006,7 +103080,7 @@ msgstr ""
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode."
 msgstr ""
 
 #: src/help.cpp
@@ -103279,10 +103353,6 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Use the plank at your feet?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -110546,7 +110616,7 @@ msgid ""
 "Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
 "they are kitten or not. The game ends when robot finds kitten. "
-"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
+"Alternatively, you may end the game by hitting 'q', 'Q' or the Escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -113243,7 +113313,7 @@ msgstr ""
 
 #: src/monattack.cpp
 msgctxt "memorial_male"
-msgid "Was shown to the Marloss Gatweay."
+msgid "Was shown to the Marloss Gateway."
 msgstr ""
 
 #: src/monattack.cpp
@@ -116202,6 +116272,11 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
+msgid "My %s is bleeding!"
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s reloads their %2$s."
 msgstr ""
 
@@ -118315,7 +118390,7 @@ msgid "%s can't carry all that."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I don't <swear> trust you enough to eat from your hand..."
+msgid "I don't <swear> trust you enough to eat THIS..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118464,6 +118539,17 @@ msgstr ""
 msgid ""
 "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
 "displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid "Diagonal movement with cursor keys and modifiers"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, allows diagonal movement with cursor keys using CTRL and SHIFT "
+"modifiers.  Diagonal movement action keys are taken from keybindings, so you"
+" need these to be configured."
 msgstr ""
 
 #: src/options.cpp
@@ -119238,7 +119324,7 @@ msgstr ""
 msgid "In memory of: %s"
 msgstr ""
 
-#. ~ The "%s" will be replaced by an epitaph as displyed in the memorial
+#. ~ The "%s" will be replaced by an epitaph as displayed in the memorial
 #. files. Replace the quotation marks as appropriate for your language.
 #: src/player.cpp
 #, c-format
@@ -124833,8 +124919,8 @@ msgid "Switch to other list"
 msgstr "Mudar para outra lista"
 
 #: src/worldfactory.cpp
-msgid "Activate / deactive mod"
-msgstr "Ativar / desativar mod"
+msgid "Activate / deactivate mod"
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Mod List"
