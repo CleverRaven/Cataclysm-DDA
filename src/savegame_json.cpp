@@ -1121,7 +1121,8 @@ void npc::load(JsonObject &data)
         attitude = npc_attitude(atttmp);
         static const std::set<npc_attitude> legacy_attitudes = {{
             NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
-            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6,
+            NPCATT_LEGACY_7
         }};
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;
@@ -1140,9 +1141,7 @@ void npc::load(JsonObject &data)
         restock = stock;
     }
 
-    if( !data.read( "opinion_of_player", opinion_of_player ) ) {
-        data.read( "op_of_u", opinion_of_player );
-    }
+    data.read( "op_of_u", opinion_of_player );
     data.read("chatbin", chatbin);
     if( !data.read( "rules", rules ) ) {
         data.read("misc_rules", rules);
@@ -1208,7 +1207,7 @@ void npc::store(JsonOut &json) const
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );
-    json.member( "opinion_of_player", opinion_of_player );
+    json.member( "op_of_u", opinion_of_player );
     json.member("chatbin", chatbin);
     json.member("rules", rules);
 

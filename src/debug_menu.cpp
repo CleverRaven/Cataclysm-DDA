@@ -437,9 +437,10 @@ void character_edit_menu()
                 smenu.addentry( 4, true, 's', _( "Set opinion, let attitude change \"naturally\"" ) );
                 smenu.addentry( 5, true, 'r', _( "Set opinion, reset attitude" ) );
                 smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                std::array<int*, 4> bound_vals = {{
-                    &opinion.trust, &opinion.fear, &opinion.value, &opinion.anger
-                }};
+                std::array<int *, 4> bound_vals = {{
+                        &opinion.trust, &opinion.fear, &opinion.value, &opinion.anger
+                    }
+                };
                 smenu.selected = 0;
                 smenu.query();
                 switch( smenu.ret ) {

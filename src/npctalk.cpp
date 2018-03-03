@@ -151,6 +151,10 @@ struct talk_response {
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
+        /**
+         * If true, this option counts as an attack for the purposes of morale penalty for murder.
+         */
+        bool hostile = false;
 
         talk_topic apply( dialogue &d ) const;
         void load_effect( JsonObject &jo );
@@ -172,6 +176,11 @@ struct talk_response {
 
     talk_response() = default;
     talk_response( JsonObject );
+
+    /**
+     * Returns true if this option may result in NPC being considered attacked by the player.
+     */
+    bool guilt_risk() const;
 };
 
 struct dialogue {
@@ -1082,11 +1091,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _( "Okay, here you go." );
 
     } else if( topic == "TALK_DENY_EQUIPMENT" ) {
-        if( p->get_opinion_of( g->u ).anger >= p->hostile_anger_level() - 4 ) {
-            return _( "<no>, and if you ask again, <ill_kill_you>!" );
-        } else {
-            return _( "<no><punc> <fuck_you>!" );
-        }
+        return _( "<no><punc> <fuck_you>!" );
 
     }
     if( topic == "TALK_TRAIN" ) {
@@ -2190,7 +2195,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_AGREE_FOLLOW" );
             SUCCESS_ACTION( &talk_function::follow );
             SUCCESS_OPINION( -4, 3, -1, 4, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
+            FAILURE( "TALK_DENY_FOLLOW", &talk_function::guilt );
             FAILURE_OPINION( -4, 0, -5, 10, 0 );
         }
 
@@ -2428,14 +2433,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_WEAPON_DROPPED" );
             SUCCESS_ACTION( &talk_function::drop_weapon );
             FAILURE( "TALK_DONE" );
-            FAILURE_ACTION( &talk_function::hostile );
+            FAILURE_ACTION( &talk_function::hostile_murder );
         }
         RESPONSE( _( "!Get out of here or I'll kill you." ) );
         TRIAL( TALK_TRIAL_INTIMIDATE, 20 );
         SUCCESS( "TALK_DONE" );
         SUCCESS_ACTION( &talk_function::flee );
         FAILURE( "TALK_DONE" );
-        FAILURE_ACTION( &talk_function::hostile );
+        FAILURE_ACTION( &talk_function::hostile_murder );
 
     } else if( topic == "TALK_STRANGER_AGGRESSIVE" || topic == "TALK_MUG" ) {
         if( !g->u.unarmed_attack() ) {
@@ -3146,6 +3151,21 @@ void talk_function::hostile( npc &p )
     p.attitude = NPCATT_KILL;
 }
 
+void talk_function::hostile_murder( npc &p )
+{
+    talk_function::guilt( p );
+    talk_function::hostile( p );
+}
+
+void talk_function::guilt( npc &p )
+{
+    if( p.attitude == NPCATT_KILL ) {
+        return;
+    }
+
+    p.hit_by_player = true;
+}
+
 void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name.c_str() );
@@ -3454,7 +3474,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
     formatted_text = foldstring( ftext, fold_width );
 
-    if( text[0] == '!' ) {
+    if( text[0] == '!' || guilt_risk() ) {
         color = c_red;
     } else if( text[0] == '*' ) {
         color = c_light_red;
@@ -3465,12 +3485,19 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     }
 }
 
+bool talk_response::guilt_risk() const
+{
+    return failure.effect == &talk_function::hostile_murder ||
+           failure.effect == &talk_function::guilt ||
+           success.effect == &talk_function::hostile_murder ||
+           success.effect == &talk_function::guilt;
+}
+
 talk_topic talk_response::effect_t::apply( dialogue &d ) const
 {
     effect( *d.beta );
     d.beta->mod_opinion_of( g->u, opinion );
-    if( d.beta->turned_hostile() ) {
-        d.beta->make_angry();
+    if( d.beta->is_enemy() ) {
         return talk_topic( "TALK_DONE" );
     }
 
@@ -3534,7 +3561,10 @@ talk_topic dialogue::opt( const talk_topic &topic )
             ch -= 'a';
         } while( ( ch < 0 || ch >= ( int )responses.size() ) );
         okay = false;
-        if( responses[ch].color == c_white || responses[ch].color == c_green ) {
+        if( responses[ch].guilt_risk() &&
+            query_yn( _( "This counts as an attack and the target may fight back! Proceed?" ) ) ) {
+            okay = true;
+        } else if( responses[ch].color == c_white || responses[ch].color == c_green ) {
             okay = true;
         } else if( responses[ch].color == c_red && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             okay = true;

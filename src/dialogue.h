@@ -53,7 +53,9 @@ void deny_equipment( npc & );        // p gets "asked_for_item"
 void deny_train( npc & );            // p gets "asked_to_train"
 void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
+void hostile_murder( npc & );        // guilt+hostile
 void flee( npc & );
+void guilt( npc & );                 // If p is non-hostile, mark them as attacked by player
 void leave( npc & );                 // p becomes indifferent
 void stranger_neutral( npc & );      // p is now neutral towards you
 

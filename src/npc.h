@@ -62,6 +62,19 @@ enum npc_attitude : int {
 
 std::string npc_attitude_name( npc_attitude );
 
+// Attitudes are grouped by overall behavior towards player
+enum class attitude_group : int {
+    neutral = 0, // Doesn't particularly mind the player
+    hostile, // Not necessarily attacking, but also mugging, exploiting etc.
+    fearful, // Run
+    friendly // Follow, defend, listen
+};
+
+// What group does an attitude belong to?
+attitude_group get_attitude_group( npc_attitude att );
+// Get representative (default) attitude of the group
+npc_attitude attitude_from_group( attitude_group group );
+
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -731,7 +744,6 @@ class npc : public player
 
         // #############   VALUES   ################
 
-        npc_attitude attitude; // What we want to do to the player
         npc_class_id myclass; // What's our archetype?
         std::string idz; // A temp variable used to inform the game which npc json to use as a template
         mission_type_id miss_id; // A temp variable used to link to the correct mission
@@ -835,7 +847,7 @@ class npc : public player
          * Offsets NPC's opinion of a character by some value, then recalculates attitude.
          * Respects NPC's current attitude.
          */
-         /*@{*/
+        /*@{*/
         void mod_opinion_of( const player &u, const npc_opinion &offset );
         void mod_opinion_of( const player &u, int trust, int fear, int value, int anger );
         /*@}*/
@@ -850,6 +862,28 @@ class npc : public player
          * Changes the amount of money NPC owes to player.
          */
         void mod_owed( const player &u, int amount );
+
+        /**
+         * What attitude would this NPC have if we called @set_opinion_of of g->u to given opinion?
+         */
+        npc_attitude expected_attitude( npc_opinion &at_opinion_u, bool ignore_attitude = false ) const;
+        /**
+         * As @ref expected_attitude but for attitude groups.
+         */
+        attitude_group expected_attitude_group( npc_opinion &at_opinion_u, bool ignore_attitude = false ) const;
+
+        /**
+         * Returns attitude to player and friends.
+         */
+        npc_attitude get_attitude() const;
+        /**
+         * Sets the attitude and informs the player of the change (if we can see the NPC).
+         */
+        void set_attitude( npc_attitude new_attitude );
+
+        // What we want to do to the player and their friends
+        // @todo Finish encapsulating
+        npc_attitude attitude;
 
     protected:
         void store( JsonOut &jsout ) const;
