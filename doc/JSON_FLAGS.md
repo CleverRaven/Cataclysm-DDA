@@ -784,10 +784,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ### Flags
 
-- ```ACID``` when consumed using the BLECH function, penalties are reduced.
+- ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
-- ```FERTILIZER``` Works as fertilizer for farming.
+- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 - ```MUTAGEN_ANY``` Causes mutation in any branch.
