@@ -1652,17 +1652,17 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
 ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
-    /** @EFFECT_SURVIVAL >1 allows enzlavement */
+    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
-    /** @EFFECT_FIRSTAID >1 allows enzlavement */
+    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
 
     // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) <= 1 ) {
+    if( p.get_skill_level( skill_survival ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
     }
 
-    if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+    if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
     }
