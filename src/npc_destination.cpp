@@ -64,7 +64,8 @@ void npc_destination::check_consistency()
         } else {
             for( const auto &t : d.destination_terrains ) {
                 if( !t.is_valid() ) {
-                    debugmsg( "NPC destination \"%s\" contains invalid terrain \"%s\" in `destination_terrains`.", d.id.c_str(), t.c_str() );
+                    debugmsg( "NPC destination \"%s\" contains invalid terrain \"%s\" in `destination_terrains`.",
+                              d.id.c_str(), t.c_str() );
                 }
             }
         }
@@ -73,5 +74,6 @@ void npc_destination::check_consistency()
 
 void npc_destination::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "destination_terrains", destination_terrains, string_id_reader<oter_type_t> {} );
+    mandatory( jo, was_loaded, "destination_terrains", destination_terrains,
+               string_id_reader<oter_type_t> {} );
 }

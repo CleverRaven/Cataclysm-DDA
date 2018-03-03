@@ -366,11 +366,11 @@ void npc::move()
      * as we are most likely riding shotgun
      */
     if( ai_cache.danger > 0 && target != nullptr &&
-        (
-            ( action == npc_follow_embarked && in_vehicle ) ||
-            ( action == npc_follow_player &&
-              ( rl_dist( pos(), g->u.pos() ) <= follow_distance() || posz() != g->u.posz() ) )
-        ) ) {
+            (
+                ( action == npc_follow_embarked && in_vehicle ) ||
+                ( action == npc_follow_player &&
+                  ( rl_dist( pos(), g->u.pos() ) <= follow_distance() || posz() != g->u.posz() ) )
+            ) ) {
         action = method_of_attack();
     }
 
@@ -502,7 +502,7 @@ void npc::execute_action( npc_action action )
 
         case npc_reach_attack:
             if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
-                clear_shot_reach( pos(), tar ) ) {
+                    clear_shot_reach( pos(), tar ) ) {
                 reach_attack( tar );
                 break;
             }
@@ -791,7 +791,7 @@ void npc::choose_target()
 
         float priority = critter_danger - 2.0f * ( scaled_distance - 1.0f );
         if( priority < 1.0f && is_following() && att == MATT_ATTACK &&
-            rl_dist( mon.pos(), g->u.pos() ) <= def_radius ) {
+                rl_dist( mon.pos(), g->u.pos() ) <= def_radius ) {
             priority = 1.0f;
         }
 
@@ -803,7 +803,7 @@ void npc::choose_target()
     }
 
     const auto check_hostile_character = [this, &ok_by_rules,
-          &highest_priority]( const Character & c ) {
+    &highest_priority]( const Character & c ) {
         float critter_danger = character_danger( c );
 
         int dist = rl_dist( pos(), c.pos() );
@@ -982,8 +982,8 @@ bool need_heal( const Character &n )
     for( int i = 0; i < num_hp_parts; i++ ) {
         hp_part part = hp_part( i );
         if( ( part == hp_head  && n.hp_cur[i] <= 35 ) ||
-            ( part == hp_torso && n.hp_cur[i] <= 25 ) ||
-            n.hp_cur[i] <= 15 ) {
+                ( part == hp_torso && n.hp_cur[i] <= 25 ) ||
+                n.hp_cur[i] <= 15 ) {
             return true;
         }
     }
@@ -1104,7 +1104,7 @@ npc_action npc::address_needs( float danger )
     }
 
     if( ( danger <= NPC_DANGER_VERY_LOW && ( get_hunger() > 40 || get_thirst() > 40 ) ) ||
-        get_thirst() > 80 || get_hunger() > 160 ) {
+            get_thirst() > 80 || get_hunger() > 160 ) {
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1351,7 +1351,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
         auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
-            c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
+                c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
             return false;
         }
@@ -1513,8 +1513,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         int other_part = -1;
         const vehicle *oveh = g->m.veh_at( p, other_part );
         if( abs( veh->velocity ) > 0 &&
-            ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
+                ( oveh != veh ||
+                  veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
@@ -1551,8 +1551,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         g->m.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
-            attitude == NPCATT_KILL ||
-            attitude == NPCATT_WAIT_FOR_LEAVE ) {
+                attitude == NPCATT_KILL ||
+                attitude == NPCATT_WAIT_FOR_LEAVE ) {
             attitude = NPCATT_FLEE;
         }
 
@@ -1764,7 +1764,7 @@ void npc::find_item()
         int itval = whitelisting ? 1000 : value( it );
 
         if( itval > best_value &&
-            ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
+                ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
             wanted = &( it );
             best_value = itval;
@@ -1777,7 +1777,7 @@ void npc::find_item()
     [ this, whitelisting, volume_allowed, &wanted, &wanted_name ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
         if( !whitelisting || wanted != nullptr || !wanted_name.empty() ||
-            volume_allowed < units::from_milliliter( 250 ) ) {
+                volume_allowed < units::from_milliliter( 250 ) ) {
             return;
         }
 
@@ -1876,8 +1876,8 @@ void npc::pick_up_item()
                            !veh->part_flag( veh_part, "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
-          !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
+            !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
+            ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
@@ -2125,15 +2125,13 @@ bool npc::find_corpse_to_pulp()
     // Pathing with overdraw can get expensive, limit it
     int path_counter = 4;
     const auto check_tile = [this, &path_counter]( const tripoint & p ) -> const item * {
-        if( !g->m.sees_some_items( p, *this ) || !sees( p ) )
-        {
+        if( !g->m.sees_some_items( p, *this ) || !sees( p ) ) {
             return nullptr;
         }
 
         const auto items = g->m.i_at( p );
         const item *found = nullptr;
-        for( const item &it : items )
-        {
+        for( const item &it : items ) {
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
@@ -2148,8 +2146,7 @@ bool npc::find_corpse_to_pulp()
             }
         }
 
-        if( found != nullptr )
-        {
+        if( found != nullptr ) {
             path_counter--;
             // Only return corpses we can path to
             return update_path( p, false, false ) ? found : nullptr;
@@ -2431,7 +2428,7 @@ bool npc::alt_attack()
             int newdist = rl_dist( pos(), pt );
             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
             if( newdist <= conf && newdist >= 2 && target_ptr &&
-                wont_hit_friend( pt, *used, true ) ) {
+                    wont_hit_friend( pt, *used, true ) ) {
                 // Friendlyfire-safe!
                 ai_cache.target = g->shared_from( *target_ptr );
                 if( !one_in( 100 ) ) {
@@ -2510,8 +2507,8 @@ void npc::heal_player( player &patient )
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
-            ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
-            ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
+                ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
+                ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
             attitude = NPCATT_FOLLOW;
             say( _( "That's all the healing I can do." ) );
         } else {
@@ -2725,8 +2722,8 @@ void npc::mug_player( player &mark )
     invslice slice = mark.inv.slice();
     for( unsigned int i = 0; i < slice.size(); i++ ) {
         if( value( slice[i]->front() ) >= best_value &&
-            can_pickVolume( slice[i]->front(), true ) &&
-            can_pickWeight( slice[i]->front(), true ) ) {
+                can_pickVolume( slice[i]->front(), true ) &&
+                can_pickWeight( slice[i]->front(), true ) ) {
             best_value = value( slice[i]->front() );
             item_index = i;
         }
@@ -2881,7 +2878,7 @@ void npc::set_destination()
     if( world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() != "0" ) {
         dest_type = npc_destination::get_random_destination_terrain( needs[ 0 ] );
     }
-    if( dest_type.empty() ){
+    if( dest_type.empty() ) {
         dest_type = "field";
         goal = overmap_buffer.find_random( surface_omt_loc, dest_type, 0, false );
     } else {
@@ -2889,8 +2886,8 @@ void npc::set_destination()
     }
 
     DebugLog( D_INFO, DC_ALL ) << "New goal for NPC [" << get_name().c_str() << "] with [" <<
-    need_id( needs[ 0 ] ).c_str() << "] is [" << dest_type.c_str() << "] in ["
-    << goal.x << "," << goal.y << "," << goal.z << "].";
+                               need_id( needs[ 0 ] ).c_str() << "] is [" << dest_type.c_str() << "] in ["
+                               << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
 void npc::go_to_destination()
@@ -2916,9 +2913,9 @@ void npc::go_to_destination()
     }
 
     if( !path.empty() &&
-        sgn( path.back().x - posx() ) == sx &&
-        sgn( path.back().y - posy() ) == sy &&
-        sgn( path.back().z - posz() ) == sgn( goal.z - posz() ) ) {
+            sgn( path.back().x - posx() ) == sx &&
+            sgn( path.back().y - posy() ) == sy &&
+            sgn( path.back().z - posz() ) == sgn( goal.z - posz() ) ) {
         // We're moving in the right direction, don't find a different path
         move_to_next();
         return;
@@ -2934,10 +2931,10 @@ void npc::go_to_destination()
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
     for( int i = 0; i < 8; i++ ) {
         if( ( g->m.passable( dest ) ||
-              //Needs 20% chance of bashing success to be considered for pathing
-              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
-              g->m.open_door( dest, true, true ) ) &&
-            ( one_in( 4 ) || sees( dest ) ) ) {
+                //Needs 20% chance of bashing success to be considered for pathing
+                g->m.bash_rating( smash_ability(), dest ) >= 2 ||
+                g->m.open_door( dest, true, true ) ) &&
+                ( one_in( 4 ) || sees( dest ) ) ) {
             update_path( dest );
             if( !path.empty() && can_move_to( path[0] ) ) {
                 move_to_next();
@@ -3072,7 +3069,7 @@ bool npc::complain()
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         if( complaints[infected_string] < calendar::turn - HOURS( 4 - eff.get_intensity() ) &&
-            ( do_complain || eff.get_intensity() >= 3 ) ) {
+                ( do_complain || eff.get_intensity() >= 3 ) ) {
             say( _( "My %s wound is infected..." ), body_part_name( bp ).c_str() );
             complaints[infected_string] = calendar::turn;
             // Only one complaint per turn
@@ -3084,7 +3081,7 @@ bool npc::complain()
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
         if( do_complain &&
-            complaints[bite_string] < calendar::turn - HOURS( 1 ) ) {
+                complaints[bite_string] < calendar::turn - HOURS( 1 ) ) {
             say( _( "The bite wound on my %s looks bad." ), body_part_name( bp ).c_str() );
             complaints[bite_string] = calendar::turn;
             return true;
@@ -3094,8 +3091,8 @@ bool npc::complain()
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
     if( get_fatigue() > TIRED &&
-        complaints[fatigue_string] < calendar::turn - MINUTES( 30 ) &&
-        ( do_complain || get_fatigue() > MASSIVE_FATIGUE - 100 ) ) {
+            complaints[fatigue_string] < calendar::turn - MINUTES( 30 ) &&
+            ( do_complain || get_fatigue() > MASSIVE_FATIGUE - 100 ) ) {
         say( "<yawn>" );
         complaints[fatigue_string] = calendar::turn;
         return true;
@@ -3103,8 +3100,8 @@ bool npc::complain()
 
     // Radiation every 10 minutes
     if( radiation > 90 &&
-        complaints[radiation_string] < calendar::turn - MINUTES( 10 ) &&
-        ( do_complain || radiation > 150 ) ) {
+            complaints[radiation_string] < calendar::turn - MINUTES( 10 ) &&
+            ( do_complain || radiation > 150 ) ) {
         say( _( "I'm suffering from radiation sickness..." ) );
         complaints[radiation_string] = calendar::turn;
         return true;
@@ -3113,9 +3110,9 @@ bool npc::complain()
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
     if( get_hunger() > 160 &&
-        complaints[hunger_string] < calendar::turn - std::max( HOURS( 3 ),
-                MINUTES( 60 * 8 - get_hunger() ) ) &&
-        do_complain ) {
+            complaints[hunger_string] < calendar::turn - std::max( HOURS( 3 ),
+                    MINUTES( 60 * 8 - get_hunger() ) ) &&
+            do_complain ) {
         say( _( "<hungry>" ) );
         complaints[hunger_string] = calendar::turn;
         return true;
@@ -3124,8 +3121,8 @@ bool npc::complain()
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
     if( get_thirst() > 80
-        && complaints[thirst_string] < calendar::turn - HOURS( 2 ) &&
-        do_complain ) {
+            && complaints[thirst_string] < calendar::turn - HOURS( 2 ) &&
+            do_complain ) {
         say( _( "<thirsty>" ) );
         complaints[thirst_string] = calendar::turn;
         return true;
@@ -3135,7 +3132,7 @@ bool npc::complain()
     if( has_effect( effect_bleed ) ) {
         body_part bp = bp_affected( *this, effect_bleed );
         if( do_complain &&
-            complaints[bleed_string] < calendar::turn - MINUTES( 5 ) ) {
+                complaints[bleed_string] < calendar::turn - MINUTES( 5 ) ) {
             say( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
             complaints[bleed_string] = calendar::turn;
             return true;
