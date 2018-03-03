@@ -145,6 +145,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -959,15 +960,26 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
             return 0;
         }
     } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
-        if (!p->query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
+        if (!p->query_yn( _("This looks unhealthy, sure you want to eat it?"))) {
             return 0;
         }
     }
-    p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
-    p->mod_pain(rng(32, 64));
-    p->add_effect( effect_poison, 600);
-    p->apply_damage(nullptr, bp_torso, rng(4, 12));
-    p->vomit();
+
+    if( it->has_flag( "ACID" ) && ( p->has_trait( trait_ACIDPROOF ) || p->has_trait( trait_ACIDBLOOD ))) {
+        p->add_msg_if_player(m_bad, _("Blech, that tastes gross!"));
+        //partially reverse the harmful values of drinking this acid.
+        double multiplier = -0.5;
+        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->type->comestible->quench * multiplier );
+        p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 60, 30, false, it->type );
+    } else {
+        p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
+        p->mod_pain( rng( 32, 64));
+        p->add_effect( effect_poison, 600);
+        p->apply_damage( nullptr, bp_torso, rng( 4, 12));
+        p->vomit();
+    }
     return it->type->charges_to_use();
 }
 
