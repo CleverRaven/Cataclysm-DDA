@@ -45,7 +45,6 @@
 #include "options.h"
 #include "faction.h"
 #include "npc.h"
-#include "npc_destination.h"
 #include "item_action.h"
 #include "dialogue.h"
 #include "mongroup.h"
@@ -252,7 +251,6 @@ void DynamicDataLoader::initialize()
     add( "faction", &faction::load_faction );
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
-    add( "npc_destination", &npc_destination::load_npc_destination );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
 
@@ -392,7 +390,6 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
-    npc_destination::reset_npc_destinations();
     rotatable_symbols::reset();
     body_part_struct::reset();
     npc_template::reset();
@@ -493,7 +490,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         { _( "Bionics" ), &check_bionics },
         { _( "Gates" ), &gates::check },
         { _( "NPC classes" ), &npc_class::check_consistency },
-        { _( "NPC destinations" ), &npc_destination::check_consistency },
         { _( "Mission types" ), &mission_type::check_consistency },
         { _( "Item actions" ), []() { item_action_generator::generator().check_consistency(); } },
         { _( "Harvest lists" ), &harvest_list::check_consistency },

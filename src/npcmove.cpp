@@ -25,7 +25,6 @@
 #include "gates.h"
 
 #include "options.h"
-#include "npc_destination.h"
 #include "worldfactory.h"
 
 #include <algorithm>
