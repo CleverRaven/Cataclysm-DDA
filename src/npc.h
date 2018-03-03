@@ -143,7 +143,7 @@ struct npc_opinion {
         return *this;
     }
 
-    npc_opinion &operator+( const npc_opinion &rhs ) {
+    npc_opinion operator+( const npc_opinion &rhs ) {
         return ( npc_opinion( *this ) += rhs );
     }
 
