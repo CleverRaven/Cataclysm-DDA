@@ -12,7 +12,7 @@ def findVehicle():
         for i in range(0, len(saveData)):
             for vehicle in saveData[i]["vehicles"]:
                 if (argsDict["vehicle"] == vehicle["name"]):
-                    print(f"Vehicle {vehicle['name']} found.")
+                    print("Vehicle {} found".format(vehicle['name']))
                     return vehicle
 
 def writeDef(vehicle):
@@ -27,7 +27,7 @@ def writeDef(vehicle):
                    "name": argsDict["vehicle"],
                    "parts": partsDef}
 
-    with open(f"{argsDict['vehicle']}.json", "w") as vehicleDefJson:
+    with open("{}.json".format(argsDict['vehicle']), "w") as vehicleDefJson:
         json.dump(vehicleDef, vehicleDefJson, indent=4)
         print("Vehicle def written.")
 
