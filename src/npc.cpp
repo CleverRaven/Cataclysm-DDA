@@ -2319,13 +2319,14 @@ void npc::process_turn()
 const std::string need_id( npc_need need )
 {
     static const std::array<std::string, num_needs> ids = {{
-       "need_none",
-       "need_ammo",
-       "need_weapon",
-       "need_gun",
-       "need_food",
-       "need_drink"
-    }};
+            "need_none",
+            "need_ammo",
+            "need_weapon",
+            "need_gun",
+            "need_food",
+            "need_drink"
+        }
+    };
     return ids[static_cast<size_t>( need )];
 }
 
