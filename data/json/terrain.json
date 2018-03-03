@@ -6565,6 +6565,15 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
+    "id": "t_railroad_track_d",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "green" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
     "id": "t_railroad_track_d1",
     "type": "terrain",
     "name": "railroad track",
