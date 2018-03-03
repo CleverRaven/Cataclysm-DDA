@@ -2381,7 +2381,7 @@ std::string item::display_name( unsigned int quantity ) const
         if( ammo_type() == "money" ) {
             amt = string_format( " $%.2f", ( double ) amount / 100 );
         } else {
-        amt = string_format( " (%i)", amount );
+            amt = string_format( " (%i)", amount );
         }
     }
 
