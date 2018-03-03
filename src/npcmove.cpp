@@ -24,8 +24,7 @@
 #include "sounds.h"
 #include "gates.h"
 
-#include "options.h"
-#include "worldfactory.h"
+#include "overmap_location.h"
 
 #include <algorithm>
 #include <sstream>
@@ -2876,10 +2875,7 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    std::string dest_type;
-    if( world_generator->active_world->WORLD_OPTIONS[ "CITY_SIZE" ].getValue() != "0" ) {
-        dest_type = npc_destination::get_random_destination_terrain( needs[ 0 ] );
-    }
+    std::string dest_type = overmap_locations::get_random_terrain( need_id( needs[ 0 ] ) );
     if( dest_type.empty() ) {
         dest_type = "field";
         goal = overmap_buffer.find_random( surface_omt_loc, dest_type, 0, false );
