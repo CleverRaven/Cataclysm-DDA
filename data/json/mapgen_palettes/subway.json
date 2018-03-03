@@ -28,6 +28,7 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "^": "t_railroad_rubble",
+      "t": "t_railroad_tie",
       "-": "t_railroad_tie_h",
       "|": "t_railroad_tie_v",
       "/": "t_railroad_tie_d",
