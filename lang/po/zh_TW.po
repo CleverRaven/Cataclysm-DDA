@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 03:40-0500\n"
-"PO-Revision-Date: 2018-02-22 10:54+0000\n"
+"POT-Creation-Date: 2018-02-23 01:40-0500\n"
+"PO-Revision-Date: 2018-03-02 11:40+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -3703,7 +3703,7 @@ msgstr ".32 ACP 子彈"
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
 "powerful as the .38 or the 9x19mm though."
-msgstr ""
+msgstr ".32 ACP 是在 20 世紀流行的手槍子彈。但沒有 .38 或 9x19mm 般強。"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .32 ACP"
@@ -4766,9 +4766,9 @@ msgstr[0] "金塊"
 #. ~ Description for gold
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"A soft shiny metal.  Before the apocalypse this would've been worth a small "
 "fortune but now its value is greatly diminished."
-msgstr "一種硬而閃亮的金屬。在大災變之前，這會是一筆不小的橫財，但現在它的價值大打折扣。"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "lead"
@@ -5673,16 +5673,6 @@ msgid ""
 "if you had something to launch it."
 msgstr "一顆直徑 8cm 的沉重鉛球。如果你有可發射它的裝置就可以造成相當的打擊。"
 
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] "撞球"
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr "色彩繽紛的硬球，跟石頭差不多硬。"
-
 #: lang/json/AMMO_from_json.py
 msgid "serrated disc"
 msgstr "圓鋸片"
@@ -5692,16 +5682,6 @@ msgstr "圓鋸片"
 msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
 msgstr "有著鋸齒邊緣的金屬盤，它跟聽起來一樣有威脅。"
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] "石頭"
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py
-msgid "A rock is what you have in your head if you don't know what one is."
-msgstr "如果你不知道這是什麼，你的頭裡面大概也裝著這東西。"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragment"
@@ -5734,6 +5714,16 @@ msgid ""
 "An amalgam of various types of organic material, contains everything the "
 "blob needs to be healthy.  You think..."
 msgstr "各種類型有機材料的混合物，包含一切黏球怪所需的健康元素，至少你是這樣想的。"
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] "撞球"
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] "石頭"
 
 #: lang/json/AMMO_from_json.py
 msgid "diamond fragments"
@@ -9379,7 +9369,7 @@ msgstr[0] "鋼製護腿"
 msgid ""
 "A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, "
 "with leather straps to secure each piece and connect it as part of a set."
-msgstr ""
+msgstr "一副完整組裝的中世紀風格護腿。以皮帶結實地連結著護腿、護膝以及護脛三個部位。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of iron greaves"
@@ -11837,6 +11827,18 @@ msgid "Plain white zubon for use in martial arts."
 msgstr "純白色的忍者褲，常用於武術上。"
 
 #: lang/json/ARMOR_from_json.py
+msgid "violin case"
+msgid_plural "violin case"
+msgstr[0] ""
+
+#. ~ Description for violin case
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Useful to carry your precious musical instrument around protected from any "
+"harm."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "survivor utility belt"
 msgid_plural "survivor utility belts"
 msgstr[0] "生存者工具腰帶"
@@ -12922,7 +12924,7 @@ msgid ""
 " attempting to penetrate this field has a chance of being deflected at the "
 "cost of energy.  Bullets will be stopped more often than swords and those in"
 " turn more often than massive objects."
-msgstr ""
+msgstr "一層薄力場包圍你的身體，持續的消秏能量。任何嘗試貫穿這道力場的攻擊都會有機會被彈開，但這會消耗能量。子彈會比刀劍，其次是大質量物體更容易阻擋。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Advanced Microreactor CBM"
@@ -13658,7 +13660,7 @@ msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
 "field does not deflect penetration, but rather delivers a strong shock, "
 "damaging unarmed attackers and those with a conductive weapon."
-msgstr ""
+msgstr "一層薄力場包圍你的身體，持續的消秏能量。這個力場不會使貫穿力偏斜，而是會發放強力的電擊，傷害所有以徒手攻擊或者手持可導電武器的攻擊者。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Sensory Dulling CBM"
@@ -24242,11 +24244,11 @@ msgid ""
 msgstr "利用幹細胞療法，讓突變與其他遺傳性疾病消失。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "soylent green"
+msgid "soylent green drink"
 msgid_plural "soylent green drinks"
-msgstr[0] "綠代餐飲料"
+msgstr[0] ""
 
-#. ~ Description for soylent green
+#. ~ Description for soylent green drink
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
@@ -25425,18 +25427,6 @@ msgid ""
 msgstr "這小型的土製炸彈可以裝在箭上，它會在擊中目標時爆炸。"
 
 #: lang/json/GENERIC_from_json.py
-msgid "violin case"
-msgid_plural "violin case"
-msgstr[0] ""
-
-#. ~ Description for violin case
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"Useful to carry your precious musical instrument around protected from any "
-"harm."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
 msgid_plural "limestone shards"
 msgstr[0] "石灰岩碎片"
@@ -25762,6 +25752,11 @@ msgstr[0] "USB 隨身碟"
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive.  Useful for holding software."
 msgstr "拇指大小的隨身碟，儲存資料用。"
+
+#. ~ Description for pool ball
+#: lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
+msgstr "色彩繽紛的硬球，跟石頭差不多硬。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "bowling ball"
@@ -31749,7 +31744,7 @@ msgstr "零部件"
 
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "ARTIFACTS"
-msgstr ""
+msgstr "神器"
 
 #. ~ Crafting recipes category name
 #: lang/json/ITEM_CATEGORY_from_json.py lang/json/recipe_category_from_json.py
@@ -32510,7 +32505,7 @@ msgstr "為格洛克17而製作，這個彈匣能填裝22發子彈。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Glock Drum magazine - 50 rd"
-msgstr ""
+msgstr "格洛克彈鼓(50發)"
 
 #. ~ Description for Glock Drum magazine - 50 rd
 #: lang/json/MAGAZINE_from_json.py
@@ -32519,7 +32514,7 @@ msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Glock Drum magazine - 100 rd"
-msgstr ""
+msgstr "格洛克彈鼓(100發)"
 
 #. ~ Description for Glock Drum magazine - 100 rd
 #: lang/json/MAGAZINE_from_json.py
@@ -33709,6 +33704,52 @@ msgid ""
 msgstr "一隻全身甲殼的紅色螞蟻。牠有一對扭動的觸角與有毒的下顎。"
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant spitter ant"
+msgstr ""
+
+#. ~ Description for giant spitter ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acid ant larva"
+msgstr ""
+
+#. ~ Description for acid ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen acid ant"
+msgstr ""
+
+#. ~ Description for queen acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier acid ant"
+msgstr ""
+
+#. ~ Description for soldier acid ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "fungal ant"
 msgstr "真菌蟻"
 
@@ -34834,6 +34875,20 @@ msgid ""
 "the northern hemisphere.  It marks its territory with a musky odor for which"
 " it is named."
 msgstr "有著厚實的毛茸茸皮毛的大型雜食性囓齒動物，能在北半球的溼地發現。會利用其麝香氣味劃分地盤而聞名。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr "巨大原生鼴形鼠"
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
+msgstr "一頭巨大，打鬧的巨大異變皺紋堆，近乎透明的皮膚因不斷挖掘地道而變得堅韌。牠的毛皮長滿疥癬，一對大得像工業用挖掘機的鏟斗的門牙不斷地撕咬，幾條像車般長的鬍鬚在半空抽動。牠在徘徊時會有規律地發出高音的啁啾聲。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "cyclopean"
@@ -36619,6 +36674,19 @@ msgid ""
 "little more than a reanimated membrane of skin stretched across tiny brittle"
 " bones."
 msgstr "不死生物在大災變時並不會因為是小孩就心存仁慈。這個傢伙就像是一具伸出尖銳骨頭的小人皮囊。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal child"
+msgid_plural "fungal children"
+msgstr[0] ""
+
+#. ~ Description for fungal child
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It is hard to recognize a human child in this creature.  Disgusting-looking "
+"mold covers most of its skin.  Many cracks perforate its body, with small "
+"fungal stalks poking through."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie grenadier"
@@ -51465,7 +51533,7 @@ msgid ""
 "capacity helical magazine.  Durable and easy to handle, it was designed to "
 "overcome the deficiencies of its low power .22LR cartridge by rapidly "
 "delivering a large number of projectiles."
-msgstr ""
+msgstr "這把不常見的 Rivtech 卡賓槍以五支旋轉槍管以及大容量的螺旋狀彈倉為特徵。耐用且容易操控，它被設計以迅速發射大量的子彈去彌補 .22LR 子彈低殺傷力的缺點。"
 
 #: lang/json/gun_from_json.py
 msgid "Ruger 10/22"
@@ -51495,7 +51563,7 @@ msgid ""
 "A popular, small .22 LR pistol.  One of the many polymer frame pistols "
 "produced during the latter 20th-early 21st centuries; it has an underbarrel "
 "rail."
-msgstr ""
+msgstr "一支普及的小型 .22 LR 手槍。眾多聚合物框架手槍的其中之一，於20世紀至21世紀初期生產，它的槍管下方有一個滑軌。"
 
 #: lang/json/gun_from_json.py
 msgid "S&W 22A"
@@ -51581,7 +51649,7 @@ msgid ""
 "barren proto-weapon."
 msgstr "Leadworks LLC公司的 L523 犢牛式步槍基底，使用常見的 5.56 子彈。它的設計能讓你快速、安全、有效率的更換組件，切換成不同類型的槍械。步槍基底「理論上」可以獨自運作，但不建議你這樣做，而且會讓你的槍失去保固。這件新款的武器上沒有甚麼位置讓你安裝市面上的改造模組。"
 
-#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: lang/json/gun_from_json.py src/item_factory.cpp
 msgid "semi-auto"
 msgstr "半自動"
 
@@ -52783,7 +52851,7 @@ msgid ""
 "gun was designed for durability and extreme volume of sustained fire under "
 "the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
 "magazines."
-msgstr ""
+msgstr "使用了不常見的強大口徑子彈，Rivtech RM298 重型機槍是被設計於絕佳的耐用性，且能在最惡劣的狀況下提供強大而穩定的持續火力。使用 RMXB500 盒狀彈匣或 RMGD250 彈鼓。"
 
 #: lang/json/gun_from_json.py
 msgid "RM51 assault rifle"
@@ -52809,7 +52877,7 @@ msgid ""
 "gun was designed for durability and extreme volume of sustained fire under "
 "the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum "
 "magazines."
-msgstr ""
+msgstr "使用了不常見的強大口徑子彈，Rivtech RM614 輕機槍的設計能在惡劣狀況下發揮絕佳耐用性，且能提供穩定持續的火力。使用 RMXB500 盒狀彈匣或 RMGD250 彈鼓。"
 
 #: lang/json/gun_from_json.py
 msgid "4 rd."
@@ -53456,21 +53524,21 @@ msgstr[0] "V29 雷射手槍"
 #: lang/json/gun_from_json.py
 msgid ""
 "The V29 laser pistol was designed in the mid-21st century and was one of the"
-" first firearms to use fusion as its ammunition.  It is larger than most "
-"traditional handguns, but displays no recoil whatsoever."
-msgstr "這把 V29 雷射手槍是在 21 世紀中期發展出的手槍，也是最先使用核融合彈藥的槍枝之一。其體積比一般傳統手槍要大，但是發射時完全不會有後座力。"
+" first handheld laser weapons.  It is larger than most traditional handguns,"
+" but displays no recoil whatsoever."
+msgstr "V29 雷射手槍是在 21 世紀中期被設計出來的手槍，也是其中一支最先開發出來的雷射兵器。雖然體積比一般傳統手槍大，但是發射時完全不會有後座力。"
 
 #: lang/json/gun_from_json.py
-msgid "LACP laser pistol"
-msgid_plural "LACP laser pistols"
-msgstr[0] "LACP 雷射手槍"
+msgid "homemade laser pistol"
+msgid_plural "homemade laser pistols"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The LACP laser pistol was based on the V29 laser pistol designed in the mid-"
-"21st century.  While little more than duct tape and electronics, it runs on "
-"a standard UPS."
-msgstr "LACP 雷射手槍是以 21 世紀中葉的 V29 雷射手槍為基礎而設計的，又加了一些大力膠帶跟電子零件的構造，使用標準 UPS 供電。"
+"This laser pistol was based on the V29 laser pistol designed in the mid-21st"
+" century.  While little more than duct tape and electronics, it runs on a "
+"standard UPS."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "sawn-off shotgun"
@@ -55373,7 +55441,7 @@ msgid ""
 "A suppressor reduces the amount of noise and muzzle flash generated by the "
 "report of a firearm.  This RK6S34 Mustela is a rather advanced version "
 "integral to the RM11B rifle system."
-msgstr ""
+msgstr "滅音器可以減少槍械發射時所產生的聲音與火光。RK6S34 Mustela 是一個相當先進的 RM11B 步槍系統必須部件。"
 
 #: lang/json/gunmod_from_json.py
 msgid "shotgun suppressor"
@@ -55549,7 +55617,7 @@ msgid ""
 "An integral component of the RM11B rifle system, the RS1219 Accipiter "
 "digital scope provides auto-adjusting focal length, a user-selectable "
 "reticle, and an offset reflex sight for close objectives."
-msgstr ""
+msgstr "RM11B 步槍系統的必須部件，RS1219 鷲鷹數位瞄準鏡提供自動對焦、用家自定義標線、以及一個對近距離目標使用的偏移反射覘孔。"
 
 #: lang/json/gunmod_from_json.py
 msgid "adjustable stock"
@@ -60890,7 +60958,7 @@ msgstr "你有沒有玻璃片？"
 #: lang/json/mission_def_from_json.py
 msgid ""
 "We'll begin planting our first seeds as soon as we can get these installed."
-msgstr ""
+msgstr "我們會在這些東西完成安裝之後進行第一次的播種。"
 
 #: lang/json/mission_def_from_json.py
 msgid "Find 25 Blankets"
@@ -61284,7 +61352,7 @@ msgstr "我在過去一週遇到的呼吸道感染者已經耗盡了我的面罩
 
 #: lang/json/mission_def_from_json.py
 msgid "You may be able to make one if you had the right guide."
-msgstr ""
+msgstr "如果你有正確的指南，你應該可以製造到。"
 
 #: lang/json/mission_def_from_json.py
 msgid "Do you have the filter masks?"
@@ -65231,9 +65299,8 @@ msgstr "伸縮獠牙"
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your mandibles have developed extensible fangs, allowing you to bite quickly"
-" or ensure your venom goes home, as desired.  Activate to extend or retract "
-"your fangs."
-msgstr "你的下顎骨已發展出可伸縮的獠牙，讓你能夠快速的咬住目標並保證毒液能到達你想到的地方。啟動來伸出或縮回獠牙。"
+" or ensure your venom goes home, as desired."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Canine Ears"
@@ -76280,7 +76347,7 @@ msgstr ""
 msgid ""
 "\"I found a chocolate bar on my pillow when I got home last night.  I left "
 "and don't wanna go back.\""
-msgstr ""
+msgstr "\"我在昨晚回家時在我的枕頭上找到巧克力條。我離開了而且我不想回去。\""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -83329,7 +83396,7 @@ msgstr "咚"
 
 #: lang/json/terrain_from_json.py
 msgid "clay"
-msgstr ""
+msgstr "黏土"
 
 #: lang/json/terrain_from_json.py
 msgid "mound of dirt"
@@ -89950,7 +90017,7 @@ msgstr "沒有安裝任何被動的生化插件。"
 #: src/bionics_ui.cpp
 #, c-format
 msgid "%s; enter new letter. Space to clear. Esc to cancel."
-msgstr ""
+msgstr "%s ; 輸入新字母，按空白鍵清除，按 Esc 取消"
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -90271,7 +90338,7 @@ msgstr "<npcname> 掙脫束縛！"
 #: src/character.cpp
 #, c-format
 msgid "You put the %s in your %s."
-msgstr ""
+msgstr "你把 %s 放進你的 %s 裡。"
 
 #. ~ %1$s - list of unmet requirements, %2$s - item name.
 #: src/character.cpp
@@ -91439,11 +91506,11 @@ msgstr "把窗戶加固後，剩下了窗簾和窗簾桿。"
 
 #: src/construction.cpp
 msgid "You gather some sand."
-msgstr ""
+msgstr "你收集了一些沙。"
 
 #: src/construction.cpp
 msgid "You gather some clay."
-msgstr ""
+msgstr "你收集了一些黏土。"
 
 #: src/construction.cpp
 msgid "You cannot build there!"
@@ -91703,8 +91770,8 @@ msgid "<npcname> recharges their battery system with the %s."
 msgstr "<npcname>使用 %s 為電池系統充電。"
 
 #: src/consumption.cpp
-msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
-msgstr "那可是很多的鈽，你確定你要那麼多？"
+msgid "That is a LOT of plutonium.  Are you sure you want that much?"
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
@@ -92992,7 +93059,7 @@ msgstr "%s 出現了！"
 #: src/descriptions.cpp
 msgid ""
 "c to describe creatures, f to describe furniture, t to describe terrain, "
-"esc/enter to close."
+"Esc/Enter to close."
 msgstr ""
 
 #: src/descriptions.cpp
@@ -93005,6 +93072,12 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid "You can't see the terrain here."
+msgstr ""
+
+#: src/descriptions.cpp
+msgid ""
+"\n"
+"Sign: ???"
 msgstr ""
 
 #: src/descriptions.cpp
@@ -100058,7 +100131,7 @@ msgstr "Q:我好冷，我沒辦法在晚上入睡！\nA:多收集些衣服並把
 #: src/help.cpp
 msgid ""
 "Q: I have a question that's not addressed here. How can I get an answer?\n"
-"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode."
+"A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode."
 msgstr ""
 
 #: src/help.cpp
@@ -100328,10 +100401,6 @@ msgstr "取下 %s？"
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr "在坑上覆蓋板子？"
-
-#: src/iexamine.cpp
-msgid "Use the plank at your feet?"
-msgstr "使用附近的板子？"
 
 #: src/iexamine.cpp
 msgid "You place a plank of wood over the pit."
@@ -107572,7 +107641,7 @@ msgid ""
 "Your job is to find kitten. This task is complicated by the existence of "
 "various things which are not kitten. Robot must touch items to determine if "
 "they are kitten or not. The game ends when robot finds kitten. "
-"Alternatively, you may end the game by hitting 'q', 'Q' or the escape key."
+"Alternatively, you may end the game by hitting 'q', 'Q' or the Escape key."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -108199,7 +108268,7 @@ msgstr ""
 
 #: src/map.cpp
 msgid "Mountable. "
-msgstr ""
+msgstr "可攀登。"
 
 #: src/map.cpp
 #, c-format
@@ -110085,7 +110154,7 @@ msgstr "<npcname> 躲開光束了！"
 
 #: src/monattack.cpp
 msgid "Your armor protects you from the radiation!"
-msgstr ""
+msgstr "你的護甲保護了你不被輻射傷害！"
 
 #: src/monattack.cpp
 msgid "You get pins and needles all over."
@@ -110264,8 +110333,8 @@ msgstr "你看見清澈的金色液體透過卷鬚抽上來--接著你就失去�
 
 #: src/monattack.cpp
 msgctxt "memorial_male"
-msgid "Was shown to the Marloss Gatweay."
-msgstr "被引見至馬洛斯之門。"
+msgid "Was shown to the Marloss Gateway."
+msgstr ""
 
 #: src/monattack.cpp
 msgctxt "memorial_female"
@@ -113214,6 +113283,11 @@ msgstr "<thirsty>"
 
 #: src/npcmove.cpp
 #, c-format
+msgid "My %s is bleeding!"
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s reloads their %2$s."
 msgstr "%1$s 裝填了他的 %2$s。"
 
@@ -113620,7 +113694,7 @@ msgid ""
 "Bringing in logs is one of the few tasks we can give to the unskilled so I'd"
 " be hurting them if I outsourced it.  Ask around though, I'm sure most "
 "people could use a hand."
-msgstr ""
+msgstr "搬運原木是少數我們能給沒有技能的人做的工作之一，所以如果我找外援的話，我會傷透他們的心。去問其他人吧，我肯定大部份人想要一個幫手的。"
 
 #: src/npctalk.cpp
 msgid ""
@@ -113663,7 +113737,7 @@ msgid ""
 "My job is to manage our outpost's agricultural production.  I'm constantly "
 "searching for trade partners and investors to increase our capacity.  If you"
 " are interested I typically have tasks that I need assistance with."
-msgstr ""
+msgstr "我的工作是管理我們這個哨站的農業生產。我不斷尋找生意夥伴與投資者去提高我們的生產力。如果你有興趣的話，我個人有一些工作需要一些幫手。"
 
 #: src/npctalk.cpp
 msgid "Please leave me alone..."
@@ -115326,8 +115400,8 @@ msgid "%s can't carry all that."
 msgstr "%s 無法拿取所有物品。"
 
 #: src/npctalk.cpp
-msgid "I don't <swear> trust you enough to eat from your hand..."
-msgstr "我才不<swear>相信你手上給我的食物..."
+msgid "I don't <swear> trust you enough to eat THIS..."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "It doesn't look like a good idea to consume this..."
@@ -115475,6 +115549,17 @@ msgstr ""
 msgid ""
 "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
 "displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid "Diagonal movement with cursor keys and modifiers"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, allows diagonal movement with cursor keys using CTRL and SHIFT "
+"modifiers.  Diagonal movement action keys are taken from keybindings, so you"
+" need these to be configured."
 msgstr ""
 
 #: src/options.cpp
@@ -115893,11 +115978,11 @@ msgstr "檢視車輛"
 
 #: src/pickup.cpp
 msgid "Deactivate the washing machine"
-msgstr ""
+msgstr "停止洗衣機"
 
 #: src/pickup.cpp
 msgid "Activate the washing machine (1.5 hours)"
-msgstr ""
+msgstr "啟動洗衣機 (1.5小時)"
 
 #: src/pickup.cpp
 msgid "Get items"
@@ -116249,7 +116334,7 @@ msgstr "代誌大條 - 烏日到站 版本 %s 墓誌銘檔案"
 msgid "In memory of: %s"
 msgstr "謹此紀念: %s"
 
-#. ~ The "%s" will be replaced by an epitaph as displyed in the memorial
+#. ~ The "%s" will be replaced by an epitaph as displayed in the memorial
 #. files. Replace the quotation marks as appropriate for your language.
 #: src/player.cpp
 #, c-format
@@ -121475,11 +121560,11 @@ msgstr ""
 #, c-format
 msgid ""
 "You need 24 charges of water in tanks of the %s to fill the washing machine."
-msgstr ""
+msgstr "你的 %s 的儲水容器裡需要有 24 單位的水去注入洗衣機。"
 
 #: src/vehicle.cpp
 msgid "You need 5 charges of detergent for the washing machine."
-msgstr ""
+msgstr "你需要 5 單位的洗衣粉給洗衣機使用。"
 
 #: src/vehicle.cpp
 msgid ""
@@ -121827,8 +121912,8 @@ msgid "Switch to other list"
 msgstr "切換到其他列表"
 
 #: src/worldfactory.cpp
-msgid "Activate / deactive mod"
-msgstr "啟動 / 取消 模組"
+msgid "Activate / deactivate mod"
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Mod List"
