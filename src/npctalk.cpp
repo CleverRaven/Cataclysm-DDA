@@ -3563,9 +3563,9 @@ std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &
 {
     int chance = trial.calc_chance( d );
     if( chance >= 100 ) {
-        return {{ success.get_consequence( d ) }};
+        return { success.get_consequence( d ) };
     } else if( chance <= 0 ) {
-        return {{ failure.get_consequence( d ) }};
+        return { failure.get_consequence( d ) };
     }
 
     return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
