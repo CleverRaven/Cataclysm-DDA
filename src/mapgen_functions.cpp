@@ -1297,12 +1297,12 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
     switch ( num_dirs ) {
         case 4: // 4-way intersection
                 mapf::formatted_set_simple( m, 0, 0, "\
-.ED^^ED^.######.^DE^^DE.\n\
-ED^^ED^..######..^DE^^DE\n\
-D^^ED^....####....^DE^^D\n\
-^^ED^..............^DE^^\n\
-^ED^................^DE^\n\
-ED^..................^DE\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
 D^....................^D\n\
 ........................\n\
 ........................\n\
@@ -1315,20 +1315,18 @@ D^....................^D\n\
 ........................\n\
 ........................\n\
 D^....................^D\n\
-ED^..................^DE\n\
-^ED^................^DE^\n\
-^^ED^..............^DE^^\n\
-D^^ED^....####....^DE^^D\n\
-ED^^ED^..######..^DE^^DE\n\
-.ED^^ED^.######.^DE^^DE.",
-                    mapf::ter_bind( ". # ^ D E",
+DD^..................^DD\n\
+^DD^................^DD^\n\
+^^DD^..............^DD^^\n\
+D^^DD^....####....^DD^^D\n\
+DD^^DD^..######..^DD^^DD\n\
+.DD^^DD^.######.^DD^^DD.",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_track_d1,
-                        t_railroad_track_d2 ),
-                    mapf::furn_bind( ". # ^ D E",
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
@@ -1336,12 +1334,12 @@ ED^^ED^..######..^DE^^DE\n\
             break;
         case 3: // tee
                 mapf::formatted_set_simple( m, 0, 0, "\
-.ED^^ED^.######.^DE^^DE.\n\
-ED^^ED^..######..^DE^^DE\n\
-D^^ED^....####....^DE^^D\n\
-^^ED^..............^DE^^\n\
-^ED^................^DE^\n\
-ED^..................^DE\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
 D^....................^D\n\
 ........................\n\
 ........................\n\
@@ -1360,18 +1358,16 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
 ^|^^|^^|^^|^^|^^|^^|^^|^\n\
 ........................",
-                    mapf::ter_bind( ". # ^ | X x / D E",
+                    mapf::ter_bind( ". # ^ | X x / D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie_v,
-                        t_railroad_track_h,
-                        t_railroad_track_h_on_tie,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
                         t_railroad_tie_d,
-                        t_railroad_track_d1,
-                        t_railroad_track_d2 ),
-                    mapf::furn_bind( ". # ^ | X x / D E",
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ | X x / D",
                         f_null,
                         f_null,
                         f_null,
@@ -1384,38 +1380,36 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^DE^^DE........^DE^^DE.\n\
-..^DE^^DE........^DE^^DE\n\
-#..^DE^^DE........^DE^^D\n\
-##..^DE^^DE........^DE^^\n\
-###..^DE^^DE........^DE^\n\
-####..^DE^^DE........^DE\n\
-#####..^DE^^DE........^D\n\
-######..^DE^^DE.........\n\
-#######..^DE^^DE........\n\
-########..^DE^^DE.......\n\
-#########..^DE^^DE......\n\
-##########..^DE^^DE.....\n\
-###########..^DE^^DE....\n\
-############..^DE^^DE...\n\
-#############..^DE^^DE..\n\
-##############..^DE^^DE.\n\
-###############..^DE^^DE\n\
-################..^DE^^D\n\
-#################..^DE^^\n\
-##################..^DE^\n\
-###################..^DE\n\
+.^DD^^DD........^DD^^DD.\n\
+..^DD^^DD........^DD^^DD\n\
+#..^DD^^DD........^DD^^D\n\
+##..^DD^^DD........^DD^^\n\
+###..^DD^^DD........^DD^\n\
+####..^DD^^DD........^DD\n\
+#####..^DD^^DD........^D\n\
+######..^DD^^DD.........\n\
+#######..^DD^^DD........\n\
+########..^DD^^DD.......\n\
+#########..^DD^^DD......\n\
+##########..^DD^^DD.....\n\
+###########..^DD^^DD....\n\
+############..^DD^^DD...\n\
+#############..^DD^^DD..\n\
+##############..^DD^^DD.\n\
+###############..^DD^^DD\n\
+################..^DD^^D\n\
+#################..^DD^^\n\
+##################..^DD^\n\
+###################..^DD\n\
 ####################..^D\n\
 #####################..^\n\
 ######################..",
-                    mapf::ter_bind( ". # ^ D E",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_track_d1,
-                        t_railroad_track_d2 ),
-                    mapf::furn_bind( ". # ^ D E",
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
@@ -1450,9 +1444,9 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie_h,
-                        t_railroad_track_v,
-                        t_railroad_track_v_on_tie ),
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie ),
                     mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
@@ -1492,9 +1486,9 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie_h,
-                        t_railroad_track_v,
-                        t_railroad_track_v_on_tie ),
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie ),
                     mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
