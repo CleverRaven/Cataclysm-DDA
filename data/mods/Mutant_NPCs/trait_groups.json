@@ -857,7 +857,6 @@
         { "trait": "BEAK", "prob": 50 },
         { "trait": "SLIMY", "prob": 50 },
         { "trait": "COLDBLOOD", "prob": 50 },
-        { "trait": "ARM_TENTACLES_8", "prob": 50 },
         { "trait": "DEX_UP_4" },
         { "trait": "INT_UP_4" }
     ]
@@ -867,6 +866,9 @@
     "subtype": "collection",
     "traits": [
         { "trait": "LEG_TENTACLES", "prob": 50 },
+        { "distribution": [ 
+            { "trait": "ARM_TENTACLES" },
+            { "trait": "ARM_TENTACLES_4" } ], "prob": 50 },
         { "trait": "SHELL", "prob": 50  }
     ]
   },{
@@ -875,8 +877,13 @@
     "subtype": "collection",
     "traits": [
         { "trait": "THRESH_CEPHALOPOD" },
-        { "trait": "CLAWS_TENTACLE", "prob": 50 },
         { "trait": "MOUTH_TENTACLES", "prob": 50 },
+        { "distribution": [ 
+            { "trait": "ARM_TENTACLES" },
+            { "trait": "ARM_TENTACLES_4" },
+            { "trait": "ARM_TENTACLES_8" } ] },
+        { "trait": "CLAWS_TENTACLE", "prob": 50 },
+        { "trait": "LEG_TENTACLES" },
         { "trait": "LEG_TENT_BRACE", "prob": 50 },
         { "trait": "SHELL2", "prob": 50 }
     ]
