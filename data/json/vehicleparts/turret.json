@@ -2,7 +2,6 @@
   {
     "abstract": "turret",
     "type": "vehicle_part",
-    "location": "on_roof",
     "symbol": "t",
     "durability": 400,
     "damage_modifier": 80,
@@ -26,12 +25,12 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "using": [ [ "vehicle_weld_removal" ] ]
+        "using": "vehicle_weld_removal"
       },
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": 5000,
-        "using": [ [ "welding_standard" ] ]
+        "using": [ [ "welding_standard", 5 ] ]
       }
     },
     "flags": [ "WEAPON_MOUNT" ]
