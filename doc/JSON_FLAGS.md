@@ -809,10 +809,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_RAT``` Causes mutation in the rat branch.
 - ```MUTAGEN_SLIME``` Causes mutation in the slime branch.
 - ```MUTAGEN_SPIDER``` Causes mutation in the spider branch.
+- ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_TROGLOBITE``` Causes mutation in the troglobite branch.
 - ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
-- ```MUTAGEN_STRONG``` Chance of mutating several times.
-- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`). Still needs one of the mutation flags from the above list.
+- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`).
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
