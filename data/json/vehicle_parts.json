@@ -1301,9 +1301,9 @@
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED", "TOOL_WRENCH"],
         "breaks_into" : [
-            {"item": "steel_lump", "count": [30, 40]},
-            {"item": "steel_chunk", "count": [30, 40]},
-            {"item": "scrap", "count": [30, 40]},
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]},
             {"item": "pan", "prob": 50},
             {"item": "pot", "prob": 50}
         ]
