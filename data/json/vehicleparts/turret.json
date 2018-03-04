@@ -15,6 +15,7 @@
     "item": "vehicle_weapon_mount",
     "symbol": "Y",
     "color": "dark_gray",
+    "location": "on_roof",
     "difficulty": 2,
     "breaks_into": [ { "item": "pipe", "count": [2, 3] }, {"item": "scrap", "count": [1, 4] } ],
     "requirements": {
