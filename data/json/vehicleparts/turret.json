@@ -6,7 +6,7 @@
     "symbol": "t",
     "durability": 400,
     "damage_modifier": 80,
-    "flags": [ "TURRET" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "weapon_mount",
@@ -54,8 +54,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     },
     "extend": { "flags": [ "USE_TANKS" ] }
@@ -77,8 +76,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 4 ] ]
       }
     }
   },
@@ -99,8 +97,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     }
   },
@@ -121,8 +118,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 1 ] ]
       }
     }
   },
@@ -143,8 +139,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 1 ] ]
       }
     }
   },
@@ -165,8 +160,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 2 ] ]
       }
     }
   },
@@ -187,8 +181,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 4 ] ]
       }
     }
   },
@@ -209,8 +202,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 2 ] ]
       }
     }
   },
@@ -231,8 +223,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 2 ] ]
       }
     }
   },
@@ -253,8 +244,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 2 ] ]
       }
     }
   },
@@ -275,8 +265,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     }
   },
@@ -297,8 +286,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     }
   },
@@ -319,8 +307,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     }
   },
@@ -341,8 +328,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 3 ] ]
       }
     }
   },
@@ -364,8 +350,7 @@
         "using": [ [ "welding_standard", 10 ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_weld_removal"
+        "skills": [ [ "mechanics", 2 ] ]
       }
     },
     "extend": { "flags": [ "USE_TANKS" ] }
