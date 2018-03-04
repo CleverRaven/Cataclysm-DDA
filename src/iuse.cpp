@@ -967,10 +967,12 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
 
     if( it->has_flag( "ACID" ) && ( p->has_trait( trait_ACIDPROOF ) || p->has_trait( trait_ACIDBLOOD ))) {
         p->add_msg_if_player(m_bad, _("Blech, that tastes gross!"));
-        //partially reverse the harmful values of drinking this acid.
-        double multiplier = -0.5;
+        //reverse the harmful values of drinking this acid.
+        double multiplier = -1;
         p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier );
+        p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
+        p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 60, 30, false, it->type );
     } else {
