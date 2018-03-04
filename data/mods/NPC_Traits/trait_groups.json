@@ -31,8 +31,8 @@
         { "group": "trait_group_STRONGSTOMACH", "prob": 10 },
         { "group": "trait_group_THICKSKIN", "prob": 10 },
         { "group": "trait_group_TOUGH", "prob": 10 },
-        { "group": "trait_group_TOUGH", "prob": 10 },
         { "group": "trait_group_WEAKSCENT", "prob": 10 },
+        { "group": "trait_group_PAINRESIST", "prob": 10 },
         { "trait": "CANNIBAL", "prob": 5 },
         { "trait": "DEFT", "prob": 10 },
         { "trait": "DISRESISTANT", "prob": 10 },
@@ -42,7 +42,6 @@
         { "trait": "MASOCHIST", "prob": 10 },
         { "trait": "NIGHTVISION", "prob": 10 },
         { "trait": "OUTDOORSMAN", "prob": 10 },
-        { "trait": "PAINRESIST", "prob": 10 },
         { "trait": "POISRESIST", "prob": 10 },
         { "trait": "QUICK", "prob": 10 },
         { "trait": "ROBUST", "prob": 10 },
@@ -71,7 +70,8 @@
         { "trait": "SQUEAMISH", "prob": 10  },
         { "trait": "TRIGGERHAPPY", "prob": 10  },
         { "trait": "ANTIWHEAT", "prob": 5  },
-        { "trait": "WOOLALLERGY", "prob": 5  }
+        { "trait": "WOOLALLERGY", "prob": 5  },
+        { "trait": "INCONSPICUOUS", "prob": 10  }
     ]
   },
 
@@ -300,6 +300,14 @@
     "traits": [
         { "trait": "WEAKSCENT" },
         { "trait": "SMELLY" }
+    ]
+  },{
+    "type" : "trait_group",
+    "id" : "trait_group_PAINRESIST",
+    "subtype": "distribution",
+    "traits": [
+        { "trait": "PAINRESIST" },
+        { "trait": "MORE_PAIN" }
     ]
   }
   
