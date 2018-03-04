@@ -9,6 +9,33 @@
     "flags": [ "TURRET" ]
   },
   {
+    "id": "weapon_mount",
+    "type": "vehicle_part",
+    "name": "universal weapon mount",
+    "item": "vehicle_weapon_mount",
+    "symbol": "Y",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "breaks_into": [ { "item": "pipe", "count": [2, 3] }, {"item": "scrap", "count": [1, 4] } ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": 30000,
+        "using": [ [ "welding_standard", 10 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "using": [ [ "vehicle_weld_removal" ] ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": 5000,
+        "using": [ [ "welding_standard" ] ]
+      }
+    },
+    "flags": [ "WEAPON_MOUNT" ]
+  },
+  {
     "id": "flamethrower",
     "copy-from": "turret",
     "type": "vehicle_part",

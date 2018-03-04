@@ -1,0 +1,15 @@
+[
+    {
+        "id": "vehicle_weapon_mount",
+        "type": "GENERIC",
+        "category": "veh_parts",
+        "name": "universal weapon mount",
+        "description": "A weapon mount designed to be attached to a vehicle.  Any gun could be mounted on this fixture.",
+        "symbol": "Y",
+        "color": "cyan",
+        "material": "steel",
+        "weight": 5000,
+        "volume": 8,
+        "price": 9000
+    }
+]
