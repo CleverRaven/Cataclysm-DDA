@@ -1537,6 +1537,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
                   part_info( elem ).fuel_type == fuel_type_diesel ||
                   part_info( elem ).fuel_type == fuel_type_muscle)) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1550,6 +1551,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "BELTABLE" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1563,6 +1565,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "CARGO" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1577,6 +1580,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WINDOW" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if (!anchor_found) {
@@ -1591,6 +1595,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("CONTROLS")) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1606,6 +1611,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("LOCKABLE_CARGO")) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1619,6 +1625,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "BATTERY_MOUNT" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
@@ -1632,6 +1639,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WEAPON_MOUNT" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if( !anchor_found ) {
@@ -1645,6 +1653,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "OPENABLE" ) ) {
                 anchor_found = true;
+                break;
             }
         }
         if(!anchor_found) {
