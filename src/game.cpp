@@ -2987,6 +2987,7 @@ bool game::handle_action()
                 std::vector<tripoint> trajectory;
                 trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
+                    u.weapon.set_var( "reach_attacking", true );
                     u.reach_attack( trajectory.back() );
                 }
                 draw_ter();
@@ -11311,6 +11312,7 @@ bool game::plmove(int dx, int dy, int dz)
                     return false;
                 }
             }
+            u.weapon.erase_var( "reach_attacking" );
             u.melee_attack(critter, true);
             if( critter.is_hallucination() ) {
                 critter.die( &u );

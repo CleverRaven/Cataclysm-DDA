@@ -291,7 +291,8 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
     }
 
-    item &cur_weapon = used_weapon();
+    const bool reach_attacking = g->u.weapon.has_var( "reach_attacking" );
+    item &cur_weapon = reach_attacking ? g->u.weapon : used_weapon();
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
