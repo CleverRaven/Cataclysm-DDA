@@ -323,7 +323,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            if( !e.second->obsolete ) {
+            if( !e.second.obsolete ) {
                 check.emplace( e.first );
             }
         }
@@ -346,7 +346,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
             return false;
         }
 
-        MOD_INFORMATION &mod = *iter->second;
+        MOD_INFORMATION &mod = iter->second;
 
         if( !tree.is_available( mod.ident ) ) {
             std::cerr << "Missing dependencies: " << mod.name << "\n"
@@ -361,7 +361,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep]->path, mods[dep]->ident, ui );
+                load_data_from_dir( mods[dep].path, mods[dep].ident, ui );
             }
 
             // Load mod itself
@@ -3702,7 +3702,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 
         // require at least one core mod (saves before version 6 may implicitly require dda pack)
         if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager().mod_map[e]->core;
+            return world_generator->get_mod_manager().mod_map[e].core;
         } ) ) {
             mods.insert( mods.begin(), "dda" );
         }
@@ -3743,7 +3743,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = *mm.mod_map[e];
+        MOD_INFORMATION &mod = mm.mod_map[e];
         load_data_from_dir( mod.path, mod.ident, ui );
 
         // if mod specifies legacy migrations load any that are required

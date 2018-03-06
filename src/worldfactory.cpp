@@ -164,7 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // Silently remove all Lua mods set by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
+            MOD_INFORMATION &minfo = mman->mod_map[*mod_it];
             if ( minfo.need_lua() ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
@@ -636,7 +636,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            const std::string category_name = _( mman->mod_map[mods[i]]->category.second.c_str() );
+            const std::string category_name = _( mman->mod_map[mods[i]].category.second.c_str() );
             if ( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
@@ -687,7 +687,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         }
                     }
 
-                    auto &mod = *mman->mod_map[*iter];
+                    MOD_INFORMATION &mod = mman->mod_map[*iter];
 #ifndef LUA
                     if( mod.need_lua() ) {
                         trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name );
@@ -872,7 +872,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             current_tab_mods.clear();
 
             for( const auto &item : mman_ui->usable_mods ) {
-                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
+                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item].category.first].first);
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
@@ -907,9 +907,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
+                selmod = &mman->mod_map[current_tab_mods[cursel[0]]];
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
+                selmod = &mman->mod_map[active_mod_order[cursel[1]]];
             }
 
             if( selmod != nullptr ) {
@@ -968,7 +968,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "CONFIRM" ) {
             if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
+                if( mman->mod_map[current_tab_mods[cursel[0]]].need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
                     draw_modselection_borders( win, ctxt );
@@ -1136,7 +1136,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         if (action == "NEXT_TAB") {
 #ifndef LUA
             for (std::string &mod : world->active_mod_order) {
-                auto &temp = *mman->mod_map[mod];
+                MOD_INFORMATION &temp = mman->mod_map[mod];
                 if ( temp.need_lua() ) {
                     popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
                     return -2; // Move back to modselect tab.
@@ -1305,7 +1305,7 @@ bool worldfactory::world_need_lua_build(std::string world_name)
         return false;
     }
     for (std::string &mod : world->active_mod_order) {
-        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua() ) {
+        if( mman->has_mod( mod ) && mman->mod_map[mod].need_lua() ) {
             return true;
         }
     }
