@@ -6907,7 +6907,7 @@ bool player::has_fire( const int quantity ) const
         return true;
     } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+    } else {
         auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
