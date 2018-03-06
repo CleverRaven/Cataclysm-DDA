@@ -2,6 +2,8 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
+#include "optional.h"
+
 #include <vector>
 #include <set>
 #include <string>
@@ -175,6 +177,7 @@ class Item_modifier
         std::vector<std::string> custom_flags;
 
         Item_modifier();
+        Item_modifier( Item_modifier && ) = default;
 
         void modify( item &it ) const;
         void check_consistency() const;
@@ -218,7 +221,7 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        std::unique_ptr<Item_modifier> modifier;
+        cata::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
