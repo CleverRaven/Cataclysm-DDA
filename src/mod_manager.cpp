@@ -127,7 +127,7 @@ void mod_manager::refresh_mod_list()
 
 void mod_manager::remove_mod(const std::string &ident)
 {
-    t_mod_map::iterator a = mod_map.find(ident);
+    const auto a = mod_map.find(ident);
     if (a != mod_map.end()) {
         mod_map.erase(a);
     }

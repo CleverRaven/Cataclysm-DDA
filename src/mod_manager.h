@@ -147,11 +147,10 @@ class mod_manager
 
         dependency_tree tree;
 
-        typedef std::map<std::string, MOD_INFORMATION> t_mod_map;
         /**
          * The map of known mods, key is the mod ident.
          */
-        t_mod_map mod_map;
+        std::map<std::string, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
 };
 
