@@ -89,7 +89,6 @@ worldfactory::worldfactory()
     , mman_ui( nullptr )
 {
     mman.reset( new mod_manager );
-    mman->refresh_mod_list();
     mman_ui.reset( new mod_ui( mman.get() ) );
 
     // prepare tab display order

@@ -82,6 +82,7 @@ mod_manager::mod_manager()
     if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
         load_replacement_mods(FILENAMES["mods-replacements"]);
     }
+    refresh_mod_list();
 }
 
 dependency_tree &mod_manager::get_tree()
