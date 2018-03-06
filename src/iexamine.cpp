@@ -3498,26 +3498,18 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-void iexamine::autodoc( player &p, const tripoint &examp ) {
+void iexamine::autodoc( player &p, const tripoint &examp )
+{
     enum options {
-        CONFIGURE,
         INSTALL_CBM,
         CANCEL,
     };
 
-    const bool configured = g->m.i_at( examp )[0].typeId() == "autodoc_config";
-
-    std::string status = configured ? _( "Online" ) :
-                         _( "Configuration required" );
-
     uimenu amenu;
     amenu.selected = 0;
-    amenu.text = string_format( _( "Autodoc Mk. XI.  Status: %s.  Please choose operation." ), status );
-    amenu.addentry( CONFIGURE, true, 'c', str_to_illiterate_str( _( "Configure Autodoc." ) ) );
-    amenu.addentry( INSTALL_CBM, configured, 'i',
-                    str_to_illiterate_str( _( "Choose Compact Bionic Module to install." ) ) );
-
-    amenu.addentry( CANCEL, true, 'q', str_to_illiterate_str( _( "Do nothing." ) ) );
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
 
@@ -3534,21 +3526,13 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
     }
 
     switch( static_cast<options>( amenu.ret ) ) {
-        case CONFIGURE:
-            g->m.spawn_item( examp, "autodoc_config", 1, 1, ( int )calendar::turn );
-            //Flavor message to justify using player skills and INT below in install_bionics for determining success chance
-            p.add_msg_if_player( m_good,
-                                 _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
-            p.mod_moves( -300 );
-            return;
-
         case INSTALL_CBM: {
             if( !adjacent_couch ) {
-                popup( _( "No connected couches found.  Operation impossible. Exiting." ) );
+                popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
                 return;
             }
             if( !in_position ) {
-                popup( _( "No patient found located on the connected couches.  Operation impossible. Exiting." ) );
+                popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
                 return;
             }
 
@@ -3562,6 +3546,8 @@ void iexamine::autodoc( player &p, const tripoint &examp ) {
             const itype &itemtype = *it.type;
             const int duration = itemtype.bionic->difficulty * 200;
             if( p.install_bionics( itemtype ) ) {
+                p.add_msg_if_player( m_good,
+                                     _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
                 p.add_effect( effect_blind, duration );
