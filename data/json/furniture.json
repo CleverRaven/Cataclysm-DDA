@@ -2905,7 +2905,7 @@
         "color": "light_cyan",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "SEALED", "CONTAINER"],
+        "flags": ["TRANSPARENT"],
         "examine_action": "autodoc",
         "deconstruct": {
             "items": [
