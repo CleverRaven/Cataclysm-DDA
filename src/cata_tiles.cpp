@@ -1163,8 +1163,8 @@ SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int til
 void cata_tiles::prepare_minimap_cache_for_updates()
 {
     for(auto &mcp : minimap_cache) {
-        mcp.second->touched = false;
-        mcp.second->drawn = false;
+        mcp.second.touched = false;
+        mcp.second.drawn = false;
     }
 }
 
@@ -1173,7 +1173,7 @@ void cata_tiles::prepare_minimap_cache_for_updates()
 void cata_tiles::clear_unused_minimap_cache()
 {
     for(auto it = minimap_cache.begin(); it != minimap_cache.end(); ) {
-        if(!it->second->touched) {
+        if(!it->second.touched) {
             minimap_cache.erase(it++);
         } else {
             it++;
@@ -1201,18 +1201,18 @@ void cata_tiles::process_minimap_cache_updates()
     }
 
     for( auto &mcp : minimap_cache ) {
-        if( !mcp.second->update_list.empty() ) {
-            printErrorIf( SDL_SetRenderTarget( renderer, mcp.second->minimap_tex.get() ) != 0, "SDL_SetRenderTarget failed" );
+        if( !mcp.second.update_list.empty() ) {
+            printErrorIf( SDL_SetRenderTarget( renderer, mcp.second.minimap_tex.get() ) != 0, "SDL_SetRenderTarget failed" );
 
             //draw a default dark-colored rectangle over the texture which may have been used previously
-            if( !mcp.second->ready ) {
-                mcp.second->ready = true;
+            if( !mcp.second.ready ) {
+                mcp.second.ready = true;
                 printErrorIf( SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
                 printErrorIf( SDL_RenderClear( renderer ) != 0, "SDL_RenderClear failed" );
             }
 
-            for( const point &p : mcp.second->update_list ) {
-                const pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
+            for( const point &p : mcp.second.update_list ) {
+                const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
 
 
@@ -1227,7 +1227,7 @@ void cata_tiles::process_minimap_cache_updates()
                     printErrorIf( SDL_RenderFillRect( renderer, &rectangle ) != 0, "SDL_RenderFillRect failed" );
                 }
             }
-            mcp.second->update_list.clear();
+            mcp.second.update_list.clear();
         }
     }
 }
@@ -1238,20 +1238,18 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     tripoint current_submap_loc = convert_tripoint_to_abs_submap( loc );
     auto it = minimap_cache.find( current_submap_loc );
     if( it == minimap_cache.end() ) {
-        minimap_cache.insert( std::pair<tripoint, minimap_cache_ptr>( current_submap_loc,
-                              minimap_cache_ptr( new minimap_submap_cache( tex_pool ) ) ) );
-        it = minimap_cache.find( current_submap_loc );
+        it = minimap_cache.emplace( current_submap_loc, tex_pool ).first;
     }
 
-    it->second->touched = true;
+    it->second.touched = true;
 
     point offset( loc.x, loc.y );
     ms_to_sm_remain( offset );
 
-    pixel &current_pix = it->second->minimap_colors[offset.y * SEEX + offset.x];
+    pixel &current_pix = it->second.minimap_colors[offset.y * SEEX + offset.x];
     if( current_pix != pix ) {
         current_pix = pix;
-        it->second->update_list.push_back( offset );
+        it->second.update_list.push_back( offset );
     }
 }
 
@@ -1421,17 +1419,17 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             if( it == minimap_cache.end() ) {
                 continue;
             }
-            if( it->second->drawn ) {
+            if( it->second.drawn ) {
                 continue;
             }
-            it->second->drawn = true;
+            it->second.drawn = true;
 
             //the position of the submap texture has to account for the actual (current) 12x12 tile size
             //the clipping rectangle handles the portions that need to hide
             tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
             drawrect.x = drawpoint.x * minimap_tile_size.x;
             drawrect.y = drawpoint.y * minimap_tile_size.y;
-            printErrorIf( SDL_RenderCopy( renderer, it->second->minimap_tex.get(), NULL, &drawrect ) != 0, "SDL_RenderCopy failed" );
+            printErrorIf( SDL_RenderCopy( renderer, it->second.minimap_tex.get(), NULL, &drawrect ) != 0, "SDL_RenderCopy failed" );
         }
     }
     //set display buffer to main screen

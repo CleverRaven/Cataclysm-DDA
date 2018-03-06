@@ -229,8 +229,6 @@ struct minimap_submap_cache {
     ~minimap_submap_cache();
 };
 
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
-
 class tileset
 {
     private:
@@ -586,7 +584,7 @@ class cata_tiles
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         minimap_shared_texture_pool tex_pool;
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );
