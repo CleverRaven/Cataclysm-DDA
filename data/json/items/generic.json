@@ -68,19 +68,6 @@
     },
     {
         "type":"GENERIC",
-        "//": "pseudo item, only used for checking configuration of autodoc in iexamine::autodoc",
-        "id": "autodoc_config",
-        "symbol": "$",
-        "color": "red",
-        "name": "autodoc_config",
-        "name_plural": "none",
-        "description": "seeing this is a bug",
-        "price": 0,
-        "volume": 0,
-        "flags": ["PSEUDO", "TRADER_AVOID"]
-    },
-    {
-        "type":"GENERIC",
         "id" : "file",
         "name" : "file",
         "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
