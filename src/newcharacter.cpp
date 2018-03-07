@@ -235,11 +235,11 @@ void player::randomize( const bool random_scenario, points_left &points )
     // Reset everything to the defaults to have a clean state.
     *this = player();
 
-    g->u.male = (rng(1, 100) > 50);
+    male = ( rng( 1, 100 ) > 50 );
     if(!MAP_SHARING::isSharing()) {
-        g->u.pick_name(true);
+        pick_name( true );
     } else {
-        g->u.name = MAP_SHARING::getUsername();
+        name = MAP_SHARING::getUsername();
     }
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
@@ -256,15 +256,15 @@ void player::randomize( const bool random_scenario, points_left &points )
         g->scen = &wilderness_only_scenario.obj();
     }
 
-    g->u.prof = g->scen->weighted_random_profession();
-    g->u.start_location = g->scen->random_start_location();
+    prof = g->scen->weighted_random_profession();
+    start_location = g->scen->random_start_location();
 
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
     int_max = rng( 6, HIGH_STAT - 2 );
     per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
-    points.skill_points = points.skill_points - g->u.prof->point_cost() - g->scen->point_cost();
+    points.skill_points = points.skill_points - prof->point_cost() - g->scen->point_cost();
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefore they are added back.
@@ -423,7 +423,7 @@ bool player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
 
-    g->u.prof = profession::generic();
+    prof = profession::generic();
     g->scen = scenario::generic();
 
 
@@ -469,7 +469,7 @@ bool player::create(character_type type, std::string tempname)
         if( !w ) {
             // assert( type == PLTYPE_NOW );
             // no window is created because "Play now"  does not require any configuration
-            if( nameExists( g->u.name ) ) {
+            if( nameExists( name ) ) {
                 return false;
             }
 
@@ -517,7 +517,7 @@ bool player::create(character_type type, std::string tempname)
         }
 
         if( !( tab >= 0 && tab <= NEWCHAR_TAB_MAX ) ) {
-            if( tab != -1 && nameExists( g->u.name ) ) {
+            if( tab != -1 && nameExists( name ) ) {
                 tab = NEWCHAR_TAB_MAX;
             } else {
                 break;
@@ -549,7 +549,7 @@ bool player::create(character_type type, std::string tempname)
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
-    for( auto &e : g->u.prof->skills() ) {
+    for( auto &e : prof->skills() ) {
         mod_skill_level( e.first, e.second );
     }
 
@@ -561,7 +561,7 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    std::list<item> prof_items = g->u.prof->items( g->u.male, g->u.get_mutations() );
+    std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
         // TODO: debugmsg if food that isn't a seed is inedible
@@ -583,10 +583,10 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    std::vector<addiction> prof_addictions = g->u.prof->addictions();
+    std::vector<addiction> prof_addictions = prof->addictions();
     for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
          iter != prof_addictions.end(); ++iter) {
-        g->u.addictions.push_back(*iter);
+        addictions.push_back( *iter );
     }
 
     for( auto &bio : prof->CBMs() ) {
@@ -2420,6 +2420,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
+    //@todo get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
