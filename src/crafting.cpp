@@ -580,7 +580,7 @@ void player::complete_craft()
         }
     }
 
-    inv.restack( this );
+    inv.restack( *this );
 }
 
 void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )

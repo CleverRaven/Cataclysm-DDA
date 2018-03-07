@@ -4884,7 +4884,7 @@ bool item::reload( player &u, item_location loc, long qty )
     if( ammo->charges == 0 ) {
         if( container != nullptr ) {
             container->contents.erase(container->contents.begin());
-            u.inv.restack(&u); // emptied containers do not stack with non-empty ones
+            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
         } else {
             loc.remove_item();
         }

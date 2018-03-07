@@ -93,7 +93,7 @@ class inventory : public visitable<inventory>
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack( player *p = NULL );
+        void restack( player &p );
 
         void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 

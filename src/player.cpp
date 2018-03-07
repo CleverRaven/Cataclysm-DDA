@@ -2415,7 +2415,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Inventory
     memorial_file << _( "Inventory:" ) << eol;
-    inv.restack( this );
+    inv.restack( *this );
     inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
@@ -7267,7 +7267,7 @@ bool player::consume(int target_position)
 
         //Restack and sort so that we don't lie about target's invlet
         if( target_position >= 0 ) {
-            inv.restack( this );
+            inv.restack( *this );
             inv.sort();
         }
 
@@ -7294,7 +7294,7 @@ bool player::consume(int target_position)
             }
         }
     } else if( target_position >= 0 ) {
-        inv.restack( this );
+        inv.restack( *this );
         inv.unsort();
     }
 
@@ -8305,7 +8305,7 @@ bool player::wear( item& to_wear, bool interactive )
         was_weapon = true;
     } else {
         inv.remove_item( &to_wear );
-        inv.restack( this );
+        inv.restack( *this );
         was_weapon = false;
     }
 
