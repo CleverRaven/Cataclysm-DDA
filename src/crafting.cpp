@@ -1219,7 +1219,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
-    remove_ammo( &dis_item, *this );
+    remove_ammo( dis_item, *this );
     remove_radio_mod( dis_item, *this );
 
     if( dis_item.count_by_charges() ) {
@@ -1358,7 +1358,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 void remove_ammo( std::list<item> &dis_items, player &p )
 {
     for( auto &dis_item : dis_items ) {
-        remove_ammo( &dis_item, p );
+        remove_ammo( dis_item, p );
     }
 }
 
@@ -1372,34 +1372,34 @@ void drop_or_handle( const item &newit, player &p )
     }
 }
 
-void remove_ammo( item *dis_item, player &p )
+void remove_ammo( item &dis_item, player &p )
 {
-    for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
+    for( auto iter = dis_item.contents.begin(); iter != dis_item.contents.end(); ) {
         if( iter->is_irremovable() ) {
             iter++;
             continue;
         }
         drop_or_handle( *iter, p );
-        iter = dis_item->contents.erase( iter );
+        iter = dis_item.contents.erase( iter );
     }
 
-    if( dis_item->has_flag( "NO_UNLOAD" ) ) {
+    if( dis_item.has_flag( "NO_UNLOAD" ) ) {
         return;
     }
-    if( dis_item->is_gun() && dis_item->ammo_current() != "null" ) {
-        item ammodrop( dis_item->ammo_current(), calendar::turn );
-        ammodrop.charges = dis_item->charges;
+    if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {
+        item ammodrop( dis_item.ammo_current(), calendar::turn );
+        ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, p );
-        dis_item->charges = 0;
+        dis_item.charges = 0;
     }
-    if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
-        item ammodrop( dis_item->ammo_type()->default_ammotype(), calendar::turn );
-        ammodrop.charges = dis_item->charges;
-        if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
+    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_type() ) {
+        item ammodrop( dis_item.ammo_type()->default_ammotype(), calendar::turn );
+        ammodrop.charges = dis_item.charges;
+        if( dis_item.ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );
-        dis_item->charges = 0;
+        dis_item.charges = 0;
     }
 }
 

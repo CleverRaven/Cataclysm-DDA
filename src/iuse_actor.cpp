@@ -1225,7 +1225,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     add_msg(m_info, _("You try to salvage materials from the %s."), cut.tname().c_str());
 
     // Clean up before removing the item.
-    remove_ammo( &cut, p );
+    remove_ammo( cut, p );
     // Original item has been consumed.
     if( pos != INT_MIN ) {
         p.i_rem(pos);
