@@ -301,7 +301,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Sttack with special martial art takedown manoeuvres.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown manoeuvres.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER``` Spit bile.
@@ -341,7 +341,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```LASER``` Laser turret fires.
 - ```LEAP``` leap away to an unobstructed tile.
 - ```LONGSWIPE``` Does high damage claw attack, which can even hit some distance away.
-- ```LUNGE``` Perfom a jumping attack from some distance away, which can down the target.
+- ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
