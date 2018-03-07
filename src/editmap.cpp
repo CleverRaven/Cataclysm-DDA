@@ -102,10 +102,10 @@ std::vector<std::string> fld_string( std::string str, int width )
 
 
 template<class SAVEOBJ>
-void edit_json( SAVEOBJ *it )
+void edit_json( SAVEOBJ &it )
 {
     int tmret = -1;
-    std::string save1 = serialize( *it );
+    std::string save1 = serialize( it );
     std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     std::string save2;
@@ -120,11 +120,11 @@ void edit_json( SAVEOBJ *it )
             try {
                 SAVEOBJ tmp;
                 deserialize( tmp, save1 );
-                *it = std::move( tmp );
+                it = std::move( tmp );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
-            save2 = serialize( *it );
+            save2 = serialize( it );
             fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, true, -2, "== Reloaded: =====================" );
@@ -152,7 +152,7 @@ void edit_json( SAVEOBJ *it )
             fout.close();
 
             fout.open( "save/jtest-2j.txt" );
-            fout << serialize( *it );
+            fout << serialize( it );
             fout.close();
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
@@ -1376,7 +1376,7 @@ int editmap::edit_itm()
                     wrefresh( imenu.window );
                     wrefresh( g->w_terrain );
                 } else if( imenu.ret == imenu_savetest ) {
-                    edit_json( &it );
+                    edit_json( it );
                 }
             } while( imenu.ret != imenu_exit );
             wrefresh( w_info );
@@ -1407,9 +1407,9 @@ int editmap::edit_itm()
 int editmap::edit_critter( Creature &critter )
 {
     if( monster *const mon_ptr = dynamic_cast<monster *>( &critter ) ) {
-        edit_json( mon_ptr );
+        edit_json( *mon_ptr );
     } else if( npc *const npc_ptr = dynamic_cast<npc *>( &critter ) ) {
-        edit_json( npc_ptr );
+        edit_json( *npc_ptr );
     }
     return 0;
 }
@@ -1420,7 +1420,7 @@ int editmap::edit_veh()
     int ret = 0;
     int veh_part = -1;
     vehicle *it = g->m.veh_at( target, veh_part );
-    edit_json( it );
+    edit_json( *it );
     return ret;
 }
 
