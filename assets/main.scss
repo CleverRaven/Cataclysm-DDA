@@ -3,10 +3,14 @@
 
 @import "{{ site.theme }}";
 
+$background-color: #222222;
+$text-color: #dddddd;
+$primary-color: #c14924;
+
 body {
   font-family: Helvetica, Arial, sans-serif;
-  background-color: #222222;
-  color: #dddddd;
+  background-color: $background-color;
+  color: $text-color;
 }
 
 .site-header {
@@ -26,4 +30,9 @@ body {
   @media screen and (max-width: 600px) {
     background-color: #777777;
   }
+}
+
+.page-link--download {
+  background: $primary-color;
+  padding: 10px;
 }
