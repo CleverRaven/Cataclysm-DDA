@@ -94,42 +94,42 @@ std::string player_activity::get_str_value( size_t index, std::string def ) cons
     return ( index < str_values.size() ) ? str_values[index] : def;
 }
 
-void player_activity::do_turn( player *p )
+void player_activity::do_turn( player &p )
 {
     if( type->based_on() == based_on_type::TIME ) {
         moves_left -= 100;
     } else if( type->based_on() == based_on_type::SPEED ) {
-        if( p->moves <= moves_left ) {
-            moves_left -= p->moves;
-            p->moves = 0;
+        if( p.moves <= moves_left ) {
+            moves_left -= p.moves;
+            p.moves = 0;
         } else {
-            p->moves -= moves_left;
+            p.moves -= moves_left;
             moves_left = 0;
         }
     }
 
     // This might finish the activity (set it to null)
-    type->call_do_turn( this, p );
+    type->call_do_turn( this, &p );
 
     if( *this && type->rooted() ) {
-        p->rooted();
-        p->pause();
+        p.rooted();
+        p.pause();
     }
 
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( !( type->call_finish( this, p ) ) ) {
+        if( !( type->call_finish( this, &p ) ) ) {
             // "Finish" is never a misnomer for any activity without a finish function
             set_to_null();
         }
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
-        p->activity = player_activity();
-        if( !p->backlog.empty() && p->backlog.front().auto_resume ) {
-            p->activity = p->backlog.front();
-            p->backlog.pop_front();
+        p.activity = player_activity();
+        if( !p.backlog.empty() && p.backlog.front().auto_resume ) {
+            p.activity = p.backlog.front();
+            p.backlog.pop_front();
         }
     }
 }

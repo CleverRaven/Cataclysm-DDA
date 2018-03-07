@@ -95,7 +95,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player *p );
+        void do_turn( player &p );
 
         /**
          * Returns true if activities are similar enough that this activity

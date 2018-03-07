@@ -8541,7 +8541,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     }
     // @todo: Remove the hack. Its here because npcs don't process activities
     if( is_npc() ) {
-        activity.do_turn( this );
+        activity.do_turn( *this );
     }
 }
 
