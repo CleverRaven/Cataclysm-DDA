@@ -176,7 +176,8 @@ tab_direction set_profession( const catacurses::window &w, player *u, points_lef
 tab_direction set_skills( const catacurses::window &w, player *u, points_left &points );
 tab_direction set_description( const catacurses::window &w, player *u, bool allow_reroll, points_left &points );
 
-void save_template( player *u, std::string name = "" );
+static cata::optional<std::string> query_for_template_name();
+static void save_template( player *u, const std::string &name );
 void reset_scenario( player *u, const scenario *scen );
 
 void Character::pick_name(bool bUseDefault)
@@ -2311,10 +2312,15 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if (action == "SAVE_TEMPLATE") {
+            static const auto save_template = [&u]() {
+                if( const auto name = query_for_template_name() ) {
+                    ::save_template( u, *name );
+                }
+            };
             if( points.has_spare() ) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
                               "Any unspent points will be lost, are you sure you want to proceed?"))) {
-                    save_template(u);
+                    save_template();
                 }
             } else if( !points.is_valid() ) {
                 if( points.skill_points_left() < 0 ) {
@@ -2328,7 +2334,7 @@ tab_direction set_description( const catacurses::window &w, player *u, const boo
                 }
 
             } else {
-                save_template(u);
+                save_template();
             }
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
@@ -2449,41 +2455,40 @@ trait_id Character::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-void save_template( player *u, std::string name )
+cata::optional<std::string> query_for_template_name()
 {
-    if( name.empty() ) {
-        static const std::set<long> fname_char_blacklist = {
+    static const std::set<long> fname_char_blacklist = {
 #if (defined _WIN32 || defined __WIN32__)
-            '\"'  , '*'   , '/'   , ':'   , '<'   , '>'   , '?'   , '\\'  , '|'   ,
-            '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
-                    '\x0B', '\x0C',         '\x0E', '\x0F', '\x10', '\x11', '\x12',
-            '\x13', '\x14',         '\x16', '\x17', '\x18', '\x19', '\x1A',
-            '\x1C', '\x1D', '\x1E', '\x1F'
+        '\"'  , '*'   , '/'   , ':'   , '<'   , '>'   , '?'   , '\\'  , '|'   ,
+        '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
+                '\x0B', '\x0C',         '\x0E', '\x0F', '\x10', '\x11', '\x12',
+        '\x13', '\x14',         '\x16', '\x17', '\x18', '\x19', '\x1A',
+        '\x1C', '\x1D', '\x1E', '\x1F'
 #else
-            '/'
+        '/'
 #endif
-        };
-        std::string title = _( "Name of template:" );
-        std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
+    };
+    std::string title = _( "Name of template:" );
+    std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
 
-        input_context ctxt( "default" );
-        ctxt.register_action( "ANY_INPUT" );
-
-        string_input_popup spop;
-        spop.title( title );
-        spop.description( desc );
-        spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
-        spop.context( ctxt );
-        for( long character : fname_char_blacklist ) {
-            spop.callbacks[ character ] = [](){ return true; };
-        }
-
-        std::string name = spop.query_string( true );
-        if( name.empty() ) {
-            return;
-        }
+    string_input_popup spop;
+    spop.title( title );
+    spop.description( desc );
+    spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
+    for( long character : fname_char_blacklist ) {
+        spop.callbacks[ character ] = [](){ return true; };
     }
 
+    spop.query_string( true );
+    if( spop.canceled() ) {
+        return cata::nullopt;
+    } else {
+        return spop.text();
+    }
+}
+
+void save_template( player *u, const std::string &name )
+{
     std::string native = utf8_to_native( name );
 #if (defined _WIN32 || defined __WIN32__)
     if( native.find_first_of( "\"*/:<>?\\|"
