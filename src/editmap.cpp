@@ -1055,20 +1055,20 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uimenu *fmenu, field *field, const field_id idx )
+void editmap::update_fmenu_entry( uimenu &fmenu, field &field, const field_id idx )
 {
     int fdens = 1;
     const field_t &ftype = fieldlist[idx];
-    field_entry *fld = field->findField( ( field_id )idx );
+    field_entry *fld = field.findField( ( field_id )idx );
     if( fld != NULL ) {
         fdens = fld->getFieldDensity();
     }
-    fmenu->entries[idx].txt = ftype.name( fdens - 1 );
+    fmenu.entries[idx].txt = ftype.name( fdens - 1 );
     if( fld != NULL ) {
-        fmenu->entries[idx].txt += " " + std::string( fdens, '*' );
+        fmenu.entries[idx].txt += " " + std::string( fdens, '*' );
     }
-    fmenu->entries[idx].text_color = ( fld != NULL ? c_cyan : fmenu->text_color );
-    fmenu->entries[idx].extratxt.color = ftype.color[fdens - 1];
+    fmenu.entries[idx].text_color = ( fld != NULL ? c_cyan : fmenu.text_color );
+    fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
 }
 
 void editmap::setup_fmenu( uimenu *fmenu )
@@ -1083,7 +1083,7 @@ void editmap::setup_fmenu( uimenu *fmenu )
         fmenu->addentry( fid, true, -2, fname );
         fmenu->entries[fid].extratxt.left = 1;
         fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
-        update_fmenu_entry( fmenu, cur_field, fid );
+        update_fmenu_entry( *fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {
         fmenu->selected = sel_field;
@@ -1167,7 +1167,7 @@ int editmap::edit_fld()
                         }
                     }
                 }
-                update_fmenu_entry( &fmenu, cur_field, idx );
+                update_fmenu_entry( fmenu, *cur_field, idx );
                 update_view( true );
                 sel_field = fmenu.selected;
                 sel_fdensity = fsel_dens;
@@ -1179,7 +1179,7 @@ int editmap::edit_fld()
                     auto const rmid = t_field->begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
-                        update_fmenu_entry( &fmenu, t_field, rmid );
+                        update_fmenu_entry( fmenu, *t_field, rmid );
                     }
                 }
             }
