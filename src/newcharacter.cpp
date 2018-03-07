@@ -2471,14 +2471,10 @@ cata::optional<std::string> query_for_template_name()
     std::string title = _( "Name of template:" );
     std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
 
-    input_context ctxt( "default" );
-    ctxt.register_action( "ANY_INPUT" );
-
     string_input_popup spop;
     spop.title( title );
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
-    spop.context( ctxt );
     for( long character : fname_char_blacklist ) {
         spop.callbacks[ character ] = [](){ return true; };
     }
