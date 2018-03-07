@@ -5,6 +5,8 @@
 
 body {
   font-family: Helvetica, Arial, sans-serif;
+  background-color: #222222;
+  color: #dddddd;
 }
 
 .site-header {
@@ -18,4 +20,10 @@ body {
 .site-title,
 .site-title:visited {
   color: inherit;
+}
+
+.site-nav {
+  @media screen and (max-width: 600px) {
+    background-color: #777777;
+  }
 }
