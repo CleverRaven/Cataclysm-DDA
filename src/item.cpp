@@ -519,6 +519,10 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    if ( ammo_type() == "money" ) {
+        // Dealing with cash cards
+        return true;
+    }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
@@ -2398,9 +2402,15 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
+    bool is_money = ( ammo_type() == "money");
 
     // We should handle infinite charges properly in all cases.
-    if( contains ) {
+    if ( !contents.empty() && is_money ) {
+        for (auto &elem : contents) {
+            amount += elem.charges;
+        }
+        show_amt = true;
+    } else if( contains ) {
         amount = contents.front().charges;
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
@@ -2415,7 +2425,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_type() == "money" ) {
+        if( is_money ) {
             amt = string_format( " ($%.2f)", ( double ) amount / 100 );
         } else {
             amt = string_format( " (%i)", amount );
@@ -4550,7 +4560,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))::toupper );
 
                 auto qty = m.second.qty();
                 if( m.first == gun_mode_id( "AUTO" ) && e == this && has_flag( "RAPIDFIRE" ) ) {
