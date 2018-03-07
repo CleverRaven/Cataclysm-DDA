@@ -5236,7 +5236,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint& )
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
-    /** @EFFECT_MECHANICS >7 allows accurizing ranged weapons */
+    /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     if( fix->damage() == 0 && p->get_skill_level( skill_mechanics ) >= 8 ) {
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix->tname().c_str() );
         sounds::sound( p->pos(), 6, "" );
