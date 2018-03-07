@@ -34,7 +34,7 @@ class mapgen_function {
     protected:
     mapgen_function( const int w ) : weight( w ) { }
     public:
-    virtual ~mapgen_function() { }
+    virtual ~mapgen_function() = default;
     virtual void setup() { } // throws
     virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
 };
@@ -145,7 +145,7 @@ protected:
 public:
     /** Place something on the map from mapgendata dat, at (x,y). mon_density */
     virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
-    virtual ~jmapgen_piece() { }
+    virtual ~jmapgen_piece() = default;
 };
 
 /**
@@ -287,7 +287,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         mapgen_function_json( const std::string s, int w,
                               const int x_grid_offset = 0, const int y_grid_offset = 0 );
-        ~mapgen_function_json() override { }
+        ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
         std::string luascript;
@@ -303,7 +303,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base {
     public:
         void setup();
         mapgen_function_json_nested( const std::string s );
-        ~mapgen_function_json_nested() override { }
+        ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
     protected:

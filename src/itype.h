@@ -813,7 +813,7 @@ public:
     long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player &p, item &it, const tripoint &pos ) const;
 
-    virtual ~itype() { };
+    virtual ~itype() = default;
 };
 
 #endif

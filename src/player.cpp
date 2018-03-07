@@ -7873,7 +7873,7 @@ public:
         }
         return true;
     }
-    ~ma_style_callback() override { }
+    ~ma_style_callback() override = default;
 };
 
 bool player::pick_style() // Style selection menu

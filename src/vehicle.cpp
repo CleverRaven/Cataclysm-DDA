@@ -123,9 +123,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
     smz = 0;
 }
 
-vehicle::~vehicle()
-{
-}
+vehicle::~vehicle() = default;
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
 {

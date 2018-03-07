@@ -159,8 +159,6 @@ class calendar
     public:
         /** Initializers */
         /**
-         * Default constructor
-         *
          * Starts at turn count zero, (midnight of first day, year zero, spring time)
          */
         calendar();

@@ -123,9 +123,7 @@ map::map( int mapsize, bool zlev )
     traplocs.resize( trap::count() );
 }
 
-map::~map()
-{
-}
+map::~map() = default;
 
 static submap null_submap;
 
@@ -8142,9 +8140,7 @@ pathfinding_cache::pathfinding_cache()
     dirty = true;
 }
 
-pathfinding_cache::~pathfinding_cache()
-{
-}
+pathfinding_cache::~pathfinding_cache() = default;
 
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const {
     return *pathfinding_caches[zlev + OVERMAP_DEPTH];
