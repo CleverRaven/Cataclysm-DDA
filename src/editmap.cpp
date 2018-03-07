@@ -228,7 +228,7 @@ editmap::editmap()
 
 editmap::~editmap() = default;
 
-void editmap_hilight::draw( editmap *hm, bool update )
+void editmap_hilight::draw( editmap &hm, bool update )
 {
     cur_blink++;
     if( cur_blink >= ( int )blink_interval.size() ) {
@@ -261,7 +261,7 @@ void editmap_hilight::draw( editmap *hm, bool update )
                 if( blink_interval[ cur_blink ] == true ) {
                     t_col = getbg( t_col );
                 }
-                tripoint scrpos = hm->pos2screen( p );
+                tripoint scrpos = hm.pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
             }
         }
@@ -573,7 +573,7 @@ void editmap::update_view( bool update_info )
     // custom hilight. @todo; optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
-            elem.second.draw( this );
+            elem.second.draw( *this );
         }
     }
 
@@ -1699,7 +1699,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             showpreview = true;
         }
         if( showpreview ) {
-            hilights["mapgentgt"].draw( this, true );
+            hilights["mapgentgt"].draw( *this, true );
             wrefresh( g->w_terrain );
             tmpmap.reset_vehicle_cache( target.z );
             for( int x = 0; x < 24; x++ ) {

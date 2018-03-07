@@ -35,7 +35,7 @@ struct editmap_hilight {
                   )
                 );
     };
-    void draw( editmap *em, bool update = false );
+    void draw( editmap &em, bool update = false );
 };
 
 class editmap
