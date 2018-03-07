@@ -4858,10 +4858,10 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
         }
     }
 
-    return handle_ground_graffiti(p, it, ismarker ? _("Write what?") : _("Spray what?"));
+    return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4871,7 +4871,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p->pos();
+        const auto where = p.pos();
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
@@ -4887,7 +4887,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
             add_msg( _("You write a message on the ground.") );
             move_cost = 2 * message.length();
         }
-        p->moves -= move_cost;
+        p.moves -= move_cost;
     }
 
     return it->type->charges_to_use();
