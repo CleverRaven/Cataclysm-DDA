@@ -5630,7 +5630,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
-                weed_msg( carrier );
+                weed_msg( *carrier );
             }
         }
         active = false;

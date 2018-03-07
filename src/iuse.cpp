@@ -462,7 +462,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
     if (it->typeId() == "joint") {
         // Would group with the joint, but awkward to mutter before lighting up.
         if (one_in(5)) {
-            weed_msg(p);
+            weed_msg( *p );
         }
     }
     if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
@@ -713,7 +713,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
     if (one_in(5)) {
-        weed_msg(p);
+        weed_msg( *p );
     }
     return it->type->charges_to_use();
 }
