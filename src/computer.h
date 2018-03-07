@@ -119,7 +119,7 @@ class computer
         void use();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player *p, int Security = -1 );
+        bool hack_attempt( player &p, int Security = -1 );
         // Save/load
         std::string save_data();
         void load_data( std::string data );
