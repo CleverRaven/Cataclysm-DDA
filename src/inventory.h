@@ -167,7 +167,7 @@ class inventory : public visitable<inventory>
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet( item &it, Character *p, bool force = false );
+        void assign_empty_invlet( item &it, const Character &p, bool force = false );
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.

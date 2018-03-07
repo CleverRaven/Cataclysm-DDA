@@ -10909,7 +10909,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, this, true );
+    inv.assign_empty_invlet( weapon, *this, true );
     last_item = weapon.typeId();
 
     /**
