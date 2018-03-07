@@ -704,7 +704,7 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, input_context 
     fold_and_print(w_sorting, 0, 16, (TERMX / 2), c_light_gray, sort_help);
 }
 
-tab_direction set_points( const catacurses::window &w, player *, points_left &points )
+tab_direction set_points( const catacurses::window &w, player &, points_left &points )
 {
     tab_direction retval = tab_direction::NONE;
     const int content_height = TERMY - 6;
@@ -1350,7 +1350,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         }
 
         int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-        bool can_pick = sorted_profs[cur_id]->can_pick( &u, points.skill_points_left() );
+        bool can_pick = sorted_profs[cur_id]->can_pick( u, points.skill_points_left() );
         const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
         // Clear the bottom of the screen and header.
