@@ -94,7 +94,7 @@
         "shelter"
       ],
       "items": {
-        "_": { "item": "shelter", "chance": 5 }
+        "_": { "item": "shelter", "chance": 1 }
       }
     }
   },
