@@ -1,0 +1,21 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.site-header {
+  background: #111111;
+  box-shadow: 0 2px 4px -1px rgba(#000000, 0.25);
+  color: #ffffff;
+  border: 0;
+}
+
+.site-nav .page-link,
+.site-title,
+.site-title:visited {
+  color: inherit;
+}
