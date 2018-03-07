@@ -21,7 +21,6 @@ using activity_id = string_id<activity_type>;
 class player_activity
 {
     private:
-        void finish( player *p );
         activity_id type;
     public:
         /** Total number of moves required to complete the activity */
