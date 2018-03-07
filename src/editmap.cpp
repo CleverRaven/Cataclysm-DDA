@@ -1071,22 +1071,22 @@ void editmap::update_fmenu_entry( uimenu &fmenu, field &field, const field_id id
     fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
 }
 
-void editmap::setup_fmenu( uimenu *fmenu )
+void editmap::setup_fmenu( uimenu &fmenu )
 {
     std::string fname;
-    fmenu->entries.clear();
+    fmenu.entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
         const field_t &ftype = fieldlist[fid];
         int fdens = 1;
         fname = ftype.name( fdens - 1 );
-        fmenu->addentry( fid, true, -2, fname );
-        fmenu->entries[fid].extratxt.left = 1;
-        fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
-        update_fmenu_entry( *fmenu, *cur_field, fid );
+        fmenu.addentry( fid, true, -2, fname );
+        fmenu.entries[fid].extratxt.left = 1;
+        fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
+        update_fmenu_entry( fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {
-        fmenu->selected = sel_field;
+        fmenu.selected = sel_field;
     }
 }
 
@@ -1099,7 +1099,7 @@ int editmap::edit_fld()
     fmenu.w_y = 0;
     fmenu.w_x = offsetX;
     fmenu.return_invalid = true;
-    setup_fmenu( &fmenu );
+    setup_fmenu( fmenu );
 
     do {
         uphelp( pgettext( "Map editor: Field effects shortkeys",
@@ -1190,7 +1190,7 @@ int editmap::edit_fld()
             int sel_tmp = fmenu.selected;
             int ret = select_shape( editshape, ( fmenu.keypress == 'm' ? 1 : 0 ) );
             if( ret > 0 ) {
-                setup_fmenu( &fmenu );
+                setup_fmenu( fmenu );
             }
             fmenu.selected = sel_tmp;
         } else if( fmenu.keypress == 'v' ) {
