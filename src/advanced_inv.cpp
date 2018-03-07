@@ -458,26 +458,25 @@ struct advanced_inv_sorter {
     }
 };
 
-void advanced_inventory::menu_square( uimenu *menu )
+void advanced_inventory::menu_square( uimenu &menu )
 {
-    assert( menu != nullptr );
-    assert( menu->entries.size() >= 9 );
+    assert( menu.entries.size() >= 9 );
     int ofs = -25 - 4;
-    int sel = screen_relative_location( static_cast <aim_location>( menu->selected + 1 ) );
+    int sel = screen_relative_location( static_cast <aim_location>( menu.selected + 1 ) );
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = screen_relative_location( static_cast <aim_location>( i ) );
         char key = get_location_key( loc );
         bool in_vehicle = squares[loc].can_store_in_vehicle();
         const char *bracket = ( in_vehicle ) ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
-        bool canputitems = ( menu->entries[i - 1].enabled && squares[loc].canputitems() );
+        bool canputitems = ( menu.entries[i - 1].enabled && squares[loc].canputitems() );
         nc_color bcolor = ( canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_dark_gray );
         nc_color kcolor = ( canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_dark_gray );
         const int x = squares[loc].hscreenx + ofs;
         const int y = squares[loc].hscreeny + 5;
-        mvwprintz( menu->window, y, x, bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%c", key );
-        wprintz( menu->window, bcolor, "%c", bracket[1] );
+        mvwprintz( menu.window, y, x, bcolor, "%c", bracket[0] );
+        wprintz( menu.window, kcolor, "%c", key );
+        wprintz( menu.window, bcolor, "%c", bracket[1] );
     }
 }
 
@@ -1915,7 +1914,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.show(); // generate and show window.
     while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
         // Render a fancy ASCII grid at the left of the menu.
-        menu_square( &menu );
+        menu_square( menu );
         menu.query( false ); // query, but don't loop
     }
     redraw = true; // the menu has messed the screen up.
