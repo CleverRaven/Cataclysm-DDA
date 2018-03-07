@@ -249,10 +249,10 @@ void editmap_hilight::draw( editmap &hm, bool update )
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
-                const field *t_field = &g->m.field_at( p );
-                if( t_field->fieldCount() > 0 ) {
-                    field_id t_ftype = t_field->fieldSymbol();
-                    const field_entry *t_fld = t_field->findField( t_ftype );
+                const field &t_field = g->m.field_at( p );
+                if( t_field.fieldCount() > 0 ) {
+                    field_id t_ftype = t_field.fieldSymbol();
+                    const field_entry *t_fld = t_field.findField( t_ftype );
                     if( t_fld != NULL ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -554,10 +554,10 @@ void editmap::update_view( bool update_info )
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
-                const field *t_field = &g->m.field_at( p );
-                if( t_field->fieldCount() > 0 ) {
-                    field_id t_ftype = t_field->fieldSymbol();
-                    const field_entry *t_fld = t_field->findField( t_ftype );
+                const field &t_field = g->m.field_at( p );
+                if( t_field.fieldCount() > 0 ) {
+                    field_id t_ftype = t_field.fieldSymbol();
+                    const field_entry *t_fld = t_field.findField( t_ftype );
                     if( t_fld != NULL ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
@@ -642,11 +642,11 @@ void editmap::update_view( bool update_info )
         off++;  // 4-5
 
         for( auto &fld : *cur_field ) {
-            const field_entry *cur = &fld.second;
-            mvwprintz( w_info, off, 1, cur->color(),
+            const field_entry &cur = fld.second;
+            mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       cur->name().c_str(), cur->getFieldType(),
-                       cur->getFieldDensity(), cur->getFieldAge()
+                       cur.name().c_str(), cur.getFieldType(),
+                       cur.getFieldDensity(), cur.getFieldAge()
                      );
             off++; // 5ish
         }
@@ -1149,8 +1149,8 @@ int editmap::edit_fld()
             if( fdens != fsel_dens || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
                     auto const fid = static_cast<field_id>( idx );
-                    field *t_field = &g->m.get_field( elem );
-                    field_entry *t_fld = t_field->findField( fid );
+                    field &t_field = g->m.get_field( elem );
+                    field_entry *t_fld = t_field.findField( fid );
                     int t_dens = 0;
                     if( t_fld != NULL ) {
                         t_dens = t_fld->getFieldDensity();
@@ -1174,12 +1174,12 @@ int editmap::edit_fld()
             }
         } else if( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
             for( auto &elem : target_list ) {
-                field *t_field = &g->m.get_field( elem );
-                while( t_field->fieldCount() > 0 ) {
-                    auto const rmid = t_field->begin()->first;
+                field &t_field = g->m.get_field( elem );
+                while( t_field.fieldCount() > 0 ) {
+                    auto const rmid = t_field.begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
-                        update_fmenu_entry( fmenu, *t_field, rmid );
+                        update_fmenu_entry( fmenu, t_field, rmid );
                     }
                 }
             }
@@ -1320,18 +1320,18 @@ int editmap::edit_itm()
     do {
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < ( int )items.size() ) {
-            item *it = &items[ilmenu.ret];
+            item &it = items[ilmenu.ret];
             uimenu imenu;
             imenu.w_x = ilmenu.w_x;
             imenu.w_y = ilmenu.w_height;
             imenu.w_height = TERMX - ilmenu.w_height;
             imenu.w_width = ilmenu.w_width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
-                            to_turn<int>( it->birthday() ) );
+                            to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
-                            "damage: %d" ), it->damage() );
+                            "damage: %d" ), it.damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
-                            "burnt: %d" ), ( int )it->burnt );
+                            "burnt: %d" ), ( int )it.burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1344,13 +1344,13 @@ int editmap::edit_itm()
                     int intval = -1;
                     switch( imenu.ret ) {
                         case imenu_bday:
-                            intval = to_turn<int>( it->birthday() );
+                            intval = to_turn<int>( it.birthday() );
                             break;
                         case imenu_damage:
-                            intval = it->damage();
+                            intval = it.damage();
                             break;
                         case imenu_burnt:
-                            intval = ( int )it->burnt;
+                            intval = ( int )it.burnt;
                             break;
                     }
                     int retval = string_input_popup()
@@ -1360,14 +1360,14 @@ int editmap::edit_itm()
                                  .query_int();
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
-                            it->set_birthday( time_point::from_turn( retval ) );
-                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it->birthday() ) );
+                            it.set_birthday( time_point::from_turn( retval ) );
+                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
                         } else if( imenu.ret == imenu_damage ) {
-                            it->set_damage( retval );
-                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
+                            it.set_damage( retval );
+                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                         } else if( imenu.ret == imenu_burnt ) {
-                            it->burnt = retval;
-                            imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it->burnt );
+                            it.burnt = retval;
+                            imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
                         }
                         werase( g->w_terrain );
                         g->draw_ter( target );
@@ -1376,7 +1376,7 @@ int editmap::edit_itm()
                     wrefresh( imenu.window );
                     wrefresh( g->w_terrain );
                 } else if( imenu.ret == imenu_savetest ) {
-                    edit_json( it );
+                    edit_json( &it );
                 }
             } while( imenu.ret != imenu_exit );
             wrefresh( w_info );
