@@ -347,7 +347,7 @@ class monster : public Creature
         bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
-        void make_ally( monster *z );
+        void make_ally( const monster &z );
         void add_item( item it );   // Add an item to inventory
 
         /**
