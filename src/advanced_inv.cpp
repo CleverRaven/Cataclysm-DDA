@@ -820,24 +820,24 @@ bool advanced_inv_listitem::is_item_entry() const
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
-    return is_filtered( it.items.front() );
+    return is_filtered( *it.items.front() );
 }
 
-bool advanced_inventory_pane::is_filtered( const item *it ) const
+bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
     if( filter.empty() ) {
         return false;
     }
 
-    std::string str = it->tname();
+    const std::string str = it.tname();
     if( filtercache.find( str ) == filtercache.end() ) {
         const auto filter_fn = item_filter_from_string( filter );
         filtercache[ str ] = filter_fn;
 
-        return !filter_fn( *it );
+        return !filter_fn( it );
     }
 
-    return !filtercache[ str ]( *it );
+    return !filtercache[ str ]( it );
 }
 
 // roll our own, to handle moving stacks better
@@ -897,7 +897,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         for( size_t x = 0; x < stacks.size(); ++x ) {
             auto &an_item = stacks[x]->front();
             advanced_inv_listitem it( &an_item, x, stacks[x]->size(), square.id, false );
-            if( is_filtered( it.items.front()) ) {
+            if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -908,7 +908,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
             advanced_inv_listitem it( &*iter, i, 1, square.id, false );
-            if( is_filtered( it.items.front() ) ) {
+            if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -936,7 +936,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
 
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it(stacks[x], x, square.id, is_in_vehicle);
-            if( is_filtered( it.items.front() ) ) {
+            if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -1254,7 +1254,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 const auto &stack = g->u.inv.const_stack( index );
                 const auto &it = stack.front();
 
-                if( !spane.is_filtered( &it ) ) {
+                if( !spane.is_filtered( it ) ) {
                     dropped.emplace_back( static_cast<int>( index ), it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
@@ -1265,7 +1265,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 const size_t index = ( g->u.worn.size() - idx - 1 );
                 const auto &it = *iter;
 
-                if( !spane.is_filtered( &it ) ) {
+                if( !spane.is_filtered( it ) ) {
                     dropped.emplace_back( player::worn_position_to_index( index ),
                                           it.count_by_charges() ? it.charges : 1 );
                 }
@@ -1309,7 +1309,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // push back indices and item count[s] for [begin => end)
         int index = 0;
         for(auto item_it = begin; item_it != end; ++item_it, ++index) {
-            if( spane.is_filtered( &( *item_it ) ) ) {
+            if( spane.is_filtered( *item_it ) ) {
                 continue;
             }
             if( filter_buckets && item_it->is_bucket_nonempty() ) {

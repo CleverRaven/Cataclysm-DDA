@@ -289,7 +289,7 @@ class advanced_inventory_pane
         /**
          * Same as the other, but checks the real item.
          */
-        bool is_filtered( const item *it ) const;
+        bool is_filtered( const item &it ) const;
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.
