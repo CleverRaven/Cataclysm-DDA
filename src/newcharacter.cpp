@@ -906,7 +906,8 @@ tab_direction set_stats( const catacurses::window &w, player *u, points_left &po
                       _("Read times: %d%%"), read_spd);
             mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Skill rust: %d%%"),
                       u->rust_rate(false));
-            fold_and_print(w_description, 3, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
+            mvwprintz( w_description, 2, 0, COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ), u->get_int() );
+            fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
             break;
 
