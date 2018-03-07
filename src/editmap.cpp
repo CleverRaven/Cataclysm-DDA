@@ -1059,7 +1059,7 @@ void editmap::update_fmenu_entry( uimenu &fmenu, field &field, const field_id id
 {
     int fdens = 1;
     const field_t &ftype = fieldlist[idx];
-    field_entry *fld = field.findField( ( field_id )idx );
+    field_entry *fld = field.findField( idx );
     if( fld != NULL ) {
         fdens = fld->getFieldDensity();
     }
