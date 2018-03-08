@@ -1872,7 +1872,7 @@
     ],
     "locations" : [ "wilderness", "swamp" ],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 4],
+    "occurrences" : [0, 4],
     "flags" : [ "CLASSIC" ]
   },{
     "type" : "overmap_special",
@@ -1909,7 +1909,7 @@
     "locations" : [ "wilderness", "swamp" ],
     "city_distance" : [10, -1],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 2],
+    "occurrences" : [0, 2],
     "flags" : [ "CLASSIC" ]
   },{
     "type" : "overmap_special",
@@ -1946,7 +1946,7 @@
     "locations" : [ "wilderness", "swamp" ],
     "city_distance" : [10, -1],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 2],
+    "occurrences" : [0, 2],
     "flags" : [ "CLASSIC" ]
   },{
     "type": "overmap_special",
