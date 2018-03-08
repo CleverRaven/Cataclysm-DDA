@@ -333,7 +333,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         return false;
     }
 
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string> &e ) {
         return e.empty();
     } ), rows.end() );
 
