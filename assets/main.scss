@@ -1,17 +1,28 @@
 ---
 ---
 
+// Minima variable overrides
+$content-width: 1140px;
+
 @import "{{ site.theme }}";
 
+// Custom variables
 $background-color: #222222;
+$inside-width: $content-width - ($spacing-unit * 2);
 $text-color: #dddddd;
 $primary-color: #c14924;
 
 body {
   font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.7;
   background-color: $background-color;
   color: $text-color;
 }
+
+/*
+   Header
+   ========================================================================== */
 
 .site-header {
   background: #111111;
@@ -33,7 +44,7 @@ body {
 .site-nav {
   margin-left: auto;
 
-  @media screen and (max-width: 600px) {
+  @include media-query($on-palm) {
     background-color: #777777;
   }
 }
@@ -47,4 +58,33 @@ body {
 .page-link--download {
   background: $primary-color;
   padding: 10px;
+}
+
+/*
+   Body
+   ========================================================================== */
+
+.post-title {
+  text-align: center;
+}
+
+.lead {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  &__image {
+    $_margin: 5px;
+    margin: 10px $_margin;
+
+    @media screen and (min-width: $on-palm) {
+      width: calc(50% - (#{$_margin} * 2));
+    }
+  }
 }
