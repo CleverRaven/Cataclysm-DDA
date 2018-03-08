@@ -18,18 +18,30 @@ body {
   box-shadow: 0 2px 4px -1px rgba(#000000, 0.25);
   color: #ffffff;
   border: 0;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.site-logo {
+  max-height: 40px;
+  margin-right: 10px;
+}
+
+.site-nav {
+  margin-left: auto;
+
+  @media screen and (max-width: 600px) {
+    background-color: #777777;
+  }
 }
 
 .site-nav .page-link,
 .site-title,
 .site-title:visited {
   color: inherit;
-}
-
-.site-nav {
-  @media screen and (max-width: 600px) {
-    background-color: #777777;
-  }
 }
 
 .page-link--download {
