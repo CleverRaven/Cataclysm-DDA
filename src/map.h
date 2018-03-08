@@ -1471,12 +1471,12 @@ class map
         template<typename T>
         void process_items( bool active, T processor, std::string const &signal );
         template<typename T>
-        void process_items_in_submap( submap *current_submap, const tripoint &gridp,
+        void process_items_in_submap( submap &current_submap, const tripoint &gridp,
                                       T processor, std::string const &signal );
         template<typename T>
-        void process_items_in_vehicles( submap *current_submap, T processor, std::string const &signal );
+        void process_items_in_vehicles( submap &current_submap, T processor, std::string const &signal );
         template<typename T>
-        void process_items_in_vehicle( vehicle *cur_veh, submap *current_submap,
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
                                        T processor, std::string const &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
