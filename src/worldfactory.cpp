@@ -830,7 +830,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     catacurses::window w_active  = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX );
     catacurses::window w_description = catacurses::newwin( 4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX );
 
-    draw_modselection_borders(win, &ctxt);
+    draw_modselection_borders( win, ctxt );
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
@@ -975,7 +975,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    draw_modselection_borders(win, &ctxt);
+                    draw_modselection_borders( win, ctxt );
                     redraw_description = true;
                     continue;
                 }
@@ -1037,7 +1037,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if(mman->set_default_mods(active_mod_order) ) {
                 popup(_("Saved list of active mods as default"));
-                draw_modselection_borders(win, &ctxt);
+                draw_modselection_borders( win, ctxt );
                 redraw_description = true;
                 redraw_headers = true;
             }
@@ -1047,7 +1047,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             redraw_list = true;
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, &ctxt );
+            draw_modselection_borders( win, ctxt );
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
@@ -1206,7 +1206,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
     return 0;
 }
 
-void worldfactory::draw_modselection_borders( const catacurses::window &win, input_context *ctxtp )
+void worldfactory::draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp )
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
@@ -1255,8 +1255,8 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
                    _("Press %s to save the list of active mods as default. Press %s for help."),
-                   ctxtp->get_desc("SAVE_DEFAULT_MODS").c_str(),
-                   ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
+                   ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
