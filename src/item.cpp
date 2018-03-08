@@ -2405,7 +2405,7 @@ std::string item::display_name( unsigned int quantity ) const
     bool is_money = ( ammo_type() == "money");
 
     // We should handle infinite charges properly in all cases.
-    if ( !contents.empty() && is_money ) {
+    if ( is_money ) {
         for (auto &elem : contents) {
             amount += elem.charges;
         }
@@ -4560,7 +4560,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))::toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
                 auto qty = m.second.qty();
                 if( m.first == gun_mode_id( "AUTO" ) && e == this && has_flag( "RAPIDFIRE" ) ) {
