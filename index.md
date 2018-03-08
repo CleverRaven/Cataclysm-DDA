@@ -9,8 +9,8 @@ Struggle to survive in a harsh, persistent, procedurally generated world. Scaven
 
 
 <div class="screenshots">
-	<img src="/assets/images/gameplay-1.png" class="screenshots__image" alt="Gameplay screenshot of Cataclysm: Dark Days Ahead showing a player sorrounded by zombies">
-	<img src="/assets/images/gameplay-2.png" class="screenshots__image" alt="Gameplay screenshot of Cataclysm: Dark Days Ahead showing a player on fire">
+	<img src="{{ "/assets/images/gameplay-1.png" | relative_url }}" class="screenshots__image" alt="Gameplay screenshot of Cataclysm: Dark Days Ahead showing a player sorrounded by zombies">
+	<img src="{{ "/assets/images/gameplay-2.png" | relative_url }}" class="screenshots__image" alt="Gameplay screenshot of Cataclysm: Dark Days Ahead showing a player on fire">
 </div>
 
 ## Gameplay
