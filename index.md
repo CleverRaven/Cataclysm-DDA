@@ -28,17 +28,17 @@ As your game begins, you awaken with hazy memories of violence and terror from w
 * [Game Launcher](https://discourse.cataclysmdda.org/t/cdda-game-launcher-automatic-updates-and-more)
 
 ## System Requirements
-### Minimum
-"I played catadda 0.B on Lego EV3 brick through ssh about a year ago. Every simple move took a noticeable fraction of a second (like 0.3-0.5 second), crafting and such was very slow as well. The specs were - 300 MhZ CPU, 64 Mb Ram (+ another 64 Mb swap on microsd flash) running ev3dev (stripped ubuntu basically), ssh over USB CDC connection." -burgerpro
+### Minimum Specs
+Tilesets increase the amount of RAM required dramatically. It is recommended to have at least 1GB of ram for tilesets, as there are reports of instability due to RAM exhaustion when certain tilesets are used. Naturally, the larger the size of the individual tiles the more RAM that's used.
 
-"I used to test the game on an Asus EEE 700. That's a 900MHz mobile cpu with 500MB of ram." -Kevin Granade
+> "I played catadda 0.B on Lego EV3 brick through ssh about a year ago. Every simple move took a noticeable fraction of a second (like 0.3-0.5 second), crafting and such was very slow as well. The specs were - 300 MhZ CPU, 64 Mb Ram (+ another 64 Mb swap on microsd flash) running ev3dev (stripped ubuntu basically), ssh over USB CDC connection." -burgerpro
 
-Tilesets increase the amount of RAM required dramatically, I recommend at least 1GB of ram for tilesets, and there are reports of instability due to RAM exhaustion when certain tilesets are used. (The larger the size of the individual tiles, the more RAM is used)
+> "I used to test the game on an Asus EEE 700. That's a 900MHz mobile cpu with 500MB of ram." -Kevin Granade
 
-### Recommended
-"I regularly test the game now on a Windows netbook with a sub 2GHz single core CPU, 1GB of ram, and no graphics acceleration." -Kevin Granade
-
+### Recommended Specs
 Graphical builds run much faster with some kind of graphics acceleration.  2GB of RAM pretty much guarantees you will never have trouble with memory shortages.
+
+> "I regularly test the game now on a Windows netbook with a sub 2GHz single core CPU, 1GB of ram, and no graphics acceleration." -Kevin Granade
 
 ## Downloads
 
