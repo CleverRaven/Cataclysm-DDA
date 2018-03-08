@@ -52,6 +52,7 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         // We already know this is true because of the `find_first_not_of` check above.
         const bool had_next = consume_next_input_if( '$' );
         assert( had_next );
+        (void)had_next;
         return result;
     } else {
         return cata::nullopt;
