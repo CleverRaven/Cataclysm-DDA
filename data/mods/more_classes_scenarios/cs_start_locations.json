@@ -19,8 +19,8 @@
   },
   {
     "type" : "start_location",
-    "ident" : "mansion_+1_s",
+    "ident" : "mansion_+2_s",
     "name" : "Mansion",
-    "target" : "mansion_+1"
+    "target" : "mansion_+2"
   }
 ]
