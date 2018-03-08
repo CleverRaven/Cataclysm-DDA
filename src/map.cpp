@@ -1985,7 +1985,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
-    const bool going_up = from.z < to.z;
+    const int dz = to.z - from.z;
+    const bool going_up = dz > 0;
 
     const tripoint &up_p = going_up ? to : from;
     const tripoint &down_p = going_up ? from : to;
