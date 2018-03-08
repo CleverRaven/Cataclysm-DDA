@@ -7153,7 +7153,7 @@
   {
     "id": "mansion_c1",
     "type": "overmap_terrain",
-    "copy-from" : "generic_hospital"
+    "copy-from" : "generic_mansion_no_sidewalk"
   },
   {
     "id": "mansion_c2",
