@@ -7521,6 +7521,10 @@ void game::examine()
     if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
         return;
     }
+    // redraw terrain to erase 'examine' window
+    draw_ter();
+    wrefresh( w_terrain );
+
     examine( examp );
 }
 
