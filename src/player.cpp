@@ -10558,18 +10558,15 @@ bool player::is_wearing_shoes(std::string side) const
 
 bool player::is_wearing_helmet() const
 {
-    bool ret = false;
-    for( auto &i : worn ) {
-        const item *worn_item = &i;
+    for( auto i : worn ) {
         if( i.covers( bp_head ) &&
-            !worn_item->has_flag( "HELMET_COMPAT" ) &&
-            !worn_item->has_flag( "SKINTIGHT" ) &&
-            !worn_item->has_flag( "OVERSIZE" ) ) {
-            ret = true;
-            break;
+            !i->has_flag( "HELMET_COMPAT" ) &&
+            !i->has_flag( "SKINTIGHT" ) &&
+            !i->has_flag( "OVERSIZE" ) ) {
+            return true;
         }
     }
-    return ret;
+    return false;
 }
 
 int player::head_cloth_encumbrance() const
