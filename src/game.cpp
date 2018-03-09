@@ -5833,7 +5833,7 @@ void game::monmove()
         }
 
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && g->m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
             dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
                          << " can't move to its location! (" << critter.posx()
                          << ":" << critter.posy() << ":" << critter.posz() << "), "
