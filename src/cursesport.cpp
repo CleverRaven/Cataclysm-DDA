@@ -407,6 +407,12 @@ void catacurses::mvwprintw(const window &win, int y, int x, const std::string &p
     return printstring(win.get<cata_cursesport::WINDOW>(), printbuf);
 }
 
+//Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
+void catacurses::resizeterm()
+{
+    //TODO: Windows console implementation
+}
+
 //erases a window of all text and attributes
 void catacurses::werase(const window &win_)
 {

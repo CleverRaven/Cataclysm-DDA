@@ -323,9 +323,9 @@ bool WinCreate()
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
+    window_flags |= SDL_WINDOW_RESIZABLE;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        window_flags |= SDL_WINDOW_RESIZABLE;
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
@@ -1265,6 +1265,21 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_EXPOSED:
                 case SDL_WINDOWEVENT_RESTORED:
                     needupdate = true;
+                    break;
+                case SDL_WINDOWEVENT_RESIZED:
+                    WindowWidth = ev.window.data1;
+                    WindowHeight = ev.window.data2;
+                    TERMINAL_WIDTH = WindowWidth / fontwidth;
+                    TERMINAL_HEIGHT = WindowHeight / fontheight;
+                    SetupRenderTarget();
+                    g->init_ui();
+                    catacurses::refresh();
+                    if( g->is_core_data_loaded() ) {
+                        tilecontext->reinit_minimap();
+                        g->refresh_all();
+                    }
+                    needupdate = true;
+                    refresh_display();
                     break;
                 default:
                     break;
