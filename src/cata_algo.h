@@ -12,14 +12,12 @@ namespace algo
 /**
  * @brief Sort elements of a sequence by their rating (the smaller the better).
  *
- * @param  begin           An iterator (usual meaning).
- * @param  end             An iterator (usual meaning).
+ * @param  begin           An input/output iterator.
+ * @param  end             An input/output iterator.
  * @param  rating_func     A functor which calculates ratings (the outcome
  *                         must be comparable using '<' operator).
  *
  * The rating is calculated only once per each element.
- *
- * @return  Nothing.
  */
 template<typename Iterator, typename RatingFunction>
 void sort_by_rating( Iterator begin, Iterator end, RatingFunction rating_func )

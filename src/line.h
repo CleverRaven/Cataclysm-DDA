@@ -138,7 +138,7 @@ struct rl_vec2d {
     float magnitude() const;
     rl_vec2d normalized() const;
     rl_vec2d rotated( float angle ) const;
-    float dot_product( rl_vec2d &v ) const;
+    float dot_product( const rl_vec2d &v ) const;
     bool is_null() const;
 
     point as_point() const;
@@ -164,7 +164,7 @@ struct rl_vec3d {
     float magnitude() const;
     rl_vec3d normalized() const;
     rl_vec3d rotated( float angle ) const;
-    float dot_product( rl_vec3d &v ) const;
+    float dot_product( const rl_vec3d &v ) const;
     bool is_null() const;
 
     tripoint as_point() const;

@@ -579,16 +579,14 @@ rl_vec3d rl_vec3d::rotated( float angle ) const
     );
 }
 
-float rl_vec2d::dot_product (rl_vec2d &v) const
+float rl_vec2d::dot_product ( const rl_vec2d &v ) const
 {
-    float dot = x * v.x + y * v.y;
-    return dot;
+    return x * v.x + y * v.y;
 }
 
-float rl_vec3d::dot_product (rl_vec3d &v) const
+float rl_vec3d::dot_product ( const rl_vec3d &v ) const
 {
-    float dot = x * v.x + y * v.y + y * v.z;
-    return dot;
+    return x * v.x + y * v.y + y * v.z;
 }
 
 bool rl_vec2d::is_null() const
