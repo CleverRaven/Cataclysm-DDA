@@ -7672,13 +7672,18 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( _( "You're already wearing footwear!" ) );
     }
 
-    if( it.covers( bp_head ) && !it.has_flag( "HELMET_COMPAT" ) && is_wearing_helmet() ) {
-        return ret_val<bool>::make_failure( wearing_something_on( bp_head ), _( "You can't wear that with other headgear!" ) );
+    if( it.covers( bp_head ) &&
+        !it.has_flag( "HELMET_COMPAT" ) &&
+        !it.has_flag( "SKINTIGHT" ) &&
+        !it.has_flag( "OVERSIZE" ) &&
+        is_wearing_helmet() ) {
+        return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
+                                            _( "You can't wear that with other headgear!" ) );
     }
 
     if( it.covers( bp_head ) &&
-      ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-      ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
+        ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
+        ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
         return ret_val<bool>::make_failure( _( "You can't wear that much on your head!" ) );
     }
 
@@ -10574,7 +10579,8 @@ int player::head_cloth_encumbrance() const
     int ret = 0;
     for( auto &i : worn ) {
         const item *worn_item = &i;
-        if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) || worn_item->has_flag( "SKINTIGHT" ) ) ) {
+        if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) ||
+                                     worn_item->has_flag( "SKINTIGHT" ) ) ) {
             ret += worn_item->get_encumber();
         }
     }
