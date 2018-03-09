@@ -17,12 +17,6 @@ mod_ui::mod_ui( mod_manager *mman )
     }
 }
 
-mod_ui::~mod_ui()
-{
-    active_manager = NULL;
-    mm_tree = NULL;
-}
-
 bool compare_mod_by_name_and_category( const MOD_INFORMATION *a, const MOD_INFORMATION *b )
 {
     return ( ( a->category < b->category ) || ( ( a->category == b->category ) &&

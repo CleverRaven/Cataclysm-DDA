@@ -814,7 +814,7 @@
     },{
         "type" : "terrain",
         "id" : "t_utility_light",
-        "name": "Utility Light",
+        "name": "utility light",
         "description": "An industrial flood light set up to illuminate the surroundings.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
         "symbol": ".",
         "color": "white",
@@ -3925,7 +3925,7 @@
             "items": [
                 { "item": "rope_6", "count": 2 }
             ]
-        }, 
+        },
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",

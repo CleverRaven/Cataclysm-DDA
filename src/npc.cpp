@@ -247,7 +247,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     }
 }
 
-npc::~npc() { }
+npc::~npc() = default;
 
 std::string npc::save_info() const
 {

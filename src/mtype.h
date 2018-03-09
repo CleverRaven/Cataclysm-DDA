@@ -270,7 +270,6 @@ struct mtype {
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
 
-        // Default constructor
         mtype();
         /**
          * Check if this type is of the same species as the other one, because

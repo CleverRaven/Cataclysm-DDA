@@ -62,7 +62,6 @@ MonsterGenerator::MonsterGenerator()
 {
     mon_templates->insert( mtype() );
     mon_species->insert( species_type() );
-    //ctor
     init_phases();
     init_attack();
     init_defense();
@@ -71,10 +70,7 @@ MonsterGenerator::MonsterGenerator()
     init_trigger();
 }
 
-MonsterGenerator::~MonsterGenerator()
-{
-    reset();
-}
+MonsterGenerator::~MonsterGenerator() = default;
 
 void MonsterGenerator::reset()
 {

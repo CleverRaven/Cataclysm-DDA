@@ -78,10 +78,6 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
-iuse_transform::~iuse_transform()
-{
-}
-
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform(*this);
@@ -221,8 +217,6 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-countdown_actor::~countdown_actor() = default;
-
 iuse_actor *countdown_actor::clone() const
 {
     return new countdown_actor( *this );
@@ -279,10 +273,6 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }
-}
-
-explosion_iuse::~explosion_iuse()
-{
 }
 
 iuse_actor *explosion_iuse::clone() const
@@ -388,10 +378,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 
 
 
-unfold_vehicle_iuse::~unfold_vehicle_iuse()
-{
-}
-
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
     return new unfold_vehicle_iuse(*this);
@@ -474,8 +460,6 @@ long unfold_vehicle_iuse::use(player &p, item &it, bool /*t*/, const tripoint &/
     }
     return 1;
 }
-
-consume_drug_iuse::~consume_drug_iuse() {}
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -601,8 +585,6 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     return it.type->charges_to_use();
 }
 
-delayed_transform_iuse::~delayed_transform_iuse() {}
-
 iuse_actor *delayed_transform_iuse::clone() const
 {
     return new delayed_transform_iuse(*this);
@@ -629,8 +611,6 @@ long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &p
     }
     return iuse_transform::use( p, it, t, pos );
 }
-
-place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
@@ -736,8 +716,6 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) c
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {}
-
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
@@ -792,7 +770,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint& ) 
 }
 
 
-pick_lock_actor::~pick_lock_actor() {}
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -891,7 +868,6 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint& ) const
 }
 
 
-reveal_map_actor::~reveal_map_actor() {}
 
 iuse_actor *reveal_map_actor::clone() const
 {
@@ -1652,17 +1628,17 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
 ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
-    /** @EFFECT_SURVIVAL >1 allows enzlavement */
+    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
-    /** @EFFECT_FIRSTAID >1 allows enzlavement */
+    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
 
     // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) <= 1 ) {
+    if( p.get_skill_level( skill_survival ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
     }
 
-    if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+    if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
     }

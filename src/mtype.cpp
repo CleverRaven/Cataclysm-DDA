@@ -207,7 +207,3 @@ std::string mtype::get_description() const
 {
     return _( description.c_str() );
 }
-
-mtype_special_attack::~mtype_special_attack()
-{
-}
