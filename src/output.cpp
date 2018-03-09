@@ -2088,6 +2088,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
+// We need to override these for Windows console resizing
+#if !(defined _WIN32 || defined __WIN32__)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2098,6 +2100,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
+#endif
 
 bool is_draw_tiles_mode()
 {
