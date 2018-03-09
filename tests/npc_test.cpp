@@ -182,3 +182,29 @@ TEST_CASE( "snippet-tag-test" )
     CHECK( SNIPPET.all_ids_from_category( "<mywp>" ).empty() );
     CHECK( SNIPPET.all_ids_from_category( "<ammo>" ).empty() );
 }
+
+std::string npc_attitude_name( npc_attitude att );
+
+TEST_CASE( "opinion-test" )
+{
+    npc model_npc = create_model();
+    npc other_npc = create_model();
+    static const npc_opinion no_change;
+    // Create a bunch of personalities, make sure everyone is sane
+    for( size_t i = 0; i < 100; i++ ) {
+        model_npc.personality.aggression = rng( -10, 10 );
+        model_npc.personality.bravery = rng( -10, 10 );
+        model_npc.personality.collector = rng( -10, 10 );
+        model_npc.personality.altruism = rng( -10, 10 );
+        // Roll a bunch of opinions, make sure they "stick"
+        for( size_t i = 0; i < 100; i++ ) {
+            npc_opinion op( rng( -20, 20 ), rng( -20, 20 ), rng( -20, 20 ), rng( -20, 20 ) );
+            model_npc.set_opinion_of( other_npc, op, true );
+            npc_attitude old_att = model_npc.attitude;
+            // Not-changing opinion should not-change attitude
+            model_npc.mod_opinion_of( other_npc, no_change );
+            INFO( npc_attitude_name( old_att ) + " -> " + npc_attitude_name( model_npc.attitude ) );
+            CHECK( model_npc.attitude == old_att );
+        }
+    }
+}

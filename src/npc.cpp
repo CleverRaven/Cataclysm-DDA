@@ -1027,6 +1027,8 @@ bool npc::wield( item &it )
 
 void npc::form_opinion( const player &u )
 {
+    npc_opinion op_of_u;
+
     // FEAR
     if( u.weapon.is_gun() ) {
         // @todo: Make bows not guns
@@ -1160,19 +1162,172 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if( op_of_u.fear < personality.bravery + 10 &&
-        op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8 ) {
-        attitude = NPCATT_TALK;
-    } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
-        attitude = NPCATT_KILL;
-    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
-        attitude = NPCATT_KILL;
-    } else {
-        attitude = NPCATT_FLEE;
-    }
+    set_opinion_of( u, op_of_u, true );
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
              name.c_str(), npc_attitude_name( attitude ).c_str() );
+}
+
+attitude_group get_attitude_group( npc_attitude att )
+{
+    switch( att ) {
+        case NPCATT_MUG:
+        case NPCATT_WAIT_FOR_LEAVE:
+        case NPCATT_KILL:
+            return attitude_group::hostile;
+        case NPCATT_FLEE:
+            return attitude_group::fearful;
+        case NPCATT_FOLLOW:
+        case NPCATT_LEAD:
+            return attitude_group::friendly;
+        default:
+            break;
+    }
+    return attitude_group::neutral;
+}
+
+npc_attitude attitude_from_group( attitude_group group )
+{
+    switch( group ) {
+        case attitude_group::neutral:
+            return NPCATT_NULL;
+        case attitude_group::hostile:
+            return NPCATT_KILL;
+        case attitude_group::fearful:
+            return NPCATT_FLEE;
+        case attitude_group::friendly:
+            return NPCATT_FOLLOW;
+    }
+    return NPCATT_NULL;
+}
+
+npc_attitude npc::get_attitude() const
+{
+    return attitude;
+}
+
+void npc::set_attitude( npc_attitude new_attitude )
+{
+    if( new_attitude == attitude ) {
+        return;
+    }
+    attitude_group new_group = get_attitude_group( new_attitude );
+    attitude_group old_group = get_attitude_group( attitude );
+    if( new_group != old_group && g->u.sees( *this ) ) {
+        switch( new_group ) {
+            case attitude_group::hostile:
+                add_msg( m_bad, _( "%s gets angry!" ), name.c_str() );
+                break;
+            case attitude_group::fearful:
+                add_msg( m_warning, _( "%s gets scared!" ), name.c_str() );
+                break;
+            default:
+                if( old_group == attitude_group::hostile ) {
+                    add_msg( m_good, _( "%s calms down." ), name.c_str() );
+                } else if( old_group == attitude_group::fearful ) {
+                    add_msg( _( "%s is no longer afraid." ), name.c_str() );
+                }
+                break;
+        }
+    }
+    attitude = new_attitude;
+}
+
+attitude_group npc::expected_attitude_group( const npc_opinion &op, bool )
+{
+    // The NPC is too aggressive to talk or run
+    if( 2 * ( personality.aggression + op.anger ) >= op.fear - personality.bravery + 10 + op.value + op.trust ) {
+        return attitude_group::hostile;
+    }
+    // The NPC is too scared to talk or just wants to play it safe
+    if( op.fear - personality.bravery >= 5 + op.value + op.trust || op.trust < -7 ) {
+        return attitude_group::fearful;
+    }
+    // Stable enough to talk
+    if( is_friend() ) {
+        return attitude_group::friendly;
+    }
+
+    return attitude_group::neutral;
+}
+
+// This prevents NPC attitude from flickering due to small changes in opinion
+const npc_opinion &attitude_opinion_offset( npc_attitude attitude )
+{
+    // Could be an array, but then it would be less readable
+    // Trust, Fear, Value, Anger
+    static const std::unordered_map<npc_attitude, npc_opinion> opp_map = {{
+            // Keep killin'
+            { NPCATT_KILL, { -2, -2, -2, 2 } },
+            // Don't kill, don't run, don't trust
+            { NPCATT_MUG, { -2, -2, 0, 0 } },
+            // Don't fear, but don't get mad just yet
+            { NPCATT_WAIT_FOR_LEAVE, { -1, -2, 0, 0 } },
+            // Don't get mad, but don't get friendly either
+            { NPCATT_FLEE, { -2, 2, 0, 0 } }
+        }
+    };
+    // @todo Friendliness is not an attitude, but NPCs should avoid going un-friendly
+    static const npc_opinion default_offset{ 0, 0, 0, 0 };
+    const auto iter = opp_map.find( attitude );
+    if( iter != opp_map.end() ) {
+        return iter->second;
+    }
+    return default_offset;
+}
+
+npc_attitude npc::expected_attitude( const npc_opinion &op, bool ignore_attitude ) const
+{
+    npc_attitude old_attitude = attitude;
+    npc_attitude new_attitude = attitude;
+    attitude_group new_group = expected_attitude_group( ignore_attitude ? op :
+                               ( op + attitude_opinion_offset( attitude ) ), personality );
+    if( !ignore_attitude ) {
+        attitude_group old_group = get_attitude_group( old_attitude );
+        // Compare groups and not direct attitudes to keep muggers from getting angry or talkatives from ignoring etc.
+        if( old_group != new_group ) {
+            new_attitude = attitude_from_group( new_group );
+        }
+    } else {
+        new_attitude = attitude_from_group( new_group );
+    }
+    // If the faction is hostile, we can't be neutral - either kill or run
+    // @todo If the NPC's impression makes player look like a friend, make the faction less angry
+    if( new_group == attitude_group::neutral && my_fac != nullptr && my_fac->likes_u < -10 ) {
+        new_attitude = NPCATT_KILL;
+    }
+    return new_attitude;
+}
+
+void npc::set_opinion_of( const player &, const npc_opinion &op, bool ignore_attitude )
+{
+    npc_attitude new_attitude = expected_attitude( op, ignore_attitude );
+    if( new_attitude == NPCATT_KILL ) {
+        // Handle faction anger
+        make_angry();
+    }
+    set_attitude( new_attitude );
+    opinion_of_player = op;
+}
+
+void npc::mod_opinion_of( const player &u, const npc_opinion &offset )
+{
+    set_opinion_of( u, opinion_of_player + offset, false );
+}
+
+void npc::mod_opinion_of( const player &u, int trust, int fear, int value, int anger )
+{
+    mod_opinion_of( u, npc_opinion( trust, fear, value, anger ) );
+}
+
+const npc_opinion &npc::get_opinion_of( const player & ) const
+{
+    return opinion_of_player;
+}
+
+void npc::mod_owed( const player &, int value )
+{
+    opinion_of_player.owed += value;
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1211,24 +1366,10 @@ float npc::vehicle_danger( int radius ) const
     return danger;
 }
 
-bool npc::turned_hostile() const
-{
-    return ( op_of_u.anger >= hostile_anger_level() );
-}
-
-int npc::hostile_anger_level() const
-{
-    return ( 20 + op_of_u.fear - personality.aggression );
-}
-
 void npc::make_angry()
 {
     if( is_enemy() ) {
         return; // We're already angry!
-    }
-
-    if( g->u.sees( *this ) ) {
-        add_msg( _( "%s gets angry!" ), name.c_str() );
     }
 
     // Make associated faction, if any, angry at the player too.
@@ -1236,11 +1377,8 @@ void npc::make_angry()
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
-    if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        attitude = NPCATT_FLEE; // We don't want to take u on!
-    } else {
-        attitude = NPCATT_KILL; // Yeah, we think we could take you!
-    }
+    // The faction anger should be enough for now, just re-apply opinion
+    set_opinion_of( g->u, opinion_of_player, true );
 }
 
 void npc::on_attacked( const Creature &attacker )
@@ -1600,7 +1738,7 @@ bool npc::is_friend() const
 
 bool npc::is_minion() const
 {
-    return is_friend() && op_of_u.trust >= 5;
+    return is_friend() && get_opinion_of( g->u ).trust >= 5;
 }
 
 bool npc::guaranteed_hostile() const
@@ -1827,6 +1965,7 @@ std::string npc::short_description() const
 std::string npc::opinion_text() const
 {
     std::stringstream ret;
+    const npc_opinion &op_of_u = get_opinion_of( g->u );
     if( op_of_u.trust <= -10 ) {
         ret << _( "Completely untrusting" );
     } else if( op_of_u.trust <= -6 ) {
@@ -2024,8 +2163,6 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Attacking to kill" );
         case NPCATT_FLEE:          // Get away from the player
             return _( "Fleeing" );
-        case NPCATT_HEAL:          // Get to the player and heal them
-            return _( "Healing you" );
         default:
             break;
     }
@@ -2292,6 +2429,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
+    const npc_opinion &op_of_u = get_opinion_of( g->u );
     if( is_following() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
@@ -2305,7 +2443,7 @@ void npc::process_turn()
         // Being barely hungry and thirsty, not in pain and not wounded means good care
         int state_penalty = get_hunger() + get_thirst() + ( 100 - hp_percentage() ) + get_pain();
         if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
-            op_of_u.trust++;
+            mod_opinion_of( g->u, 1, 0, 0, 0 );
         }
 
         // TODO: Similar checks for fear and anger

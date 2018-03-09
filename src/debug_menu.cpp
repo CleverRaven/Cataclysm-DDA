@@ -112,11 +112,12 @@ void character_edit_menu()
         } else {
             data << _( "No destination." ) << std::endl;
         }
-        data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
-             << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
-             << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-             << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+        const npc_opinion &op_of_u = np->get_opinion_of( g->u );
+        data << string_format( _( "Trust: %d" ), op_of_u.trust ) << " "
+             << string_format( _( "Fear: %d" ), op_of_u.fear ) << " "
+             << string_format( _( "Value: %d" ), op_of_u.value ) << " "
+             << string_format( _( "Anger: %d" ), op_of_u.anger ) << " "
+             << string_format( _( "Owed: %d" ), op_of_u.owed ) << std::endl;
 
         data << string_format( _( "Aggression: %d" ), int( np->personality.aggression ) ) << " "
              << string_format( _( "Bravery: %d" ), int( np->personality.bravery ) ) << " "
@@ -136,7 +137,7 @@ void character_edit_menu()
 
     enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
            D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-           D_TELE, D_MUTATE, D_CLASS
+           D_TELE, D_MUTATE, D_CLASS, D_OPINION
          };
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
@@ -156,6 +157,7 @@ void character_edit_menu()
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Adjust [O]pinion" ) );
     }
     nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
     nmenu.selected = 0;
@@ -421,6 +423,51 @@ void character_edit_menu()
                 np->randomize( ids[ classes.ret ] );
             }
         }
+        break;
+        case D_OPINION: {
+            bool loop = true;
+            npc_opinion opinion = np->get_opinion_of( g->u );
+            while( loop ) {
+                uimenu smenu;
+                smenu.return_invalid = true;
+                smenu.addentry( 0, true, 't', "%s: %d", _( "Trust" ), opinion.trust );
+                smenu.addentry( 1, true, 'f', "%s: %d", _( "Fear" ), opinion.fear );
+                smenu.addentry( 2, true, 'v', "%s: %d", _( "Value" ), opinion.value );
+                smenu.addentry( 3, true, 'a', "%s: %d", _( "Anger" ), opinion.anger );
+                smenu.addentry( 4, true, 's', _( "Set opinion, let attitude change \"naturally\"" ) );
+                smenu.addentry( 5, true, 'r', _( "Set opinion, reset attitude" ) );
+                smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
+                std::array<int *, 4> bound_vals = {{
+                        &opinion.trust, &opinion.fear, &opinion.value, &opinion.anger
+                    }
+                };
+                smenu.selected = 0;
+                smenu.query();
+                switch( smenu.ret ) {
+                        int value;
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        if( query_int( value, _( "Set the value to? Currently: %d" ), *bound_vals[smenu.ret] ) ) {
+                            *bound_vals[smenu.ret] = value;
+                        }
+                        break;
+                    case 4:
+                        np->set_opinion_of( g->u, opinion, false );
+                        loop = false;
+                        break;
+                    case 5:
+                        np->set_opinion_of( g->u, opinion, true );
+                        loop = false;
+                        break;
+                    default:
+                        loop = false;
+                        break;
+                }
+            }
+        }
+        break;
     }
 }
 

@@ -152,6 +152,10 @@ struct talk_response {
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
+        /**
+         * If true, this option counts as an attack for the purposes of morale penalty for murder.
+         */
+        bool hostile = false;
 
         talk_topic apply( dialogue &d ) const;
         void load_effect( JsonObject &jo );
@@ -173,6 +177,11 @@ struct talk_response {
 
     talk_response() = default;
     talk_response( JsonObject );
+
+    /**
+     * Returns true if this option may result in NPC being considered attacked by the player.
+     */
+    bool guilt_risk() const;
 };
 
 struct dialogue {
@@ -1083,11 +1092,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _( "Okay, here you go." );
 
     } else if( topic == "TALK_DENY_EQUIPMENT" ) {
-        if( p->op_of_u.anger >= p->hostile_anger_level() - 4 ) {
-            return _( "<no>, and if you ask again, <ill_kill_you>!" );
-        } else {
-            return _( "<no><punc> <fuck_you>!" );
-        }
+        return _( "<no><punc> <fuck_you>!" );
 
     }
     if( topic == "TALK_TRAIN" ) {
@@ -1494,6 +1499,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
     // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
+    const npc_opinion &op_of_u = p->get_opinion_of( g->u );
 
     if( topic == "TALK_GUARD" ) {
         add_response_done( _( "Don't mind me..." ) );
@@ -1555,7 +1561,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_MISSION_FAILURE" );
             SUCCESS_OPINION( -1, 0, -1, 1, 0 );
             RESPONSE( _( "Not yet." ) );
-            TRIAL( TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 3 );
+            TRIAL( TALK_TRIAL_LIE, 10 + op_of_u.trust * 3 );
             SUCCESS( "TALK_NONE" );
             FAILURE( "TALK_MISSION_FAILURE" );
             FAILURE_OPINION( -3, 0, -1, 2, 0 );
@@ -1563,7 +1569,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Not yet." ) );
             if( mission->get_type().goal == MGOAL_KILL_MONSTER ) {
                 RESPONSE( _( "Yup, I killed it." ) );
-                TRIAL( TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5 );
+                TRIAL( TALK_TRIAL_LIE, 10 + op_of_u.trust * 5 );
                 SUCCESS( "TALK_MISSION_SUCCESS" );
                 SUCCESS_ACTION( &talk_function::mission_success );
                 FAILURE( "TALK_MISSION_SUCCESS_LIE" );
@@ -1677,11 +1683,11 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     } else if( topic == "TALK_EVAC_GUARD3_HIDE2" ) {
         RESPONSE( _( "Get bent, traitor!" ) );
-        TRIAL( TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3 );
+        TRIAL( TALK_TRIAL_INTIMIDATE, 20 + op_of_u.fear * 3 );
         SUCCESS( "TALK_EVAC_GUARD3_HOSTILE" );
         FAILURE( "TALK_EVAC_GUARD3_INSULT" );
         RESPONSE( _( "Got something to hide?" ) );
-        TRIAL( TALK_TRIAL_PERSUADE, 10 + p->op_of_u.trust * 3 );
+        TRIAL( TALK_TRIAL_PERSUADE, 10 + op_of_u.trust * 3 );
         SUCCESS( "TALK_EVAC_GUARD3_DEAD" );
         FAILURE( "TALK_EVAC_GUARD3_INSULT" );
 
@@ -2040,7 +2046,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( p->has_effect( effect_asked_for_item ) ) {
             add_response_none( _( "Okay, fine." ) );
         } else {
-            int score = p->op_of_u.trust + p->op_of_u.value * 3 +
+            int score = op_of_u.trust + op_of_u.value * 3 +
                         p->personality.altruism * 2;
             int missions_value = p->assigned_missions_value();
             if( g->u.has_amount( "mininuke", 1 ) ) {
@@ -2078,7 +2084,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_GIVE_EQUIPMENT" );
             SUCCESS_ACTION( &talk_function::give_equipment );
             SUCCESS_OPINION( -3, 2, -2, 2,
-                             ( g->u.intimidation() + p->op_of_u.fear -
+                             ( g->u.intimidation() + op_of_u.fear -
                                p->personality.bravery - p->intimidation() ) * 500 );
             FAILURE( "TALK_DENY_EQUIPMENT" );
             FAILURE_OPINION( -3, 1, -3, 5, 0 );
@@ -2156,11 +2162,11 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         } else if( p->has_effect( effect_asked_to_follow ) ) {
             add_response_none( _( "Right, right, I'll ask later." ) );
         } else {
-            int strength = 4 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
+            int strength = 4 * op_of_u.fear + op_of_u.value + op_of_u.trust +
                            ( 10 - p->personality.bravery );
-            int weakness = 3 * ( p->personality.altruism - std::max( 0, p->op_of_u.fear ) ) +
-                           p->personality.bravery - 3 * p->op_of_u.anger + 2 * p->op_of_u.value;
-            int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value - 2 * p->op_of_u.anger;
+            int weakness = 3 * ( p->personality.altruism - std::max( 0, op_of_u.fear ) ) +
+                           p->personality.bravery - 3 * op_of_u.anger + 2 * op_of_u.value;
+            int friends = 2 * op_of_u.trust + 2 * op_of_u.value - 2 * op_of_u.anger;
             RESPONSE( _( "I can keep you safe." ) );
             TRIAL( TALK_TRIAL_PERSUADE, strength * 2 );
             SUCCESS( "TALK_AGREE_FOLLOW" );
@@ -2190,7 +2196,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_AGREE_FOLLOW" );
             SUCCESS_ACTION( &talk_function::follow );
             SUCCESS_OPINION( -4, 3, -1, 4, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
+            FAILURE( "TALK_DENY_FOLLOW", &talk_function::guilt );
             FAILURE_OPINION( -4, 0, -5, 10, 0 );
         }
 
@@ -2202,7 +2208,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_none( _( "Oh, okay." ) );
 
     } else if( topic == "TALK_LEADER" ) {
-        int persuade = p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust -
+        int persuade = op_of_u.fear + op_of_u.value + op_of_u.trust -
                        p->personality.bravery - p->personality.aggression;
         if( p->has_destination() ) {
             add_response( _( "How much further?" ), "TALK_HOW_MUCH_FURTHER" );
@@ -2285,8 +2291,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 ret.back().success.next_topic.reason = reasons.str();
             } else {
                 RESPONSE( _( "Can you teach me anything?" ) );
-                int commitment = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                                 3 * p->op_of_u.anger;
+                int commitment = 3 * op_of_u.trust + 1 * op_of_u.value -
+                                 3 * op_of_u.anger;
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
                 FAILURE( "TALK_DENY_PERSONAL" );
@@ -2420,7 +2426,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 SUCCESS_ACTION( &talk_function::player_weapon_drop );
                 SUCCESS_OPINION( 4, -3, 0, 0, 0 );
             }
-            int diff = 50 + p->personality.bravery - 2 * p->op_of_u.fear + 2 * p->op_of_u.trust;
+            int diff = 50 + p->personality.bravery - 2 * op_of_u.fear + 2 * op_of_u.trust;
             RESPONSE( _( "Don't worry, I'm not going to hurt you." ) );
             TRIAL( TALK_TRIAL_PERSUADE, diff );
             SUCCESS( "TALK_STRANGER_NEUTRAL" );
@@ -2435,20 +2441,20 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_WEAPON_DROPPED" );
             SUCCESS_ACTION( &talk_function::drop_weapon );
             FAILURE( "TALK_DONE" );
-            FAILURE_ACTION( &talk_function::hostile );
+            FAILURE_ACTION( &talk_function::hostile_murder );
         }
         RESPONSE( _( "!Get out of here or I'll kill you." ) );
         TRIAL( TALK_TRIAL_INTIMIDATE, 20 );
         SUCCESS( "TALK_DONE" );
         SUCCESS_ACTION( &talk_function::flee );
         FAILURE( "TALK_DONE" );
-        FAILURE_ACTION( &talk_function::hostile );
+        FAILURE_ACTION( &talk_function::hostile_murder );
 
     } else if( topic == "TALK_STRANGER_AGGRESSIVE" || topic == "TALK_MUG" ) {
         if( !g->u.unarmed_attack() ) {
             int chance = 30 + p->personality.bravery - 3 * p->personality.aggression +
-                         2 * p->personality.altruism - 2 * p->op_of_u.fear +
-                         3 * p->op_of_u.trust;
+                         2 * p->personality.altruism - 2 * op_of_u.fear +
+                         3 * op_of_u.trust;
             RESPONSE( _( "!Calm down.  I'm not going to hurt you." ) );
             TRIAL( TALK_TRIAL_PERSUADE, chance );
             SUCCESS( "TALK_STRANGER_WARY" );
@@ -2472,8 +2478,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
         } else if( topic == "TALK_MUG" ) {
             int chance = 35 + p->personality.bravery - 3 * p->personality.aggression +
-                         2 * p->personality.altruism - 2 * p->op_of_u.fear +
-                         3 * p->op_of_u.trust;
+                         2 * p->personality.altruism - 2 * op_of_u.fear +
+                         3 * op_of_u.trust;
             RESPONSE( _( "!Calm down.  I'm not going to hurt you." ) );
             TRIAL( TALK_TRIAL_PERSUADE, chance );
             SUCCESS( "TALK_STRANGER_WARY" );
@@ -2576,6 +2582,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     }
 
     npc &p = *d.beta;
+    const npc_opinion &op_of_u = p.get_opinion_of( g->u );
     int chance = difficulty;
     switch( type ) {
         case TALK_TRIAL_NONE:
@@ -2583,7 +2590,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
             break;
         case TALK_TRIAL_LIE:
-            chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
+            chance += u.talk_skill() - p.talk_skill() + op_of_u.trust * 3;
             if( u.has_trait( trait_TRUTHTELLER ) ) {
                 chance -= 40;
             }
@@ -2607,7 +2614,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
-                      p.op_of_u.trust * 2 + p.op_of_u.value;
+                      op_of_u.trust * 2 + op_of_u.value;
             if( u.has_trait( trait_ELFAEYES ) ) {
                 chance += 20;
             }
@@ -2637,7 +2644,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             }
             break;
         case TALK_TRIAL_INTIMIDATE:
-            chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
+            chance += u.intimidation() - p.intimidation() + op_of_u.fear * 2 -
                       p.personality.bravery * 2;
             if( u.has_trait( trait_MINOTAUR ) ) {
                 chance += 15;
@@ -2811,7 +2818,7 @@ void talk_function::mission_success( npc &p )
 
     int miss_val = cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p.op_of_u += tmp;
+    p.mod_opinion_of( g->u, tmp );
     if( p.my_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
         p.my_fac->likes_u += fac_val;
@@ -2829,7 +2836,7 @@ void talk_function::mission_failure( npc &p )
         return;
     }
     npc_opinion tmp( -1, 0, -1, 1, 0 );
-    p.op_of_u += tmp;
+    p.mod_opinion_of( g->u, tmp );
     miss->fail();
 }
 
@@ -2866,7 +2873,7 @@ void talk_function::mission_reward( npc &p )
     }
 
     int mission_value = miss->get_value();
-    p.op_of_u.owed += mission_value;
+    p.mod_owed( g->u, mission_value );
     trade( p, 0, _( "Reward" ) );
 }
 
@@ -2960,9 +2967,10 @@ void talk_function::give_equipment( npc &p )
 {
     std::vector<item_pricing> giving = init_selling( p );
     int chosen = -1;
+    const npc_opinion &op_of_u = p.get_opinion_of( g->u );
     while( chosen == -1 && giving.size() > 1 ) {
         int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
+        if( giving[index].price < op_of_u.owed ) {
             chosen = index;
         }
         giving.erase( giving.begin() + index );
@@ -2979,7 +2987,7 @@ void talk_function::give_equipment( npc &p )
     popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), it.tname().c_str() );
 
     g->u.i_add( it );
-    p.op_of_u.owed -= giving[chosen].price;
+    p.mod_owed( g->u, -giving[chosen].price );
     p.add_effect( effect_asked_for_item, 1800 );
 }
 
@@ -3151,6 +3159,21 @@ void talk_function::hostile( npc &p )
     p.attitude = NPCATT_KILL;
 }
 
+void talk_function::hostile_murder( npc &p )
+{
+    talk_function::guilt( p );
+    talk_function::hostile( p );
+}
+
+void talk_function::guilt( npc &p )
+{
+    if( p.attitude == NPCATT_KILL ) {
+        return;
+    }
+
+    p.hit_by_player = true;
+}
+
 void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name.c_str() );
@@ -3210,14 +3233,15 @@ void talk_function::lead_to_safety( npc &p )
 
 bool pay_npc( npc &np, int cost )
 {
-    if( np.op_of_u.owed >= cost ) {
-        np.op_of_u.owed -= cost;
+    const npc_opinion &op_of_u = np.get_opinion_of( g->u );
+    if( op_of_u.owed >= cost ) {
+        np.mod_owed( g->u, -cost );
         return true;
     }
 
-    if( g->u.cash + ( unsigned long )np.op_of_u.owed >= ( unsigned long )cost ) {
-        g->u.cash -= cost - np.op_of_u.owed;
-        np.op_of_u.owed = 0;
+    if( g->u.cash + ( unsigned long )op_of_u.owed >= ( unsigned long )cost ) {
+        g->u.cash -= cost - op_of_u.owed;
+        np.mod_owed( g->u, -op_of_u.owed );
         return true;
     }
 
@@ -3458,7 +3482,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
     formatted_text = foldstring( ftext, fold_width );
 
-    if( text[0] == '!' ) {
+    if( text[0] == '!' || guilt_risk() ) {
         color = c_red;
     } else if( text[0] == '*' ) {
         color = c_light_red;
@@ -3469,12 +3493,19 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     }
 }
 
+bool talk_response::guilt_risk() const
+{
+    return failure.effect == &talk_function::hostile_murder ||
+           failure.effect == &talk_function::guilt ||
+           success.effect == &talk_function::hostile_murder ||
+           success.effect == &talk_function::guilt;
+}
+
 talk_topic talk_response::effect_t::apply( dialogue &d ) const
 {
     effect( *d.beta );
-    d.beta->op_of_u += opinion;
-    if( d.beta->turned_hostile() ) {
-        d.beta->make_angry();
+    d.beta->mod_opinion_of( g->u, opinion );
+    if( d.beta->is_enemy() ) {
         return talk_topic( "TALK_DONE" );
     }
 
@@ -3538,7 +3569,10 @@ talk_topic dialogue::opt( const talk_topic &topic )
             ch -= 'a';
         } while( ( ch < 0 || ch >= ( int )responses.size() ) );
         okay = false;
-        if( responses[ch].color == c_white || responses[ch].color == c_green ) {
+        if( responses[ch].guilt_risk() &&
+            query_yn( _( "This counts as an attack and the target may fight back! Proceed?" ) ) ) {
+            okay = true;
+        } else if( responses[ch].color == c_white || responses[ch].color == c_green ) {
             okay = true;
         } else if( responses[ch].color == c_red && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             okay = true;
@@ -3738,8 +3772,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     // Just exchanging items, no barter involved
     const bool ex = p.is_friend();
 
+    const npc_opinion &op_of_u = p.get_opinion_of( g->u );
     // How much cash you get in the deal (negative = losing money)
-    long cash = cost + p.op_of_u.owed;
+    long cash = cost + op_of_u.owed;
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
@@ -3990,7 +4025,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
         if( !ex && cash > ( int )p.cash ) {
             // Trade was forced, give the NPC's cash to the player.
-            p.op_of_u.owed = ( cash - p.cash );
+            p.mod_owed( g->u, cash - p.cash - op_of_u.owed );
             g->u.cash += p.cash;
             p.cash = 0;
         } else if( !ex ) {
@@ -4298,8 +4333,7 @@ void load_talk_topic( JsonObject &jo )
 
 std::string npc::pick_talk_topic( const player &u )
 {
-    //form_opinion(u);
-    ( void )u;
+    const npc_opinion &op_of_u = get_opinion_of( u );
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             return "TALK_MUG";

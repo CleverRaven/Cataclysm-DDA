@@ -282,11 +282,8 @@ void npc::move()
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
-        if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-            attitude = NPCATT_FLEE;    // We don't want to take u on!
-        } else {
-            attitude = NPCATT_KILL;    // Yeah, we think we could take you!
-        }
+        // Just re-set our opinion, handle hostility there
+        set_opinion_of( g->u, opinion_of_player, false );
     }
 
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
@@ -2504,6 +2501,7 @@ void npc::heal_player( player &patient )
     consume_charges( used, charges_used );
 
     if( !patient.is_npc() ) {
+        const npc_opinion &op_of_u = get_opinion_of( patient );
         // Test if we want to heal the player further
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
             ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
@@ -2713,6 +2711,7 @@ void npc::mug_player( player &mark )
                        ( ( 10 - personality.aggression ) * .04 ) -
                        ( ( 10 - personality.collector )  * .06 );
     if( !mark.is_npc() ) {
+        const npc_opinion &op_of_u = get_opinion_of( mark );
         value_mod += ( op_of_u.fear * .08 );
         value_mod -= ( ( 8 - op_of_u.value ) * .07 );
     }
@@ -2750,7 +2749,8 @@ void npc::mug_player( player &mark )
     i_add( stolen );
     moves -= 100;
     if( !mark.is_npc() ) {
-        op_of_u.value -= rng( 0, 1 );  // Decrease the value of the player
+        // Decrease the value of the player
+        mod_opinion_of( mark, 0, 0, -rng( 0, 1 ), 0 );
     }
 }
 
