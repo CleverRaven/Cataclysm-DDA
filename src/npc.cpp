@@ -2489,19 +2489,19 @@ void npc::set_attitude( npc_attitude new_attitude )
              npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
-    if( new_group != old_group && !is_fake() && g->u.sees( *this ) ) {
+    if( new_group != old_group && !is_fake() ) {
         switch( new_group ) {
             case attitude_group::hostile:
-                add_msg( m_bad, _( "%s gets angry!" ), name.c_str() );
+                add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );
                 break;
             case attitude_group::fearful:
-                add_msg( m_warning, _( "%s gets scared!" ), name.c_str() );
+                add_msg_if_npc( m_warning, _( "<npcname> gets scared!" ) );
                 break;
             default:
                 if( old_group == attitude_group::hostile ) {
-                    add_msg( m_good, _( "%s calms down." ), name.c_str() );
+                    add_msg_if_npc( m_good, _( "<npcname> calms down." ) );
                 } else if( old_group == attitude_group::fearful ) {
-                    add_msg( _( "%s is no longer afraid." ), name.c_str() );
+                    add_msg_if_npc( _( "<npcname> is no longer afraid." ) );
                 }
                 break;
         }
