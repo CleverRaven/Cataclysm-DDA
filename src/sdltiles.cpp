@@ -1246,6 +1246,22 @@ long sdl_keysym_to_curses( SDL_Keysym keysym )
     }
 }
 
+bool handle_resize(int w, int h)
+{
+    if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
+        WindowWidth = w;
+        WindowHeight = h;
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        SetupRenderTarget();
+        g->init_ui();
+        tilecontext->reinit_minimap();
+        
+        return true;
+    }
+    return false;
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -1267,19 +1283,7 @@ void CheckMessages()
                     needupdate = true;
                     break;
                 case SDL_WINDOWEVENT_RESIZED:
-                    WindowWidth = ev.window.data1;
-                    WindowHeight = ev.window.data2;
-                    TERMINAL_WIDTH = WindowWidth / fontwidth;
-                    TERMINAL_HEIGHT = WindowHeight / fontheight;
-                    SetupRenderTarget();
-                    g->init_ui();
-                    catacurses::refresh();
-                    if( g->is_core_data_loaded() ) {
-                        tilecontext->reinit_minimap();
-                        g->refresh_all();
-                    }
-                    needupdate = true;
-                    refresh_display();
+                    needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                     break;
                 default:
                     break;
