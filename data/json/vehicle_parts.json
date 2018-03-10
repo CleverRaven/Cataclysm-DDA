@@ -957,6 +957,39 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "dashboard",
+        "name" : "dashboard",
+        "symbol" : "$",
+        "color" : "light_cyan",
+        "broken_symbol" : "$",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 125,
+        "bonus": 10,
+        "epower": -25,
+        "item" : "vehicle_dashboard",
+        "flags" : ["CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER"],
+        "requirements": {
+          "install": {
+            "time": 35000,
+            "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 8000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "breaks_into" : [
+            {"group": "ig_vp_device", "count": [2, 3]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "controls_electronic",
         "name" : "electronic control unit",
         "symbol" : "$",
