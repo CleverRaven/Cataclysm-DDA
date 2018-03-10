@@ -84,7 +84,7 @@
     "damage_modifier": 10,
     "folded_volume": 8,
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -121,7 +121,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "scrap", "count": [ 0, 2 ] }
     ],
     "requirements": {
