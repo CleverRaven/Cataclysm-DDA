@@ -13,12 +13,11 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
     "gun_data": {
-      "ammo": "flammable",
       "skill": "launcher",
       "dispersion": 300,
       "durability": 10,
       "magazines": [
-        "flammable", [ "aux_pressurized_tank" ]
+        [ "flammable", [ "aux_pressurized_tank" ] ]
       ]
     },
     "dispersion_modifier": 30,

@@ -18,9 +18,7 @@
     "reload_noise": "slosh.",
     "reload_noise_volume": 4,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ] ],
-    "magazines": [
-      "flammable", [ "pressurized_tank" ]
-    ]
+    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
   {
     "id": "flamethrower_crude",
@@ -55,9 +53,7 @@
     "dispersion": 300,
     "durability": 6,
     "relative": { "reload": 2 },
-    "magazines": [
-      "flammable", [ "pressurized_tank" ]
-    ]
+    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
   {
     "id": "rm451_flamethrower",
@@ -79,8 +75,6 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "FIRE_20", "MODE_BURST" ] },
     "delete": { "flags": [ "FIRE_100" ] },
-    "magazines": [
-      "flammable", [ "rm4502", "rm4504" ]
-    ]
+    "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
   }
 ]
