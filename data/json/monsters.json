@@ -424,6 +424,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "animal_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT" ]
   },
   {
@@ -1295,6 +1296,7 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
+    "harvest": "animal_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {
@@ -2802,6 +2804,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "animal_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
@@ -3186,6 +3189,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "animal_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT" ]
   },
   {
