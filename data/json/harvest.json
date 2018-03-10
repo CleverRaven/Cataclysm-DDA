@@ -32,6 +32,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat", "base_num": [ 30, 50 ], "scale_num": [ 0.8, 0.9 ], "max": 60 },
+      { "drop": "offal", "base_num": [ 3, 6 ], "scale_num": [ 0.5, 0.7 ], "max": 7 },
       { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40 },
       { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120 },
       { "drop": "raw_fur", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 5 }
