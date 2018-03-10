@@ -178,6 +178,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "fish_large",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
   },
   {
@@ -336,6 +337,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "fish_large",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
   },
   {
@@ -389,7 +391,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "fish_small",
+    "harvest": "fish_large",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
