@@ -8,7 +8,6 @@
 #include "mapgenformat.h"
 #include "overmap.h"
 #include "options.h"
-#include "game.h"
 #include "debug.h"
 #include "scenario.h"
 #include "item.h"
@@ -120,7 +119,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
     { "s_sports", mapgen_s_sports },
-    { "shelter_under", &mapgen_shelter_under },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     { "basement_spiders", &mapgen_basement_spiders },
@@ -140,21 +138,21 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
     { "subway_straight",    &mapgen_subway },
     { "subway_curved",      &mapgen_subway },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "subway_end",         &mapgen_subway },
     { "subway_tee",         &mapgen_subway },
     { "subway_four_way",    &mapgen_subway },
 
     { "sewer_straight",    &mapgen_sewer_straight },
     { "sewer_curved",      &mapgen_sewer_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "sewer_end",         &mapgen_sewer_straight },
     { "sewer_tee",         &mapgen_sewer_tee },
     { "sewer_four_way",    &mapgen_sewer_four_way },
 
     { "ants_straight",    &mapgen_ants_straight },
     { "ants_curved",      &mapgen_ants_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "ants_end",         &mapgen_ants_straight },
     { "ants_tee",         &mapgen_ants_tee },
     { "ants_four_way",    &mapgen_ants_four_way },
@@ -284,7 +282,7 @@ ter_id mapgendata::groundcover() {
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
 {
-    // @todo De-uglify, implement proper conversion somewhere
+    // @todo: De-uglify, implement proper conversion somewhere
     switch( dir ) {
         case om_direction::type::north:
             return north();
@@ -349,7 +347,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-// todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
+// @todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
     if ( tfid.ter != t_null ) {
         m->ter_set(x, y, tfid.ter );
@@ -388,7 +386,7 @@ void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
         }
     }
 
-    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: take 'rock' out and add as regional biome setting
+    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: take 'rock' out and add as regional biome setting
 }
 
 void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
@@ -412,7 +410,7 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         }
     }
 }
-// todo: more region_settings for forest biome
+// @todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     if (terrain_type == "forest_thick") {
@@ -454,7 +452,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 std::array<std::pair<int, ter_id>, 15> tree_chances = {{
-                        // todo: JSONize this array!
+                        // @todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
@@ -505,7 +503,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
-    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: region settings
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: region settings
 
     if (terrain_type == "forest_water") {
         // Reset *_fac to handle where to place water
@@ -606,7 +604,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 
     //1-2 per overmap, very bad day for low level characters
     if (one_in(10000)) {
-        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // fixme add to monster_group?
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // @todo: fixme add to monster_group?
     }
 
     //Very rare easter egg, ~1 per 10 overmaps
@@ -948,7 +946,7 @@ void nesw_array_rotate( T *array, size_t len, size_t dist ) {
     }
 }
 
-// take x/y coords in a map and rotate them counterclockwise around the center
+// take x/y coordinates in a map and rotate them counterclockwise around the center
 void coord_rotate_cw( int &x, int &y, int rot ) {
     for( ; rot--; ) {
         int temp = y;
@@ -1225,7 +1223,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         m->ter_set( rng( 6, SEEX * 2 - 6 ), rng( 6, SEEX * 2 - 6 ), t_manhole_cover );
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -1515,7 +1513,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
@@ -2486,7 +2484,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         } else {
             m->ter_set(mw, rng(cw + 3, actual_house_height - 4), t_door_c);
         }
-        // Door to bathrom
+        // Door to bathroom
         if (one_in(4)) {
             m->ter_set(mw, actual_house_height - 1, t_door_c);
         } else {
@@ -2647,7 +2645,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
             const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-            // @todo Less ugly check
+            // @todo: Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
             if( ( force && ter_here.movecost > 0 ) ||
@@ -2692,7 +2690,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
+    if (one_in(100)) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_door_c || m->ter(i, j) == t_door_locked) {
@@ -2725,7 +2723,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
         m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-    } else if (one_in(150)) { // todo; region_data // No wasps; black widows?
+    } else if (one_in(150)) { // @todo: region_data // No wasps; black widows?
         auto spider_type = mon_spider_widow_giant;
         auto egg_type = f_egg_sackbw;
     if( one_in(2) ) {
@@ -2927,34 +2925,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
-
-
-void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "shelter_under") {
-
-(void)dat;
-        // Make the whole area rock, then plop an open area in the center.
-        square(m, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-        square(m, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
-        // Create an anteroom with the stairs and some locked doors.
-        m->ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX    , SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX - 1, SEEY * 2 - 5, t_stairs_up);
-        m->ter_set(SEEX    , SEEY * 2 - 5, t_stairs_up);
-        if( one_in(10) ) {
-            // Scatter around lots of items and some zombies.
-            for( int x = 0; x < 10; ++x ) {
-                m->place_items("shelter", 90, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-            }
-            m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 1, 6, 6, SEEX * 2 - 8, SEEX * 2 - 8, 0.2);
-        } else {
-            // Scatter around some items.
-            m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-        }
-}
-
 
 ///////////////////////////////////////////////////////////
 void mapgen_basement_generic_layout(map *m, oter_id, mapgendata, int, float)
@@ -3389,7 +3359,7 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
 void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 {
         if (dat.above() == "cave") {
-            // We're underground! // FIXME; y u no use zlevel
+            // We're underground! // FIXME; y u no use z-level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||

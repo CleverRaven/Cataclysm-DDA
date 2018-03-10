@@ -84,6 +84,7 @@
     "damage_modifier": 10,
     "folded_volume": 8,
     "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -119,7 +120,10 @@
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": 1,
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "scrap", "count": [ 0, 2 ] }
+    ],
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],

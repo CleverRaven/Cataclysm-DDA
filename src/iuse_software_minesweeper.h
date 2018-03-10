@@ -2,14 +2,18 @@
 #ifndef SOFTWARE_MINESWEEPER_H
 #define SOFTWARE_MINESWEEPER_H
 
-#include "cursesdef.h"
 #include <map>
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class minesweeper_game
 {
     private:
         bool check_win();
-        void new_level( WINDOW *w_minesweeper );
+        void new_level( const catacurses::window &w_minesweeper );
         int iMaxX, iMaxY, iMinX, iMinY;
         int iLevelX, iLevelY;
         int iOffsetX, iOffsetY;

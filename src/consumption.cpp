@@ -3,6 +3,7 @@
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -50,7 +51,7 @@ const std::vector<std::string> carnivore_blacklist {{
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
-// @todo JSONize.
+// @todo: JSONize.
 const std::map<itype_id, int> plut_charges = {
     { "plut_cell",         PLUTONIUM_CHARGES * 10 },
     { "plut_slurry_dense", PLUTONIUM_CHARGES },
@@ -112,7 +113,7 @@ int player::nutrition_for( const item &comest ) const
         nutr *= ( 1.0f - rottedness );
     }
 
-    // Bio-digestion gives extra nutrition
+    // Bionic digestion gives extra nutrition
     if( has_bionic( bio_digestion ) ) {
         nutr *= 1.5f;
     }
@@ -190,7 +191,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // @todo bionics and mutations can affect vitamin absorption
+    // @todo: bionics and mutations can affect vitamin absorption
     for( const auto &e : it.type->comestible->vitamins ) {
         res.emplace( e.first, e.second );
     }
@@ -309,13 +310,13 @@ morale_type player::allergy_type( const item &food ) const
 
 ret_val<edible_rating> player::can_eat( const item &food ) const
 {
-    // @todo This condition occurs way too often. Unify it.
+    // @todo: This condition occurs way too often. Unify it.
     if( is_underwater() ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    const auto comest = food.type->comestible.get();
-    if( comest == nullptr ) {
+    const auto &comest = food.type->comestible;
+    if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
@@ -384,7 +385,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-    const auto comest = food.type->comestible.get();
+    const auto &comest = food.type->comestible;
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
@@ -411,7 +412,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
 
     if( saprophage && edible && food.rotten() && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
-        // Hardcoding fertilizer for now - should be a separate flag later
+        // Hard-coding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
@@ -453,7 +454,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
             req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
         }
 
-        if( !query_yn( "%s", req.str().c_str() ) ) {
+        if( !query_yn( req.str() ) ) {
             return consequences.front();
         }
     }
@@ -526,7 +527,8 @@ bool player::eat( item &food, bool force )
     if( drinkable || chew ) {
         // Those bonuses/penalties only apply to food
         // Not to smoking weed or applying bandages!
-        if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ) {
+        if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ||
+            has_trait( trait_id( "FANGS_SPIDER" ) ) ) {
             mealtime /= 2;
         } else if( has_trait( trait_id( "GOURMAND" ) ) ) {
             // Don't stack those two - that would be 25 moves per item
@@ -643,7 +645,7 @@ bool player::eat( item &food, bool force )
     if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
             has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
         mutation_category_level["MUTCAT_URSINE"] > 40 ) {
-        //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
+        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other mutcats
         int honey_fun = has_trait( trait_id( "THRESH_URSINE" ) ) ?
                         std::min( mutation_category_level["MUTCAT_URSINE"] / 8, 20 ) :
                         mutation_category_level["MUTCAT_URSINE"] / 12;
@@ -722,7 +724,7 @@ void player::consume_effects( const item &food )
         debugmsg( "called player::consume_effects with non-comestible" );
         return;
     }
-    const auto comest = *food.type->comestible.get();
+    const auto &comest = *food.type->comestible;
 
     const int capacity = stomach_capacity();
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
@@ -955,7 +957,7 @@ bool player::feed_reactor_with( item &it )
     const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
 
     if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
+        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
         return false;
     }
 
@@ -963,7 +965,7 @@ bool player::feed_reactor_with( item &it )
                            _( "<npcname> pours %s into their reactor's tank." ),
                            it.tname().c_str() );
 
-    tank_plut += amount; // @todo Encapsulate
+    tank_plut += amount; // @todo: Encapsulate
     it.charges -= 1;
     mod_moves( -250 );
     return true;
@@ -979,7 +981,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    return it.typeId() != "corpse"; // @todo Eliminate the hard-coded special case.
+    return it.typeId() != "corpse"; // @todo: Eliminate the hard-coded special case.
 }
 
 bool player::feed_furnace_with( item &it )
@@ -1059,7 +1061,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         case rechargeable_cbm::furnace: {
             int amount = ( it.volume() / 250_ml + it.weight() / 1_gram ) / 9;
 
-            // @todo JSONize.
+            // @todo: JSONize.
             if( it.made_of( material_id( "leather" ) ) ) {
                 amount /= 4;
             }

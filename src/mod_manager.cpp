@@ -16,7 +16,7 @@
 #include <fstream>
 #include <unordered_set>
 
-#define MOD_SEARCH_FILE "modinfo.json"
+static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
 /** Second field is optional replacement mod */
 static std::map<std::string, std::string> mod_replacements;
@@ -83,8 +83,6 @@ mod_manager::mod_manager()
         load_replacement_mods(FILENAMES["mods-replacements"]);
     }
 }
-
-mod_manager::~mod_manager() = default;
 
 dependency_tree &mod_manager::get_tree()
 {
@@ -174,7 +172,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
-        // TODO: change this to make unique ident for the mod
+        // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
@@ -202,8 +200,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
             }
         }
 
-        if( !bCatFound && m_cat != "" ) {
-            m_cat = "";
+        if( !bCatFound && !m_cat.empty() ) {
+            m_cat.clear();
         } else {
             break;
         }
@@ -226,6 +224,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "description", modfile->description );
+    assign( jo, "version", modfile->version );
     assign( jo, "dependencies", modfile->dependencies );
     assign( jo, "core", modfile->core );
     assign( jo, "obsolete", modfile->obsolete );
@@ -314,7 +313,6 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
             dir_to_make.pop();
         }
 
-        std::ofstream fout;
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;

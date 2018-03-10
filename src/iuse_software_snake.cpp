@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "input.h"
 #include "output.h"
+#include "cursesdef.h"
 #include "catacharset.h"  // utf8_width()
 #include "translations.h"
 #include "string_formatter.h"
@@ -23,12 +24,12 @@ snake_game::snake_game()
 {
 }
 
-void snake_game::print_score(WINDOW *w_snake, int iScore)
+void snake_game::print_score( const catacurses::window &w_snake, int iScore )
 {
     mvwprintz(w_snake, 0, 5, c_white, string_format(_("Score: %d"), iScore).c_str());
 }
 
-void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
+void snake_game::print_header( const catacurses::window &w_snake, bool show_shortcut )
 {
     draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if (show_shortcut) {
@@ -38,7 +39,7 @@ void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
     }
 }
 
-void snake_game::snake_over(WINDOW *w_snake, int iScore)
+void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
 {
     werase(w_snake);
     print_header(w_snake, false);
@@ -81,7 +82,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
-    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) ); //@todo print actual bound keys
+    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) ); //@todo: print actual bound keys
     wrefresh(w_snake);
 }
 
@@ -94,7 +95,6 @@ int snake_game::start_game()
     int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     catacurses::window w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    WINDOW_PTR w_snakeptr( w_snake );
     print_header(w_snake);
 
     //Snake start position
@@ -154,7 +154,7 @@ int snake_game::start_game()
                                                 vSnakeBody[vSnakeBody.size() - 1].second + iDirX));
         }
 
-        //Check if we hit ourself
+        //Check if we hit ourselves
         if (mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second]) {
             //We are dead :(
             break;

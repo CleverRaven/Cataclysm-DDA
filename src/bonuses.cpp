@@ -111,7 +111,7 @@ void bonus_container::load( JsonArray &jarr, bool mult )
         effect_scaling es;
         es.load( qualifiers );
         affected_type at( as, dt );
-        // Are we changing mults or flats?
+        // Are we changing multipliers or flats?
         auto &selected = mult ? bonuses_mult : bonuses_flat;
         selected[at].push_back( es );
     }

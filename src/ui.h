@@ -86,7 +86,7 @@ class ui_container
         int w_y;
         int w_width;
         int w_height;
-        WINDOW *window;
+        catacurses::window window;
         virtual void refresh( bool refresh_children = true ) = 0;
 };
 
@@ -107,7 +107,7 @@ class ui_container
  * }
  * uimenu monmenu;
  * for( size_t i = 0; i < z.size(); ++i ) {
- *   monmenu.addentry("%s", z[i].name.c_str() );
+ *   monmenu.addentry( z[i].name );
  * }
  * monmenu_cb * cb;
  * cb->setptr( &g->z );
@@ -134,7 +134,7 @@ class uimenu_callback
         };
         virtual void refresh( uimenu * ) {};
         virtual void redraw( uimenu * ) {};
-        virtual ~uimenu_callback() {};
+        virtual ~uimenu_callback() = default;
 };
 /*@}*/
 /**
@@ -227,7 +227,6 @@ class uimenu: public ui_container
         void settext( std::string str );
 
         void reset();
-        ~uimenu();
 
         operator int() const;
 
@@ -252,7 +251,7 @@ class pointmenu_cb : public uimenu_callback
         tripoint last_view; // to reposition the view after selecting
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
-        ~pointmenu_cb() override { };
+        ~pointmenu_cb() override = default;
         void select( int num, uimenu *menu ) override;
         void refresh( uimenu *menu ) override;
 };

@@ -17,6 +17,7 @@
 #include "itype.h"
 #include "ui.h"
 #include "player.h"
+#include "ret_val.h"
 
 #include <algorithm>
 #include <istream>
@@ -43,7 +44,7 @@ class actmenu_cb : public uimenu_callback
         const action_map am;
     public:
         actmenu_cb( const action_map &acm ) : am( acm ) { }
-        ~actmenu_cb() override { }
+        ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
                   uimenu * /*menu*/ ) override {
@@ -113,7 +114,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ) ) ) {
+                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
             if( !actual_item->ammo_sufficient() ) {
@@ -300,6 +301,7 @@ void game::item_action_menu()
     }
 
     draw_ter();
+    wrefresh( w_terrain );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
@@ -317,6 +319,11 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
+}
+
+ret_val<bool> iuse_actor::can_use( const player &, const item &, bool, const tripoint & ) const
+{
+    return ret_val<bool>::make_success();
 }
 
 bool iuse_actor::is_valid() const

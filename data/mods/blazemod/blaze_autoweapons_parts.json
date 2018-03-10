@@ -2340,7 +2340,7 @@
   {
     "id": "rifle_9mm",
     "type": "vehicle_part",
-    "name": "9mm pipe rifle turret",
+    "name": "9x19mm pipe rifle turret",
     "item": "rifle_9mm",
     "location": "on_roof",
     "symbol": "t",
@@ -2358,7 +2358,7 @@
   {
     "id": "rifle_9mmnc",
     "type": "vehicle_part",
-    "name": "automated 9mm pipe rifle",
+    "name": "automated 9x19mm pipe rifle",
     "item": "rifle_9mm",
     "location": "on_roof",
     "symbol": "t",

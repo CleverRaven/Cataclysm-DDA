@@ -22,7 +22,7 @@ std::vector<std::string> clothing_properties( item const &worn_item, int width )
 std::vector<std::string> clothing_protection( item const &worn_item, int width );
 std::vector<std::string> clothing_flags_description( item const &worn_item );
 
-void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
+void draw_mid_pane( const catacurses::window &w_sort_middle, item const &worn_item )
 {
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = ( size_t )getmaxy( w_sort_middle );
@@ -178,7 +178,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     return s;
 }
 
-void draw_grid( WINDOW *w, int left_pane_w, int mid_pane_w )
+void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pane_w )
 {
     const int win_w = getmaxx( w );
     const int win_h = getmaxy( w );
@@ -357,12 +357,12 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
                        c_light_blue, _( "<empty>" ) );
         }
@@ -414,7 +414,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
@@ -516,7 +516,7 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
-            // @todo Allow making NPCs equip their own stuff
+            // @todo: Allow making NPCs equip their own stuff
             item_location loc = game_menus::inv::wear( g->u );
 
             // only equip if something valid selected!
@@ -534,7 +534,7 @@ void player::sort_armor()
                     // inserts at position before iter (no b0f, phew)
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
-                    // @todo Pass the reason here
+                    // @todo: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }
@@ -553,7 +553,7 @@ void player::sort_armor()
                 }
             }
         } else if( action == "ASSIGN_INVLETS" ) {
-            // prompt first before doing this (yes yes, more popups...)
+            // prompt first before doing this (yes, yes, more popups...)
             if( query_yn( _( "Reassign invlets for armor?" ) ) ) {
                 // Start with last armor (the most unimportant one?)
                 auto iiter = inv_chars.rbegin();
@@ -601,11 +601,4 @@ The sum of these values is the effective encumbrance value your character has fo
             exit = true;
         }
     }
-
-    delwin( w_sort_cat );
-    delwin( w_sort_left );
-    delwin( w_sort_middle );
-    delwin( w_sort_right );
-    delwin( w_sort_armor );
-    delwin( w_encumb );
 }

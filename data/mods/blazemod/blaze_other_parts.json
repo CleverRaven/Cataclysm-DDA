@@ -135,7 +135,7 @@
   {
     "id": "9mmrack",
     "type": "vehicle_part",
-    "name": "9mm rack",
+    "name": "9x19mm rack",
     "item": "metal_tank_little",
     "location": "under",
     "fuel_type": "9mm",
@@ -789,7 +789,7 @@
     "durability": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
-    "flags": [ "FOLDABLE", "OBSTACLE", "AISLE", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "AISLE", "TOOL_NONE" ]
   },
   {
     "id": "xfloodlight",

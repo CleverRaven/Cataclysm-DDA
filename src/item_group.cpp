@@ -34,10 +34,6 @@ Single_item_creator::Single_item_creator(const std::string &_id, Type _type, int
 {
 }
 
-Single_item_creator::~Single_item_creator()
-{
-}
-
 item Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     item tmp;
@@ -123,7 +119,7 @@ void Single_item_creator::check_consistency() const
             debugmsg("item group id %s is unknown", id.c_str());
         }
     } else if (type == S_NONE) {
-        // this is ok, it will be ignored
+        // this is okay, it will be ignored
     } else {
         debugmsg("Unknown type of Single_item_creator: %d", (int) type);
     }
@@ -179,10 +175,6 @@ Item_modifier::Item_modifier()
     , container()
     , with_ammo( 0 )
     , with_magazine( 0 )
-{
-}
-
-Item_modifier::~Item_modifier()
 {
 }
 

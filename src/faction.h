@@ -8,9 +8,6 @@
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
@@ -22,6 +19,7 @@ class game;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+struct tripoint;
 
 enum faction_goal {
     FACGOAL_NULL = 0,
@@ -50,7 +48,7 @@ enum faction_job {
     FACJOB_ASSASSINS,   // Targeted discreet killing
     FACJOB_RAIDERS,     // Raiding settlements, trade routes, &c
     FACJOB_THIEVES,     // Less violent; theft of property without killing
-    FACJOB_GAMBLING,    // Maitenance of gambling parlors
+    FACJOB_GAMBLING,    // Maintenance of gambling parlors
     FACJOB_DOCTORS,     // Doctors for hire
     FACJOB_FARMERS,     // Farming & sale of food
     FACJOB_DRUGS,       // Drug dealing
@@ -99,7 +97,6 @@ class faction
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
-        ~faction();
         void load_info( std::string data );
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;
@@ -113,7 +110,7 @@ class faction
         bool matches_us( faction_value v ) const;
         std::string describe() const;
 
-        int response_time() const; // Time it takes for them to get to u
+        int response_time( const tripoint &abs_sm_pos ) const; // Time it takes for them to get to u
 
         std::string name;
     unsigned values :

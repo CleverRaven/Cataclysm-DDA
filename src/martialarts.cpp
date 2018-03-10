@@ -1,12 +1,12 @@
 #include "martialarts.h"
 #include "player.h"
-#include "game.h"
 #include "debug.h"
 #include "effect.h"
 #include "json.h"
 #include "translations.h"
 #include "itype.h"
 #include "damage.h"
+
 #include <map>
 #include <string>
 #include <algorithm>
@@ -353,7 +353,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     }
 
     for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : (int)u.get_skill_level( pr.first ) ) < pr.second ) {
+        if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
             return false;
         }
     }
@@ -618,7 +618,7 @@ bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
-    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : (int)get_skill_level(skill_id("unarmed"));
+    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
@@ -636,7 +636,7 @@ bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
-    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : (int)get_skill_level(skill_id("unarmed"));
+    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {

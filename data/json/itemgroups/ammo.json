@@ -7,6 +7,8 @@
       [ "32_acp", 20 ],
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
+      [ "357sig_jhp", 25 ],
+      [ "357sig_fmj", 25 ],
       [ "40sw", 40 ],
       [ "40fmj", 40 ],
       [ "45_acp", 40 ],
@@ -66,6 +68,8 @@
        [ "reloaded_38_fmj", 30 ],
        [ "reloaded_38_special", 80 ],
        [ "reloaded_38_super", 40 ],
+       [ "reloaded_357sig_fmj", 70 ],
+       [ "reloaded_357sig_jhp", 70 ],
        [ "reloaded_40fmj", 20 ],
        [ "reloaded_40sw", 50 ],
        [ "reloaded_44magnum", 60],
@@ -141,7 +145,7 @@
       [ "3006", 25 ],
       [ "308", 25 ],
       [ "762_54R", 10 ],
-      [ "762_m43", 10 ]
+      [ "762_m43", 20 ]
     ]
   },
   {

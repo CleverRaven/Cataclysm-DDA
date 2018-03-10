@@ -3,6 +3,7 @@
 #include "map_iterator.h"
 #include "debug.h"
 #include "trap.h"
+#include "output.h"
 #include "rng.h"
 #include "messages.h"
 #include "sounds.h"
@@ -238,7 +239,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            ///\EFFECT_DODGE reducts chance of being hit by crossbow trap
+            ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -472,7 +473,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
     sounds::sound( p, 4, _( "Snap!" ) );
     g->m.remove_trap( p );
     if( c != nullptr ) {
-        // Determine waht got hit
+        // Determine what got hit
         body_part hit = num_bp;
         if( one_in( 2 ) ) {
             hit = bp_leg_l;
@@ -1100,7 +1101,7 @@ void trapfunc::temple_flood( Creature *c, const tripoint &p )
                 }
             }
         }
-        g->add_event( EVENT_TEMPLE_FLOOD, calendar::turn + 3 );
+        g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
     }
 }
 
@@ -1203,7 +1204,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
     } while( tries < 5 && !g->is_empty( monp ) &&
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
-    if( tries < 5 ) {
+    if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
         if( monster *const spawned = g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             spawned->reset_special_rng( "DISAPPEAR" );
@@ -1245,6 +1246,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         tripoint monp = p;
         // This spawns snakes only when the player can see them, why?
         do {
+            tries++;
             if( one_in( 2 ) ) {
                 monp.x = rng( g->u.posx() - 5, g->u.posx() + 5 );
                 monp.y = ( one_in( 2 ) ? g->u.posy() - 5 : g->u.posy() + 5 );
@@ -1255,7 +1257,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         } while( tries < 5 && !g->is_empty( monp ) &&
                  !g->m.sees( monp, g->u.pos(), 10 ) );
 
-        if( tries < 5 ) {
+        if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
             add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
             g->summon_mon( mon_shadow_snake, p );
             g->m.remove_trap( p );

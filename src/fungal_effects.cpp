@@ -6,6 +6,7 @@
 #include "monster.h"
 #include "field.h"
 #include "mtype.h"
+#include "output.h"
 #include "player.h"
 #include "messages.h"
 #include "field.h"

@@ -217,8 +217,17 @@
     "id": "9mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": "9mm casing",
+    "name": "9x19mm casing",
     "description": "An empty casing from a 9x19mm round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
+    "id": "357sig_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 SIG casing",
+    "description": "An empty casing from a .357 SIG round.",
     "weight": 3,
     "volume": "5ml"
   },

@@ -1,7 +1,6 @@
 #include "player_activity.h"
 
 #include "activity_type.h"
-#include "game.h"
 #include "construction.h"
 #include "craft_command.h"
 #include "player.h"

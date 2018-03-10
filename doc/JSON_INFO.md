@@ -1376,6 +1376,40 @@ The format also support snippet ids like above.
 
 # `json/` JSONs
 
+### Harvest
+
+```JSON
+{
+  "id": "mon_broken_cyborg",
+  "type": "harvest",
+  "message": "You search for any salvagable bionic hardware in what's left of this failed experiment",
+  "entries": [
+    { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
+    { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
+    { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20 },
+    { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8 },
+    { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 },
+    { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12 }
+  ]
+}
+```
+
+#### `id`
+
+Unique id of the harvest definition.
+
+#### `type`
+
+Should always be `harvest` to mark the object as a harvest definition.
+
+#### `message`
+
+Optional message to be printed when a creature using the harvest definition is butchered. May be omitted from definition.
+
+#### `entries`
+
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. `drop` value should be the `id` string of the item to be produced. `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
+
 ### Furniture
 
 ```JSON

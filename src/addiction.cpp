@@ -4,6 +4,7 @@
 #include "player.h"
 #include "morale_types.h"
 #include "rng.h"
+#include "output.h"
 #include "translations.h"
 
 const efftype_id effect_hallu( "hallu" );
@@ -88,7 +89,8 @@ void addict_effect( player &u, addiction &add )
             break;
 
         case ADD_PKILLER:
-            if( calendar::once_every( 100 - in * 4 ) && u.get_painkiller() > 20 - in ) {
+            if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
+                u.get_painkiller() > 20 - in ) {
                 u.mod_painkiller( -1 );    // Tolerance increases!
             }
             if( u.get_painkiller() >= 35 ) { // No further effects if we're doped up.
@@ -177,7 +179,7 @@ void addict_effect( player &u, addiction &add )
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }
-            } else if( in > 5 || one_in( ( 500 - 15 * in ) ) ) {
+            } else if( in > 5 || one_in( 500 - 15 * in ) ) {
                 u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
                                      _( "You could use some new parts..." ) );
                 u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );

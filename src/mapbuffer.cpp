@@ -105,7 +105,7 @@ void mapbuffer::save( bool delete_after_save )
 {
     std::stringstream map_directory;
     map_directory << world_generator->active_world->world_path << "/maps";
-    assure_dir_exist( map_directory.str().c_str() );
+    assure_dir_exist( map_directory.str() );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -199,7 +199,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     }
 
     // Don't create the directory if it would be empty
-    assure_dir_exist( dirname.c_str() );
+    assure_dir_exist( dirname );
     ofstream_wrapper_exclusive fout( filename );
     JsonOut jsout( fout );
     jsout.start_array();
@@ -301,7 +301,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    // TODO: jsout should support writting an id like jsout.write( trap_id )
+                    // TODO: jsout should support writing an id like jsout.write( trap_id )
                     jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }

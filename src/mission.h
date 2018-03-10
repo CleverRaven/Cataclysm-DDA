@@ -116,16 +116,16 @@ struct mission_start {
     static void ranch_construct_5  ( mission *); // Continues work on wood yard, crops, well (pit)
     static void ranch_construct_6  ( mission *); // Continues work on wood yard, well (covered), fireplaces
     static void ranch_construct_7  ( mission *); // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts toolshed
-    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes toolshed, starts clinic
+    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts tool shed
+    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes tool shed, starts clinic
     static void ranch_construct_10 ( mission *); // Continues clinic, starts chop-shop
     static void ranch_construct_11 ( mission *); // Continues clinic, continues chop-shop
     static void ranch_construct_12 ( mission *); // Finish chop-shop, starts junk shop
     static void ranch_construct_13 ( mission *); // Continues junk shop
     static void ranch_construct_14 ( mission *); // Finish junk shop, starts bar
     static void ranch_construct_15 ( mission *); // Continues bar
-    static void ranch_construct_16 ( mission *); // Finish bar, start green shouse
-    static void ranch_nurse_1      ( mission *); // Need asprin
+    static void ranch_construct_16 ( mission *); // Finish bar, start greenhouse
+    static void ranch_nurse_1      ( mission *); // Need aspirin
     static void ranch_nurse_2      ( mission *); // Need hotplates
     static void ranch_nurse_3      ( mission *); // Need vitamins
     static void ranch_nurse_4      ( mission *); // Need charcoal water filters
@@ -322,7 +322,7 @@ public:
     /** Processes this mission. */
     void process();
 
-    // @todo Give topics a string_id
+    // @todo: Give topics a string_id
     std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**

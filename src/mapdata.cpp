@@ -150,7 +150,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibilty
+    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibility
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
     { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
@@ -344,17 +344,17 @@ void map_data_common_t::load_symbol( JsonObject &jo )
 
 long map_data_common_t::symbol() const
 {
-    return symbol_[calendar::turn.get_season()];
+    return symbol_[season_of_year( calendar::turn )];
 }
 
 nc_color map_data_common_t::color() const
 {
-    return color_[calendar::turn.get_season()];
+    return color_[season_of_year( calendar::turn )];
 }
 
 const harvest_id &map_data_common_t::get_harvest() const
 {
-    return harvest_by_season[calendar::turn.get_season()];
+    return harvest_by_season[season_of_year( calendar::turn )];
 }
 
 const std::set<std::string> &map_data_common_t::get_harvest_names() const
@@ -374,7 +374,7 @@ void load_furniture( JsonObject &jo, const std::string &src )
 
 void load_terrain( JsonObject &jo, const std::string &src )
 {
-    if( terrain_data.empty() ) { // todo@ This shouldn't live here
+    if( terrain_data.empty() ) { // @todo: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
@@ -402,7 +402,7 @@ void map_data_common_t::set_connects( const std::string &connect_group_string )
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     }
-    else { // arbitrary connect groups are a bad idea for optimisation reasons
+    else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
 }
@@ -446,6 +446,7 @@ ter_id t_null,
     t_reinforced_door_glass_o,
     t_reinforced_door_glass_c,
     t_bars,
+    t_reb_cage,
     t_wall_r,t_wall_w,t_wall_b,t_wall_g,t_wall_p,t_wall_y,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
@@ -509,7 +510,7 @@ ter_id t_null,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
-// @todo Put this crap into an inclusion, which should be generated automatically using JSON data
+// @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids() {
     t_null = ter_id( "t_null" );
@@ -568,6 +569,7 @@ void set_ter_ids() {
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
+    t_reb_cage = ter_id( "t_reb_cage" );
     t_wall_b = ter_id( "t_wall_b" );
     t_wall_g = ter_id( "t_wall_g" );
     t_wall_p = ter_id( "t_wall_p" );
@@ -965,7 +967,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
-                // @todo A better inline name - can't use id or name here because it's not set yet
+                // @todo: A better inline name - can't use id or name here because it's not set yet
                 size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", (int)num ) );
@@ -1001,7 +1003,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connect_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
     if( jo.has_member( "connects_to" ) ) {

@@ -24,8 +24,8 @@ constexpr double ARCMIN( double v )
 
 /**
  * Calculate base of an isosceles triangle
- * @param distance one of the the equal lengths
- * @param vertex the unequal angle expresed in MoA
+ * @param distance one of the equal lengths
+ * @param vertex the unequal angle expressed in MoA
  * @returns base in equivalent units to distance
  */
 inline double iso_tangent( double distance, double vertex )
@@ -34,8 +34,8 @@ inline double iso_tangent( double distance, double vertex )
     return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
 }
 
-//! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
-//! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
+//! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
+//! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
@@ -89,11 +89,11 @@ point direction_XY( direction dir );
 std::string const &direction_name( direction dir );
 std::string const &direction_name_short( direction dir );
 
-/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+/* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );
 
 /**
- * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
@@ -117,7 +117,6 @@ int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
-std::pair<std::pair<double, double>, double> slope_of( const std::vector<tripoint> &line );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
@@ -135,7 +134,6 @@ struct rl_vec2d {
     // vec2d(){}
     rl_vec2d( float X = 0, float Y = 0 ) : x( X ), y( Y ) {}
     rl_vec2d( const rl_vec2d &v ) : x( v.x ), y( v.y ) {}
-    ~rl_vec2d() {}
 
     float norm();
     rl_vec2d normalized();
@@ -159,7 +157,6 @@ struct rl_vec3d {
 
     rl_vec3d( float X = 0, float Y = 0, float Z = 0 ) : x( X ), y( Y ), z( Z ) {}
     rl_vec3d( const rl_vec3d &v ) : x( v.x ), y( v.y ), z( v.z ) {}
-    ~rl_vec3d() {}
 
     float norm();
     rl_vec3d normalized();

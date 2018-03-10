@@ -57,9 +57,9 @@
 
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 400
-/** Move cost of accessign an item in inventory. */
+/** Move cost of accessing an item in inventory. */
 #define INVENTORY_HANDLING_PENALTY 100
-/** Move cost of accessing an item lying on the map. @todo Less if player is crouching */
+/** Move cost of accessing an item lying on the map. @todo: Less if player is crouching */
 #define MAP_HANDLING_PENALTY 80
 /** Move cost of accessing an item lying on a vehicle. */
 #define VEHICLE_HANDLING_PENALTY 80
@@ -67,13 +67,10 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
-///\EFFECT_STR allows lifting of heavier objects */
-#define STR_LIFT_FACTOR 50_kilogram // 50kg/STR @todo revert to 10kg/STR
-
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
-/** Cap JACK requirements to support arbritrarily large vehicles */
+/** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
 /** Maximum density of a map field */

@@ -5,6 +5,7 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"
+#include "requirements.h"
 
 #include "map_helpers.h"
 #include "player_helpers.h"

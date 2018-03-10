@@ -123,6 +123,7 @@ class player_morale
         morale_mult get_temper_mult() const;
 
         void set_prozac( bool new_took_prozac );
+        void set_prozac_bad( bool new_took_prozac_bad );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
@@ -187,6 +188,7 @@ class player_morale
         mutable bool level_is_valid;
 
         bool took_prozac;
+        bool took_prozac_bad;
         bool stylish;
         int perceived_pain;
 };

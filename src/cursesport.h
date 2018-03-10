@@ -65,14 +65,14 @@ struct WINDOW {
 };
 
 extern std::array<pairs, 100> colorpairs;
-void curses_drawwindow( WINDOW *win );
+void curses_drawwindow( const catacurses::window &win );
 
 // allow extra logic for framebuffer clears
 extern void handle_additional_window_clear( WINDOW *win );
 
 } // namespace cata_cursesport
 
-//@todo move into cata_cursesport
+//@todo: move into cata_cursesport
 //used only in SDL mode for clearing windows using rendering
 void clear_window_area( const catacurses::window &win );
 int projected_window_width( int column_count );

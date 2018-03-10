@@ -2,12 +2,15 @@
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
-#include "cursesdef.h"
-
 #include <string>
 #include <vector>
 #include <map>
 #include <iosfwd>
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class sokoban_game
 {
@@ -31,8 +34,6 @@ class sokoban_game
                     iOldX = arg_x;
                     sTileOld = arg_tile;
                 }
-
-                ~cUndo() {};
         };
 
         int iCurrentLevel, iNumLevel, iTotalMoves;
@@ -46,9 +47,9 @@ class sokoban_game
         void parse_level( std::istream &fin );
         bool check_win();
         int get_wall_connection( const int iY, const int iX );
-        void draw_level( WINDOW *w_sokoban );
-        void clear_level( WINDOW *w_sokoban );
-        void print_score( WINDOW *w_sokoban, int iScore, int iMoves );
+        void draw_level( const catacurses::window &w_sokoban );
+        void clear_level( const catacurses::window &w_sokoban );
+        void print_score( const catacurses::window &w_sokoban, int iScore, int iMoves );
     public:
         int start_game();
         sokoban_game();

@@ -88,7 +88,7 @@ class profession
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
-        // clear profession map, every profession pointer becames invalid!
+        // clear profession map, every profession pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each profession */
         static void check_definitions();

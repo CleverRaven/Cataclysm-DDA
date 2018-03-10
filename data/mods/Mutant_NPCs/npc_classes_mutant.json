@@ -1,0 +1,222 @@
+[
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_GENERIC",
+       "name" : "Mutant",
+       "job_description" : "I'm looking for mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "ANY": { "constant" : 10 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_LIZARD",
+       "name" : "Lizard Mutant",
+       "job_description" : "I'm looking for lizard mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "LIZARD": { "constant" : 15 }
+       }  
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_MEDICAL",
+       "name" : "Medical Mutant",
+       "job_description" : "I'm looking for medical mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "MEDICAL": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_BIRD",
+       "name" : "Bird Mutant",
+       "job_description" : "I'm looking for bird mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "BIRD": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_FISH",
+       "name" : "Fish Mutant",
+       "job_description" : "I'm looking for fish mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "FISH": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_BEAST",
+       "name" : "Beast Mutant",
+       "job_description" : "I'm looking for beast mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "BEAST": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_URSINE",
+       "name" : "Ursine Mutant",
+       "job_description" : "I'm looking for ursine mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "URSINE": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_FELINE",
+       "name" : "Feline Mutant",
+       "job_description" : "I'm looking for feline mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "FELINE": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_LUPINE",
+       "name" : "Lupine Mutant",
+       "job_description" : "I'm looking for lupine mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "LUPINE": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_CATTLE",
+       "name" : "Cattle Mutant",
+       "job_description" : "I'm looking for cattle mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "CATTLE": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_INSECT",
+       "name" : "Insect Mutant",
+       "job_description" : "I'm looking for insect mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "INSECT": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_PLANT",
+       "name" : "Plant Mutant",
+       "job_description" : "I'm looking for plant mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "PLANT": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_SLIME",
+       "name" : "Slime Mutant",
+       "job_description" : "I'm looking for slime mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "SLIME": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_TROGLOBITE",
+       "name" : "Troglobite Mutant",
+       "job_description" : "I'm looking for troglobite mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "TROGLOBITE": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_CEPHALOPOD",
+       "name" : "Cephalopod Mutant",
+       "job_description" : "I'm looking for cephalopod mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "CEPHALOPOD": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_SPIDER",
+       "name" : "Spider Mutant",
+       "job_description" : "I'm looking for spider mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "SPIDER": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_RAT",
+       "name" : "Rat Mutant",
+       "job_description" : "I'm looking for rat mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "RAT": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_ALPHA",
+       "name" : "Alpha Mutant",
+       "job_description" : "I'm looking for alpha mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "ALPHA": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_ELFA",
+       "name" : "Elfa Mutant",
+       "job_description" : "I'm looking for elfa mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "ELFA": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_CHIMERA",
+       "name" : "Chimera Mutant",
+       "job_description" : "I'm looking for chimera mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "CHIMERA": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_RAPTOR",
+       "name" : "Raptor Mutant",
+       "job_description" : "I'm looking for raptor mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "RAPTOR": { "constant" : 15 }
+       }
+    },
+    {
+       "type" : "npc_class",
+       "id" : "NC_NPC_MUTANT_SPIDER",
+       "name" : "Spider Mutant",
+       "job_description" : "I'm looking for spider mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+       "skills" : [],
+       "mutation_rounds" : {
+           "SPIDER": { "constant" : 15 }
+       }
+    }
+]

@@ -2,19 +2,26 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "bodypart.h"
-#include "output.h"
 #include "string_id.h"
-#include "cursesdef.h" // WINDOW
 #include "string_formatter.h"
 
 #include <string>
 #include <unordered_map>
+#include <map>
+#include <vector>
+#include <set>
 #include <climits>
 
+enum game_message_type : int;
+class nc_color;
 class effect;
 class effects_map;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class field;
 class field_entry;
 class game;
@@ -142,20 +149,13 @@ class Creature
          * The functions check whether this creature can see the target.
          * The target may either be another creature (critter), or a specific point on the map.
          *
-         * Different creatures types are supposed to only implement the two virtual functions.
-         * The other functions are here to give the callers more freedom, they simply forward
-         * to one of the virtual functions.
-         *
          * The function that take another creature as input should check visibility of that creature
          * (e.g. not digging, or otherwise invisible). They must than check whether the location of
          * the other monster is visible.
          */
         /*@{*/
         virtual bool sees( const Creature &critter ) const;
-        bool sees( int cx, int cy ) const;
         virtual bool sees( const tripoint &t, bool is_player = false ) const;
-        bool sees( point t ) const;
-
         /*@}*/
 
         /**
@@ -486,8 +486,8 @@ class Creature
         int moves;
         bool underwater;
 
-        void draw(WINDOW *w, int plx, int ply, bool inv) const;
-        void draw(WINDOW *w, const tripoint &plp, bool inv) const;
+        void draw( const catacurses::window &w, int plx, int ply, bool inv ) const;
+        void draw( const catacurses::window &w, const tripoint &plp, bool inv ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.
@@ -499,7 +499,7 @@ class Creature
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
          */
-        virtual int print_info(WINDOW *w, int vStart, int vLines, int column) const = 0;
+        virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
         // Message related stuff
         template<typename ...Args>
@@ -569,7 +569,7 @@ class Creature
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
-        copyable_unique_ptr<effects_map> effects;
+        pimpl<effects_map> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
@@ -584,7 +584,7 @@ class Creature
         int armor_bash_bonus;
         int armor_cut_bonus;
 
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calced off skills
+        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;
         float dodge_bonus;
@@ -616,17 +616,12 @@ class Creature
         body_part select_body_part(Creature *source, int hit_roll) const;
  protected:
         /**
-         * This function replaces the "<npcname>" substring with the provided NPC name.
+         * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        inline std::string replace_with_npc_name(std::string input, std::string name) const
-        {
-            replace_substring(input, "<npcname>", name, true);
-            return input;
-        }
-
+        std::string replace_with_npc_name( std::string input ) const;
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

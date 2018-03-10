@@ -17,9 +17,7 @@ loading_ui::loading_ui( bool display )
     }
 }
 
-loading_ui::~loading_ui()
-{
-}
+loading_ui::~loading_ui() = default;
 
 void loading_ui::add_entry( const std::string &description )
 {
@@ -40,7 +38,7 @@ void loading_ui::proceed()
 {
     if( menu != nullptr && !menu->entries.empty() ) {
         if( menu->selected >= 0 && menu->selected < ( int )menu->entries.size() ) {
-            // @todo Color it red if it errored hard, yellow on warnings
+            // @todo: Color it red if it errored hard, yellow on warnings
             menu->entries[menu->selected].text_color = c_green;
         }
 
@@ -54,7 +52,7 @@ void loading_ui::show()
 {
     if( menu != nullptr ) {
         menu->show();
-        refresh();
+        catacurses::refresh();
         refresh_display();
 #ifdef TILES
         SDL_PumpEvents();

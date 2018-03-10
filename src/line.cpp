@@ -1,5 +1,4 @@
 #include "line.h"
-#include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include <cstdlib>
@@ -8,7 +7,7 @@
 
 #include <cassert>
 
-#define SGN(a) (((a)<0) ? -1 : (((a)>0) ? 1 : 0))
+extern bool trigdist;
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
                 const std::function<bool(const point &)> &interact )
@@ -17,8 +16,8 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
     const int dx = x2 - x1;
     const int dy = y2 - y1;
     // Signs of slope values.
-    const int sx = (dx == 0) ? 0 : SGN(dx);
-    const int sy = (dy == 0) ? 0 : SGN(dy);
+    const int sx = (dx == 0) ? 0 : sgn(dx);
+    const int sy = (dy == 0) ? 0 : sgn(dy);
     // Absolute values of slopes x2 to avoid rounding errors.
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
@@ -68,9 +67,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
     // The signs of the slopes.
-    const int sx = (dx == 0 ? 0 : SGN(dx));
-    const int sy = (dy == 0 ? 0 : SGN(dy));
-    const int sz = (dz == 0 ? 0 : SGN(dz));
+    const int sx = (dx == 0 ? 0 : sgn(dx));
+    const int sy = (dy == 0 ? 0 : sgn(dy));
+    const int sz = (dz == 0 ? 0 : sgn(dz));
     // Absolute values of slope components, x2 to avoid rounding errors.
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
@@ -318,18 +317,15 @@ unsigned make_xyz(int const x, int const y, int const z)
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-// ret.second contains z and can be ignored if unused.
-std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
+std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
 {
     assert(!line.empty() && line.front() != line.back());
     const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
-    std::pair<double, double> retXY = std::make_pair(normDx, normDy);
-    // slope of <x, y> z
-    std::pair<std::pair<double, double>, double> ret = std::make_pair(retXY, normDz);
-    return ret;
+    // slope of <x, y, z>
+    return std::make_tuple(normDx, normDy, normDz);
 }
 
 float get_normalized_angle( const point &start, const point &end )
@@ -351,9 +347,9 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     // routines, erring on the side of readability.
     tripoint res( loc );
     const auto slope = slope_of( line );
-    res.x += distance * slope.first.first;
-    res.y += distance * slope.first.second;
-    res.z += distance * slope.second;
+    res.x += distance * std::get<0>(slope);
+    res.y += distance * std::get<1>(slope);
+    res.z += distance * std::get<2>(slope);
     return res;
 }
 
@@ -374,7 +370,7 @@ direction direction_from(int const x1, int const y1, int const x2, int const y2)
 
 direction direction_from(tripoint const &p, tripoint const &q)
 {
-    // Note: Z coord has to be inverted either here or in direction defintions
+    // Note: Z-coordinate has to be inverted either here or in direction definitions
     return direction_from(q.x - p.x, q.y - p.y, -(q.z - p.z) );
 }
 
@@ -478,29 +474,29 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
     if( dz != 0 ) {
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z + SGN(dz) } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + sgn(dy), from.z + sgn(dz) } );
     }
     if( ax > ay ) {
         // X dominant.
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + 1, from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y - 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y - 1, from.z } );
         if( dy != 0 ) {
-            adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+            adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
         }
     } else if( ax < ay ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x + 1, from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x - 1, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + sgn(dy), from.z } );
         if( dx != 0 ) {
-            adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+            adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
         }
     } else if( dx != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
     }
 
     return adjacent_closer_squares;

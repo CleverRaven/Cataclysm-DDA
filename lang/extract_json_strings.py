@@ -40,6 +40,7 @@ warning_suppressed_list = {
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
+    "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/PKs_Rebalance/monsters/",
@@ -68,7 +69,6 @@ ignorable = {
     "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
-    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -90,6 +90,7 @@ ignorable = {
     "requirement",
     "rotatable_symbol",
     "SPECIES",
+    "trait_group",
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
@@ -177,6 +178,11 @@ use_format_strings = {
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -620,6 +626,7 @@ def extract_gate(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "harvest" : extract_harvest,
     "body_part": extract_bodypart,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
@@ -733,6 +740,7 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "use_message",
     "noise_message",
     "bury_question",
     "done_message",

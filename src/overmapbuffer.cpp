@@ -149,9 +149,9 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     }
     // Second step: put them back where they belong. This step involves loading
     // new overmaps (via `get`), which does in turn call this function for the
-    // newly loaded overmaps. This in turn may move npcs from the second overmap
+    // newly loaded overmaps. This in turn may move NPCs from the second overmap
     // back into the first overmap. This messes up the iteration of it. The
-    // iteration is therefor done in a separate step above (which does *not*
+    // iteration is therefore done in a separate step above (which does *not*
     // involve loading new overmaps).
     for( auto &ptr : to_relocate ) {
         npc &np = *ptr;
@@ -161,7 +161,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
         if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
-            debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
+            debugmsg( "NPC %s is out of bounds, on non-generated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
@@ -619,7 +619,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
     // XXXXXXXXX
     //
     // See overmap::place_specials for how we attempt to insure specials are placed within this range.
-    // The actual number is 5 becuase 1 covers the current overmap,
+    // The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
 
     int max = ( radius == 0 ? OMAPX * 5 : radius );
@@ -762,7 +762,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
     std::vector<std::shared_ptr<npc>> available;
-    //@todo this is an arbitrary radius, replace with something sane.
+    //@todo: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
@@ -778,7 +778,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( int x, int y, in
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
                 return false;
@@ -796,7 +796,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     std::vector<std::shared_ptr<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
                 return false;
@@ -972,7 +972,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it
         // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the sumap to put it.
+        // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );

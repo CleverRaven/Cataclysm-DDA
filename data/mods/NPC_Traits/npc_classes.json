@@ -1,0 +1,12 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_NPC_WITH_STARTING_TRAITS",
+        "name" : "NPC with starting traits",
+        "job_description" : "I'm just wandering.",
+        "skills" : [],
+        "traits": [
+            {"group": "starting_trait_n_rolls"}
+        ]
+    }
+]

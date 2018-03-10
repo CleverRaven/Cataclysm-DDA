@@ -169,7 +169,7 @@ enum layer_level {
 /**
  *  Contains metadata for one category of items
  *
- *  Every item belongs to a category (eg weapons, armor, food, etc).  This class
+ *  Every item belongs to a category (e.g. weapons, armor, food, etc).  This class
  *  contains the info about one such category.  Actual categories are normally added
  *  by class @ref Item_factory from definitions in the json data files.
  */
@@ -213,15 +213,15 @@ class item : public visitable<item>
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
 
-        explicit item( const itype_id& id, time_point turn = -1, long qty = -1 );
-        explicit item( const itype *type, time_point turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
 
-        /** Suppress randomisation and always start with default quantity of charges */
+        /** Suppress randomization and always start with default quantity of charges */
         struct default_charges_tag {};
         item( const itype_id& id, time_point turn, default_charges_tag );
         item( const itype *type, time_point turn, default_charges_tag );
 
-        /** Default (or randomised) charges except if counted by charges then only one charge */
+        /** Default (or randomized) charges except if counted by charges then only one charge */
         struct solitary_tag {};
         item( const itype_id& id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
@@ -290,7 +290,7 @@ class item : public visitable<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = calendar::turn, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -342,7 +342,7 @@ class item : public visitable<item>
     std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
     /**
      * Returns the item name and the charges or contained charges (if the item can have
-     * charges at at all). Calls @ref tname with given quantity and with_prefix being true.
+     * charges at all). Calls @ref tname with given quantity and with_prefix being true.
      */
     std::string display_name( unsigned int quantity = 1) const;
     /**
@@ -416,7 +416,7 @@ class item : public visitable<item>
     };
 
     /**
-     * Reload item using ammo from location returning true if sucessful
+     * Reload item using ammo from location returning true if successful
      * @param u Player doing the reloading
      * @param loc Location of ammo to be reloaded
      * @param qty caps reloading to this (or fewer) units
@@ -516,7 +516,7 @@ class item : public visitable<item>
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
-     * @param what specific type of charge required, eg. 'battery'
+     * @param what specific type of charge required, e.g. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
      * @param used filled with duplicates of each item that provided consumed charges
      * @param pos position at which the charges are being consumed
@@ -689,8 +689,8 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
-    /** Turns for this item to be fully fermented. */
-    int brewing_time() const;
+        /** Time for this item to be fully fermented. */
+        time_duration brewing_time() const;
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
@@ -806,7 +806,7 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
-    
+
     /** Precise damage */
     double precise_damage() const { return damage_; }
 
@@ -944,6 +944,7 @@ public:
     bool is_toolmod() const;
 
     bool is_faulty() const;
+    bool is_irremovable() const;
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
@@ -1166,7 +1167,7 @@ public:
          * @name Item properties
          *
          * Properties are specific to an item type so unlike flags the meaning of a property
-         * may not be the same for two different item types. Each item type can have mutliple
+         * may not be the same for two different item types. Each item type can have multiple
          * properties however duplicate property names are not permitted.
          *
          */
@@ -1213,10 +1214,10 @@ public:
          */
         bool is_seed() const;
         /**
-         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        int get_plant_epoch() const;
+        time_duration get_plant_epoch() const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -1399,9 +1400,9 @@ public:
          */
         bool is_gun() const;
 
-        /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
+        /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         long ammo_remaining() const;
-        /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
+        /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
@@ -1416,7 +1417,7 @@ public:
          * happens.
          *
          * @param[in] qty Number of uses
-         * @returns true if ammo sufficent for number of uses is loaded, false otherwise
+         * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
         bool ammo_sufficient( int qty = 1 ) const;
 
@@ -1473,7 +1474,7 @@ public:
         item * magazine_current();
         const item * magazine_current() const;
 
-        /** Normalizes an item to use the new magazine system. Indempotent if item already converted.
+        /** Normalizes an item to use the new magazine system. Idempotent if item already converted.
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
@@ -1532,7 +1533,7 @@ public:
         gun_mode gun_current_mode();
         const gun_mode gun_current_mode() const;
 
-        /** Get id of mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
+        /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
         std::string gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
@@ -1597,7 +1598,7 @@ public:
          */
         skill_id gun_skill() const;
 
-        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
         /**

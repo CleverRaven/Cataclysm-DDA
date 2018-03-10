@@ -65,14 +65,14 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
     MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
-    MISSION_RANCH_NURSE_1,                 //Need asprin
+    MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
     MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
     MISSION_RANCH_NURSE_5,                 //Need chemistry set
     MISSION_RANCH_NURSE_6,                 //Need filter masks
     MISSION_RANCH_NURSE_7,                 //Need rubber gloves
-    MISSION_RANCH_NURSE_8,                 //Need X-acto
+    MISSION_RANCH_NURSE_8,                 //Need X-Acto
     MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
     MISSION_RANCH_NURSE_10,                //Need flu shot
     MISSION_RANCH_NURSE_11,                //Need empty syringes
@@ -269,7 +269,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
     } ) ) {
         auto djo = jo.get_object( "dialogue" );
-        // @todo There should be a cleaner way to do it
+        // @todo: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
         mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );

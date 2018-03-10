@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "item.h"
 #include "game.h"
+#include "translations.h"
 #include "messages.h"
 #include "mtype.h"
 #include "calendar.h"

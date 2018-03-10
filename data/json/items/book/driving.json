@@ -2,8 +2,8 @@
   {
     "id": "decoy_anarch",
     "type": "BOOK",
-    "name": "AAA Guide 2040",
-    "name_plural": "AAA Guide 2040",
+    "name": "AAA Guide",
+    "name_plural": "AAA Guide",
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
     "weight": 220,
     "volume": 2,
@@ -54,8 +54,8 @@
   {
     "id": "textbook_anarch",
     "type": "BOOK",
-    "name": "AAA Guide 2040",
-    "name_plural": "AAA Guide 2040",
+    "name": "AAA Guide",
+    "name_plural": "AAA Guide",
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
     "weight": 223,
     "volume": 2,
