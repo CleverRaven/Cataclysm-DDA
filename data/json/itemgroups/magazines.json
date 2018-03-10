@@ -47,7 +47,7 @@
     "id" : "mags_surplus",
     "//" : "Obsolete military magazines no longer in common use.",
     "items": [
-      ["pressurized_tank"],
+      ["pressurized_tank", 5],
       ["falmag", 20],
       ["g3mag", 15],
       ["m14mag", 25],
