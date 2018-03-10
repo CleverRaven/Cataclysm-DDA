@@ -125,7 +125,7 @@ void character_edit_menu()
 
         data << _( "Needs:" ) << std::endl;
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << need_id( need ) << std::endl;
         }
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
