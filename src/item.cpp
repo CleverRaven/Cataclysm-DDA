@@ -975,9 +975,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
-        const auto skill = &mod->gun_skill().obj();
+        const Skill &skill = *mod->gun_skill();
 
-        info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
+        info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill.name() + "</info>" ) );
 
         if( mod->magazine_integral() ) {
             if( mod->ammo_capacity() ) {
@@ -1919,7 +1919,7 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    player* const u = &g->u; // TODO: make a reference, make a const reference
+    player &u = g->u; // TODO: make a const reference
     nc_color ret = c_light_gray;
 
     if(has_flag("WET")) {
@@ -1941,7 +1941,7 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const auto rating = u->will_eat( to_color );
+        const auto rating = u.will_eat( to_color );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
@@ -1978,8 +1978,8 @@ nc_color item::color_in_inventory() const
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
         // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
-        bool has_ammo = !u->get_ammo( amtype ).empty() || !u->find_ammo( *this, false, -1 ).empty();
-        bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
+        bool has_ammo = !u.get_ammo( amtype ).empty() || !u.find_ammo( *this, false, -1 ).empty();
+        bool has_mag = magazine_integral() || !u.find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
             ret = c_green;
         } else if( has_ammo || has_mag ) {
@@ -1989,10 +1989,10 @@ nc_color item::color_in_inventory() const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        bool has_gun = u->has_item_with( [this]( const item &i ) {
+        bool has_gun = u.has_item_with( [this]( const item &i ) {
             return i.is_gun() && type->ammo->type.count( i.ammo_type() );
         } );
-        bool has_mag = u->has_item_with( [this]( const item &i ) {
+        bool has_mag = u.has_item_with( [this]( const item &i ) {
             return ( i.is_gun() && i.magazine_integral() && type->ammo->type.count( i.ammo_type() ) ) ||
                 ( i.is_magazine() && type->ammo->type.count( i.ammo_type() ) );
         } );
@@ -2005,36 +2005,36 @@ nc_color item::color_in_inventory() const
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
         ammotype amtype = ammo_type();
-        bool has_gun = u->has_item_with( [this]( const item & it ) {
+        bool has_gun = u.has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
         } );
-        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        bool has_ammo = !u.find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
             ret = c_light_red;
         }
     } else if (is_book()) {
-        if(u->has_identified( typeId() )) {
+        if(u.has_identified( typeId() )) {
             auto &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
-                u->get_skill_level_object( tmp.skill ).can_train() &&
-                u->get_skill_level( tmp.skill ) >= tmp.req &&
-                u->get_skill_level( tmp.skill ) < tmp.level ) {
+                u.get_skill_level_object( tmp.skill ).can_train() &&
+                u.get_skill_level( tmp.skill ) >= tmp.req &&
+                u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u->get_skill_level_object( tmp.skill ).can_train() &&
-                       u->get_skill_level( tmp.skill ) < tmp.level ) {
+                       u.get_skill_level_object( tmp.skill ).can_train() &&
+                       u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
+            } else if( !u.studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
         }
     } else if (is_bionic()) {
-        if( !u->has_bionic( type->bionic->id ) ) {
-            ret = u->bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
+        if( !u.has_bionic( type->bionic->id ) ) {
+            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
