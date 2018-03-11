@@ -7278,12 +7278,12 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &g->u.i_at(pos);
+        item &it = g->u.i_at( pos );
 
-        z->add_item(*it);
+        z->add_item( it );
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
-                it->display_name().c_str(),  pet_name.c_str());
+                it.display_name().c_str(), pet_name.c_str());
 
         g->u.i_rem(pos);
 
@@ -7316,15 +7316,15 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &z->inv[0];
+        item &it = z->inv[0];
 
-        if (!it->is_armor()) {
+        if (!it.is_armor()) {
             add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
-        units::volume max_cap = it->get_storage();
-        units::mass max_weight = z->weight_capacity() - it->weight();
+        units::volume max_cap = it.get_storage();
+        units::mass max_weight = z->weight_capacity() - it.weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
@@ -7335,12 +7335,12 @@ bool pet_menu(monster *z)
 
         if (max_weight <= 0) {
             add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
-                    pet_name.c_str(), it->tname(1).c_str());
+                    pet_name.c_str(), it.tname(1).c_str());
             return true;
         }
         if (max_cap <= 0) {
             add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
-                    pet_name.c_str(), it->tname(1).c_str() );
+                    pet_name.c_str(), it.tname(1).c_str() );
             return true;
         }
 
@@ -7792,8 +7792,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
 {
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
-        const field_entry *cur = &fld.second;
-        mvwprintz( w_look, ++line, column, cur->color(), cur->name() );
+        const field_entry &cur = fld.second;
+        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
     }
 }
 
@@ -11650,8 +11650,8 @@ void game::place_player( const tripoint &dest_loc )
     int vpart1;
     const vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
     if( veh1 != nullptr ) {
-        const vehicle_part *part = &(veh1->parts[vpart1]);
-        std::string label = veh1->get_label(part->mount.x, part->mount.y);
+        const vehicle_part &part = veh1->parts[vpart1];
+        std::string label = veh1->get_label( part.mount.x, part.mount.y );
         if (!label.empty()) {
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
