@@ -230,6 +230,7 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
+bool fullscreen;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -333,6 +334,7 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (get_option<std::string>( "FULLSCREEN" ) == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        fullscreen = true;
         SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
@@ -359,6 +361,8 @@ bool WinCreate()
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
+
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
 
     // Initialize framebuffer caches
     terminal_framebuffer.resize(TERMINAL_HEIGHT);
@@ -658,6 +662,8 @@ static void try_sdl_update()
         needupdate = true;
     }
 }
+
+
 
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
@@ -1260,6 +1266,32 @@ bool handle_resize(int w, int h)
         return true;
     }
     return false;
+}
+
+void toggle_fullscreen_window()
+{
+    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth;
+    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
+
+    if ( fullscreen ) {
+        if( SDL_SetWindowFullscreen( ::window.get(), 0 ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+        SDL_RestoreWindow( ::window.get() );
+        SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
+    } else {
+        restore_win_w = WindowWidth;
+        restore_win_h = WindowHeight;
+        if( SDL_SetWindowFullscreen( ::window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+    }
+    int nw, nh;
+    SDL_GetWindowSize( ::window.get(), &nw, &nh );
+    handle_resize( nw, nh );
+    fullscreen = !fullscreen;
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
