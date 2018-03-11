@@ -1943,7 +1943,7 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    p->do_read( *act->targets[0].get_item() );
+    p->do_read( *act->targets.front().get_item() );
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
