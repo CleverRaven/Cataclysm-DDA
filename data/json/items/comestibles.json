@@ -5624,6 +5624,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "marloss_seed",
+        "category" : "seeds",
         "name" : "marloss seed",
         "name_plural" : "marloss seeds",
         "weight" : 177,
@@ -6376,6 +6377,7 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "raw_beans",
+        "category": "seeds",
         "name" : "raw beans",
         "name_plural" : "raw beans",
         "weight" : 210,
@@ -8474,7 +8476,7 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "coffee_bean",
-        "category": "other",
+        "category": "seeds",
         "container": "bag_plastic",
         "price" : 50,
         "material" : "veggy",
