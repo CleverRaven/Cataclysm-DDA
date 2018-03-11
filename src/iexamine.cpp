@@ -55,7 +55,6 @@ const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_blind( "blind" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
