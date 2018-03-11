@@ -5,7 +5,7 @@
         "comestible_type": "FOOD",
         "name": "seeds",
         "name_plural": "seeds",
-        "category": "other",
+        "category": "seeds",
         "volume": 1,
         "weight": 1,
         "price": 120,
