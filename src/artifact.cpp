@@ -614,38 +614,38 @@ std::string new_artifact()
 
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
-        const artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
-        def.create_name( _( info->name.c_str() ) );
-        def.color = info->color;
-        def.sym = std::string( 1, info->sym );
-        def.materials.push_back(info->material);
-        def.volume = rng(info->volume_min, info->volume_max);
-        def.weight = rng(info->weight_min, info->weight_max);
+        const artifact_tool_form_datum &info = artifact_tool_form_data[form];
+        def.create_name( _( info.name.c_str() ) );
+        def.color = info.color;
+        def.sym = std::string( 1, info.sym );
+        def.materials.push_back(info.material);
+        def.volume = rng(info.volume_min, info.volume_max);
+        def.weight = rng(info.weight_min, info.weight_max);
         // Set up the basic weapon type
-        const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-        def.melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
-        def.melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
-        def.melee[DT_STAB] = rng(weapon->stab_min, weapon->stab_max);
-        def.m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-        if( !weapon->tag.empty() ) {
-            def.item_tags.insert(weapon->tag);
+        const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
+        def.melee[DT_BASH] = rng(weapon.bash_min, weapon.bash_max);
+        def.melee[DT_CUT] = rng(weapon.cut_min, weapon.cut_max);
+        def.melee[DT_STAB] = rng(weapon.stab_min, weapon.stab_max);
+        def.m_to_hit = rng(weapon.to_hit_min, weapon.to_hit_max);
+        if( !weapon.tag.empty() ) {
+            def.item_tags.insert(weapon.tag);
         }
         // Add an extra weapon perhaps?
         if (one_in(2)) {
             int select = rng(0, 2);
-            if (info->extra_weapons[select] != ARTWEAP_NULL) {
-                weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
-                def.volume += weapon->volume;
-                def.weight += weapon->weight;
-                def.melee[DT_BASH] += rng(weapon->bash_min, weapon->bash_max);
-                def.melee[DT_CUT] += rng(weapon->cut_min, weapon->cut_max);
-                def.melee[DT_STAB] += rng(weapon->stab_min, weapon->stab_max);
-                def.m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
-                if( !weapon->tag.empty() ) {
-                    def.item_tags.insert(weapon->tag);
+            if (info.extra_weapons[select] != ARTWEAP_NULL) {
+                const artifact_weapon_datum &weapon = artifact_weapon_data[info.extra_weapons[select]];
+                def.volume += weapon.volume;
+                def.weight += weapon.weight;
+                def.melee[DT_BASH] += rng(weapon.bash_min, weapon.bash_max);
+                def.melee[DT_CUT] += rng(weapon.cut_min, weapon.cut_max);
+                def.melee[DT_STAB] += rng(weapon.stab_min, weapon.stab_max);
+                def.m_to_hit += rng(weapon.to_hit_min, weapon.to_hit_max);
+                if( !weapon.tag.empty() ) {
+                    def.item_tags.insert(weapon.tag);
                 }
                 std::ostringstream newname;
-                newname << _( weapon->adjective.c_str() ) << " " << _( info->name.c_str() );
+                newname << _( weapon.adjective.c_str() ) << " " << _( info.name.c_str() );
                 def.create_name(newname.str());
             }
         }
@@ -732,26 +732,26 @@ std::string new_artifact()
         it_artifact_armor def;
 
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
-        const artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
+        const artifact_armor_form_datum &info = artifact_armor_form_data[form];
 
-        def.create_name( _( info->name.c_str() ) );
+        def.create_name( _( info.name.c_str() ) );
         def.sym = "["; // Armor is always [
-        def.color = info->color;
-        def.materials.push_back(info->material);
-        def.volume = info->volume;
-        def.weight = info->weight;
-        def.melee[DT_BASH] = info->melee_bash;
-        def.melee[DT_CUT] = info->melee_cut;
-        def.m_to_hit = info->melee_hit;
-        def.armor->covers = info->covers;
-        def.armor->encumber = info->encumb;
-        def.armor->coverage = info->coverage;
-        def.armor->thickness = info->thickness;
-        def.armor->env_resist = info->env_resist;
-        def.armor->warmth = info->warmth;
-        def.armor->storage = info->storage;
+        def.color = info.color;
+        def.materials.push_back(info.material);
+        def.volume = info.volume;
+        def.weight = info.weight;
+        def.melee[DT_BASH] = info.melee_bash;
+        def.melee[DT_CUT] = info.melee_cut;
+        def.m_to_hit = info.melee_hit;
+        def.armor->covers = info.covers;
+        def.armor->encumber = info.encumb;
+        def.armor->coverage = info.coverage;
+        def.armor->thickness = info.thickness;
+        def.armor->env_resist = info.env_resist;
+        def.armor->warmth = info.warmth;
+        def.armor->storage = info.storage;
         std::ostringstream description;
-        description << string_format(info->plural ?
+        description << string_format(info.plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),
                                      def.nname(1).c_str());
@@ -759,52 +759,52 @@ std::string new_artifact()
         // Modify the armor further
         if (!one_in(4)) {
             int index = rng(0, 4);
-            if (info->available_mods[index] != ARMORMOD_NULL) {
-                artifact_armor_mod mod = info->available_mods[index];
-                const artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if( modinfo->volume >= 0 || def.volume > -modinfo->volume ) {
-                    def.volume += modinfo->volume;
+            if (info.available_mods[index] != ARMORMOD_NULL) {
+                artifact_armor_mod mod = info.available_mods[index];
+                const artifact_armor_form_datum &modinfo = artifact_armor_mod_data[mod];
+                if( modinfo.volume >= 0 || def.volume > -modinfo.volume ) {
+                    def.volume += modinfo.volume;
                 } else {
                     def.volume = 250_ml;
                 }
 
-                if( modinfo->weight >= 0 || def.weight.value() > std::abs( modinfo->weight.value() ) ) {
-                    def.weight += modinfo->weight;
+                if( modinfo.weight >= 0 || def.weight.value() > std::abs( modinfo.weight.value() ) ) {
+                    def.weight += modinfo.weight;
                 } else {
                     def.weight = 1_gram;
                 }
 
-                def.armor->encumber += modinfo->encumb;
+                def.armor->encumber += modinfo.encumb;
 
-                if( modinfo->coverage > 0 || def.armor->coverage > std::abs( modinfo->coverage ) ) {
-                    def.armor->coverage += modinfo->coverage;
+                if( modinfo.coverage > 0 || def.armor->coverage > std::abs( modinfo.coverage ) ) {
+                    def.armor->coverage += modinfo.coverage;
                 } else {
                     def.armor->coverage = 0;
                 }
 
-                if( modinfo->thickness > 0 || def.armor->thickness > std::abs( modinfo->thickness ) ) {
-                    def.armor->thickness += modinfo->thickness;
+                if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
+                    def.armor->thickness += modinfo.thickness;
                 } else {
                     def.armor->thickness = 0;
                 }
 
-                if( modinfo->env_resist > 0 || def.armor->env_resist > std::abs( modinfo->env_resist ) ) {
-                    def.armor->env_resist += modinfo->env_resist;
+                if( modinfo.env_resist > 0 || def.armor->env_resist > std::abs( modinfo.env_resist ) ) {
+                    def.armor->env_resist += modinfo.env_resist;
                 } else {
                     def.armor->env_resist = 0;
                 }
-                def.armor->warmth += modinfo->warmth;
+                def.armor->warmth += modinfo.warmth;
 
-                if( modinfo->storage > 0 || def.armor->storage > -modinfo->storage ) {
-                    def.armor->storage += modinfo->storage;
+                if( modinfo.storage > 0 || def.armor->storage > -modinfo.storage ) {
+                    def.armor->storage += modinfo.storage;
                 } else {
                     def.armor->storage = 0;
                 }
 
-                description << string_format(info->plural ?
+                description << string_format(info.plural ?
                                              _("\nThey are %s") :
                                              _("\nIt is %s"),
-                                             _( modinfo->name.c_str() ) );
+                                             _( modinfo.name.c_str() ) );
             }
         }
 
@@ -843,25 +843,25 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
-    const artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
+    const artifact_shape_datum &shape_data = artifact_shape_data[shape];
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
                                                   ARTPROP_MAX - 1)));
-    const artifact_property_datum *property_data = &(artifact_property_data[property]);
+    const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
     def.color = c_yellow;
     def.materials.push_back( material_id( "stone" ) );
-    def.volume = rng(shape_data->volume_min, shape_data->volume_max);
-    def.weight = rng(shape_data->weight_min, shape_data->weight_max);
+    def.volume = rng(shape_data.volume_min, shape_data.volume_max);
+    def.weight = rng(shape_data.weight_min, shape_data.weight_max);
     def.melee[DT_BASH] = 0;
     def.melee[DT_CUT] = 0;
     def.m_to_hit = 0;
 
-    def.create_name( _( property_data->name.c_str() ), _( shape_data->name.c_str() ) );
+    def.create_name( _( property_data.name.c_str() ), _( shape_data.name.c_str() ) );
     def.description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                      _( shape_data->desc.c_str() ), _( property_data->desc.c_str() ) );
+                                      _( shape_data.desc.c_str() ), _( property_data.desc.c_str() ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -889,25 +889,25 @@ std::string new_natural_artifact(artifact_natural_property prop)
 
     do {
         if (good_passive) {
-            aep_good = property_data->passive_good[ rng(0, 3) ];
+            aep_good = property_data.passive_good[ rng(0, 3) ];
             if (aep_good == AEP_NULL || one_in(4)) {
                 aep_good = art_effect_passive(rng(AEP_NULL + 1, AEP_SPLIT - 1));
             }
         }
         if (bad_passive) {
-            aep_bad = property_data->passive_bad[ rng(0, 3) ];
+            aep_bad = property_data.passive_bad[ rng(0, 3) ];
             if (aep_bad == AEP_NULL || one_in(4)) {
                 aep_bad = art_effect_passive(rng(AEP_SPLIT + 1, NUM_AEAS - 1));
             }
         }
         if (good_active) {
-            aea_good = property_data->active_good[ rng(0, 3) ];
+            aea_good = property_data.active_good[ rng(0, 3) ];
             if (aea_good == AEA_NULL || one_in(4)) {
                 aea_good = art_effect_active(rng(AEA_NULL + 1, AEA_SPLIT - 1));
             }
         }
         if (bad_active) {
-            aea_bad = property_data->active_bad[ rng(0, 3) ];
+            aea_bad = property_data.active_bad[ rng(0, 3) ];
             if (aea_bad == AEA_NULL || one_in(4)) {
                 aea_bad = art_effect_active(rng(AEA_SPLIT + 1, NUM_AEAS - 1));
             }
@@ -946,20 +946,20 @@ std::string architects_cube()
 {
     it_artifact_tool def;
 
-    const artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-    def.create_name( _( info->name.c_str() ) );
-    def.color = info->color;
-    def.sym = std::string( 1, info->sym );
-      def.materials.push_back(info->material);
-    def.volume = rng(info->volume_min, info->volume_max);
-    def.weight = rng(info->weight_min, info->weight_max);
+    const artifact_tool_form_datum &info = artifact_tool_form_data[ARTTOOLFORM_CUBE];
+    def.create_name( _( info.name.c_str() ) );
+    def.color = info.color;
+    def.sym = std::string( 1, info.sym );
+      def.materials.push_back(info.material);
+    def.volume = rng(info.volume_min, info.volume_max);
+    def.weight = rng(info.weight_min, info.weight_max);
     // Set up the basic weapon type
-    const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-    def.melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
-    def.melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
-    def.m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-    if( !weapon->tag.empty() ) {
-        def.item_tags.insert(weapon->tag);
+    const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
+    def.melee[DT_BASH] = rng(weapon.bash_min, weapon.bash_max);
+    def.melee[DT_CUT] = rng(weapon.cut_min, weapon.cut_max);
+    def.m_to_hit = rng(weapon.to_hit_min, weapon.to_hit_max);
+    if( !weapon.tag.empty() ) {
+        def.item_tags.insert(weapon.tag);
     }
     // Add an extra weapon perhaps?
     def.description = _("The architect's cube.");
