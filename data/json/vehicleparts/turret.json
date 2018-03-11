@@ -21,8 +21,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -43,8 +42,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 4 ] ]
@@ -64,8 +62,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -85,8 +82,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 1 ] ]
@@ -106,8 +102,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 1 ] ]
@@ -127,8 +122,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ]
@@ -148,8 +142,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 4 ] ]
@@ -169,8 +162,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ]
@@ -190,8 +182,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ]
@@ -211,8 +202,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ]
@@ -232,8 +222,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -253,8 +242,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -274,8 +262,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -295,8 +282,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ]
@@ -317,8 +303,7 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
+        "time": 10000
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ]
