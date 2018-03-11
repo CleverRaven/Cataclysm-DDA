@@ -3546,12 +3546,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype &itemtype = *it.type;
             const int duration = itemtype.bionic->difficulty * 200;
             if( p.install_bionics( itemtype ) ) {
-                p.add_msg_if_player( m_good,
-                                     _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
+                popup( _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
+                p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
-                p.add_effect( effect_blind, duration );
-                p.fall_asleep( duration );
                 p.i_rem( &it );
             }
         }
