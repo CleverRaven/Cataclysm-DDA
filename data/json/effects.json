@@ -1478,6 +1478,7 @@
     {
         "type": "effect_type",
         "id": "sleep",
+        "apply_message": "You fall asleep.",
         "remove_message": "You wake up.",
         "rating": "neutral",
         "max_intensity": 24
