@@ -502,7 +502,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
