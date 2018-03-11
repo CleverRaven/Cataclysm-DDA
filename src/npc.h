@@ -610,7 +610,7 @@ class npc : public player
         // Helper functions for ranged combat
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
-        int confident_shoot_range( const item &it, bool at_perfect_aim ) const;
+        int confident_shoot_range( const item &it, int at_recoil ) const;
         int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;

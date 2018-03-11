@@ -277,7 +277,8 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon, false ) );
+             name.c_str(), target_name.c_str(), ai_cache.danger,
+             confident_shoot_range( weapon, recoil_total() ) );
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
@@ -721,7 +722,8 @@ void npc::choose_target()
     float highest_priority = 1.0f;
 
     // Radius we can attack without moving
-    const int max_range = std::max( weapon.reach_range( *this ), confident_shoot_range( weapon, true ) );
+    const int max_range = std::max( weapon.reach_range( *this ),
+                                    confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
     constexpr static int def_radius = 6;
 
@@ -966,7 +968,8 @@ npc_action npc::method_of_attack()
 
     // @todo Needs a check for transparent but non-passable tiles on the way
     if( !modes.empty() && sees( *critter ) &&
-        aim_per_move( weapon, recoil ) > 0 && confident_shoot_range( weapon, true ) >= dist ) {
+        aim_per_move( weapon, recoil ) > 0 &&
+        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
         return npc_aim;
     }
 
@@ -1247,9 +1250,8 @@ double npc::confidence_mult() const
     return 1.0f;
 }
 
-int npc::confident_shoot_range( const item &it, bool at_perfect_aim ) const
+int npc::confident_shoot_range( const item &it, int recoil ) const
 {
-    const int recoil = at_perfect_aim ? get_most_accurate_sight( it ) : recoil_total();
     int res = 0;
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
@@ -1269,7 +1271,8 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range, max_dispersion );
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+             max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
 
@@ -1287,7 +1290,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
     // @todo: Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ? confident_throw_range( it, nullptr ) : confident_shoot_range( it, false );
+    int confident = throwing ?
+                    confident_throw_range( it, nullptr ) :
+                    confident_shoot_range( it, recoil_total() );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
