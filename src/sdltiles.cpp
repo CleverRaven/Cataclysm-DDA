@@ -1280,6 +1280,7 @@ void toggle_fullscreen_window()
         }
         SDL_RestoreWindow( ::window.get() );
         SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
+        SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
