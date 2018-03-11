@@ -119,8 +119,7 @@ static dispersion_sources get_dispersion( npc &shooter, int aim_time )
     item &gun = shooter.weapon;
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
-    // The 10 is an arbitrary amount under which NPCs refuse to spend moves on aiming.
-    shooter.moves = 10 + aim_time;
+    shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
     shooter.aim();
