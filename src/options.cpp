@@ -901,13 +901,13 @@ void options_manager::init()
          false
     );
 
-    add( "AUTOSAFEMODE", "general", translate_marker( "Auto-safe mode" ),
-        translate_marker( "If true, turns safemode automatically back on after it being disabled beforehand.  See option 'Turns to re-enable safe mode'" ),
+    add( "AUTOSAFEMODE", "general", translate_marker( "Auto reactivate safe mode" ),
+        translate_marker( "If true, safe mode will automatically reactivate after a certain number of turns.  See option 'Turns to auto reactivate safe mode.'" ),
         false
         );
 
-    add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to re-enable safe mode" ),
-        translate_marker( "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe mode proximity distance'." ),
+    add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
+        translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
         1, 100, 50
         );
 
