@@ -97,7 +97,7 @@ struct VehiclePlacement {
 class VehicleFunction
 {
     public:
-        virtual ~VehicleFunction() { }
+        virtual ~VehicleFunction() = default;
         virtual void apply( map &m, const std::string &terrainid ) const = 0;
 };
 
@@ -107,7 +107,7 @@ class VehicleFunction_builtin : public VehicleFunction
 {
     public:
         VehicleFunction_builtin( const vehicle_gen_pointer &func ) : func( func ) {}
-        ~VehicleFunction_builtin() override { }
+        ~VehicleFunction_builtin() override = default;
 
         /**
          * This will invoke the vehicle spawning function on the map.
@@ -126,7 +126,7 @@ class VehicleFunction_json : public VehicleFunction
 {
     public:
         VehicleFunction_json( JsonObject &jo );
-        ~VehicleFunction_json() override { }
+        ~VehicleFunction_json() override = default;
 
         /**
          * This will invoke the vehicle spawning function on the map.

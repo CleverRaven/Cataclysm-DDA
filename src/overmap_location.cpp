@@ -29,9 +29,19 @@ const overmap_location &string_id<overmap_location>::obj() const
 bool overmap_location::test( const int_id<oter_t> &oter ) const
 {
     return std::any_of( terrains.cbegin(), terrains.cend(),
-    [ &oter ]( const string_id<oter_type_t> &type ) {
+    [ &oter ]( const oter_type_str_id &type ) {
         return oter->type_is( type );
     } );
+}
+
+const oter_type_id overmap_location::get_random_terrain() const
+{
+    return random_entry( terrains );
+}
+
+const std::string overmap_location::get_random_terrain_string() const
+{
+    return random_entry( terrains ).str();
 }
 
 void overmap_location::load( JsonObject &jo, const std::string & )

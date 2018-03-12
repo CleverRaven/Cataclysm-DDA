@@ -99,7 +99,7 @@ class Item_spawn_data
         typedef std::vector<Item_tag> RecursionList;
 
         Item_spawn_data( int _probability ) : probability( _probability ) { }
-        virtual ~Item_spawn_data() { }
+        virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
@@ -175,7 +175,6 @@ class Item_modifier
         std::vector<std::string> custom_flags;
 
         Item_modifier();
-        ~Item_modifier();
 
         void modify( item &it ) const;
         void check_consistency() const;
@@ -212,7 +211,7 @@ class Single_item_creator : public Item_spawn_data
         } Type;
 
         Single_item_creator( const std::string &id, Type type, int probability );
-        ~Single_item_creator() override;
+        ~Single_item_creator() override = default;
 
         /**
          * Id of the item group or id of the item.

@@ -23,6 +23,7 @@
 #include "field.h"
 #include "sounds.h"
 #include "gates.h"
+#include "overmap_location.h"
 
 #include "overmap_location.h"
 
@@ -2875,16 +2876,11 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    std::string dest_type = overmap_locations::get_random_terrain( need_id( needs[ 0 ] ) );
-    if( dest_type.empty() ) {
-        dest_type = "field";
-        goal = overmap_buffer.find_random( surface_omt_loc, dest_type, 0, false );
-    } else {
-        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
-    }
+    const std::string dest_type = get_location_for( needs.front() )->get_random_terrain_string();
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
-    DebugLog( D_INFO, DC_ALL ) << "New goal for NPC [" << get_name().c_str() << "] with [" <<
-                               need_id( needs[ 0 ] ).c_str() << "] is [" << dest_type.c_str() << "] in ["
+    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name().c_str() << "] with [" <<
+                               need_id( needs.front() ).c_str() << "] is [" << dest_type.c_str() << "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 

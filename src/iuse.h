@@ -234,7 +234,7 @@ public:
     /** Units of ammo required per invocation (or use value from base item if negative) */
     long cost;
 
-    virtual ~iuse_actor() { }
+    virtual ~iuse_actor() = default;
     virtual void load( JsonObject &jo ) = 0;
     virtual long use( player &, item &, bool, const tripoint& ) const = 0;
     virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint& ) const;

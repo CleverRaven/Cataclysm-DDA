@@ -217,7 +217,6 @@ private:
 class field{
 public:
     field();
-    ~field();
 
     /**
      * Returns a field entry corresponding to the field_id parameter passed in.

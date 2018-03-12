@@ -2450,10 +2450,6 @@ field::field()
 {
 }
 
-field::~field()
-{
-}
-
 /*
 Function: findField
 Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then returns NULL.

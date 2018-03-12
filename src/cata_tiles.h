@@ -364,9 +364,7 @@ class tileset_loader
 class cata_tiles
 {
     public:
-        /** Default constructor */
         cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking

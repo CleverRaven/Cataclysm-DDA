@@ -247,7 +247,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     }
 }
 
-npc::~npc() { }
+npc::~npc() = default;
 
 std::string npc::save_info() const
 {
@@ -2318,16 +2318,18 @@ void npc::process_turn()
 
 const std::string need_id( npc_need need )
 {
-    static const std::array<std::string, num_needs> ids = {{
-            "need_none",
-            "need_ammo",
-            "need_weapon",
-            "need_gun",
-            "need_food",
-            "need_drink"
-        }
-    };
-    return ids[static_cast<size_t>( need )];
+    return npc_need_locations[static_cast<size_t>( need )].first;
+};
+
+const int_id<overmap_location> get_location_for( npc_need need )
+{
+    auto location_for_need = npc_need_locations[static_cast<size_t>( need )].second;
+    return static_cast<int_id<overmap_location>>( location_for_need );
+}
+
+std::ostream &operator<< ( std::ostream &os, npc_need need )
+{
+    return os << need_id( need ).c_str();
 }
 
 bool npc::will_accept_from_player( const item &it ) const

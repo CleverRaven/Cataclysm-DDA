@@ -5197,28 +5197,28 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
+int iuse::gun_repair( player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
         return 0;
     }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >1 allows gun repair */
-    if (p->get_skill_level( skill_mechanics ) < 2) {
-        p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
+    if( p->get_skill_level( skill_mechanics ) < 2 ) {
+        p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    int inventory_index = g->inv_for_all(_("Select the firearm to repair"));
-    item *fix = &(p->i_at(inventory_index));
-    if (fix == NULL || fix->is_null()) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    int inventory_index = g->inv_for_all( _( "Select the firearm to repair" ) );
+    item *fix = &( p->i_at( inventory_index ) );
+    if( fix == NULL || fix->is_null() ) {
+        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if (!fix->is_firearm()) {
-        p->add_msg_if_player(m_info, _("That isn't a firearm!"));
+    if( !fix->is_firearm() ) {
+        p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
     }
     if( fix->has_flag( "NO_REPAIR" ) ) {
@@ -5226,37 +5226,38 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if( fix->damage() == fix->min_damage() ) {
-        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
-                             fix->tname().c_str());
+        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
+                              fix->tname().c_str() );
         return 0;
     }
     if( fix->damage() == 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
-        p->add_msg_if_player(m_info, _("With a higher mechanics skill, you might be able to improve it."));
+        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix->tname().c_str() );
+        p->add_msg_if_player( m_info,
+                              _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
-    /** @EFFECT_MECHANICS >7 allows accurizing ranged weapons */
+    /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     if( fix->damage() == 0 && p->get_skill_level( skill_mechanics ) >= 8 ) {
-        p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
-        sounds::sound(p->pos(), 6, "");
+        sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix->tname().c_str() );
 
     } else if( fix->damage() >= 2 ) {
-        p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-        sounds::sound(p->pos(), 8, "");
+        sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname().c_str() );
 
     } else {
-        p->add_msg_if_player(m_good, _("You repair your %s completely!"),
-                             fix->tname().c_str());
-        sounds::sound(p->pos(), 8, "");
+        sounds::sound( p->pos(), 8, "" );
         p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
+                              fix->tname().c_str() );
     }
     return it->type->charges_to_use();
 }

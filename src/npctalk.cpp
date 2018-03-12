@@ -4557,8 +4557,6 @@ npc_follower_rules::npc_follower_rules()
     close_doors = false;
 };
 
-npc_follower_rules::~npc_follower_rules() = default;
-
 npc *pick_follower()
 {
     std::vector<npc *> followers;

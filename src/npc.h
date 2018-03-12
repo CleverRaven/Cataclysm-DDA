@@ -5,6 +5,7 @@
 #include "player.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "overmap_location.h"
 
 #include <vector>
 #include <string>
@@ -192,7 +193,6 @@ struct npc_follower_rules {
     pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
-    ~npc_follower_rules();
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -876,6 +876,24 @@ struct epilogue {
     epilogue *find_epilogue( std::string ident );
     void random_by_group( std::string group, std::string name );
 };
+
+namespace {
+static const std::array<std::pair<std::string, std::string>, npc_need::num_needs> npc_need_locations = { {
+        { "need_none", "source_of_anything" },
+        { "need_ammo", "source_of_ammo" },
+        { "need_weapon", "source_of_weapon" },
+        { "need_gun", "source_of_gun" },
+        { "need_food", "source_of_food" },
+        { "need_drink", "source_of_drink" }
+    }
+};
+}
+
+const std::string need_id( npc_need need );
+
+const int_id<overmap_location> get_location_for( npc_need need );
+
+std::ostream &operator<< ( std::ostream &os, npc_need need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
