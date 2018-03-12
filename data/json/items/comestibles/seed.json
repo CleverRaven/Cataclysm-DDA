@@ -105,6 +105,229 @@
         }
     },
     {
+        "type" : "COMESTIBLE",
+        "id" : "seed_barley",
+        "copy-from": "seed",
+        "price" : 160,
+        "name" : "barley seeds",
+        "name_plural" : "barley seeds",
+        "description" : "Some barley seeds.",
+        "material" : "veggy",
+        "weight" : 5,
+        "charges" : 2,
+        "stack_size" : 40,
+        "seed_data": {
+            "plant_name": "barley",
+            "fruit": "barley",
+            "byproducts": [ "straw_pile" ],
+            "grow" : 70
+        }
+    },
+    {   "type" : "COMESTIBLE",
+        "id" : "seed_sugar_beet",
+        "copy-from": "seed",
+        "price" : 120,
+        "name" : "sugar beet seeds",
+        "name_plural" : "sugar beet seeds",
+        "description" : "Some sugar beet seeds.",
+        "material" : "veggy",
+        "volume" : 0,
+        "weight" : 5,
+        "stack_size" : 40,
+        "seed_data": {
+            "plant_name": "sugar beet",
+            "fruit": "sugar_beet",
+            "grow" : 90
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_lettuce",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "lettuce seeds",
+        "name_plural" : "lettuce seeds",
+        "description" : "Some lettuce seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "lettuce",
+            "fruit": "lettuce",
+            "byproducts": [ "withered" ],
+            "grow" : 85
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_cabbage",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "cabbage seeds",
+        "name_plural" : "cabbage seeds",
+        "color" : "light_gray",
+        "description" : "Some white cabbage seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "cabbage",
+            "fruit": "cabbage",
+            "byproducts": [ "withered" ],
+            "grow" : 85
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_tomato",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "tomato seeds",
+        "name_plural" : "tomato seeds",
+        "description" : "Some tomato seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "tomato",
+            "fruit": "tomato",
+            "byproducts": [ "withered" ],
+            "grow" : 65
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_cotton_boll",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "cotton seeds",
+        "name_plural" : "cotton seeds",
+        "description" : "Some cotton seeds.  Can be processed to produce an edible oil.",
+        "material" : "veggy",
+        "weight" : 5,
+        "charges" : 8,
+        "stack_size" : 40,
+        "seed_data": {
+            "plant_name": "cotton",
+            "fruit": "cotton_boll",
+            "byproducts": [ "withered" ],
+            "grow" : 130
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_broccoli",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "broccoli seeds",
+        "name_plural" : "broccoli seeds",
+        "description" : "Some broccoli seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "broccoli",
+            "fruit": "broccoli",
+            "byproducts": [ "withered" ],
+            "grow" : 75
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_zucchini",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "zucchini seeds",
+        "name_plural" : "zucchini seeds",
+        "description" : "Some zucchini seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "zucchini",
+            "fruit": "zucchini",
+            "byproducts": [ "withered" ],
+            "grow" : 47
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_onion",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "onion seeds",
+        "name_plural" : "onion seeds",
+        "description" : "Some onion seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "onion",
+            "fruit": "onion",
+            "byproducts": [ "withered" ],
+            "grow" : 65
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_garlic",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "garlic clove",
+        "name_plural" : "garlic cloves",
+        "description" : "Cloves of garlic.  Useful as a seasoning, or for planting.",
+        "material" : "veggy",
+        "quench" : -3,
+        "nutrition" : 3,
+        "weight" : 3,
+        "charges" : 6,
+        "stack_size" : 6,
+        "fun" : -3,
+        "seed_data": {
+            "plant_name": "garlic",
+            "fruit": "garlic",
+            "byproducts": [ "withered" ],
+            "grow" : 65
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_carrot",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "carrot seeds",
+        "name_plural" : "carrot seeds",
+        "description" : "Some carrot seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "carrot",
+            "fruit": "carrot",
+            "byproducts": [ "withered" ],
+            "grow" : 65
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_corn",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "corn seeds",
+        "name_plural" : "corn seeds",
+        "description" : "Some corn seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "corn",
+            "fruit": "corn",
+            "byproducts": [ "withered" ],
+            "grow" : 80
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "seed_chili_pepper",
+        "copy-from": "seed",
+        "price" : 50,
+        "name" : "chili pepper seeds",
+        "name_plural" : "chili pepper seeds",
+        "color" : "white",
+        "description" : "Some chili pepper seeds.",
+        "material" : "veggy",
+        "seed_data": {
+            "plant_name": "chili_pepper",
+            "fruit": "chili_pepper",
+            "byproducts": [ "withered" ],
+            "grow" : 65
+        }
+    },
+    {
         "id": "seed_wheat",
         "copy-from": "seed",
         "type": "COMESTIBLE",
