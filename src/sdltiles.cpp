@@ -1274,23 +1274,23 @@ void toggle_fullscreen_window()
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     if ( fullscreen ) {
-        if( SDL_SetWindowFullscreen( ::window.get(), 0 ) != 0 ) {
+        if( SDL_SetWindowFullscreen( window.get(), 0 ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
             return;
         }
-        SDL_RestoreWindow( ::window.get() );
+        SDL_RestoreWindow( window.get() );
         SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
-        SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80, fontheight * 24 );
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
-        if( SDL_SetWindowFullscreen( ::window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
+        if( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
             return;
         }
     }
     int nw, nh;
-    SDL_GetWindowSize( ::window.get(), &nw, &nh );
+    SDL_GetWindowSize( window.get(), &nw, &nh );
     handle_resize( nw, nh );
     fullscreen = !fullscreen;
 }

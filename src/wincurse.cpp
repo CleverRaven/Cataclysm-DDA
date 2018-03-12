@@ -48,6 +48,7 @@ HFONT font;             //Handle to the font created by CreateFont
 std::array<RGBQUAD, color_loader<RGBQUAD>::COLOR_NAMES_COUNT> windowsPalette;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
+bool needs_resize = false; // The window needs to be resized
 
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
@@ -133,17 +134,13 @@ void WinDestroy()
 void create_backbuffer()
 {
     if( WindowDC != NULL ) {
-        if( ReleaseDC(WindowHandle, WindowDC) == 0 ) {
-            WindowDC = 0;
-        }
+        ReleaseDC( WindowHandle, WindowDC );
     }
     if( backbuffer != NULL ) {
-        if( ReleaseDC(WindowHandle, backbuffer) == 0 ) {
-            backbuffer = 0;
-        }
+        ReleaseDC(WindowHandle, backbuffer );
     }
-    WindowDC   = GetDC(WindowHandle);
-    backbuffer = CreateCompatibleDC(WindowDC);
+    WindowDC   = GetDC( WindowHandle );
+    backbuffer = CreateCompatibleDC( WindowDC );
 
     BITMAPINFO bmi = BITMAPINFO();
     bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
@@ -155,8 +152,29 @@ void create_backbuffer()
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
     bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
-    DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
+    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, ( void** ) &dcbits, NULL, 0);
+    DeleteObject(SelectObject( backbuffer, backbit ) );//load the buffer into DC
+}
+
+void resize_window()
+{
+    needs_resize = false;
+    RECT WndRect;
+    if( GetClientRect( WindowHandle, &WndRect ) ) {
+        TERMINAL_WIDTH = WndRect.right / fontwidth;
+        TERMINAL_HEIGHT = WndRect.bottom / fontheight;
+        WindowWidth = TERMINAL_WIDTH * fontwidth;
+        WindowHeight = TERMINAL_HEIGHT * fontheight;
+        catacurses::resizeterm();
+        create_backbuffer();
+        SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
+        SelectObject(backbuffer, font);//Load our font into the DC
+        color_loader<RGBQUAD>().load( windowsPalette );
+        if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+            throw std::runtime_error( "SetDIBColorTable failed" );
+        }
+        catacurses::refresh();
+    }
 }
 
 // Copied from sdlcurses.cpp
@@ -287,22 +305,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         
     case WM_SIZE:
     case WM_SIZING:
-        RECT WndRect;
-        if( GetClientRect( WindowHandle, &WndRect ) ) {
-            TERMINAL_WIDTH = WndRect.right / fontwidth;
-            TERMINAL_HEIGHT = WndRect.bottom / fontheight;
-            WindowWidth = TERMINAL_WIDTH * fontwidth;
-            WindowHeight = TERMINAL_HEIGHT * fontheight;
-            catacurses::resizeterm();
-            create_backbuffer();
-            SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
-            SelectObject(backbuffer, font);//Load our font into the DC
-            color_loader<RGBQUAD>().load( windowsPalette );
-            if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
-                throw std::runtime_error( "SetDIBColorTable failed" );
-            }
-            catacurses::refresh();
-        }
+        needs_resize = true;
         return 0;
 
     case WM_SYSCHAR:
@@ -496,6 +499,9 @@ void CheckMessages()
     while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+    }
+    if( needs_resize ) {
+        resize_window();
     }
 }
 
