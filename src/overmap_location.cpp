@@ -62,11 +62,6 @@ void overmap_location::check() const
     }
 }
 
-const string_id<oter_type_t> overmap_location::get_random_terrain() const
-{
-    return random_entry( terrains );
-}
-
 void overmap_locations::load( JsonObject &jo, const std::string &src )
 {
     locations.load( jo, src );
@@ -80,22 +75,4 @@ void overmap_locations::check_consistency()
 void overmap_locations::reset()
 {
     locations.reset();
-}
-
-const std::vector<overmap_location> &overmap_locations::get_all()
-{
-    return locations.get_all();
-}
-
-const std::string overmap_locations::get_random_terrain( const std::string target_location_id )
-{
-    std::string random_terrain;
-    const std::vector<overmap_location> locs = overmap_locations::get_all();
-    for( const auto &loc : locs ) {
-        if( target_location_id == loc.id.str() ) {
-            random_terrain = loc.get_random_terrain().str();
-            break;
-        }
-    }
-    return random_terrain;
 }

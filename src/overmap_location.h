@@ -43,9 +43,6 @@ void load( JsonObject &jo, const std::string &src );
 void check_consistency();
 void reset();
 
-const std::vector<overmap_location> &get_all();
-const std::string get_random_terrain( const std::string target_location_id );
-
 }
 
 #endif // OVERMAP_LOCATION_H
