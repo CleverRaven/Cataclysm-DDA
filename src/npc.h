@@ -877,8 +877,10 @@ struct epilogue {
     void random_by_group( std::string group, std::string name );
 };
 
-namespace {
-static const std::array<std::pair<std::string, std::string>, npc_need::num_needs> npc_need_locations = { {
+namespace
+{
+static const std::array<std::pair<std::string, std::string>, npc_need::num_needs> npc_need_locations
+= { {
         { "need_none", "source_of_anything" },
         { "need_ammo", "source_of_ammo" },
         { "need_weapon", "source_of_weapon" },
