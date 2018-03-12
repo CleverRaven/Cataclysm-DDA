@@ -49,6 +49,7 @@ std::array<RGBQUAD, color_loader<RGBQUAD>::COLOR_NAMES_COUNT> windowsPalette;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
 bool needs_resize = false; // The window needs to be resized
+bool initialized = false;
 
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
@@ -156,8 +157,11 @@ void create_backbuffer()
     DeleteObject(SelectObject( backbuffer, backbit ) );//load the buffer into DC
 }
 
-void resize_window()
+void handle_resize()
 {
+    if( !initialized ) {
+        return;
+    }
     needs_resize = false;
     RECT WndRect;
     if( GetClientRect( WindowHandle, &WndRect ) ) {
@@ -306,6 +310,22 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     case WM_SIZE:
     case WM_SIZING:
         needs_resize = true;
+        RECT WndRect;
+        if( GetClientRect( WindowHandle, &WndRect ) ) {
+            TERMINAL_WIDTH = WndRect.right / fontwidth;
+            TERMINAL_HEIGHT = WndRect.bottom / fontheight;
+            WindowWidth = TERMINAL_WIDTH * fontwidth;
+            WindowHeight = TERMINAL_HEIGHT * fontheight;
+            catacurses::resizeterm();
+            create_backbuffer();
+            SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
+            SelectObject(backbuffer, font);//Load our font into the DC
+            color_loader<RGBQUAD>().load( windowsPalette );
+            if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+                throw std::runtime_error( "SetDIBColorTable failed" );
+            }
+            catacurses::refresh();
+        }
         return 0;
 
     case WM_SYSCHAR:
@@ -378,6 +398,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    
     WINDOW *const win = w.get<WINDOW>();
     int i,j,drawx,drawy;
     wchar_t tmp;
@@ -501,7 +522,7 @@ void CheckMessages()
         DispatchMessage(&msg);
     }
     if( needs_resize ) {
-        resize_window();
+        handle_resize();
     }
 }
 
@@ -584,6 +605,8 @@ void catacurses::init_interface()
 
     stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0 );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
+    
+    initialized = true;
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
