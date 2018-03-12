@@ -69,7 +69,7 @@
     "type": "ENGINE",
     "name": "Inline-4 engine",
     "description": "A small, yet powerful 4-cylinder combustion engine.",
-    "weight": 70000,
+    "weight": 130000,
     "volume": 6,
     "price": 15000,
     "displacement": 250
@@ -80,7 +80,7 @@
     "type": "ENGINE",
     "name": "I6 diesel engine",
     "description": "A powerful straight-6 diesel engine.",
-    "weight": 105000,
+    "weight": 185000,
     "volume": 15,
     "price": 27000,
     "displacement": 600
@@ -102,7 +102,7 @@
     "type": "ENGINE",
     "name": "V6 engine",
     "description": "A powerful 6-cylinder combustion engine.",
-    "weight": 100000,
+    "weight": 180000,
     "volume": 14,
     "price": 18000,
     "displacement": 400
@@ -113,7 +113,7 @@
     "type": "ENGINE",
     "name": "V6 diesel engine",
     "description": "A powerful 6-cylinder diesel engine.",
-    "weight": 110000,
+    "weight": 190000,
     "volume": 15,
     "price": 20000,
     "displacement": 400
@@ -124,7 +124,7 @@
     "type": "ENGINE",
     "name": "V8 engine",
     "description": "A large and very powerful 8-cylinder combustion engine.",
-    "weight": 200000,
+    "weight": 250000,
     "volume": 25,
     "price": 25000,
     "displacement": 650
@@ -135,7 +135,7 @@
     "type": "ENGINE",
     "name": "V8 diesel engine",
     "description": "A powerful 8-cylinder diesel engine.",
-    "weight": 220000,
+    "weight": 255000,
     "volume": 26,
     "price": 26500,
     "displacement": 650
