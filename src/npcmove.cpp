@@ -25,8 +25,6 @@
 #include "gates.h"
 #include "overmap_location.h"
 
-#include "overmap_location.h"
-
 #include <algorithm>
 #include <sstream>
 
