@@ -466,7 +466,7 @@ class game
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count( const mtype_id& id );
         /** Record the fact that the player murdered an NPC. */
-        void record_npc_kill( const npc *p );
+        void record_npc_kill( const npc &p );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -500,7 +500,7 @@ class game
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact(item *it, player *p);
+        void process_artifact( item &it, player &p );
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek();

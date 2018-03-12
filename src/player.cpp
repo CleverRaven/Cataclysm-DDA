@@ -2415,7 +2415,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Inventory
     memorial_file << _( "Inventory:" ) << eol;
-    inv.restack( this );
+    inv.restack( *this );
     inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
@@ -7267,7 +7267,7 @@ bool player::consume(int target_position)
 
         //Restack and sort so that we don't lie about target's invlet
         if( target_position >= 0 ) {
-            inv.restack( this );
+            inv.restack( *this );
             inv.sort();
         }
 
@@ -7294,7 +7294,7 @@ bool player::consume(int target_position)
             }
         }
     } else if( target_position >= 0 ) {
-        inv.restack( this );
+        inv.restack( *this );
         inv.unsort();
     }
 
@@ -8305,7 +8305,7 @@ bool player::wear( item& to_wear, bool interactive )
         was_weapon = true;
     } else {
         inv.remove_item( &to_wear );
-        inv.restack( this );
+        inv.restack( *this );
         was_weapon = false;
     }
 
@@ -8541,7 +8541,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     }
     // @todo: Remove the hack. Its here because npcs don't process activities
     if( is_npc() ) {
-        activity.do_turn( this );
+        activity.do_turn( *this );
     }
 }
 
@@ -9427,20 +9427,20 @@ bool player::read( int inventory_position, const bool continuous )
     return true;
 }
 
-void player::do_read( item *book )
+void player::do_read( item &book )
 {
-    const auto &reading = book->type->book;
+    const auto &reading = book.type->book;
     if( !reading ) {
         activity.set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
 
-    if( !has_identified( book->typeId() ) ) {
+    if( !has_identified( book.typeId() ) ) {
         // Note that we've read the book.
-        items_identified.insert( book->typeId() );
+        items_identified.insert( book.typeId() );
 
-        add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
+        add_msg( _( "You skim %s to find out what's in it." ), book.type_name().c_str() );
         if( skill && get_skill_level_object( skill ).can_train() ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
                     skill.obj().name().c_str(), reading->level);
@@ -9504,8 +9504,8 @@ void player::do_read( item *book )
 
         if( reading->fun != 0 ) {
             int fun_bonus = 0;
-            const int chapters = book->get_chapters();
-            const int remain = book->get_remaining_chapters( *this );
+            const int chapters = book.get_chapters();
+            const int remain = book.get_remaining_chapters( *this );
             if( chapters > 0 && remain == 0 ) {
                 //Book is out of chapters -> re-reading old book, less fun
                 if( learner->is_player() ) {
@@ -9523,18 +9523,18 @@ void player::do_read( item *book )
             // If you don't have a problem with eating humans, To Serve Man becomes rewarding
             if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
                   learner->has_trait( trait_SAPIOVORE ) ) &&
-                book->typeId() == "cookbook_human" ) {
+                book.typeId() == "cookbook_human" ) {
                 fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type );
-            } else if( learner->has_trait( trait_SPIRITUAL ) && book->has_flag( "INSPIRATIONAL" ) ) {
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book.type );
+            } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
                 fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book.type );
             }
         }
 
-        book->mark_chapter_as_read( *learner );
+        book.mark_chapter_as_read( *learner );
 
         if( skill && learner->get_skill_level( skill ) < reading->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
@@ -9592,14 +9592,14 @@ void player::do_read( item *book )
 
             if( skill_level == reading->level || !skill_level.can_train() ) {
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
                 } else {
                     cant_learn.insert( learner->disp_name() );
                 }
             }
         } else if( skill ) {
             if( learner->is_player() ) {
-                add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+                add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
             } else {
                 cant_learn.insert( learner->disp_name() );
             }
@@ -9617,12 +9617,12 @@ void player::do_read( item *book )
 
     if( !cant_learn.empty() ) {
         const std::string names = enumerate_as_string( cant_learn );
-        add_msg( m_info, _( "%s can no longer learn from %s." ), names.c_str(), book->type_name().c_str() );
+        add_msg( m_info, _( "%s can no longer learn from %s." ), names.c_str(), book.type_name().c_str() );
     }
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book->type_name().c_str(), names.c_str() );
+                 book.type_name().c_str(), names.c_str() );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -9630,16 +9630,16 @@ void player::do_read( item *book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( get_item_position( book ), true );
+        read( get_item_position( &book ), true );
         if( activity ) {
             return;
         }
     }
 
     // NPCs can't learn martial arts from manuals (yet).
-    auto m = book->type->use_methods.find( "MA_MANUAL" );
-    if( m != book->type->use_methods.end() ) {
-        m->second.call( *this, *book, false, pos() );
+    auto m = book.type->use_methods.find( "MA_MANUAL" );
+    if( m != book.type->use_methods.end() ) {
+        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
@@ -10909,7 +10909,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, this, true );
+    inv.assign_empty_invlet( weapon, *this, true );
     last_item = weapon.typeId();
 
     /**

@@ -1976,9 +1976,10 @@ void monster::make_friendly()
     friendly = rng(5, 30) + rng(0, 20);
 }
 
-void monster::make_ally(monster *z) {
-    friendly = z->friendly;
-    faction = z->faction;
+void monster::make_ally( const monster &z )
+{
+    friendly = z.friendly;
+    faction = z.faction;
 }
 
 void monster::add_item(item it)

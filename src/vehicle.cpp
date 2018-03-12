@@ -1332,7 +1332,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( auto e : get_parts( "STEREO", true ) ) {
-        iuse::play_music( &g->u, global_part_pos3( *e ), 15, 30 );
+        iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
 

@@ -4884,7 +4884,7 @@ bool item::reload( player &u, item_location loc, long qty )
     if( ammo->charges == 0 ) {
         if( container != nullptr ) {
             container->contents.erase(container->contents.begin());
-            u.inv.restack(&u); // emptied containers do not stack with non-empty ones
+            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
         } else {
             loc.remove_item();
         }
@@ -5519,7 +5519,7 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     // TODO: change game::process_artifact to work with npcs,
     // TODO: consider moving game::process_artifact here.
     if( carrier == &g->u ) {
-        g->process_artifact( this, carrier );
+        g->process_artifact( *this, *carrier );
     }
 }
 
@@ -5630,7 +5630,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
-                weed_msg( carrier );
+                weed_msg( *carrier );
             }
         }
         active = false;

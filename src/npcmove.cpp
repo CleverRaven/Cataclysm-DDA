@@ -2205,7 +2205,7 @@ bool npc::do_pulp()
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
     activity.placement = pulp_location;
-    activity.do_turn( this );
+    activity.do_turn( *this );
     return moves != old_moves;
 }
 

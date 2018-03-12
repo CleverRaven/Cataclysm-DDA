@@ -1611,7 +1611,7 @@ void game::process_activity()
     }
 
     while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( &u );
+        u.activity.do_turn( u );
     }
 }
 
@@ -1765,9 +1765,9 @@ void game::increase_kill_count( const mtype_id& id )
     kills[id]++;
 }
 
-void game::record_npc_kill( const npc *p )
+void game::record_npc_kill( const npc &p )
 {
-   npc_kills.push_back( p->get_name() );
+   npc_kills.push_back( p.get_name() );
 }
 
 void game::handle_key_blocking_activity()
@@ -13589,37 +13589,37 @@ void intro()
     catacurses::erase();
 }
 
-void game::process_artifact(item *it, player *p)
+void game::process_artifact( item &it, player &p )
 {
-    const bool worn = p->is_worn( *it );
-    const bool wielded = ( it == &p->weapon );
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
     std::vector<art_effect_passive> effects;
-    effects = it->type->artifact->effects_carried;
+    effects = it.type->artifact->effects_carried;
     if( worn ) {
-        auto &ew = it->type->artifact->effects_worn;
+        auto &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( wielded ) {
-        auto &ew = it->type->artifact->effects_wielded;
+        auto &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
-    if( it->is_tool() ) {
+    if( it.is_tool() ) {
         // Recharge it if necessary
-        if( it->ammo_remaining() < it->ammo_capacity() ) {
-            switch (it->type->artifact->charge_type) {
+        if( it.ammo_remaining() < it.ammo_capacity() ) {
+            switch( it.type->artifact->charge_type ) {
             case ARTC_NULL:
             case NUM_ARTCS:
                 break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
                 if( calendar::once_every( 1_hours ) ) {
-                    it->charges++;
+                    it.charges++;
                 }
                 break;
             case ARTC_SOLAR:
                 if( calendar::once_every( 10_minutes ) &&
-                    is_in_sunlight(p->pos())) {
-                    it->charges++;
+                    is_in_sunlight( p.pos() ) ) {
+                    it.charges++;
                 }
                 break;
             // Artifacts can inflict pain even on Deadened folks.
@@ -13628,15 +13628,15 @@ void game::process_artifact(item *it, player *p)
             case ARTC_PAIN:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p->mod_pain_noresist( 3 * rng(1, 3) );
-                    it->charges++;
+                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                    it.charges++;
                 }
                 break;
             case ARTC_HP:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1, nullptr);
-                    it->charges++;
+                    p.hurtall( 1, nullptr );
+                    it.charges++;
                 }
                 break;
             }
@@ -13646,37 +13646,37 @@ void game::process_artifact(item *it, player *p)
     for (auto &i : effects) {
         switch (i) {
         case AEP_STR_UP:
-            p->mod_str_bonus(+4);
+            p.mod_str_bonus( +4 );
             break;
         case AEP_DEX_UP:
-            p->mod_dex_bonus(+4);
+            p.mod_dex_bonus( +4 );
             break;
         case AEP_PER_UP:
-            p->mod_per_bonus(+4);
+            p.mod_per_bonus( +4 );
             break;
         case AEP_INT_UP:
-            p->mod_int_bonus(+4);
+            p.mod_int_bonus( +4 );
             break;
         case AEP_ALL_UP:
-            p->mod_str_bonus(+2);
-            p->mod_dex_bonus(+2);
-            p->mod_per_bonus(+2);
-            p->mod_int_bonus(+2);
+            p.mod_str_bonus( +2 );
+            p.mod_dex_bonus( +2 );
+            p.mod_per_bonus( +2 );
+            p.mod_int_bonus( +2 );
             break;
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
 
         case AEP_PBLUE:
-            if (p->radiation > 0) {
-                p->radiation--;
+            if( p.radiation > 0 ) {
+                p.radiation--;
             }
             break;
 
         case AEP_SMOKE:
             if( one_in( 10 ) ) {
-                tripoint pt( p->posx() + rng( -1, 1 ),
-                             p->posy() + rng( -1, 1 ),
-                             p->posz() );
+                tripoint pt( p.posx() + rng( -1, 1 ),
+                             p.posy() + rng( -1, 1 ),
+                             p.posz() );
                 m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
@@ -13685,36 +13685,36 @@ void game::process_artifact(item *it, player *p)
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                    m.adjust_field_age( tripoint( x, y, p->posz() ), fd_fire, -1);
+            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
+                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
+                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
                 }
             }
             break;
 
         case AEP_HUNGER:
             if (one_in(100)) {
-                p->mod_hunger(1);
+                p.mod_hunger( 1 );
             }
             break;
 
         case AEP_THIRST:
             if (one_in(120)) {
-                p->mod_thirst(1);
+                p.mod_thirst( 1 );
             }
             break;
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_effect( effect_evil, 300);
-                if( it->is_armor() ) {
+                p.add_effect( effect_evil, 300 );
+                if( it.is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                     }
                 } else if (!wielded) {
                     add_msg(_("You have an urge to wield the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                 }
             }
             break;
@@ -13724,31 +13724,31 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_RADIOACTIVE:
             if (one_in(4)) {
-                p->radiation++;
+                p.radiation++;
             }
             break;
 
         case AEP_STR_DOWN:
-            p->mod_str_bonus(-3);
+            p.mod_str_bonus( -3 );
             break;
 
         case AEP_DEX_DOWN:
-            p->mod_dex_bonus(-3);
+            p.mod_dex_bonus( -3 );
             break;
 
         case AEP_PER_DOWN:
-            p->mod_per_bonus(-3);
+            p.mod_per_bonus( -3 );
             break;
 
         case AEP_INT_DOWN:
-            p->mod_int_bonus(-3);
+            p.mod_int_bonus( -3 );
             break;
 
         case AEP_ALL_DOWN:
-            p->mod_str_bonus(-2);
-            p->mod_dex_bonus(-2);
-            p->mod_per_bonus(-2);
-            p->mod_int_bonus(-2);
+            p.mod_str_bonus( -2 );
+            p.mod_dex_bonus( -2 );
+            p.mod_per_bonus( -2 );
+            p.mod_int_bonus( -2 );
             break;
 
         case AEP_SPEED_DOWN:
@@ -13760,10 +13760,10 @@ void game::process_artifact(item *it, player *p)
         }
     }
     // Recalculate, as it might have changed (by mod_*_bonus above)
-    p->str_cur = p->get_str();
-    p->int_cur = p->get_int();
-    p->dex_cur = p->get_dex();
-    p->per_cur = p->get_per();
+    p.str_cur = p.get_str();
+    p.int_cur = p.get_int();
+    p.dex_cur = p.get_dex();
+    p.per_cur = p.get_per();
 }
 
 void game::start_calendar()

@@ -209,10 +209,10 @@ public:
     int artifact            ( player*, item*, bool, const tripoint& );
 
     // Helper for listening to music, might deserve a better home, but not sure where.
-    static void play_music( player *p, const tripoint &source, int volume, int max_morale );
+    static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
     // Helper for handling pesky wannabe-artists
-    static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
+    static int handle_ground_graffiti( player &p, item *it, const std::string prefix );
 
 };
 

@@ -462,7 +462,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
     if (it->typeId() == "joint") {
         // Would group with the joint, but awkward to mutter before lighting up.
         if (one_in(5)) {
-            weed_msg(p);
+            weed_msg( *p );
         }
     }
     if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
@@ -713,7 +713,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
     if (one_in(5)) {
-        weed_msg(p);
+        weed_msg( *p );
     }
     return it->type->charges_to_use();
 }
@@ -3792,20 +3792,20 @@ const std::string &get_music_description()
     return no_description;
 }
 
-void iuse::play_music( player * const p, const tripoint &source, int const volume, int const max_morale )
+void iuse::play_music( player &p, const tripoint &source, int const volume, int const max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    bool const do_effects = p->can_hear( source, volume );
+    bool const do_effects = p.can_hear( source, volume );
     std::string sound;
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
         const std::string &music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
+            if( p.pos() == source && volume == 0 && p.can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
-                p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
+                p.add_msg_if_player( _( "You listen to %s" ), music.c_str() );
             }
         }
     }
@@ -3814,11 +3814,11 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
         sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
-        p->add_effect( effect_music, 1 );
-        p->add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
+        p.add_effect( effect_music, 1 );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
         // mp3 player reduces hearing
         if( volume == 0 ) {
-             p->add_effect( effect_earphones, 1 );
+             p.add_effect( effect_earphones, 1 );
         }
     }
 }
@@ -3828,7 +3828,7 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
     if (t) { // Normal use
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
-            play_music( p, pos, 0, 20 );
+            play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
@@ -4858,10 +4858,10 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
         }
     }
 
-    return handle_ground_graffiti(p, it, ismarker ? _("Write what?") : _("Spray what?"));
+    return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4871,7 +4871,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p->pos();
+        const auto where = p.pos();
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
@@ -4887,7 +4887,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
             add_msg( _("You write a message on the ground.") );
             move_cost = 2 * message.length();
         }
-        p->moves -= move_cost;
+        p.moves -= move_cost;
     }
 
     return it->type->charges_to_use();
@@ -5778,7 +5778,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-            play_music( p, pos, 8, std::min( 25, songs ) );
+            play_music( *p, pos, 8, std::min( 25, songs ) );
         }
         else {
             it->active = false;
@@ -6541,7 +6541,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
             p->moves -= 150;
             item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet(bomb, p, true); // force getting an invlet.
+            p->inv.assign_empty_invlet( bomb, *p, true ); // force getting an invlet.
             p->i_add(bomb);
             it->contents.erase(it->contents.begin());
 
