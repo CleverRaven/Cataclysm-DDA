@@ -3,6 +3,7 @@
 #define MOD_MANAGER_H
 
 #include "dependency_tree.h"
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -24,9 +25,12 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
+struct MOD_INFORMATION;
+using mod_id = string_id<MOD_INFORMATION>;
+
 struct MOD_INFORMATION {
     std::string name;
-    std::string ident;
+    mod_id ident;
 
     /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
     std::string path;
@@ -47,7 +51,7 @@ struct MOD_INFORMATION {
     std::string version;
 
     /** What other mods must be loaded prior to this one? */
-    std::set<std::string> dependencies;
+    std::set<mod_id> dependencies;
 
     /** Core mods are loaded before any other mods */
     bool core = false;
@@ -64,7 +68,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<std::string> t_mod_list;
+        typedef std::vector<mod_id> t_mod_list;
 
         mod_manager();
         /**
@@ -82,10 +86,6 @@ class mod_manager
          * Clear @ref mod_map and delete @ref dependency_tree.
          */
         void clear();
-        /**
-         * @returns true if the mod manager knows a mod with this ident.
-         */
-        bool has_mod( const std::string &ident ) const;
         /**
          * Copy the json files of the listed mods into the
          * given folder (output_base_path)
@@ -116,6 +116,7 @@ class mod_manager
         friend class mod_ui;
         friend class worldfactory;
         friend class game;
+        friend mod_id;
         /**
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
@@ -141,16 +142,16 @@ class mod_manager
          */
         void load_modfile( JsonObject &jo, const std::string &path );
 
-        bool set_default_mods( const std::string &ident );
-        void remove_mod( const std::string &ident );
-        void remove_invalid_mods( std::vector<std::string> &mods ) const;
+        bool set_default_mods( const mod_id &ident );
+        void remove_mod( const mod_id &ident );
+        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
 
         dependency_tree tree;
 
         /**
          * The map of known mods, key is the mod ident.
          */
-        std::map<std::string, MOD_INFORMATION> mod_map;
+        std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
 };
 
@@ -159,18 +160,18 @@ class mod_ui
     public:
         mod_ui( mod_manager &modman );
 
-        std::vector<std::string> usable_mods;
-        std::string get_information( MOD_INFORMATION *mod );
+        std::vector<mod_id> usable_mods;
+        std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;
         dependency_tree &mm_tree;
 
-        void try_add( const std::string &mod_to_add,
-                      std::vector<std::string> &active_list );
-        void try_rem( size_t selection, std::vector<std::string> &active_list );
-        void try_shift( char direction, size_t &selection, std::vector<std::string> &active_list );
+        void try_add( const mod_id &mod_to_add,
+                      std::vector<mod_id> &active_list );
+        void try_rem( size_t selection, std::vector<mod_id> &active_list );
+        void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, std::vector<std::string> active_list );
-        bool can_shift_down( long selection, std::vector<std::string> active_list );
+        bool can_shift_up( long selection, std::vector<mod_id> active_list );
+        bool can_shift_down( long selection, std::vector<mod_id> active_list );
 
     private:
         void set_usable_mods();

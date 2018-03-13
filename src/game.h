@@ -83,6 +83,8 @@ class Character;
 class player;
 class npc;
 class monster;
+struct MOD_INFORMATION;
+using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
 class calendar;
@@ -137,7 +139,7 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<std::string> &opts, loading_ui &ui );
+        bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
 
         /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles( WORLDPTR world, loading_ui &ui );
@@ -149,7 +151,7 @@ class game
          *  @param ui structure for load progress display
          *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui );
+        bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */

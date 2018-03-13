@@ -4,6 +4,7 @@
 
 #include "options.h"
 #include "pimpl.h"
+#include "string_id.h"
 
 #include <functional>
 #include <map>
@@ -19,6 +20,8 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+struct MOD_INFORMATION;
+using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t
 {
@@ -52,7 +55,7 @@ struct WORLD {
      * A (possibly empty) list of (idents of) mods that
      * should be loaded for this world.
      */
-    std::vector<std::string> active_mod_order;
+    std::vector<mod_id> active_mod_order;
 
     WORLD();
 
@@ -79,7 +82,7 @@ class worldfactory
         WORLDPTR make_new_world( bool show_prompt = true );
         WORLDPTR make_new_world( special_game_id special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
-        WORLDPTR make_new_world( const std::vector<std::string> &mods );
+        WORLDPTR make_new_world( const std::vector<mod_id> &mods );
         WORLDPTR convert_to_world( std::string origin_path );
         /// Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
@@ -115,7 +118,7 @@ class worldfactory
         void delete_world( const std::string &worldname, bool delete_folder );
 
         static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
-        void show_active_world_mods( const std::vector<std::string> &world_mods );
+        void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     protected:
     private:
@@ -128,7 +131,7 @@ class worldfactory
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
         void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                            const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
+                            const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
         bool load_world_options( WORLDPTR &world );
