@@ -2402,13 +2402,16 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
-    bool is_money = ( ammo_type() == "money");
+    // This handles money stacks, which is an item, with contents, where each contained item is a cash_card
+    // A single cash_card is handled by the "else if( ammo_capacity() > 0 ) branch"
+    bool is_moneyStack = ( ammo_type() == "money" || contents.size() > 0 && contents.front().ammo_type() == "money" );
 
     // We should handle infinite charges properly in all cases.
-    if ( is_money ) {
+    if ( is_moneyStack ) {
         for (auto &elem : contents) {
             amount += elem.charges;
         }
+        amount = contents.size();
         show_amt = true;
     } else if( contains ) {
         amount = contents.front().charges;
@@ -2425,7 +2428,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( is_money ) {
+        if( is_moneyStack || ammo_type() == "money" ) {
             amt = string_format( " ($%.2f)", ( double ) amount / 100 );
         } else {
             amt = string_format( " (%i)", amount );
