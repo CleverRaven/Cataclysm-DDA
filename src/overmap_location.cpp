@@ -16,52 +16,45 @@ generic_factory<overmap_location> locations( "overmap location" );
 
 }
 
-/** @relates int_id */
 template<>
 bool string_id<overmap_location>::is_valid() const
 {
     return locations.is_valid( *this );
 }
 
-/** @relates string_id */
 template<>
 const overmap_location &string_id<overmap_location>::obj() const
 {
     return locations.obj( *this );
 }
 
-/** @relates string_id */
 template<>
 inline bool int_id<overmap_location>::is_valid() const
 {
     return locations.is_valid( *this );
 }
 
-/** @relates int_id */
 template<>
 const overmap_location &int_id<overmap_location>::obj() const
 {
     return locations.obj( *this );
 }
 
-/** @relates int_id */
 template<>
 const string_id<overmap_location> &int_id<overmap_location>::id() const
 {
     return locations.convert( *this );
 }
 
-/** @relates string_id */
+template<>
+int_id<overmap_location>::int_id( const string_id<overmap_location> &id ) : _id( id.id() )
+{
+}
+
 template<>
 int_id<overmap_location> string_id<overmap_location>::id() const
 {
     return locations.convert( *this, overmap_location_str_id::NULL_ID() );
-}
-
-/** @relates string_id */
-template<>
-int_id<overmap_location>::int_id( const string_id<overmap_location> &id ) : _id( id.id() )
-{
 }
 
 bool overmap_location::test( const int_id<oter_t> &oter ) const
