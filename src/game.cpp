@@ -688,9 +688,6 @@ void game::toggle_sidebar_style()
 void game::toggle_fullscreen()
 {
 #ifndef TILES
-    if (TERMX > 121 || TERMY > 121) {
-        return;
-    }
     fullscreen = !fullscreen;
     init_ui();
     refresh_all();
