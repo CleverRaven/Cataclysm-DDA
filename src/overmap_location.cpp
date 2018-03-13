@@ -53,6 +53,13 @@ const string_id<overmap_location> &int_id<overmap_location>::id() const
 
 /** @relates string_id */
 template<>
+int_id<overmap_location> string_id<overmap_location>::id() const
+{
+    return locations.convert( *this, overmap_location_str_id::NULL_ID() );
+}
+
+/** @relates string_id */
+template<>
 int_id<overmap_location>::int_id( const string_id<overmap_location> &id ) : _id( id.id() )
 {
 }
