@@ -104,6 +104,16 @@ mod_manager::mod_manager()
     refresh_mod_list();
 }
 
+std::vector<mod_id> mod_manager::all_mods() const
+{
+    std::vector<mod_id> result;
+    std::transform( mod_map.begin(), mod_map.end(),
+    std::back_inserter( result ), []( const decltype( mod_manager::mod_map )::value_type & pair ) {
+        return pair.first;
+    } );
+    return result;
+}
+
 dependency_tree &mod_manager::get_tree()
 {
     return tree;

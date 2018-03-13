@@ -77,6 +77,8 @@ class mod_manager
          */
         void refresh_mod_list();
 
+        std::vector<mod_id> all_mods() const;
+
         /**
          * Returns the dependency tree for the loaded mods.
          * @returns @ref dependency_tree
@@ -115,7 +117,6 @@ class mod_manager
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
-        friend class game;
         friend mod_id;
         /**
          * @returns path of a file in the world folder that contains
