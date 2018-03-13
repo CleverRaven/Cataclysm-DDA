@@ -2316,7 +2316,7 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-std::array<std::pair<std::string, overmap_location_id>, npc_need::num_needs> need_data = {
+std::array<std::pair<std::string, overmap_location_id>, npc_need::num_needs> npc::need_data = {
     {
         { "need_none", overmap_location_id( "source_of_anything" ) },
         { "need_ammo", overmap_location_id( "source_of_ammo" )},
