@@ -321,9 +321,9 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
-        for( const auto &e : world_generator->get_mod_manager().mod_map ) {
-            if( !e.second.obsolete ) {
-                check.emplace( e.first );
+        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
+            if( !e->obsolete ) {
+                check.emplace( e );
             }
         }
     }
