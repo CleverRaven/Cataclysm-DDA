@@ -308,7 +308,12 @@ void options_manager::cOpt::setPrerequisite( const std::string &sOption )
     sPrerequisite = sOption;
 }
 
-bool options_manager::cOpt::hasPrerequisite()
+std::string options_manager::cOpt::getPrerequisite() const
+{
+    return sPrerequisite;
+}
+
+bool options_manager::cOpt::hasPrerequisite() const
 {
     if ( sPrerequisite.empty() ) {
         return true;
@@ -881,38 +886,38 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "SAFEMODE", "general", translate_marker( "Safe Mode" ),
+         translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
+         true
+    );
+
+    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
+         translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
+         0, MAX_VIEW_DISTANCE, 0
+    );
+
+    get_option("SAFEMODEPROXIMITY").setPrerequisite("SAFEMODE");
+
+    add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
+         translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
+         false
+    );
+
+    get_option("SAFEMODEVEH").setPrerequisite("SAFEMODE");
+
     add( "AUTOSAFEMODE", "general", translate_marker( "Auto-safe mode" ),
         translate_marker( "If true, turns safemode automatically back on after it being disabled beforehand.  See option 'Turns to re-enable safe mode'" ),
         false
         );
+
+    get_option("AUTOSAFEMODE").setPrerequisite("SAFEMODE");
 
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to re-enable safe mode" ),
         translate_marker( "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe Mode proximity distance'." ),
         1, 100, 50
         );
 
-    get_option("AUTOSAFEMODETURNS").setPrerequisite("AUTOSAFEMODE");
-
-    add( "SAFEMODE", "general", translate_marker( "Safe Mode" ),
-        translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
-        true
-        );
-
-    get_option("SAFEMODE").setPrerequisite("AUTOSAFEMODE");
-
-    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
-        translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
-        0, MAX_VIEW_DISTANCE, 0
-        );
-
-    get_option("SAFEMODEPROXIMITY").setPrerequisite("AUTOSAFEMODE");
-
-    add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
-        translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
-        false
-        );
-
-    get_option("SAFEMODEVEH").setPrerequisite("AUTOSAFEMODE");
+    get_option("AUTOSAFEMODETURNS").setPrerequisite("SAFEMODE");
 
     mOptionsSort["general"]++;
 
@@ -1243,6 +1248,8 @@ void options_manager::init()
         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
         ); // populate the options dynamically
 
+    get_option("TILES").setPrerequisite("USE_TILES");
+
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel Minimap" ),
         translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
         true, COPT_CURSES_HIDE
@@ -1307,6 +1314,8 @@ void options_manager::init()
         translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
         false, COPT_CURSES_HIDE
         );
+
+    get_option("FRAMEBUFFER_ACCEL").setPrerequisite("SOFTWARE_RENDERING");
 
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
@@ -1768,7 +1777,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             }
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, line_pos, name_col + 3, ( hasPrerequisite ) ? c_white : c_light_gray, name );
+            mvwprintz( w_options, line_pos, name_col + 3, hasPrerequisite ? c_white : c_light_gray, name );
 
             if ( !hasPrerequisite ) {
                 cLineColor = c_light_gray;
@@ -1863,9 +1872,11 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             return action;
         }
 
-        if ( !cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].hasPrerequisite() &&
+        cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+
+        if ( !current_opt.hasPrerequisite() &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
-            popup(_("Prerequisite for this option not met!"));
+            popup( _( "Prerequisite for this option not met!\n(%s)" ), get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
 
@@ -1884,9 +1895,9 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 }
             } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
-            cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
+            current_opt.setNext();
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
-            cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
+            current_opt.setPrev();
         } else if (action == "NEXT_TAB") {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -1904,15 +1915,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if (!mPageItems[iCurrentPage].empty() && action == "CONFIRM") {
-            cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
-            if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
-                cur_opt.setNext();
+            if (current_opt.getType() == "bool" || current_opt.getType() == "string_select" || current_opt.getType() == "string_input" ) {
+                current_opt.setNext();
             } else {
-                const bool is_int = cur_opt.getType() == "int";
-                const bool is_float = cur_opt.getType() == "float";
-                const std::string old_opt_val = cur_opt.getValueName();
+                const bool is_int = current_opt.getType() == "int";
+                const bool is_float = current_opt.getType() == "float";
+                const std::string old_opt_val = current_opt.getValueName();
                 const std::string opt_val = string_input_popup()
-                                            .title( cur_opt.getMenuText() )
+                .title( current_opt.getMenuText() )
                                             .width( 10 )
                                             .text( old_opt_val )
                                             .only_digits( is_int )
@@ -1925,7 +1935,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                         float tmpFloat;
                         ssTemp >> tmpFloat;
                         if (ssTemp) {
-                            cur_opt.setValue(tmpFloat);
+                            current_opt.setValue(tmpFloat);
 
                         } else {
                             popup(_("Invalid input: not a number"));
@@ -1934,7 +1944,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                         // option is of type "int": string_input_popup
                         // has taken care that the string contains
                         // only digits, parsing is done in setValue
-                        cur_opt.setValue(opt_val);
+                        current_opt.setValue(opt_val);
                     }
                 }
             }

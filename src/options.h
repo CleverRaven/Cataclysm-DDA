@@ -96,7 +96,8 @@ class options_manager
                 }
 
                 void setPrerequisite( const std::string &sOption );
-                bool hasPrerequisite();
+                std::string getPrerequisite() const;
+                bool hasPrerequisite() const;
 
             private:
                 std::string sName;
