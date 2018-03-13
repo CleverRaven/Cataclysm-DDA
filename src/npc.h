@@ -5,7 +5,6 @@
 #include "player.h"
 #include "faction.h"
 #include "pimpl.h"
-#include "overmap_location.h"
 
 #include <vector>
 #include <string>
@@ -23,6 +22,10 @@ class npc_class;
 class auto_pickup;
 class monfaction;
 struct mission_type;
+struct overmap_location;
+using overmap_location_id = int_id<overmap_location>;
+using overmap_location_str_id = string_id<overmap_location>;
+
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
@@ -89,8 +92,6 @@ enum npc_need {
     need_food, need_drink,
     num_needs
 };
-
-const std::string need_id( npc_need need );
 
 // @todo: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
@@ -601,6 +602,13 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+
+        static std::array<std::pair<std::string, overmap_location_id>, npc_need::num_needs> need_data;
+
+        static std::string get_need_str_id( const npc_need &need );
+
+        static overmap_location_id get_location_for( const npc_need &need );
+
         npc_action address_needs();
         npc_action address_needs( float danger );
         npc_action address_player();
@@ -877,25 +885,7 @@ struct epilogue {
     void random_by_group( std::string group, std::string name );
 };
 
-namespace
-{
-static const std::array<std::pair<std::string, std::string>, npc_need::num_needs> npc_need_locations
-= { {
-        { "need_none", "source_of_anything" },
-        { "need_ammo", "source_of_ammo" },
-        { "need_weapon", "source_of_weapon" },
-        { "need_gun", "source_of_gun" },
-        { "need_food", "source_of_food" },
-        { "need_drink", "source_of_drink" }
-    }
-};
-}
-
-const std::string need_id( npc_need need );
-
-const int_id<overmap_location> get_location_for( npc_need need );
-
-std::ostream &operator<< ( std::ostream &os, npc_need need );
+std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();

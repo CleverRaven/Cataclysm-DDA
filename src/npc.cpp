@@ -2316,20 +2316,30 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-const std::string need_id( npc_need need )
-{
-    return npc_need_locations[static_cast<size_t>( need )].first;
+std::array<std::pair<std::string, overmap_location_id>, npc_need::num_needs> need_data = {
+    {
+        { "need_none", overmap_location_id( "source_of_anything" ) },
+        { "need_ammo", overmap_location_id( "source_of_ammo" )},
+        { "need_weapon", overmap_location_id( "source_of_weapon" )},
+        { "need_gun", overmap_location_id( "source_of_gun" ) },
+        { "need_food", overmap_location_id( "source_of_food" )},
+        { "need_drink", overmap_location_id( "source_of_drink" ) }
+    }
 };
 
-const int_id<overmap_location> get_location_for( npc_need need )
+std::string npc::get_need_str_id( const npc_need &need )
 {
-    auto location_for_need = npc_need_locations[static_cast<size_t>( need )].second;
-    return static_cast<int_id<overmap_location>>( location_for_need );
+    return need_data[static_cast<size_t>( need )].first;
+};
+
+overmap_location_id npc::get_location_for( const npc_need &need )
+{
+    return need_data[static_cast<size_t>( need )].second;
 }
 
-std::ostream &operator<< ( std::ostream &os, npc_need need )
+std::ostream &operator<< ( std::ostream &os, const npc_need &need )
 {
-    return os << need_id( need ).c_str();
+    return os << npc::get_need_str_id( need );
 }
 
 bool npc::will_accept_from_player( const item &it ) const

@@ -28,6 +28,10 @@
 #include <algorithm>
 #include <sstream>
 
+struct overmap_location;
+using overmap_location_id = int_id<overmap_location>;
+using overmap_location_str_id = string_id<overmap_location>;
+
 // @todo: Get rid of this include
 
 #define NPC_DANGER_VERY_LOW 5
@@ -2874,12 +2878,11 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    const std::string dest_type = get_location_for( needs.front() )->get_random_terrain_string();
+    std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name().c_str() <<
-                               "] with [" <<
-                               need_id( needs.front() ).c_str() << "] is [" << dest_type.c_str() << "] in ["
+    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() << "] with ["
+                               << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
