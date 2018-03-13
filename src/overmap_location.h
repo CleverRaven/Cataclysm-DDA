@@ -24,8 +24,7 @@ struct overmap_location {
         // Test if oter meets the terrain restrictions.
         bool test( const int_id<oter_t> &oter ) const;
 
-        const oter_type_id get_random_terrain() const;
-        const std::string get_random_terrain_string() const;
+        oter_type_id get_random_terrain() const;
 
     public:
         // Used by generic_factory

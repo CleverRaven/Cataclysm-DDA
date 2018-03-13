@@ -34,14 +34,9 @@ bool overmap_location::test( const int_id<oter_t> &oter ) const
     } );
 }
 
-const oter_type_id overmap_location::get_random_terrain() const
+oter_type_id overmap_location::get_random_terrain() const
 {
     return random_entry( terrains );
-}
-
-const std::string overmap_location::get_random_terrain_string() const
-{
-    return random_entry( terrains ).str();
 }
 
 void overmap_location::load( JsonObject &jo, const std::string & )
