@@ -562,21 +562,21 @@
     "chapters": 16,
     "fun": 2
   },
-  {    
-    "id": "novel_coa2",    
-    "type": "BOOK",    
-    "name": "coming of age novel",    
-    "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",    
-    "weight": 187,    
-    "volume": 2,    
-    "price": 750,   
-    "material": [ "paper" ],    
-    "symbol": "?",    
-    "color": "light_blue",    
-    "intelligence": 4,    
-    "time": 16,    
-    "chapters": 14,    
-    "fun": 3  
+  {    
+    "id": "novel_coa2",    
+    "type": "BOOK",    
+    "name": "coming of age novel",    
+    "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",    
+    "weight": 187,    
+    "volume": 2,    
+    "price": 750,   
+    "material": [ "paper" ],    
+    "symbol": "?",    
+    "color": "light_blue",    
+    "intelligence": 4,    
+    "time": 16,    
+    "chapters": 14,    
+    "fun": 3  
   },
   {
     "id": "novel_crime",
@@ -898,21 +898,21 @@
     "chapters": 28,
     "fun": 4
   },
-  {    
+  {    
     "id": "novel_war2",
-    "type": "BOOK",    
-    "name": "war novel",    
-    "description": "A story about a Bosnean citizen who goes through many hardships and near death during the breakup of Yugoslavia.",    
-    "weight": 686,    
-    "volume": 3,    
-    "price": 750,    
-    "material": [ "paper" ],    
-    "symbol": "?",    
-    "color": "light_blue",    
-    "intelligence": 7,    
-    "time": 16,    
-    "chapters": 24,   
-    "fun": 4 
+    "type": "BOOK",    
+    "name": "war novel",    
+    "description": "A story about a Bosnean citizen who goes through many hardships and near death during the breakup of Yugoslavia.",    
+    "weight": 686,    
+    "volume": 3,    
+    "price": 750,    
+    "material": [ "paper" ],    
+    "symbol": "?",    
+    "color": "light_blue",    
+    "intelligence": 7,    
+    "time": 16,    
+    "chapters": 24,   
+    "fun": 4 
   },
   {
     "id": "novel_western",
