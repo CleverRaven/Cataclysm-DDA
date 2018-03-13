@@ -2881,7 +2881,8 @@ void npc::set_destination()
     std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() << "] with ["
+    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() <<
+                               "] with ["
                                << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
