@@ -4802,7 +4802,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if ( ammo->is_ammo_container() || ammo->is_watertight_container() ) {
+    if ( ammo->is_ammo_container() || ammo->is_watertight_container() || ammo->is_non_resealable_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }
@@ -4843,6 +4843,9 @@ bool item::reload( player &u, item_location loc, long qty )
         if( !ammo->made_of( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
+        }
+        if ( container ){
+            container->on_contents_changed();
         }
         fill_with( *ammo, qty );
     } else if ( !magazine_integral() ) {

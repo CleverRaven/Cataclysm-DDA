@@ -8202,7 +8202,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() || ammo.is_non_resealable_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;
@@ -8226,7 +8226,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     }
 
     if( !it.is_gun() && !it.is_magazine() ) {
-        return mv + 100; // reload a tool
+        return mv + 100; // reload a tool or sealable container
     }
 
     /** @EFFECT_GUN decreases the time taken to reload a magazine */
