@@ -2079,15 +2079,17 @@ void veh_interact::display_details( const vpart_info *part )
         } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
             label = _( "Range" );
         } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
-                    part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
-                    part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
-                    part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+                   part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
+                   part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
             label = _( "Light" );
         }
 
-        fold_and_print( w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%d</color>", label.c_str(),
-                       part->bonus );
+        if( !label.empty() ) {
+            fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", label.c_str(),
+                            part->bonus );
+        }
     }
 
     if ( part->epower != 0 ) {
