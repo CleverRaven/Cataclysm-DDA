@@ -550,6 +550,7 @@ class game
         void toggle_pixel_minimap(void);
         void temp_exit_fullscreen(void);
         void reenter_fullscreen(void);
+        void on_window_resized( int w = 0, int h = 0 ); // handles main window resize
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -981,7 +982,6 @@ private:
         void draw_sidebar();
         void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
-
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
         void quicksave();        // Saves the game without quitting

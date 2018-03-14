@@ -169,7 +169,7 @@ void handle_resize()
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
-        catacurses::resizeterm();
+        catacurses::resizeterm( TERMINAL_WIDTH, TERMINAL_HEIGHT );
         create_backbuffer();
         SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
         SelectObject(backbuffer, font);//Load our font into the DC
@@ -310,22 +310,6 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     case WM_SIZE:
     case WM_SIZING:
         needs_resize = true;
-        RECT WndRect;
-        if( GetClientRect( WindowHandle, &WndRect ) ) {
-            TERMINAL_WIDTH = WndRect.right / fontwidth;
-            TERMINAL_HEIGHT = WndRect.bottom / fontheight;
-            WindowWidth = TERMINAL_WIDTH * fontwidth;
-            WindowHeight = TERMINAL_HEIGHT * fontheight;
-            catacurses::resizeterm();
-            create_backbuffer();
-            SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
-            SelectObject(backbuffer, font);//Load our font into the DC
-            color_loader<RGBQUAD>().load( windowsPalette );
-            if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
-                throw std::runtime_error( "SetDIBColorTable failed" );
-            }
-            catacurses::refresh();
-        }
         return 0;
 
     case WM_SYSCHAR:

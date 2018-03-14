@@ -18,7 +18,6 @@
 #include "catacharset.h"
 #include "color.h"
 
-#include "game.h"
 #include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
@@ -197,13 +196,12 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 }
 
 catacurses::window catacurses::stdscr;
+Signal<int, int> catacurses::window_resized;
 
-void catacurses::resizeterm()
+void catacurses::resizeterm( int w, int h )
 {
-    const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
-    const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
-    if( ::is_term_resized( new_x, new_y ) ) {
-        g->init_ui();
+    if( ::is_term_resized( w, h ) ) {
+        window_resized.emit( w, h );
     }
 }
 
@@ -256,7 +254,8 @@ input_event input_manager::get_input_event()
         }
         // ncurses mouse handling
     } else if( key == KEY_RESIZE ) {
-        catacurses::resizeterm();
+        catacurses::resizeterm( ::getmaxx( catacurses::stdscr.get<::WINDOW>() ),
+                                ::getmaxy( catacurses::stdscr.get<::WINDOW>() ) );
     } else if( key == KEY_MOUSE ) {
         MEVENT event;
         if( getmouse( &event ) == OK ) {

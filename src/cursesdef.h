@@ -3,6 +3,7 @@
 #define CURSESDEF_H
 
 #include "string_formatter.h"
+#include "signals.h"
 
 #include <memory>
 #include <cstdint>
@@ -89,6 +90,7 @@ using chtype = int;
 using attr_t = unsigned short;
 
 extern window stdscr;
+extern Signal<int, int> window_resized;
 
 window newwin( int nlines, int ncols, int begin_y, int begin_x );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
@@ -113,7 +115,7 @@ inline void wprintw( const window &win, const char *const fmt, Args &&... args )
     return wprintw( win, string_format( fmt, std::forward<Args>( args )... ) );
 }
 
-void resizeterm();
+void resizeterm( int w, int h );
 void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
 void wmove( const window &win, int y, int x );

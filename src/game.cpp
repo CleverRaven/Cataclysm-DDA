@@ -730,6 +730,12 @@ void game::reenter_fullscreen()
     }
 }
 
+// Callback for main window resize signal
+void game::on_window_resized( int, int )
+{
+    init_ui();
+}
+
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */

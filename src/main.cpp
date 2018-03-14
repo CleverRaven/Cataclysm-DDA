@@ -472,8 +472,8 @@ int main(int argc, char *argv[])
     }
 
     // Now we do the actual game.
-
     g->init_ui();
+    catacurses::window_resized.connect_member(g, &game::on_window_resized);
 
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 

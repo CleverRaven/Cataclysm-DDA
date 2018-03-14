@@ -34,6 +34,7 @@
 
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
+Signal<int, int> catacurses::window_resized;
 
 static bool wmove_internal( const catacurses::window &win_, const int y, const int x )
 {
@@ -408,10 +409,10 @@ void catacurses::mvwprintw(const window &win, int y, int x, const std::string &p
     return printstring(win.get<cata_cursesport::WINDOW>(), printbuf);
 }
 
-//Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
-void catacurses::resizeterm()
+//Resizes the underlying terminal after a Window's console resize. Not used in TILES
+void catacurses::resizeterm( int w, int h )
 {
-    g->init_ui();
+    catacurses::window_resized.emit( w, h );
 }
 
 //erases a window of all text and attributes
