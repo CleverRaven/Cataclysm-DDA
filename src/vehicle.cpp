@@ -716,7 +716,7 @@ bool vehicle::is_alternator_on(int const a) const
 
     return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
         auto& eng = parts [ idx ];
-        return eng.enabled && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount && !eng.faults().count( fault_belt );
     } );
 }
 
