@@ -180,7 +180,7 @@ enum ter_connects : int {
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
     TERCONN_WATER,
-    TERCONN_ROADS,
+    TERCONN_PAVEMENT,
 };
 
 struct map_data_common_t {
