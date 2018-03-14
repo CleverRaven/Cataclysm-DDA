@@ -1252,7 +1252,7 @@ long sdl_keysym_to_curses( SDL_Keysym keysym )
     }
 }
 
-bool handle_resize( int w, int h )
+bool handle_resize(int w, int h)
 {
     if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
         WindowWidth = w;
@@ -1260,8 +1260,9 @@ bool handle_resize( int w, int h )
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
         SetupRenderTarget();
+        g->init_ui();
         tilecontext->reinit_minimap();
-        catacurses::window_resized.emit( TERMINAL_WIDTH, TERMINAL_HEIGHT );
+        
         return true;
     }
     return false;
