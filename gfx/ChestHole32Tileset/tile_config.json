@@ -34273,13 +34273,13 @@
           "rotates": false
         },
         {
-          "id": "f_bigmirror",
+          "id": "f_bigmirror_b",
           "fg": 3299,
           "bg": 632,
           "rotates": false
         },
         {
-          "id": "f_bigmirror_b",
+          "id": "f_bigmirror",
           "fg": 3300,
           "bg": 632,
           "rotates": false
