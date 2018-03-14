@@ -1153,7 +1153,6 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
                     werase( w_confirmation );
-                    wrefresh( w_confirmation );
                     continue;
                 } else {
                     world->world_name = pick_random_name();
@@ -1162,12 +1161,20 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     }
                     return 1;
                 }
-            } else if (query_yn(_("Are you SURE you're finished?")) && valid_worldname(worldname)) {
-                world->world_name = worldname;
-                return 1;
-            } else {
+            } else if( query_yn( _("Are you SURE you're finished?" ) ) ) {
+                // erase entire window to avoid overlapping of query with possible popup about invalid worldname
                 werase( w_confirmation );
                 wrefresh( w_confirmation );
+                catacurses::refresh();
+
+                if( valid_worldname( worldname ) ) {
+                    world->world_name = worldname;
+                    return 1;
+                } else {
+                    continue;
+                }
+            } else {
+                werase( w_confirmation );
                 continue;
             }
         } else if (action == "PREV_TAB") {
