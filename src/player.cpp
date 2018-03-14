@@ -7546,6 +7546,12 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         opts.push_back( base.magazine_current() );
     }
 
+    for( const auto mod : base.gunmods() ) {
+        if( mod->magazine_current() ) {
+            opts.push_back( mod->magazine_current() );
+        }
+    }
+
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
