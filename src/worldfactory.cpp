@@ -1152,6 +1152,8 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
+                    werase( w_confirmation );
+                    wrefresh( w_confirmation );
                     continue;
                 } else {
                     world->world_name = pick_random_name();
@@ -1164,6 +1166,8 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                 world->world_name = worldname;
                 return 1;
             } else {
+                werase( w_confirmation );
+                wrefresh( w_confirmation );
                 continue;
             }
         } else if (action == "PREV_TAB") {
