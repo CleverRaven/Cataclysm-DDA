@@ -91,18 +91,6 @@ void faction::load_faction(JsonObject &jsobj)
     _all_faction[jsobj.get_string("id")] = fac;
 }
 
-faction *faction::find_faction(std::string ident)
-{
-    faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()) {
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        static faction null_faction;
-        return &null_faction;
-    }
-}
-
 void faction::load_faction_template(std::string ident)
 {
     faction_map::iterator found = _all_faction.find(ident);

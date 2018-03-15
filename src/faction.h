@@ -93,7 +93,6 @@ class faction
         faction( std::string uid );
 
         static void load_faction( JsonObject &jsobj );
-        faction *find_faction( std::string ident );
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
