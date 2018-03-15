@@ -5416,13 +5416,6 @@ int game::assign_npc_id()
     return ret;
 }
 
-int game::assign_faction_id()
-{
-    int ret = next_faction_id;
-    next_faction_id++;
-    return ret;
-}
-
 faction *game::faction_by_ident(std::string id)
 {
     for( auto &elem : factions ) {

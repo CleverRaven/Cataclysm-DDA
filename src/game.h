@@ -492,7 +492,6 @@ class game
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
         int assign_npc_id();
-        int assign_faction_id();
         faction *faction_by_ident(std::string ident);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
