@@ -914,7 +914,7 @@ bool game::start_game(std::string worldname)
 void game::create_factions()
 {
     faction tmp;
-    std::vector<std::string> faction_vector = tmp.all_json_factions();
+    std::vector<faction_id> faction_vector = tmp.all_json_factions();
     for(auto &cur_fac : faction_vector) {
         tmp = faction(cur_fac);
         tmp.randomize();

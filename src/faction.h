@@ -2,6 +2,8 @@
 #ifndef FACTION_H
 #define FACTION_H
 
+#include "string_id.h"
+
 #include <string>
 #include <vector>
 
@@ -82,16 +84,17 @@ struct faction_value_datum {
 };
 
 class faction;
+using faction_id = string_id<faction>;
 
 class faction
 {
     public:
         faction();
-        faction( std::string uid );
+        faction( const faction_id &id );
 
         static void load_faction( JsonObject &jsobj );
-        void load_faction_template( std::string ident );
-        std::vector<std::string> all_json_factions();
+        void load_faction_template( const faction_id &ident );
+        std::vector<faction_id> all_json_factions();
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;
@@ -113,7 +116,7 @@ class faction
         int likes_u;
         int respects_u;
         bool known_by_u;
-        std::string id;
+        faction_id id;
         std::string desc;
         int strength, sneak, crime, cult, good; // Defining values
         /** Global submap coordinates where the center of influence is */

@@ -17,7 +17,7 @@
 #include <string>
 #include <cstdlib>
 
-static std::map<std::string, faction> _all_faction;
+static std::map<faction_id, faction> _all_faction;
 
 std::string invent_name();
 std::string invent_adj();
@@ -47,7 +47,7 @@ faction::faction()
     power = 0;
 }
 
-faction::faction(std::string uid)
+faction::faction( const faction_id &uid )
 {
     values = 0;
     likes_u = 0;
@@ -74,7 +74,7 @@ faction::faction(std::string uid)
 void faction::load_faction(JsonObject &jsobj)
 {
     faction fac;
-    fac.id = jsobj.get_string("id");
+    fac.id = faction_id( jsobj.get_string( "id" ) );
     fac.name = jsobj.get_string("name");
     fac.likes_u = jsobj.get_int("likes_u");
     fac.respects_u = jsobj.get_int("respects_u");
@@ -90,10 +90,10 @@ void faction::load_faction(JsonObject &jsobj)
     fac.crime = jsobj.get_int("crime");
     fac.cult = jsobj.get_int("cult");
     fac.desc = jsobj.get_string("description");
-    _all_faction[jsobj.get_string("id")] = fac;
+    _all_faction[fac.id] = fac;
 }
 
-void faction::load_faction_template(std::string ident)
+void faction::load_faction_template( const faction_id &ident )
 {
     const auto found = _all_faction.find( ident );
     if (found != _all_faction.end()) {
@@ -121,12 +121,11 @@ void faction::load_faction_template(std::string ident)
     }
 }
 
-std::vector<std::string> faction::all_json_factions()
+std::vector<faction_id> faction::all_json_factions()
 {
-    std::vector<std::string> v;
-    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin();
-        it != _all_faction.end(); it++) {
-        v.push_back(it -> first.c_str());
+    std::vector<faction_id> v;
+    for( const auto &elem : _all_faction ) {
+        v.push_back( elem.first );
     }
     return v;
 }
