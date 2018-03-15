@@ -40,7 +40,6 @@ namespace overmap_locations
 
 void load( JsonObject &jo, const std::string &src );
 void check_consistency();
-void finalize();
 void reset();
 
 }

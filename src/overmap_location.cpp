@@ -67,11 +67,6 @@ void overmap_locations::check_consistency()
     locations.check();
 }
 
-void overmap_locations::finalize()
-{
-    //overmap_location_null = string_id<overmap_location>::NULL_ID().id();
-}
-
 void overmap_locations::reset()
 {
     locations.reset();
