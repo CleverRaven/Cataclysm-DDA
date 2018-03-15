@@ -45,6 +45,4 @@ void reset();
 
 }
 
-extern int_id<overmap_location> overmap_location_null;
-
 #endif // OVERMAP_LOCATION_H

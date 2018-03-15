@@ -601,11 +601,11 @@ class npc : public player
         npc_action method_of_fleeing();
         npc_action method_of_attack();
 
-        static std::array<std::pair<std::string, int_id<overmap_location>>, npc_need::num_needs> need_data;
+        static std::array<std::pair<std::string, string_id<overmap_location>>, npc_need::num_needs> need_data;
 
         static std::string get_need_str_id( const npc_need &need );
 
-        static int_id<overmap_location> get_location_for( const npc_need &need );
+        static string_id<overmap_location> get_location_for( const npc_need &need );
 
         npc_action address_needs();
         npc_action address_needs( float danger );

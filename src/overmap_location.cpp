@@ -14,58 +14,16 @@ generic_factory<overmap_location> locations( "overmap location" );
 
 }
 
-template<> const string_id<overmap_location> &string_id<overmap_location>::NULL_ID()
-{
-    static string_id<overmap_location> id = string_id<overmap_location>( "overmap_location_null" );
-    return id;
-}
-
-/** @relates string_id */
-template<>
-inline bool int_id<overmap_location>::is_valid() const
-{
-    return locations.is_valid( *this );
-}
-
-/** @relates int_id */
-template<>
-const overmap_location &int_id<overmap_location>::obj() const
-{
-    return locations.obj( *this );
-}
-
-/** @relates int_id */
-template<>
-const string_id<overmap_location> &int_id<overmap_location>::id() const
-{
-    return locations.convert( *this );
-}
-
-/** @relates string_id */
-template<>
-int_id<overmap_location> string_id<overmap_location>::id() const
-{
-    return locations.convert( *this, string_id<overmap_location>::NULL_ID() );
-}
-
-/** @relates string_id */
-template<>
-int_id<overmap_location>::int_id( const string_id<overmap_location> &id ) : _id( id.id() )
-{
-}
-
-/** @relates string_id */
-template<>
-const overmap_location &string_id<overmap_location>::obj() const
-{
-    return locations.obj( *this );
-}
-
-/** @relates int_id */
 template<>
 bool string_id<overmap_location>::is_valid() const
 {
     return locations.is_valid( *this );
+}
+
+template<>
+const overmap_location &string_id<overmap_location>::obj() const
+{
+    return locations.obj( *this );
 }
 
 bool overmap_location::test( const int_id<oter_t> &oter ) const
@@ -90,8 +48,6 @@ void overmap_location::load( JsonObject &jo, const std::string & )
     }
 }
 
-int_id<overmap_location> overmap_location_null;
-
 void overmap_location::check() const
 {
     for( const auto &element : terrains ) {
@@ -113,7 +69,7 @@ void overmap_locations::check_consistency()
 
 void overmap_locations::finalize()
 {
-    overmap_location_null = string_id<overmap_location>::NULL_ID().id();
+    //overmap_location_null = string_id<overmap_location>::NULL_ID().id();
 }
 
 void overmap_locations::reset()
