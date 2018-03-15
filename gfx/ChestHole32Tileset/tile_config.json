@@ -58069,7 +58069,7 @@
           "rotates": false
         },
         {
-          "id": "hulk_weapon",
+          "id": ["hulk_weapon", "mon_zombie_brute_shocker"],
           "fg": 6376,
           "rotates": false
         },
