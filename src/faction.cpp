@@ -242,40 +242,6 @@ static const std::array<faction_value_datum, NUM_FACVALS> facval_data = {{
  * strength valued a bit higher than the others.
  */
 
-void faction::load_info(std::string data)
-{
-    std::stringstream dump;
-    int valuetmp, goaltmp, jobtmp1, jobtmp2;
-    int omx, omy;
-    dump << data;
-    dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
-         respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
-         good >> omx >> omy >> mapx >> mapy >> size >> power >> combat_ability >>
-         food_supply >> wealth;
-    // Make mapx/mapy global coordinate
-    mapx += omx * OMAPX * 2;
-    mapy += omy * OMAPY * 2;
-    values = valuetmp;
-    goal = faction_goal(goaltmp);
-    job1 = faction_job(jobtmp1);
-    job2 = faction_job(jobtmp2);
-    int tmpsize, tmpop;
-    dump >> tmpsize;
-    for (int i = 0; i < tmpsize; i++) {
-        dump >> tmpop;
-        opinion_of.push_back(tmpop);
-    }
-    std::string subdesc;
-    while (dump >> subdesc) {
-        desc += " " + subdesc;
-    }
-
-    std::string subname;
-    while (dump >> subname) {
-        name += " " + subname;
-    }
-}
-
 void faction::randomize()
 {
     // Set up values
