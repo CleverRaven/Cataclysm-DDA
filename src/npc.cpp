@@ -2316,14 +2316,14 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-std::array<std::pair<std::string, string_id<overmap_location>>, npc_need::num_needs> npc::need_data = {
+std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
-        { "need_none", string_id<overmap_location>( "source_of_anything" ) },
-        { "need_ammo", string_id<overmap_location>( "source_of_ammo" )},
-        { "need_weapon", string_id<overmap_location>( "source_of_weapon" )},
-        { "need_gun", string_id<overmap_location>( "source_of_gun" ) },
-        { "need_food", string_id<overmap_location>( "source_of_food" )},
-        { "need_drink", string_id<overmap_location>( "source_of_drink" ) }
+        { "need_none", overmap_location_str_id( "source_of_anything" ) },
+        { "need_ammo", overmap_location_str_id( "source_of_ammo" )},
+        { "need_weapon", overmap_location_str_id( "source_of_weapon" )},
+        { "need_gun", overmap_location_str_id( "source_of_gun" ) },
+        { "need_food", overmap_location_str_id( "source_of_food" )},
+        { "need_drink", overmap_location_str_id( "source_of_drink" ) }
     }
 };
 
@@ -2332,7 +2332,7 @@ std::string npc::get_need_str_id( const npc_need &need )
     return need_data[static_cast<size_t>( need )].first;
 };
 
-string_id<overmap_location> npc::get_location_for( const npc_need &need )
+overmap_location_str_id npc::get_location_for( const npc_need &need )
 {
     return need_data[static_cast<size_t>( need )].second;
 }
