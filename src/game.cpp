@@ -743,7 +743,6 @@ void game::setup()
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
-    next_faction_id = 1;
     next_mission_id = 1;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game

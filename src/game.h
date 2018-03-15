@@ -1018,7 +1018,7 @@ private:
         bool bVMonsterLookFire;
         time_point nextspawn; // The time on which monsters will spawn next.
         time_point nextweather; // The time on which weather will shift next.
-        int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
+        int next_npc_id, next_mission_id; // Keep track of UIDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

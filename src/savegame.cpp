@@ -1369,8 +1369,6 @@ void game::unserialize_master(std::istream &fin) {
             std::string name = jsin.get_member_name();
             if (name == "next_mission_id") {
                 next_mission_id = jsin.get_int();
-            } else if (name == "next_faction_id") {
-                next_faction_id = jsin.get_int();
             } else if (name == "next_npc_id") {
                 next_npc_id = jsin.get_int();
             } else if (name == "active_missions") {
@@ -1408,7 +1406,6 @@ void game::serialize_master(std::ostream &fout) {
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);
-        json.member("next_faction_id", next_faction_id);
         json.member("next_npc_id", next_npc_id);
 
         json.member("active_missions");
