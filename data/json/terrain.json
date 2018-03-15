@@ -6601,7 +6601,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "red" ],
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6611,7 +6611,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "yellow" ],
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6621,7 +6621,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "green" ],
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6631,7 +6631,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "green" ],
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6641,7 +6641,7 @@
     "type": "terrain",
     "name": "railroad track",
     "symbol": "X",
-    "color": [ "dark_green" ],
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6651,7 +6651,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "color": [ "gray" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
@@ -6661,7 +6661,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "red_brown" ],
+    "color": [ "gray" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
@@ -6671,7 +6671,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "yellow_brown" ],
+    "color": [ "gray" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
@@ -6681,7 +6681,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "green_brown" ],
+    "color": [ "gray" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
@@ -6690,7 +6690,7 @@
     "id": "t_railroad_track_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "o",
+    "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
@@ -6700,8 +6700,8 @@
     "id": "t_railroad_track_h_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "o",
-    "color": [ "red" ],
+    "symbol": "X",
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6710,8 +6710,8 @@
     "id": "t_railroad_track_v_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "o",
-    "color": [ "yellow" ],
+    "symbol": "X",
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
@@ -6720,8 +6720,8 @@
     "id": "t_railroad_track_d_on_tie",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "o",
-    "color": [ "green" ],
+    "symbol": "X",
+    "color": [ "cyan" ],
     "move_cost": 2,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
