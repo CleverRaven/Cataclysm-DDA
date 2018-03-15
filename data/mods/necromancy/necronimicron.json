@@ -36,25 +36,26 @@
   },{
     "id" : "minion_dormant",
     "type": "TOOL",
-    "symbol": ",",
-    "color": "green",
+    "symbol": "j",
+    "color": "red",
     "name": "dormant minion",
+    "//": "Weight and volume are low because items cannot be activated on the ground.",
     "description": "Your very own undead servant.  The blob controlling its body is in a state of coma, awaiting your orders.  Use this item to wake up the minion.",
-    "price": 600000,
+    "price": 250000,
     "material": "flesh",
     "weight": 10000,
-    "volume": 15,
+    "volume": 800,
     "category": "tools",
     "use_action": {
         "type": "place_monster",
-        "monster_id": "mon_zombie",
+        "monster_id": "mon_jabberwock",
         "difficulty": 6,
         "skill1": "firstaid",
         "skill2": "electronics",
-        "hostile_msg": "Something has gone wrong; after getting up the zombie lumbers toward you menacingly!",
-        "friendly_msg": "The zombie climbs to its feet and shambles around.",
+        "hostile_msg": "Something has gone wrong; after getting up the jabberwock lumbers toward you menacingly!",
+        "friendly_msg": "The jabberwock climbs to its feet and shambles around.",
         "place_randomly": true,
-        "moves": 60
+        "moves": 420
     }
   },{
     "id": "revival_serum",
@@ -162,24 +163,25 @@
   },{
     "type": "recipe",
     "result": "minion_dormant",
+    "//": "The weight of crafting requirements should be equal to a jabberwock corpse, or 440.92 lbs.",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "firstaid",
     "skills_required": [[ "tailor", 6], [ "electronics", 6]],
     "difficulty": 7,
     "time": 120000,
-    "book_learn": [["abdul_necro", 6]],
-    "using": [ [ "filament", 30 ] ],
+    "book_learn": [["abdul_necro", 7]],
+    "using": [ [ "filament", 240 ] ],
     "qualities": [ { "id" : "SEW", "level" : 1 } ],
     "tools": [
-      [ ["syringe", -1] ],
-      [ ["vacutainer", -1] ]
+      [ ["syringe", -1] ]
     ],
     "components": [
-      [ ["revival_serum", 1] ],
-      [ ["meat_tainted", 8], ["human_flesh", 8] ],
-      [ ["bone", 4] ],
-      [ ["blob_dormant", 1] ]
+      [ ["revival_serum", 4] ],
+      [ ["meat_tainted", 34], ["human_flesh", 34] ],
+      [ ["bone", 20] ],
+      [ ["fat_tainted", 24], [ "fat", 24 ] ],
+      [ ["blob_dormant", 4] ]
     ]
   },{
     "type" : "item_group",
