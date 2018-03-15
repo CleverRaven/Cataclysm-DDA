@@ -759,7 +759,7 @@ void game::setup()
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
-    factions.clear();
+    faction_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     events = event_manager();
@@ -906,15 +906,6 @@ bool game::start_game(std::string worldname)
    lua_callback("on_new_player_created");
 
     return true;
-}
-
-void game::create_factions()
-{
-    for( const faction_id &cur_fac : faction::all_json_factions() ) {
-        factions.emplace_back( cur_fac );
-        factions.back().randomize();
-        factions.back().load_faction_template( cur_fac );
-    }
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -3572,11 +3563,8 @@ void game::load_master( const std::string &worldname )
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
-    const bool read = read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
-    if( read && !factions.empty() ) {
-        return;
-    }
-    create_factions();
+    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    faction_manager_ptr->create_if_needed();
 }
 
 void game::load_uistate(std::string worldname)
@@ -4411,7 +4399,7 @@ void game::disp_faction_ends()
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
     std::vector<std::string> data;
 
-    for( auto &elem : factions ) {
+    for( const faction &elem : faction_manager_ptr->all() ) {
         if(elem.known_by_u) {
             if (elem.name == "Your Followers"){
                 data.emplace_back( "" );
@@ -4619,8 +4607,8 @@ void game::disp_NPCs()
 
 faction *game::list_factions(std::string title)
 {
-    std::vector<faction *> valfac; // Factions that we know of.
-    for( auto &elem : factions ) {
+    std::vector<const faction *> valfac; // Factions that we know of.
+    for( const faction &elem : faction_manager_ptr->all() ) {
         if( elem.known_by_u ) {
             valfac.push_back( &elem );
         }
@@ -5413,9 +5401,9 @@ int game::assign_npc_id()
 
 faction *game::faction_by_ident(std::string id)
 {
-    for( auto &elem : factions ) {
+    for( const faction &elem : faction_manager_ptr->all() ) {
         if( elem.id == id ) {
-            return &elem;
+            return const_cast<faction*>( &elem );
         }
     }
     return nullptr;

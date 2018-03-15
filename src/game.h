@@ -80,6 +80,7 @@ class Creature;
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 class Character;
+class faction_manager;
 class player;
 class npc;
 class monster;
@@ -163,6 +164,7 @@ class game
         live_view& liveview;
         pimpl<scent_map> scent_ptr;
         pimpl<event_manager> event_manager_ptr;
+        pimpl<faction_manager> faction_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -589,8 +591,6 @@ class game
     private:
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
-        std::vector<faction> factions;
-
         int ter_view_x, ter_view_y, ter_view_z;
 
     private:
@@ -812,7 +812,6 @@ class game
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
-        void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // V Menu Functions and helpers:

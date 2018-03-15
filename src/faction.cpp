@@ -980,3 +980,20 @@ std::string fac_combat_ability_text(int val)
     }
     return _("Worthless");
 }
+
+void faction_manager::clear()
+{
+    factions.clear();
+}
+
+void faction_manager::create_if_needed()
+{
+    if( !factions.empty() ) {
+        return;
+    }
+    for( const faction_id &cur_fac : faction::all_json_factions() ) {
+        factions.emplace_back( cur_fac );
+        factions.back().randomize();
+        factions.back().load_faction_template( cur_fac );
+    }
+}

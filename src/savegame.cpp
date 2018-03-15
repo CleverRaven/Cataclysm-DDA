@@ -1374,12 +1374,7 @@ void game::unserialize_master(std::istream &fin) {
             } else if (name == "active_missions") {
                 mission::unserialize_all( jsin );
             } else if (name == "factions") {
-                jsin.start_array();
-                while (!jsin.end_array()) {
-                    faction fac;
-                    fac.deserialize(jsin);
-                    factions.push_back(fac);
-                }
+                jsin.read( *faction_manager_ptr );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1411,17 +1406,22 @@ void game::serialize_master(std::ostream &fout) {
         json.member("active_missions");
         mission::serialize_all( json );
 
-        json.member("factions");
-        json.start_array();
-        for (auto &i : factions) {
-            i.serialize(json);
-        }
-        json.end_array();
+        json.member( "factions", *faction_manager_ptr );
 
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg("error saving to master.gsav: %s", e.c_str());
     }
+}
+
+void faction_manager::serialize( JsonOut &jsout ) const
+{
+    jsout.write( factions );
+}
+
+void faction_manager::deserialize( JsonIn &jsin )
+{
+    jsin.read( factions );
 }
 
 void Creature_tracker::deserialize( JsonIn &jsin )

@@ -128,4 +128,21 @@ class faction
         int wealth;  //Total trade currency
 };
 
+class faction_manager
+{
+    private:
+        std::vector<faction> factions;
+
+    public:
+        void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jsout ) const;
+
+        void clear();
+        void create_if_needed();
+
+        const std::vector<faction> &all() const {
+            return factions;
+        }
+};
+
 #endif
