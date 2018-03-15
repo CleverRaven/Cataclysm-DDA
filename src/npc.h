@@ -601,7 +601,8 @@ class npc : public player
         npc_action method_of_fleeing();
         npc_action method_of_attack();
 
-        static std::array<std::pair<std::string, string_id<overmap_location>>, npc_need::num_needs> need_data;
+        static std::array<std::pair<std::string, string_id<overmap_location>>, npc_need::num_needs>
+                need_data;
 
         static std::string get_need_str_id( const npc_need &need );
 
