@@ -121,15 +121,6 @@ void faction::load_faction_template( const faction_id &ident )
     }
 }
 
-std::vector<faction_id> faction::all_json_factions()
-{
-    std::vector<faction_id> v;
-    for( const auto &elem : _all_faction ) {
-        v.push_back( elem.first );
-    }
-    return v;
-}
-
 //TODO move them to json
 
 static const std::array<std::string, 15> faction_adj_pos = { {
@@ -991,8 +982,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const faction_id &cur_fac : faction::all_json_factions() ) {
-        factions.emplace_back( cur_fac );
+    for( const auto &elem : _all_faction ) {
+        factions.emplace_back( elem.first );
         factions.back().randomize();
         factions.back().load_faction_template( cur_fac );
     }
