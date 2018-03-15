@@ -21876,7 +21876,7 @@
             ]
         },
         {
-          "id": ["t_sconc_wall_halfway", "t_scrap_wall_halfway", "t_rock_wall_half"],
+          "id": ["t_sconc_wall_halfway", "t_scrap_wall_halfway", "t_rock_wall_half", "t_rock_wall"],
           "fg": [2994, 2993, 2994, 2993],
           "bg": 632,
           "rotates": true,
@@ -43123,12 +43123,6 @@
           "id": "t_plut_generator",
           "fg": 2093,
           "bg": 640,
-          "rotates": false
-        },
-        {
-          "id": "t_rock_wall",
-          "fg": 2120,
-          "bg": 660,
           "rotates": false
         },
         {
