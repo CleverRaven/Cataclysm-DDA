@@ -56358,19 +56358,6 @@
           "rotates": true
         },
         {
-          "id": "vp_omnicam",
-          "fg": 4592,
-          "rotates": true,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 3118,
-              "bg": 4592
-            }
-          ]
-        },
-        {
           "id": "mon_boomer_fungus",
           "fg": 4597,
           "rotates": false
