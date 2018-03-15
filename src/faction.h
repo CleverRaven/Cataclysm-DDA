@@ -103,7 +103,6 @@ class faction
         static faction_map _all_faction;
 
         void randomize();
-        void make_army();
         bool has_job( faction_job j ) const;
         bool has_value( faction_value v ) const;
         bool matches_us( faction_value v ) const;

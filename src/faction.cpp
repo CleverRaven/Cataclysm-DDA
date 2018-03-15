@@ -391,43 +391,6 @@ void faction::randomize()
     }
 }
 
-void faction::make_army()
-{
-    name = _("The army");
-    mapx = OMAPX / 2;
-    mapy = OMAPY / 2;
-    size = OMAPX * 2;
-    power = OMAPX;
-    goal = FACGOAL_DOMINANCE;
-    job1 = FACJOB_MERCENARIES;
-    job2 = FACJOB_NULL;
-    if (one_in(4)) {
-        values |= mfb(FACVAL_CHARITABLE);
-    }
-    if (!one_in(4)) {
-        values |= mfb(FACVAL_EXPLORATION);
-    }
-    if (one_in(3)) {
-        values |= mfb(FACVAL_BIONICS);
-    }
-    if (one_in(3)) {
-        values |= mfb(FACVAL_ROBOTS);
-    }
-    if (one_in(4)) {
-        values |= mfb(FACVAL_TREACHERY);
-    }
-    if (one_in(4)) {
-        values |= mfb(FACVAL_STRAIGHTEDGE);
-    }
-    if (!one_in(3)) {
-        values |= mfb(FACVAL_LAWFUL);
-    }
-    if (one_in(8)) {
-        values |= mfb(FACVAL_CRUELTY);
-    }
-    id = "army";
-}
-
 bool faction::has_job(faction_job j) const
 {
     return (job1 == j || job2 == j);
