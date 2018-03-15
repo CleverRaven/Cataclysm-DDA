@@ -28,8 +28,6 @@
 #include <algorithm>
 #include <sstream>
 
-struct overmap_location;
-
 // @todo: Get rid of this include
 
 #define NPC_DANGER_VERY_LOW 5
