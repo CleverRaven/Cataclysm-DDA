@@ -13455,18 +13455,6 @@ void game::nuke( const tripoint &p )
     }
 }
 
-std::vector<faction *> game::factions_at( const tripoint &p )
-{
-    // TODO: Factions with z-levels
-    std::vector<faction *> ret;
-    for( auto &elem : factions ) {
-        if( trig_dist( p.x, p.y, elem.mapx, elem.mapy ) <= elem.size ) {
-            ret.push_back( &( elem ) );
-        }
-    }
-    return ret;
-}
-
 void game::display_scent()
 {
     int div;

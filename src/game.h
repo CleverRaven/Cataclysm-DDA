@@ -484,7 +484,6 @@ class game
 
         /** Nuke the area at p - global overmap terrain coordinates! */
         void nuke( const tripoint &p );
-        std::vector<faction *> factions_at( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
