@@ -7908,7 +7908,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
-bool game::check_zone( const std::string &type, const tripoint &where ) const
+bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 {
     return zone_manager::get_manager().has( type, m.getabs( where ) );
 }
@@ -8048,7 +8048,7 @@ void game::zones_manager()
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                zones.add( "", "", false, true,
+                zones.add( "", zone_type_id(), false, true,
                             m.getabs( tripoint( std::min(first.x, second.x),
                                                 std::min(first.y, second.y),
                                                 std::min(first.z, second.z) ) ),
@@ -11799,7 +11799,7 @@ void game::place_player( const tripoint &dest_loc )
     // List items here
     if( !m.has_flag( "SEALED", u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
-            !g->check_zone( "NO_AUTO_PICKUP", u.pos() )) {
+            !g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() )) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg(_("There's something here, but you can't see what it is."));
             } else if( m.has_items(u.pos()) ) {

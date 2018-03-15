@@ -77,6 +77,8 @@ using ammotype = string_id<ammunition_type>;
 class mission;
 class map;
 class Creature;
+class zone_type;
+using zone_type_id = string_id<zone_type>;
 class Character;
 class player;
 class npc;
@@ -508,7 +510,7 @@ class game
         void peek( const tripoint &p );
         tripoint look_debug();
 
-        bool check_zone( const std::string &type, const tripoint &where ) const;
+        bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border, const catacurses::window &w_info_border, const int iInfoHeight, const int width );
