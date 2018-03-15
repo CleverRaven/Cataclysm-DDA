@@ -7,8 +7,6 @@
 #include <algorithm>
 #include <unordered_map>
 
-using overmap_location_str_id = string_id<overmap_location>;
-
 namespace
 {
 
@@ -41,7 +39,7 @@ const string_id<overmap_location> &int_id<overmap_location>::id() const
 template<>
 int_id<overmap_location> string_id<overmap_location>::id() const
 {
-    return locations.convert( *this, overmap_location_str_id::NULL_ID() );
+    return locations.convert( *this, string_id<overmap_location>::NULL_ID() );
 }
 
 /** @relates string_id */
@@ -86,6 +84,8 @@ void overmap_location::load( JsonObject &jo, const std::string & )
     }
 }
 
+int_id<overmap_location> overmap_location_null;
+
 void overmap_location::check() const
 {
     for( const auto &element : terrains ) {
@@ -103,6 +103,11 @@ void overmap_locations::load( JsonObject &jo, const std::string &src )
 void overmap_locations::check_consistency()
 {
     locations.check();
+}
+
+void overmap_locations::finalize()
+{
+    overmap_location_null = string_id<overmap_location>::NULL_ID().id();
 }
 
 void overmap_locations::reset()

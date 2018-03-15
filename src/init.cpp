@@ -426,6 +426,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Furniture" ), &set_furn_ids },
         { _( "Overmap terrain" ), &overmap_terrains::finalize },
         { _( "Overmap connections" ), &overmap_connections::finalize },
+        { _( "Overmap locations" ), &overmap_locations::finalize },
         { _( "Overmap specials" ), &overmap_specials::finalize },
         { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
         { _( "Mapgen weights" ), &calculate_mapgen_weights },

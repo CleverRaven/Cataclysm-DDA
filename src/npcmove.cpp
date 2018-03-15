@@ -29,8 +29,6 @@
 #include <sstream>
 
 struct overmap_location;
-using overmap_location_id = int_id<overmap_location>;
-using overmap_location_str_id = string_id<overmap_location>;
 
 // @todo: Get rid of this include
 
