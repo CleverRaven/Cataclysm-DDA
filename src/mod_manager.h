@@ -2,8 +2,8 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include "dependency_tree.h"
 #include "string_id.h"
+#include "pimpl.h"
 
 #include <string>
 #include <vector>
@@ -15,7 +15,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 
 struct WORLD;
 typedef WORLD *WORLDPTR;
-
+class dependency_tree;
 class mod_ui;
 class game;
 class worldfactory;
@@ -71,6 +71,7 @@ class mod_manager
         typedef std::vector<mod_id> t_mod_list;
 
         mod_manager();
+        ~mod_manager();
         /**
          * Reload the map of available mods (@ref mod_map).
          * This also reloads the dependency tree.
@@ -147,7 +148,7 @@ class mod_manager
         void remove_mod( const mod_id &ident );
         void remove_invalid_mods( std::vector<mod_id> &mods ) const;
 
-        dependency_tree tree;
+        pimpl<dependency_tree> tree;
 
         /**
          * The map of known mods, key is the mod ident.

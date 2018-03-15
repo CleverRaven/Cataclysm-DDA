@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "rng.h"
+#include "dependency_tree.h"
 #include "input.h"
 #include "output.h"
 #include "skill.h"
