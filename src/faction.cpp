@@ -17,7 +17,7 @@
 #include <string>
 #include <cstdlib>
 
-static faction_map _all_faction;
+static std::map<std::string, faction> _all_faction;
 
 std::string invent_name();
 std::string invent_adj();
@@ -95,7 +95,7 @@ void faction::load_faction(JsonObject &jsobj)
 
 void faction::load_faction_template(std::string ident)
 {
-    faction_map::iterator found = _all_faction.find(ident);
+    const auto found = _all_faction.find( ident );
     if (found != _all_faction.end()) {
         id = found->second.id;
         name = found->second.name;

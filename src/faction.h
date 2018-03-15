@@ -83,8 +83,6 @@ struct faction_value_datum {
 
 class faction;
 
-typedef std::map<std::string, faction> faction_map;
-
 class faction
 {
     public:
