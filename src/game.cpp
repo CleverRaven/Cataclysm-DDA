@@ -913,12 +913,10 @@ bool game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    faction tmp;
     for( const faction_id &cur_fac : faction::all_json_factions() ) {
-        tmp = faction(cur_fac);
-        tmp.randomize();
-        tmp.load_faction_template(cur_fac);
-        factions.push_back(tmp);
+        factions.emplace_back( cur_fac );
+        factions.back().randomize();
+        factions.back().load_faction_template( cur_fac );
     }
 }
 
