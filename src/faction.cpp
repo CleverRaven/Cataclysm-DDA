@@ -12,8 +12,12 @@
 
 #include "json.h"
 #include "translations.h"
+
+#include <map>
 #include <string>
 #include <cstdlib>
+
+static faction_map _all_faction;
 
 std::string invent_name();
 std::string invent_adj();
@@ -66,8 +70,6 @@ faction::faction(std::string uid)
     wealth = 0;
     id = uid;
 }
-
-faction_map faction::_all_faction;
 
 void faction::load_faction(JsonObject &jsobj)
 {

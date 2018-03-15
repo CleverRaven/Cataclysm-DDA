@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
@@ -98,8 +97,6 @@ class faction
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;
-
-        static faction_map _all_faction;
 
         void randomize();
         bool has_job( faction_job j ) const;
