@@ -14,6 +14,11 @@ generic_factory<overmap_location> locations( "overmap location" );
 
 }
 
+template<> const string_id<overmap_location> &string_id<overmap_location>::NULL_ID() {
+    static string_id<overmap_location> id = string_id<overmap_location>( "overmap_location_null" );
+    return id;
+}
+
 /** @relates string_id */
 template<>
 inline bool int_id<overmap_location>::is_valid() const
