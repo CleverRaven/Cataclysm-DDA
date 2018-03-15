@@ -32028,13 +32028,13 @@
           "rotates": false
         },
         {
-          "id": "oil_lamp",
+          "id": ["oil_lamp", "oxylamp"],
           "fg": 2457,
           "bg": 632,
           "rotates": false
         },
         {
-          "id": "oil_lamp_on",
+          "id": ["oil_lamp_on", "oxylamp_on"],
           "fg": 2458,
           "bg": 632,
           "rotates": false
