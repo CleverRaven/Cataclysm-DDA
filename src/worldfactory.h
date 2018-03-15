@@ -71,10 +71,8 @@ typedef WORLD *WORLDPTR;
 class worldfactory
 {
     public:
-        /** Default constructor */
         worldfactory();
-        /** Default destructor */
-        virtual ~worldfactory();
+        ~worldfactory();
 
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true );
@@ -115,7 +113,7 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, unsigned int current );
+        static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
         void show_active_world_mods( const std::vector<std::string> &world_mods );
 
     protected:
@@ -127,8 +125,8 @@ class worldfactory
         int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
         int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
-        void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, int &cursor,
+        void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
+        void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
                             const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 

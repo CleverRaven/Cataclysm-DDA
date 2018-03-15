@@ -6,10 +6,8 @@
 #include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
-#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
-#include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
@@ -21,6 +19,8 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+class craft_command;
+class recipe_subset;
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -1028,7 +1028,7 @@ class player : public Character
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item *book );
+        void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
@@ -1681,7 +1681,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable recipe_subset learned_recipes;
+        mutable pimpl<recipe_subset> learned_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;

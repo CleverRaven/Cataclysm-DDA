@@ -6,8 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "map_selector.h"
-#include "pathfinding.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "pldata.h"
@@ -16,6 +14,7 @@
 #include <vector>
 
 class Skill;
+struct pathfinding_settings;
 using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
@@ -695,7 +694,7 @@ class Character : public Creature, public visitable<Character>
          * Cache for pathfinding settings.
          * Most of it isn't changed too often, hence mutable.
          */
-        mutable pathfinding_settings path_settings;
+        mutable pimpl<pathfinding_settings> path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

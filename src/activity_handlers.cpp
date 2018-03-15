@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "skill.h"
+#include "craft_command.h"
 #include "rng.h"
 #include "requirements.h"
 #include "mongroup.h"
@@ -537,6 +538,8 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
 
 void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int(void)> &roll_butchery )
 {
+    p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
+
     int practice = 4 + roll_butchery();
     for( const auto &entry : *mt.harvest ) {
         int butchery = roll_butchery();
@@ -1940,7 +1943,7 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    p->do_read( act->targets[0].get_item() );
+    p->do_read( *act->targets.front().get_item() );
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }

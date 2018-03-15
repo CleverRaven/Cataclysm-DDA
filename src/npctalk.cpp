@@ -26,6 +26,7 @@
 #include "itype.h"
 #include "text_snippets.h"
 #include "map_selector.h"
+#include "vehicle.h"
 #include "vehicle_selector.h"
 #include "skill.h"
 #include "ui.h"
@@ -2255,6 +2256,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
+            vehicle *veh = g->m.veh_at( p->pos() );
+            if( veh != nullptr ) {
+                if( abs( veh->velocity ) > 0 ) {
+                    reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
+                }
+            }
+
             if( p->has_effect( effect_asked_to_train ) ) {
                 reasons << _( "Give it some time, I'll show you something new later..." ) << std::endl;
             }
@@ -3881,7 +3889,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 help = inp_mngr.get_input_event().get_first_input() - 'a';
                 mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
                 wrefresh( w_head );
-                update = true;
                 help += offset;
                 if( help < target_list.size() ) {
                     popup( target_list[help].loc.get_item()->info(), PF_NONE );
@@ -4549,8 +4556,6 @@ npc_follower_rules::npc_follower_rules()
 
     close_doors = false;
 };
-
-npc_follower_rules::~npc_follower_rules() = default;
 
 npc *pick_follower()
 {

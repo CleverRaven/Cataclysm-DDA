@@ -10,7 +10,6 @@ std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
 {
-    key = "";
     availability = true;
 }
 
@@ -19,8 +18,6 @@ dependency_node::dependency_node( std::string _key ): index( -1 ), lowlink( -1 )
     key = _key;
     availability = true;
 }
-
-dependency_node::~dependency_node() = default;
 
 void dependency_node::add_parent( dependency_node *parent )
 {
@@ -255,13 +252,9 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
 
 
-// dependency_tree
 dependency_tree::dependency_tree()
 {
-    //ctor
 }
-
-dependency_tree::~dependency_tree() = default;
 
 void dependency_tree::init( std::map<std::string, std::vector<std::string> > key_dependency_map )
 {

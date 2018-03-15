@@ -65,6 +65,7 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
@@ -339,7 +340,8 @@ bool player::activate_bionic( int b, bool eff_only )
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
-                effect_took_xanax, effect_took_prozac, effect_took_flumed,
+                effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
+                effect_took_flumed,
             }
         };
 
@@ -523,7 +525,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power( -power_use );
             bio.powered = ctr.active;
         } else {
-            bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
+            bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.id == "bio_plutdump" ) {
         if( query_yn(
@@ -603,7 +605,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
             g->setremoteveh( nullptr );
-        } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
+        } else if( !get_value( "remote_controlling" ).empty() && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
     } else if( bio.id == "bio_tools" ) {
@@ -698,7 +700,7 @@ void player::process_bionic( int b )
             add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
-        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
+        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
             add_msg( m_warning, _( "Your %s has lost connection and is turning off." ),
                      bionics[bio.id].name.c_str() );

@@ -92,7 +92,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = NULL;
-    fac_id = "";
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     dead = false;
@@ -102,11 +101,10 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
-    companion_mission = "";
     companion_mission_time = 0;
     last_updated = calendar::turn;
 
-    path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -150,7 +148,7 @@ void npc_template::load( JsonObject &jsobj )
 {
     npc guy;
     guy.idz = jsobj.get_string( "id" );
-    guy.name = "";
+    guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
         guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
     }
@@ -249,7 +247,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     }
 }
 
-npc::~npc() { }
+npc::~npc() = default;
 
 std::string npc::save_info() const
 {
@@ -267,7 +265,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( fac_id != "" ) {
+    if( !fac_id.empty() ) {
         set_fac( fac_id );
     }
 }
@@ -1968,7 +1966,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        g->record_npc_kill( this );
+        g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
         if( g->u.has_trait( trait_SAPIOVORE ) ) {
@@ -2367,19 +2365,19 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings.bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
     // @todo: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
         // Penalty for failure chance is 1/success = 1/(1-failure) = 1/(1-(1/dex)) = dex/(dex-1)
-        path_settings.climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
+        path_settings->climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
     } else {
         // Climbing at this dexterity will always fail
-        path_settings.climb_cost = 0;
+        path_settings->climb_cost = 0;
     }
 
-    return path_settings;
+    return *path_settings;
 }
 
 std::set<tripoint> npc::get_path_avoid() const
@@ -2449,7 +2447,7 @@ void npc::set_companion_mission( npc &p, const std::string &id )
 
 void npc::reset_companion_mission()
 {
-    companion_mission = "";
+    companion_mission.clear();
 }
 
 bool npc::has_companion_mission() const

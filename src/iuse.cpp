@@ -137,6 +137,7 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
@@ -353,31 +354,34 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-#define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
+constexpr static int alc_strength( const int strength, const int weak, const int medium, const int strong )
+{
+    return strength == 0 ? weak : strength == 1 ? medium : strong;
+}
+
 int alcohol(player *p, item *it, int strength)
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
+    int duration = alc_strength( strength, 340, 680, 900) - (alc_strength( strength, 6, 10, 12) * p->str_max);
     if (p->has_trait(trait_ALCMET)) {
-        duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
+        duration = alc_strength( strength, 90, 180, 250) - (alc_strength( strength, 6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->mod_hunger( -( abs( it->type->comestible ? it->type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p->stim += abs( it->type->comestible ? it->type->comestible->stim : 0 );
     } else if (p->has_trait(trait_TOLERANCE)) {
-        duration -= STR(120, 300, 450);
+        duration -= alc_strength( strength, 120, 300, 450);
     } else if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration += STR(120, 300, 450);
+        duration += alc_strength( strength, 120, 300, 450);
     }
     if (!(p->has_trait(trait_ALCMET))) {
-        p->mod_painkiller( STR(4, 8, 12) );
+        p->mod_painkiller( alc_strength( strength, 4, 8, 12) );
     }
     p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
 }
-#undef STR
 
 int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
 {
@@ -458,7 +462,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
     if (it->typeId() == "joint") {
         // Would group with the joint, but awkward to mutter before lighting up.
         if (one_in(5)) {
-            weed_msg(p);
+            weed_msg( *p );
         }
     }
     if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
@@ -709,7 +713,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
     if (one_in(5)) {
-        weed_msg(p);
+        weed_msg( *p );
     }
     return it->type->charges_to_use();
 }
@@ -868,13 +872,14 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
-    if( !p->has_effect( effect_took_prozac) && p->get_morale_level() < 0 ) {
+    if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 7200);
     } else {
         p->stim += 3;
     }
-    if (one_in(150)) {  // adverse reaction
+    if ( one_in(50) ) {  // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player(m_warning, _("You suddenly feel hollow inside."));
+        p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     return it->type->charges_to_use();
 }
@@ -3787,20 +3792,20 @@ const std::string &get_music_description()
     return no_description;
 }
 
-void iuse::play_music( player * const p, const tripoint &source, int const volume, int const max_morale )
+void iuse::play_music( player &p, const tripoint &source, int const volume, int const max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    bool const do_effects = p->can_hear( source, volume );
+    bool const do_effects = p.can_hear( source, volume );
     std::string sound;
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
         const std::string &music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
+            if( p.pos() == source && volume == 0 && p.can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
-                p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
+                p.add_msg_if_player( _( "You listen to %s" ), music.c_str() );
             }
         }
     }
@@ -3809,11 +3814,11 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
         sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
-        p->add_effect( effect_music, 1 );
-        p->add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
+        p.add_effect( effect_music, 1 );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
         // mp3 player reduces hearing
         if( volume == 0 ) {
-             p->add_effect( effect_earphones, 1 );
+             p.add_effect( effect_earphones, 1 );
         }
     }
 }
@@ -3823,7 +3828,7 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
     if (t) { // Normal use
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
-            play_music( p, pos, 0, 20 );
+            play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
@@ -4853,10 +4858,10 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
         }
     }
 
-    return handle_ground_graffiti(p, it, ismarker ? _("Write what?") : _("Spray what?"));
+    return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4866,7 +4871,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p->pos();
+        const auto where = p.pos();
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
@@ -4882,7 +4887,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
             add_msg( _("You write a message on the ground.") );
             move_cost = 2 * message.length();
         }
-        p->moves -= move_cost;
+        p.moves -= move_cost;
     }
 
     return it->type->charges_to_use();
@@ -5192,28 +5197,28 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
+int iuse::gun_repair( player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
         return 0;
     }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >1 allows gun repair */
-    if (p->get_skill_level( skill_mechanics ) < 2) {
-        p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
+    if( p->get_skill_level( skill_mechanics ) < 2 ) {
+        p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    int inventory_index = g->inv_for_all(_("Select the firearm to repair"));
-    item *fix = &(p->i_at(inventory_index));
-    if (fix == NULL || fix->is_null()) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    int inventory_index = g->inv_for_all( _( "Select the firearm to repair" ) );
+    item *fix = &( p->i_at( inventory_index ) );
+    if( fix == NULL || fix->is_null() ) {
+        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if (!fix->is_firearm()) {
-        p->add_msg_if_player(m_info, _("That isn't a firearm!"));
+    if( !fix->is_firearm() ) {
+        p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
     }
     if( fix->has_flag( "NO_REPAIR" ) ) {
@@ -5221,37 +5226,38 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if( fix->damage() == fix->min_damage() ) {
-        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
-                             fix->tname().c_str());
+        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
+                              fix->tname().c_str() );
         return 0;
     }
     if( fix->damage() == 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
-        p->add_msg_if_player(m_info, _("With a higher mechanics skill, you might be able to improve it."));
+        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix->tname().c_str() );
+        p->add_msg_if_player( m_info,
+                              _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
-    /** @EFFECT_MECHANICS >7 allows accurizing ranged weapons */
+    /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     if( fix->damage() == 0 && p->get_skill_level( skill_mechanics ) >= 8 ) {
-        p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
-        sounds::sound(p->pos(), 6, "");
+        sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix->tname().c_str() );
 
     } else if( fix->damage() >= 2 ) {
-        p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-        sounds::sound(p->pos(), 8, "");
+        sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname().c_str() );
 
     } else {
-        p->add_msg_if_player(m_good, _("You repair your %s completely!"),
-                             fix->tname().c_str());
-        sounds::sound(p->pos(), 8, "");
+        sounds::sound( p->pos(), 8, "" );
         p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
+        p->practice( skill_mechanics, 10 );
         fix->mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
+                              fix->tname().c_str() );
     }
     return it->type->charges_to_use();
 }
@@ -5765,14 +5771,14 @@ static const std::string &photo_quality_name( const int index )
 int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) {
-        if( it->get_var( "EIPC_MUSIC_ON" ) != "" && ( it->ammo_remaining() > 0 ) ) {
+        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() && ( it->ammo_remaining() > 0 ) ) {
             if( calendar::once_every( 5_minutes ) ) {
                 it->ammo_consume( 1, p->pos() );
             }
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-            play_music( p, pos, 8, std::min( 25, songs ) );
+            play_music( *p, pos, 8, std::min( 25, songs ) );
         }
         else {
             it->active = false;
@@ -5826,16 +5832,16 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
         }
 
-        if (it->get_var( "RECIPE" ) != "") {
+        if( !it->get_var( "RECIPE" ).empty() ) {
             const item dummy(it->get_var( "RECIPE" ), 0);
             amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
         }
 
-        if (it->get_var( "EIPC_RECIPES" ) != "") {
+        if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
             amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
-        if (it->get_var( "EINK_MONSTER_PHOTOS" ) != "") {
+        if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
             amenu.addentry(ei_monsters, true, 'y', _("Your collection of monsters"));
         } else {
             amenu.addentry(ei_monsters, false, 'y', _("Collection of monsters is empty"));
@@ -6109,7 +6115,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
     amenu.addentry(c_shot, true, 'p', _("Take a photo"));
-    if (it->get_var( "CAMERA_MONSTER_PHOTOS" ) != "") {
+    if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
         amenu.addentry(c_photos, true, 'l', _("List photos"));
         amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
     } else {
@@ -6214,7 +6220,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     const std::string mtype = z.type->id.str();
 
                     auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
-                    if (monster_photos == "") {
+                    if( monster_photos.empty() ) {
                         monster_photos = "," + mtype + "," + string_format("%d",
                                 photo_quality) + ",";
                     } else {
@@ -6535,7 +6541,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
             p->moves -= 150;
             item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet(bomb, p, true); // force getting an invlet.
+            p->inv.assign_empty_invlet( bomb, *p, true ); // force getting an invlet.
             p->i_add(bomb);
             it->contents.erase(it->contents.begin());
 
@@ -6614,7 +6620,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, const tripoint& )
         if (it->charges == 0) {
             it->active = false;
             p->remove_value( "remote_controlling" );
-        } else if( p->get_value( "remote_controlling" ) == "" ) {
+        } else if( p->get_value( "remote_controlling" ).empty() ) {
             it->active = false;
         }
 
@@ -7007,7 +7013,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
                 if (p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
-                    if (upgr == "" ) {
+                    if( upgr.empty() ) {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
                         if (upgr == "UPGRADE") {

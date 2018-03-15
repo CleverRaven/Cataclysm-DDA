@@ -8,9 +8,6 @@
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
@@ -100,7 +97,6 @@ class faction
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
-        ~faction();
         void load_info( std::string data );
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;

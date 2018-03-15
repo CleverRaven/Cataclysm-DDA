@@ -61,9 +61,6 @@ extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
 
-#define SGN(a) (((a)<0) ? -1 : 1)
-#define INBOUNDS(x, y) \
- (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -126,9 +123,7 @@ map::map( int mapsize, bool zlev )
     traplocs.resize( trap::count() );
 }
 
-map::~map()
-{
-}
+map::~map() = default;
 
 static submap null_submap;
 
@@ -1461,7 +1456,7 @@ bool map::has_furn(const int x, const int y) const
 
 furn_id map::furn(const int x, const int y) const
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         return f_null;
     }
 
@@ -1609,7 +1604,7 @@ std::string map::furnname( const tripoint &p ) {
 
 ter_id map::ter(const int x, const int y) const
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         return t_null;
     }
 
@@ -1866,7 +1861,7 @@ bool map::passable( const int x, const int y ) const
 
 int map::move_cost_ter_furn(const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return 0;
     }
 
@@ -2411,7 +2406,7 @@ bool map::has_flag_furn(const std::string & flag, const int x, const int y) cons
 
 bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return false;
     }
 
@@ -2439,7 +2434,7 @@ bool map::has_flag_furn(const ter_bitflags flag, const int x, const int y) const
 
 bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
+    if (!inbounds(x, y)) {
         return false;
     }
 
@@ -2794,7 +2789,7 @@ bool map::is_divable( const tripoint &p ) const
 
 bool map::is_outside(const int x, const int y) const
 {
-    if(!INBOUNDS(x, y)) {
+    if(!inbounds(x, y)) {
         return true;
     }
 
@@ -4184,7 +4179,7 @@ void map::set_temperature( const int x, const int y, int new_temperature )
 // Items: 2D
 map_stack map::i_at( const int x, const int y )
 {
-    if( !INBOUNDS(x, y) ) {
+    if( !inbounds(x, y) ) {
         nulitems.clear();
         return map_stack{ &nulitems, tripoint( x, y, abs_sub.z ), this };
     }
@@ -4645,38 +4640,38 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
     return process_item( items, n, location, false );
 }
 
-static void process_vehicle_items( vehicle *cur_veh, int part )
+static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool fridge_here = cur_veh->part_flag( part, VPFLAG_FRIDGE ) && cur_veh->has_part( "FRIDGE", true );
+    const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             apply_in_fridge(n);
         }
     }
 
-    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->is_part_on( part );
+    const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
     if( washmachine_here ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0 ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
-                cur_veh->parts[part].enabled = false;
+                cur_veh.parts[part].enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
+                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh.name.c_str() );
                 break;
             }
         }
         if( washing_machine_finished ) {
-            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh->name.c_str() );
+            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name.c_str() );
         }
     }
 
-    if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh.has_part( "RECHARGE", true ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
             static const std::string ups_s( "USE_UPS" );
             if( !n.has_flag( recharge_s ) && !n.has_flag( ups_s ) ) {
@@ -4684,7 +4679,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
                 constexpr int per_charge = 10;
-                const int missing = cur_veh->discharge_battery( per_charge, false );
+                const int missing = cur_veh.discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
                     n.ammo_set( "battery", n.ammo_remaining() + 1 );
@@ -4719,10 +4714,10 @@ void map::process_items( bool const active, T processor, std::string const &sign
                 submap *const current_submap = get_submap_at_grid( gp );
                 // Vehicles first in case they get blown up and drop active items on the map.
                 if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles(current_submap, processor, signal);
+                    process_items_in_vehicles( *current_submap, processor, signal );
                 }
                 if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap(current_submap, gp, processor, signal);
+                    process_items_in_submap( *current_submap, gp, processor, signal );
                 }
             }
         }
@@ -4730,17 +4725,17 @@ void map::process_items( bool const active, T processor, std::string const &sign
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap,
+void map::process_items_in_submap( submap &current_submap,
                                    const tripoint &gridp,
                                    T processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::list<item_reference> active_items = current_submap->active_items.get();
+    std::list<item_reference> active_items = current_submap.active_items.get();
     auto const grid_offset = point {gridp.x * SEEX, gridp.y * SEEY};
     for( auto &active_item : active_items ) {
-        if( !current_submap->active_items.has( active_item ) ) {
+        if( !current_submap.active_items.has( active_item ) ) {
             continue;
         }
 
@@ -4751,10 +4746,10 @@ void map::process_items_in_submap( submap *const current_submap,
 }
 
 template<typename T>
-void map::process_items_in_vehicles( submap *const current_submap, T processor,
+void map::process_items_in_vehicles( submap &current_submap, T processor,
                                      std::string const &signal )
 {
-    std::vector<vehicle*> const &veh_in_nonant = current_submap->vehicles;
+    std::vector<vehicle*> const &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
@@ -4767,28 +4762,28 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor,
             continue;
         }
 
-        process_items_in_vehicle( cur_veh, current_submap, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap, processor, signal );
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const current_submap,
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
                                     T processor, std::string const &signal )
 {
-    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
+    std::vector<int> cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, true );
     for( int part : cargo_parts ) {
         process_vehicle_items( cur_veh, part );
     }
 
-    for( auto &active_item : cur_veh->active_items.get() ) {
+    for( auto &active_item : cur_veh.active_items.get() ) {
         if ( cargo_parts.empty() ) {
             return;
-        } else if( !cur_veh->active_items.has( active_item ) ) {
+        } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
 
         auto const it = std::find_if(begin(cargo_parts), end(cargo_parts), [&](int const part) {
-            return active_item.location == cur_veh->parts[static_cast<size_t>(part)].mount;
+            return active_item.location == cur_veh.parts[static_cast<size_t>( part )].mount;
         });
 
         if (it == std::end(cargo_parts)) {
@@ -4797,10 +4792,10 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 
         // Find the cargo part and coordinates corresponding to the current active item.
         auto const part_index = static_cast<size_t>(*it);
-        const point partloc = cur_veh->global_pos() + cur_veh->parts[part_index].precalc[0];
+        const point partloc = cur_veh.global_pos() + cur_veh.parts[part_index].precalc[0];
         // TODO: Make this 3D when vehicles know their Z-coordinate
         const tripoint item_location = tripoint( partloc, abs_sub.z );
-        auto items = cur_veh->get_items(static_cast<int>(part_index));
+        auto items = cur_veh.get_items( static_cast<int>( part_index ) );
         if(!processor(items, active_item.item_iterator, item_location, signal)) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
@@ -4809,8 +4804,8 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        auto const &veh_in_nonant = current_submap->vehicles;
-        if(std::find(begin(veh_in_nonant), end(veh_in_nonant), cur_veh) == veh_in_nonant.end()) {
+        auto const &veh_in_nonant = current_submap.vehicles;
+        if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), &cur_veh ) == veh_in_nonant.end() ) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
             // or be destroyed, anyway it does not need to be processed here
@@ -4821,7 +4816,7 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
-        cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
+        cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, false );
     }
 }
 
@@ -6030,7 +6025,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
-        item_sym = ""; // clear the item symbol so `sym` is used instead.
+        item_sym.clear(); // clear the item symbol so `sym` is used instead.
     }
 
     // If there's graffiti here, change background color
@@ -6264,7 +6259,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
     if( f.z == t.z ) {
         if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
-            !INBOUNDS(t.x, t.y) ) {
+            !inbounds(t.x, t.y) ) {
             return false; // Out of range!
         }
         bool is_clear = true;
@@ -7572,7 +7567,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            if( !INBOUNDS( px, py ) ) {
+            if( !inbounds( px, py ) ) {
                 continue;
             }
 
@@ -8145,9 +8140,7 @@ pathfinding_cache::pathfinding_cache()
     dirty = true;
 }
 
-pathfinding_cache::~pathfinding_cache()
-{
-}
+pathfinding_cache::~pathfinding_cache() = default;
 
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const {
     return *pathfinding_caches[zlev + OVERMAP_DEPTH];

@@ -600,7 +600,7 @@ void player::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if (!downgrades.empty() && cat != "") {
+        if( !downgrades.empty() && !cat.empty() ) {
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
@@ -616,10 +616,10 @@ void player::mutate()
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
-        if (cat == "") {
+        if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
@@ -645,7 +645,7 @@ void player::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != "");
+    } while ( valid.empty() && !cat.empty() );
 
     if (valid.empty()) {
         // Couldn't find anything at all!

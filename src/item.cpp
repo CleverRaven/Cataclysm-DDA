@@ -652,7 +652,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
         int svarlen, svarsep;
         svarsep = item_tag.find('=');
         svarlen = item_tag.size();
-        val_decoded = "";
+        val_decoded.clear();
         var_name = item_tag.substr(1, svarsep - 1); // will assume sanity here for now
         for(int s = svarsep + 1; s < svarlen; s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
             if(item_tag[s] == ivaresc && s < svarlen - 2 ) {
@@ -2378,7 +2378,11 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        amt = string_format( " (%i)", amount );
+        if( ammo_type() == "money" ) {
+            amt = string_format( " ($%.2f)", ( double ) amount / 100 );
+        } else {
+            amt = string_format( " (%i)", amount );
+        }
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
@@ -2589,7 +2593,7 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return weight() / STR_LIFT_FACTOR + ( weight().value() % STR_LIFT_FACTOR.value() != 0 );
+    return std::max( weight() / 10000_gram, 1 );
 }
 
 int item::attack_time() const
@@ -4880,7 +4884,7 @@ bool item::reload( player &u, item_location loc, long qty )
     if( ammo->charges == 0 ) {
         if( container != nullptr ) {
             container->contents.erase(container->contents.begin());
-            u.inv.restack(&u); // emptied containers do not stack with non-empty ones
+            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
         } else {
             loc.remove_item();
         }
@@ -5515,7 +5519,7 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     // TODO: change game::process_artifact to work with npcs,
     // TODO: consider moving game::process_artifact here.
     if( carrier == &g->u ) {
-        g->process_artifact( this, carrier );
+        g->process_artifact( *this, *carrier );
     }
 }
 
@@ -5626,7 +5630,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
-                weed_msg( carrier );
+                weed_msg( *carrier );
             }
         }
         active = false;

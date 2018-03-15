@@ -163,7 +163,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
             }
 
             sText += sColor + sTempText;
-            if( sColor != "" ) {
+            if( !sColor.empty() ) {
                 sText += "</color>";
             }
 
@@ -271,7 +271,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         solution:  split this paragraph in two pieces;
     */
     for( int i = 0; i < ( int )text.size(); i++ ) {
-        if( begin_y == 0 && caption != "" ) {
+        if( begin_y == 0 && !caption.empty() ) {
             begin_y = fold_and_print( w, 0, 1, width - 2, c_white, caption ) + 1;
         }
         std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
@@ -936,10 +936,10 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
-    if( sItemName != "" ) {
+    if( !sItemName.empty() ) {
         buffer << sItemName << "\n";
     }
-    if( sItemName != sTypeName && sTypeName != "" ) {
+    if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
     buffer << " \n"; //This space is required, otherwise it won't make an empty line.
@@ -1951,7 +1951,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
 {
     std::string text = text_in;
 
-    if( text == "" ) {
+    if( text.empty() ) {
         return false;
     } else if( text == "*" ) {
         return true;

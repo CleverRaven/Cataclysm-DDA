@@ -40,6 +40,11 @@ const harvest_id &harvest_list::id() const
     return id_;
 }
 
+std::string harvest_list::message() const
+{
+    return message_;
+}
+
 bool harvest_list::is_null() const
 {
     return id_ == harvest_id::NULL_ID();
@@ -68,6 +73,10 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
         ret.id_ = harvest_id( id );
     } else {
         jo.throw_error( "id was not specified for harvest" );
+    }
+
+    if( jo.has_string( "message" ) ) {
+        ret.message_ = jo.get_string( "message" );
     }
 
     JsonArray jo_entries = jo.get_array( "entries" );

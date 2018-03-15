@@ -262,39 +262,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         if( gun.gun_skill() == skill_launcher ) {
             continue; // skip retargeting for launchers
         }
-
-        // If burst firing and we killed the target then try to retarget
-        const auto critter = g->critter_at( aim, true );
-        if( !critter || critter->is_dead_state() ) {
-
-            // Reset recoil, remainder of burst will be wild.
-            recoil = MAX_RECOIL;
-            // Find suitable targets that are in range, hostile and near any previous target
-            auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
-
-            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
-                if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
-                    return true; /** @EFFECT_GUN increases range of automatic retargeting during burst fire */
-
-                } else if( z->is_dead_state() ) {
-                    return true;
-
-                } else if( has_trait( trait_id( "TRIGGERHAPPY" ) ) && one_in( 10 ) ) {
-                    return false; // Trigger happy sometimes doesn't care who we shoot
-
-                } else {
-                    return attitude_to( *z ) != A_HOSTILE;
-                }
-            } ), hostiles.end() );
-
-            if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
-                break; // We ran out of suitable targets
-
-            } else if( !one_in( 7 - get_skill_level( skill_gun ) ) ) {
-                break; /** @EFFECT_GUN increases chance of firing multiple times in a burst */
-            }
-            aim = random_entry( hostiles )->pos();
-        }
     }
 
     // apply delayed recoil
@@ -681,6 +648,9 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
+	if( range == 0 ) {
+		return 2 * target_size;
+	}
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }

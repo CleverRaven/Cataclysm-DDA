@@ -5,7 +5,7 @@
         "name" : "Any",
         "category" : "ANY",
         "threshold_mut" : "",
-        "mutagen_message" : "mutagen message here",
+        "mutagen_message" : "You mutate.",
         "iv_message" : "You inject yoursel-arRGH!",
         "iv_min_mutations" : 3,
         "iv_additional_mutations" : 2,

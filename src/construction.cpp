@@ -400,7 +400,7 @@ void construction_menu()
                         // display result only if more than one step.
                         // Assume single stage constructions should be clear
                         // in their description what their result is.
-                        if( current_con->post_terrain != "" && options.size() > 1 ) {
+                        if( !current_con->post_terrain.empty() && options.size() > 1 ) {
                             //also print out stage number when multiple stages are available
                             current_line << _( "Stage #" ) << stage_counter;
                             current_buffer.push_back( current_line.str() );
@@ -450,7 +450,7 @@ void construction_menu()
                         // Example: First step of dig pit could say something about
                         // requiring diggable ground.
                         current_line.str( "" );
-                        if( current_con->pre_terrain != "" ) {
+                        if( !current_con->pre_terrain.empty() ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
                                 require_string = furn_str_id( current_con->pre_terrain ).obj().name();
@@ -502,7 +502,7 @@ void construction_menu()
                         }
                         current_buffer_location += construct_buffers[i].size();
                         if( i < construct_buffers.size() - 1 ) {
-                            full_construct_buffer.push_back( std::string( "" ) );
+                            full_construct_buffer.push_back( std::string() );
                             current_buffer_location++;
                         }
                     }

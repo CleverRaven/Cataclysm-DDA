@@ -22,12 +22,6 @@
 #define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
 ///@}
 
-/**
- * How far into the future we should generate weather, in hours.
- * 168 hours in a week.
- */
-#define MAX_FUTURE_WEATHER 168
-
 #include "calendar.h"
 
 #include <string>

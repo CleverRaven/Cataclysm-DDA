@@ -202,7 +202,7 @@ class inventory_column
             cells.resize( preset.get_cells_count() );
         }
 
-        virtual ~inventory_column() {}
+        virtual ~inventory_column() = default;
 
         bool empty() const {
             return entries.empty();
@@ -405,7 +405,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() {}
+        ~inventory_selector() = default;
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );

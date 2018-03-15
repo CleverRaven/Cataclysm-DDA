@@ -62,8 +62,6 @@ public:
             end = _end;
         }
 
-        ~zone_data() {};
-
         void set_name();
         void set_type();
         void set_enabled( const bool enabled );

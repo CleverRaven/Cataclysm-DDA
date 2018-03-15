@@ -412,7 +412,6 @@ game::~game()
 // Fixed window sizes
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
-static constexpr int LOOK_AROUND_HEIGHT = 13;
 
 #if (defined TILES)
 // defined in sdltiles.cpp
@@ -1612,7 +1611,7 @@ void game::process_activity()
     }
 
     while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( &u );
+        u.activity.do_turn( u );
     }
 }
 
@@ -1766,9 +1765,9 @@ void game::increase_kill_count( const mtype_id& id )
     kills[id]++;
 }
 
-void game::record_npc_kill( const npc *p )
+void game::record_npc_kill( const npc &p )
 {
-   npc_kills.push_back( p->get_name() );
+   npc_kills.push_back( p.get_name() );
 }
 
 void game::handle_key_blocking_activity()
@@ -5146,7 +5145,7 @@ void game::draw_HP()
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
     if( !wide ) {
-        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("STA"));
+        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
         wmove(w_HP, 15, hpx);
         u.print_stamina_bar(w_HP);
     }
@@ -5833,29 +5832,23 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        while (!critter.is_dead() && !critter.can_move_to(critter.pos())) {
-            // If we can't move to our current position, assign us to a new one
-                dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
-                             << " can't move to its location! (" << critter.posx()
-                             << ":" << critter.posy() << ":" << critter.posz() << "), "
-                             << m.tername(critter.posx(), critter.posy()).c_str();
-                add_msg( m_debug, "%s can't move to its location! (%d,%d,%d), %s", critter.name().c_str(),
-                         critter.posx(), critter.posy(), critter.posz(), m.tername(critter.pos()).c_str());
+        // Critters in impassable tiles get pushed away, unless it's not impassable for them
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+            dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
+                         << " can't move to its location! (" << critter.posx()
+                         << ":" << critter.posy() << ":" << critter.posz() << "), "
+                         << m.tername( critter.pos() ).c_str();
+            add_msg( m_debug, "%s can't move to its location! (%d,%d,%d), %s", critter.name().c_str(),
+                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ).c_str() );
             bool okay = false;
-            int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-            int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
-            int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
-            int z = critter.posz();
-            for (int x = startx; x != endx && !okay; x += xdir) {
-                for (int y = starty; y != endy && !okay; y += ydir) {
-                    tripoint dest( x, y, z );
-                    if (critter.can_move_to( dest ) && is_empty( dest )) {
-                        critter.setpos( dest );
-                        okay = true;
-                    }
+            for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+                if( critter.can_move_to( dest ) && is_empty( dest ) ) {
+                    critter.setpos( dest );
+                    okay = true;
+                    break;
                 }
             }
-            if (!okay) {
+            if( !okay ) {
                 // die of "natural" cause (overpopulation is natural)
                 critter.die( nullptr );
             }
@@ -7522,6 +7515,10 @@ void game::examine()
     if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
         return;
     }
+    // redraw terrain to erase 'examine' window
+    draw_ter();
+    wrefresh( w_terrain );
+
     examine( examp );
 }
 
@@ -7741,28 +7738,30 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 
 void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line )
 {
-    int ending_line = line + 3;
+    const int max_width = getmaxx( w_look ) - column - 1;
+    int lines;
     std::string tile = m.tername( lp );
     if( m.has_furn( lp ) ) {
         tile += "; " + m.furnname( lp );
     }
 
-    if (m.impassable( lp )) {
-        mvwprintw(w_look, line, column, _("%s; Impassable"), tile.c_str());
+    if( m.impassable( lp ) ) {
+        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Impassable" ),
+                                tile.c_str() );
     } else {
-        mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
-                  m.move_cost(lp) * 50);
+        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Movement cost %d" ),
+                                tile.c_str(), m.move_cost( lp ) * 50 );
 
-        const auto ll = get_light_level(std::max(1.0, LIGHT_AMBIENT_LIT - m.ambient_light_at(lp) + 1.0));
-        mvwprintw(w_look, ++line, column, _("Lighting: "));
-        wprintz(w_look, ll.second, ll.first.c_str());
+        const auto ll = get_light_level( std::max( 1.0,
+                                         LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+        mvwprintw( w_look, ++lines, column, _( "Lighting: " ) );
+        wprintz( w_look, ll.second, ll.first.c_str() );
     }
 
-    const int max_width = getmaxx( w_look ) - column - 1;
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++line, column, max_width, c_light_gray,
-                    u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
+        trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
+                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -7774,15 +7773,18 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ),
+                            tile_below.c_str() );
         } else {
-            mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ),
+                            tile_below.c_str() );
         }
     }
 
-    fold_and_print( w_look, ++line, column, max_width, c_light_gray, m.features( lp ) );
-    if (line < ending_line) {
-        line = ending_line;
+    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray,
+                                       m.features( lp ) );
+    if( line < lines ) {
+        line = lines + map_features - 1;
     }
 }
 
@@ -7791,7 +7793,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry *cur = &fld.second;
-        mvwprintz( w_look, line++, column, cur->color(), cur->name() );
+        mvwprintz( w_look, ++line, column, cur->color(), cur->name() );
     }
 }
 
@@ -7799,7 +7801,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz( w_look, line++, column, tr.color, tr.name() );
+        mvwprintz( w_look, ++line, column, tr.color, tr.name() );
     }
 }
 
@@ -7807,7 +7809,7 @@ void game::print_creature_info( const Creature *creature, const catacurses::wind
                                 const int column, int &line )
 {
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
-        line = creature->print_info( w_look, line, 6, column );
+        line = creature->print_info( w_look, ++line, 6, column );
     }
 }
 
@@ -7815,8 +7817,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if (veh) {
-        mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, line, last_line, getmaxx(w_look), veh_part);
+        mvwprintw(w_look, ++line, column, _("There is a %s there. Parts:"), veh->name.c_str());
+        line = veh->print_part_desc(w_look, ++line, last_line, getmaxx(w_look), veh_part);
     }
 }
 
@@ -7856,9 +7858,9 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
     if( !m.sees_some_items( lp, u ) ) {
         return;
     } else if ( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, line++, column, _( "You cannot see what is inside of it." ) );
+        mvwprintw( w_look, ++line, column, _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
-        mvwprintz( w_look, line++, column, c_yellow,
+        mvwprintz( w_look, ++line, column, c_yellow,
                 _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
@@ -7869,17 +7871,17 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 
         const int max_width = getmaxx( w_look ) - column - 1;
         for( auto const &it : item_names ) {
-            if( line >= last_line ) {
-                mvwprintz( w_look, line++, column , c_yellow, _( "More items here..." ) );
+            if( line >= last_line - 2 ) {
+                mvwprintz( w_look, ++line, column , c_yellow, _( "More items here..." ) );
                 break;
             }
 
             if( it.second > 1 ) {
-                trim_and_print( w_look, line++, column, max_width, c_white,
+                trim_and_print( w_look, ++line, column, max_width, c_white,
                         pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
                         it.first.c_str(), it.second );
             } else {
-                trim_and_print( w_look, line++, column, max_width, c_white, it.first );
+                trim_and_print( w_look, ++line, column, max_width, c_white, it.first );
             }
         }
     }
@@ -7892,14 +7894,14 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
         return;
     }
     if( m.has_graffiti_at( lp ) ) {
-        mvwprintw(w_look, line++, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
+        mvwprintw(w_look, ++line, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
     }
 }
 
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
     lookWidth = getmaxx(w_messages);
-    begin_y = TERMY - LOOK_AROUND_HEIGHT + 1;
+    begin_y = TERMY - getmaxy( w_messages ) + 1;
     if (getbegy(w_messages) < begin_y) {
         begin_y = getbegy(w_messages);
     }
@@ -7980,6 +7982,9 @@ void game::zones_manager()
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
     draw_ter();
+
+    int stored_pm_opt = pixel_minimap_option;
+    pixel_minimap_option = 0;
 
     int zone_ui_height = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
@@ -8311,6 +8316,7 @@ void game::zones_manager()
     }
 
     u.view_offset = stored_view_offset;
+    pixel_minimap_option = stored_pm_opt;
 
     refresh_all();
 }
@@ -8360,7 +8366,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
     bool bNewWindow = false;
     if( !w_info ) {
-        w_info = catacurses::newwin( LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX );
+        w_info = catacurses::newwin( getmaxy( w_messages ), lookWidth, lookY, lookX );
         bNewWindow = true;
     }
 
@@ -8471,7 +8477,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else {
             //Look around
             int first_line = 1;
-            const int last_line = LOOK_AROUND_HEIGHT - 2;
+            const int last_line = getmaxy( w_messages ) - 2;
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
@@ -13583,37 +13589,37 @@ void intro()
     catacurses::erase();
 }
 
-void game::process_artifact(item *it, player *p)
+void game::process_artifact( item &it, player &p )
 {
-    const bool worn = p->is_worn( *it );
-    const bool wielded = ( it == &p->weapon );
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
     std::vector<art_effect_passive> effects;
-    effects = it->type->artifact->effects_carried;
+    effects = it.type->artifact->effects_carried;
     if( worn ) {
-        auto &ew = it->type->artifact->effects_worn;
+        auto &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( wielded ) {
-        auto &ew = it->type->artifact->effects_wielded;
+        auto &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
-    if( it->is_tool() ) {
+    if( it.is_tool() ) {
         // Recharge it if necessary
-        if( it->ammo_remaining() < it->ammo_capacity() ) {
-            switch (it->type->artifact->charge_type) {
+        if( it.ammo_remaining() < it.ammo_capacity() ) {
+            switch( it.type->artifact->charge_type ) {
             case ARTC_NULL:
             case NUM_ARTCS:
                 break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
                 if( calendar::once_every( 1_hours ) ) {
-                    it->charges++;
+                    it.charges++;
                 }
                 break;
             case ARTC_SOLAR:
                 if( calendar::once_every( 10_minutes ) &&
-                    is_in_sunlight(p->pos())) {
-                    it->charges++;
+                    is_in_sunlight( p.pos() ) ) {
+                    it.charges++;
                 }
                 break;
             // Artifacts can inflict pain even on Deadened folks.
@@ -13622,15 +13628,15 @@ void game::process_artifact(item *it, player *p)
             case ARTC_PAIN:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p->mod_pain_noresist( 3 * rng(1, 3) );
-                    it->charges++;
+                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                    it.charges++;
                 }
                 break;
             case ARTC_HP:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1, nullptr);
-                    it->charges++;
+                    p.hurtall( 1, nullptr );
+                    it.charges++;
                 }
                 break;
             }
@@ -13640,37 +13646,37 @@ void game::process_artifact(item *it, player *p)
     for (auto &i : effects) {
         switch (i) {
         case AEP_STR_UP:
-            p->mod_str_bonus(+4);
+            p.mod_str_bonus( +4 );
             break;
         case AEP_DEX_UP:
-            p->mod_dex_bonus(+4);
+            p.mod_dex_bonus( +4 );
             break;
         case AEP_PER_UP:
-            p->mod_per_bonus(+4);
+            p.mod_per_bonus( +4 );
             break;
         case AEP_INT_UP:
-            p->mod_int_bonus(+4);
+            p.mod_int_bonus( +4 );
             break;
         case AEP_ALL_UP:
-            p->mod_str_bonus(+2);
-            p->mod_dex_bonus(+2);
-            p->mod_per_bonus(+2);
-            p->mod_int_bonus(+2);
+            p.mod_str_bonus( +2 );
+            p.mod_dex_bonus( +2 );
+            p.mod_per_bonus( +2 );
+            p.mod_int_bonus( +2 );
             break;
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
 
         case AEP_PBLUE:
-            if (p->radiation > 0) {
-                p->radiation--;
+            if( p.radiation > 0 ) {
+                p.radiation--;
             }
             break;
 
         case AEP_SMOKE:
             if( one_in( 10 ) ) {
-                tripoint pt( p->posx() + rng( -1, 1 ),
-                             p->posy() + rng( -1, 1 ),
-                             p->posz() );
+                tripoint pt( p.posx() + rng( -1, 1 ),
+                             p.posy() + rng( -1, 1 ),
+                             p.posz() );
                 m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
@@ -13679,36 +13685,36 @@ void game::process_artifact(item *it, player *p)
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                    m.adjust_field_age( tripoint( x, y, p->posz() ), fd_fire, -1);
+            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
+                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
+                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
                 }
             }
             break;
 
         case AEP_HUNGER:
             if (one_in(100)) {
-                p->mod_hunger(1);
+                p.mod_hunger( 1 );
             }
             break;
 
         case AEP_THIRST:
             if (one_in(120)) {
-                p->mod_thirst(1);
+                p.mod_thirst( 1 );
             }
             break;
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_effect( effect_evil, 300);
-                if( it->is_armor() ) {
+                p.add_effect( effect_evil, 300 );
+                if( it.is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                     }
                 } else if (!wielded) {
                     add_msg(_("You have an urge to wield the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                 }
             }
             break;
@@ -13718,31 +13724,31 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_RADIOACTIVE:
             if (one_in(4)) {
-                p->radiation++;
+                p.radiation++;
             }
             break;
 
         case AEP_STR_DOWN:
-            p->mod_str_bonus(-3);
+            p.mod_str_bonus( -3 );
             break;
 
         case AEP_DEX_DOWN:
-            p->mod_dex_bonus(-3);
+            p.mod_dex_bonus( -3 );
             break;
 
         case AEP_PER_DOWN:
-            p->mod_per_bonus(-3);
+            p.mod_per_bonus( -3 );
             break;
 
         case AEP_INT_DOWN:
-            p->mod_int_bonus(-3);
+            p.mod_int_bonus( -3 );
             break;
 
         case AEP_ALL_DOWN:
-            p->mod_str_bonus(-2);
-            p->mod_dex_bonus(-2);
-            p->mod_per_bonus(-2);
-            p->mod_int_bonus(-2);
+            p.mod_str_bonus( -2 );
+            p.mod_dex_bonus( -2 );
+            p.mod_per_bonus( -2 );
+            p.mod_int_bonus( -2 );
             break;
 
         case AEP_SPEED_DOWN:
@@ -13754,10 +13760,10 @@ void game::process_artifact(item *it, player *p)
         }
     }
     // Recalculate, as it might have changed (by mod_*_bonus above)
-    p->str_cur = p->get_str();
-    p->int_cur = p->get_int();
-    p->dex_cur = p->get_dex();
-    p->per_cur = p->get_per();
+    p.str_cur = p.get_str();
+    p.int_cur = p.get_int();
+    p.dex_cur = p.get_dex();
+    p.per_cur = p.get_per();
 }
 
 void game::start_calendar()

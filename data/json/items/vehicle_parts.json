@@ -237,6 +237,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "vehicle_dashboard",
+        "name" : "dashboard",
+        "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+        "weight" : 6000,
+        "to_hit" : -2,
+        "color" : "cyan",
+        "symbol" : "$",
+        "material" : ["plastic", "steel"],
+        "volume" : 40,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 8000
+    },
+    {
+        "type":"GENERIC",
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",

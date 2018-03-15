@@ -139,10 +139,5 @@
       [ "saiga10mag_410", 50 ],
       [ "saiga30mag_410", 10 ]
     ]
-  },
-  {
-    "id": "gunmod_rare",
-    "type": "item_group",
-    "items": [ [ "retool_410", 20 ] ]
   }
 ]

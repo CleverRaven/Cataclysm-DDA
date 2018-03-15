@@ -526,6 +526,10 @@
     },
     {
         "type": "effect_type",
+        "id": "took_prozac_bad"
+    },
+    {
+        "type": "effect_type",
         "id": "in_pit",
         "name": ["Stuck in Pit"],
         "desc": ["You're stuck in a pit.  Sight distance is limited and you have to climb out."],

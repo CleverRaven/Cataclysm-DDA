@@ -818,7 +818,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
-
+            //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
             if( type == "sewing_kit" ||
                 type == "mold_plastic" ) {
                 new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
@@ -844,6 +844,29 @@ requirement_data requirement_data::disassembly_requirements() const
     // If that ever changes, this will be wrong!
     if( ret.qualities.empty() ) {
         ret.qualities.resize( 1 );
+    } else {
+    //If the required quality level is not empty, iterate through and replace or remove 
+    //qualities with deconstruction equivalents
+        for (auto &it : ret.qualities) {
+            bool replaced = false;
+            for (const auto &quality : it) {
+                if (quality.type == quality_id("SEW")) {
+                    replaced = true;
+                    new_qualities.emplace_back(quality_id("CUT"), 1, quality.level);
+                    break;
+                }
+                if (quality.type == quality_id("GLARE")) {
+                    replaced = true;
+                    //Just remove the glare protection requirement from deconstruction
+                    //This only happens in case of a reversible recipe, an explicit
+                    //deconstruction recipe can still specify glare protection
+                    break;
+                }
+            }
+            if (replaced) {
+                it.clear();
+            }
+        }
     }
 
     auto &qualities = ret.qualities[0];
