@@ -810,10 +810,7 @@ bool game::start_game(std::string worldname)
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    // Init some factions.
-    if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
-        create_factions();
-    }
+    load_master( worldname );
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -3571,11 +3568,15 @@ void game::move_save_to_graveyard()
     }
 }
 
-bool game::load_master(std::string worldname)
+void game::load_master( const std::string &worldname )
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
-    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    const bool read = read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    if( read && !factions.empty() ) {
+        return;
+    }
+    create_factions();
 }
 
 void game::load_uistate(std::string worldname)
@@ -3619,9 +3620,7 @@ void game::load(std::string worldname, const save_t &name)
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    if( !load_master( worldname ) || factions.empty() ) {
-        create_factions();
-    }
+    load_master( worldname );
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
