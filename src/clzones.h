@@ -3,6 +3,8 @@
 #define CLZONES_H
 
 #include "enums.h"
+#include "string_id.h"
+
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -13,6 +15,16 @@
 class JsonIn;
 class JsonOut;
 
+class zone_type
+{
+    private:
+        std::string name_;
+    public:
+        explicit zone_type( const std::string name ) : name_( name ) {}
+        std::string name() const;
+};
+using zone_type_id = string_id<zone_type>;
+
 /**
  * These are zones the player can designate.
  *
@@ -22,8 +34,8 @@ class JsonOut;
 class zone_manager
 {
     private:
-        std::map<std::string, std::string> types;
-        std::unordered_map<std::string, std::unordered_set<tripoint> > area_cache;
+        std::map<zone_type_id, zone_type> types;
+        std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
 
     public:
         zone_manager();
@@ -42,14 +54,14 @@ class zone_manager
         {
             private:
                 std::string name;
-                std::string type;
+                zone_type_id type;
                 bool invert;
                 bool enabled;
                 tripoint start;
                 tripoint end;
 
             public:
-                zone_data( const std::string &_name, const std::string &_type,
+                zone_data( const std::string &_name, const zone_type_id &_type,
                            const bool _invert, const bool _enabled,
                            const tripoint &_start, const tripoint &_end ) {
                     name = _name;
@@ -67,7 +79,7 @@ class zone_manager
                 std::string get_name() const {
                     return name;
                 }
-                std::string get_type() const {
+                const zone_type_id &get_type() const {
                     return type;
                 }
                 bool get_invert() const {
@@ -87,7 +99,7 @@ class zone_manager
 
         std::vector<zone_data> zones;
 
-        void add( const std::string &name, const std::string &type,
+        void add( const std::string &name, const zone_type_id &type,
                   const bool invert, const bool enabled,
                   const tripoint &start, const tripoint &end );
 
@@ -103,13 +115,13 @@ class zone_manager
         unsigned int size() const {
             return zones.size();
         }
-        std::map<std::string, std::string> get_types() const {
+        const std::map<zone_type_id, zone_type> &get_types() const {
             return types;
         }
-        std::string get_name_from_type( const std::string &type ) const;
-        bool has_type( const std::string &type ) const;
+        std::string get_name_from_type( const zone_type_id &type ) const;
+        bool has_type( const zone_type_id &type ) const;
         void cache_data();
-        bool has( const std::string &type, const tripoint &where ) const;
+        bool has( const zone_type_id &type, const tripoint &where ) const;
 
         bool save_zones();
         void load_zones();

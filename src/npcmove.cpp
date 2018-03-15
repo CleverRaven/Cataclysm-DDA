@@ -1853,7 +1853,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    static const std::string no_pickup( "NO_NPC_PICKUP" );
+    static const zone_type_id no_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
 
@@ -1993,7 +1993,7 @@ void npc::pick_up_item()
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
+        ( is_following() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
