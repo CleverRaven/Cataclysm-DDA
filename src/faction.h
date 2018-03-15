@@ -90,6 +90,7 @@ class faction
 {
     public:
         faction();
+        faction( JsonObject &jsobj );
         faction( const faction_id &id );
 
         static void load_faction( JsonObject &jsobj );

@@ -73,24 +73,28 @@ faction::faction( const faction_id &uid )
 
 void faction::load_faction(JsonObject &jsobj)
 {
-    faction fac;
-    fac.id = faction_id( jsobj.get_string( "id" ) );
-    fac.name = jsobj.get_string("name");
-    fac.likes_u = jsobj.get_int("likes_u");
-    fac.respects_u = jsobj.get_int("respects_u");
-    fac.known_by_u = jsobj.get_bool("known_by_u");
-    fac.size = jsobj.get_int("size");
-    fac.power = jsobj.get_int("power");
-    fac.combat_ability = jsobj.get_int("combat_ability");
-    fac.food_supply = jsobj.get_int("food_supply");
-    fac.wealth = jsobj.get_int("wealth");
-    fac.good = jsobj.get_int("good");
-    fac.strength = jsobj.get_int("strength");
-    fac.sneak = jsobj.get_int("sneak");
-    fac.crime = jsobj.get_int("crime");
-    fac.cult = jsobj.get_int("cult");
-    fac.desc = jsobj.get_string("description");
+    faction fac( jsobj );
     _all_faction[fac.id] = fac;
+}
+
+faction::faction( JsonObject &jsobj )
+    : name( jsobj.get_string( "name" ) )
+    , likes_u( jsobj.get_int( "likes_u" ) )
+    , respects_u( jsobj.get_int( "respects_u" ) )
+    , known_by_u( jsobj.get_bool( "known_by_u" ) )
+    , id( faction_id( jsobj.get_string( "id" ) ) )
+    , desc( jsobj.get_string( "description" ) )
+    , strength( jsobj.get_int( "strength" ) )
+    , sneak( jsobj.get_int( "sneak" ) )
+    , crime( jsobj.get_int( "crime" ) )
+    , cult( jsobj.get_int( "cult" ) )
+    , good( jsobj.get_int( "good" ) )
+    , size( jsobj.get_int( "size" ) )
+    , power( jsobj.get_int( "power" ) )
+    , combat_ability( jsobj.get_int( "combat_ability" ) )
+    , food_supply( jsobj.get_int( "food_supply" ) )
+    , wealth( jsobj.get_int( "wealth" ) )
+{
 }
 
 void faction::load_faction_template( const faction &templ )
