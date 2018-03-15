@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "path_info.h"
 #include "translations.h"
+#include "dependency_tree.h"
 
 #include <math.h>
 #include <queue>
@@ -104,6 +105,8 @@ mod_manager::mod_manager()
     refresh_mod_list();
 }
 
+mod_manager::~mod_manager() = default;
+
 std::vector<mod_id> mod_manager::all_mods() const
 {
     std::vector<mod_id> result;
@@ -116,12 +119,12 @@ std::vector<mod_id> mod_manager::all_mods() const
 
 dependency_tree &mod_manager::get_tree()
 {
-    return tree;
+    return *tree;
 }
 
 void mod_manager::clear()
 {
-    tree.clear();
+    tree->clear();
     mod_map.clear();
     default_mods.clear();
 }
@@ -151,7 +154,7 @@ void mod_manager::refresh_mod_list()
         const auto &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
     }
-    tree.init(mod_dependency_map);
+    tree->init( mod_dependency_map );
 }
 
 void mod_manager::remove_mod( const mod_id &ident )

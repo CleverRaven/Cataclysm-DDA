@@ -18,6 +18,8 @@
 #include "name.h"
 #include "json.h"
 
+#include <algorithm>
+
 using namespace std::placeholders;
 
 static const std::string SAVE_MASTER( "master.gsav" );
