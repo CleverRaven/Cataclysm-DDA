@@ -6798,12 +6798,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_cestus",
-          "fg": 1206,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_chain",
           "fg": 1207,
           "bg": 632,
@@ -14538,7 +14532,7 @@
         },
         {
           "id": "overlay_wielded_zweihander",
-          "fg": 2562,
+          "fg": 4341,
           "bg": 632,
           "rotates": false
         },
@@ -46212,7 +46206,7 @@
         },
         {
           "id": "overlay_wielded_zweihander_fake",
-          "fg": 1311,
+          "fg": 4341,
           "rotates": false
         },
         {
@@ -53885,7 +53879,7 @@
           ]
         },
         {
-          "id": ["overlay_wielded_knuckle_brass", "overlay_wielded_knuckle_steel"],
+          "id": ["overlay_wielded_knuckle_brass", "overlay_wielded_knuckle_steel", "overlay_wielded_cestus"],
           "fg": 4106
         },
         {
