@@ -6593,6 +6593,7 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6602,6 +6603,7 @@
     "symbol": "X",
     "color": [ "red" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6611,6 +6613,7 @@
     "symbol": "X",
     "color": [ "yellow" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6620,6 +6623,7 @@
     "symbol": "X",
     "color": [ "green" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6629,6 +6633,7 @@
     "symbol": "X",
     "color": [ "green" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6638,6 +6643,7 @@
     "symbol": "X",
     "color": [ "dark_green" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6647,6 +6653,7 @@
     "symbol": "#",
     "color": [ "dgray_brown" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
@@ -6656,6 +6663,7 @@
     "symbol": "#",
     "color": [ "red_brown" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
@@ -6665,6 +6673,7 @@
     "symbol": "#",
     "color": [ "yellow_brown" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
@@ -6674,6 +6683,7 @@
     "symbol": "#",
     "color": [ "green_brown" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
@@ -6683,6 +6693,7 @@
     "symbol": "o",
     "color": [ "cyan" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6692,6 +6703,7 @@
     "symbol": "o",
     "color": [ "red" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6701,6 +6713,7 @@
     "symbol": "o",
     "color": [ "yellow" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6710,6 +6723,7 @@
     "symbol": "o",
     "color": [ "green" ],
     "move_cost": 2,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
