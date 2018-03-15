@@ -93,32 +93,24 @@ void faction::load_faction(JsonObject &jsobj)
     _all_faction[fac.id] = fac;
 }
 
-void faction::load_faction_template( const faction_id &ident )
+void faction::load_faction_template( const faction &templ )
 {
-    const auto found = _all_faction.find( ident );
-    if (found != _all_faction.end()) {
-        id = found->second.id;
-        name = found->second.name;
-        likes_u = found->second.likes_u;
-        respects_u = found->second.respects_u;
-        known_by_u = found->second.known_by_u;
-        size = found->second.size;
-        power = found->second.power;
-        combat_ability = found->second.combat_ability;
-        food_supply = found->second.food_supply;
-        wealth = found->second.wealth;
-        good = found->second.good;
-        strength = found->second.strength;
-        sneak = found->second.sneak;
-        crime = found->second.crime;
-        cult = found->second.cult;
-        desc = found->second.desc;
-
-        return;
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        return;
-    }
+    id = templ.id;
+    name = templ.name;
+    likes_u = templ.likes_u;
+    respects_u = templ.respects_u;
+    known_by_u = templ.known_by_u;
+    size = templ.size;
+    power = templ.power;
+    combat_ability = templ.combat_ability;
+    food_supply = templ.food_supply;
+    wealth = templ.wealth;
+    good = templ.good;
+    strength = templ.strength;
+    sneak = templ.sneak;
+    crime = templ.crime;
+    cult = templ.cult;
+    desc = templ.desc;
 }
 
 //TODO move them to json
@@ -985,6 +977,6 @@ void faction_manager::create_if_needed()
     for( const auto &elem : _all_faction ) {
         factions.emplace_back( elem.first );
         factions.back().randomize();
-        factions.back().load_faction_template( cur_fac );
+        factions.back().load_faction_template( elem.second );
     }
 }
