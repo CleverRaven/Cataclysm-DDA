@@ -2096,25 +2096,25 @@ bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, c
     return result;
 }
 
-void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
+void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 {
     std::unique_ptr<Item_spawn_data> ptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
-        ptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig->with_ammo, ig->with_magazine ) );
+        ptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("collection");
     } else if (obj.has_member("distribution")) {
-        ptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig->with_ammo, ig->with_magazine ) );
+        ptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("distribution");
     }
     if (ptr.get() != NULL) {
         Item_group *ig2 = dynamic_cast<Item_group *>(ptr.get());
         while (jarr.has_more()) {
             JsonObject job2 = jarr.next_object();
-            add_entry(ig2, job2);
+            add_entry( *ig2, job2 );
         }
-        ig->add_entry( std::move( ptr ) );
+        ig.add_entry( std::move( ptr ) );
         return;
     }
 
@@ -2134,14 +2134,14 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
-    use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", *ig );
-    use_modifier |= load_sub_ref( modifier.container, obj, "container", *ig );
-    use_modifier |= load_sub_ref( modifier.contents, obj, "contents", *ig );
+    use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
+    use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier.emplace( std::move( modifier ) );
     }
-    ig->add_entry( std::move( ptr ) );
+    ig.add_entry( std::move( ptr ) );
 }
 
 // Load an item group from JSON
@@ -2162,7 +2162,7 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
 
     while( entries.has_more() ) {
         JsonObject subobj = entries.next_object();
-        add_entry( ig, subobj );
+        add_entry( *ig, subobj );
     }
 }
 
@@ -2185,7 +2185,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         while (items.has_more()) {
             if( items.test_object() ) {
                 JsonObject subobj = items.next_object();
-                add_entry( ig, subobj );
+                add_entry( *ig, subobj );
             } else {
                 JsonArray pair = items.next_array();
                 ig->add_item_entry(pair.get_string(0), pair.get_int(1));
@@ -2198,7 +2198,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         JsonArray items = jsobj.get_array("entries");
         while( items.has_more() ) {
             JsonObject subobj = items.next_object();
-            add_entry( ig, subobj );
+            add_entry( *ig, subobj );
         }
     }
     if (jsobj.has_member("items")) {
@@ -2211,7 +2211,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                 ig->add_item_entry(subitem.get_string(0), subitem.get_int(1));
             } else {
                 JsonObject subobj = items.next_object();
-                add_entry(ig, subobj);
+                add_entry( *ig, subobj );
             }
         }
     }
@@ -2225,7 +2225,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                 ig->add_group_entry(subitem.get_string(0), subitem.get_int(1));
             } else {
                 JsonObject subobj = items.next_object();
-                add_entry(ig, subobj);
+                add_entry( *ig, subobj );
             }
         }
     }
