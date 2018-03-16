@@ -242,7 +242,7 @@ void DynamicDataLoader::initialize()
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
     add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
-    add( "EXTERNAL_OPTION", &load_external_option  );
+    add( "EXTERNAL_OPTION", &load_external_option );
 
     // loaded earlier.
     add( "colordef", &load_ignored_type );
