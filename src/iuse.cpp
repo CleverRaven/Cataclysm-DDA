@@ -2583,30 +2583,6 @@ int iuse::hammer(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::deploy( player *p, item *it, bool, const tripoint &pos )
-{
-    tripoint dir = pos;
-    if( pos == p->pos() ) {
-        if( !choose_adjacent( _( "Deploy where?" ), dir ) ) {
-            return 0;
-        }
-    }
-
-    if( dir.x == p->posx() && dir.y == p->posy() ) {
-        p->add_msg_if_player( m_info,
-                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
-        return 0;
-    }
-
-    if( g->m.move_cost( dir ) != 2 ) {
-        p->add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it->tname().c_str() );
-        return 0;
-    }
-
-    g->m.furn_set( dir, static_cast<furn_id>( it->type->deploy_furn() ) );
-    return 1;
-}
-
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     // TODO: Make this 3D now that NPCs get to use items

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "brazier",
+    "type": "TOOL",
+    "name": "brazier",
+    "name_plural": "brazier",
+    "description": "brazier",
+    "weight": 5000,
+    "volume": 10,
+    "price": 25000,
+    "material": [ "steel" ],
+    "symbol": "Y",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" }
+  }
+]

@@ -25,7 +25,7 @@
         "name" : "Pick a lock"
     },{
         "type" : "item_action",
-        "id" : "DEPLOY_FURNITURE",
+        "id" : "deploy_furn",
         "name" : "Deploy item"
     },{
         "type" : "item_action",

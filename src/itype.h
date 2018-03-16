@@ -51,8 +51,6 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
-struct furn_t;
-using furn_id = int_id<furn_t>;
 
 enum field_id : int;
 
@@ -87,8 +85,6 @@ struct islot_tool {
     std::string revert_msg;
 
     std::string subtype;
-
-    std::string deploy_furn;
 
     long max_charges = 0;
     long def_charges = 0;
@@ -798,13 +794,6 @@ public:
             return tool->charges_per_use;
         }
         return 1;
-    }
-
-    std::string deploy_furn() const {
-        if( tool ) {
-            return tool->deploy_furn;
-        }
-        return "";
     }
 
     int maximum_charges() const

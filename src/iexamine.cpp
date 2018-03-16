@@ -859,8 +859,8 @@ void iexamine::bars(player &p, const tripoint &examp)
 
 void iexamine::deployed_furniture( player &p, const tripoint &pos )
 {
-    p.add_msg_if_player( m_info, string_format( _( "You take down the %s." ),
-                         g->m.furn( pos ).obj().name().c_str() ) );
+    p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                         g->m.furn( pos ).obj().name().c_str() );
     const auto furn_item = g->m.furn( pos ).obj().deployed_item;
     g->m.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
     g->m.furn_set( pos, f_null );
