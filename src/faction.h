@@ -86,15 +86,37 @@ struct faction_value_datum {
 class faction;
 using faction_id = string_id<faction>;
 
-class faction
+class faction_template
+{
+    protected:
+        faction_template();
+
+    private:
+        explicit faction_template( JsonObject &jsobj );
+
+    public:
+        explicit faction_template( const faction_template & ) = default;
+        static void load( JsonObject &jsobj );
+
+        std::string name;
+        int likes_u;
+        int respects_u;
+        bool known_by_u;
+        faction_id id;
+        std::string desc;
+        int strength, sneak, crime, cult, good; // Defining values
+        int size; // How big is our sphere of influence?
+        int power; // General measure of our power
+        int combat_ability;  //Combat multiplier for abstracted combat
+        int food_supply;  //Total nutritional value held
+        int wealth;  //Total trade currency
+};
+
+class faction : public faction_template
 {
     public:
-        faction();
-        faction( JsonObject &jsobj );
-        faction( const faction &templ );
-
-        static void load_faction( JsonObject &jsobj );
-        void load_faction_template( const faction &templ );
+        faction() = default;
+        faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &jsout ) const;
@@ -107,25 +129,14 @@ class faction
 
         int response_time( const tripoint &abs_sm_pos ) const; // Time it takes for them to get to u
 
-        std::string name;
     unsigned values :
         NUM_FACVALS; // Bitfield of values
-        faction_goal goal;
-        faction_job job1, job2;
+        faction_goal goal = FACGOAL_NULL;
+        faction_job job1 = FACJOB_NULL;
+        faction_job job2 = FACJOB_NULL;
         std::vector<int> opinion_of;
-        int likes_u;
-        int respects_u;
-        bool known_by_u;
-        faction_id id;
-        std::string desc;
-        int strength, sneak, crime, cult, good; // Defining values
         /** Global submap coordinates where the center of influence is */
-        int mapx, mapy;
-        int size; // How big is our sphere of influence?
-        int power; // General measure of our power
-        int combat_ability;  //Combat multiplier for abstracted combat
-        int food_supply;  //Total nutritional value held
-        int wealth;  //Total trade currency
+        int mapx = 0, mapy = 0;
 };
 
 class faction_manager

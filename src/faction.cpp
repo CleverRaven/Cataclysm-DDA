@@ -17,22 +17,16 @@
 #include <string>
 #include <cstdlib>
 
-static std::map<faction_id, faction> _all_faction;
+static std::map<faction_id, faction_template> _all_faction_templates;
 
 std::string invent_name();
 std::string invent_adj();
 
-faction::faction()
+faction_template::faction_template()
 {
-    // debugmsg("Warning: Faction created without UID!");
-    name = "null";
-    values = 0;
     likes_u = 0;
     respects_u = 0;
     known_by_u = true;
-    goal = FACGOAL_NULL;
-    job1 = FACJOB_NULL;
-    job2 = FACJOB_NULL;
     strength = 0;
     combat_ability = 0;
     food_supply = 0;
@@ -41,45 +35,31 @@ faction::faction()
     crime = 0;
     cult = 0;
     good = 0;
-    mapx = 0;
-    mapy = 0;
     size = 0;
     power = 0;
 }
 
-faction::faction( const faction &templ )
+faction::faction( const faction_template &templ )
 {
     values = 0;
-    likes_u = 0;
-    respects_u = 0;
-    known_by_u = true;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
-    strength = 0;
-    sneak = 0;
-    crime = 0;
-    cult = 0;
-    good = 0;
     mapx = 0;
     mapy = 0;
-    size = 0;
-    power = 0;
-    combat_ability = 0;
-    food_supply = 0;
-    wealth = 0;
     id = templ.id;
     randomize();
-    load_faction_template( templ );
+    // first init *all* members, than copy those from the template
+    static_cast<faction_template&>( *this ) = templ;
 }
 
-void faction::load_faction(JsonObject &jsobj)
+void faction_template::load( JsonObject &jsobj )
 {
-    faction fac( jsobj );
-    _all_faction[fac.id] = fac;
+    faction_template fac( jsobj );
+    _all_faction_templates.emplace( fac.id, fac );
 }
 
-faction::faction( JsonObject &jsobj )
+faction_template::faction_template( JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
@@ -97,26 +77,6 @@ faction::faction( JsonObject &jsobj )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
-}
-
-void faction::load_faction_template( const faction &templ )
-{
-    id = templ.id;
-    name = templ.name;
-    likes_u = templ.likes_u;
-    respects_u = templ.respects_u;
-    known_by_u = templ.known_by_u;
-    size = templ.size;
-    power = templ.power;
-    combat_ability = templ.combat_ability;
-    food_supply = templ.food_supply;
-    wealth = templ.wealth;
-    good = templ.good;
-    strength = templ.strength;
-    sneak = templ.sneak;
-    crime = templ.crime;
-    cult = templ.cult;
-    desc = templ.desc;
 }
 
 //TODO move them to json
@@ -980,7 +940,7 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &elem : _all_faction ) {
+    for( const auto &elem : _all_faction_templates ) {
         factions.emplace_back( elem.second );
     }
 }
