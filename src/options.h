@@ -164,9 +164,8 @@ class options_manager
         cOpt &get_option( const std::string &name );
 
         //add hidden external option with value
-        void add_external( const std::string sNameIn, const std::string sPageIn,
-                    const std::string sType,
-                    const std::string sMenuTextIn, const std::string sTooltipIn );
+        void add_external( const std::string sNameIn, const std::string sPageIn, const std::string sType,
+                        const std::string sMenuTextIn, const std::string sTooltipIn );
 
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,
