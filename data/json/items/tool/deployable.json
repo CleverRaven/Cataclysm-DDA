@@ -4,7 +4,7 @@
     "type": "TOOL",
     "name": "brazier",
     "name_plural": "brazier",
-    "description": "brazier",
+    "description": "A metal stand used to contain a fire.",
     "weight": 5000,
     "volume": 10,
     "price": 25000,
