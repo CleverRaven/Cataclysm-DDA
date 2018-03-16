@@ -266,7 +266,7 @@ class Item_group : public Item_spawn_data
          * @ref Item_factory::add_entry, @ref add_item_entry or @ref add_group_entry). Its purpose is to add
          * a Single_item_creator or Item_group to @ref items.
          */
-        void add_entry( std::unique_ptr<Item_spawn_data> &ptr );
+        void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
         virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

@@ -2121,7 +2121,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
             JsonObject job2 = jarr.next_object();
             add_entry(ig2, job2);
         }
-        ig->add_entry(ptr);
+        ig->add_entry( std::move( ptr ) );
         return;
     }
 
@@ -2148,7 +2148,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier.emplace( std::move( modifier ) );
     }
-    ig->add_entry(ptr);
+    ig->add_entry( std::move( ptr ) );
 }
 
 // Load an item group from JSON
