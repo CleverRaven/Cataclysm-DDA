@@ -108,6 +108,34 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
+//add external option
+void options_manager::add_external(const std::string sNameIn, const std::string sPageIn,
+    const std::string sType,
+    const std::string sMenuTextIn, const std::string sTooltipIn)
+{
+    cOpt thisOpt;
+
+    thisOpt.sName = sNameIn;
+    thisOpt.sPage = sPageIn;
+    thisOpt.sMenuText = sMenuTextIn;
+    thisOpt.sTooltip = sTooltipIn;
+    thisOpt.sType = sType;
+
+    //thisOpt.format = format;
+    thisOpt.iMin = INT_MIN;
+    thisOpt.iMax = INT_MAX;
+
+    thisOpt.fMin = INT_MIN;
+    thisOpt.fMax = INT_MAX;
+
+    thisOpt.hide = COPT_ALWAYS_HIDE;
+
+
+    thisOpt.setSortPos(sPageIn);
+
+    options[sNameIn] = thisOpt;
+}
+
 //add string select option
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
                             const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -1950,6 +1978,10 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
+                //Skip hidden option because it is set by mod and should not be saved
+                if ( opt.hide == COPT_ALWAYS_HIDE ) {
+                    continue;
+                }
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );
