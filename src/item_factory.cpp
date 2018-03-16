@@ -2098,34 +2098,34 @@ bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, c
 
 void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 {
-    std::unique_ptr<Item_spawn_data> ptr;
+    std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
-        ptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo, ig.with_magazine ) );
+        gptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("collection");
     } else if (obj.has_member("distribution")) {
-        ptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo, ig.with_magazine ) );
+        gptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("distribution");
     }
-    if (ptr.get() != NULL) {
-        Item_group *ig2 = dynamic_cast<Item_group *>(ptr.get());
+    if( gptr ) {
         while (jarr.has_more()) {
             JsonObject job2 = jarr.next_object();
-            add_entry( *ig2, job2 );
+            add_entry( *gptr, job2 );
         }
-        ig.add_entry( std::move( ptr ) );
+        ig.add_entry( std::move( gptr ) );
         return;
     }
 
+    std::unique_ptr<Single_item_creator> sptr;
     if (obj.has_member("item")) {
-        ptr.reset(new Single_item_creator(obj.get_string("item"), Single_item_creator::S_ITEM,
+        sptr.reset( new Single_item_creator( obj.get_string( "item" ), Single_item_creator::S_ITEM,
                                           probability));
     } else if (obj.has_member("group")) {
-        ptr.reset(new Single_item_creator(obj.get_string("group"), Single_item_creator::S_ITEM_GROUP,
+        sptr.reset( new Single_item_creator( obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP,
                                           probability));
     }
-    if (ptr.get() == NULL) {
+    if( !sptr ) {
         return;
     }
 
@@ -2139,9 +2139,9 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if (use_modifier) {
-        dynamic_cast<Single_item_creator *>(ptr.get())->modifier.emplace( std::move( modifier ) );
+        sptr->modifier.emplace( std::move( modifier ) );
     }
-    ig.add_entry( std::move( ptr ) );
+    ig.add_entry( std::move( sptr ) );
 }
 
 // Load an item group from JSON
