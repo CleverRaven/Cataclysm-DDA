@@ -16,7 +16,6 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
     dummy.remove_weapon();
 
-    // TODO: inline the gun and ammo definitions so this test doesn't rely on json.
     item &ammo = dummy.i_add( item( "40sw", 0, item::default_charges_tag{} ) );
     item &gun = dummy.i_add( item( "sw_610", 0, false ) );
     int ammo_pos = dummy.inv.position_by_item( &ammo );
