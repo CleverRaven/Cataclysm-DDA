@@ -132,22 +132,25 @@ struct rl_vec2d {
     float y;
 
     // vec2d(){}
-    rl_vec2d( float X = 0, float Y = 0 ) : x( X ), y( Y ) {}
-    rl_vec2d( const rl_vec2d &v ) : x( v.x ), y( v.y ) {}
+    explicit rl_vec2d( float x = 0, float y = 0 ) : x( x ), y( y ) {}
+    explicit rl_vec2d( const point &p ) : x( p.x ), y( p.y ) {}
 
-    float norm();
-    rl_vec2d normalized();
-    rl_vec2d get_vertical();
-    float dot_product( rl_vec2d &v );
-    bool is_null();
+    float magnitude() const;
+    rl_vec2d normalized() const;
+    rl_vec2d rotated( float angle ) const;
+    float dot_product( const rl_vec2d &v ) const;
+    bool is_null() const;
+
+    point as_point() const;
+
     // scale.
-    rl_vec2d operator* ( float rhs );
-    rl_vec2d operator/ ( float rhs );
+    rl_vec2d operator* ( float rhs ) const;
+    rl_vec2d operator/ ( float rhs ) const;
     // subtract
-    rl_vec2d operator- ( const rl_vec2d &rhs );
+    rl_vec2d operator- ( const rl_vec2d &rhs ) const;
     // unary negation
-    rl_vec2d operator- ();
-    rl_vec2d operator+ ( const rl_vec2d &rhs );
+    rl_vec2d operator- () const;
+    rl_vec2d operator+ ( const rl_vec2d &rhs ) const;
 };
 
 struct rl_vec3d {
@@ -155,22 +158,25 @@ struct rl_vec3d {
     float y;
     float z;
 
-    rl_vec3d( float X = 0, float Y = 0, float Z = 0 ) : x( X ), y( Y ), z( Z ) {}
-    rl_vec3d( const rl_vec3d &v ) : x( v.x ), y( v.y ), z( v.z ) {}
+    explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
+    explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
 
-    float norm();
-    rl_vec3d normalized();
-    rl_vec3d get_vertical();
-    float dot_product( rl_vec3d &v );
-    bool is_null();
+    float magnitude() const;
+    rl_vec3d normalized() const;
+    rl_vec3d rotated( float angle ) const;
+    float dot_product( const rl_vec3d &v ) const;
+    bool is_null() const;
+
+    tripoint as_point() const;
+
     // scale.
-    rl_vec3d operator* ( float rhs );
-    rl_vec3d operator/ ( float rhs );
+    rl_vec3d operator* ( float rhs ) const;
+    rl_vec3d operator/ ( float rhs ) const;
     // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs );
+    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
     // unary negation
-    rl_vec3d operator- ();
-    rl_vec3d operator+ ( const rl_vec3d &rhs );
+    rl_vec3d operator- () const;
+    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
 };
 
 #endif

@@ -1546,6 +1546,9 @@ class map
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
+        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );

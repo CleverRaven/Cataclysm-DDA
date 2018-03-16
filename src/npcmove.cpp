@@ -17,14 +17,18 @@
 #include "veh_type.h"
 #include "monster.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "effect.h"
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
 #include "gates.h"
+#include "visitable.h"
+#include "cata_algo.h"
 
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 
 // @todo: Get rid of this include
@@ -58,14 +62,22 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
-    npc_goto_destination, npc_avoid_friendly_fire,
+    npc_goto_destination,
+    npc_avoid_friendly_fire,
+    npc_escape_explosion,
     npc_base_idle,
     npc_noop,
-    npc_reach_attack, npc_aim,
+    npc_reach_attack,
+    npc_aim,
     num_npc_actions
 };
 
+namespace
+{
+
 const int avoidance_vehicles_radius = 5;
+
+}
 
 std::string npc_action_name( npc_action action );
 
@@ -163,6 +175,38 @@ bool npc::could_move_onto( const tripoint &p ) const
     }
 
     return true;
+}
+
+std::vector<sphere> npc::find_dangerous_explosives() const
+{
+    std::vector<sphere> result;
+
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE );
+
+    for( const auto &elem : active_items ) {
+        const auto use = elem->type->get_use( "explosion" );
+
+        if( !use ) {
+            continue;
+        }
+
+        const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
+        const int safe_range = actor->explosion.safe_range();
+
+        if( rl_dist( pos(), elem.position() ) >= safe_range ) {
+            continue;   // Far enough.
+        }
+
+        const int turns_to_evacuate = 2 * safe_range / speed_rating();
+
+        if( elem->charges > turns_to_evacuate ) {
+            continue;   // Consider only imminent dangers.
+        }
+
+        result.emplace_back( elem.position(), safe_range );
+    }
+
+    return result;
 }
 
 // class npc functions!
@@ -263,6 +307,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
 
     choose_target();
@@ -310,7 +355,9 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
-    if( target == &g->u && attitude == NPCATT_FLEE ) {
+    if( !ai_cache.dangerous_explosives.empty() ) {
+        action = npc_escape_explosion;
+    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -689,6 +736,10 @@ void npc::execute_action( npc_action action )
 
         case npc_avoid_friendly_fire:
             avoid_friendly_fire();
+            break;
+
+        case npc_escape_explosion:
+            escape_explosion();
             break;
 
         case npc_base_idle:
@@ -1642,6 +1693,19 @@ void npc::avoid_friendly_fire()
     execute_action( action );
 }
 
+void npc::escape_explosion()
+{
+    if( ai_cache.dangerous_explosives.empty() ) {
+        return;
+    }
+
+    if( is_following() && one_in( 10 ) ) {
+        say( "<fire_in_the_hole>" );
+    }
+
+    move_away_from( ai_cache.dangerous_explosives, true );
+}
+
 void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 {
     tripoint best_pos = pos();
@@ -1678,6 +1742,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 }
 
 void npc::move_pause()
+
 {
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -1717,6 +1782,59 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
 
     return tripoint_min;
 }
+
+void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
+{
+    if( spheres.empty() ) {
+        return;
+    }
+
+    tripoint minp( pos() );
+    tripoint maxp( pos() );
+
+    for( const auto &elem : spheres ) {
+        minp.x = std::min( minp.x, elem.center.x - elem.radius );
+        minp.y = std::min( minp.y, elem.center.y - elem.radius );
+        maxp.x = std::max( maxp.x, elem.center.x + elem.radius );
+        maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
+    }
+
+    const tripoint_range range( minp, maxp );
+
+    std::vector<tripoint> escape_points;
+
+    std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
+    [&]( const tripoint & elem ) {
+        return g->m.passable( elem );
+    } );
+
+    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+        const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
+        [&]( const int sum, const sphere & s ) {
+            return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );
+        } );
+
+        const int distance = rl_dist( pos(), elem );
+        const int move_cost = g->m.move_cost( elem );
+
+        return std::make_tuple( danger, distance, move_cost );
+    } );
+
+    for( const auto &elem : escape_points ) {
+        update_path( elem, no_bashing );
+
+        if( elem == pos() || !path.empty() ) {
+            break;
+        }
+    }
+
+    if( !path.empty() ) {
+        move_to_next();
+    } else {
+        move_pause();
+    }
+}
+
 
 void npc::find_item()
 {
@@ -3032,6 +3150,8 @@ std::string npc_action_name( npc_action action )
             return _( "Go to destination" );
         case npc_avoid_friendly_fire:
             return _( "Avoid friendly fire" );
+        case npc_escape_explosion:
+            return _( "Escape explosion" );
         default:
             return "Unnamed action";
     }
