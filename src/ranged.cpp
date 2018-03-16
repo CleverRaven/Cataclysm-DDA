@@ -1533,6 +1533,16 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
+    //_FS
+    double cbmBonus = has_bionic(bionic_id("bio_targeting")) ? 2 : 0;// insalled cbm work as bonus skill levels
+    double perSkillMult = 0.0833;// = 0.25/3 to get one bio_targeting effect every 3 levels of avgSkill
+    double avgSkill = double(get_skill_level(skill_gun) + get_skill_level(
+        obj.gun_skill())) / 2;
+    double skillEffect = 1 - std::min(avgSkill + cbmBonus, double(MAX_SKILL)) * perSkillMult;
+    //
+
+    dispersion.add_multiplier(skillEffect);
+
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
