@@ -2371,12 +2371,12 @@ bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag it
     if (m_template_groups.find(group_id) == m_template_groups.end()) {
         return false;
     }
-    Item_spawn_data *group_to_access = m_template_groups[group_id].get();
-    if (group_to_access->has_item(item_id)) {
-        group_to_access->remove_item(item_id);
+    Item_spawn_data &group_to_access = *m_template_groups[group_id];
+    if( group_to_access.has_item( item_id ) ) {
+        group_to_access.remove_item( item_id );
     }
 
-    Item_group *ig = dynamic_cast<Item_group *>(group_to_access);
+    Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
     if (chance != 0 && ig != NULL) {
         // Only re-add if chance != 0
         ig->add_item_entry(item_id, chance);
