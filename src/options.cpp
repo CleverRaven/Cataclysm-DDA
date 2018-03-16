@@ -134,10 +134,10 @@ void options_manager::add_external(const std::string sNameIn, const std::string 
 }
 
 //add string select option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
-                            std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
-                            copt_hide_t opt_hide)
+void options_manager::add( const std::string sNameIn, const std::string sPageIn,
+                           const std::string sMenuTextIn, const std::string sTooltipIn,
+                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           copt_hide_t opt_hide )
 {
     cOpt thisOpt;
 
@@ -150,14 +150,14 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.hide = opt_hide;
     thisOpt.vItems = sItemsIn;
 
-    if (thisOpt.getItemPos(sDefaultIn) == -1) {
+    if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
         sDefaultIn = thisOpt.vItems[0].first;
     }
 
     thisOpt.sDefault = sDefaultIn;
     thisOpt.sSet = sDefaultIn;
 
-    thisOpt.setSortPos(sPageIn);
+    thisOpt.setSortPos( sPageIn );
 
     options[sNameIn] = thisOpt;
 }
