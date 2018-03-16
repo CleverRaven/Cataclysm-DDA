@@ -109,9 +109,9 @@ options_manager::cOpt::cOpt()
 }
 
 //add hidden external option with value
-void options_manager::add_external(const std::string sNameIn, const std::string sPageIn,
-    const std::string sType,
-    const std::string sMenuTextIn, const std::string sTooltipIn)
+void options_manager::add_external( const std::string sNameIn, const std::string sPageIn,
+                                    const std::string sType,
+                                    const std::string sMenuTextIn, const std::string sTooltipIn )
 {
     cOpt thisOpt;
 
@@ -128,7 +128,7 @@ void options_manager::add_external(const std::string sNameIn, const std::string 
     thisOpt.fMax = INT_MAX;
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
-    thisOpt.setSortPos(sPageIn);
+    thisOpt.setSortPos( sPageIn );
 
     options[sNameIn] = thisOpt;
 }
