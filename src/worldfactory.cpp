@@ -1441,7 +1441,7 @@ void load_external_option( JsonObject &jo )
     }
 }
 
-mod_manager *worldfactory::get_mod_manager()
+mod_manager &worldfactory::get_mod_manager()
 {
     return mman.get();
 }
