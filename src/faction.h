@@ -91,7 +91,7 @@ class faction
     public:
         faction();
         faction( JsonObject &jsobj );
-        faction( const faction_id &id );
+        faction( const faction &templ );
 
         static void load_faction( JsonObject &jsobj );
         void load_faction_template( const faction &templ );

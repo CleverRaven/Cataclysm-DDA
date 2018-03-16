@@ -47,7 +47,7 @@ faction::faction()
     power = 0;
 }
 
-faction::faction( const faction_id &uid )
+faction::faction( const faction &templ )
 {
     values = 0;
     likes_u = 0;
@@ -68,7 +68,9 @@ faction::faction( const faction_id &uid )
     combat_ability = 0;
     food_supply = 0;
     wealth = 0;
-    id = uid;
+    id = templ.id;
+    randomize();
+    load_faction_template( templ );
 }
 
 void faction::load_faction(JsonObject &jsobj)
@@ -979,8 +981,6 @@ void faction_manager::create_if_needed()
         return;
     }
     for( const auto &elem : _all_faction ) {
-        factions.emplace_back( elem.first );
-        factions.back().randomize();
-        factions.back().load_faction_template( elem.second );
+        factions.emplace_back( elem.second );
     }
 }
