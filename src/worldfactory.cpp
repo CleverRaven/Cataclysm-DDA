@@ -1424,6 +1424,7 @@ void load_world_option( JsonObject &jo )
     }
 }
 
+//load external option from json
 void load_external_option(JsonObject &jo)
 {
     auto name = jo.get_string("name");
