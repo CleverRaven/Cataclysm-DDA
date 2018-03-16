@@ -108,6 +108,31 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
+//add hidden external option with value
+void options_manager::add_external(const std::string sNameIn, const std::string sPageIn,
+    const std::string sType,
+    const std::string sMenuTextIn, const std::string sTooltipIn)
+{
+    cOpt thisOpt;
+
+    thisOpt.sName = sNameIn;
+    thisOpt.sPage = sPageIn;
+    thisOpt.sMenuText = sMenuTextIn;
+    thisOpt.sTooltip = sTooltipIn;
+    thisOpt.sType = sType;
+
+    thisOpt.iMin = INT_MIN;
+    thisOpt.iMax = INT_MAX;
+
+    thisOpt.fMin = INT_MIN;
+    thisOpt.fMax = INT_MAX;
+
+    thisOpt.hide = COPT_ALWAYS_HIDE;
+    thisOpt.setSortPos(sPageIn);
+
+    options[sNameIn] = thisOpt;
+}
+
 //add string select option
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
                             const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -626,7 +651,7 @@ void options_manager::cOpt::setPrev()
     }
 }
 
-//set value
+//set float value
 void options_manager::cOpt::setValue(float fSetIn)
 {
     if (sType != "float") {
@@ -639,7 +664,7 @@ void options_manager::cOpt::setValue(float fSetIn)
     }
 }
 
-//set value
+//set int value
 void options_manager::cOpt::setValue( int iSetIn )
 {
     if( sType != "int" ) {
@@ -652,7 +677,7 @@ void options_manager::cOpt::setValue( int iSetIn )
     }
 }
 
-//set value
+//set string value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
@@ -1950,6 +1975,10 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
+                //Skip hidden option because it is set by mod and should not be saved
+                if( opt.hide == COPT_ALWAYS_HIDE ) {
+                    continue;
+                }
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );

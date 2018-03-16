@@ -282,7 +282,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             jout.start_array();
 
             for( auto &elem : world->WORLD_OPTIONS ) {
-                if( elem.second.getDefaultText() != "" ) {
+                if( elem.second.getDefaultText() != "" && !elem.second.is_hidden() ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );
@@ -1420,6 +1420,33 @@ void load_world_option( JsonObject &jo )
     }
     while( arr.has_more() ) {
         get_options().get_option( arr.next_string() ).setValue( "true" );
+    }
+}
+
+void load_external_option( JsonObject &jo )
+{
+    auto name = jo.get_string( "name" );
+    auto stype = jo.get_string( "stype" );
+    options_manager &opts = get_options();
+    if( !opts.has_option( name ) ) {
+        auto sinfo = jo.get_string( "info" );
+        opts.add_external( name, "world_default", stype, sinfo, sinfo );
+    }
+    options_manager::cOpt &opt = opts.get_option( name );
+    if( stype == "float" ) {
+        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
+    } else if( stype == "int" ) {
+        opt.setValue( jo.get_int( "value" ) );
+    } else if( stype == "bool" ) {
+        if( jo.get_bool( "value" ) ) {
+            opt.setValue( "true" );
+        } else {
+            opt.setValue( "false" );
+        }
+    } else if( stype == "string" ) {
+        opt.setValue( jo.get_string( "value" ) );
+    } else {
+        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
 }
 
