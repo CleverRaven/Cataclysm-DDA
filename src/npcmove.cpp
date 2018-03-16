@@ -277,7 +277,8 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
+             name.c_str(), target_name.c_str(), ai_cache.danger,
+             confident_shoot_range( weapon, recoil_total() ) );
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
@@ -517,12 +518,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            if( moves > 10 ) {
-                aim();
-            } else {
-                move_pause();
-            }
-
+            aim();
             break;
 
         case npc_shoot: {
@@ -714,7 +710,8 @@ void npc::execute_action( npc_action action )
     }
 
     if( oldmoves == moves ) {
-        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action );
+        add_msg( m_debug, "NPC didn't use its moves.  Action %s (%d).",
+                 npc_action_name( action ).c_str(), action );
     }
 }
 
@@ -725,11 +722,12 @@ void npc::choose_target()
     float highest_priority = 1.0f;
 
     // Radius we can attack without moving
-    const int cur_range = std::max( weapon.reach_range( *this ), confident_shoot_range( weapon ) );
+    const int max_range = std::max( weapon.reach_range( *this ),
+                                    confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
     constexpr static int def_radius = 6;
 
-    const auto ok_by_rules = [cur_range, this]( const Creature & c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
         if( !is_following() ) {
             return true;
         }
@@ -740,13 +738,13 @@ void npc::choose_target()
             case ENGAGE_CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
                 return rl_dist( c.pos(), g->u.pos() ) <= def_radius ||
-                       ( dist <= cur_range && scaled_dist <= def_radius / 2 );
+                       ( dist <= max_range && scaled_dist <= def_radius / 2 );
             case ENGAGE_WEAK:
                 return c.get_hp() <= average_damage_dealt();
             case ENGAGE_HIT:
                 return c.has_effect( effect_hit_by_player );
             case ENGAGE_NO_MOVE:
-                return dist <= cur_range;
+                return dist <= max_range;
             case ENGAGE_ALL:
                 return true;
         }
@@ -919,12 +917,13 @@ npc_action npc::method_of_attack()
                 rhs.second.qty );
     } );
 
+    const int cur_recoil = recoil_total();
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
                       modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
     const std::pair<std::string, item::gun_mode> &rhs ) {
-        return ( confident_gun_mode_range( lhs.second ) >= dist ) > ( confident_gun_mode_range(
-                    rhs.second ) >= dist );
+        return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
+               ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
 
     if( emergency() && alt_attack() ) {
@@ -938,7 +937,8 @@ npc_action npc::method_of_attack()
     }
 
     // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) && confident_gun_mode_range( modes[ 0 ].second ) >= dist ) {
+    if( !modes.empty() && sees( *critter ) &&
+        confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
 
         // @todo: Make NPCs understand reinforced glass and vehicles blocking line of fire
 
@@ -966,11 +966,14 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 ) {
+    // @todo Needs a check for transparent but non-passable tiles on the way
+    if( !modes.empty() && sees( *critter ) &&
+        aim_per_move( weapon, recoil ) > 0 &&
+        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
         return npc_aim;
     }
 
-    return npc_melee;
+    return dont_move ? npc_undecided : npc_melee;
 }
 
 bool need_heal( const Character &n )
@@ -1231,48 +1234,45 @@ double npc::confidence_mult() const
 
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
-            return emergency() ? 1.0f : 0.75f;
+            return emergency() ? 1.5f : 1.0f;
             break;
         case AIM_SPRAY:
-            return 1.25f;
+            return 2.0f;
             break;
         case AIM_PRECISE:
-            return emergency() ? 0.75f : 0.4f;
+            return emergency() ? 1.0f : 0.75f;
             break;
         case AIM_STRICTLY_PRECISE:
-            return 0.25f;
+            return 0.5f;
             break;
     }
 
     return 1.0f;
 }
 
-int npc::confident_shoot_range( const item &it ) const
+int npc::confident_shoot_range( const item &it, int recoil ) const
 {
     int res = 0;
     for( const auto &m : it.gun_all_modes() ) {
-        res = std::max( res, confident_gun_mode_range( m.second ) );
+        res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
     return res;
 }
 
 int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
-    if( at_recoil < 0 ) {
-        at_recoil = recoil_total();
-    }
-
     if( !gun || gun.melee() ) {
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() + at_recoil;
-    double even_chance_range = range_with_even_chance_of_good_hit( average_dispersion );
-    // 5 round burst equivalent to ~2 individually aimed shots
-    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    // Same calculation as in @ref item::info
+    // @todo Extract into common method
+    double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
+    double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), ( int )confident_range );
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+             max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
 
@@ -1290,7 +1290,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
     // @todo: Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ? confident_throw_range( it, nullptr ) : confident_shoot_range( it );
+    int confident = throwing ?
+                    confident_throw_range( it, nullptr ) :
+                    confident_shoot_range( it, recoil_total() );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -1360,7 +1362,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 void npc::aim()
 {
     double aim_amount = aim_per_move( weapon, recoil );
-    while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
+    while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
@@ -2205,7 +2207,7 @@ bool npc::do_pulp()
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
     activity.placement = pulp_location;
-    activity.do_turn( this );
+    activity.do_turn( *this );
     return moves != old_moves;
 }
 

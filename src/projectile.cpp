@@ -12,9 +12,7 @@ projectile::projectile() :
     speed( 0 ), range( 0 ), momentum_loss( 0.125f ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
-projectile::~projectile()
-{
-}
+projectile::~projectile() = default;
 
 projectile::projectile( const projectile &other )
 {

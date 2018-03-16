@@ -44,7 +44,7 @@ class actmenu_cb : public uimenu_callback
         const action_map am;
     public:
         actmenu_cb( const action_map &acm ) : am( acm ) { }
-        ~actmenu_cb() override { }
+        ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
                   uimenu * /*menu*/ ) override {
@@ -308,7 +308,7 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( &u );
+    u.inv.restack( u );
     u.inv.unsort();
 }
 

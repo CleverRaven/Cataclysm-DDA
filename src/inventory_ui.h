@@ -11,6 +11,7 @@
 #include "enums.h"
 #include "input.h"
 #include "item_location.h"
+#include "pimpl.h"
 
 class Character;
 
@@ -202,7 +203,7 @@ class inventory_column
             cells.resize( preset.get_cells_count() );
         }
 
-        virtual ~inventory_column() {}
+        virtual ~inventory_column() = default;
 
         bool empty() const {
             return entries.empty();
@@ -397,7 +398,7 @@ class selection_column : public inventory_column
         }
 
     private:
-        const std::unique_ptr<item_category> selected_cat;
+        const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
 };
 
@@ -405,7 +406,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() {}
+        ~inventory_selector() = default;
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );

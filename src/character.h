@@ -175,7 +175,8 @@ class Character : public Creature, public visitable<Character>
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;

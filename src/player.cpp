@@ -2415,7 +2415,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Inventory
     memorial_file << _( "Inventory:" ) << eol;
-    inv.restack( this );
+    inv.restack( *this );
     inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
@@ -3146,10 +3146,9 @@ std::list<item *> player::get_radio_items()
     std::list<item *> rc_items;
     const invslice &stacks = inv.slice();
     for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item *stack_iter = &itemit;
-        if( stack_iter->has_flag( "RADIO_ACTIVATION" ) ) {
-            rc_items.push_back( stack_iter );
+        item &stack_iter = stack->front();
+        if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
+            rc_items.push_back( &stack_iter );
         }
     }
 
@@ -7267,7 +7266,7 @@ bool player::consume(int target_position)
 
         //Restack and sort so that we don't lie about target's invlet
         if( target_position >= 0 ) {
-            inv.restack( this );
+            inv.restack( *this );
             inv.sort();
         }
 
@@ -7294,7 +7293,7 @@ bool player::consume(int target_position)
             }
         }
     } else if( target_position >= 0 ) {
-        inv.restack( this );
+        inv.restack( *this );
         inv.unsort();
     }
 
@@ -7546,6 +7545,12 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         opts.push_back( base.magazine_current() );
     }
 
+    for( const auto mod : base.gunmods() ) {
+        if( mod->magazine_current() ) {
+            opts.push_back( mod->magazine_current() );
+        }
+    }
+
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
@@ -7766,6 +7771,17 @@ bool player::wield( item& target )
     if( target.is_null() ) {
         return true;
     }
+
+    // Query whether to draw an item from a holster when attempting to wield the holster
+    if( target.get_use( "holster" ) && ( target.contents.size() > 0 ) ) {
+        if( query_yn( string_format( _( "Draw %s from %s?" ),
+                                     target.get_contained().tname().c_str(),
+                                     target.tname().c_str() ) ) ) {
+            invoke_item( &target );
+            return true;
+        }
+    }
+
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
@@ -7872,7 +7888,7 @@ public:
         }
         return true;
     }
-    ~ma_style_callback() override { }
+    ~ma_style_callback() override = default;
 };
 
 bool player::pick_style() // Style selection menu
@@ -8201,7 +8217,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() || ammo.is_non_resealable_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;
@@ -8225,7 +8241,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     }
 
     if( !it.is_gun() && !it.is_magazine() ) {
-        return mv + 100; // reload a tool
+        return mv + 100; // reload a tool or sealable container
     }
 
     /** @EFFECT_GUN decreases the time taken to reload a magazine */
@@ -8304,7 +8320,7 @@ bool player::wear( item& to_wear, bool interactive )
         was_weapon = true;
     } else {
         inv.remove_item( &to_wear );
-        inv.restack( this );
+        inv.restack( *this );
         was_weapon = false;
     }
 
@@ -8540,7 +8556,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     }
     // @todo: Remove the hack. Its here because npcs don't process activities
     if( is_npc() ) {
-        activity.do_turn( this );
+        activity.do_turn( *this );
     }
 }
 
@@ -8733,38 +8749,38 @@ bool player::consume_charges( item& used, long qty )
 
 void player::use( int inventory_position )
 {
-    item *used = &i_at( inventory_position );
+    item &used = i_at( inventory_position );
     item copy;
 
-    if( used->is_null() ) {
+    if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
         return;
     }
 
-    last_item = used->typeId();
+    last_item = used.typeId();
 
-    if( used->is_tool() ) {
-        if( !used->type->has_use() ) {
-            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
+    if( used.is_tool() ) {
+        if( !used.type->has_use() ) {
+            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname().c_str() );
             return;
         }
-        invoke_item( used );
+        invoke_item( &used );
 
-    } else if( used->is_food() ||
-               used->is_medication() ||
-               used->get_contained().is_food() ||
-               used->get_contained().is_medication() ) {
+    } else if( used.is_food() ||
+               used.is_medication() ||
+               used.get_contained().is_food() ||
+               used.get_contained().is_medication() ) {
         consume( inventory_position );
 
-    } else if( used->is_book() ) {
+    } else if( used.is_book() ) {
         read( inventory_position );
 
-    } else if ( used->type->has_use() ) {
-        invoke_item( used );
+    } else if ( used.type->has_use() ) {
+        invoke_item( &used );
 
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
-                 used->tname().c_str() );
+                 used.tname().c_str() );
     }
 }
 
@@ -9426,20 +9442,20 @@ bool player::read( int inventory_position, const bool continuous )
     return true;
 }
 
-void player::do_read( item *book )
+void player::do_read( item &book )
 {
-    const auto &reading = book->type->book;
+    const auto &reading = book.type->book;
     if( !reading ) {
         activity.set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
 
-    if( !has_identified( book->typeId() ) ) {
+    if( !has_identified( book.typeId() ) ) {
         // Note that we've read the book.
-        items_identified.insert( book->typeId() );
+        items_identified.insert( book.typeId() );
 
-        add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
+        add_msg( _( "You skim %s to find out what's in it." ), book.type_name().c_str() );
         if( skill && get_skill_level_object( skill ).can_train() ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
                     skill.obj().name().c_str(), reading->level);
@@ -9503,8 +9519,8 @@ void player::do_read( item *book )
 
         if( reading->fun != 0 ) {
             int fun_bonus = 0;
-            const int chapters = book->get_chapters();
-            const int remain = book->get_remaining_chapters( *this );
+            const int chapters = book.get_chapters();
+            const int remain = book.get_remaining_chapters( *this );
             if( chapters > 0 && remain == 0 ) {
                 //Book is out of chapters -> re-reading old book, less fun
                 if( learner->is_player() ) {
@@ -9522,18 +9538,18 @@ void player::do_read( item *book )
             // If you don't have a problem with eating humans, To Serve Man becomes rewarding
             if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
                   learner->has_trait( trait_SAPIOVORE ) ) &&
-                book->typeId() == "cookbook_human" ) {
+                book.typeId() == "cookbook_human" ) {
                 fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type );
-            } else if( learner->has_trait( trait_SPIRITUAL ) && book->has_flag( "INSPIRATIONAL" ) ) {
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book.type );
+            } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
                 fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book.type );
             }
         }
 
-        book->mark_chapter_as_read( *learner );
+        book.mark_chapter_as_read( *learner );
 
         if( skill && learner->get_skill_level( skill ) < reading->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
@@ -9591,14 +9607,14 @@ void player::do_read( item *book )
 
             if( skill_level == reading->level || !skill_level.can_train() ) {
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
                 } else {
                     cant_learn.insert( learner->disp_name() );
                 }
             }
         } else if( skill ) {
             if( learner->is_player() ) {
-                add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+                add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
             } else {
                 cant_learn.insert( learner->disp_name() );
             }
@@ -9616,12 +9632,12 @@ void player::do_read( item *book )
 
     if( !cant_learn.empty() ) {
         const std::string names = enumerate_as_string( cant_learn );
-        add_msg( m_info, _( "%s can no longer learn from %s." ), names.c_str(), book->type_name().c_str() );
+        add_msg( m_info, _( "%s can no longer learn from %s." ), names.c_str(), book.type_name().c_str() );
     }
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book->type_name().c_str(), names.c_str() );
+                 book.type_name().c_str(), names.c_str() );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -9629,16 +9645,16 @@ void player::do_read( item *book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( get_item_position( book ), true );
+        read( get_item_position( &book ), true );
         if( activity ) {
             return;
         }
     }
 
     // NPCs can't learn martial arts from manuals (yet).
-    auto m = book->type->use_methods.find( "MA_MANUAL" );
-    if( m != book->type->use_methods.end() ) {
-        m->second.call( *this, *book, false, pos() );
+    auto m = book.type->use_methods.find( "MA_MANUAL" );
+    if( m != book.type->use_methods.end() ) {
+        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
@@ -10536,11 +10552,10 @@ bool player::is_wearing_shoes(std::string side) const
     bool right = true;
     if (side == "left" || side == "both") {
         left = false;
-        for (auto &i : worn) {
-            const item *worn_item = &i;
-            if (i.covers(bp_foot_l) &&
-                !worn_item->has_flag("BELTED") &&
-                !worn_item->has_flag("SKINTIGHT")) {
+        for( const item &worn_item : worn ) {
+            if (worn_item.covers(bp_foot_l) &&
+                !worn_item.has_flag("BELTED") &&
+                !worn_item.has_flag("SKINTIGHT")) {
                 left = true;
                 break;
             }
@@ -10548,11 +10563,10 @@ bool player::is_wearing_shoes(std::string side) const
     }
     if (side == "right" || side == "both") {
         right = false;
-        for (auto &i : worn) {
-            const item *worn_item = &i;
-            if (i.covers(bp_foot_r) &&
-                !worn_item->has_flag("BELTED") &&
-                !worn_item->has_flag("SKINTIGHT")) {
+        for( const item &worn_item : worn ) {
+            if (worn_item.covers(bp_foot_r) &&
+                !worn_item.has_flag("BELTED") &&
+                !worn_item.has_flag("SKINTIGHT")) {
                 right = true;
                 break;
             }
@@ -10934,7 +10948,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, this, true );
+    inv.assign_empty_invlet( weapon, *this, true );
     last_item = weapon.typeId();
 
     /**

@@ -65,7 +65,7 @@
     "components": [
       [ [ "thread", 10 ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
-      [ [ "gunpowder", 5 ], [ "chem_black_powder", 10 ] ]
+      [ [ "gunpowder", 5 ], [ "chem_black_powder", 5 ] ]
     ]
   },
   {
@@ -160,7 +160,7 @@
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_00", 3 ], [ "shot_slug", 2 ], [ "shot_bird", 6 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 72 ], [ "shot_he", 3 ], [ "shot_flechette", 12 ], [ "shot_00", 12 ], [ "shot_slug", 12 ], [ "shot_bird", 24 ] ]
     ]
   },
   {
@@ -232,7 +232,7 @@
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
       [ [ "nail", 40 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_bird", 6 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 72 ], [ "shot_he", 3 ], [ "shot_flechette", 12 ], [ "shot_00", 12 ], [ "shot_slug", 12 ], [ "shot_bird", 24 ] ]
     ]
   },
   {
@@ -248,7 +248,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_bird", 6 ], [ "shot_00", 3 ], [ "shot_slug", 2 ] ],
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 72 ], [ "shot_he", 3 ], [ "shot_flechette", 12 ], [ "shot_00", 12 ], [ "shot_slug", 12 ], [ "shot_bird", 24 ] ],
       [ [ "string_6", 1 ] ]
     ]
   },

@@ -15,6 +15,16 @@
     ]
   },
   {
+    "id": "fish_large",
+    "type": "harvest",
+    "message": "You gut and fillet the fish",
+    "entries": [
+      { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14 },
+      { "drop": "offal", "base_num": [ 1, 2 ], "scale_num": [ 0.7, 0.9 ], "max": 3 },
+      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4 }
+    ]
+  },
+  {
     "id": "mon_broken_cyborg",
     "type": "harvest",
     "message": "You search for any salvagable bionic hardware in what's left of this failed experiment",
@@ -25,6 +35,18 @@
       { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8 },
       { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 },
       { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12 }
+    ]
+  },
+  {
+    "id": "animal_large",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "base_num": [ 30, 50 ], "scale_num": [ 0.8, 0.9 ], "max": 60 },
+      { "drop": "offal", "base_num": [ 3, 6 ], "scale_num": [ 0.5, 0.7 ], "max": 7 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40 },
+      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120 },
+      { "drop": "raw_fur", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 5 }
     ]
   }
 ]

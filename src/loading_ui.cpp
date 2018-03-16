@@ -17,9 +17,7 @@ loading_ui::loading_ui( bool display )
     }
 }
 
-loading_ui::~loading_ui()
-{
-}
+loading_ui::~loading_ui() = default;
 
 void loading_ui::add_entry( const std::string &description )
 {

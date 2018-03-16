@@ -404,7 +404,7 @@ void monster::move()
                         if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
                             hp -= type->hp;
                             //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                            spawn->make_ally( this );
+                            spawn->make_ally( *this );
                             if( g->u.sees( *this ) ) {
                                 add_msg( _( "The %s splits in two!" ),
                                          name().c_str() );

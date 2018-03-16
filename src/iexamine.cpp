@@ -450,96 +450,94 @@ void iexamine::atm(player &p, const tripoint& )
 /**
  * Generates vending machine UI and allows players to purchase contained items with a cash card.
  */
-void iexamine::vending(player &p, const tripoint &examp)
+void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = 250;
 
-    auto vend_items = g->m.i_at(examp);
-    if (vend_items.empty()) {
-        add_msg(m_info, _("The vending machine is empty!"));
+    auto vend_items = g->m.i_at( examp );
+    if( vend_items.empty() ) {
+        add_msg( m_info, _( "The vending machine is empty!" ) );
         return;
-    } else if (!p.has_charges("cash_card", 1)) {
-        popup(_("You need a charged cash card to purchase things!"));
+    } else if( !p.has_charges( "cash_card", 1 ) ) {
+        popup( _( "You need a charged cash card to purchase things!" ) );
         return;
     }
 
     item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
-    if (card->is_null()) {
+    if( card->is_null() ) {
         return; // player canceled selection
-    } else if (card->charges == 0) {
-        popup(_("You must insert a charged cash card!"));
+    } else if( card->charges == 0 ) {
+        popup( _( "You must insert a charged cash card!" ) );
         return;
     }
 
-    int const padding_x  = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int const padding_y  = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
-    int const window_h   = FULL_SCREEN_HEIGHT;
-    int const w_items_w  = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
-    int const w_info_w   = FULL_SCREEN_WIDTH / 2;
+    int const padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+    int const padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+    int const window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+    int const window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const w_items_w  = window_w / 2;
+    int const w_info_w   = window_w - w_items_w;
     int const list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
 
     catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y, padding_x + w_items_w + 1 );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
+                                           padding_x + w_items_w );
 
     bool used_machine = false;
-    input_context ctxt("VENDING_MACHINE");
+    input_context ctxt( "VENDING_MACHINE" );
     ctxt.register_updown();
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     // Collate identical items.
     // First, build a map {item::tname} => {item_it, item_it, item_it...}
-    using iterator_t = decltype(std::begin(vend_items)); // map_stack::iterator doesn't exist.
+    using iterator_t = decltype( std::begin( vend_items ) ); // map_stack::iterator doesn't exist.
 
     std::map<std::string, std::vector<iterator_t>> item_map;
-    for (auto it = std::begin(vend_items); it != std::end(vend_items); ++it) {
+    for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[utf8_truncate(it->tname(), static_cast<size_t>(w_items_w - 4))].push_back(it);
+        item_map[utf8_truncate( it->tname(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
-    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type*> item_list;
-    item_list.reserve(item_map.size());
-    for (auto &pair : item_map) {
-        item_list.emplace_back(&pair);
+    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type *> item_list;
+    item_list.reserve( item_map.size() );
+    for( auto &pair : item_map ) {
+        item_list.emplace_back( &pair );
     }
 
     int const lines_above = list_lines / 2;                  // lines above the selector
     int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
     int cur_pos = 0;
-    for (;;) {
-        // | {title}|
-        // 12       3
-        const std::string title = utf8_truncate(string_format(
-            _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
-
+    for( ;; ) {
         int const num_items = item_list.size();
-        int const page_size = std::min(num_items, list_lines);
+        int const page_size = std::min( num_items, list_lines );
 
-        werase(w);
-        wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwhline(w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2);
-        mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
-        mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
+        werase( w );
+        wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwhline( w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2 );
+        mvwaddch( w, first_item_offset - 1, 0, LINE_XXXO ); // |-
+        mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
-        mvwprintz(w, 1, 2, c_light_gray, title.c_str());
+        trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
+                        _( "Money left: $%.2f" ), ( double )card->charges / 100 );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
         int page_end = page_size;
-        if (cur_pos < num_items - cur_pos) {
-            page_beg = std::max(0, cur_pos - lines_above);
-            page_end = std::min(num_items, page_beg + list_lines);
+        if( cur_pos < num_items - cur_pos ) {
+            page_beg = std::max( 0, cur_pos - lines_above );
+            page_end = std::min( num_items, page_beg + list_lines );
         } else {
-            page_end = std::min(num_items, cur_pos + lines_below);
-            page_beg = std::max(0, page_end - list_lines);
+            page_end = std::min( num_items, cur_pos + lines_below );
+            page_beg = std::max( 0, page_end - list_lines );
         }
 
         for( int line = 0; line < page_size; ++line ) {
@@ -582,7 +580,7 @@ void iexamine::vending(player &p, const tripoint &examp)
                 continue;
             }
 
-            if (!used_machine) {
+            if( !used_machine ) {
                 used_machine = true;
                 p.moves -= moves_cost;
             }
@@ -592,18 +590,18 @@ void iexamine::vending(player &p, const tripoint &examp)
 
             vend_items.erase( cur_item );
             cur_items.pop_back();
-            if (!cur_items.empty()) {
+            if( !cur_items.empty() ) {
                 continue;
             }
 
-            item_list.erase(std::begin(item_list) + cur_pos);
-            if (item_list.empty()) {
-                add_msg(_("With a beep, the empty vending machine shuts down"));
+            item_list.erase( std::begin( item_list ) + cur_pos );
+            if( item_list.empty() ) {
+                add_msg( _( "With a beep, the empty vending machine shuts down" ) );
                 return;
-            } else if (cur_pos == num_items - 1) {
+            } else if( cur_pos == num_items - 1 ) {
                 cur_pos--;
             }
-        } else if (action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
     }

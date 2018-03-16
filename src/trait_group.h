@@ -112,6 +112,7 @@ class Single_trait_creator : public Trait_creation_data
 {
     public:
         Single_trait_creator( const trait_id &id, int probability );
+        ~Single_trait_creator() override = default;
 
         trait_id id;
 
@@ -129,6 +130,7 @@ class Trait_group_creator : public Trait_creation_data
 {
     public:
         Trait_group_creator( const trait_group::Trait_group_tag &id, int probability );
+        ~Trait_group_creator() override = default;
 
         trait_group::Trait_group_tag id;
 
@@ -147,7 +149,7 @@ class Trait_group : public Trait_creation_data
         typedef std::vector<std::unique_ptr<Trait_creation_data>> CreatorList;
 
         Trait_group( int probability );
-        ~Trait_group() override;
+        ~Trait_group() override = default;
 
         void add_trait_entry( const trait_id &tid, int probability );
         void add_group_entry( const trait_group::Trait_group_tag &gid, int probability );
@@ -178,6 +180,7 @@ class Trait_group_collection : public Trait_group
 {
     public:
         Trait_group_collection( int probability );
+        ~Trait_group_collection() override = default;
 
         virtual trait_group::Trait_list create( RecursionList &rec ) const override;
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
@@ -193,6 +196,7 @@ class Trait_group_distribution : public Trait_group
     public:
         Trait_group_distribution( int probability ) :
             Trait_group( probability ) {};
+        ~Trait_group_distribution() override = default;
 
         virtual trait_group::Trait_list create( RecursionList &rec ) const override;
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;

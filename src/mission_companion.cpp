@@ -587,7 +587,6 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
                 if (y < 60){
                     const skill_id best = elem->best_skill();
                     if( best ) {
-                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);

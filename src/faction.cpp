@@ -141,10 +141,6 @@ std::vector<std::string> faction::all_json_factions()
     return v;
 }
 
-faction::~faction()
-{
-}
-
 //TODO move them to json
 
 static const std::array<std::string, 15> faction_adj_pos = { {

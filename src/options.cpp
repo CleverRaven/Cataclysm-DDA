@@ -1691,7 +1691,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
             int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
-            cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
+            const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
 
             line_pos = i - iStartPos;
 
@@ -1704,14 +1704,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             } else {
                 mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
-            const std::string name = utf8_truncate( current_opt->getMenuText(), name_width );
+            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
             mvwprintz( w_options, line_pos, name_col + 3, c_white, name );
 
-            if (current_opt->getValue() == "false") {
+            if (current_opt.getValue() == "false") {
                 cLineColor = c_light_red;
             }
 
-            const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
+            const std::string value = utf8_truncate( current_opt.getValueName(), value_width );
             mvwprintz(w_options, line_pos, value_col, (iCurrentLine == i) ? hilite(cLineColor) :
                       cLineColor, value );
         }

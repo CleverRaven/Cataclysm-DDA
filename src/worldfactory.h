@@ -3,6 +3,7 @@
 #define WORLDFACTORY_H
 
 #include "options.h"
+#include "pimpl.h"
 
 #include <functional>
 #include <map>
@@ -71,10 +72,8 @@ typedef WORLD *WORLDPTR;
 class worldfactory
 {
     public:
-        /** Default constructor */
         worldfactory();
-        /** Default destructor */
-        virtual ~worldfactory();
+        ~worldfactory();
 
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true );
@@ -97,7 +96,7 @@ class worldfactory
 
         std::vector<std::string> all_worldnames() const;
 
-        mod_manager *get_mod_manager();
+        mod_manager &get_mod_manager();
 
         void remove_world( std::string worldname );
         bool valid_worldname( std::string name, bool automated = false );
@@ -127,7 +126,7 @@ class worldfactory
         int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
         int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
-        void draw_modselection_borders( const catacurses::window &win, input_context *ctxtp );
+        void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
         void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
                             const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
@@ -136,8 +135,8 @@ class worldfactory
 
         WORLDPTR add_world( WORLDPTR world );
 
-        std::unique_ptr<mod_manager> mman;
-        std::unique_ptr<mod_ui> mman_ui;
+        pimpl<mod_manager> mman;
+        pimpl<mod_ui> mman_ui;
 
         typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
 

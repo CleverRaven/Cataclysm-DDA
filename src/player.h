@@ -1028,7 +1028,7 @@ class player : public Character
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item *book );
+        void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
