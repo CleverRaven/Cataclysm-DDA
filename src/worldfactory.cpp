@@ -1425,35 +1425,30 @@ void load_world_option( JsonObject &jo )
 }
 
 //load external option from json
-void load_external_option(JsonObject &jo)
+void load_external_option( JsonObject &jo )
 {
-    auto name = jo.get_string("name");
-    auto stype = jo.get_string("stype");
+    auto name = jo.get_string( "name" );
+    auto stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
-    if (!opts.has_option(name)) {
-        auto sinfo = jo.get_string("info");
-        opts.add_external(name, "world_default", stype, sinfo, sinfo);
+    if( !opts.has_option( name ) ) {
+        auto sinfo = jo.get_string( "info" );
+        opts.add_external( name, "world_default", stype, sinfo, sinfo );
     }
-    options_manager::cOpt &opt = opts.get_option(name);
-    if (stype == "float") {
-        opt.setValue(static_cast<float>(jo.get_float("value")));
-    }
-    else if (stype == "int") {
-        opt.setValue(jo.get_int("value"));
-    }
-    else if (stype == "bool") {
-        if (jo.get_bool("value")) {
-            opt.setValue("true");
+    options_manager::cOpt &opt = opts.get_option( name );
+    if( stype == "float" ) {
+        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
+    } else if( stype == "int" ) {
+        opt.setValue( jo.get_int( "value" ) );
+    } else if( stype == "bool" ) {
+        if( jo.get_bool( "value" ) ) {
+            opt.setValue( "true" );
+        } else {
+            opt.setValue( "false" );
         }
-        else {
-            opt.setValue("false");
-        }
-    }
-    else if (stype == "string") {
-        opt.setValue(jo.get_string("value"));
-    }
-    else {
-        jo.throw_error("Unknown or unsupported stype for external option", "stype");
+    } else if( stype == "string" ) {
+        opt.setValue( jo.get_string( "value" ) );
+    } else {
+        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
 }
 
