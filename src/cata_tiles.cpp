@@ -1265,6 +1265,8 @@ minimap_submap_cache::~minimap_submap_cache()
     pool.release_tex( texture_index, std::move( minimap_tex ) );
 }
 
+minimap_submap_cache::minimap_submap_cache( minimap_submap_cache && ) = default;
+
 //store the known persistent values used in drawing the minimap
 //since modifying the minimap properties requires a restart
 void cata_tiles::init_minimap( int destx, int desty, int width, int height )

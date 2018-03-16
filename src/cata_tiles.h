@@ -225,6 +225,7 @@ struct minimap_submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
