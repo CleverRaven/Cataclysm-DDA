@@ -27,17 +27,7 @@ data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
 data/json/itemgroups/tools.json
 data/json/itemgroups/vending_machines.json
-data/json/items/ammo/45.json
-data/json/items/ammo/50.json
-data/json/items/ammo/545x39.json
-data/json/items/ammo/5x50.json
-data/json/items/ammo/762.json
-data/json/items/ammo/762x25.json
-data/json/items/ammo/8x40mm.json
-data/json/items/ammo/9mm.json
-data/json/items/ammo/9x18.json
 data/json/items/ammo.json
-data/json/items/ammo/shot.json
 data/json/items/ammo_types.json
 data/json/items/archery.json
 data/json/items/armor/ammo_pouch.json
