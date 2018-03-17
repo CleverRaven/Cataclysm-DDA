@@ -2052,20 +2052,18 @@ void veh_interact::display_details( const vpart_info *part )
                        volume_units_abbr() );
     }
 
-    // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part->size > 0 ) {
+    // line 3: (column 1) size, bonus, wheel_width (if applicable)    (column 2) epower (if applicable)
+    if( part->size > 0 ) {
         std::string label;
-        if ( part->has_flag(VPFLAG_CARGO) ) {
-            label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part->has_flag(VPFLAG_WHEEL) ){
-            label = small_mode ? _("Size") : _("Wheel Size");
-        } else {
-            label = small_mode ? _("Cap") : _("Capacity");
+        if( part->has_flag( VPFLAG_CARGO ) ) {
+            label = small_mode ? _( "Cap" ) : _( "Capacity" );
         }
 
-        fold_and_print(w_details, line+3, col_1, column_width, c_white,
+        if( !label.empty() ) {
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
                        "%s: <color_light_gray>%d</color>", label.c_str(),
                        to_milliliter( part->size ) );
+        }
     }
 
     if( part->bonus > 0 ) {
@@ -2090,6 +2088,15 @@ void veh_interact::display_details( const vpart_info *part )
                             "%s: <color_light_gray>%d</color>", label.c_str(),
                             part->bonus );
         }
+    }
+
+    if( part->has_flag( VPFLAG_WHEEL ) ) {
+        std::string label;
+        label = small_mode ? _( "Size" ) : _( "Wheel Size" );
+
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d\"</color>", label.c_str(),
+                            item::find_type( part->item )->wheel->diameter );
     }
 
     if ( part->epower != 0 ) {
