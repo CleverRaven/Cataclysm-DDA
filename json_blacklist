@@ -1250,6 +1250,7 @@ data/mods/More_Survival_Tools/traps.json
 data/mods/Mundane_Zombies/modinfo.json
 data/mods/Mutant_NPCs/modinfo.json
 data/mods/Mutant_NPCs/npc_classes_mutant.json
+data/mods/Mutant_NPCs/trait_groups.json
 data/mods/National_Guard_Camp/military.json
 data/mods/National_Guard_Camp/national_guard_camp/national_guard_camp_b1.json
 data/mods/National_Guard_Camp/national_guard_camp/national_guard_camp.json
