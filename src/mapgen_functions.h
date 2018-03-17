@@ -4,6 +4,7 @@
 
 #include "int_id.h"
 #include "weighted_list.h"
+#include "enums.h"
 
 #include <string>
 #include <map>
@@ -56,7 +57,7 @@ public:
   const oter_id &swest() const { return t_nesw[6]; }
   const oter_id &nwest() const { return t_nesw[7]; }
   const oter_id &above() const { return t_above; }
-  const oter_id &neighbor_at( om_direction::type dir ) const;
+  const oter_id &neighbor_at( overmap_direction dir ) const;
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();

@@ -280,17 +280,17 @@ ter_id mapgendata::groundcover() {
     return tid != nullptr ? *tid : t_null;
 }
 
-const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
+const oter_id &mapgendata::neighbor_at( overmap_direction dir ) const
 {
     // @todo: De-uglify, implement proper conversion somewhere
     switch( dir ) {
-        case om_direction::type::north:
+        case overmap_direction::north:
             return north();
-        case om_direction::type::east:
+        case overmap_direction::east:
             return east();
-        case om_direction::type::south:
+        case overmap_direction::south:
             return south();
-        case om_direction::type::west:
+        case overmap_direction::west:
             return west();
         default:
             break;
@@ -1612,12 +1612,12 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 ///////////////////
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
-    const auto is_river = [&]( const om_direction::type dir ) {
+    const auto is_river = [&]( const overmap_direction dir ) {
         return dat.t_nesw[static_cast<int>(om_direction::add(dir, terrain_type->get_dir()))]->is_river();
     };
 
-    const bool river_west = is_river(om_direction::type::west);
-    const bool river_east = is_river(om_direction::type::east);
+    const bool river_west = is_river(overmap_direction::west);
+    const bool river_east = is_river(overmap_direction::east);
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {

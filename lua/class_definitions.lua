@@ -1970,13 +1970,13 @@ You can get reference to current overmap with `g:get_cur_om()`.
 }
 
 enums = {
-    om_direction_type = {
-        "om_direction_type::invalid",
-        "om_direction_type::none",
-        "om_direction_type::north",
-        "om_direction_type::east",
-        "om_direction_type::south",
-        "om_direction_type::west",
+    overmap_direction = {
+        "invalid",
+        "none",
+        "north",
+        "east",
+        "south",
+        "west",
     },
     body_part = {
         "bp_torso",
@@ -2186,13 +2186,13 @@ Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return i
         rval = "string"
     },
 --[[
-Returns enum, indicating direction of overmap terrain. Possible values are in `om_direction_type` in `enums` section above.
+Returns enum, indicating direction of overmap terrain. Possible values are in `overmap_direction` in `enums` section above.
 Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
 --]]
     get_omt_dir = {
         cpp_name = "get_omt_dir",
         args = { "overmap", "tripoint" },
-        rval = "om_direction_type"
+        rval = "overmap_direction"
     }
 }
 

@@ -53,7 +53,6 @@ using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
 using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
-using om_direction_type = om_direction::type;
 
 lua_State *lua_state = nullptr;
 
@@ -885,7 +884,7 @@ static std::string get_omt_id( const overmap &om, const tripoint &p )
     return om.get_ter( p ).id().str();
 }
 
-static om_direction_type get_omt_dir( const overmap &om, const tripoint &p )
+static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
 {
    return om.get_ter( p ).obj().get_dir();
 }
@@ -1191,7 +1190,6 @@ void game::init_lua()
 
     load_metatables( lua_state );
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
-    LuaEnum<om_direction_type>::export_global( lua_state, "om_direction_type" );
 
     // override default print to our version
     lua_register( lua_state, "print", game_myPrint );
