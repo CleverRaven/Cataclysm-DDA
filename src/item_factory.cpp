@@ -2136,17 +2136,17 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
         return;
     }
 
-    std::unique_ptr<Item_modifier> modifier(new Item_modifier());
+    Item_modifier modifier;
     bool use_modifier = false;
-    use_modifier |= load_min_max(modifier->damage, obj, "damage");
-    use_modifier |= load_min_max(modifier->charges, obj, "charges");
-    use_modifier |= load_min_max(modifier->count, obj, "count");
-    use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
-    use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
-    use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
-    use_modifier |= load_string( modifier->custom_flags, obj, "custom-flags" );
+    use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    use_modifier |= load_min_max( modifier.charges, obj, "charges" );
+    use_modifier |= load_min_max( modifier.count, obj, "count" );
+    use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", *ig );
+    use_modifier |= load_sub_ref( modifier.container, obj, "container", *ig );
+    use_modifier |= load_sub_ref( modifier.contents, obj, "contents", *ig );
+    use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if (use_modifier) {
-        dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
+        dynamic_cast<Single_item_creator *>(ptr.get())->modifier.emplace( std::move( modifier ) );
     }
     ig->add_entry(ptr);
 }

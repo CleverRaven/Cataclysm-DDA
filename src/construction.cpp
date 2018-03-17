@@ -400,7 +400,7 @@ void construction_menu()
                         // display result only if more than one step.
                         // Assume single stage constructions should be clear
                         // in their description what their result is.
-                        if( current_con->post_terrain != "" && options.size() > 1 ) {
+                        if( !current_con->post_terrain.empty() && options.size() > 1 ) {
                             //also print out stage number when multiple stages are available
                             current_line << _( "Stage #" ) << stage_counter;
                             current_buffer.push_back( current_line.str() );
@@ -450,7 +450,7 @@ void construction_menu()
                         // Example: First step of dig pit could say something about
                         // requiring diggable ground.
                         current_line.str( "" );
-                        if( current_con->pre_terrain != "" ) {
+                        if( !current_con->pre_terrain.empty() ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
                                 require_string = furn_str_id( current_con->pre_terrain ).obj().name();
@@ -502,7 +502,7 @@ void construction_menu()
                         }
                         current_buffer_location += construct_buffers[i].size();
                         if( i < construct_buffers.size() - 1 ) {
-                            full_construct_buffer.push_back( std::string( "" ) );
+                            full_construct_buffer.push_back( std::string() );
                             current_buffer_location++;
                         }
                     }
@@ -869,7 +869,7 @@ void construct::done_trunk_plank( const tripoint &p )
     ( void )p; //unused
     int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( &( g->u ) );
+        iuse::cut_log_into_planks( g->u );
     }
 }
 
@@ -1207,42 +1207,42 @@ void reset_constructions()
 void check_constructions()
 {
     for( size_t i = 0; i < constructions.size(); i++ ) {
-        const construction *c = &constructions[ i ];
-        const std::string display_name = std::string("construction ") + c->description;
+        const construction &c = constructions[ i ];
+        const std::string display_name = std::string("construction ") + c.description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.
-        for( const auto &pr : c->required_skills ) {
+        for( const auto &pr : c.required_skills ) {
             if( !pr.first.is_valid() ) {
                 debugmsg( "Unknown skill %s in %s", pr.first.c_str(), display_name.c_str() );
             }
         }
 
-        if( !c->requirements.is_valid() ) {
+        if( !c.requirements.is_valid() ) {
             debugmsg( "construction %s has missing requirement data %s",
-                      display_name.c_str(), c->requirements.c_str() );
+                      display_name.c_str(), c.requirements.c_str() );
         }
 
-        if( !c->pre_terrain.empty() ) {
-            if( c->pre_is_furniture ) {
-                if( !furn_str_id( c->pre_terrain ).is_valid() ) {
-                    debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str() );
+        if( !c.pre_terrain.empty() ) {
+            if( c.pre_is_furniture ) {
+                if( !furn_str_id( c.pre_terrain ).is_valid() ) {
+                    debugmsg("Unknown pre_terrain (furniture) %s in %s", c.pre_terrain.c_str(), display_name.c_str() );
                 }
-            } else if( !ter_str_id( c->pre_terrain ).is_valid() ) {
-                debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+            } else if( !ter_str_id( c.pre_terrain ).is_valid() ) {
+                debugmsg("Unknown pre_terrain (terrain) %s in %s", c.pre_terrain.c_str(), display_name.c_str());
             }
         }
-        if( !c->post_terrain.empty() ) {
-            if( c->post_is_furniture ) {
-                if( !furn_str_id( c->post_terrain ).is_valid() ) {
-                    debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        if( !c.post_terrain.empty() ) {
+            if( c.post_is_furniture ) {
+                if( !furn_str_id( c.post_terrain ).is_valid() ) {
+                    debugmsg("Unknown post_terrain (furniture) %s in %s", c.post_terrain.c_str(), display_name.c_str());
                 }
-            } else if( !ter_str_id( c->post_terrain ).is_valid() ) {
-                debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+            } else if( !ter_str_id( c.post_terrain ).is_valid() ) {
+                debugmsg("Unknown post_terrain (terrain) %s in %s", c.post_terrain.c_str(), display_name.c_str());
             }
         }
-        if( c->id != i ) {
+        if( c.id != i ) {
             debugmsg( "Construction \"%s\" has id %u, but should have %u",
-                      c->description.c_str(), c->id, i );
+                      c.description.c_str(), c.id, i );
         }
     }
 }

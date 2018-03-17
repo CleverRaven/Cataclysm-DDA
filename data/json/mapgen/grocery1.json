@@ -96,7 +96,7 @@
       [ "honey_bottled", 35 ],
       [ "honey_glassed", 35 ],
       [ "peanutbutter", 60 ],
-      [ "pickle", 40 ],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "coffee_syrup", 35 ],
       [ "coffee_raw", 45 ],
       [ "salt", 50 ],

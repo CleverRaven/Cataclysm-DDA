@@ -6,8 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "map_selector.h"
-#include "pathfinding.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "pldata.h"
@@ -16,6 +14,7 @@
 #include <vector>
 
 class Skill;
+struct pathfinding_settings;
 using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
@@ -176,7 +175,8 @@ class Character : public Creature, public visitable<Character>
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
@@ -695,7 +695,7 @@ class Character : public Creature, public visitable<Character>
          * Cache for pathfinding settings.
          * Most of it isn't changed too often, hence mutable.
          */
-        mutable pathfinding_settings path_settings;
+        mutable pimpl<pathfinding_settings> path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

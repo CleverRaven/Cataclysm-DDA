@@ -281,7 +281,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
 
         if( callbacks[ch] ) {
-            callbacks[ch]();
+            if( callbacks[ch]() ) {
+                continue;
+            }
         }
 
         // This class only registers the ANY_INPUT action by default. If the
@@ -292,7 +294,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-            _text = std::string();
+            _text.clear();
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {

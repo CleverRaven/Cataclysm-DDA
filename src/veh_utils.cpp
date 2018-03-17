@@ -3,6 +3,7 @@
 #include <map>
 
 #include "calendar.h"
+#include "craft_command.h"
 #include "vehicle.h"
 #include "output.h"
 #include "veh_type.h"

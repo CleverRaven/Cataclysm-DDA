@@ -109,8 +109,17 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
-                   item::nname( bp.first ).c_str() );
+        const auto t = item::find_type( bp.first );
+        int amount = bp.second * batch;
+        std::string desc;
+        if( t->count_by_charges() ) {
+            amount *= t->charges_default();
+            desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
+        } else {
+            desc = string_format( "> %d %s", amount,
+                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
+        }
+        mvwprintz( w, ypos++, xpos, col, desc.c_str() );
     }
 
     return ypos - oldy;
@@ -215,7 +224,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 display_mode = 2;
             }
 
-            TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
+            TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
 
@@ -302,7 +311,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             mvwprintz( w_data, dataLines + 1, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
@@ -310,7 +319,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
                            _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings" ) );
             } else {
@@ -602,7 +611,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             chosen = nullptr;
             done = true;
         } else if( action == "RESET_FILTER" ) {
-            filterstring = "";
+            filterstring.clear();
             redraw = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {

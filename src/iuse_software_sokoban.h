@@ -34,8 +34,6 @@ class sokoban_game
                     iOldX = arg_x;
                     sTileOld = arg_tile;
                 }
-
-                ~cUndo() {};
         };
 
         int iCurrentLevel, iNumLevel, iTotalMoves;

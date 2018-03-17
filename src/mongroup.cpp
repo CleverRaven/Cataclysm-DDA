@@ -9,9 +9,6 @@
 #include "mtype.h"
 #include "calendar.h"
 
-// Default start time, this is the only place it's still used.
-#define STARTING_MINUTES 480
-
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
 //     Ie. a group with 1 monster at frequency will have 50% chance to spawn

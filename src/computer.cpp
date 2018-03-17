@@ -151,7 +151,7 @@ void computer::use()
 
         case 'y':
         case 'Y':
-            if (!hack_attempt(&(g->u))) {
+            if( !hack_attempt( g->u ) ) {
                 if (failures.empty()) {
                     query_any(_("Maximum login attempts exceeded. Press any key..."));
                     shutdown_terminal();
@@ -197,7 +197,7 @@ void computer::use()
             if ((current.security + (alerts)) > 0) {
                 print_error(_("Password required."));
                 if (query_bool(_("Hack into system?"))) {
-                    if (!hack_attempt(&(g->u), current.security)) {
+                    if( !hack_attempt( g->u, current.security ) ) {
                         activate_random_failure();
                         shutdown_terminal();
                         return;
@@ -217,12 +217,12 @@ void computer::use()
     shutdown_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer::hack_attempt(player *p, int Security)
+bool computer::hack_attempt( player &p, int Security )
 {
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
-    const int hack_skill = p->get_skill_level( skill_computer );
+    const int hack_skill = p.get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -231,19 +231,19 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
+    p.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
-    if (p->int_cur < 8 && one_in(2)) {
-        player_roll -= rng(0, 8 - p->int_cur);
+    if( p.int_cur < 8 && one_in( 2 ) ) {
+        player_roll -= rng( 0, 8 - p.int_cur );
     ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
-    } else if (p->int_cur > 8 && one_in(3)) {
-        player_roll += rng(0, p->int_cur - 8);
+    } else if( p.int_cur > 8 && one_in( 3 ) ) {
+        player_roll += rng( 0, p.int_cur - 8 );
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
-    p->practice( skill_computer, (successful_attempt ? (15 + Security * 3) : 7));
+    p.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 
@@ -251,19 +251,19 @@ std::string computer::save_data()
 {
     std::ostringstream data;
     std::string savename = name; // Replace " " with "_"
-    size_t found = savename.find(" ");
+    size_t found = savename.find( ' ' );
     while (found != std::string::npos) {
         savename.replace(found, 1, "_");
-        found = savename.find(" ");
+        found = savename.find( ' ' );
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
     for( auto &elem : options ) {
         savename = elem.name;
-        found = savename.find(" ");
+        found = savename.find( ' ' );
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
-            found = savename.find(" ");
+            found = savename.find( ' ' );
         }
         data << savename << " " << int( elem.action ) << " " << elem.security << " ";
     }
@@ -284,10 +284,10 @@ void computer::load_data(std::string data)
 
     // Pull in name and security
     dump >> name >> security >> mission_id;
-    size_t found = name.find("_");
+    size_t found = name.find( '_' );
     while (found != std::string::npos) {
         name.replace(found, 1, " ");
-        found = name.find("_");
+        found = name.find( '_' );
     }
 
     // Pull in options
@@ -297,10 +297,10 @@ void computer::load_data(std::string data)
         std::string tmpname;
         int tmpaction, tmpsec;
         dump >> tmpname >> tmpaction >> tmpsec;
-        size_t tmp_found = tmpname.find("_");
+        size_t tmp_found = tmpname.find( '_' );
         while (tmp_found != std::string::npos) {
             tmpname.replace(tmp_found, 1, " ");
-            tmp_found = tmpname.find("_");
+            tmp_found = tmpname.find( '_' );
         }
         add_option(tmpname, computer_action(tmpaction), tmpsec);
     }
@@ -567,7 +567,7 @@ void computer::activate_function( computer_action action )
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
-            } else if(level == 0) {
+            } else {
                 tmpmap.translate(t_metal_floor, t_hole);
             }
             tmpmap.save();

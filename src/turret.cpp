@@ -524,8 +524,6 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         area += area == 1 ? 1 : 2;
     }
 
-    // The position on which we are firing
-    tripoint targ = pos;
     const bool u_see = g->u.sees( pos );
     // The current target of the turret.
     auto &target = pt.target;
@@ -562,7 +560,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // Get the turret's target and reset it
-    targ = target.second;
+    tripoint targ = target.second;
     pt.reset_target( pos );
 
     shots = gun.fire( cpu, targ );

@@ -185,7 +185,7 @@ class string_input_popup
         void edit( int &value );
         /**@}*/
 
-        std::map<long, std::function<void()>> callbacks;
+        std::map<long, std::function<bool()>> callbacks;
 };
 
 #endif

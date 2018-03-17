@@ -44,6 +44,7 @@ struct MOD_INFORMATION {
     std::set<std::string> maintainers;
 
     std::string description;
+    std::string version;
 
     /** What other mods must be loaded prior to this one? */
     std::set<std::string> dependencies;
@@ -66,7 +67,6 @@ class mod_manager
         typedef std::vector<std::string> t_mod_list;
 
         mod_manager();
-        virtual ~mod_manager();
         /**
          * Reload the map of available mods (@ref mod_map).
          * This also reloads the dependency tree.
@@ -147,33 +147,30 @@ class mod_manager
 
         dependency_tree tree;
 
-        typedef std::map<std::string, std::unique_ptr<MOD_INFORMATION>> t_mod_map;
         /**
-         * The map of known mod, key is the mod ident. Values are
-         * never NULL.
+         * The map of known mods, key is the mod ident.
          */
-        t_mod_map mod_map;
+        std::map<std::string, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
 };
 
 class mod_ui
 {
     public:
-        mod_ui( mod_manager *modman );
-        virtual ~mod_ui();
+        mod_ui( mod_manager &modman );
 
         std::vector<std::string> usable_mods;
         std::string get_information( MOD_INFORMATION *mod );
-        mod_manager *active_manager;
-        dependency_tree *mm_tree;
+        mod_manager &active_manager;
+        dependency_tree &mm_tree;
 
         void try_add( const std::string &mod_to_add,
                       std::vector<std::string> &active_list );
-        void try_rem( int selection, std::vector<std::string> &active_list );
-        void try_shift( char direction, int &selection, std::vector<std::string> &active_list );
+        void try_rem( size_t selection, std::vector<std::string> &active_list );
+        void try_shift( char direction, size_t &selection, std::vector<std::string> &active_list );
 
-        bool can_shift_up( int selection, std::vector<std::string> active_list );
-        bool can_shift_down( int selection, std::vector<std::string> active_list );
+        bool can_shift_up( long selection, std::vector<std::string> active_list );
+        bool can_shift_down( long selection, std::vector<std::string> active_list );
 
     private:
         void set_usable_mods();

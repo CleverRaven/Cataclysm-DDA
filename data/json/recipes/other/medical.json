@@ -33,8 +33,8 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "rag", 3 ] ],
-      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "superglue", 1 ] ],
-      [ [ "hard_liquor_toxic", 14, "LIST" ] ]
+      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ],
+      [ [ "hard_liquor_toxic", 14, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
     ]
   },
   {

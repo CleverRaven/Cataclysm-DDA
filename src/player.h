@@ -6,10 +6,8 @@
 #include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
-#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
-#include "craft_command.h"
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
@@ -21,6 +19,8 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+class craft_command;
+class recipe_subset;
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -1028,7 +1028,7 @@ class player : public Character
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item *book );
+        void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
@@ -1087,6 +1087,10 @@ class player : public Character
         bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
+        /** Returns true if the player is wearing something occupying the helmet slot */
+        bool is_wearing_helmet() const;
+        /** Returns the total emcumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
@@ -1681,7 +1685,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable recipe_subset learned_recipes;
+        mutable pimpl<recipe_subset> learned_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;

@@ -8,6 +8,7 @@
 #include "posix_time.h"
 #include "int_id.h"
 #include "cursesdef.h"
+#include "pimpl.h"
 
 #include <array>
 #include <vector>
@@ -154,12 +155,12 @@ class game
 
 
         // May be a bit hacky, but it's probably better than the header spaghetti
-        std::unique_ptr<map> map_ptr;
-        std::unique_ptr<player> u_ptr;
-        std::unique_ptr<live_view> liveview_ptr;
+        pimpl<map> map_ptr;
+        pimpl<player> u_ptr;
+        pimpl<live_view> liveview_ptr;
         live_view& liveview;
-        std::unique_ptr<scent_map> scent_ptr;
-        std::unique_ptr<event_manager> event_manager_ptr;
+        pimpl<scent_map> scent_ptr;
+        pimpl<event_manager> event_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -207,7 +208,7 @@ class game
         scent_map &scent;
         event_manager &events;
 
-        std::unique_ptr<Creature_tracker> critter_tracker;
+        pimpl<Creature_tracker> critter_tracker;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -466,7 +467,7 @@ class game
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count( const mtype_id& id );
         /** Record the fact that the player murdered an NPC. */
-        void record_npc_kill( const npc *p );
+        void record_npc_kill( const npc &p );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -500,7 +501,7 @@ class game
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact(item *it, player *p);
+        void process_artifact( item &it, player &p );
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek();
@@ -559,7 +560,7 @@ class game
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
-        std::unique_ptr<w_point> weather_precise; // Cached weather data
+        pimpl<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same

@@ -1743,11 +1743,11 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     }
 
     if( dominant_type == DT_STAB ) {
-        return (npc ? npc_stab[index] : player_stab[index]).c_str();
+        return (npc ? npc_stab[index] : player_stab[index]);
     } else if( dominant_type == DT_CUT ) {
-        return (npc ? npc_cut[index] : player_cut[index]).c_str();
+        return (npc ? npc_cut[index] : player_cut[index]);
     } else if( dominant_type == DT_BASH ) {
-        return (npc ? npc_bash[index] : player_bash[index]).c_str();
+        return (npc ? npc_bash[index] : player_bash[index]);
     }
 
     return _("The bugs attack %s");

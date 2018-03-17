@@ -68,7 +68,7 @@ void sokoban_game::parse_level( std::istream &fin )
             continue;
         }
 
-        if (sLine == "") {
+        if( sLine.empty() ) {
             //Find level start
             vLevel.resize(iNumLevel + 1);
             vLevelDone.resize(iNumLevel + 1);

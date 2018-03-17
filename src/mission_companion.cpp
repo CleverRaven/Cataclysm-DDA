@@ -587,7 +587,6 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
                 if (y < 60){
                     const skill_id best = elem->best_skill();
                     if( best ) {
-                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -1521,8 +1520,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped ||
-                    t == t_window_domestic || t == t_window_domestic_taped ||
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||

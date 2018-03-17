@@ -209,7 +209,7 @@ void player::disp_info()
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
-            if( tmp != "" ) {
+            if( !tmp.empty() ) {
                 effect_name.push_back( tmp );
                 effect_text.push_back( _effect_it.second.disp_desc() );
             }
@@ -711,7 +711,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 6, 21, c_magenta, "%3d%%", read_speed( false ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Skill rust:" ) );
                     mvwprintz( w_stats, 7, 22, c_magenta, "%2d%%", rust_rate( false ) );
-                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Crafting Bonus:" ) );
+                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Crafting bonus:" ) );
                     mvwprintz( w_stats, 8, 22, c_magenta, "%2d%%", get_int() );
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,

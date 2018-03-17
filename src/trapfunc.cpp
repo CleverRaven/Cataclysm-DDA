@@ -1204,7 +1204,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
     } while( tries < 5 && !g->is_empty( monp ) &&
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
-    if( tries < 5 ) {
+    if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
         if( monster *const spawned = g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             spawned->reset_special_rng( "DISAPPEAR" );
@@ -1246,6 +1246,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         tripoint monp = p;
         // This spawns snakes only when the player can see them, why?
         do {
+            tries++;
             if( one_in( 2 ) ) {
                 monp.x = rng( g->u.posx() - 5, g->u.posx() + 5 );
                 monp.y = ( one_in( 2 ) ? g->u.posy() - 5 : g->u.posy() + 5 );
@@ -1256,7 +1257,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         } while( tries < 5 && !g->is_empty( monp ) &&
                  !g->m.sees( monp, g->u.pos(), 10 ) );
 
-        if( tries < 5 ) {
+        if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
             add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
             g->summon_mon( mon_shadow_snake, p );
             g->m.remove_trap( p );

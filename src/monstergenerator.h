@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "string_id.h"
 #include "mattack_common.h"
+#include "pimpl.h"
 
 #include <map>
 #include <memory>
@@ -77,7 +78,6 @@ class MonsterGenerator
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
     private:
-        /** Default constructor */
         MonsterGenerator();
 
         // Init functions
@@ -108,9 +108,8 @@ class MonsterGenerator
         friend class string_id<species_type>;
         friend class string_id<mattack_actor>;
 
-        // Using unique_ptr here to avoid including generic_factory.h in this header.
-        std::unique_ptr<generic_factory<mtype>> mon_templates;
-        std::unique_ptr<generic_factory<species_type>> mon_species;
+        pimpl<generic_factory<mtype>> mon_templates;
+        pimpl<generic_factory<species_type>> mon_species;
         std::vector<mtype_id> hallucination_monsters;
 
         std::map<std::string, phase_id> phase_map;

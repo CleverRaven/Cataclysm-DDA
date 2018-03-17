@@ -92,7 +92,7 @@
       [ [ "bone", 20 ], [ "bone_tainted", 20 ], [ "bone_human", 20 ] ],
       [ [ "slime_scrap", 10 ] ],
       [ [ "bfeed", 500 ] ],
-      [ [ "string_6", 12 ], [ "string_36", 3 ], [ "superglue", 3 ], [ "bone_glue", 3 ], [ "duct_tape", 75 ] ],
+      [ [ "cordage", 3, "LIST" ], [ "adhesive", 3, "LIST" ] ],
       [ [ "vacutainer", 1 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
@@ -326,6 +326,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "adhesive", 10 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "HAMMER", "level": 1 }
@@ -334,7 +335,6 @@
       [ [ "pebble", 500 ] ],
       [ [ "gray", 1 ] ],
       [ [ "bfeed", 500 ] ],
-      [ [ "superglue", 10 ], [ "bone_glue", 10 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
@@ -547,12 +547,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "adhesive", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
       [ [ "bfeed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
-      [ [ "superglue", 5 ], [ "bone_glue", 5 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },

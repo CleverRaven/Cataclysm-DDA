@@ -206,7 +206,8 @@ Flags used to describe monsters and define their properties and abilities.
 ### Flags
 
 - ```NULL``` Source use only.
-- ```ABSORBS``` Consumes objects it moves over.
+- ```ABSORBS``` Consumes objects it moves over. (Modders use this).
+- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
@@ -300,7 +301,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Sttack with special martial art takedown manoeuvres.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown manoeuvres.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER``` Spit bile.
@@ -340,7 +341,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```LASER``` Laser turret fires.
 - ```LEAP``` leap away to an unobstructed tile.
 - ```LONGSWIPE``` Does high damage claw attack, which can even hit some distance away.
-- ```LUNGE``` Perfom a jumping attack from some distance away, which can down the target.
+- ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
@@ -696,6 +697,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
+- ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
@@ -771,7 +773,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
-- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant.
+- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant. Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes negative mutations.
 - ```ROYAL_JELLY``` Alleviates many negative conditions and diseases.
 - ```SLEEP``` Greatly increases fatigue.
@@ -783,11 +785,13 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ### Flags
 
+- ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
-- ```FERTILIZER``` Works as fertilizer for farming.
+- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
+- ```MUTAGEN_ANY``` Causes mutation in any branch.
 - ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
 - ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
 - ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
@@ -806,10 +810,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_RAT``` Causes mutation in the rat branch.
 - ```MUTAGEN_SLIME``` Causes mutation in the slime branch.
 - ```MUTAGEN_SPIDER``` Causes mutation in the spider branch.
-- ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_TROGLOBITE``` Causes mutation in the troglobite branch.
 - ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
-- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`).
+- ```MUTAGEN_STRONG``` Chance of mutating several times.
+- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`). Still needs one of the mutation flags from the above list.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
