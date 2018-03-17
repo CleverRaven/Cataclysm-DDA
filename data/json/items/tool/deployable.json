@@ -7,9 +7,9 @@
     "description": "A metal stand used to contain a fire.",
     "weight": 5000,
     "volume": 10,
-    "price": 25000,
+    "price": 5000,
     "material": [ "steel" ],
-    "symbol": "Y",
+    "symbol": "#",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" }
   }
