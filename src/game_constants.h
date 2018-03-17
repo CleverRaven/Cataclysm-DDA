@@ -67,6 +67,9 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+///\EFFECT_STR allows lifting of heavier objects */
+#define STR_LIFT_FACTOR 50_kilogram // 50kg/STR @todo: revert to 10kg/STR //_FS restored to FIX LIFT STR requirment
+
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
