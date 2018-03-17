@@ -159,7 +159,7 @@
         ] ],
         "components" : [
             [ [ "nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
-            [ [ "sheet", 2 ] ],
+            [ [ "tanned_hide", 6 ], [ "tanned_pelt", 6 ] ],
             [ [ "stick", 1 ] ],
             [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "string_36", 1 ] ]
         ],
