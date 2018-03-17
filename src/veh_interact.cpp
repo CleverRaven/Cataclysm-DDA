@@ -2053,17 +2053,10 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
-    if( part->size > 0 ) {
-        std::string label;
-        if( part->has_flag( VPFLAG_CARGO ) ) {
-            label = small_mode ? _( "Cap" ) : _( "Capacity" );
-        }
-
-        if( !label.empty() ) {
+    if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
         fold_and_print( w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%d</color>", label.c_str(),
+                       "%s: <color_light_gray>%d</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
                        to_milliliter( part->size ) );
-        }
     }
 
     if( part->bonus > 0 ) {
