@@ -499,7 +499,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
-        damage_mult *= rng_float(1, 1.5);
+        //damage_mult *= rng_float(1, 1.5);
+        damage_mult *= rng_float(1, 1.3);//_FS
 
     } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float(0.5, 1);
