@@ -42,7 +42,6 @@ data/json/items/comestibles.json
 data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
-data/json/items/comestibles/seed.json
 data/json/items/containers.json
 data/json/items/crossbows.json
 data/json/items/fake.json
@@ -281,7 +280,6 @@ data/json/recipes/food/brewing.json
 data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
-data/json/recipes/food/seed.json
 data/json/recipes/other/containers.json
 data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
