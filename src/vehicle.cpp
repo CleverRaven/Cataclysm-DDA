@@ -6114,7 +6114,9 @@ std::string vehicle_part::name() const {
     auto res = info().name();
 
     if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+        res.insert( 0, string_format( _( "%2.1f%s " ),
+                                      convert_volume( base.engine_displacement() * 10 ),
+                                      volume_units_abbr() ) );
 
     } else if( wheel_diameter() > 0 ) {
         res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
