@@ -2091,12 +2091,13 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
+        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
         fold_and_print( w_details, line+3, col_1, column_width, c_white,
                             "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
-                            item::find_type( part->item )->wheel->diameter );
+                            whl->diameter );
         fold_and_print( w_details, line+3, col_2, column_width, c_white,
                             "%s: <color_light_gray>%d</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
-                            item::find_type( part->item )->wheel->width );
+                            whl->width );
     }
 
     if ( part->epower != 0 ) {
