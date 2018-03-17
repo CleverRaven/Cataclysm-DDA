@@ -2052,7 +2052,7 @@ void veh_interact::display_details( const vpart_info *part )
                        volume_units_abbr() );
     }
 
-    // line 3: (column 1) size, bonus, wheel_width (if applicable)    (column 2) epower (if applicable)
+    // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
     if( part->size > 0 ) {
         std::string label;
         if( part->has_flag( VPFLAG_CARGO ) ) {
