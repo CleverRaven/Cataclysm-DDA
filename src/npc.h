@@ -205,6 +205,7 @@ struct npc_short_term_cache {
     double my_weapon_value;
 
     std::vector<std::shared_ptr<Creature>> friends;
+    std::vector<sphere> dangerous_explosives;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -642,7 +643,9 @@ class npc : public player
         void move_to( const tripoint &p, bool no_bashing = false );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
+        void escape_explosion();
         void move_away_from( const tripoint &p, bool no_bashing = false );
+        void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
         const pathfinding_settings &get_pathfinding_settings() const override;
@@ -833,6 +836,8 @@ class npc : public player
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
+
+        std::vector<sphere> find_dangerous_explosives() const;
 
         std::string companion_mission;
 };

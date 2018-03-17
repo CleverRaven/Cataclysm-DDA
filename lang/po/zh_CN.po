@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 23:42-0500\n"
-"PO-Revision-Date: 2018-03-08 06:55+0000\n"
+"POT-Creation-Date: 2018-03-09 08:17-0500\n"
+"PO-Revision-Date: 2018-03-14 16:21+0000\n"
 "Last-Translator: 曾泰瑋 <tavid0000@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -56092,25 +56092,15 @@ msgid ""
 msgstr "简单地用即一片回收来的大刀片和一些线绑成的手工制宽刺刀。它可以装在某些长兵器或者一把十字弓上，然后就能把其作为一把趁手的近战武器使用了。"
 
 #: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
-"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
-"conversion results in a slight reduction to accuracy."
-msgstr "这套改装模组可以将9mm、.38、.40、10mm、.45长柯尔特、5.7mm、4.6mm、7.62mm及.223口径的枪支改装成.22口径，会稍微降低命中率。"
+msgid "M6 ASW shotgun"
+msgid_plural "M6 ASW shotguns"
+msgstr[0] "M6 ASW 霰弹枪"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
-"firearm converts it to a .45 ACP firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr "这套改装工具可以将9mm、.38、.40、10mm、.44和.45长柯尔特口径的枪械改装成.45 ACP口径，会稍微降低命中率。"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9x19mm firearm.  The conversion results in a slight "
-"reduction to accuracy."
-msgstr "这套改装工具可以将9x18mm、.38、.40、10mm、.44和.45口径的枪械改装成9mm口径，会稍微降低命中率。"
+"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
+"irremovable."
+msgstr "M6 ASW 空勤生存武器集成的.410口径霰弹枪。无法拆除。"
 
 #: lang/json/gunmod_from_json.py
 msgid ".410 bore conversion kit"
@@ -56124,22 +56114,11 @@ msgid ""
 "slight reduction to accuracy."
 msgstr "这套改装工具可以将一把霰弹枪或者7.62x39mm、.223、.308和.30-06口径的步枪改装为重量更轻的.410霰弹枪口径，会稍微降低命中率。"
 
-#: lang/json/gunmod_from_json.py
-msgid "M6 ASW shotgun"
-msgid_plural "M6 ASW shotguns"
-msgstr[0] "M6 ASW 霰弹枪"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
-"irremovable."
-msgstr "M6 ASW 空勤生存武器集成的.410口径霰弹枪。无法拆除。"
-
 #: lang/json/harvest_from_json.py
 msgid ""
 "You search for any salvagable bionic hardware in what's left of this failed "
 "experiment"
-msgstr ""
+msgstr "您在这个失败实验的残留部分搜索任何尚堪挽救的仿生部件"
 
 #: lang/json/item_action_from_json.py
 msgid "Repair cotton/leather/wool/Nomex/fur"
@@ -58427,8 +58406,8 @@ msgstr "马伽术刀法"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased cutting damage"
-msgstr "增加斩击伤害"
+msgid "Increased stabbing damage"
+msgstr "增加戳刺伤害"
 
 #: lang/json/martial_art_from_json.py
 msgid "Muay Thai"
@@ -62058,8 +62037,8 @@ msgstr "调试心情值"
 
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
-msgid "mutagen message here"
-msgstr "诱变剂相关信息"
+msgid "You mutate."
+msgstr "你变异了。"
 
 #. ~ Mutation class: Any iv_message
 #: lang/json/mutation_category_from_json.py
@@ -81214,8 +81193,7 @@ msgstr "联邦应急管理局营地"
 msgid "Mansion Entrance"
 msgstr "别墅入口"
 
-#: lang/json/start_location_from_json.py lang/json/start_location_from_json.py
-#: src/defense.cpp
+#: lang/json/start_location_from_json.py src/defense.cpp
 msgid "Mansion"
 msgstr "别墅"
 
@@ -83635,7 +83613,7 @@ msgstr "泥地"
 msgid ""
 "It's dirt. Looks like some fine soil for tillage, or dug out for "
 "construction projects."
-msgstr ""
+msgstr "泥土地。良好的土质适于耕作，亦或是开工其他建设项目。"
 
 #: lang/json/terrain_from_json.py
 msgid "thump"
@@ -83646,7 +83624,7 @@ msgstr "重击"
 msgid ""
 "A large area of fine sand that could be useful in a number of ways, if it "
 "was extracted properly."
-msgstr ""
+msgstr "一大片优质细砂，如果开采得当，可以在很多方面发挥作用。"
 
 #: lang/json/terrain_from_json.py
 msgid "clay"
@@ -83657,7 +83635,7 @@ msgstr "粘土"
 msgid ""
 "A field full of malleable clay, suitable for kiln firing if it was extracted"
 " properly."
-msgstr ""
+msgstr "一块充满可塑性粘土的场地，如果开采得当，挺适用来烧窑。"
 
 #: lang/json/terrain_from_json.py
 msgid "mound of dirt"
@@ -83668,7 +83646,7 @@ msgstr "土堆"
 msgid ""
 "An area of heaped dirt, not easily traversible but if examined more closely,"
 " they could be quite favorable for planting seeds and the like."
-msgstr ""
+msgstr "堆土成垄之处，不易通行，但若仔细检查，它们可能颇利于种植种子之类的。"
 
 #. ~ Description for mound of dirt
 #: lang/json/terrain_from_json.py
@@ -83929,10 +83907,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "Utility Light"
+msgid "utility light"
 msgstr "工作灯"
 
-#. ~ Description for Utility Light
+#. ~ Description for utility light
 #: lang/json/terrain_from_json.py
 msgid ""
 "An industrial flood light set up to illuminate the surroundings.  Smashing "
@@ -83959,7 +83937,7 @@ msgstr "原木墙"
 msgid ""
 "A tall wall of timber suitable for housing and insulating from the weather."
 "  Quite flammable."
-msgstr ""
+msgstr "一面适合给住屋遮风挡雨的高大木墙。非常易燃。"
 
 #: lang/json/terrain_from_json.py
 msgid "chipped log wall"
@@ -83970,7 +83948,7 @@ msgstr "原木墙（缺口）"
 msgid ""
 "A moderately damaged wall, could probably be patched up with some planks and"
 " nails."
-msgstr ""
+msgstr "中等损坏的墙壁，可以用一些木板和钉子修补。"
 
 #: lang/json/terrain_from_json.py
 msgid "broken log wall"
@@ -83982,7 +83960,7 @@ msgid ""
 "A destroyed wood wall, with only a supporting log left, ready to collapse.  "
 "Looks repairable if the damage was replaced and patched together with nails "
 "and planks."
-msgstr ""
+msgstr "毁坏的木墙，只剩一根木头支着，随时可能倒塌。损坏处如果用钉子木板替换、修补一下，看来还能复原。"
 
 #: lang/json/terrain_from_json.py
 msgid "palisade wall"
@@ -93188,7 +93166,7 @@ msgstr "循环选项值"
 
 #: src/defense.cpp
 msgid "Toggle option"
-msgstr ""
+msgstr "切换选项"
 
 #: src/defense.cpp
 msgid "You must choose at least one monster group!"
@@ -98696,13 +98674,13 @@ msgstr "你不能拽着东西上下楼梯。"
 msgid ""
 "There is a LOT of heat coming out of there, even the stairs have melted "
 "away.  Jump down?  You won't be able to get back up."
-msgstr ""
+msgstr "一大～股热量从那里涌出来，连楼梯都融掉了。真要跳下去吗？没法回头喔。"
 
 #: src/game.cpp
 msgid ""
 "There is a LOT of heat coming out of there.  Push through the half-molten "
 "rocks and ascend?  You will not be able to get back down."
-msgstr ""
+msgstr "一大～股热量从那里涌出来。闯过半融化的岩石攀上去？没法回头喔。"
 
 #: src/game.cpp
 msgid "Halfway down, the way down becomes blocked off."
@@ -100762,8 +100740,8 @@ msgstr "你必须插入现金卡。"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: %d"
-msgstr "剩余金额：%d"
+msgid "Money left: $%.2f"
+msgstr "剩余金额：$%.2f"
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -118107,6 +118085,11 @@ msgstr "你力量不足，无法单手手持 %s。"
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "你不能放下你的 %s。"
+
+#: src/player.cpp
+#, c-format
+msgid "Draw %s from %s?"
+msgstr "吸取 %s （自%s）？"
 
 #: src/player.cpp
 #, c-format
