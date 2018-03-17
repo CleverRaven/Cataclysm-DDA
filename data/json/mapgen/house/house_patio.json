@@ -29,6 +29,7 @@
       [ "ketchup", 80 ],
       [ "mustard", 75 ],
       { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "pickle", 20 ],
       [ "cheeseburger", 30 ],
       [ "hamburger", 70 ],
       [ "cheese", 45 ],
