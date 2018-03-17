@@ -2114,6 +2114,12 @@ global_functions = {
         rval = nil,
         desc = "Write a message to the game's standard message window."
     },
+    query_yn = {
+        cpp_name = "query_yn",
+        args     = { "string" },
+        argnames = { "message" },
+        rval = "bool"
+    },
     popup = {
         cpp_name = "popup_wrapper",
         args = { "string" },
