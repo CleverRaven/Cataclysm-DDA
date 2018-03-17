@@ -35,6 +35,7 @@
       [ "mayonnaise", 3 ],
       [ "mustard", 3 ],
       [ "ketchup", 3 ],
+      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "pickle", 5 ],
       [ "cheeseburger", 10 ],
       [ "hamburger", 7 ],
