@@ -866,6 +866,21 @@
     },
     {
         "type":"GENERIC",
+        "id": "acidchitin_plate",
+        "symbol": "]",
+        "color": "yellow",
+        "name": "biosilicified chitin armor kit",
+        "description": "Durable silica-coated chitin plating made for a vehicle.",
+        "price": 1600,
+        "material": ["acidchitin"],
+        "weight": 2400,
+        "volume": 26,
+        "bashing": 10,
+        "to_hit": -4,
+        "category": "veh_parts"
+    },
+    {
+        "type":"GENERIC",
         "id": "bone_plate",
         "symbol": "]",
         "color": "white",

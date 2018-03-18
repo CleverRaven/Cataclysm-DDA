@@ -2070,6 +2070,26 @@
     },
     {
         "type" : "vehicle_part",
+        "id" : "plating_acidchitin",
+        "name" : "biosilicified chitin plating",
+        "symbol" : ")",
+        "color" : "yellow",
+        "broken_symbol" : ")",
+        "broken_color" : "light_gray",
+        "durability" : 750,
+        "item" : "acidchitin_plate",
+        "difficulty" : 2,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "acidchitin_piece", "count": [6, 19]}
+        ],
+        "damage_reduction" : {
+            "all" : 12
+        }
+    },
+    {
+        "type" : "vehicle_part",
         "id" : "plating_bone",
         "name" : "bone plating",
         "symbol" : ")",
