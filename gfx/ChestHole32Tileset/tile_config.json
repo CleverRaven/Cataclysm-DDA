@@ -56821,11 +56821,6 @@
           "rotates": false
         },
         {
-          "id": "mon_opossum",
-          "fg": 4798,
-          "rotates": false
-        },
-        {
           "id": "mon_pidgeon",
           "fg": 4800,
           "rotates": false
@@ -57055,26 +57050,6 @@
         {
           "id": "mon_zombie_blind_pk",
           "fg": 4920,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_child_2",
-          "fg": 4926,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_child_3",
-          "fg": 4927,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_child_pk",
-          "fg": 4928,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_child_reaver",
-          "fg": 4929,
           "rotates": false
         },
         {
