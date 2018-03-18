@@ -2,7 +2,6 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "cursesdef.h" // WINDOW
 #include "string_id.h"
 
 #include <string>
@@ -11,6 +10,10 @@
 #include <vector>
 #include <functional>
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class JsonObject;
 class nc_color;
 class Skill;
@@ -39,7 +42,7 @@ struct construction {
         // If true, the requirements are generated during finalization
         bool vehicle_start;
 
-        std::function<bool( const tripoint & )> pre_special; // custom constructability check
+        std::function<bool( const tripoint & )> pre_special; // custom constructibility check
         std::function<void( const tripoint & )> post_special; // custom after-effects
         std::function<void( const tripoint & )> explain_failure; // Custom error message display
 
@@ -47,7 +50,7 @@ struct construction {
         bool post_is_furniture; // whether it's furniture or terrain
 
         int adjusted_time() const; // NPC assistance adjusted
-        int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col ) const;
+        int print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const;
         std::vector<std::string> get_folded_time_string( int width ) const;
         float time_scale() const; //result of construction scaling option
     private:

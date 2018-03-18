@@ -400,5 +400,25 @@
     "id": "pda_flashlight",
     "type": "MIGRATION",
     "replace": "cell_phone"
+  },
+  {
+    "id": "crude_brick",
+    "type": "MIGRATION",
+    "replace": "brick"
+  },
+  {
+    "id": "jam_blueberries",
+    "type": "MIGRATION",
+    "replace": "jam_fruit"
+  },
+  {
+    "id": "jam_strawberries",
+    "type": "MIGRATION",
+    "replace": "jam_fruit"
+  },
+  {
+    "id": "acidbomb_act",
+    "type": "MIGRATION",
+    "replace": "acidbomb"
   }
 ]

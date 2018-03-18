@@ -2,7 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-//@todo replace with std::optional
+//@todo: replace with std::optional
 #include "optional.h"
 #include "compatibility.h"
 #include "printf_check.h"
@@ -136,7 +136,6 @@ is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&
 {
     throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
                      T ).name() ) + " to " + std::string( typeid( RT ).name() ) + ", which is not possible" );
-    return *static_cast<RT *>( nullptr ); // dummy return, will not be reached ever
 }
 /**@}*/
 
@@ -145,7 +144,7 @@ is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&
  * See @ref string_format for usage.
  * Basically it extracts the format specifiers and calls `sprintf` for each one separately
  * and with proper conversion of the input type.
- * For example `printf("%f", 7)` would yield undefined behaviour as "%f" requires a `double`
+ * For example `printf("%f", 7)` would yield undefined behavior as "%f" requires a `double`
  * as argument. This class detects the format specifier and converts the input to `double`
  * before calling `sprintf`. Similar for `printf("%d", "foo")` (yields UB again), but this
  * class will just throw an exception.
@@ -228,7 +227,6 @@ class string_formatter
         RT get_nth_arg_as( const unsigned int requested ) const {
             throw_error( "Requested argument " + to_string( requested ) + " but input has only " + to_string(
                              current_index ) );
-            return *static_cast<RT *>( nullptr ); // dummy return, never reached anyway
         }
         template<typename RT, unsigned int current_index, typename T, typename ...Args>
         RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {

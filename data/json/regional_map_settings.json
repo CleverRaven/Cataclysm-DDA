@@ -108,6 +108,7 @@
           "houses": {
               "house_two_story_basement": 1,
               "house": 1000,
+              "house_prepper": 30,
               "house_base": 333
           },
           "parks": {                        "//": "weighted list for park overmap terrains",
@@ -169,6 +170,11 @@
               "small_office": 2,
               "art_gallery": 2,
               "small_storage_units": 3,
+              "construction_site": 4,
+              "post_office": 2,
+              "candy_shop": 2,
+              "bakery": 2,
+              "icecream_shop": 2,
               "s_butcher": 2,
               "s_bike_shop": 1
           }

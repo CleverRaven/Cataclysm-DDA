@@ -10,7 +10,6 @@
 #include <map>
 #include <vector>
 #include <set>
-#include <iosfwd>
 
 class JsonObject;
 class JsonIn;
@@ -20,6 +19,7 @@ using skill_id = string_id<Skill>;
 
 class Skill
 {
+        friend class string_id<Skill>;
         skill_id _ident;
 
         std::string _name;
@@ -34,10 +34,7 @@ class Skill
         static skill_id from_legacy_int( int legacy_id );
         static skill_id random_skill();
 
-        static const Skill &get( const skill_id &id );
-
-        static size_t skill_count();
-        // clear skill vector, every skill pointer becames invalid!
+        // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
         static std::vector<Skill const *> get_skills_sorted_by(
@@ -74,17 +71,14 @@ class Skill
 
 class SkillLevel
 {
-        int _level;
-        int _exercise;
-        calendar _lastPracticed;
-        bool _isTraining;
-        int _highestLevel;
+        int _level = 0;
+        int _exercise = 0;
+        time_point _lastPracticed = calendar::time_of_cataclysm;
+        bool _isTraining = true;
+        int _highestLevel = 0;
 
     public:
-        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0,
-                    int highestLevel = 0 );
-        SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
-                    int lastPracticed, int highestLevel );
+        SkillLevel() {}
 
         bool isTraining() const {
             return _isTraining;
@@ -115,10 +109,6 @@ class SkillLevel
 
         int exercised_level() const {
             return level() * level() * 100 + exercise();
-        }
-
-        int lastPracticed() const {
-            return _lastPracticed;
         }
 
         void train( int amount, bool skip_scaling = false );
@@ -169,15 +159,12 @@ class SkillLevel
             return !( *this <  b );
         }
 
-        SkillLevel &operator= ( const SkillLevel & ) = default;
-
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+};
 
-        // Make skillLevel act like a raw level by default.
-        operator int() const {
-            return _level;
-        }
+class SkillLevelMap : public std::map<skill_id, SkillLevel>
+{
 };
 
 double price_adjustment( int );

@@ -28,6 +28,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 #include "submap.h"
+#include "output.h"
 #include "overlay_ordering.h"
 #include "cata_utility.h"
 #include "cursesport.h"
@@ -44,7 +45,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-#define ITEM_HIGHLIGHT "highlight_item"
+static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -62,6 +63,8 @@ extern int fontwidth, fontheight;
 extern bool tile_iso;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
+///@throws std::exception upon errors.
+///@returns Always a valid pointer.
 static SDL_Surface_Ptr create_tile_surface( int w, int h );
 
 static const std::string empty_string;
@@ -83,6 +86,22 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
 
 namespace
 {
+void printErrorIf( const bool condition, const std::string message )
+{
+    if( !condition ) {
+        return;
+    }
+    dbg( D_ERROR ) << message << ": " << SDL_GetError();
+}
+
+void throwErrorIf( const bool condition, const std::string message )
+{
+    if( !condition ) {
+        return;
+    }
+    throw std::runtime_error( message + ": " + SDL_GetError() );
+}
+
     /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
     float get_animation_phase( int phase_length_ms )
     {
@@ -126,20 +145,20 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 
     switch( type ) {
         case m_good:
-            return iBold + green;
+            return iBold + catacurses::green;
         case m_bad:
-            return iBold + red;
+            return iBold + catacurses::red;
         case m_mixed:
         case m_headshot:
-            return iBold + magenta;
+            return iBold + catacurses::magenta;
         case m_neutral:
-            return iBold + white;
+            return iBold + catacurses::white;
         case m_warning:
         case m_critical:
-            return iBold + yellow;
+            return iBold + catacurses::yellow;
         case m_info:
         case m_grazing:
-            return iBold + blue;
+            return iBold + catacurses::blue;
         default:
             break;
     }
@@ -149,7 +168,7 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
-    //ctor
+    assert( render );
     renderer = render;
 
     tile_height = 0;
@@ -195,7 +214,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id ) {
         return;
     }
-    //@todo move into clear or somewhere else.
+    //@todo: move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
@@ -212,7 +231,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 void cata_tiles::reinit()
 {
     set_draw_scale(16);
-    SDL_RenderClear( renderer );
+    printErrorIf( SDL_RenderClear( renderer ) != 0, "SDL_RenderClear failed" );
     minimap_cache.clear();
     tex_pool.texture_pool.clear();
     reinit_minimap();
@@ -234,7 +253,7 @@ static void get_tile_information(std::string config_path, std::string &json_path
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
+            if( sOption.empty() ) {
                 getline(fin, sOption);
             } else if(sOption[0] == '#') { // Skip comment
                 getline(fin, sOption);
@@ -255,11 +274,11 @@ static void get_tile_information(std::string config_path, std::string &json_path
         tileset_path = default_tileset;
     }
 
-    if (json_path == "") {
+    if( json_path.empty() ) {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
-    if (tileset_path == "") {
+    if( tileset_path.empty() ) {
         tileset_path = default_tileset;
         dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
@@ -267,6 +286,7 @@ static void get_tile_information(std::string config_path, std::string &json_path
 
 inline static pixel get_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w)
 {
+    assert( surf );
     pixel pix;
     const auto pixelarray = reinterpret_cast<unsigned char *>(surf->pixels);
     const auto pixel_ptr = pixelarray + (y * w + x) * 4;
@@ -279,6 +299,7 @@ inline static pixel get_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w)
 
 inline static void set_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w, pixel pix)
 {
+    assert( surf );
     const auto pixelarray = reinterpret_cast<unsigned char *>(surf->pixels);
     const auto pixel_ptr = pixelarray + (y * w + x) * 4;
     pixel_ptr[0] = static_cast<unsigned char>(pix.r);
@@ -331,13 +352,10 @@ static void color_pixel_overexposed(pixel& pix)
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
         void ( &pixel_converter )( pixel & ) )
 {
+    assert( original );
     SDL_Surface_Ptr surf = create_tile_surface( original->w, original->h );
-    if( !surf ) {
-        throw std::runtime_error( std::string( "Unable to create alternate colored tilesets." ) );
-    }
-    if( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0 ) {
-        throw std::runtime_error( std::string( "SDL_BlitSurface failed: " ) + SDL_GetError() );
-    }
+    assert( surf );
+    throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0, "SDL_BlitSurface failed" );
     for (int y = 0; y < surf->h; y++) {
         for (int x = 0; x < surf->w; x++) {
             pixel pix = get_pixel_color(surf, x, y, surf->w);
@@ -358,13 +376,12 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
 
 void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset, std::vector<texture> &target )
 {
+    assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, surf->w / sprite_width,
                                             surf->h / sprite_height );
 
     const std::shared_ptr<SDL_Texture> texture_ptr( SDL_CreateTextureFromSurface( renderer, surf.get() ), &SDL_DestroyTexture );
-    if( !texture_ptr ) {
-        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-    }
+    throwErrorIf( !texture_ptr, "SDL_CreateTextureFromSurface failed" );
 
     for( const SDL_Rect rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
@@ -381,6 +398,7 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
 
 void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset )
 {
+    assert( tile_atlas );
     copy_surface_to_texture( tile_atlas, offset, ts.tile_values );
 
     /** perform color filter conversion here */
@@ -396,27 +414,27 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 
 void tileset_loader::load_tileset( std::string img_path )
 {
-    /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
-
-    if(!tile_atlas) {
-        throw std::runtime_error( std::string("Could not load tileset image at ") + img_path + ", error: " +
-                                  IMG_GetError() );
+    if( !tile_atlas ) {
+        throw std::runtime_error( "Could not load tileset image \"" + img_path + "\": " + IMG_GetError() );
     }
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-        Uint32 key = SDL_MapRGB(tile_atlas->format, 0, 0, 0);
-        SDL_SetColorKey(tile_atlas.get(), SDL_TRUE, key);
-        SDL_SetSurfaceRLE(tile_atlas.get(), true);
+        const Uint32 key = SDL_MapRGB(tile_atlas->format, 0, 0, 0);
+        throwErrorIf( SDL_SetColorKey( tile_atlas.get(), SDL_TRUE, key ) != 0, "SDL_SetColorKey failed" );
+        throwErrorIf( SDL_SetSurfaceRLE(tile_atlas.get(), true ), "SDL_SetSurfaceRLE failed" );
     }
 
     SDL_RendererInfo info;
-    const int ret = SDL_GetRendererInfo( renderer, &info );
-    if( ret != 0 ) {
-        throw std::runtime_error( std::string( "SDL_GetRendererInfo failed: " ) + SDL_GetError() );
+    throwErrorIf( SDL_GetRendererInfo( renderer, &info ) != 0, "SDL_GetRendererInfo failed" );
+    // Software rendering stores textures as surfaces with run-length encoding, which makes extracting a part
+    // in the middle of the texture slow. Therefore this "simulates" that the renderer only supports one tile
+    // per texture. Each tile will go on its own texture object.
+    if( info.flags & SDL_RENDERER_SOFTWARE ) {
+        info.max_texture_width = sprite_width;
+        info.max_texture_height = sprite_height;
     }
-
     // for debugging only: force a very small maximal texture size, as to trigger
     // splitting the tile atlas.
 #if 0
@@ -424,6 +442,23 @@ void tileset_loader::load_tileset( std::string img_path )
     info.max_texture_width = sprite_width * 10 + 1;
     info.max_texture_height = sprite_height * 20 + 1;
 #endif
+
+    const int min_tile_xcount = 128;
+    const int min_tile_ycount = min_tile_xcount * 2;
+
+    if( info.max_texture_width == 0 ){
+        info.max_texture_width = sprite_width * min_tile_xcount;
+        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " << info.max_texture_width;
+    } else {
+        throwErrorIf( info.max_texture_width < sprite_width, "Maximal texture width is smaller than tile width" );
+    }
+
+    if( info.max_texture_height == 0 ){
+        info.max_texture_height = sprite_height * min_tile_ycount;
+        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0.  Changing it to " << info.max_texture_height;
+    } else {
+        throwErrorIf( info.max_texture_height < sprite_height, "Maximal texture height is smaller than tile height" );
+    }
 
     // Number of tiles in each dimension that fits into a (maximal) SDL texture.
     // If the tile atlas contains more than that, we have to split it.
@@ -452,31 +487,28 @@ void tileset_loader::load_tileset( std::string img_path )
         SDL_Surface_Ptr smaller_surf;
 
         if( is_contained( SDL_Rect{ 0, 0, tile_atlas->w, tile_atlas->h }, sub_rect ) ) {
-            // can use tile_atlas directly, it is completely contained in the output rect
+            // can use tile_atlas directly, it is completely contained in the output rectangle
         } else {
             // Need a temporary surface that contains the parts of the tile atlas that fit
             // into sub_rect. But doesn't always need to be as large as sub_rect.
             const int w = std::min( tile_atlas->w - sub_rect.x, sub_rect.w );
             const int h = std::min( tile_atlas->h - sub_rect.y, sub_rect.h );
             smaller_surf = ::create_tile_surface( w, h );
-            if( !smaller_surf ) {
-                throw std::runtime_error( std::string( "Unable to create smaller tilesets." ) );
-            }
+            assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
-            if( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(), NULL ) != 0 ) {
-                throw std::runtime_error( std::string( "SDL_BlitSurface failed: " ) + SDL_GetError() );
-            }
+            throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(), NULL ) != 0, "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
+        assert( surf_to_use );
 
         create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) );
     }
 
-    dbg( D_INFO ) << "Tiles Created: " << expected_tilecount;
     size = expected_tilecount;
 }
 
 void cata_tiles::set_draw_scale(int scale) {
+    assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
@@ -516,7 +548,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
 
-    // "tile_info" section must exis.
+    // "tile_info" section must exist.
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -680,33 +712,33 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     int FG = -1;
     const std::string scolor = entry.get_string( "color", "DEFAULT" );
     if( scolor == "BLACK" ) {
-        FG = black;
+        FG = catacurses::black;
     } else if( scolor == "RED" ) {
-        FG = red;
+        FG = catacurses::red;
     } else if( scolor == "GREEN" ) {
-        FG = green;
+        FG = catacurses::green;
     } else if( scolor == "YELLOW" ) {
-        FG = yellow;
+        FG = catacurses::yellow;
     } else if( scolor == "BLUE" ) {
-        FG = blue;
+        FG = catacurses::blue;
     } else if( scolor == "MAGENTA" ) {
-        FG = magenta;
+        FG = catacurses::magenta;
     } else if( scolor == "CYAN" ) {
-        FG = cyan;
+        FG = catacurses::cyan;
     } else if( scolor == "WHITE" ) {
-        FG = white;
+        FG = catacurses::white;
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
-        entry.throw_error( "invalid color for ascii", "color" );
+        entry.throw_error( "invalid color for ASCII", "color" );
     }
-    // Add an offset for bold colors (ncrses has this bold attribute,
+    // Add an offset for bold colors (ncurses has this bold attribute,
     // this mimics it). bold does not apply to default color.
     if( FG != -1 && entry.get_bool( "bold", false ) ) {
         FG += 8;
     }
     const int base_offset = offset + in_image_offset;
-    // Finally load all 256 ascii chars (actually extended ascii)
+    // Finally load all 256 ASCII chars (actually extended ASCII)
     for( int ascii_char = 0; ascii_char < 256; ascii_char++ ) {
         const int index_in_image = ascii_char + in_image_offset;
         if( index_in_image < 0 || index_in_image >= size ) {
@@ -822,7 +854,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
  * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
- * definition of the same id is overriden.
+ * definition of the same id is overridden.
  * @param size The number of tiles loaded from the current tileset file. This defines the
  * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
  * that range.
@@ -919,11 +951,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     {
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {destx, desty, width, height};
-        SDL_RenderSetClipRect(renderer, &clipRect);
+        printErrorIf( SDL_RenderSetClipRect( renderer, &clipRect ) != 0, "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &clipRect);
+        printErrorIf( SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+        printErrorIf( SDL_RenderFillRect( renderer, &clipRect ) != 0, "SDL_RenderFillRect failed" );
     }
 
     int posx = center.x;
@@ -952,7 +984,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     const int min_row = 0;
     const int max_row = sy;
 
-    //limit the render area to maximum view range (121x121 square centred on player)
+    //limit the render area to maximum view range (121x121 square centered on player)
     const int min_visible_x = g->u.posx() % SEEX;
     const int min_visible_y = g->u.posy() % SEEY;
     const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
@@ -980,7 +1012,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         for( int col = min_col; col < max_col; col ++) {
             if(iso_mode) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
-                //the appropriate tile in valid squares by getting position relative to the screen centre.
+                //the appropriate tile in valid squares by getting position relative to the screen center.
                 if( (row + o_y ) % 2 != (col + o_x) % 2 ) {
                     continue;
                 }
@@ -1089,7 +1121,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    SDL_RenderSetClipRect(renderer, NULL);
+    printErrorIf( SDL_RenderSetClipRect( renderer, nullptr ) != 0, "SDL_RenderSetClipRect failed" );
 }
 
 void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, int widthLimit, int heightLimit) {
@@ -1097,11 +1129,8 @@ void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, i
         for(int yOffset = -size + abs(xOffset); yOffset <= size - abs(xOffset); yOffset++) {
             if(xOffset < widthLimit && yOffset < heightLimit){
                 int divisor = 2 * (abs(yOffset) == size - abs(xOffset)) + 1;
-                SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
-
-                SDL_RenderDrawPoint(renderer,
-                     destx + xOffset,
-                     desty + yOffset);
+                printErrorIf( SDL_SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+                printErrorIf( SDL_RenderDrawPoint( renderer, destx + xOffset, desty + yOffset ) != 0, "SDL_RenderDrawPoint failed" );
             }
         }
     }
@@ -1122,9 +1151,11 @@ static tripoint convert_tripoint_to_abs_submap(const tripoint& p)
 //the surface is needed to determine the color format needed by the texture
 SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int tile_height)
 {
-    SDL_Surface_Ptr temp = create_tile_surface();
+    const SDL_Surface_Ptr temp = create_tile_surface();
+    assert( temp );
     SDL_Texture_Ptr tex ( SDL_CreateTexture(renderer, temp->format->format, SDL_TEXTUREACCESS_TARGET,
                                             tile_width, tile_height) );
+    throwErrorIf( !tex, "SDL_CreateTexture failed to create minimap texture" );
     return tex;
 }
 
@@ -1132,8 +1163,8 @@ SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int til
 void cata_tiles::prepare_minimap_cache_for_updates()
 {
     for(auto &mcp : minimap_cache) {
-        mcp.second->touched = false;
-        mcp.second->drawn = false;
+        mcp.second.touched = false;
+        mcp.second.drawn = false;
     }
 }
 
@@ -1142,7 +1173,7 @@ void cata_tiles::prepare_minimap_cache_for_updates()
 void cata_tiles::clear_unused_minimap_cache()
 {
     for(auto it = minimap_cache.begin(); it != minimap_cache.end(); ) {
-        if(!it->second->touched) {
+        if(!it->second.touched) {
             minimap_cache.erase(it++);
         } else {
             it++;
@@ -1170,33 +1201,33 @@ void cata_tiles::process_minimap_cache_updates()
     }
 
     for( auto &mcp : minimap_cache ) {
-        if( !mcp.second->update_list.empty() ) {
-            SDL_SetRenderTarget( renderer, mcp.second->minimap_tex.get() );
+        if( !mcp.second.update_list.empty() ) {
+            printErrorIf( SDL_SetRenderTarget( renderer, mcp.second.minimap_tex.get() ) != 0, "SDL_SetRenderTarget failed" );
 
             //draw a default dark-colored rectangle over the texture which may have been used previously
-            if( !mcp.second->ready ) {
-                mcp.second->ready = true;
-                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-                SDL_RenderClear( renderer );
+            if( !mcp.second.ready ) {
+                mcp.second.ready = true;
+                printErrorIf( SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+                printErrorIf( SDL_RenderClear( renderer ) != 0, "SDL_RenderClear failed" );
             }
 
-            for( const point &p : mcp.second->update_list ) {
-                const pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
+            for( const point &p : mcp.second.update_list ) {
+                const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
 
 
-                SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
+                printErrorIf( SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a ) != 0, "SDL_SetRenderDrawColor failed" );
 
                 if( draw_with_dots ) {
-                    SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y );
+                    printErrorIf( SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y ) != 0, "SDL_RenderDrawPoint failed" );
                 } else {
                     rectangle.x = p.x * minimap_tile_size.x;
                     rectangle.y = p.y * minimap_tile_size.y;
 
-                    SDL_RenderFillRect( renderer, &rectangle );
+                    printErrorIf( SDL_RenderFillRect( renderer, &rectangle ) != 0, "SDL_RenderFillRect failed" );
                 }
             }
-            mcp.second->update_list.clear();
+            mcp.second.update_list.clear();
         }
     }
 }
@@ -1207,20 +1238,18 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     tripoint current_submap_loc = convert_tripoint_to_abs_submap( loc );
     auto it = minimap_cache.find( current_submap_loc );
     if( it == minimap_cache.end() ) {
-        minimap_cache.insert( std::pair<tripoint, minimap_cache_ptr>( current_submap_loc,
-                              minimap_cache_ptr( new minimap_submap_cache( tex_pool ) ) ) );
-        it = minimap_cache.find( current_submap_loc );
+        it = minimap_cache.emplace( current_submap_loc, tex_pool ).first;
     }
 
-    it->second->touched = true;
+    it->second.touched = true;
 
     point offset( loc.x, loc.y );
     ms_to_sm_remain( offset );
 
-    pixel &current_pix = it->second->minimap_colors[offset.y * SEEX + offset.x];
+    pixel &current_pix = it->second.minimap_colors[offset.y * SEEX + offset.x];
     if( current_pix != pix ) {
         current_pix = pix;
-        it->second->update_list.push_back( offset );
+        it->second.update_list.push_back( offset );
     }
 }
 
@@ -1235,6 +1264,8 @@ minimap_submap_cache::~minimap_submap_cache()
 {
     pool.release_tex( texture_index, std::move( minimap_tex ) );
 }
+
+minimap_submap_cache::minimap_submap_cache( minimap_submap_cache && ) = default;
 
 //store the known persistent values used in drawing the minimap
 //since modifying the minimap properties requires a restart
@@ -1367,7 +1398,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     //update minimap textures
     process_minimap_cache_updates();
     //prepare to copy to intermediate texture
-    SDL_SetRenderTarget( renderer, main_minimap_tex.get() );
+    printErrorIf( SDL_SetRenderTarget( renderer, main_minimap_tex.get() ) != 0, "SDL_SetRenderTarget failed" );
 
     //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
     //the drawn flag prevents it from being drawn more than once
@@ -1390,23 +1421,23 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             if( it == minimap_cache.end() ) {
                 continue;
             }
-            if( it->second->drawn ) {
+            if( it->second.drawn ) {
                 continue;
             }
-            it->second->drawn = true;
+            it->second.drawn = true;
 
             //the position of the submap texture has to account for the actual (current) 12x12 tile size
             //the clipping rectangle handles the portions that need to hide
             tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
             drawrect.x = drawpoint.x * minimap_tile_size.x;
             drawrect.y = drawpoint.y * minimap_tile_size.y;
-            SDL_RenderCopy( renderer, it->second->minimap_tex.get(), NULL, &drawrect );
+            printErrorIf( SDL_RenderCopy( renderer, it->second.minimap_tex.get(), NULL, &drawrect ) != 0, "SDL_RenderCopy failed" );
         }
     }
     //set display buffer to main screen
     set_displaybuffer_rendertarget();
     //paint intermediate texture to screen
-    SDL_RenderCopy( renderer, main_minimap_tex.get(), NULL, &minimap_clip_rect );
+    printErrorIf( SDL_RenderCopy( renderer, main_minimap_tex.get(), NULL, &minimap_clip_rect ) != 0, "SDL_RenderCopy failed" );
 
     //unused submap caches get deleted
     clear_unused_minimap_cache();
@@ -1532,7 +1563,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
 
-    std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
+    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
 
     const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
     if( tt ) {
@@ -1682,7 +1713,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
         op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
@@ -1745,9 +1776,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int loc_rand = 0;
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
     if(display_tile.fg.size()>1 || display_tile.bg.size()>1) {
+        static const auto rot32 = []( const unsigned int x, const int k ) {
+            return ( x << k ) | ( x >> ( 32 - k ) );
+        };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-#define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
         unsigned int a = seed, b = -seed, c = seed*seed;
         c ^= b; c -= rot32(b,14);
         a ^= c; a -= rot32(c,11);
@@ -1867,9 +1900,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
             0, NULL, SDL_FLIP_NONE );
     }
 
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
-    }
+    printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
     // this reference passes all the way back up the call chain back to
     // cata_tiles::draw() std::vector<tile_render_info> draw_points[].height_3d
     // where we are accumulating the height of every sprite stacked up in a tile
@@ -1961,7 +1992,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op_x;
         // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, aribtrarily tall
+        // tile footprints are half as tall as wide, arbitrarily tall
         screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op_y;
@@ -1974,8 +2005,8 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
-    SDL_RenderFillRect( renderer, &belowRect );
+    printErrorIf( SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+    printErrorIf( SDL_RenderFillRect( renderer, &belowRect ) != 0, "SDL_RenderFillRect failed" );
 
     return true;
 }
@@ -2107,7 +2138,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     if (is_draw_field) {
         const std::string fd_name = fieldlist[f.fieldSymbol()].id;
 
-        // for rotation inforomation
+        // for rotation information
         const int neighborhood[4] = {
             static_cast<int> (g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol()), // south
             static_cast<int> (g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol()), // east
@@ -2283,9 +2314,8 @@ SDL_Surface_Ptr create_tile_surface( const int w, const int h )
     #else
         surface.reset( SDL_CreateRGBSurface( 0, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 ) );
     #endif
-    if( !surface ) {
-        dbg( D_ERROR ) << "Failed to create surface: " << SDL_GetError();
-    }
+    throwErrorIf( !surface, "Failed to create surface" );
+    assert( surface );
     return surface;
 }
 
@@ -2301,21 +2331,15 @@ void tileset_loader::ensure_default_item_highlight()
     }
     const Uint8 highlight_alpha = 127;
 
-    std::string key = ITEM_HIGHLIGHT;
     int index = ts.tile_values.size();
 
-    SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
-    if( !surface ) {
-        throw std::runtime_error( std::string( "Failed to create surface for default item highlight: " ) + SDL_GetError() );
-    }
-    //@todo check for errors.
-    SDL_FillRect(surface.get(), NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
+    const SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
+    assert( surface );
+    throwErrorIf( SDL_FillRect( surface.get(), NULL, SDL_MapRGBA( surface->format, 0, 0, 127, highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
-    if( !texture ) {
-        throw std::runtime_error( std::string( "Failed to create textire for default item highlight: " ) + SDL_GetError() );
-    }
+    throwErrorIf( !texture, "Failed to create texture for default item highlight" );
     ts.tile_values.emplace_back( std::move( texture ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
-    ts.tile_ids[key].fg.add(std::vector<int>({index}),1);
+    ts.tile_ids[ITEM_HIGHLIGHT].fg.add(std::vector<int>({index}),1);
 }
 
 /* Animation Functions */
@@ -2385,26 +2409,26 @@ void cata_tiles::void_bullet()
 {
     do_draw_bullet = false;
     bul_pos = { -1, -1, -1 };
-    bul_id = "";
+    bul_id.clear();
 }
 void cata_tiles::void_hit()
 {
     do_draw_hit = false;
     hit_pos = { -1, -1, -1 };
-    hit_entity_id = "";
+    hit_entity_id.clear();
 }
 void cata_tiles::void_line()
 {
     do_draw_line = false;
     is_target_line = false;
     line_pos = { -1, -1, -1 };
-    line_endpoint_id = "";
+    line_endpoint_id.clear();
     line_trajectory.clear();
 }
 void cata_tiles::void_weather()
 {
     do_draw_weather = false;
-    weather_name = "";
+    weather_name.clear();
     anim_weather.vdrops.clear();
 }
 void cata_tiles::void_sct()
@@ -2560,7 +2584,7 @@ void cata_tiles::draw_weather_frame()
             x = weather_iterator->first;
             y = weather_iterator->second;
         } else {
-            // currently in ascii screen coordinates
+            // currently in ASCII screen coordinates
             x = weather_iterator->first + o_x;
             y = weather_iterator->second + o_y;
         }

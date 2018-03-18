@@ -12,6 +12,7 @@
 #include "player.h"
 #include "projectile.h"
 #include "sounds.h"
+#include "output.h"
 #include "trap.h"
 #include "vehicle.h"
 
@@ -200,7 +201,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo This should also represent the miss on z axis
+        // @todo: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -247,7 +248,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo Make it use a more distant point for more realistic extended lines
+        // @todo: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );

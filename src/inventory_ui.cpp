@@ -4,6 +4,8 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
+#include "map_selector.h"
+#include "output.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "options.h"
@@ -233,6 +235,11 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
         return;
     }
     cells.emplace_back( func, title, stub );
+}
+
+std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
+{
+    return replace_colors( func( entry ) );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
@@ -667,7 +674,7 @@ long inventory_column::reassign_custom_invlets( const player &p, long min_invlet
     return cur_invlet;
 }
 
-void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
+void inventory_column::draw( const catacurses::window &win, size_t x, size_t y ) const
 {
     if( !visible() ) {
         return;
@@ -707,7 +714,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( index, 0 ) ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
-            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
+            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, denial );
         }
 
         const size_t count = denial.empty() ? cells.size() : 1;
@@ -742,9 +749,9 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 const std::string &text = entry_cell_cache.text[cell_index];
 
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
-                    trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dark_gray, "%s", remove_color_tags( text ).c_str() );
+                    trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dark_gray, remove_color_tags( text ) );
                 } else {
-                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, "%s", text.c_str() );
+                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, text );
                 }
             }
 
@@ -788,14 +795,14 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
+    selected_cat( id, name, 0 ) {}
 
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+        entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
     }
 
@@ -810,7 +817,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, selected_cat.get() );
+    inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
@@ -835,7 +842,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-// @todo Move it into some 'item_stack' class.
+// @todo: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                                               const std::list<item>::const_iterator &to )
 {
@@ -1138,10 +1145,10 @@ size_t inventory_selector::get_footer_min_width() const
     return result;
 }
 
-void inventory_selector::draw_header( WINDOW *w ) const
+void inventory_selector::draw_header( const catacurses::window &w ) const
 {
-    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, "%s", title.c_str() );
-    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, "%s", hint.c_str() );
+    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
+    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, hint );
 
     mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
 
@@ -1182,14 +1189,14 @@ std::vector<std::string> inventory_selector::get_stats() const
             return format_volume( units::from_milliliter( v ) );
         } )
     }};
-    // Strams for every stat.
+    // Streams for every stat.
     std::array<std::ostringstream, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
         lines[i] << stats[i][0] << ' ';
     }
-    // Now add the rest of the cells and allign them to the right.
+    // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
         // Calculate actual cell width for each stat.
         std::transform( stats.begin(), stats.end(), widths.begin(),
@@ -1218,10 +1225,10 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    if( !w_inv || width != getmaxx( w_inv.get() ) || height != getmaxy( w_inv.get() ) ) {
-        w_inv.reset( newwin( height, width,
+    if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
+        w_inv = catacurses::newwin( height, width,
                              VIEW_OFFSET_Y + ( TERMY - height ) / 2,
-                             VIEW_OFFSET_X + ( TERMX - width ) / 2 ) );
+                             VIEW_OFFSET_X + ( TERMX - width ) / 2 );
     }
 }
 
@@ -1229,35 +1236,35 @@ void inventory_selector::refresh_window() const
 {
     assert( w_inv );
 
-    werase( w_inv.get() );
+    werase( w_inv );
 
-    draw_frame( w_inv.get() );
-    draw_header( w_inv.get() );
-    draw_columns( w_inv.get() );
-    draw_footer( w_inv.get() );
+    draw_frame( w_inv );
+    draw_header( w_inv );
+    draw_columns( w_inv );
+    draw_footer( w_inv );
 
-    wrefresh( w_inv.get() );
+    wrefresh( w_inv );
 }
 
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv.get(), 4, getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4 )
+    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 
     do {
-        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, 2, c_cyan, "< " );
-        mvwprintz( w_inv.get(), getmaxy( w_inv.get() ) - 1, ( getmaxx( w_inv.get() ) / 2 ) - 4, c_cyan, " >" );
+        mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
+        mvwprintz( w_inv, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4, c_cyan, " >" );
         std::string new_filter = spopup.query_string( false );
 
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
-            filter = "";
+            filter.clear();
         } else {
             filter = new_filter;
         }
 
-        wrefresh( w_inv.get() );
+        wrefresh( w_inv );
     } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
 
     for( const auto elem : columns ) {
@@ -1271,7 +1278,7 @@ void inventory_selector::update()
     refresh_window();
 }
 
-void inventory_selector::draw_columns( WINDOW *w ) const
+void inventory_selector::draw_columns( const catacurses::window &w ) const
 {
     const auto columns = get_visible_columns();
 
@@ -1308,7 +1315,7 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     }
 }
 
-void inventory_selector::draw_frame( WINDOW *w ) const
+void inventory_selector::draw_frame( const catacurses::window &w ) const
 {
     draw_border( w );
 
@@ -1326,7 +1333,7 @@ std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode
     return std::make_pair( _( "There are no available choices" ), i_red );
 }
 
-void inventory_selector::draw_footer( WINDOW *w ) const
+void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
@@ -1335,7 +1342,7 @@ void inventory_selector::draw_footer( WINDOW *w ) const
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
-        wprintz( w, c_light_gray, "%s", text.c_str() );
+        wprintz( w, c_light_gray, text );
         wprintz( w, c_white, filter.c_str() );
         wprintz( w, c_light_gray, " >" );
     }
@@ -1347,7 +1354,7 @@ void inventory_selector::draw_footer( WINDOW *w ) const
         const int x2 = x1 + string_width - 1;
         const int y = getmaxy( w ) - border;
 
-        mvwprintz( w, y, x1, footer.second, "%s", footer.first.c_str() );
+        mvwprintz( w, y, x1, footer.second, footer.first );
         mvwputch( w, y, x1 - 1, c_light_gray, ' ' );
         mvwputch( w, y, x2 + 1, c_light_gray, ' ' );
         mvwputch( w, y, x1 - 2, c_light_gray, LINE_XOXX );

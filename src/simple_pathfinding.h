@@ -43,8 +43,8 @@ struct path {
 /**
  * @param source Starting point of path
  * @param dest End point of path
- * @param max_x Max permissable x coordinate for a point on the path
- * @param max_y Max permissable y coordinate for a point on the path
+ * @param max_x Max permissible x coordinate for a point on the path
+ * @param max_y Max permissible y coordinate for a point on the path
  * @param estimator BinaryPredicate( node &previous, node *current ) returns
  * integer estimation (smaller - better) for the current node or a negative value
  * if the node is unsuitable.

@@ -1110,7 +1110,7 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE"]
     },
     {
         "type":"GENERIC",

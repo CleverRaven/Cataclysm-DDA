@@ -39,23 +39,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-struct tile {
-    /** Screen coordinates as tile number */
-    int sx, sy;
-    /** World coordinates */
-    int wx, wy;
-
-    tile() {
-        sx = wx = wy = 0;
-    }
-    tile( int x, int y, int x2, int y2 ) {
-        sx = x;
-        sy = y;
-        wx = x2;
-        wy = y2;
-    }
-};
-
 /* Enums */
 enum MULTITILE_TYPE {
     center,
@@ -120,40 +103,6 @@ struct SDL_Surface_deleter {
     void operator()( SDL_Surface *const ptr );
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
-
-// Cache of a single tile, used to avoid redrawing what didn't change.
-struct tile_drawing_cache {
-
-    tile_drawing_cache() { };
-
-    // Sprite indices drawn on this tile.
-    // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type *> sprites;
-    std::vector<int> rotations;
-
-    bool operator==( const tile_drawing_cache &other ) const {
-        if( sprites.size() != other.sprites.size() ) {
-            return false;
-        } else {
-            for( size_t i = 0; i < sprites.size(); ++i ) {
-                if( sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i] ) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    bool operator!=( const tile_drawing_cache &other ) const {
-        return !( this->operator==( other ) );
-    }
-
-    void operator=( const tile_drawing_cache &other ) {
-        this->sprites = other.sprites;
-        this->rotations = other.rotations;
-    }
-};
 
 struct pixel {
     int r;
@@ -276,11 +225,10 @@ struct minimap_submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
-
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
 class tileset
 {
@@ -395,7 +343,7 @@ class tileset_loader
          * <B>config</B>. That array should contain all the tile definition that
          * should be taken from an tileset image.
          * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
          * sprite offset dictates where each sprite should render in its tile
@@ -415,9 +363,7 @@ class tileset_loader
 class cata_tiles
 {
     public:
-        /** Default constructor */
         cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -455,7 +401,8 @@ class cata_tiles
         bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
-        /** Surface/Sprite rotation specifics */
+        ///@throws std::exception upon errors.
+        ///@returns Always a valid pointer.
         SDL_Surface_Ptr create_tile_surface();
 
         /* Tile Picking */
@@ -638,7 +585,7 @@ class cata_tiles
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         minimap_shared_texture_pool tex_pool;
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );

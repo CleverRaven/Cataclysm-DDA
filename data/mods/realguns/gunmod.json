@@ -1,50 +1,5 @@
 [
   {
-    "id": "retool_22",
-    "copy-from": "retool_22",
-    "type": "GUNMOD",
-    "name": ".22 caliber conversion kit",
-    "description": "Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, 4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
-  },
-  {
-    "id": "retool_45",
-    "copy-from": "retool_45",
-    "type": "GUNMOD",
-    "name": ".45 caliber conversion kit",
-    "description": "Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt firearm converts it to a .45 ACP firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
-  },
-  {
-    "id": "retool_9mm",
-    "copy-from": "retool_9mm",
-    "type": "GUNMOD",
-    "name": "9mm caliber conversion kit",
-    "description": "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm converts it to a 9mm firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
-  },
-  {
-    "id": "retool_410",
-    "type": "GUNMOD",
-    "name": ".410 bore conversion kit",
-    "description": "This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 rifle to the lightweight .410 shotgun bore.  The conversion results in a slight reduction to accuracy.",
-    "weight": 114,
-    "volume": 2,
-    "integral_volume": 0,
-    "price": 52000,
-    "material": "steel",
-    "symbol": ":",
-    "color": "green",
-    "location": "bore",
-    "mod_targets": [ "rifle", "shotgun" ],
-    "acceptable_ammo": [ "762", "223", "308", "shot" ],
-    "install_time": 60000,
-    "dispersion_modifier": 30,
-    "ammo_modifier": "410",
-    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
-  },
-  {
     "id": "M6_shotgun",
     "type": "GUNMOD",
     "name": "M6 ASW shotgun",

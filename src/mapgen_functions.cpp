@@ -8,7 +8,6 @@
 #include "mapgenformat.h"
 #include "overmap.h"
 #include "options.h"
-#include "game.h"
 #include "debug.h"
 #include "scenario.h"
 #include "item.h"
@@ -120,7 +119,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
     { "s_sports", mapgen_s_sports },
-    { "shelter_under", &mapgen_shelter_under },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     { "basement_spiders", &mapgen_basement_spiders },
@@ -138,25 +136,23 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     // Old rock behavior, for compatibility and near caverns and slime pits
     { "rock", &mapgen_rock_partial },
 
-    { "subway_station", &mapgen_subway_station },
-
-    { "subway_straight",    &mapgen_subway_straight },
-    { "subway_curved",      &mapgen_subway_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
-    { "subway_end",         &mapgen_subway_straight },
-    { "subway_tee",         &mapgen_subway_tee },
-    { "subway_four_way",    &mapgen_subway_four_way },
+    { "subway_straight",    &mapgen_subway },
+    { "subway_curved",      &mapgen_subway },
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+    { "subway_end",         &mapgen_subway },
+    { "subway_tee",         &mapgen_subway },
+    { "subway_four_way",    &mapgen_subway },
 
     { "sewer_straight",    &mapgen_sewer_straight },
     { "sewer_curved",      &mapgen_sewer_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "sewer_end",         &mapgen_sewer_straight },
     { "sewer_tee",         &mapgen_sewer_tee },
     { "sewer_four_way",    &mapgen_sewer_four_way },
 
     { "ants_straight",    &mapgen_ants_straight },
     { "ants_curved",      &mapgen_ants_curved },
-    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
     { "ants_end",         &mapgen_ants_straight },
     { "ants_tee",         &mapgen_ants_tee },
     { "ants_four_way",    &mapgen_ants_four_way },
@@ -286,7 +282,7 @@ ter_id mapgendata::groundcover() {
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
 {
-    // @todo De-uglify, implement proper conversion somewhere
+    // @todo: De-uglify, implement proper conversion somewhere
     switch( dir ) {
         case om_direction::type::north:
             return north();
@@ -351,7 +347,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-// todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
+// @todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
     if ( tfid.ter != t_null ) {
         m->ter_set(x, y, tfid.ter );
@@ -390,7 +386,7 @@ void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
         }
     }
 
-    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: take 'rock' out and add as regional biome setting
+    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: take 'rock' out and add as regional biome setting
 }
 
 void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
@@ -414,7 +410,7 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         }
     }
 }
-// todo: more region_settings for forest biome
+// @todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     if (terrain_type == "forest_thick") {
@@ -456,7 +452,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 std::array<std::pair<int, ter_id>, 15> tree_chances = {{
-                        // todo: JSONize this array!
+                        // @todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
@@ -507,7 +503,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
-    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: region settings
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // @todo: fixme: region settings
 
     if (terrain_type == "forest_water") {
         // Reset *_fac to handle where to place water
@@ -608,7 +604,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 
     //1-2 per overmap, very bad day for low level characters
     if (one_in(10000)) {
-        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // fixme add to monster_group?
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // @todo: fixme add to monster_group?
     }
 
     //Very rare easter egg, ~1 per 10 overmaps
@@ -950,7 +946,7 @@ void nesw_array_rotate( T *array, size_t len, size_t dist ) {
     }
 }
 
-// take x/y coords in a map and rotate them counterclockwise around the center
+// take x/y coordinates in a map and rotate them counterclockwise around the center
 void coord_rotate_cw( int &x, int &y, int rot ) {
     for( ; rot--; ) {
         int temp = y;
@@ -1227,170 +1223,299 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         m->ter_set( rng( 6, SEEX * 2 - 6 ), rng( 6, SEEX * 2 - 6 ), t_manhole_cover );
     }
 
-    // finally, un-rotate the map
+    // finally, unrotate the map
     m->rotate( rot );
 
 }
 ///////////////////
 
-//    } else if (terrain_type == "subway_station") {
-void mapgen_subway_station(map *m, oter_id, mapgendata dat, int, float)
+void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
 {
-        if (is_ot_type("subway", dat.north()) && connects_to(dat.north(), 2)) {
-            dat.set_dir(0, 1); //n_fac = 1;
-        }
-        if (is_ot_type("subway", dat.east()) && connects_to(dat.east(), 3)) {
-            dat.set_dir(0, 1);
-            //e_fac = 1;
-        }
-        if (is_ot_type("subway", dat.south()) && connects_to(dat.south(), 0)) {
-            dat.set_dir(0, 1);
-            //s_fac = 1;
-        }
-        if (is_ot_type("subway", dat.west()) && connects_to(dat.west(), 1)) {
-            dat.set_dir(0, 1);
-            //w_fac = 1;
+    // start by filling the whole map with grass/dirt/etc
+    dat.fill_groundcover();
+
+    // which of the cardinal directions get subway?
+    bool subway_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( terrain_type, subway_nesw );
+
+    // which way should our subway curve, based on neighbor subway?
+    int curvedir_nesw[4] = {};
+    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+        if( subway_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "subway" ) {
+            continue;
         }
 
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i < 4 && (dat.w_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
-                    (j < 4 && (dat.n_fac == 0 || i < 4 || i > SEEX * 2 - 5)) ||
-                    (i > SEEX * 2 - 5 && (dat.e_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
-                    (j > SEEY * 2 - 5 && (dat.s_fac == 0 || i < 4 || i > SEEX * 2 - 5))) {
-                    m->ter_set(i, j, t_rock_floor);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
+        // n_* contain details about the neighbor being considered
+        bool n_subway_nesw[4] = {};
+        //TODO figure out how to call this function without creating a new oter_id object
+        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
+        // if 2-way neighbor has a subway facing us
+        if( n_num_dirs == 2 && n_subway_nesw[( dir + 2 ) % 4] ) {
+            // curve towards the direction the neighbor turns
+            if( n_subway_nesw[( dir - 1 + 4 ) % 4] ) {
+                curvedir_nesw[dir]--;    // our subway curves counterclockwise
+            }
+            if( n_subway_nesw[( dir + 1 ) % 4] ) {
+                curvedir_nesw[dir]++;    // our subway curves clockwise
             }
         }
-        m->ter_set(2,            2           , t_stairs_up);
-        m->ter_set(SEEX * 2 - 3, 2           , t_stairs_up);
-        m->ter_set(2,            SEEY * 2 - 3, t_stairs_up);
-        m->ter_set(SEEX * 2 - 3, SEEY * 2 - 3, t_stairs_up);
-        if (m->ter(2, SEEY) == t_floor) {
-            m->ter_set(2, SEEY, t_stairs_up);
-        }
-        if (m->ter(SEEX * 2 - 3, SEEY) == t_floor) {
-            m->ter_set(SEEX * 2 - 3, SEEY, t_stairs_up);
-        }
-        if (m->ter(SEEX, 2) == t_floor) {
-            m->ter_set(SEEX, 2, t_stairs_up);
-        }
-        if (m->ter(SEEX, SEEY * 2 - 3) == t_floor) {
-            m->ter_set(SEEX, SEEY * 2 - 3, t_stairs_up);
-        }
-}
+    }
 
-void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        if (terrain_type == "subway_ns") {
-            dat.w_fac = (dat.west()  == "cavern" ? 0 : 4);
-            dat.e_fac = (dat.east()  == "cavern" ? SEEX * 2 : SEEX * 2 - 5);
-        } else {
-            dat.w_fac = (dat.north() == "cavern" ? 0 : 4);
-            dat.e_fac = (dat.south() == "cavern" ? SEEX * 2 : SEEX * 2 - 5);
-        }
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < dat.w_fac || i > dat.e_fac) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(90)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
+    // calculate how far to rotate the map so we can work with just one orientation
+    // also keep track of diagonal subway
+    int rot = 0;
+    bool diag = false;
+    //TODO reduce amount of logical/conditional constructs here
+    switch ( num_dirs ) {
+        case 4: // 4-way intersection
+            break;
+        case 3: // tee
+            if( !subway_nesw[0] ) { rot = 2; break; } // E/S/W, rotate 180 degrees
+            if( !subway_nesw[1] ) { rot = 3; break; } // N/S/W, rotate 270 degrees
+            if( !subway_nesw[3] ) { rot = 1; break; } // N/E/S, rotate  90 degrees
+            break;                                    // N/E/W, don't rotate
+        case 2: // straight or diagonal
+            if( subway_nesw[1] && subway_nesw[3] ) { rot = 1; break; }              // E/W, rotate  90 degrees
+            if( subway_nesw[1] && subway_nesw[2] ) { rot = 1; diag = true; break; } // E/S, rotate  90 degrees
+            if( subway_nesw[2] && subway_nesw[3] ) { rot = 2; diag = true; break; } // S/W, rotate 180 degrees
+            if( subway_nesw[3] && subway_nesw[0] ) { rot = 3; diag = true; break; } // W/N, rotate 270 degrees
+            if( subway_nesw[0] && subway_nesw[1] ) {          diag = true; break; } // N/E, don't rotate
+            break;                                                                  // N/S, don't rotate
+        case 1: // dead end
+            if( subway_nesw[1] ) { rot = 1; break; } // E, rotate  90 degrees
+            if( subway_nesw[2] ) { rot = 2; break; } // S, rotate 180 degrees
+            if( subway_nesw[3] ) { rot = 3; break; } // W, rotate 270 degrees
+            break;                                   // N, don't rotate
+    }
+
+    // rotate the arrays left by rot steps
+    nesw_array_rotate<bool>( subway_nesw, 4, rot );
+    nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
+
+    // now we have only these shapes: '   |   '-   -'-   -|-
+
+    switch ( num_dirs ) {
+        case 4: // 4-way intersection
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+^-x--x-.########.-x--x-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-^-x^...######...^x-^-^\n\
+^-^X^-............-^X^-^\n\
+XxX^................^XxX\n\
+^-^..................^-^\n\
+........................\n\
+###......######......###\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+###......######......###\n\
+........................\n\
+^-^..................^-^\n\
+XxX^................^XxX\n\
+^-^X^-............-^X^-^\n\
+^-^-x^...######...^x-^-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-x--x-.########.-x--x-^\n\
+.^X^^X^.########.^X^^X^.",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_railroad_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+        case 3: // tee
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+^-x--x-.########.-x--x-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-^-x^...######...^x-^-^\n\
+^-^X^-............-^X^-^\n\
+XxX^................^XxX\n\
+^-^..................^-^\n\
+........................\n\
+###......######......###\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+###......######......###\n\
+........................\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+........................",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_railroad_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+        case 2: // straight or diagonal
+            if( diag ) { // diagonal subway get drawn differently from all other types
+                    mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-^\n\
+.^X^^X^.########.^X^^-xX\n\
+.^X^^X^..######...^x-^-^\n\
+.-x--x-...........-^X^-^\n\
+.^X^^X^.............^XxX\n\
+.^X^^X^..............^-^\n\
+.-x--x-.................\n\
+.^X^^X^..######......###\n\
+.^X^^X^.########....####\n\
+.-x--x-.########....####\n\
+.^X^^X^.########....####\n\
+.^X^^X^.########....####\n\
+.-x--x-.########....####\n\
+.^X^^X^.########....####\n\
+.^X^^X^..######......###\n\
+.-X--X-.................\n\
+..^X^^X-^^-^^-^^-^^-^^-^\n\
+##.^X^-xXXxXXxXXxXXxXXxX\n\
+###.-x^-^^-^^-^^-^^-^^-^\n\
+####.^X-^^-^^-^^-^^-^^-^\n\
+#####.^XXXxXXxXXxXXxXXxX\n\
+######.-^^-^^-^^-^^-^^-^\n\
+######..................",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_railroad_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            } else { // normal subway drawing
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_railroad_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
                 }
-            }
-        }
-        if (is_ot_type("sub_station", dat.t_above)) {
-            m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 30, 4, 0, SEEX * 2 - 5, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_ew") {
-            m->rotate(1);
-        }
-}
+            break;
+        case 1:  // dead end
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+........########........\n\
+........########........\n\
+........########........\n\
+#......##########......#\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_railroad_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+    }
 
-void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-        if( is_ot_type( "sub_station", dat.t_above ) ) {
-            m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 30, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_es") {
-            m->rotate(1);
-        }
-        if (terrain_type == "subway_sw") {
-            m->rotate(2);
-        }
-        if (terrain_type == "subway_wn") {
-            m->rotate(3);
-        }
-}
+    // finally, unrotate the map
+    m->rotate( rot );
 
-void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-        if( is_ot_type( "sub_station", dat.t_above ) ) {
-            m->ter_set(4, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 35, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_esw") {
-            m->rotate(1);
-        }
-        if (terrain_type == "subway_nsw") {
-            m->rotate(2);
-        }
-        if (terrain_type == "subway_new") {
-            m->rotate(3);
-        }
-}
-
-void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
-{
-
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i < 4 || i >= SEEX * 2 - 4) &&
-                    (j < 4 || j >= SEEY * 2 - 4)) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-
-        if (is_ot_type("sub_station", dat.t_above)) {
-            m->ter_set(4 + rng(0, 1) * (SEEX * 2 - 9), 4 + rng(0, 1) * (SEEY * 2 - 9), t_stairs_up);
-        }
-        m->place_items("subway", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
 void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
@@ -2359,7 +2484,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         } else {
             m->ter_set(mw, rng(cw + 3, actual_house_height - 4), t_door_c);
         }
-        // Door to bathrom
+        // Door to bathroom
         if (one_in(4)) {
             m->ter_set(mw, actual_house_height - 1, t_door_c);
         } else {
@@ -2520,7 +2645,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
             const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-            // @todo Less ugly check
+            // @todo: Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
             if( ( force && ter_here.movecost > 0 ) ||
@@ -2565,7 +2690,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
+    if (one_in(100)) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_door_c || m->ter(i, j) == t_door_locked) {
@@ -2598,7 +2723,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
         m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-    } else if (one_in(150)) { // todo; region_data // No wasps; black widows?
+    } else if (one_in(150)) { // @todo: region_data // No wasps; black widows?
         auto spider_type = mon_spider_widow_giant;
         auto egg_type = f_egg_sackbw;
     if( one_in(2) ) {
@@ -2800,34 +2925,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
-
-
-void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "shelter_under") {
-
-(void)dat;
-        // Make the whole area rock, then plop an open area in the center.
-        square(m, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-        square(m, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
-        // Create an anteroom with the stairs and some locked doors.
-        m->ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
-        m->ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX    , SEEY * 2 - 6, t_rock_floor);
-        m->ter_set(SEEX - 1, SEEY * 2 - 5, t_stairs_up);
-        m->ter_set(SEEX    , SEEY * 2 - 5, t_stairs_up);
-        if( one_in(10) ) {
-            // Scatter around lots of items and some zombies.
-            for( int x = 0; x < 10; ++x ) {
-                m->place_items("shelter", 90, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-            }
-            m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 1, 6, 6, SEEX * 2 - 8, SEEX * 2 - 8, 0.2);
-        } else {
-            // Scatter around some items.
-            m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
-        }
-}
-
 
 ///////////////////////////////////////////////////////////
 void mapgen_basement_generic_layout(map *m, oter_id, mapgendata, int, float)
@@ -3262,7 +3359,7 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
 void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 {
         if (dat.above() == "cave") {
-            // We're underground! // FIXME; y u no use zlevel
+            // We're underground! // FIXME; y u no use z-level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||

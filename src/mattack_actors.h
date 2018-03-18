@@ -28,7 +28,7 @@ class leap_actor : public mattack_actor
         float max_consider_range;
 
         leap_actor() { }
-        ~leap_actor() override { }
+        ~leap_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
@@ -75,7 +75,7 @@ class melee_actor : public mattack_actor
         std::string hit_dmg_npc;
 
         melee_actor();
-        ~melee_actor() override { }
+        ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
@@ -93,7 +93,7 @@ class bite_actor : public melee_actor
         int no_infection_chance;
 
         bite_actor();
-        ~bite_actor() override { }
+        ~bite_actor() override = default;
 
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
@@ -145,11 +145,11 @@ class gun_actor : public mattack_actor
         bool require_targeting_npc = false;
         bool require_targeting_monster = false;
 
-        int targeting_timeout = 8; /** Default turns afer which targeting is lsot and needs repeating */
+        int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
         std::string targeting_sound;
-        int targeting_volume = 6; /** If set to zero don't emit any targetting sounds */
+        int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
         /*@}*/
@@ -160,7 +160,7 @@ class gun_actor : public mattack_actor
         void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
-        ~gun_actor() override { }
+        ~gun_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;

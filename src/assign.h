@@ -36,7 +36,7 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
         err = jo.get_object( "relative" );
@@ -206,7 +206,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
             } else if( suffix == "L" ) {
                 out = units::from_milliliter( tmp * 1000 );
             } else {
-                obj.throw_error( "unrecognised volumetric unit", name );
+                obj.throw_error( "unrecognized volumetric unit", name );
             }
             return true;
         }
@@ -219,7 +219,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).has_member( name ) ) {
         units::volume tmp;
@@ -283,6 +283,55 @@ inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
         report_strict_violation( jo, "assignment does not update value", name );
     }
     val = out;
+    return true;
+}
+
+class time_duration;
+// This is a function template not a real function as that allows it to be defined
+// even when time_duration is *not* defined yet. When called with anything else but
+// time_duration as `val`, SFINAE (the enable_if) will disable this function and it
+// will be ignored. If it is called with time_duration, it is available and the
+// *caller* is responsible for including the "calendar.h" header.
+template<typename T>
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
+{
+    T out = 0;
+    double scalar;
+    int tmp;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        err = jo.get_object( "relative" );
+        strict = false;
+        out = tmp * factor + val;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        err = jo.get_object( "proportional" );
+        if( scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( jo.read( name, tmp ) ) {
+        out = tmp * factor;
+
+    } else {
+        return false;
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
     return true;
 }
 

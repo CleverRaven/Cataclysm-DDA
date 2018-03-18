@@ -27,11 +27,7 @@
     "type": "AMMO",
     "name": "7.62x51mm M80",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
-    "relative": {
-      "damage": -2,
-      "pierce": 4,
-      "dispersion": 10
-    },
+    "relative": { "damage": -2, "pierce": 4, "dispersion": 10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -39,7 +35,7 @@
     "id": "762_51_incendiary",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": "7.62 NATO tracer",
+    "name": "7.62x51mm NATO tracer",
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
   },
@@ -48,11 +44,7 @@
     "copy-from": "308",
     "type": "AMMO",
     "name": "reloaded .308 Winchester",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -61,11 +53,7 @@
     "copy-from": "762_51",
     "type": "AMMO",
     "name": "reloaded 7.62x51mm",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -74,11 +62,7 @@
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
     "name": "reloaded 7.62x51mm incendiary",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }

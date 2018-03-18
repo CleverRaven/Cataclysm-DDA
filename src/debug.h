@@ -107,7 +107,7 @@ enum DebugClass {
     D_MAP_GEN = 1 << 3,
     /** Main game class */
     D_GAME    = 1 << 4,
-    /** ncps*.cpp */
+    /** npcs*.cpp */
     D_NPC     = 1 << 5,
     /** SDL & tiles & anything graphical */
     D_SDL     = 1 << 6,
@@ -120,7 +120,7 @@ void setupDebug();
 /** Opposite of setupDebug, shuts the debugging system down. */
 void deinitDebug();
 
-// Function Declatations                                            {{{1
+// Function Declarations                                            {{{1
 // ---------------------------------------------------------------------
 /**
  * Set debug levels that should be logged. bitmask is a OR-combined

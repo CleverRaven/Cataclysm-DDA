@@ -71,7 +71,7 @@ tripoint rotate_point( const tripoint &p, int turn );
 
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
 
-// @todo pass mapgendata by reference.
+// @todo: pass mapgendata by reference.
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
 ter_id grass_or_dirt();
@@ -108,9 +108,6 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
-void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_shelter_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-
 void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -129,11 +126,7 @@ void mapgen_rock_partial(map *m, oter_id terrain_type, mapgendata dat, int turn,
 void mapgen_open_air(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rift(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hellmouth(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_subway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sewer_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

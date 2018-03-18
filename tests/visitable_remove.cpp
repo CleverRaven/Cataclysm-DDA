@@ -5,6 +5,7 @@
 #include "visitable.h"
 #include "itype.h"
 #include "map.h"
+#include "map_selector.h"
 #include "rng.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -51,6 +52,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         } );
     };
 
+    // Move to ground level to avoid weirdnesses around being underground.
+    p.setz( 0 );
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
         p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );

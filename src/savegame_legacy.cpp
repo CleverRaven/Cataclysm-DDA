@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "json.h"
 #include "player_activity.h"
+#include "calendar.h"
 
 #include <unordered_map>
 #include <string>
@@ -197,7 +198,7 @@ void item::load_info( const std::string &data )
     unset_flags();
     clear_vars();
     std::string idtmp, ammotmp, item_tag, mode;
-    int lettmp, damtmp, acttmp, corp, tag_count;
+    int lettmp, damtmp, acttmp, corp, tag_count, bday_;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
@@ -208,12 +209,13 @@ void item::load_info( const std::string &data )
         }
     }
 
-    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
+    dump >> burnt >> poison >> ammotmp >> owned >> bday_ >>
          mode >> acttmp >> corp >> mission_id >> player_id;
+    bday = time_point::from_turn( bday_ );
     corpse = NULL;
     getline(dump, corpse_name);
     if( corpse_name == " ''" ) {
-        corpse_name = "";
+        corpse_name.clear();
     } else {
         size_t pos = corpse_name.find_first_of( "@@" );
         while (pos != std::string::npos)  {
@@ -298,7 +300,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            // save compatiblity hack: read the line, initialze new members to 0,
+            // save compatibility hack: read the line, initialize new members to 0,
             // "parse" line,
             std::string tmp;
             getline(fin, tmp);
@@ -403,11 +405,11 @@ void overmap::unserialize_legacy(std::istream & fin) {
                             t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
-                                settings = rit->second; // todo optimize
+                                settings = rit->second; // @todo: optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
                                 std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
-                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
+                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crash time anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
                 ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
                 ....... good luck.                 \n",
@@ -543,7 +545,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
-        debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
+        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type, legacy_map.size() );
         dest = activity_id::NULL_ID();
         return;
     }

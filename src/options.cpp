@@ -105,7 +105,6 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 options_manager::cOpt::cOpt()
 {
     sType = "VOID";
-    sPage = "";
     hide = COPT_NO_HIDE;
 }
 
@@ -319,7 +318,7 @@ bool options_manager::cOpt::is_hidden() const
 #endif
 
     case COPT_POSIX_CURSES_HIDE:
-        // Check if we on windows and using wincuses.
+        // Check if we on windows and using wincurses.
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         return false;
 #else
@@ -586,7 +585,7 @@ void options_manager::cOpt::setNext()
     }
 }
 
-//set to prev item
+//set to previous item
 void options_manager::cOpt::setPrev()
 {
     if (sType == "string_select") {
@@ -597,7 +596,7 @@ void options_manager::cOpt::setPrev()
 
         sSet = vItems[iPrev].first;
 
-    } else if (sType == "string_select") {
+    } else if (sType == "string_input") {
         setNext();
 
     } else if (sType == "bool") {
@@ -696,7 +695,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
 }
 
 /** Fill a mapping with values.
- * Scans all directores in FILENAMES[dirname_label] directory for
+ * Scans all directories in FILENAMES[dirname_label] directory for
  * a file named FILENAMES[filename_label].
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
@@ -725,11 +724,11 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
                     getline( fin, sOption );
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
-                        resource_name = "";
+                        resource_name.clear();
                         getline( fin, resource_name );
                         resource_name = trim( resource_name );
                     } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                        view_name = "";
+                        view_name.clear();
                         getline( fin, view_name );
                         view_name = trim( view_name );
                         break;
@@ -804,7 +803,7 @@ void options_manager::init()
         );
 
     add( "AUTO_PICKUP_ADJACENT", "general", translate_marker( "Auto pickup adjacent" ),
-        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your homebase." ),
+        translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
         false
         );
 
@@ -821,6 +820,11 @@ void options_manager::init()
     add( "AUTO_PICKUP_SAFEMODE", "general", translate_marker( "Auto pickup safe mode" ),
         translate_marker( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
         false
+        );
+
+    add( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS", "general", translate_marker( "List items within no auto pickup zones" ),
+        translate_marker( "If false, you will not see messages about items, you step on, within no auto pickup zones." ),
+        true
         );
 
     mOptionsSort["general"]++;
@@ -860,7 +864,7 @@ void options_manager::init()
         );
 
     add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
-        translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player viewdistance." ),
+        translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
         0, MAX_VIEW_DISTANCE, 0
         );
 
@@ -937,7 +941,7 @@ void options_manager::init()
     add( "USE_LANG", "interface", translate_marker( "Language" ), translate_marker( "Switch Language." ),
         { { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
           { "fr",  R"( Français )" },
@@ -977,7 +981,7 @@ void options_manager::init()
         );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
-        translate_marker( "12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31" ),
+        translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
         //~ 12h time, e.g.  11:59pm
         { { "12h", translate_marker( "12h" ) },
         //~ Military time, e.g.  2359
@@ -1030,6 +1034,13 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
+    add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+        translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
+        true, COPT_CURSES_HIDE
+        );
+
+    mOptionsSort["interface"]++;
+
     add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
         translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
         true
@@ -1074,6 +1085,12 @@ void options_manager::init()
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers
         { { "numbers", translate_marker( "Numbers" ) }, { "bars", translate_marker( "Bars" ) } }, "bars"
+        );
+
+    add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
+        translate_marker( "Morale display style in sidebar." ),
+        //~ aim bar style - bars or numbers
+        { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } }, "Vertical"
         );
 
     mOptionsSort["interface"]++;
@@ -1188,7 +1205,7 @@ void options_manager::init()
         );
 
     add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
-        translate_marker( "Overal brightness of pixel-detail minimap." ),
+        translate_marker( "Overall brightness of pixel-detail minimap." ),
         10, 300, 100, COPT_CURSES_HIDE
         );
 
@@ -1502,18 +1519,18 @@ void options_manager::init()
     //Sort out possible double empty lines after options are hidden
     for (unsigned i = 0; i < vPages.size(); ++i) {
         bool bLastLineEmpty = false;
-        while (mPageItems[i][0] == "") {
+        while( mPageItems[i][0].empty() ) {
             //delete empty lines at the beginning
             mPageItems[i].erase(mPageItems[i].begin());
         }
 
-        while (mPageItems[i][mPageItems[i].size() - 1] == "") {
+        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
             //delete empty lines at the end
             mPageItems[i].erase(mPageItems[i].end() - 1);
         }
 
         for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
-            bool bThisLineEmpty = (mPageItems[i][j] == "");
+            bool bThisLineEmpty = mPageItems[i][j].empty();
 
             if (bLastLineEmpty == true && bThisLineEmpty == true) {
                 //delete empty lines in between
@@ -1559,7 +1576,7 @@ static void refresh_tiles( bool, bool, bool ) {
 }
 #endif // TILES
 
-void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines, const bool world_options_only )
+void draw_borders_external( const catacurses::window &w, int horizontal_level, std::map<int, bool> &mapLines, const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -1573,7 +1590,7 @@ void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool>
     wrefresh( w );
 }
 
-void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
+void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {
@@ -1612,20 +1629,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     mapLines[4] = true;
     mapLines[60] = true;
 
-    WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX);
-    WINDOW_PTR w_options_borderptr( w_options_border );
-
-    WINDOW *w_options_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
-                                       1 + iOffsetX);
-    WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
-
-    WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
-                                      1 + iOffsetX);
-    WINDOW_PTR w_options_headerptr( w_options_header );
-
-    WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
-                               iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_optionsptr( w_options );
+    catacurses::window w_options_border = catacurses::newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX);
+    catacurses::window w_options_tooltip = catacurses::newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
+    catacurses::window w_options_header = catacurses::newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
+    catacurses::window w_options = catacurses::newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs(w_options_border, 1);
@@ -1684,7 +1691,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
             int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
-            cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
+            const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
 
             line_pos = i - iStartPos;
 
@@ -1697,16 +1704,16 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             } else {
                 mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
-            const std::string name = utf8_truncate( current_opt->getMenuText(), name_width );
-            mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
+            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
+            mvwprintz( w_options, line_pos, name_col + 3, c_white, name );
 
-            if (current_opt->getValue() == "false") {
+            if (current_opt.getValue() == "false") {
                 cLineColor = c_light_red;
             }
 
-            const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
+            const std::string value = utf8_truncate( current_opt.getValueName(), value_width );
             mvwprintz(w_options, line_pos, value_col, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", value.c_str());
+                      cLineColor, value );
         }
 
         draw_scrollbar(w_options_border, iCurrentLine, iContentHeight,
@@ -1796,15 +1803,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 if (iCurrentLine >= (int)mPageItems[iCurrentPage].size()) {
                     iCurrentLine = 0;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == ""));
+            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
                     iCurrentLine = mPageItems[iCurrentPage].size() - 1;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "")
-                   );
+            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
@@ -1932,7 +1938,7 @@ void options_manager::serialize(JsonOut &json) const
 {
     json.start_array();
 
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2021,7 +2027,7 @@ bool options_manager::load_legacy()
         while(!fin.eof()) {
             getline(fin, sLine);
 
-            if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
+            if( !sLine.empty() && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                 int iPos = sLine.find(' ');
                 const std::string loadedvar = sLine.substr(0, iPos);
                 const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
@@ -2082,7 +2088,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

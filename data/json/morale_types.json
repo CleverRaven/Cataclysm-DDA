@@ -278,5 +278,10 @@
     "id": "morale_perm_filthy",
     "type": "morale_type",
     "text": "Filthy Gear"
+  },
+  {
+    "id": "morale_perm_debug",
+    "type": "morale_type",
+    "text": "Debug Morale"
   }
 ]

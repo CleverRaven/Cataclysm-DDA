@@ -36,7 +36,7 @@ using requirement_id = string_id<requirement_data>;
 class Skill;
 using skill_id = string_id<Skill>;
 
-// bitmask backing store of -certian- vpart_info.flags, ones that
+// bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
@@ -69,6 +69,7 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_WASHING_MACHINE,
 
     NUM_VPFLAGS
 };
@@ -231,7 +232,7 @@ class vpart_info
 struct vehicle_item_spawn {
     point pos;
     int chance;
-    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;

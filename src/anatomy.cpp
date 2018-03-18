@@ -104,7 +104,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
     size_sum += bp_struct.hit_size;
 }
 
-// @todo get_function_with_better_name
+// @todo: get_function_with_better_name
 bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
     for( auto &part : cached_bps ) {

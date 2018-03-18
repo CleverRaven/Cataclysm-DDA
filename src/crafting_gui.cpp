@@ -10,6 +10,7 @@
 #include "game.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "catacharset.h"
 #include "output.h"
 #include "json.h"
@@ -32,9 +33,11 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec );
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec );
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+                              TAB_MODE mode = NORMAL );
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
 
 std::string get_cat_name( std::string prefixed_name )
@@ -95,7 +98,8 @@ void reset_recipe_categories()
 }
 
 
-int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, int batch )
+int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
+                 int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
@@ -105,8 +109,17 @@ int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, i
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
-                   item::nname( bp.first ).c_str() );
+        const auto t = item::find_type( bp.first );
+        int amount = bp.second * batch;
+        std::string desc;
+        if( t->count_by_charges() ) {
+            amount *= t->charges_default();
+            desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
+        } else {
+            desc = string_format( "> %d %s", amount,
+                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
+        }
+        mvwprintz( w, ypos++, xpos, col, desc.c_str() );
     }
 
     return ypos - oldy;
@@ -134,12 +147,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const recipe *last_recipe = nullptr;
 
-    WINDOW *w_head = newwin( headHeight, width, 0, wStart );
-    WINDOW_PTR w_head_ptr( w_head );
-    WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
-    WINDOW_PTR w_subhead_ptr( w_subhead );
-    WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
-    WINDOW_PTR w_data_ptr( w_data );
+    catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
+    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
+    catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
+                                wStart );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -153,8 +164,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         item_info_height = 1;
     }
 
-    WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
-    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
+    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
+                                    item_info_width );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -213,7 +224,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 display_mode = 2;
             }
 
-            TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
+            TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
 
@@ -300,7 +311,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             mvwprintz( w_data, dataLines + 1, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
@@ -308,7 +319,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
-            if( filterstring != "" ) {
+            if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
                            _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings" ) );
             } else {
@@ -333,7 +344,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -348,7 +359,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -365,7 +376,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = item::nname( current[i]->result );
+                    std::string tmp_name = current[i]->result_name();
                     if( batch ) {
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
                     }
@@ -383,7 +394,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else {
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
-                std::string tmp_name = item::nname( current[i]->result );
+                std::string tmp_name = current[i]->result_name();
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
                 }
@@ -469,13 +480,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
-                               // Macs don't seem to like passing this as a class, so force it to int
-                               ( int )g->u.get_skill_level( current[line]->skill_used ) );
+                               g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
                 const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
                 const std::string text = string_format( _( "Time to complete: %s" ),
-                                                        calendar::print_duration( turns ).c_str() );
+                                                        to_string( time_duration::from_turns( turns ) ) );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
 
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
@@ -601,7 +611,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             chosen = nullptr;
             done = true;
         } else if( action == "RESET_FILTER" ) {
-            filterstring = "";
+            filterstring.clear();
             redraw = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {
@@ -630,10 +640,11 @@ const recipe *select_crafting_recipe( int &batch_size )
 }
 
 // Anchors top-right
-static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec )
+static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+                                      const recipe &rec )
 {
     // Erase previous text
-    // @fixme replace this hack by proper solution (based on max width of possible content)
+    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
@@ -649,7 +660,7 @@ static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recip
     }
 }
 
-static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -681,7 +692,8 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab, TAB_MODE mode )
+static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+                                 TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );

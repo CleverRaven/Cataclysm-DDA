@@ -205,25 +205,6 @@
         }
     },
     {
-        "id" : "brownie_weed",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "special brownie",
-        "description" : "This is definitely not how grandma used to bake them.",
-        "weight" : 56,
-        "volume" : 3,
-        "price" : 5000,
-        "charges" : 8,
-        "material" : "wheat",
-        "symbol" : "%",
-        "color" : "brown",
-        "nutrition" : 20,
-        "fun" : 15,
-        "spoils_in" : 420,
-        "use_action" : "WEED_BROWNIE",
-        "flags" : [ "EATEN_HOT" ]
-    },
-    {
         "id" : "caff_gum",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -491,32 +472,6 @@
             "fields_produced" : {"fd_cracksmoke" : 2},
             "charges_needed" : { "fire" : 1 },
             "tools_needed" : { "apparatus" : -1 }
-        }
-    },
-    {
-        "id" : "datura_seed",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "datura seeds",
-        "name_plural" : "datura seeds",
-        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
-        "category" : "other",
-        "weight" : 2,
-        "volume" : 1,
-        "price" : 0,
-        "charges" : 4,
-        "stack_size" : 100,
-        "symbol" : ".",
-        "color" : "brown",
-        "stim" : 6,
-        "healthy" : -2,
-        "fun" : -1,
-        "use_action" : "DATURA",
-        "seed_data" : {
-            "plant_name" : "datura",
-            "fruit" : "datura_seed",
-            "byproducts" : [ "withered" ],
-            "grow" : 91
         }
     },
     {

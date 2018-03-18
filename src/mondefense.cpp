@@ -6,17 +6,19 @@
 #include "creature.h"
 #include "damage.h"
 #include "game.h"
+#include "output.h"
 #include "projectile.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
 #include "messages.h"
-#include "map.h"
 #include "translations.h"
 #include "field.h"
 #include "player.h"
 
 #include <algorithm>
+
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -25,19 +27,19 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 void mdefense::zapback( monster &m, Creature *const source,
                         dealt_projectile_attack const *const proj )
 {
-    // Not a melee attack, attacker lucked out or out of range
-    if( source == nullptr || proj != nullptr ||
-        rl_dist( m.pos(), source->pos() ) > 1 ) {
+    player const *const foe = dynamic_cast<player *>( source );
+
+    // Players/NPCs can avoid the shock by using non-conductive weapons
+    if( foe != nullptr && !foe->weapon.conductive() && !foe->unarmed_attack() ) {
+        return;
+    }
+
+    // Reach melee attack or attacker lucked out
+    if( source == nullptr || ( proj != nullptr && !foe->weapon.has_flag( "REACH_ATTACK" ) ) ) {
         return;
     }
 
     if( source->is_elec_immune() ) {
-        return;
-    }
-
-    // Players/NPCs can avoid the shock by using non-conductive weapons
-    player const *const foe = dynamic_cast<player *>( source );
-    if( foe != nullptr && !foe->weapon.conductive() && !foe->unarmed_attack() ) {
         return;
     }
 

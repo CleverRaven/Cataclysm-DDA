@@ -59,7 +59,7 @@
       [ "fish_fried", 7 ],
       [ "cheese", 10 ],
       [ "lemon", 15 ],
-      [ "pickle", 10 ],
+      { "item": "pickle", "prob": 10, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 15 ],
       [ "fries", 15 ],
       [ "cheese_fries", 10 ],
@@ -78,8 +78,6 @@
     "items": [
       [ "vinegar", 20 ],
       [ "jam_fruit", 5 ],
-      [ "jam_strawberries", 5 ],
-      [ "jam_blueberries", 5 ],
       [ "bread", 17 ],
       [ "meat", 20 ],
       [ "cornbread", 7 ],

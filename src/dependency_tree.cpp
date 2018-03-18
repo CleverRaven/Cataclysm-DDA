@@ -10,7 +10,6 @@ std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
 {
-    key = "";
     availability = true;
 }
 
@@ -19,8 +18,6 @@ dependency_node::dependency_node( std::string _key ): index( -1 ), lowlink( -1 )
     key = _key;
     availability = true;
 }
-
-dependency_node::~dependency_node() = default;
 
 void dependency_node::add_parent( dependency_node *parent )
 {
@@ -255,13 +252,9 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
 
 
-// dependency_tree
 dependency_tree::dependency_tree()
 {
-    //ctor
 }
-
-dependency_tree::~dependency_tree() = default;
 
 void dependency_tree::init( std::map<std::string, std::vector<std::string> > key_dependency_map )
 {
@@ -275,8 +268,7 @@ void dependency_tree::build_node_map(
     for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
         if( master_node_map.find( elem.first ) == master_node_map.end() ) {
-            // it does, so get the Node
-            master_node_map[elem.first].reset( new dependency_node( elem.first ) );
+            master_node_map.emplace( elem.first, elem.first );
         }
     }
 }
@@ -285,16 +277,16 @@ void dependency_tree::build_connections(
     std::map<std::string, std::vector<std::string > > key_dependency_map )
 {
     for( auto &elem : key_dependency_map ) {
-        // check to see if the master node map knows the key
-        if( master_node_map.find( elem.first ) != master_node_map.end() ) {
-            // it does, so get the Node
-            dependency_node *knode = master_node_map[elem.first].get();
+        const auto iter = master_node_map.find( elem.first );
+        if( iter != master_node_map.end() ) {
+            dependency_node *knode = &iter->second;
 
             // apply parents list
             std::vector<std::string> vnode_parents = elem.second;
             for( auto &vnode_parent : vnode_parents ) {
-                if( master_node_map.find( vnode_parent ) != master_node_map.end() ) {
-                    dependency_node *vnode = master_node_map[vnode_parent].get();
+                const auto iter = master_node_map.find( vnode_parent );
+                if( iter != master_node_map.end() ) {
+                    dependency_node *vnode = &iter->second;
 
                     knode->add_parent( vnode );
                     vnode->add_child( knode );
@@ -310,36 +302,40 @@ void dependency_tree::build_connections(
     check_for_strongly_connected_components();
 
     for( auto &elem : master_node_map ) {
-        elem.second->inherit_errors();
+        elem.second.inherit_errors();
     }
 }
 std::vector<std::string> dependency_tree::get_dependencies_of_X_as_strings( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key]->get_dependencies_as_strings();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return iter->second.get_dependencies_as_strings();
     }
     return std::vector<std::string>();
 }
 std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key]->get_dependencies_as_nodes();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return iter->second.get_dependencies_as_nodes();
     }
     return std::vector<dependency_node *>();
 }
 
 std::vector<std::string> dependency_tree::get_dependents_of_X_as_strings( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key]->get_dependents_as_strings();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return iter->second.get_dependents_as_strings();
     }
     return std::vector<std::string>();
 }
 
 std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key]->get_dependents_as_nodes();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return iter->second.get_dependents_as_nodes();
     }
     return std::vector<dependency_node *>();
 }
@@ -347,8 +343,9 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( st
 
 bool dependency_tree::is_available( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key]->is_available();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return iter->second.is_available();
     }
 
     return false;
@@ -356,13 +353,14 @@ bool dependency_tree::is_available( std::string key )
 
 void dependency_tree::clear()
 {
-    // remove all keys and nodes from the master_node_map
     master_node_map.clear();
 }
+
 dependency_node *dependency_tree::get_node( std::string key )
 {
-    if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key].get();
+    const auto iter = master_node_map.find( key );
+    if( iter != master_node_map.end() ) {
+        return &iter->second;
     }
     return NULL;
 }
@@ -377,8 +375,8 @@ void dependency_tree::check_for_strongly_connected_components()
     for( auto &elem : master_node_map ) {
         //nodes_on_stack = std::vector<dependency_node*>();
         // clear it for the next stack to run
-        if( elem.second->index < 0 ) {
-            strong_connect( elem.second.get() );
+        if( elem.second.index < 0 ) {
+            strong_connect( &elem.second );
         }
     }
 

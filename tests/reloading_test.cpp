@@ -44,12 +44,12 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     dummy.remove_weapon();
 
     item &ammo = dummy.i_add( item( "9mm", 0, item::default_charges_tag{} ) );
-    const islot_ammo *ammo_type = ammo.type->ammo.get();
-    REQUIRE( ammo_type != nullptr );
+    const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
+    REQUIRE( ammo_type );
 
     item mag( "glockmag", 0, 0 );
-    const islot_magazine *magazine_type = mag.type->magazine.get();
-    REQUIRE( magazine_type != nullptr );
+    const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
+    REQUIRE( magazine_type );
     REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
 
     item &gun = dummy.i_add( item( "glock_19", 0, false ) );

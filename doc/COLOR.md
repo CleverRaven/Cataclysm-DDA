@@ -15,7 +15,7 @@ Whenever color is defined in JSON it should be defined in following format: `Pre
 
 `Prefix` can take one of following values:
 
-* `c_` - default color prefix (can be ommited);
+* `c_` - default color prefix (can be omitted);
 * `i_` - optional prefix which indicates that foreground color should be inverted (special rules will be applied to foreground and background colors);
 * `h_` - optional prefix which indicates that foreground color should be highlighted (special rules will be applied to foreground and background colors).
 
@@ -28,7 +28,7 @@ Whenever color is defined in JSON it should be defined in following format: `Pre
 ## Examples of color strings
 
 - `c_white` - `white` color (with default prefix `c_`);
-- `black` -  `black` color (default prefix `c_` is ommited);
+- `black` -  `black` color (default prefix `c_` is omitted);
 - `i_red` - inverted `red` color;
 - `dark_gray_white` - `dark_gray` foreground color with `white` background color;
 - `light_gray_light_red` - `light_gray` foreground color with `light_red` background color;

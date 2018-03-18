@@ -112,10 +112,8 @@ VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
     if( jo.has_string( "placement" ) ) {
         placement = jo.get_string( "placement" );
     } else {
-        //location = std::make_unique<Vehicle_Location>(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings);
-        // that would be better, but it won't exist until c++14, so for now we do this:
         VehicleFacings facings( jo, "facing" );
-        location.reset( new VehicleLocation( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings ) );
+        location.emplace( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings );
     }
 }
 

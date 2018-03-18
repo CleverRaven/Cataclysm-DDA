@@ -79,5 +79,10 @@
       [ "rechargeable_battery", 30 ],
       [ "hd_battery", 20 ]
     ]
+  },
+  {
+    "id": "guns_pistol_improvised",
+    "type": "item_group",
+    "items": [ [ "v29_cheap", 10 ] ]
   }
 ]

@@ -3,7 +3,7 @@
     "id": "acr",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": "Bushmaster ACR",
+    "name": "Remington ACR",
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
     "weight": 3495,
     "volume": 8,
@@ -17,8 +17,9 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
-    "burst": 3,
+    "burst": 11,
     "barrel_length": 1,
+    "built_in_mods": [ "folding_stock" ],
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -68,7 +69,7 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 8,
-    "burst": 6,
+    "burst": 14,
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -92,7 +93,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 8,
-    "burst": 15,
+    "burst": 13,
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -140,7 +141,10 @@
     "ranged_damage": "-1",
     "dispersion": 90,
     "durability": 3,
-    "burst": 3,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 3 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 2 ] ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
   },
@@ -152,7 +156,10 @@
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes an integral laser sight, but like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
-    "burst": 5,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 5 ]
+    ],
     "relative": {
       "weight": 400,
       "range": -6
@@ -168,7 +175,10 @@
     "sight_dispersion": 0,
     "durability": 9,
     "barrel_length": 3,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ]
+    ],
+    "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
     "relative": {
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
       "weight": 1200,
@@ -185,7 +195,10 @@
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
     "price": 620000,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "auto", 14 ] ],
+    "modes": [
+      [ "DEFAULT", "low auto", 3 ],
+      [ "AUTO", "high auto", 14 ]
+    ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "relative": {
       "weight": 2000,
@@ -225,11 +238,11 @@
     "dispersion": 200,
     "durability": 7,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 25 ] ],
+    "modes": [ [ "DEFAULT", "auto", 12 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag", "belt223" ] ],
+      [ "223", [ "belt223", "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "308", [ "belt308" ] ]
     ]
   },
@@ -240,7 +253,7 @@
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
-    "burst": 15,
+    "burst": 13,
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -269,7 +282,7 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 6,
-    "burst": 10,
+    "burst": 14,
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -297,7 +310,7 @@
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "magazines": [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag10", "stanag30", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag" ] ]
     ]
@@ -345,7 +358,7 @@
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "BURST", "3 rd.", 3 ],
-      [ "AUTO", "auto", 8 ]
+      [ "AUTO", "auto", 12 ]
     ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
@@ -371,7 +384,7 @@
     "ammo": "223",
     "dispersion": 140,
     "durability": 8,
-    "burst": 6,
+    "burst": 12,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [

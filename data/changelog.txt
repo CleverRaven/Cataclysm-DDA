@@ -1,4 +1,4 @@
-0.D (895652c740bb6e2f60e0ea343ab0b8bdaa7c9f7d)
+0.D (806a38a87f5169ab9aa00b708cbe7a3e59c3d108)
 
 Features:
 Power transmission between vehicles.
@@ -13,11 +13,15 @@ Player can set zone instructing friendly NPCs to avoid picking up items.
 Unsupported items/fields/monsters/etc fall to lower z-levels.
 Mods can override overmap specials.
 Display hints about health upon waking.
+Experimental 3D vision and interaction between levels.
+NPC interactions: Carrying gear, healing with items, re-layering clothes.
+Hordes re-absorb monsters, this allows them to return to moving after spawning.
+Hordes can wander toward cities to keep them populated.
 
 Content:
 Minefield signs
 Lots of improvised tools (stone hand tools, forge, cooking furniture, clay and pottery).
-Wilderness foraging.
+Extensive wilderness foraging.
 Super secret underground facility.
 Gunmod crafting recipes.
 More zombies: Elite grenadiers, runners, ferals, predators.
@@ -27,10 +31,18 @@ Ranch and Ranch-related missions.
 Monster grab and pull attacks.
 Recipes based on offal and corpse waste.
 Cheesemaking.
-Tanks Mod
 biodiesel
 Alchohol stoves.
 Vehicle based tools, street sweepers, tractors, plows, planters.
+Seasonal variation in foliage.
+Expanded tree variety.
+Allow city-less mapgen.
+Many preserved food recipes.
+Cleanup of archery crafting items.
+Farm vehicles and tool attachments.  Plow, reaper, seed drill.
+Wearable tools.
+Mutant roaches.
+Items can have a side (left v right).
 
 Interface:
 Bionics menu tabbed for better visibility.
@@ -44,11 +56,26 @@ Lots of dialogs allow use or consumption of items from immediate surroundings as
 Enhancements to AIM.
 Improved explosion animation.
 Ambient sound effects.
+Added vehicle direction indicator in tiles mode.
+Prevented spam about player being tired.
+Removed inability for vehicles to drive over fungal beds.
+Fixed a number of issues around monster spawning: Wraith, ants spawning in sight of player, animals spawning underground.
+Enhanced medical menu.
+Recolored trees and bushes to be more recognizable.
+Added travel-to command.
+Hide options if they aren't present in the build.
+Tile scaling in tiles mode.
+Cancel out of crafting menu during component selection.
+Move times displayed adjusted to be cumulative instead of "most recent cost".
+Added pixel minimap in SDL builds.
 
 Mods:
 More Survival Tools
+Tanks Mod
 Mshock Modded Tileset.
 ChestHole tileset covering all entities.
+Double monster HP mod.
+Mods dynamically enabled/disabled if they require lua and lua is present/absent.
 
 Balance:
 Unify crafting and construction xp gain.
@@ -58,6 +85,9 @@ Tuned up wilderness crafting a great deal.
 Removed inventory overcapacity penalty, items are dropped instead.
 Ensured that skills can be bootstrapped with practice.
 Zombie stumbling is more pervasive and random.
+Necromancer revive cooldown adjusted based on target toughness.
+Adjusted frequency of sickness.
+Variable draw costs for dedicated inventory containers (holsters).
 
 Bugfixes:
 Fix inability to repair modified clothing.
@@ -80,6 +110,12 @@ Optimized fire spread.
 Fixed disarm technique.
 Crash fixes for item handling.
 Stumbling monsters no longer move at different effective speeds based on direction of movement.
+Numerous bugfixes in NPC AI.
+Fixed some interactions between various inventories when they are present in the same tile.
+Made blacklisting operate more consistently.
+Rebalanced vehicle collisions.
+Fixed crash when target dies between successive automatic attacks.
+Fixed deafening noise from collapsing buildings.
 
 Performance:
 Optimized mapgen when generating homogenous tiles (empty air or all rock).
@@ -101,15 +137,20 @@ Methods to transform buildings after generation, i.e. to make them looted or bar
 Cleanup and extension of sound system.
 Unified bullet disassembly handling.
 Overmap saves moved to json.
+Removed a lot of redundant default json entries.
+Allowed arbitrary items to have artifact properties.
+Migrated worldoptions, autopickup to json.
 
 Build:
 Support for finding alternate versions of build tools.
 Lots of forward declaration and #include cleanup to speed up compilation.
 Addition of many unit tests.
 string_id, a typesafe and efficient wrapper for string identifiers.
+Makefile supports various standard environment values.
 
 I18N and A11Y:
 Localizable HP bars.
+Textual vehicle facing indicator.
 
 Statistics:
 2488 files changed, 2324607 insertions(+), 1681578 deletions(-)

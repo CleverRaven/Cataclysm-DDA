@@ -58,7 +58,7 @@ void scent_map::decay()
     }
 }
 
-void scent_map::draw( WINDOW *const win, const int div, const tripoint &center ) const
+void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
     assert( div != 0 );
     const int maxx = getmaxx( win );
@@ -121,7 +121,7 @@ void scent_map::update( const tripoint &center, map &m )
     if( center != player_last_position ) {
         player_last_position = center;
         player_last_moved = calendar::turn;
-    } else if( player_last_moved + 1000 < calendar::turn ) {
+    } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
     }
 

@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
+[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
 
 # Cataclysm: Dark Days Ahead
 
@@ -8,7 +9,7 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
-Visit [our website](http://en.cataclysmdda.com/) for download links to all stable and experimental releases.
+Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
@@ -27,9 +28,6 @@ Some code distributed with the project is not part of the project and is release
 Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Community
-
-Cataclysm: Dark Days Ahead main site, includes links to forum, wiki, and GitHub repo:
-http://en.cataclysmdda.com/
 
 Forums:
 https://discourse.cataclysmdda.org

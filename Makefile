@@ -299,6 +299,7 @@ ifeq ($(NATIVE), linux64)
   TARGETSYSTEM=LINUX
   ifdef GOLD
     CXXFLAGS += -fuse-ld=gold
+    LDFLAGS += -fuse-ld=gold
   endif
 else
   # Linux 32-bit
@@ -308,6 +309,7 @@ else
     TARGETSYSTEM=LINUX
     ifdef GOLD
       CXXFLAGS += -fuse-ld=gold
+      LDFLAGS += -fuse-ld=gold
     endif
   endif
 endif
@@ -564,12 +566,22 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell pkg-config --cflags ncurses)
-    LDFLAGS += $(shell pkg-config --libs ncurses)
+    ifeq ($(LOCALIZE),1)
+      CXXFLAGS += $(shell pkg-config --cflags ncursesw)
+      LDFLAGS += $(shell pkg-config --libs ncursesw)
+    else
+      CXXFLAGS += $(shell pkg-config --cflags ncurses)
+      LDFLAGS += $(shell pkg-config --libs ncurses)
+    endif
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
-      CXXFLAGS += $(shell ncurses5-config --cflags)
-      LDFLAGS += $(shell ncurses5-config --libs)
+      ifeq ($(LOCALIZE),1)
+        CXXFLAGS += $(shell ncursesw5-config --cflags)
+        LDFLAGS += $(shell ncursesw5-config --libs)
+      else
+        CXXFLAGS += $(shell ncurses5-config --cflags)
+        LDFLAGS += $(shell ncurses5-config --libs)
+      endif
     else
       ifneq ($(TARGETSYSTEM),WINDOWS)
         LDFLAGS += -lncurses
@@ -970,11 +982,12 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_WHITELIST = $(shell cat json_whitelist)
+JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
 
 style-json: $(JSON_WHITELIST)
 
-$(JSON_WHITELIST): json_whitelist json_formatter
+$(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
 	@tools/format/json_formatter.cgi $@
 else

@@ -47,11 +47,7 @@ class options_manager
         {
                 friend class options_manager;
             public:
-                //Default constructor
                 cOpt();
-
-                //Default deconstructor
-                ~cOpt() {};
 
                 void setSortPos( const std::string sPageIn );
 
@@ -84,7 +80,7 @@ class options_manager
 
                 //set to next item
                 void setNext();
-                //set to prev item
+                //set to previous item
                 void setPrev();
                 //set value
                 void setValue( std::string sSetIn );

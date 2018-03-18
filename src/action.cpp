@@ -49,7 +49,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id == "" ) {
+        if( id.empty() ) {
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -500,9 +500,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 bool can_examine_at( const tripoint &p )
 {
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = g->m.veh_at( p, veh_part );
+    vehicle *veh = g->m.veh_at( p, veh_part );
     if( veh ) {
         return true;
     }
@@ -592,9 +590,7 @@ action_id handle_action_menu()
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
-        vehicle *veh = nullptr;
-
-        veh = g->m.veh_at( g->u.pos(), veh_part );
+        vehicle *veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;
@@ -681,7 +677,7 @@ action_id handle_action_menu()
                 entry->txt += "...";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with globalkey
+                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }

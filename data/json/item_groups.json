@@ -34,6 +34,7 @@
       ["umbrella", 5],
       ["teleumbrella", 2],
       ["novel_coa", 10],
+      ["novel_coa2", 10],
       ["child_book", 50],
       ["tall_tales", 20],
       ["story_book", 4],
@@ -691,11 +692,9 @@
       ["irradiated_apricot", 2],
       ["coconut", 5],
       ["jam_fruit", 10],
-      ["jam_strawberries", 10],
-      ["jam_blueberries", 10],
       ["juice", 50],
       ["potato_raw", 10],
-      ["pickle", 40],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
       ["vinegar", 15],
       {"item": "veggy_pickled", "prob":  8, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_sauerkraut_pickled", 5],
@@ -1352,7 +1351,7 @@
       ["mustard", 60],
       ["soysauce", 45],
       ["horseradish", 30],
-      ["pickle", 40],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
       ["salt", 20],
       ["pepper", 20],
       ["meat_smoked", 4],
@@ -1540,6 +1539,7 @@
       [ "novel_swash", 14 ],
       [ "novel_western", 22 ],
       [ "novel_war", 18 ],
+      [ "novel_war2", 18 ],
       [ "atomic_survival", 1 ],
       [ "novel_adventure", 14 ],
       [ "novel_experimental", 1 ],
@@ -1547,7 +1547,9 @@
       [ "novel_buddy", 12 ],
       [ "novel_thriller", 18 ],
       [ "novel_coa", 10 ],
+      [ "novel_coa2", 10 ],
       [ "novel_crime", 20 ],
+      [ "novel_crime2", 20 ],
       [ "mag_carpentry", 30 ],
       [ "mag_comic", 20 ],
       [ "mag_animecon", 10 ],
@@ -3018,7 +3020,7 @@
       ["tshirt", 80],
       ["bandana", 15],
       ["towel", 90],
-      ["cash_card", 90],
+      { "item": "cash_card", "prob": 90, "charges-min": 0, "charges-max": 50000 },
       ["longshirt", 80],
       ["shorts_cargo", 50],
       ["pants_cargo", 70],
@@ -3122,6 +3124,7 @@
       [ "novel_swash", 14 ],
       [ "novel_western", 22 ],
       [ "novel_war", 20 ],
+      [ "novel_war2", 20 ],
       [ "novel_adventure", 14 ],
       [ "novel_experimental", 1 ],
       [ "novel_road", 10 ],
@@ -3140,7 +3143,9 @@
       [ "fairy_tales", 10 ],
       [ "novel_thriller", 18 ],
       [ "novel_coa", 10 ],
+      [ "novel_coa2", 10 ],
       [ "novel_crime", 20 ],
+      [ "novel_crime2", 20 ],
       [ "novel_horror", 18 ],
       [ "novel_tragedy", 8 ],
       [ "phonebook", 8 ],
@@ -3620,6 +3625,7 @@
     "type" : "item_group",
     "id" : "hospital_bed",
     "items":[
+      ["corpse", 10],
       ["child_book", 5],
       ["stethoscope", 20],
       ["tall_tales", 10],
@@ -4049,6 +4055,7 @@
       [ "novel_swash", 14 ],
       [ "novel_western", 22 ],
       [ "novel_war", 18 ],
+      [ "novel_war2", 18 ],
       [ "atomic_survival", 1 ],
       [ "novel_adventure", 14 ],
       [ "novel_experimental", 1 ],
@@ -4056,7 +4063,9 @@
       [ "novel_buddy", 12 ],
       [ "novel_thriller", 18 ],
       [ "novel_coa", 10 ],
+      [ "novel_coa2", 10 ],
       [ "novel_crime", 20 ],
+      [ "novel_crime2", 20 ],
       [ "novel_scifi", 20 ],
       [ "novel_drama", 40 ],
       [ "novel_mystery", 25 ],
@@ -4445,6 +4454,7 @@
       ["novel_swash", 14],
       ["novel_western", 22],
       ["novel_war", 18],
+      ["novel_war2", 18],
       ["atomic_survival", 1],
       ["novel_adventure", 14],
       ["novel_experimental", 1],
@@ -4452,7 +4462,9 @@
       ["novel_buddy", 12],
       ["novel_thriller", 18],
       ["novel_coa", 10],
+      ["novel_coa2", 10],
       ["novel_crime", 20],
+      ["novel_crime2", 20],
       ["novel_scifi", 20],
       ["novel_drama", 40],
       ["survival_book", 10],
@@ -8179,6 +8191,7 @@
       ["umbrella", 10],
       ["teleumbrella", 4],
       ["novel_coa", 30],
+      ["novel_coa2", 30],
       ["child_book", 30],
       ["tall_tales", 30],
       ["story_book", 30],
@@ -8589,7 +8602,8 @@
       ["bio_blaster", 15],
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
-      ["bio_adrenaline", 20]
+      ["bio_adrenaline", 20],
+      ["bio_ods", 10]
     ]
   },{
     "type" : "item_group",
@@ -8946,6 +8960,28 @@
       ["coffee",             55],
       ["atomic_coffee",      10],
       ["tea",                35]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lumberyard",
+    "items": [
+      [ "2x4", 500 ],
+      [ "log", 200 ],
+      [ "stick", 100 ],
+      [ "pine_bough", 50 ],
+      [ "ax", 10 ],
+      [ "saw", 10 ],
+      [ "chainsaw_off", 5 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_medical_items",
+    "items": [
+      { "group": "surgery", "prob": 80 },
+      { "group": "drugs_emergency", "prob": 40 },
+      { "group": "softdrugs", "prob": 20 },
+      { "group": "bionics_common", "prob": 5 },
+      { "group": "harddrugs", "prob": 5 }
     ]
   }
 ]

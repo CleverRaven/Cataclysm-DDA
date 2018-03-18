@@ -5,11 +5,13 @@
 #include "options.h"
 #include "player.h"
 #include "crafting.h"
+#include "output.h"
 #include "recipe_dictionary.h"
 #include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "skill.h"
 
 #include <algorithm>
 #include <functional>
@@ -57,7 +59,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    u.inv.restack( &u );
+    u.inv.restack( u );
     u.inv.sort();
 
     inventory_pick_selector inv_s( u, preset );
@@ -84,7 +86,7 @@ void game_menus::inv::common( player &p )
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
-    p.inv.restack( &p );
+    p.inv.restack( p );
     p.inv.sort();
 
     inventory_pick_selector inv_s( p );
@@ -115,9 +117,9 @@ int game::inv_for_filter( const std::string &title, item_filter filter,
 
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
-    const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(),
-                                title, -1, none_message ).get_item() );
+    const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
+    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
+                                msg ).get_item() );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
@@ -315,7 +317,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return calendar( get_recipe( loc ).time / 100 ).textify_period();
+                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
             }, _( "TIME" ) );
         }
 
@@ -368,7 +370,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 const int spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return calendar( spoils ).textify_period();
+                    return to_string_clipped( time_duration::from_turns( spoils ) );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -495,10 +497,19 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( *loc ).empty();
+            return loc->type->has_use();
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const auto &uses = loc->type->use_methods;
+
+            if( uses.size() == 1 ) {
+                const auto ret = uses.begin()->second.can_call( p, *loc, false, p.pos() );
+                if( !ret.success() ) {
+                    return trim_punctuation_marks( ret.str() );
+                }
+            }
+
             if( !p.has_enough_charges( *loc, false ) ) {
                 return string_format(
                            ngettext( _( "Needs at least %d charge" ),
@@ -513,22 +524,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
         std::string get_action_name( const item &it ) const {
             const auto &uses = it.type->use_methods;
 
-            if( uses.empty() ) {
-                if( it.is_food() || it.is_medication() ) {
-                    return _( "Consume" );
-                } else if( it.is_book() ) {
-                    return _( "Read" );
-                } else if( it.is_bionic() ) {
-                    return _( "Install bionic" );
-                }
-            } else if( uses.size() == 1 ) {
+            if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else {
+            } else if( uses.size() > 1 ) {
                 return _( "..." );
-            }
-
-            if( !it.is_container_empty() ) {
-                return get_action_name( it.get_contained() );
             }
 
             return std::string();
@@ -631,7 +630,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level( book.skill ).can_train() ) {
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return string_format( _( "%s to %d" ), book.skill->name().c_str(), book.level );
                 }
                 return std::string();
@@ -667,7 +666,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
-                const std::string duration = calendar::print_approx_duration( actual_turns, false );
+                const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration.c_str() );
@@ -691,7 +690,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
     private:
         const islot_book &get_book( const item_location &loc ) const {
-            return *loc->type->book.get();
+            return *loc->type->book;
         }
 
         bool is_known( const item_location &loc ) const {
@@ -908,7 +907,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
 
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
-    p.inv.restack( &p );
+    p.inv.restack( p );
     p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
@@ -931,7 +930,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 
 void game_menus::inv::compare( player &p, const tripoint &offset )
 {
-    p.inv.restack( &p );
+    p.inv.restack( p );
     p.inv.sort();
 
     inventory_compare_selector inv_s( p );
@@ -1014,7 +1013,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 
 void game_menus::inv::swap_letters( player &p )
 {
-    p.inv.restack( &p );
+    p.inv.restack( p );
     p.inv.sort();
 
     inventory_pick_selector inv_s( p );

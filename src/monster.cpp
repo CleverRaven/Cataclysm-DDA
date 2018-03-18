@@ -33,9 +33,6 @@
 #include "sounds.h"
 #include "npc.h"
 
-#define SGN(a) (((a)<0) ? -1 : 1)
-#define SQR(a) ((a)*(a))
-
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
@@ -83,6 +80,13 @@ const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
 const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
 const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
+const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
+const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
+const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
+const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
+const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
+const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -159,7 +163,6 @@ monster::monster()
     no_extra_death_drops = false;
     dead = false;
     made_footstep = false;
-    unique_name = "";
     hallucination = false;
     ignoring = 0;
     upgrades = false;
@@ -181,7 +184,7 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades;
+    upgrades = type->upgrades && type->half_life;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -239,13 +242,13 @@ bool monster::can_upgrade() {
 
 // For master special attack.
 void monster::hasten_upgrade() {
-    if (!can_upgrade() || upgrade_time < 1) {
+    if( !can_upgrade() || upgrade_time < 1 ) {
         return;
     }
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng(1, scaled_half_life);
-    if (upgrade_time < 0) {
+    upgrade_time -= rng( 1, scaled_half_life );
+    if( upgrade_time < 0 ) {
         upgrade_time = 0;
     }
 }
@@ -255,9 +258,9 @@ void monster::hasten_upgrade() {
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
-    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
-        if (one_in(2)) {
-            day += rng(0, scaled_half_life);
+    for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
+        if( one_in( 2 ) ) {
+            day += rng( 0, scaled_half_life );
             return day;
         } else {
             day += scaled_half_life;
@@ -269,7 +272,7 @@ int monster::next_upgrade_time() {
 }
 
 void monster::try_upgrade(bool pin_time) {
-    if (!can_upgrade()) {
+    if( !can_upgrade() ) {
         return;
     }
 
@@ -301,15 +304,14 @@ void monster::try_upgrade(bool pin_time) {
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const mtype_id &new_type = random_entry( monsters );
+            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             if( new_type ) {
                 poly( new_type );
             }
         }
 
         if (!upgrades) {
-            // upgraded into a non-upgradable monster
+            // upgraded into a non-upgradeable monster
             return;
         }
 
@@ -339,7 +341,7 @@ std::string monster::name(unsigned int quantity) const
   debugmsg ("monster::name empty type!");
   return std::string();
  }
- if (unique_name != "")
+ if( !unique_name.empty() )
   return string_format("%s: %s",
                        (type->nname(quantity).c_str()), unique_name.c_str());
  return type->nname(quantity);
@@ -383,7 +385,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const auto att = attitude_names.at( attitude( &( g->u ) ) );
     return {
-        att.first,
+        _( att.first.c_str() ),
         all_colors.get( att.second )
     };
 }
@@ -415,27 +417,27 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
+int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
 
     mvwprintz(w, vStart, column, c_white, "%s ", name().c_str());
 
     const auto att = get_attitude();
-    wprintz( w, att.second, "%s", att.first.c_str() );
+    wprintz( w, att.second, att.first );
 
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
-                    h_white, "%s", effects.c_str() );
+                    h_white, effects );
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
+    mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
-        mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
+        mvwprintz( w, vStart++, column, c_white, lines[i] );
     }
 
     return vStart;
@@ -460,7 +462,7 @@ std::string monster::extended_description() const
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
     ss << "--" << std::endl;
 
-    ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
+    ss << string_format( _( "It is %s in size." ), _( size_names.at( get_size() ).c_str() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -844,7 +846,7 @@ void monster::process_triggers()
     anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
-// This Adjustes anger/morale levels given a single trigger.
+// This adjusts anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
     if (type->has_anger_trigger(trig)){
@@ -874,7 +876,7 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             case MTRIG_MEAT:
                 // Disable meat checking for now
                 // It's hard to ever see it in action
-                // and even harder to balance it without making it exploity
+                // and even harder to balance it without making it exploitable
 
                 // check_terrain = true;
                 // check_meat = true;
@@ -1917,7 +1919,7 @@ bool monster::make_fungus()
     } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
       tid == mon_zombie_spitter || tid == mon_zombie_brute ||
       tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter ||
       tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
       tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
       tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -1933,6 +1935,10 @@ bool monster::make_fungus()
         polypick = 3;
     } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
+    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
+      tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
+      tid == mon_zombie_waif ) {
+        polypick = 5;
     }
 
     const std::string old_name = name();
@@ -1948,6 +1954,9 @@ bool monster::make_fungus()
             break;
         case 4:
             poly( mon_fungaloid );
+            break;
+        case 5:
+            poly( mon_zombie_child_fungus );
             break;
         default:
             return false;
@@ -1967,9 +1976,10 @@ void monster::make_friendly()
     friendly = rng(5, 30) + rng(0, 20);
 }
 
-void monster::make_ally(monster *z) {
-    friendly = z->friendly;
-    faction = z->faction;
+void monster::make_ally( const monster &z )
+{
+    friendly = z.friendly;
+    faction = z.faction;
 }
 
 void monster::add_item(item it)
@@ -2003,28 +2013,28 @@ m_size monster::get_size() const {
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( replace_with_npc_name( msg, disp_name() ) );
+        add_msg( replace_with_npc_name( msg ) );
     }
 }
 
 void monster::add_msg_player_or_npc( const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void monster::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( type, replace_with_npc_name( msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( msg ) );
     }
 }
 
 void monster::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if (g->u.sees(*this)) {
-        add_msg( type, replace_with_npc_name( npc_msg, disp_name() ) );
+        add_msg( type, replace_with_npc_name( npc_msg ) );
     }
 }
 

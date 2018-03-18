@@ -32,7 +32,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
-    // Operator overload required to leverage std functional iterface.
+    // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -66,7 +66,7 @@ bool is_mouse_enabled()
 #endif
 }
 
-//helper function for those have problem inputing certain characters.
+//helper function for those have problem inputting certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
     std::string ret;
@@ -419,6 +419,13 @@ const std::vector<input_event> &input_manager::get_input_for_action( const std::
     return attributes.input_events;
 }
 
+long input_manager::get_first_char_for_action( const std::string action_descriptor,
+        const std::string context )
+{
+    std::vector<input_event> input_events = get_input_for_action( action_descriptor, context );
+    return input_events.empty() ? 0 : input_events[0].get_first_input();
+}
+
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string context,
@@ -611,7 +618,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
             category );
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
-        // TODO: fix for unicode.
+        // TODO: fix for Unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
             events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
             result.push_back( ( char )events_event.sequence.front() );
@@ -831,9 +838,9 @@ void input_context::display_help()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                             1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                             1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -943,7 +950,7 @@ void input_context::display_help()
         }
 
         // spopup.query_string() will call wrefresh( w_help )
-        refresh();
+        catacurses::refresh();
 
         spopup.text( filter_phrase );
         if( status == s_show ) {
@@ -1086,7 +1093,6 @@ void input_context::display_help()
     }
     werase( w_help );
     wrefresh( w_help );
-    delwin( w_help );
 }
 
 input_event input_context::get_raw_input()

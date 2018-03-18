@@ -47,7 +47,7 @@
   {
     "id": "stanag10",
     "type": "MAGAZINE",
-    "name": "Ruger 223 magazine",
+    "name": "Ruger .223 magazine",
     "description": "A compact 10-round magazine commonly used with semi-automatic STANAG compatible rifles.",
     "weight": 100,
     "volume": 1,
@@ -98,7 +98,7 @@
   {
     "id": "survivor223mag",
     "type": "MAGAZINE",
-    "name": "makeshift 223 magazine",
+    "name": "makeshift .223 magazine",
     "description": "An improvised magazine consisting of little more than a bent sheet of rusted metal held together by duct tape and hope.",
     "weight": 80,
     "volume": 1,

@@ -16,7 +16,7 @@ class utf8_wrapper;
 /**
  * Shows a window querying the user for input.
  *
- * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
+ * Returns the input that was entered. If the user cancels the input (e.g. by pressing Escape),
  * an empty string is returned. An empty string may also be returned when the user does not enter
  * any text and confirms the input (by pressing ENTER).
  *
@@ -54,8 +54,7 @@ class string_input_popup
         int _endx = 0;
         int _position = -1;
 
-        WINDOW_PTR w_ptr;
-        WINDOW *w = nullptr;
+        catacurses::window w;
 
         std::unique_ptr<input_context> ctxt_ptr;
         input_context *ctxt = nullptr;
@@ -145,7 +144,7 @@ class string_input_popup
          * Integer parameters define the area (one line) where the editable
          * text is printed.
          */
-        string_input_popup &window( WINDOW *w, int startx, int starty, int endx );
+        string_input_popup &window( const catacurses::window &w, int startx, int starty, int endx );
         /**
          * Set / get the input context that is used to gather user input.
          * The class will create its own context if none is set here.
@@ -186,7 +185,7 @@ class string_input_popup
         void edit( int &value );
         /**@}*/
 
-        std::map<long, std::function<void()>> callbacks;
+        std::map<long, std::function<bool()>> callbacks;
 };
 
 #endif

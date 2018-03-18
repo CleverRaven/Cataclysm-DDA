@@ -44,18 +44,14 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     const int iTotalCols = 2;
 
-    WINDOW *w_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
-    WINDOW_PTR w_helpptr( w_help );
 
-    WINDOW *w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
+    catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
-    WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
+    catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
-    WINDOW_PTR wptr( w );
 
     /**
      * All of the stuff in this lambda needs to be drawn (1) initially, and
@@ -162,7 +158,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         const bool currentPageNonEmpty = !vRules[iTab].empty();
 
-        if (iTab == CHARACTER_TAB && g->u.name == "") {
+        if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
             vRules[CHARACTER_TAB].clear();
             mvwprintz(w, 8, 15, c_white,
                       _("Please load a character first to use this page!"));
@@ -185,7 +181,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w, i - iStartPos, 1, cLineColor, sTemp.str() );
                 mvwprintz(w, i - iStartPos, 5, cLineColor, "");
 
                 if (iLine == i) {
@@ -196,8 +192,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 wprintz(w, (iLine == i &&
                                         iColumn == 1) ? hilite(cLineColor) : cLineColor, "%s",
-                        ((vRules[iTab][i].sRule == "") ? _("<empty rule>") :
-                         vRules[iTab][i].sRule).c_str());
+                        ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
+                         vRules[iTab][i].sRule).c_str() );
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
@@ -254,7 +250,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                         vRules[iTab][iLine].bExclude));
             iLine = vRules[iTab].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
-            if ((iTab == GLOBAL_TAB && g->u.name != "") || iTab == CHARACTER_TAB) {
+            if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
                 bStuffChanged = true;
                 //copy over
                 vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(
@@ -340,10 +336,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine--;
                 iColumn = 1;
             }
-        } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
-            // @todo Now that NPCs use this function, it could be used for them too
+            // @todo: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {
@@ -359,7 +355,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         // NPC pickup rules don't need to be saved explicitly
         if( is_autopickup ) {
             save_global();
-            if( g->u.name != "" ) {
+            if( !g->u.name.empty() ) {
                 save_character();
             }
         }
@@ -375,7 +371,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
 
-    if (vRules[iTab][iRow].sRule == "") {
+    if ( vRules[iTab][iRow].sRule.empty() ) {
         return;
     }
 
@@ -397,10 +393,8 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
     std::ostringstream sTemp;
 
-    WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
+    catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
+    catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
 
     draw_border(w_test_rule_border);
 
@@ -408,7 +402,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              "%s", buf.c_str());
+              buf );
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
               _("Won't display bottled and suffixes=(fits)"));
@@ -440,7 +434,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str() );
                 mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
 
                 if (iLine == i) {
@@ -545,7 +539,7 @@ void auto_pickup::refresh_map_items() const
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if ( elem.sRule != "" ) {
+            if ( !elem.sRule.empty() ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
                     for( const itype *e : item_controller->all() ) {
@@ -716,7 +710,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
     while(!fin.eof()) {
         getline(fin, sLine);
 
-        if(sLine != "" && sLine[0] != '#') {
+        if(!sLine.empty() && sLine[0] != '#') {
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
@@ -729,7 +723,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
                 size_t iPos = 0;
                 int iCol = 1;
                 do {
-                    iPos = sLine.find(";");
+                    iPos = sLine.find( ';' );
 
                     std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
 

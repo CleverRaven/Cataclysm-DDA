@@ -2,7 +2,7 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "cursesdef.h" // WINDOW
+#include "cursesdef.h"
 #include "enums.h"
 #include "units.h"
 
@@ -57,7 +57,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
 
 /**
  * Cancels ongoing move all action.
- * @todo Make this not needed.
+ * @todo: Make this not needed.
  */
 void cancel_aim_processing();
 
@@ -260,7 +260,7 @@ class advanced_inventory_pane
          */
         int index;
         advanced_inv_sortby sortby;
-        WINDOW *window;
+        catacurses::window window;
         std::vector<advanced_inv_listitem> items;
         /**
          * The current filter string.
@@ -289,7 +289,7 @@ class advanced_inventory_pane
         /**
          * Same as the other, but checks the real item.
          */
-        bool is_filtered( const item *it ) const;
+        bool is_filtered( const item &it ) const;
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.
@@ -343,11 +343,12 @@ class advanced_inventory
         const int min_w_width;
         const int max_w_width;
 
-        // swap the panes and WINDOW pointers via std::swap()
+        // swap the panes and windows via std::swap()
         void swap_panes();
 
         // minimap that displays things around character
-        WINDOW *minimap, *mm_border;
+        catacurses::window minimap;
+        catacurses::window mm_border;
         const int minimap_width  = 3;
         const int minimap_height = 3;
         void draw_minimap();
@@ -386,9 +387,9 @@ class advanced_inventory
         static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
-        WINDOW *head;
-        WINDOW *left_window;
-        WINDOW *right_window;
+        catacurses::window head;
+        catacurses::window left_window;
+        catacurses::window right_window;
 
         bool exit;
 
@@ -407,7 +408,7 @@ class advanced_inventory
         void recalc_pane( side p );
         void redraw_pane( side p );
         // Returns the x coordinate where the header started. The header is
-        // displayed right right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         /**
@@ -469,7 +470,7 @@ class advanced_inventory
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, long &amount );
 
-        void menu_square( uimenu *menu );
+        void menu_square( uimenu &menu );
 
         static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );

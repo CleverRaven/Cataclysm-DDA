@@ -92,7 +92,7 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-#ifndef __linux__ // make non-linux operating systems happy
+#ifndef __linux__ // make non-Linux operating systems happy
 
 int getLock( char const * )
 {
