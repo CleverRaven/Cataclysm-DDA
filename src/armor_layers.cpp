@@ -292,6 +292,7 @@ void player::sort_armor()
             if( g->u.moves < 0 ) {
                 g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
                 g->u.activity.auto_resume = true;
+                g->u.activity.moves_left = INT_MAX;
                 return;
             }
         } else {
