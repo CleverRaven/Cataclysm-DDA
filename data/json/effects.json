@@ -56,7 +56,7 @@
         "type": "effect_type",
         "id": "asked_to_train",
         "name": ["Asked to Train"],
-        "desc": ["AI tag for asking to NPCs to train you.  This is a bug if you have it."]
+        "desc": ["You've recently asked this NPC to train you. You'll need to wait a while till you can ask again."]
     },
     {
         "type": "effect_type",
