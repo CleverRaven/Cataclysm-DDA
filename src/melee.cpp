@@ -287,7 +287,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, int hit_spread)
 {
     if( !t.is_player() ) {
-        // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
+        // @todo: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
     }
 
@@ -445,7 +445,7 @@ void player::reach_attack( const tripoint &p )
     int target_size = critter != nullptr ? critter->get_size() : 2;
 
     int move_cost = attack_speed( weapon );
-    int skill = std::min( 10, (int)get_skill_level( skill_stabbing ) );
+    int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
@@ -520,7 +520,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
     double weapon_crit_chance = 0.5;
     if( weap.has_flag("UNARMED_WEAPON") ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
-        /** @EFFECT_UNARMED increases crit chance with UNARMED_WEAPON */
+        /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
@@ -537,34 +537,34 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
     /** @EFFECT_PER increases chance for critical hits */
     const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
 
-    /** @EFFECT_BASHING increases crit chance with bashing weapons */
-    /** @EFFECT_CUTTING increases crit chance with cutting weapons */
-    /** @EFFECT_STABBING increases crit chance with piercing weapons */
-    /** @EFFECT_UNARMED increases crit chance with unarmed weapons */
+    /** @EFFECT_BASHING increases critical chance with bashing weapons */
+    /** @EFFECT_CUTTING increases critical chance with cutting weapons */
+    /** @EFFECT_STABBING increases critical chance with piercing weapons */
+    /** @EFFECT_UNARMED increases critical chance with unarmed weapons */
     int sk = get_skill_level( weap.melee_skill() );
     if( has_active_bionic( bio_cqb ) ) {
         sk = std::max( sk, BIO_CQB_LEVEL );
     }
 
-    /** @EFFECT_MELEE slightly increases crit chance with any item */
+    /** @EFFECT_MELEE slightly increases critical chance with any item */
     sk += get_skill_level( skill_melee ) / 2.5;
 
     const double skill_crit_chance = limit_probability( 0.25 + sk * 0.025 );
 
-    // Examples (survivor stats/chances of each crit):
+    // Examples (survivor stats/chances of each critical):
     // Fresh (skill-less) 8/8/8/8, unarmed:
-    //  50%, 49%, 25%; ~1/16 guaranteed crit + ~1/8 if roll>dodge*1.5
+    //  50%, 49%, 25%; ~1/16 guaranteed critical + ~1/8 if roll>dodge*1.5
     // Expert (skills 10) 10/10/10/10, unarmed:
-    //  100%, 55%, 60%; ~1/3 guaranteed crit + ~4/10 if roll>dodge*1.5
+    //  100%, 55%, 60%; ~1/3 guaranteed critical + ~4/10 if roll>dodge*1.5
     // Godlike with combat CBM 20/20/20/20, pipe (+1 accuracy):
-    //  60%, 100%, 42%; ~1/4 guaranteed crit + ~3/8 if roll>dodge*1.5
+    //  60%, 100%, 42%; ~1/4 guaranteed critical + ~3/8 if roll>dodge*1.5
 
-    // Note: the formulas below are only valid if none of the 3 crit chance values go above 1.0
+    // Note: the formulas below are only valid if none of the 3 critical chance values go above 1.0
     // It is therefore important to limit them to between 0.0 and 1.0
 
-    // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
+    // Chance to get all 3 criticals (a guaranteed critical regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
-    // Only check double crit (one that requires hit/dodge comparison) if we have good hit vs dodge
+    // Only check double critical (one that requires hit/dodge comparison) if we have good hit vs dodge
     if( roll_hit > target_dodge * 3 / 2 ) {
         const double chance_double = 0.5 * (
             weapon_crit_chance * stat_crit_chance +
@@ -581,7 +581,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 
 float player::get_dodge_base() const
 {
-    // @todo Remove this override?
+    // @todo: Remove this override?
     return Character::get_dodge_base();
 }
 
@@ -598,7 +598,7 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    // @todo What about the skates?
+    // @todo: What about the skates?
     if( is_wearing("roller_blades") ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
@@ -708,10 +708,10 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     bash_mul *= mabuff_damage_mult( DT_BASH );
 
     float armor_mult = 1.0f;
-    // Finally, extra crit effects
+    // Finally, extra critical effects
     if( crit ) {
         bash_mul *= 1.5f;
-        // 50% arpen
+        // 50% armor penetration
         armor_mult = 0.5f;
     }
 
@@ -785,7 +785,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     if( crit ) {
         cut_mul *= 1.25f;
         arpen += 5;
-        armor_mult = 0.75f; //25% arpen
+        armor_mult = 0.75f; //25% armor penetration
     }
 
     di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
@@ -898,8 +898,8 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // if crit then select only from crit tecs
-        // dodge and blocks roll again for their attack, so ignore crit state
+        // if critical then select only from critical tecs
+        // dodge and blocks roll again for their attack, so ignore critical state
         if (!dodge_counter && !block_counter && ((crit && !tec.crit_tec) || (!crit && tec.crit_tec)) ) {
             continue;
         }
@@ -910,7 +910,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // don't apply disarming techniques to someone without a weapon
-        // TODO: these are the stat reqs for tec_disarm
+        // TODO: these are the stat requirements for tec_disarm
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
         if (tec.disarms && !t.has_weapon()) {
@@ -1262,12 +1262,12 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
         /** @EFFECT_MELEE increases attack blocking effectiveness with a weapon */
         block_bonus = blocking_ability( shield );
-        block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
+        block_score = str_cur + block_bonus + get_skill_level( skill_melee );
     } else if( can_limb_block() ) {
         /** @EFFECT_STR increases attack blocking effectiveness with a limb */
 
-        /** @EFFECT_UNARMED increases attack blocking effectivness with a limb */
-        block_score = str_cur + (int)get_skill_level( skill_melee ) + (int)get_skill_level( skill_unarmed );
+        /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb */
+        block_score = str_cur + get_skill_level( skill_melee ) + get_skill_level( skill_unarmed );
     } else {
         // Can't block with items, can't block with limbs
         // What were we supposed to be blocking with then?
@@ -1420,7 +1420,7 @@ void player::perform_special_attacks(Creature &t)
 
         dealt_damage_instance dealt_dam;
 
-        // @todo Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
+        // @todo: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
         if( hit_spread >= 0 ) {
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
@@ -1598,7 +1598,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     std::string target = t.disp_name();
 
     const auto usable_body_parts = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
-    const auto &unarmed = (int)get_skill_level( skill_unarmed );
+    const int unarmed = get_skill_level( skill_unarmed );
 
     for( const auto &pr : my_mutations ) {
         const auto &branch = pr.first.obj();
@@ -1640,7 +1640,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
             special_attack tmp;
             // Ugly special case: player's strings have only 1 variable, NPC have 2
             // Can't use <npcname> here
-            // @todo Fix
+            // @todo: Fix
             if( is_player() ) {
                 tmp.text = string_format( _( mut_atk.attack_text_u.c_str() ), target.c_str() );
             } else {
@@ -1743,11 +1743,11 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     }
 
     if( dominant_type == DT_STAB ) {
-        return (npc ? npc_stab[index] : player_stab[index]).c_str();
+        return (npc ? npc_stab[index] : player_stab[index]);
     } else if( dominant_type == DT_CUT ) {
-        return (npc ? npc_cut[index] : player_cut[index]).c_str();
+        return (npc ? npc_cut[index] : player_cut[index]);
     } else if( dominant_type == DT_BASH ) {
-        return (npc ? npc_bash[index] : player_bash[index]).c_str();
+        return (npc ? npc_bash[index] : player_bash[index]);
     }
 
     return _("The bugs attack %s");
@@ -1823,7 +1823,7 @@ void player_hit_message( player* attacker, std::string message,
 int player::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
-    const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : (int)get_skill_level( skill_melee );
+    const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
     /** @EFFECT_DEX increases attack speed */
@@ -1901,11 +1901,11 @@ double player::melee_value( const item &weap ) const
 
     const int arbitrary_dodge_target = 5;
     double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
-    my_value += crit_ch * 10; // Crits are worth more than just extra damage
+    my_value += crit_ch * 10; // Criticals are worth more than just extra damage
     if( crit_ch > 0.1 ) {
         damage_instance crit;
         roll_all_damage( true, crit, true, weap );
-        // Note: intentionally doesn't include rapid attack bonus in crits
+        // Note: intentionally doesn't include rapid attack bonus in criticals
         avg_dmg = (1.0 - crit_ch) * avg_dmg + crit.total_damage() * crit_ch;
     }
 

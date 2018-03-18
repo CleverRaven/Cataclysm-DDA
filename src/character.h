@@ -6,9 +6,6 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "skill.h"
-#include "map_selector.h"
-#include "pathfinding.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "pldata.h"
@@ -16,7 +13,11 @@
 #include <map>
 #include <vector>
 
+class Skill;
+struct pathfinding_settings;
 using skill_id = string_id<Skill>;
+class SkillLevel;
+class SkillLevelMap;
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -174,7 +175,8 @@ class Character : public Creature, public visitable<Character>
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
@@ -324,7 +326,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Returns resistances on a body part provided by mutations
          */
-        // @todo Cache this, it's kinda expensive to compute
+        // @todo: Cache this, it's kinda expensive to compute
         resistances mutation_armor( body_part bp ) const;
         float mutation_armor( body_part bp, damage_type dt ) const;
         float mutation_armor( body_part bp, const damage_unit &dt ) const;
@@ -503,12 +505,14 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &get_skill_level( const skill_id &ident );
+        int get_skill_level( const skill_id &ident ) const;
+        int get_skill_level( const skill_id &ident, const item &context ) const;
 
-        /** for serialization */
-        SkillLevel const &get_skill_level( const skill_id &ident, const item &context = item() ) const;
+        SkillLevel &get_skill_level_object( const skill_id &ident );
+        const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
+
         void set_skill_level( const skill_id &ident, int level );
-        void boost_skill_level( const skill_id &ident, int delta );
+        void mod_skill_level( const skill_id &ident, int delta );
 
         /** Calculates skill difference
          * @param req Required skills to be compared with.
@@ -626,10 +630,10 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         Character();
-        Character( const Character & ) = default;
-        Character( Character && ) = default;
-        Character &operator=( const Character & ) = default;
-        Character &operator=( Character && ) = default;
+        Character( const Character & );
+        Character( Character && );
+        Character &operator=( const Character & );
+        Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
             char key = ' ';
@@ -677,21 +681,21 @@ class Character : public Creature, public visitable<Character>
         void load( JsonObject &jsin );
 
         // --------------- Values ---------------
-        std::map<skill_id, SkillLevel> _skills;
+        pimpl<SkillLevelMap> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max;
 
         // turn the character expired, if calendar::before_time_starts it has not been set yet.
-        //@todo change into an optional<time_point>
+        //@todo: change into an optional<time_point>
         time_point time_died = calendar::before_time_starts;
 
         /**
          * Cache for pathfinding settings.
          * Most of it isn't changed too often, hence mutable.
          */
-        mutable pathfinding_settings path_settings;
+        mutable pimpl<pathfinding_settings> path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

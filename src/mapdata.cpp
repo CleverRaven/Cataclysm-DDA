@@ -150,7 +150,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibilty
+    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibility
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
     { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
@@ -165,6 +165,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "WOODFENCE",                TERCONN_WOODFENCE },
     { "RAILING",                  TERCONN_RAILING },
     { "WATER",                    TERCONN_WATER },
+    { "PAVEMENT",                 TERCONN_PAVEMENT },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers ) {
@@ -374,7 +375,7 @@ void load_furniture( JsonObject &jo, const std::string &src )
 
 void load_terrain( JsonObject &jo, const std::string &src )
 {
-    if( terrain_data.empty() ) { // todo@ This shouldn't live here
+    if( terrain_data.empty() ) { // @todo: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
@@ -510,7 +511,7 @@ ter_id t_null,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
-// @todo Put this crap into an inclusion, which should be generated automatically using JSON data
+// @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids() {
     t_null = ter_id( "t_null" );
@@ -967,7 +968,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
-                // @todo A better inline name - can't use id or name here because it's not set yet
+                // @todo: A better inline name - can't use id or name here because it's not set yet
                 size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", (int)num ) );

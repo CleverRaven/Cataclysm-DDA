@@ -37,7 +37,7 @@
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "hose", 6 ], [ "string_36", 6 ] ],
-      [ [ "duct_tape", 300 ], [ "superglue", 3 ], [ "nail", 100 ] ],
+      [ [ "adhesive", 3, "LIST" ], [ "nail", 100 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "2x4", 8 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -78,6 +78,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 }
@@ -86,7 +87,6 @@
     "components": [
       [ [ "pipe", 3 ] ],
       [ [ "foot_crank", 1 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
       [ [ "scrap", 18 ], [ "steel_chunk", 9 ], [ "steel_lump", 3 ] ],
       [ [ "element", 1 ], [ "pilot_light", 1 ] ],
       [ [ "chain", 1 ] ]
@@ -287,7 +287,7 @@
     "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [
       [ [ "pipe", 12 ] ],
-      [ [ "nail", 100 ], [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "nail", 100 ], [ "adhesive", 2, "LIST" ] ],
       [ [ "2x4", 3 ], [ "stick", 3 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
@@ -315,7 +315,7 @@
       [ [ "string_36", 12 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
-      [ [ "nail", 60 ], [ "duct_tape", 100 ], [ "superglue", 5 ] ]
+      [ [ "nail", 60 ], [ "adhesive", 5, "LIST" ] ]
     ]
   },
   {
@@ -364,7 +364,7 @@
       [ [ "foot_crank", 1 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
-      [ [ "nail", 30 ], [ "duct_tape", 90 ], [ "superglue", 3 ] ]
+      [ [ "nail", 30 ], [ "adhesive", 3, "LIST" ] ]
     ]
   },
   {

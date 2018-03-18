@@ -4,6 +4,7 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
+#include "map_selector.h"
 #include "output.h"
 #include "translations.h"
 #include "string_formatter.h"
@@ -794,14 +795,14 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
+    selected_cat( id, name, 0 ) {}
 
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+        entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
     }
 
@@ -816,7 +817,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, selected_cat.get() );
+    inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
@@ -841,7 +842,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-// @todo Move it into some 'item_stack' class.
+// @todo: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                                               const std::list<item>::const_iterator &to )
 {
@@ -1188,14 +1189,14 @@ std::vector<std::string> inventory_selector::get_stats() const
             return format_volume( units::from_milliliter( v ) );
         } )
     }};
-    // Strams for every stat.
+    // Streams for every stat.
     std::array<std::ostringstream, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
         lines[i] << stats[i][0] << ' ';
     }
-    // Now add the rest of the cells and allign them to the right.
+    // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
         // Calculate actual cell width for each stat.
         std::transform( stats.begin(), stats.end(), widths.begin(),
@@ -1258,7 +1259,7 @@ void inventory_selector::set_filter()
         std::string new_filter = spopup.query_string( false );
 
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
-            filter = "";
+            filter.clear();
         } else {
             filter = new_filter;
         }

@@ -9,9 +9,11 @@
 #include "output.h"
 #include "catacharset.h"
 #include "string_formatter.h"
+#include "map_selector.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
+#include "skill.h"
 #include "messages.h"
 #include "translations.h"
 #include "veh_type.h"
@@ -246,7 +248,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo better have a from_moves function
+    //@todo: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -372,7 +374,7 @@ void veh_interact::cache_tool_availability()
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
  * should be passed into the various do_whatever functions further down.
- * @param mode The command the player is trying to perform (ie 'r' for repair).
+ * @param mode The command the player is trying to perform (i.e. 'r' for repair).
  * @return CAN_DO if the player has everything they need,
  *         INVALID_TARGET if the command can't target that square,
  *         LACK_TOOLS if the player lacks tools,
@@ -1059,7 +1061,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
-            // display engine fauls (if any)
+            // display engine faults (if any)
             auto msg = [&]( const vehicle_part &pt ) {
                 werase( w_msg );
                 int y = 0;
@@ -1081,7 +1083,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
                     right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current().c_str() ),
+                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current() ),
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
@@ -1630,7 +1632,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo move code using w_border into a separate scope
+    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
 
     const int grid_w = getmaxx(w_grid);
 
@@ -2050,32 +2052,47 @@ void veh_interact::display_details( const vpart_info *part )
                        volume_units_abbr() );
     }
 
-    // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part->size > 0 ) {
-        std::string label;
-        if ( part->has_flag(VPFLAG_CARGO) ) {
-            label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part->has_flag(VPFLAG_WHEEL) ){
-            label = small_mode ? _("Size") : _("Wheel Size");
-        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
-            label = small_mode ? _("Str") : _("Strength");
-        } else if ( part->has_flag("HORN") ) {
-            label = _("Noise");
-        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
-            label = _("Range");
-        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
-                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
-                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
-                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
-            label = _("Light");
-        } else {
-            label = small_mode ? _("Cap") : _("Capacity");
-        }
-
-        fold_and_print(w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%d</color>", label.c_str(),
+    // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
+    if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                       "%s: <color_light_gray>%d</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
                        to_milliliter( part->size ) );
     }
+
+    if( part->bonus > 0 ) {
+        std::string label;
+        if( part->has_flag( VPFLAG_SEATBELT ) ) {
+            label = small_mode ? _( "Str" ) : _( "Strength" );
+        } else if( part->has_flag( "HORN" ) ) {
+            label = _( "Noise" );
+        } else if( part->has_flag( "MUFFLER" ) ) {
+            label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
+        } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
+            label = _( "Range" );
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
+                   part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
+                   part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+            label = _( "Light" );
+        }
+
+        if( !label.empty() ) {
+            fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", label.c_str(),
+                            part->bonus );
+        }
+    }
+
+    if( part->has_flag( VPFLAG_WHEEL ) ) {
+        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
+                            whl->diameter );
+        fold_and_print( w_details, line+3, col_2, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
+                            whl->width );
+    }
+
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
                        "%s: %c<color_light_gray>%d</color>",
@@ -2350,7 +2367,7 @@ void veh_interact::complete_vehicle()
         }
 
         const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
-        //@todo allow boarding for non-players as well.
+        //@todo: allow boarding for non-players as well.
         player * const pl = g->critter_at<player>( vehp );
         if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
             g->m.board_vehicle( vehp, pl );

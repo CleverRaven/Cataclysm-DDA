@@ -37,7 +37,7 @@ int vitamin::severity( int qty ) const
             return i + 1;
         }
     }
-    // @todo implement distinct severity levels for vitamin excesses
+    // @todo: implement distinct severity levels for vitamin excesses
     if( qty > 96 ) {
         return -1;
     }

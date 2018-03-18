@@ -189,7 +189,7 @@ static void eff_fun_bleed( player &u, effect &it )
 {
     // Presuming that during the first-aid process you're putting pressure
     // on the wound or otherwise suppressing the flow. (Kits contain either
-    // quikclot or bandages per the recipe.)
+    // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     if( one_in( 6 / intense ) && u.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
@@ -993,10 +993,10 @@ void player::hardcoded_effects( effect &it )
         }
 #endif // TILES
 
-        if( intense < 24 ) {
-            it.mod_intensity( 1 );
-        } else if( intense < 1 ) {
+        if( intense < 1 ) {
             it.set_intensity( 1 );
+        } else if( intense < 24 ) {
+            it.mod_intensity( 1 );
         }
 
         if( get_fatigue() < -25 && it.get_duration() > 30 ) {
@@ -1180,12 +1180,12 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        // @todo Remove this and encapsulate hp_cur instead
+        // @todo: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             it.set_duration( 0 );
         }
     } else if( id == effect_disabled ) {
-        // @todo Remove this and encapsulate hp_cur instead
+        // @todo: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();

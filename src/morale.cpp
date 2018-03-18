@@ -20,6 +20,7 @@
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 namespace
 {
@@ -33,7 +34,8 @@ bool is_permanent_morale( const morale_type id )
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
-            MORALE_PERM_FILTHY
+            MORALE_PERM_FILTHY,
+            MORALE_PERM_DEBUG
         }
     };
 
@@ -95,7 +97,9 @@ static const morale_mult optimist( 1.25, 0.75 );
 static const morale_mult badtemper( 0.75, 1.25 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
-}
+// The bad prozac effect reduces good morale by 75%.
+static const morale_mult prozac_bad( 0.25, 1.0 );}
+
 
 std::string player_morale::morale_point::get_name() const
 {
@@ -202,6 +206,7 @@ player_morale::player_morale() :
     level( 0 ),
     level_is_valid( false ),
     took_prozac( false ),
+    took_prozac_bad( false ),
     stylish( false ),
     perceived_pain( 0 )
 {
@@ -333,6 +338,9 @@ int player_morale::get_level() const
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
+            if( took_prozac_bad ) {
+                level *= morale_mults::prozac_bad;
+            }
         }
 
         level_is_valid = true;
@@ -480,6 +488,9 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     if( took_prozac != morale.took_prozac ) {
         debugmsg( "player_morale::took_prozac is inconsistent." );
         return false;
+    } else if( took_prozac_bad != morale.took_prozac_bad ) {
+        debugmsg( "player_morale::took_prozac (bad) is inconsistent." );
+        return false;
     } else if( stylish != morale.stylish ) {
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
@@ -502,6 +513,7 @@ void player_morale::clear()
         m.second.clear();
     }
     took_prozac = false;
+    took_prozac_bad = false;
     stylish = false;
     super_fancy_items.clear();
 
@@ -559,6 +571,8 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, 
 {
     if( eid == effect_took_prozac && bp == num_bp ) {
         set_prozac( intensity != 0 );
+    } else if( eid == effect_took_prozac_bad && bp == num_bp ) {
+        set_prozac_bad( intensity != 0 );
     } else if( eid == effect_cold && bp < num_bp ) {
         body_parts[bp].cold = intensity;
     } else if( eid == effect_hot && bp < num_bp ) {
@@ -624,6 +638,14 @@ void player_morale::set_prozac( bool new_took_prozac )
     if( took_prozac != new_took_prozac ) {
         took_prozac = new_took_prozac;
         update_masochist_bonus();
+        invalidate();
+    }
+}
+
+void player_morale::set_prozac_bad( bool new_took_prozac_bad )
+{
+    if( took_prozac_bad != new_took_prozac_bad ) {
+        took_prozac_bad = new_took_prozac_bad;
         invalidate();
     }
 }

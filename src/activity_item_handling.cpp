@@ -41,7 +41,7 @@ struct act_item {
           consumed_moves( consumed_moves ) {};
 };
 
-// @todo Deliberately unified with multidrop. Unify further.
+// @todo: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool same_type( const std::list<item> &items )
@@ -252,10 +252,10 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                res.emplace_back( &it, qty, 100 ); // @todo Use a calculated cost
+                res.emplace_back( &it, qty, 100 ); // @todo: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo: Use a calculated cost
         }
     }
 
@@ -285,7 +285,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
 
             if( iter == worn.end() ) {
                 worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
-                                    100 ); // @todo Use a calculated cost
+                                    100 ); // @todo: Use a calculated cost
             }
         }
     }
@@ -326,7 +326,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     return res;
 }
 
-//@todo Display costs in the multidrop menu
+//@todo: Display costs in the multidrop menu
 void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
@@ -448,7 +448,7 @@ void activity_on_turn_pickup()
         }
     }
 
-    // @todo Move this to advanced inventory instead of hacking it in here
+    // @todo: Move this to advanced inventory instead of hacking it in here
     if( !keep_going ) {
         cancel_aim_processing();
     }
@@ -488,11 +488,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = nullptr;
-
-        temp_item = ( from_vehicle == true ) ?
-                    g->m.item_from( s_veh, s_cargo, index ) :
-                    g->m.item_from( source, index );
+        item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) : g->m.item_from( source,
+                          index );
 
         if( temp_item == nullptr ) {
             continue; // No such item.
@@ -548,7 +545,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
  */
 void activity_on_turn_move_items()
 {
-    // Drop activity if we don't know destination coords.
+    // Drop activity if we don't know destination coordinates.
     if( g->u.activity.coords.empty() ) {
         g->u.activity = player_activity();
         return;

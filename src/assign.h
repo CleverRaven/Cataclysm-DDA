@@ -36,7 +36,7 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
         err = jo.get_object( "relative" );
@@ -219,7 +219,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).has_member( name ) ) {
         units::volume tmp;
@@ -304,7 +304,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, tmp ) ) {
         err = jo.get_object( "relative" );

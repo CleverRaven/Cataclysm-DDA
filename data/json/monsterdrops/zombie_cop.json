@@ -20,7 +20,7 @@
          { "item": "badge_deputy", "prob": 100 },
          { "item": "badge_detective", "prob": 20 }
        ], "prob": 10 },
-      { "item": "cash_card"  }
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
     ]
   },
   {

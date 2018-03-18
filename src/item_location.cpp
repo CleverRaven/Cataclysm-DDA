@@ -184,7 +184,7 @@ class item_location::impl::item_on_map : public item_location::impl
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
-            //@ todo handle unpacking costs
+            //@todo: handle unpacking costs
 
             return mv;
         }
@@ -281,7 +281,7 @@ class item_location::impl::item_on_person : public item_location::impl
 
             auto parents = who.parents( *target() );
             if( !parents.empty() && who.is_worn( *parents.back() ) ) {
-                // if outermost parent item is worn status effects (eg. GRABBED) are not applied
+                // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
                 // holsters may also adjust the volume cost factor
 
                 if( parents.back()->can_holster( obj, true ) ) {
@@ -301,12 +301,12 @@ class item_location::impl::item_on_person : public item_location::impl
 
             } else {
                 // it is more expensive to obtain items from the inventory
-                // @todo calculate cost for searching in inventory proportional to item volume
+                // @todo: calculate cost for searching in inventory proportional to item volume
                 mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
             }
 
             if( &ch != &who ) {
-                // @todo implement movement cost for transferring item between characters
+                // @todo: implement movement cost for transferring item between characters
             }
 
             return mv;
@@ -398,7 +398,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                      VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
-            //@ todo handle unpacking costs
+            //@todo: handle unpacking costs
 
             return mv;
         }

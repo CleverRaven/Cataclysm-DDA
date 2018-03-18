@@ -227,7 +227,7 @@ int mk_wcswidth(const uint32_t *pwcs, size_t n)
  * Ambiguous (A) category as defined in Unicode Technical Report #11
  * have a column width of 2. This variant might be useful for users of
  * CJK legacy encodings who want to migrate to UCS without changing
- * the traditional terminal character-width behaviour. It is not
+ * the traditional terminal character-width behavior. It is not
  * otherwise recommended for general use.
  */
 int mk_wcwidth_cjk(uint32_t ucs)

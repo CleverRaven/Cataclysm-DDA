@@ -14,7 +14,6 @@ mtype::mtype()
     id = mtype_id::NULL_ID();
     name = "human";
     name_plural = "humans";
-    description = "";
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -207,8 +206,4 @@ int mtype::get_meat_chunks_count() const
 std::string mtype::get_description() const
 {
     return _( description.c_str() );
-}
-
-mtype_special_attack::~mtype_special_attack()
-{
 }

@@ -15,7 +15,7 @@
 bool play_videogame( std::string function_name, std::map<std::string, std::string> &game_data,
                      int &score )
 {
-    if( function_name == "" ) {
+    if( function_name.empty() ) {
         score = 15;
         return true; // generic game
     }
@@ -72,7 +72,7 @@ bool play_videogame( std::string function_name, std::map<std::string, std::strin
         game_data["end_message"] = string_format(
                                        _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
                                        function_name.c_str() );
-        // todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+        // @todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
         return false;
     }
 }

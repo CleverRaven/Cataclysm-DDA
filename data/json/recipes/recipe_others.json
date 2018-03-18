@@ -602,42 +602,6 @@
   },
   {
     "type": "recipe",
-    "result": "stomach_sealed",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 5 ], [ "water_clean", 5 ] ],
-      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
-      [ [ "pine_bough", 2 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "large_stomach_sealed",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 45000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 8 ], [ "water_clean", 8 ] ],
-      [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ] ],
-      [ [ "pine_bough", 4 ] ],
-      [ [ "cordage_short", 3, "LIST" ], [ "filament", 150, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "waterskin",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1006,7 +970,7 @@
     "time": 7500,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 6 ] ]
+    "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ] ] ]
   },
   {
     "type": "recipe",
@@ -1030,7 +994,7 @@
     "time": 7500,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rope_6", 5 ], [ "cordage", 30, "LIST" ] ] ]
+    "components": [ [ [ "rope_6", 5 ], [ "string_36", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1499,7 +1463,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_s", 1 ] ], [ [ "shot_00", 2 ] ] ]
+    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1557,10 +1521,12 @@
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
         [ "gunpowder", 72 ],
-        [ "chem_black_powder", 144 ],
-        [ "shot_bird", 30 ],
-        [ "shot_00", 15 ],
+        [ "chem_black_powder", 72 ],
+        [ "shot_bird", 24 ],
+        [ "shot_00", 12 ],
         [ "shot_slug", 12 ],
+        [ "shot_flechette", 12 ],
+        [ "shot_he", 3 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
         [ "grenade", 1 ]
@@ -3303,7 +3269,7 @@
     "time": 40000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "superglue", 2 ], [ "bone_glue", 4 ] ] ]
+    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3317,7 +3283,7 @@
     "autolearn": true,
     "components": [
       [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
-      [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "superglue", 2 ], [ "bone_glue", 4 ] ]
+      [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "adhesive", 4, "LIST" ] ]
     ]
   },
   {
@@ -3634,44 +3600,6 @@
   },
   {
     "type": "recipe",
-    "result": "jug_clay",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": 25000,
-    "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
-    "tools": [ [ [ "brick_kiln", 50 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 6 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 400 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bowl_clay",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": 20000,
-    "autolearn": true,
-    "using": [ [ "cordage_short", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 40 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 4 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "clay_pot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3682,63 +3610,6 @@
     "autolearn": true,
     "tools": [ [ [ "brick_kiln", 90 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "clay_watercont",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": 80000,
-    "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
-    "tools": [ [ [ "brick_kiln", 160 ] ] ],
-    "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "clay_lump", 20 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 400 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "clay_hydria",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": 45000,
-    "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
-    "tools": [ [ [ "brick_kiln", 120 ] ] ],
-    "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "clay_lump", 10 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 400 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "clay_canister",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": 30000,
-    "autolearn": true,
-    "using": [ [ "cordage_short", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 60 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 2 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -3899,7 +3770,7 @@
       [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rag", 3 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 2 ], [ "duct_tape", 25 ], [ "medical_tape", 50 ] ]
+      [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
     ]
   },
   {

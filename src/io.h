@@ -26,7 +26,7 @@
  * if(the class is an input archive) or @ref std::false_type (it's an output archive). This can be
  * used to do additional things only after loading the data, but not after storing it.
  *
- * Usage: implement a tempted function `io` in the clas that is to be serialized and add a typedef
+ * Usage: implement a tempted function `io` in the class that is to be serialized and add a typedef
  *
  *     class MySerializeableType {
  *         ...

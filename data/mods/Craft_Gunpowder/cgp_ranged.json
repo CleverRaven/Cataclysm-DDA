@@ -180,7 +180,7 @@
     "type": "GUN",
     "symbol": "[",
     "color": "dark_gray",
-    "name": "pipe SMG: 9mm",
+    "name": "pipe SMG: 9x19mm",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",

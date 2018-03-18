@@ -90,6 +90,12 @@
     "sort_rank": -8
   },
   {
+    "id": "seeds",
+    "type": "ITEM_CATEGORY",
+    "name": "SEEDS",
+    "sort_rank": -7
+  },
+  {
     "id": "chems",
     "type": "ITEM_CATEGORY",
     "name": "CHEMICAL STUFF",

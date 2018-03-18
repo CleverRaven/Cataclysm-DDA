@@ -145,24 +145,24 @@ void uimenu::init()
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
-        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // fixme: scrolling list with offset
+        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
-    text = "";             // header text, after (maybe) folding, populates:
+    text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    textalign = MENU_ALIGN_LEFT; // todo
-    title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
+    textalign = MENU_ALIGN_LEFT; // @todo:
+    title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
+    entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...@todo: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
-    border = true;         // todo: always true
+    border = true;         // @todo: always true
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -177,7 +177,7 @@ void uimenu::init()
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
     callback = NULL;         // * uimenu_callback
-    filter = "";             // filter string. If "", show everything
+    filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
@@ -206,7 +206,7 @@ void uimenu::filterlist()
 {
     bool notfiltering = ( ! filtering || filter.size() < 1 );
     int num_entries = entries.size();
-    bool nocase = (filtering_nocase == true); // todo: && is_all_lc( filter )
+    bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
@@ -255,7 +255,7 @@ void uimenu::filterlist()
  */
 std::string uimenu::inputfilter()
 {
-    std::string identifier = ""; // todo: uimenu.filter_identifier ?
+    std::string identifier = ""; // @todo: uimenu.filter_identifier ?
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
     /*
@@ -355,7 +355,7 @@ void uimenu::setup()
             }
         } else {
             if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;    // todo: or +5 if header
+                w_width = txtwidth + pad + 4;    // @todo: or +5 if header
             }
         }
         if ( desc_enabled ) {
@@ -498,7 +498,7 @@ void uimenu::setup()
     started = true;
 }
 
-// @todo replace content of this function by draw_scrollbar() from output.(h|cpp)
+// @todo: replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
     if ( ! scrollbar_auto ) {
@@ -608,7 +608,7 @@ void uimenu::show()
             if( padspaces.size() > 3 ) {
                 // padspaces's length indicates the maximal width of the entry, it is used above to
                 // activate the highlighting, it is used to override previous text there, but in both
-                // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
+                // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) : entries[ ei ].txt );
                 trim_and_print( window, estart + si, pad_left + 4,
@@ -856,11 +856,6 @@ void uimenu::query(bool loop)
 /**
  * cleanup
  */
-uimenu::~uimenu()
-{
-    reset();
-}
-
 void uimenu::reset()
 {
 	window = catacurses::window();
@@ -910,6 +905,7 @@ void pointmenu_cb::refresh( uimenu *menu ) {
         last = menu->selected;
         g->u.view_offset = {0, 0, 0};
         g->draw_ter();
+        wrefresh( g->w_terrain );
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

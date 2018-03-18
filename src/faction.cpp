@@ -41,13 +41,10 @@ faction::faction()
     mapy = 0;
     size = 0;
     power = 0;
-    id = "";
-    desc = "";
 }
 
 faction::faction(std::string uid)
 {
-    name = "";
     values = 0;
     likes_u = 0;
     respects_u = 0;
@@ -68,7 +65,6 @@ faction::faction(std::string uid)
     food_supply = 0;
     wealth = 0;
     id = uid;
-    desc = "";
 }
 
 faction_map faction::_all_faction;
@@ -143,10 +139,6 @@ std::vector<std::string> faction::all_json_factions()
         v.push_back(it -> first.c_str());
     }
     return v;
-}
-
-faction::~faction()
-{
 }
 
 //TODO move them to json
@@ -339,7 +331,7 @@ void faction::randomize()
         } else {
             tries++;
         }
-    } while((one_in(num_values) || one_in(num_values)) && tries < 15);
+    } while( ( one_in( num_values ) || one_in( num_values ) ) && tries < 15 );
 
     std::string noun;
     int sel = 1, best = strength;
@@ -818,7 +810,7 @@ std::string invent_adj()
     }
     switch (rng(0, 24)) {
     case  0:
-        tmp = "";
+        tmp.clear();
         break;
     case  1:
         tmp = pgettext( "faction adjective", "al" );
@@ -969,7 +961,7 @@ std::string fac_respect_text(int val)
         return _("Spoken Of");
     }
 
-    // Disrepected, laughed at, etc.
+    // Disrespected, laughed at, etc.
     if (val <= -100) {
         return _("Worthless Scum");
     }

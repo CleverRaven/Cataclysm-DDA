@@ -594,21 +594,21 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "scrap suit",
-    "description": "A suit of armor forged from scraps of metal; provides decent protection, but the loose collection of plates jangles and clangs as you walk, attracting the attention of all nearby.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings; provides decent protection, but the loose collection of plates doesn't make for the most convenient protection.",
     "weight": 9534,
     "volume": 62,
     "price": 70000,
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
-    "material": [ "steel" ],
+    "material": [ "steel", "iron" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 15,
+    "encumbrance": 18,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "flags": [ "OUTER" ]
   },
   {
@@ -1475,7 +1475,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_legs",
@@ -1512,7 +1512,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_vest",
@@ -3921,7 +3921,7 @@
     "coverage": 65,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_fur",
@@ -6385,7 +6385,8 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "environmental_protection": 1
+    "environmental_protection": 1,
+    "flags": [ "HELMET_COMPAT" ]
   },
   {
     "id": "mask_survivor",
@@ -7754,7 +7755,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT" ]
   },
   {
     "id": "sheath",
@@ -8938,7 +8939,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO" ],
-    "coverage": 60,
+    "coverage": 40,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -9485,7 +9486,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "TORSO" ],
-    "coverage": 40,
+    "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9909,5 +9910,26 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "case_violin",
+    "type": "ARMOR",
+    "name": "violin case",
+    "name_plural": "violin case",
+    "description": "Useful to carry your precious musical instrument around protected from any harm.",
+    "weight": 2800,
+    "volume": 20,
+    "price": 24000,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel", "leather" ],
+    "symbol": "&",
+    "color": "dark_gray",
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 50,
+    "storage": 14,
+    "material_thickness": 5,
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   }
 ]

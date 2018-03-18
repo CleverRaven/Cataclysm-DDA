@@ -71,7 +71,7 @@ struct body_part_struct {
          */
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
-        // @todo Connect head and limbs to torso
+        // @todo: Connect head and limbs to torso
         bodypart_ids main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_ids opposite_part;
@@ -105,7 +105,7 @@ const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10
 std::string body_part_name( body_part bp );
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
- *  These are identical to body_part_name above in english, but not in some other languages. */
+ *  These are identical to body_part_name above in English, but not in some other languages. */
 std::string body_part_name_accusative( body_part bp );
 
 /** Returns the name of the body parts in a context where the name is used as

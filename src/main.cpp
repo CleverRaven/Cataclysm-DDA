@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--jsonverify", nullptr,
-                "Checks the cdda json files",
+                "Checks the CDDA json files",
                 section_default,
                 [&verifyexit](int, const char **) -> int {
                     verifyexit = true;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--check-mods", "[mods...]",
-                "Checks the json files belonging to cdda mods",
+                "Checks the json files belonging to CDDA mods",
                 section_default,
                 [&check_mods,&opts]( int n, const char *params[] ) -> int {
                     check_mods = true;
@@ -398,7 +398,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["user_dir"])) {
         printf("Can't open or create %s. Check permissions.\n",
                FILENAMES["user_dir"].c_str());
         exit(1);

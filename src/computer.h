@@ -12,7 +12,7 @@ class player;
 class JsonObject;
 
 // Don't change those! They must stay in this specific order!
-// @todo Remove this enum
+// @todo: Remove this enum
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_OPEN,
@@ -58,7 +58,7 @@ enum computer_action {
 };
 
 // Don't change those! They must stay in this specific order!
-// @todo Remove this enum
+// @todo: Remove this enum
 enum computer_failure_type {
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
@@ -74,7 +74,7 @@ enum computer_failure_type {
     NUM_COMPUTER_FAILURES
 };
 
-// @todo Turn the enum into id, get rid of this
+// @todo: Turn the enum into id, get rid of this
 computer_action computer_action_from_string( const std::string &str );
 computer_failure_type computer_failure_type_from_string( const std::string &str );
 
@@ -119,7 +119,7 @@ class computer
         void use();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player *p, int Security = -1 );
+        bool hack_attempt( player &p, int Security = -1 );
         // Save/load
         std::string save_data();
         void load_data( std::string data );

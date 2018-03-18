@@ -891,7 +891,7 @@
   {
     "id": "bio_stiff",
     "type": "bionic",
-    "name": "Wire-induced Stiffness",
+    "name": "Wire-Induced Stiffness",
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -913,7 +913,7 @@
   {
     "id": "bio_sunglasses",
     "type": "bionic",
-    "name": "Anti-glare Compensators",
+    "name": "Anti-Glare Compensators",
     "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],

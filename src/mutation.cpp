@@ -94,8 +94,8 @@ void Character::unset_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &flag.obj();
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+        const mutation_branch &mut = *flag;
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                                 cached_mutations.end() );
     } else {
         return;
@@ -600,7 +600,7 @@ void player::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if (!downgrades.empty() && cat != "") {
+        if( !downgrades.empty() && !cat.empty() ) {
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
@@ -616,10 +616,10 @@ void player::mutate()
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
-        if (cat == "") {
+        if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
@@ -645,7 +645,7 @@ void player::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != "");
+    } while ( valid.empty() && !cat.empty() );
 
     if (valid.empty()) {
         // Couldn't find anything at all!
@@ -663,7 +663,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo Turn it into the null id
+    // @todo: Turn it into the null id
     if( cat == "MUTCAT_ANY" ) {
         mutate();
         return;
@@ -775,7 +775,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
@@ -797,7 +797,7 @@ bool player::mutate_towards( const trait_id &mut )
         return false;
     }
 
-    // Check if one of the prereqs that we have TURNS INTO this one
+    // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
@@ -937,7 +937,7 @@ bool player::mutate_towards( const trait_id &mut )
 void player::remove_mutation( const trait_id &mut )
 {
     const auto &mdata = mut.obj();
-    // Check if there's a prereq we should shrink back into
+    // Check if there's a prerequisite we should shrink back into
     trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for (size_t i = 0; !replacing && i < originals.size(); i++) {
@@ -962,8 +962,8 @@ void player::remove_mutation( const trait_id &mut )
         }
     }
 
-    // See if this mutation is cancelled by a base trait
-    //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
+    // See if this mutation is canceled by a base trait
+    //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {

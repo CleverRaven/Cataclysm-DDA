@@ -5,8 +5,8 @@
         "subtype": "collection",
         "entries": [
             {"item": "leather", "count": [1, 5]},
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
+            {"item": "pipe", "count": [1, 3]},
+            {"item": "spring", "count": [0, 2]},
             {"item": "scrap", "count": [3, 5]}
         ]
     },
@@ -72,6 +72,17 @@
             {"item": "steel_lump", "count": [4, 7]},
             {"item": "steel_chunk", "count": [5, 6]},
             {"item": "scrap", "count": [4, 6]}
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "ig_vp_device",
+        "subtype": "collection",
+        "entries": [
+            {"item": "plastic_chunk", "prob": 50 },
+            {"item": "cable", "charges": [1, 4]  },
+            {"item": "e_scrap", "count": [0, 2] },
+            {"item": "scrap", "count": [1, 3]}
         ]
     },
     {
@@ -149,9 +160,7 @@
           }
         },
         "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
-        "breaks_into": [
-            {"item": "scrap", "count": [0, 2]}
-        ]
+        "breaks_into": "ig_vp_device"
     },{
         "type" : "vehicle_part",
         "id" : "saddle",
@@ -290,7 +299,7 @@
         "requirements": {
           "install": {
             "time": 60000,
-            "components": [ [ [ "rope_6", 1 ] ] ]
+            "using": [ [ "rope_natural_short", 1 ] ]
           },
           "repair": {
             "time": 30000,
@@ -774,7 +783,7 @@
         "requirements": {
           "install": {
             "time": 60000,
-            "components": [ [ [ "rope_6", 1 ] ] ]
+            "using": [ [ "rope_natural_short", 1 ] ]
           },
           "repair": {
             "time": 30000,
@@ -948,6 +957,39 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "dashboard",
+        "name" : "dashboard",
+        "symbol" : "$",
+        "color" : "light_cyan",
+        "broken_symbol" : "$",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 125,
+        "bonus": 10,
+        "epower": -25,
+        "item" : "vehicle_dashboard",
+        "flags" : ["CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER"],
+        "requirements": {
+          "install": {
+            "time": 35000,
+            "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 8000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "breaks_into" : [
+            {"group": "ig_vp_device", "count": [2, 3]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "controls_electronic",
         "name" : "electronic control unit",
         "symbol" : "$",
@@ -961,11 +1003,7 @@
         "item" : "vehicle_controls",
         "difficulty" : 3,
         "flags" : ["CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER"],
-        "breaks_into" : [
-            {"item": "cable", "charges": [0, 2]},
-            {"item": "e_scrap", "count": [0, 2]},
-            {"item": "plastic_chunk", "count": [1, 5]}
-        ]
+        "breaks_into" : "ig_vp_device"
     },{
         "type" : "vehicle_part",
         "id" : "muffler",
@@ -1046,10 +1084,7 @@
           }
         },
         "flags" : ["ON_CONTROLS", "SECURITY"],
-        "breaks_into" : [
-            {"item": "scrap", "prob": 50},
-            {"item": "e_scrap", "count": [0, 3]}
-        ]
+        "breaks_into" : "ig_vp_device"
     },{
         "type" : "vehicle_part",
         "id" : "seatbelt_heavyduty",
@@ -1132,7 +1167,7 @@
           "install": {
             "time": 30000,
             "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ],
-            "components": [ [ [ "rope_6", 1 ] ] ],
+            "using": [ [ "rope_natural_short", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ]
           },
           "repair": {
@@ -1299,9 +1334,9 @@
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED", "TOOL_WRENCH"],
         "breaks_into" : [
-            {"item": "steel_lump", "count": [30, 40]},
-            {"item": "steel_chunk", "count": [30, 40]},
-            {"item": "scrap", "count": [30, 40]},
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]},
             {"item": "pan", "prob": 50},
             {"item": "pot", "prob": 50}
         ]
@@ -1662,11 +1697,7 @@
           }
         },
         "flags" : ["BEEPER", "ODDTURN"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]},
-            {"item": "cable", "charges": [1, 3]},
-            {"item": "e_scrap", "prob": 50}
-        ]
+        "breaks_into" : "ig_vp_device"
     },{
         "type" : "vehicle_part",
         "id" : "door_trunk",
@@ -1834,13 +1865,7 @@
         "item" : "stereo",
         "difficulty" : 2,
         "flags" : ["STEREO", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "e_scrap", "count": [1, 3]},
-            {"item": "cable", "count": [1, 2]},
-            {"item": "scrap", "count": [3, 5]}
-        ]
+        "breaks_into" : "ig_vp_device"
     },{
         "type" : "vehicle_part",
         "id" : "chimes",

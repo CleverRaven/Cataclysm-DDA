@@ -324,9 +324,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     wrefresh(w);
     /* Now the fun begins. */
-    int input = '.';
-    // TODO: use input context
-    input = inp_mngr.get_input_event().get_first_input();
+    int input = inp_mngr.get_input_event().get_first_input(); // @todo: use input context
 
     while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
@@ -364,10 +362,10 @@ ported to CDDA gaming system by a nutcase."));
     draw_robot(w);
     wprintz(w, c_light_gray, _(")."));
     pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
-Your job is to find kitten. This task is complicated by the existance of various things \
+Your job is to find kitten. This task is complicated by the existence of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
-The game ends when robotfindskitten. Alternatively, you may end the game by hitting \
-'q', 'Q' or the escape key."));
+The game ends when robot finds kitten. Alternatively, you may end the game by hitting \
+'q', 'Q' or the Escape key."));
     fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("Press any key to start."));
     wrefresh(w);
     inp_mngr.wait_for_any_key();

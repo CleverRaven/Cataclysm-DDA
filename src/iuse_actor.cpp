@@ -78,10 +78,6 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
-iuse_transform::~iuse_transform()
-{
-}
-
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform(*this);
@@ -221,8 +217,6 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-countdown_actor::~countdown_actor() = default;
-
 iuse_actor *countdown_actor::clone() const
 {
     return new countdown_actor( *this );
@@ -279,10 +273,6 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }
-}
-
-explosion_iuse::~explosion_iuse()
-{
 }
 
 iuse_actor *explosion_iuse::clone() const
@@ -374,7 +364,7 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo List other effects, like EMP and clouds
+        // @todo: List other effects, like EMP and clouds
         return;
     }
 
@@ -387,10 +377,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 }
 
 
-
-unfold_vehicle_iuse::~unfold_vehicle_iuse()
-{
-}
 
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
@@ -474,8 +460,6 @@ long unfold_vehicle_iuse::use(player &p, item &it, bool /*t*/, const tripoint &/
     }
     return 1;
 }
-
-consume_drug_iuse::~consume_drug_iuse() {}
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -601,8 +585,6 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     return it.type->charges_to_use();
 }
 
-delayed_transform_iuse::~delayed_transform_iuse() {}
-
 iuse_actor *delayed_transform_iuse::clone() const
 {
     return new delayed_transform_iuse(*this);
@@ -617,7 +599,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo change return type to time_duration
+    //@todo: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -629,8 +611,6 @@ long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &p
     }
     return iuse_transform::use( p, it, t, pos );
 }
-
-place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
@@ -736,8 +716,6 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) c
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {}
-
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
@@ -792,7 +770,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint& ) 
 }
 
 
-pick_lock_actor::~pick_lock_actor() {}
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -891,7 +868,6 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint& ) const
 }
 
 
-reveal_map_actor::~reveal_map_actor() {}
 
 iuse_actor *reveal_map_actor::clone() const
 {
@@ -1249,7 +1225,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     add_msg(m_info, _("You try to salvage materials from the %s."), cut.tname().c_str());
 
     // Clean up before removing the item.
-    remove_ammo( &cut, p );
+    remove_ammo( cut, p );
     // Original item has been consumed.
     if( pos != INT_MIN ) {
         p.i_rem(pos);
@@ -1405,7 +1381,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( &p, &it, string_format( _("%s what?"), _( verb.c_str() ) ) );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb.c_str() ) ) );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
@@ -1602,10 +1578,10 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
-        int moraleMalus = -50 * (5.0 / (float) p.get_skill_level( skill_survival ));
-        int maxMalus = -250 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / (float)p.get_skill_level( skill_survival ));
+        int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
+        int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
+        int duration = 300 * (5.0 / p.get_skill_level( skill_survival ));
+        int decayDelay = 30 * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
@@ -1652,17 +1628,17 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
 ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
-    /** @EFFECT_SURVIVAL >1 allows enzlavement */
+    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
-    /** @EFFECT_FIRSTAID >1 allows enzlavement */
+    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
 
     // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) <= 1 ) {
+    if( p.get_skill_level( skill_survival ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
     }
 
-    if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+    if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
     }
@@ -1901,7 +1877,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     std::string desc = "";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
-    //@todo change description_frequency to time_duration
+    //@todo: change description_frequency to time_duration
     if( morale_effect >= 0 && calendar::once_every( time_duration::from_turns( description_frequency ) ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( player_descriptions ).c_str() );
@@ -2014,7 +1990,7 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                          obj.tname().c_str(), holster.tname().c_str() );
 
-    // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     p.store( holster, obj, draw_cost, false );
     return true;
 }
@@ -2047,7 +2023,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
             p.wield_contents( it, pos, draw_cost, false );
         } else {
@@ -2154,7 +2130,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
     item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
     if( !sel ) {
-        return false; // cancelled menu
+        return false; // canceled menu
     }
 
     p.mod_moves( -sel.moves() );
@@ -3219,7 +3195,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo This must be called after all finalization
+    // @todo: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );

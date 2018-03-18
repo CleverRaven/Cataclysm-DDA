@@ -68,7 +68,7 @@ void sokoban_game::parse_level( std::istream &fin )
             continue;
         }
 
-        if (sLine == "") {
+        if( sLine.empty() ) {
             //Find level start
             vLevel.resize(iNumLevel + 1);
             vLevelDone.resize(iNumLevel + 1);
@@ -358,7 +358,7 @@ int sokoban_game::start_game()
             }
             bNewLevel = true;
         } else if (action == "PREV") {
-            //prev level
+            //previous level
             clear_level(w_sokoban);
             iCurrentLevel--;
             if (iCurrentLevel < 0) {

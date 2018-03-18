@@ -116,7 +116,7 @@ class Item_factory
          *      "entries": [ x, y, z ]
          * }
          * \endcode
-         * Note that each entrie in the array has to be a JSON object. The other function above
+         * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         void load_item_group( JsonArray &entries, const Group_tag &ident, bool is_collection,
@@ -360,7 +360,7 @@ class Item_factory
         std::map<itype_id, migration> migrations;
 
         /**
-         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).
          * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
          */
         std::map<itype_id, std::set<itype_id>> tool_subtypes;

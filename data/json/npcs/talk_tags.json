@@ -410,5 +410,15 @@
             "<name_b>",
             "<swear> <name_b>"
         ]
+    },{
+        "type" : "snippet",
+        "category" : "<fire_in_the_hole>",
+        "text" : [
+            "This <swear> shit is gonna blow!",
+            "I'm standing way too close to this <swear> firecracker.",
+            "I <really> need to get some distance.",
+            "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
+            "Fire in the hole, motherfuckers!"
+        ]
     }
 ]

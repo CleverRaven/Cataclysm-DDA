@@ -332,7 +332,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
             }
 
             if( bPickup ) {
-                getitem[i].pick = bPickup;
+                getitem[i].pick = true;
                 bFoundSomething = true;
             }
         }
@@ -365,7 +365,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     amenu.text = explain;
 
     offered_swap = true;
-    // @todo Gray out if not enough hands
+    // @todo: Gray out if not enough hands
     if( u.is_armed() ) {
         amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name().c_str(),

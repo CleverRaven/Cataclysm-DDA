@@ -294,13 +294,13 @@ float calendar::sunlight() const
 
 std::string to_string_clipped( const time_duration &d )
 {
-    //@todo change INDEFINITELY_LONG to time_duration
+    //@todo: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
         return _( "forever" );
     }
 
     if( d < 1_minutes ) {
-        //@todo add to_seconds,from_seconds, operator ""_seconds, but currently
+        //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
         return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
@@ -312,16 +312,16 @@ std::string to_string_clipped( const time_duration &d )
         return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
-        // therefor no way to count them
+        // therefore no way to count them
         const int day = to_days<int>( d );
         return string_format( ngettext( "%d day", "%d days", day ), day );
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
-        //@todo consider a to_season function, but season length is variable, so
+        //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
         return string_format( ngettext( "%d season", "%d seasons", season ), season );
     } else {
-        //@todo consider a to_year function, but year length is variable, so
+        //@todo: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
         return string_format( ngettext( "%d year", "%d years", year ), year );
@@ -556,11 +556,20 @@ time_duration rng( time_duration lo, time_duration hi )
 
 season_type season_of_year( const time_point &p )
 {
-    if( calendar::eternal_season() ) {
-        // If we use calendar::start to determine the initial season, and the user shortens the season length
-        // mid-game, the result could be the wrong season!
-        return calendar::initial_season;
+    static time_point prev_turn = calendar::before_time_starts;
+    static season_type prev_season = calendar::initial_season;
+    
+    if( p != prev_turn ) {
+        prev_turn = p;
+        if( calendar::eternal_season() ) {
+            // If we use calendar::start to determine the initial season, and the user shortens the season length
+            // mid-game, the result could be the wrong season!
+            return prev_season = calendar::initial_season;
+        }
+        return prev_season = static_cast<season_type>( 
+            to_turn<int>( p ) / to_turns<int>( calendar::season_length() ) % 4
+        );
     }
-    const int season = to_turn<int>( p ) / to_turns<int>( calendar::season_length() );
-    return static_cast<season_type>( season % 4 );
+    
+    return prev_season;
 }

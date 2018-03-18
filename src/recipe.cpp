@@ -19,8 +19,9 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
-    if( multiplier == 0.0f ) {  // TODO: Don't compare floats this way!
-        return time * batch; // how did we even get here?
+    if( multiplier == 0.0f ) {
+        // If an item isn't craftable in the dark, show the time to complete as if you could craft it
+        multiplier = 1.0f;
     }
 
     const float local_time = float( time ) / multiplier;
@@ -289,7 +290,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo Make it work for charge-less items
+        // @todo: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 

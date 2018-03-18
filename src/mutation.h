@@ -45,7 +45,6 @@ struct dream {
     int strength; // The category strength required for the dream
 
     dream() {
-        category = "";
         strength = 0;
     }
 };
@@ -252,7 +251,7 @@ struct mutation_branch {
      *      "entries": [ x, y, z ]
      * }
      * \endcode
-     * Note that each entrie in the array has to be a JSON object. The other function above
+     * Note that each entry in the array has to be a JSON object. The other function above
      * can also load data from arrays of strings, where the strings are item or group ids.
      */
     static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -280,11 +279,11 @@ struct mutation_branch {
 struct mutation_category_trait {
     std::string name;
     std::string id;
-    // Mutation catagory i.e "BIRD", "CHIMERA"
+    // Mutation category i.e "BIRD", "CHIMERA"
     std::string category;
     // For some reason most code uses "MUTCAT_category" instead of just "category"
     // This exists only to prevent ugly string hacks
-    // @todo Make this not exist
+    // @todo: Make this not exist
     std::string category_full;
     // The trait that you gain when you break the threshold for this category
     trait_id threshold_mut;

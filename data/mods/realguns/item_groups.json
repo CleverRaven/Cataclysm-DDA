@@ -118,6 +118,7 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
+      { "item": "357_mag_casing", "prob": 80, "count": 20 },
       { "item": "410_hull", "prob": 75, "count": 20 },
       { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
@@ -138,10 +139,5 @@
       [ "saiga10mag_410", 50 ],
       [ "saiga30mag_410", 10 ]
     ]
-  },
-  {
-    "id": "gunmod_rare",
-    "type": "item_group",
-    "items": [ [ "retool_410", 20 ] ]
   }
 ]

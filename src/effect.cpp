@@ -37,55 +37,55 @@ bool string_id<effect_type>::is_valid() const
 
 const efftype_id effect_weed_high( "weed_high" );
 
-void weed_msg(player *p) {
-    int howhigh = p->get_effect_dur( effect_weed_high );
+void weed_msg( player &p ) {
+    int howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
-    int smarts = p->get_int();
+    int smarts = p.get_int();
     if(howhigh > 125 && one_in(7)) {
         int msg = rng(0,5);
         switch(msg) {
         case 0: // Freakazoid
-            p->add_msg_if_player(_("The scariest thing in the world would be... if all the air in the world turned to WOOD!"));
+            p.add_msg_if_player( _( "The scariest thing in the world would be... if all the air in the world turned to WOOD!" ) );
             return;
         case 1: // Simpsons
-            p->add_msg_if_player(_("Could Jesus microwave a burrito so hot, that he himself couldn't eat it?"));
-            p->mod_hunger(2);
+            p.add_msg_if_player( _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
+            p.mod_hunger( 2 );
             return;
         case 2:
             if(smarts > 8) { // Timothy Leary
-                p->add_msg_if_player(_("Science is all metaphor."));
+                p.add_msg_if_player( _( "Science is all metaphor." ) );
             } else if(smarts < 3){ // It's Always Sunny in Philadelphia
-                p->add_msg_if_player(_("Science is a liar sometimes."));
+                p.add_msg_if_player( _( "Science is a liar sometimes." ) );
             } else { // Durr
-                p->add_msg_if_player(_("Science is... wait, what was I talking about again?"));
+                p.add_msg_if_player( _( "Science is... wait, what was I talking about again?" ) );
             }
             return;
         case 3: // Dazed and Confused
-            p->add_msg_if_player(_("Behind every good man there is a woman, and that woman was Martha Washington, man."));
+            p.add_msg_if_player( _( "Behind every good man there is a woman, and that woman was Martha Washington, man." ) );
             if(one_in(2)) {
-                p->add_msg_if_player(_("Every day, George would come home, and she would have a big fat bowl waiting for him when he came in the door, man."));
+                p.add_msg_if_player( _( "Every day, George would come home, and she would have a big fat bowl waiting for him when he came in the door, man." ) );
                 if(one_in(2)) {
-                    p->add_msg_if_player(_("She was a hip, hip, hip lady, man."));
+                    p.add_msg_if_player( _( "She was a hip, hip, hip lady, man." ) );
                 }
             }
             return;
         case 4:
-            if(p->has_amount("money_bundle", 1)) { // Half Baked
-                p->add_msg_if_player(_("You ever see the back of a twenty dollar bill... on weed?"));
+            if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
+                p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill... on weed?" ) );
                 if(one_in(2)) {
-                    p->add_msg_if_player(_("Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!"));
+                    p.add_msg_if_player( _( "Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!" ) );
                     if(one_in(3)) {
-                        p->add_msg_if_player(_("RED TEAM GO, RED TEAM GO!"));
+                        p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
                     }
                 }
-            } else if(p->has_amount("holybook_bible", 1)) {
-                p->add_msg_if_player(_("You have a sudden urge to flip your bible open to Genesis 1:29..."));
+            } else if( p.has_amount( "holybook_bible", 1 ) ) {
+                p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29..." ) );
             } else { // Big Lebowski
-                p->add_msg_if_player(_("That rug really tied the room together..."));
+                p.add_msg_if_player( _( "That rug really tied the room together..." ) );
             }
             return;
         case 5:
-            p->add_msg_if_player(_("I used to do drugs...  I still do, but I used to, too."));
+            p.add_msg_if_player( _( "I used to do drugs...  I still do, but I used to, too." ) );
         default:
             return;
         }
@@ -93,36 +93,36 @@ void weed_msg(player *p) {
         int msg = rng(0, 5);
         switch(msg) {
         case 0: // Bob Marley
-            p->add_msg_if_player(_("The herb reveals you to yourself."));
+            p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
             return;
         case 1: // Freakazoid
-            p->add_msg_if_player(_("Okay, like, the scariest thing in the world would be... if like you went to grab something and it wasn't there!"));
+            p.add_msg_if_player( _( "Okay, like, the scariest thing in the world would be... if like you went to grab something and it wasn't there!" ) );
             return;
         case 2: // Simpsons
-            p->add_msg_if_player(_("They call them fingers, but I never see them fing."));
+            p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
             if(smarts > 2 && one_in(2)) {
-                p->add_msg_if_player(_("... oh, there they go."));
+                p.add_msg_if_player( _( "... oh, there they go." ) );
             }
             return;
         case 3: // Bill Hicks
-            p->add_msg_if_player(_("You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively."));
+            p.add_msg_if_player( _( "You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively." ) );
             return;
         case 4: // Steve Martin
-            p->add_msg_if_player(_("I usually only smoke in the late evening."));
+            p.add_msg_if_player( _( "I usually only smoke in the late evening." ) );
             if(one_in(4)) {
-                p->add_msg_if_player(_("Oh, occasionally the early evening, but usually the late evening, or the mid-evening."));
+                p.add_msg_if_player( _( "Oh, occasionally the early evening, but usually the late evening, or the mid-evening." ) );
             }
             if(one_in(4)) {
-                p->add_msg_if_player(_("Just the early evening, mid-evening and late evening."));
+                p.add_msg_if_player( _( "Just the early evening, mid-evening and late evening." ) );
             }
             if(one_in(4)) {
-                p->add_msg_if_player(_("Occasionally, early afternoon, early mid-afternoon, or perhaps the late mid-afternoon."));
+                p.add_msg_if_player( _( "Occasionally, early afternoon, early mid-afternoon, or perhaps the late mid-afternoon." ) );
             }
             if(one_in(4)) {
-                p->add_msg_if_player(_("Oh, sometimes the early-mid-late-early-morning."));
+                p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
             }
             if(smarts > 2) {
-                p->add_msg_if_player(_("...But never at dusk."));
+                p.add_msg_if_player( _( "...But never at dusk." ) );
             }
             return;
         case 5:
@@ -133,22 +133,22 @@ void weed_msg(player *p) {
         int msg = rng(0, 5);
         switch(msg) {
         case 0: // Cheech and Chong
-            p->add_msg_if_player(_("Dave's not here, man."));
+            p.add_msg_if_player( _( "Dave's not here, man." ) );
             return;
         case 1: // Real Life
-            p->add_msg_if_player(_("Man, a cheeseburger sounds SO awesome right now."));
-            p->mod_hunger(4);
-            if( p->has_trait( trait_id( "VEGETARIAN" ) ) ) {
-                p->add_msg_if_player(_("Eh... maybe not."));
-            } else if( p->has_trait( trait_id( "LACTOSE" ) ) ) {
-                p->add_msg_if_player(_("I guess, maybe, without the cheese... yeah."));
+            p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
+            p.mod_hunger( 4 );
+            if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
+                p.add_msg_if_player( _( "Eh... maybe not." ) );
+            } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
+                p.add_msg_if_player( _( "I guess, maybe, without the cheese... yeah." ) );
             }
             return;
         case 2: // Dazed and Confused
-            p->add_msg_if_player( _("Walkin' down the hall, by myself, smokin' a j with fifty elves."));
+            p.add_msg_if_player( _( "Walkin' down the hall, by myself, smokin' a j with fifty elves." ) );
             return;
         case 3: // Half Baked
-            p->add_msg_if_player(_("That weed was the shiz-nittlebam snip-snap-sack."));
+            p.add_msg_if_player( _( "That weed was the shiz-nittlebam snip-snap-sack." ) );
             return;
         case 4:
             weed_msg(p); // re-roll
@@ -460,7 +460,7 @@ std::string effect::disp_name() const
         }
         ret << _( d_name.c_str() );
     } else {
-        if(eff_type->name[0] == "") {
+        if( eff_type->name[0].empty() ) {
             return "";
         }
         ret << _(eff_type->name[0].c_str());
@@ -520,7 +520,7 @@ std::string effect::disp_desc(bool reduced) const
         ret << string_format(_("Speed %d;  "), tmp);
     }
     // Newline if necessary
-    if (ret.str() != "") {
+    if( !ret.str().empty() ) {
         ret << "\n";
     }
 
@@ -597,7 +597,7 @@ std::string effect::disp_desc(bool reduced) const
     }
 
     // Newline if necessary
-    if (ret.str() != "") {
+    if( !ret.str().empty() ) {
         ret << "\n";
     }
 
@@ -636,7 +636,7 @@ void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem
     }
 
     // Decay intensity if supposed to do so
-    // @todo Remove effects that would decay to 0 intensity?
+    // @todo: Remove effects that would decay to 0 intensity?
     if( intensity > 1 && eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0 ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
     }
@@ -1079,7 +1079,7 @@ std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
-    if( eff_type->speed_mod_name != "" ) {
+    if( !eff_type->speed_mod_name.empty() ) {
         return eff_type->speed_mod_name;
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];

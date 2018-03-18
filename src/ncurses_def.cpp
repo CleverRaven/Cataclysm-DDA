@@ -26,14 +26,14 @@ extern int VIEW_OFFSET_Y; // Y position of terrain window
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
-        //@todo debug message
+        //@todo: debug message
     }
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
                                        const int begin_x )
 {
-    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo check for errors
+    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo: check for errors
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -215,8 +215,8 @@ void catacurses::init_interface()
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
-    set_escdelay( 10 ); // Make escape actually responsive
-    start_color(); //@todo error checking
+    set_escdelay( 10 ); // Make Escape actually responsive
+    start_color(); //@todo: error checking
     init_colors();
 }
 

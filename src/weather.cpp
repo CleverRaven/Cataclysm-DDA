@@ -29,17 +29,16 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 
-// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->get_levz() >= 0)
+static bool is_player_outside()
+{
+    return g->m.is_outside( g->u.posx(), g->u.posy() ) && g->get_levz() >= 0;
+}
+
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -49,7 +48,7 @@ static const trait_id trait_BADHEARING( "BADHEARING" );
  */
 void weather_effect::glare()
 {
-    if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
+    if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
@@ -182,7 +181,7 @@ void item::add_rain_to_container(bool acid, int charges)
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if (!acid) {
-            // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
+            // Funnels aren't always clean enough for water. // @todo: disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
         ret.charges = std::min<long>( charges, capa );
@@ -285,7 +284,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0;
         auto items = g->m.i_at( loc );
-        if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
+        if (one_in(turns_per_charge)) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -331,7 +330,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
  */
 void wet_player( int amount )
 {
-    if( !PLAYER_OUTSIDE ||
+    if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag("RAIN_PROTECT") ||
         ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
@@ -448,7 +447,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if( calendar::once_every( 1_minutes ) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
@@ -475,7 +474,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
@@ -497,7 +496,7 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
-// Script from wikipedia:
+// Script from Wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
 // Local conditions
@@ -591,7 +590,7 @@ std::string weather_forecast( point const &abs_sm_pos )
 }
 
 /**
- * Print temperature (and convert to celsius if celsius display is enabled.)
+ * Print temperature (and convert to Celsius if Celsius display is enabled.)
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {

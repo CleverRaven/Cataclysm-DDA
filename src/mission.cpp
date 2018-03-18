@@ -10,6 +10,7 @@
 #include "io.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "skill.h"
 
 #include <sstream>
 #include <memory>
@@ -38,22 +39,21 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::unordered_map<int, std::unique_ptr<mission>> world_missions;
+static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
-    // @todo Warn about overwrite?
-    auto &iter = world_missions[ tmp.uid ];
-    iter = std::unique_ptr<mission>( new mission( tmp ) );
-    return iter.get();
+    // @todo: Warn about overwrite?
+    mission &miss = world_missions[tmp.uid] = tmp;
+    return &miss;
 }
 
 mission *mission::find( int id )
 {
     const auto iter = world_missions.find( id );
     if( iter != world_missions.end() ) {
-        return iter->second.get();
+        return &iter->second;
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
@@ -64,7 +64,7 @@ std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
     for( auto &pr : world_missions ) {
-        ret.push_back( pr.second.get() );
+        ret.push_back( &pr.second );
     }
 
     return ret;
@@ -72,13 +72,13 @@ std::vector<mission *> mission::get_all_active()
 
 void mission::add_existing( const mission &m )
 {
-    world_missions[ m.uid ] = std::unique_ptr<mission>( new mission( m ) );
+    world_missions[ m.uid ] = m;
 }
 
 void mission::process_all()
 {
     for( auto &e : world_missions ) {
-        e.second->process();
+        e.second.process();
     }
 }
 
@@ -142,7 +142,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     const auto dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
-        auto &i = *e.second;
+        mission &i = e.second;
         if( !i.in_progress() ) {
             continue;
         }
@@ -523,7 +523,6 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 mission::mission()
 {
     type = NULL;
-    description = "";
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;

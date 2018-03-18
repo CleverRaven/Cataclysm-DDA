@@ -14,6 +14,7 @@
 #include "ammo.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "skill.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -586,7 +587,6 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
                 if (y < 60){
                     const skill_id best = elem->best_skill();
                     if( best ) {
-                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -1069,7 +1069,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
                 experience += rng( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
@@ -1520,8 +1520,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped ||
-                    t == t_window_domestic || t == t_window_domestic_taped ||
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||

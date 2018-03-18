@@ -1827,7 +1827,7 @@
     "time": 600,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "scrap", 2 ] ],
+      [ [ "gold_small", 3 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },

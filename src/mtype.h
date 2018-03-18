@@ -73,10 +73,6 @@ enum monster_trigger : int {
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
-// mfb(n) converts a flag to its appropriate position in mtype's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
@@ -115,7 +111,7 @@ enum m_flag : int {
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
-    MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
+    MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
@@ -139,7 +135,8 @@ enum m_flag : int {
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_ABSORBS,             // Consumes objects it moves over.
+    MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
+    MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
@@ -205,7 +202,7 @@ struct mtype {
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
-        /** UTF-8 encoded symbol, should be exactyle one cell wide. */
+        /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;
         m_size size;
@@ -222,7 +219,7 @@ struct mtype {
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
         int hp = 0;
-        int speed = 0;          /** eg. human = 100 */
+        int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 
@@ -273,7 +270,6 @@ struct mtype {
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
 
-        // Default constructor
         mtype();
         /**
          * Check if this type is of the same species as the other one, because

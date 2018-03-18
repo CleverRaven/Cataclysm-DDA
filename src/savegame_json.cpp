@@ -20,6 +20,7 @@
 #include "material.h"
 #include "translations.h"
 #include "vitamin.h"
+#include "skill.h"
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -208,7 +209,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        //@todo shouldn't that be calendar::start?
+        //@todo: shouldn't that be calendar::start?
         _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours( get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
@@ -343,17 +344,10 @@ void Character::load(JsonObject &data)
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    if (data.has_object("skills")) {
-        JsonObject pmap = data.get_object("skills");
-        for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), get_skill_level( skill.ident() ) );
-            } else {
-                debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
-            }
-        }
-    } else {
-        debugmsg("Skills[] no bueno");
+    _skills->clear();
+    JsonObject pmap = data.get_object( "skills" );
+    for( const std::string &member : pmap.get_member_names() ) {
+        pmap.read( member, (*_skills)[skill_id( member )] );
     }
 
     visit_items( [&] ( item *it ) {
@@ -411,8 +405,8 @@ void Character::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident().str(), get_skill_level( skill.ident() ) );
+    for( const auto &pair : *_skills ) {
+        json.member( pair.first.str(), pair.second );
     }
     json.end_object();
 }
@@ -545,7 +539,7 @@ void player::store(JsonOut &json) const
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
-    // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
+    // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
 
@@ -632,12 +626,7 @@ void player::serialize(JsonOut &json) const
     json.member( "frostbite_timer", frostbite_timer );
 
     // npc: unimplemented, potentially useful
-    json.member( "learned_recipes" );
-    json.start_array();
-    for( const auto &entry : get_learned_recipes() ) {
-        json.write( entry->ident() );
-    }
-    json.end_array();
+    json.member( "learned_recipes", *learned_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
@@ -757,18 +746,8 @@ void player::deserialize(JsonIn &jsin)
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
-    parray = data.get_array("learned_recipes");
-    if ( !parray.empty() ) {
-        learned_recipes.clear();
-        valid_autolearn_skills.clear(); // Invalidates the cache
-
-        std::string pstr;
-        while ( parray.has_more() ) {
-            if ( parray.read_next(pstr) ) {
-                learned_recipes.include( &recipe_id( pstr ).obj() );
-            }
-        }
-    }
+    data.read( "learned_recipes", *learned_recipes );
+    valid_autolearn_skills->clear(); // Invalidates the cache
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
@@ -798,7 +777,7 @@ void player::deserialize(JsonIn &jsin)
         if( savegame_loading_version <= 23 ) {
             // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
             // And it would as often as not be out of bounds (e.g. when a questgiver died).
-            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatability.
+            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
             // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
             if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
                 active_mission = active_missions[tmpactive_mission];
@@ -919,7 +898,6 @@ void npc_chatbin::serialize(JsonOut &json) const
 void npc_chatbin::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    std::string skill_ident;
 
     if( data.has_int( "first_topic" ) ) {
         int tmptopic = 0;
@@ -1072,7 +1050,7 @@ void npc::load(JsonObject &data)
     }
 
     if( !data.read( "submap_coords", submap_coords ) ) {
-        // Old submap coords are for the point (0, 0, 0) on local map
+        // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
         point old_coords;
         data.read( "mapx", old_coords.x );
@@ -1208,8 +1186,8 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationy", pulp_location.y );
     json.member( "pulp_locationz", pulp_location.z );
 
-    json.member( "mission", mission ); // todo: stringid
-    if ( fac_id != "" ) { // set in constructor
+    json.member( "mission", mission ); // @todo: stringid
+    if( !fac_id.empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );
@@ -1557,7 +1535,7 @@ void item::io( Archive& archive )
         std::swap( irridation, poison );
     }
 
-    // Compatiblity for item type changes: for example soap changed from being a generic item
+    // Compatibility for item type changes: for example soap changed from being a generic item
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
@@ -1793,7 +1771,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     }
 
     if( data.has_int( "hp" ) ) {
-        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
         base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
     }
 
@@ -2120,7 +2098,7 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("id", id);
     jo.read("name", name);
     if ( !jo.read( "desc", desc )) {
-        desc = "";
+        desc.clear();
     }
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);
@@ -2328,7 +2306,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type", type );
     if( item_type != NULL ) {
-        // @todo refactor player_morale to not require this hack
+        // @todo: refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
     }
     json.member( "bonus", bonus );
@@ -2416,4 +2394,22 @@ void stats::deserialize( JsonIn &jsin )
     jo.read( "damage_taken", damage_taken );
     jo.read( "damage_healed", damage_healed );
     jo.read( "headshots", headshots );
+}
+
+void serialize( const recipe_subset &value, JsonOut &jsout )
+{
+    jsout.start_array();
+    for( const auto &entry : value ) {
+        jsout.write( entry->ident() );
+    }
+    jsout.end_array();
+}
+
+void deserialize( recipe_subset &value, JsonIn &jsin )
+{
+    value.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        value.include( &recipe_id( jsin.get_string() ).obj() );
+    }
 }

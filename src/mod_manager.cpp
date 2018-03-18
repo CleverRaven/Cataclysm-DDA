@@ -16,7 +16,7 @@
 #include <fstream>
 #include <unordered_set>
 
-#define MOD_SEARCH_FILE "modinfo.json"
+static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
 /** Second field is optional replacement mod */
 static std::map<std::string, std::string> mod_replacements;
@@ -82,9 +82,8 @@ mod_manager::mod_manager()
     if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
         load_replacement_mods(FILENAMES["mods-replacements"]);
     }
+    refresh_mod_list();
 }
-
-mod_manager::~mod_manager() = default;
 
 dependency_tree &mod_manager::get_tree()
 {
@@ -120,15 +119,15 @@ void mod_manager::refresh_mod_list()
     remove_mod("user:default");
     remove_mod("dev:default");
     for( auto &elem : mod_map ) {
-        const auto &deps = elem.second->dependencies;
-        mod_dependency_map[elem.second->ident] = std::vector<std::string>( deps.begin(), deps.end() );
+        const auto &deps = elem.second.dependencies;
+        mod_dependency_map[elem.second.ident] = std::vector<std::string>( deps.begin(), deps.end() );
     }
     tree.init(mod_dependency_map);
 }
 
 void mod_manager::remove_mod(const std::string &ident)
 {
-    t_mod_map::iterator a = mod_map.find(ident);
+    const auto a = mod_map.find(ident);
     if (a != mod_map.end()) {
         mod_map.erase(a);
     }
@@ -146,7 +145,7 @@ bool mod_manager::set_default_mods(const std::string &ident)
     if (!has_mod(ident)) {
         return false;
     }
-    MOD_INFORMATION &mod = *mod_map[ident];
+    MOD_INFORMATION &mod = mod_map[ident];
     auto deps = std::vector<std::string>( mod.dependencies.begin(), mod.dependencies.end() );
     remove_invalid_mods( deps );
     default_mods = deps;
@@ -174,7 +173,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
-        // TODO: change this to make unique ident for the mod
+        // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
@@ -202,39 +201,40 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
             }
         }
 
-        if( !bCatFound && m_cat != "" ) {
-            m_cat = "";
+        if( !bCatFound && !m_cat.empty() ) {
+            m_cat.clear();
         } else {
             break;
         }
     } while( !bCatFound );
 
-    std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
-    modfile->ident = m_ident;
-    modfile->name = m_name;
-    modfile->category = p_cat;
+    MOD_INFORMATION modfile;
+    modfile.ident = m_ident;
+    modfile.name = m_name;
+    modfile.category = p_cat;
 
-    if( assign( jo, "path", modfile->path ) ) {
-        modfile->path = path + "/" + modfile->path;
+    if( assign( jo, "path", modfile.path ) ) {
+        modfile.path = path + "/" + modfile.path;
     } else {
-        modfile->path = path;
+        modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile->legacy ) ) {
-        modfile->legacy = path + "/" + modfile->legacy;
+    if( assign( jo, "legacy", modfile.legacy ) ) {
+        modfile.legacy = path + "/" + modfile.legacy;
     }
 
-    assign( jo, "authors", modfile->authors );
-    assign( jo, "maintainers", modfile->maintainers );
-    assign( jo, "description", modfile->description );
-    assign( jo, "dependencies", modfile->dependencies );
-    assign( jo, "core", modfile->core );
-    assign( jo, "obsolete", modfile->obsolete );
+    assign( jo, "authors", modfile.authors );
+    assign( jo, "maintainers", modfile.maintainers );
+    assign( jo, "description", modfile.description );
+    assign( jo, "version", modfile.version );
+    assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "core", modfile.core );
+    assign( jo, "obsolete", modfile.obsolete );
 
-    if( modfile->dependencies.count( modfile->ident ) ) {
+    if( modfile.dependencies.count( modfile.ident ) ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
     }
 
-    mod_map[modfile->ident] = std::move( modfile );
+    mod_map[modfile.ident] = std::move( modfile );
 }
 
 bool mod_manager::set_default_mods(const t_mod_list &mods)
@@ -275,7 +275,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         number_stream.width(5);
         number_stream.fill('0');
         number_stream << (i + 1);
-        MOD_INFORMATION &mod = *mod_map[mods_to_copy[i]];
+        MOD_INFORMATION &mod = mod_map[mods_to_copy[i]];
         size_t start_index = mod.path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
@@ -314,7 +314,6 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
             dir_to_make.pop();
         }
 
-        std::ofstream fout;
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;

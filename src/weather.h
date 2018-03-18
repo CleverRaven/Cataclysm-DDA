@@ -22,12 +22,6 @@
 #define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
 ///@}
 
-/**
- * How far into the future we should generate weather, in hours.
- * 168 hours in a week.
- */
-#define MAX_FUTURE_WEATHER 168
-
 #include "calendar.h"
 
 #include <string>
@@ -130,7 +124,7 @@ weather_datum const weather_data( weather_type const type );
 
 std::string weather_forecast( point const &abs_sm_pos );
 
-// Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
+// Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
 // If scale is Celsius:    temperature(100) will return "37C"
 // If scale is Fahrenheit: temperature(100) will return "100F"

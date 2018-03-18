@@ -89,7 +89,7 @@ enum npc_need {
     num_needs
 };
 
-// @todo Turn the personality struct into a vector/map?
+// @todo: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
     NPE_AGGRESSION,
     NPE_BRAVERY,
@@ -143,7 +143,7 @@ struct npc_opinion {
         return *this;
     }
 
-    npc_opinion &operator+( const npc_opinion &rhs ) {
+    npc_opinion operator+( const npc_opinion &rhs ) {
         return ( npc_opinion( *this ) += rhs );
     }
 
@@ -190,7 +190,6 @@ struct npc_follower_rules {
     pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
-    ~npc_follower_rules();
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -206,6 +205,7 @@ struct npc_short_term_cache {
     double my_weapon_value;
 
     std::vector<std::shared_ptr<Creature>> friends;
+    std::vector<sphere> dangerous_explosives;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -611,8 +611,8 @@ class npc : public player
         // Helper functions for ranged combat
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
-        int confident_shoot_range( const item &it ) const;
-        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
+        int confident_shoot_range( const item &it, int at_recoil ) const;
+        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
@@ -643,7 +643,9 @@ class npc : public player
         void move_to( const tripoint &p, bool no_bashing = false );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
+        void escape_explosion();
         void move_away_from( const tripoint &p, bool no_bashing = false );
+        void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
         const pathfinding_settings &get_pathfinding_settings() const override;
@@ -720,7 +722,7 @@ class npc : public player
         float speed_rating() const override;
 
         /**
-         * Note: this places NPC on a given position in CURRENT MAP coords.
+         * Note: this places NPC on a given position in CURRENT MAP coordinates.
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
@@ -742,7 +744,7 @@ class npc : public player
          * submap_coords defines the overmap the npc is stored on.
          */
         point submap_coords;
-        // Type of complaint->last time we complainted about this type
+        // Type of complaint->last time we complained about this type
         std::map<std::string, int> complaints;
 
         npc_short_term_cache ai_cache;
@@ -834,6 +836,8 @@ class npc : public player
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
+
+        std::vector<sphere> find_dangerous_explosives() const;
 
         std::string companion_mission;
 };

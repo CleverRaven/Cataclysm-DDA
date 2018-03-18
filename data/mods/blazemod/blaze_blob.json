@@ -208,40 +208,6 @@
     }
   },
   {
-    "id": "flamethrower",
-    "copy-from": "flamethrower",
-    "type": "GUN",
-    "name": "flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
-    "id": "flamethrower_crude",
-    "copy-from": "flamethrower_crude",
-    "type": "GUN",
-    "name": "spraycan flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
-    "id": "flamethrower_simple",
-    "copy-from": "flamethrower_simple",
-    "type": "GUN",
-    "name": "simple flamethrower",
-    "range": 2,
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
     "id": "freezie",
     "type": "GUN",
     "name": "frost lancer",
@@ -370,24 +336,6 @@
       "type": "delayed_transform",
       "transform_age": 4800,
       "not_ready_msg": "Whatever it's doing, it's not done yet."
-    }
-  },
-  {
-    "id": "gasoline",
-    "copy-from": "gasoline",
-    "type": "AMMO",
-    "category": "fuel",
-    "name": "gasoline",
-    "name_plural": "gasoline",
-    "explosion": {
-      "power": 10,
-      "distance_factor": 0.01,
-      "shrapnel": {
-        "count": 25,
-        "mass": 1,
-        "drop": "gasoline",
-        "recovery": 100
-      }
     }
   },
   {
@@ -1011,17 +959,6 @@
     }
   },
   {
-    "id": "rm451_flamethrower",
-    "copy-from": "rm451_flamethrower",
-    "type": "GUN",
-    "name": "RM451 flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
     "id": "sharp",
     "type": "GUN",
     "name": "gel lancer",
@@ -1288,26 +1225,5 @@
       "transform_age": 2400,
       "not_ready_msg": "Whatever it's doing, it's not done yet."
     }
-  },
-  {
-    "id": "water",
-    "copy-from": "water",
-    "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
-    "category": "food",
-    "name": "water",
-    "name_plural": "water",
-    "ammo_data": { "ammo_type": "water" },
-    "explosion": {
-      "power": 30,
-      "distance_factor": 0.5,
-      "shrapnel": {
-        "count": 100,
-        "mass": 3,
-        "drop": "water",
-        "recovery": 100
-      }
-    },
-    "flags": [ "EATEN_COLD" ]
   }
 ]

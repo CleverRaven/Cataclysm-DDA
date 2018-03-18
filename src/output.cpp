@@ -163,7 +163,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
             }
 
             sText += sColor + sTempText;
-            if( sColor != "" ) {
+            if( !sColor.empty() ) {
                 sText += "</color>";
             }
 
@@ -232,9 +232,9 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
         if( line_num >= begin_line ) {
             wmove( w, line_num + begin_y - begin_line, begin_x );
         }
-        // split into colourable sections
+        // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
-        // for each section, get the colour, and print it
+        // for each section, get the color, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
             if( !it->empty() && it->at( 0 ) == '<' ) {
@@ -271,10 +271,10 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         solution:  split this paragraph in two pieces;
     */
     for( int i = 0; i < ( int )text.size(); i++ ) {
-        if( begin_y == 0 && caption != "" ) {
+        if( begin_y == 0 && !caption.empty() ) {
             begin_y = fold_and_print( w, 0, 1, width - 2, c_white, caption ) + 1;
         }
-        std::vector<std::string> next_paragraph = foldstring( text[i].c_str(), width - 2 );
+        std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
         if( begin_y + ( int )next_paragraph.size() > height - ( ( i + 1 ) < ( int )text.size() ? 1 : 0 ) ) {
             // Next page
             i--;
@@ -872,7 +872,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             std::string sPlus = vItemDisplay[i].sPlus;
             std::string sFmt = vItemDisplay[i].sFmt;
-            std::string sNum = " ";
             std::string sPost = "";
 
             //A bit tricky, find %d and split the string
@@ -937,10 +936,10 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
-    if( sItemName != "" ) {
+    if( !sItemName.empty() ) {
         buffer << sItemName << "\n";
     }
-    if( sItemName != sTypeName && sTypeName != "" ) {
+    if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
     buffer << " \n"; //This space is required, otherwise it won't make an empty line.
@@ -1761,7 +1760,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
-        // oversize ascii tiles overdrawing messages below them.
+        // oversize ASCII tiles overdrawing messages below them.
         if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
                        p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
 
@@ -1952,7 +1951,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
 {
     std::string text = text_in;
 
-    if( text == "" ) {
+    if( text.empty() ) {
         return false;
     } else if( text == "*" ) {
         return true;
@@ -2057,7 +2056,7 @@ std::string format_volume( const units::volume &volume )
 * Convert, clamp, round up and format a volume,
 * taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
-* optionally returning the formated value as double.
+* optionally returning the formatted value as double.
 */
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value )

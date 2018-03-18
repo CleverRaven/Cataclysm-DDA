@@ -158,7 +158,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         const bool currentPageNonEmpty = !vRules[iTab].empty();
 
-        if (iTab == CHARACTER_TAB && g->u.name == "") {
+        if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
             vRules[CHARACTER_TAB].clear();
             mvwprintz(w, 8, 15, c_white,
                       _("Please load a character first to use this page!"));
@@ -192,8 +192,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 wprintz(w, (iLine == i &&
                                         iColumn == 1) ? hilite(cLineColor) : cLineColor, "%s",
-                        ((vRules[iTab][i].sRule == "") ? _("<empty rule>") :
-                         vRules[iTab][i].sRule).c_str());
+                        ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
+                         vRules[iTab][i].sRule).c_str() );
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
@@ -250,7 +250,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                         vRules[iTab][iLine].bExclude));
             iLine = vRules[iTab].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
-            if ((iTab == GLOBAL_TAB && g->u.name != "") || iTab == CHARACTER_TAB) {
+            if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
                 bStuffChanged = true;
                 //copy over
                 vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(
@@ -336,10 +336,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine--;
                 iColumn = 1;
             }
-        } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
-            // @todo Now that NPCs use this function, it could be used for them too
+            // @todo: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {
@@ -355,7 +355,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         // NPC pickup rules don't need to be saved explicitly
         if( is_autopickup ) {
             save_global();
-            if( g->u.name != "" ) {
+            if( !g->u.name.empty() ) {
                 save_character();
             }
         }
@@ -371,7 +371,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
 
-    if (vRules[iTab][iRow].sRule == "") {
+    if ( vRules[iTab][iRow].sRule.empty() ) {
         return;
     }
 
@@ -539,7 +539,7 @@ void auto_pickup::refresh_map_items() const
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if ( elem.sRule != "" ) {
+            if ( !elem.sRule.empty() ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
                     for( const itype *e : item_controller->all() ) {
@@ -710,7 +710,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
     while(!fin.eof()) {
         getline(fin, sLine);
 
-        if(sLine != "" && sLine[0] != '#') {
+        if(!sLine.empty() && sLine[0] != '#') {
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
@@ -723,7 +723,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
                 size_t iPos = 0;
                 int iCol = 1;
                 do {
-                    iPos = sLine.find(";");
+                    iPos = sLine.find( ';' );
 
                     std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
 
