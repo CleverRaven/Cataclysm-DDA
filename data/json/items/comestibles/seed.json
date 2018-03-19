@@ -16,6 +16,17 @@
     "color": "brown"
   },
   {
+    "abstract": "seed_mushroom_base",
+    "type": "COMESTIBLE",
+    "copy-from": "seed",
+    "name": "mushroom spores",
+    "name_plural": "mushroom spores",
+    "description": "Some mushroom spores.  You could probably plant these.",
+    "charges": 2,
+    "material": "veggy",
+    "color": "green"
+  },
+  {
     "id": "seed_blackberries",
     "copy-from": "seed",
     "type": "COMESTIBLE",
@@ -489,50 +500,35 @@
   {
     "type": "COMESTIBLE",
     "id": "seed_mushroom",
-    "copy-from": "seed",
+    "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "color": "green",
-    "description": "Some mushroom spores.  You could probably plant these.",
-    "material": "veggy",
-    "charges": 2,
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": 91 }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_mushroom_morel",
-    "copy-from": "seed",
+    "copy-from": "seed_mushroom_base",
     "name": "morel mushroom spores",
     "name_plural": "morel mushroom spores",
-    "color": "green",
     "description": "Some morel mushroom spores.  You could probably plant these.",
-    "material": "veggy",
-    "charges": 2,
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": 91 }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_mushroom_magic",
-    "copy-from": "seed",
+    "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "color": "green",
-    "description": "Some mushroom spores.  You could probably plant these.",
-    "material": "veggy",
-    "charges": 2,
     "flags": "HIDDEN_HALLU",
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": 91 }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_mushroom_poison",
-    "copy-from": "seed",
+    "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "color": "green",
-    "description": "Some mushroom spores.  You could probably plant these.",
-    "material": "veggy",
-    "charges": 2,
     "flags": "HIDDEN_POISON",
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": 91 }
   },
