@@ -11,9 +11,16 @@
     "price": 120,
     "charges": 4,
     "stack_size": 100,
-    "material": "fruit",
+    "material": "veggy",
     "symbol": ".",
     "color": "brown"
+  },
+  {
+    "abstract": "seed_fruit",
+    "type": "COMESTIBLE",
+    "copy-from": "seed",
+    "name": "fruit seeds",
+    "material": "fruit"
   },
   {
     "abstract": "seed_mushroom_base",
@@ -23,12 +30,11 @@
     "name_plural": "mushroom spores",
     "description": "Some mushroom spores.  You could probably plant these.",
     "charges": 2,
-    "material": "veggy",
     "color": "green"
   },
   {
     "id": "seed_blackberries",
-    "copy-from": "seed",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "blackberry seeds",
     "name_plural": "blackberry seeds",
@@ -37,7 +43,7 @@
   },
   {
     "id": "seed_blueberries",
-    "copy-from": "seed",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "blueberry seeds",
     "name_plural": "blueberry seeds",
@@ -46,7 +52,7 @@
   },
   {
     "id": "seed_cranberries",
-    "copy-from": "seed",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "cranberry seeds",
     "name_plural": "cranberry seeds",
@@ -64,12 +70,11 @@
     "price": 160,
     "charges": 2,
     "stack_size": 8,
-    "material": "veggy",
     "seed_data": { "plant_name": "hops", "fruit": "hops", "byproducts": [ "straw_pile" ], "grow": 120 }
   },
   {
     "id": "seed_raspberries",
-    "copy-from": "seed",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "raspberry seeds",
     "name_plural": "raspberry seeds",
@@ -78,7 +83,7 @@
   },
   {
     "id": "seed_strawberries",
-    "copy-from": "seed",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "strawberry seeds",
     "name_plural": "strawberry seeds",
@@ -93,7 +98,6 @@
     "name": "barley seeds",
     "name_plural": "barley seeds",
     "description": "Some barley seeds.",
-    "material": "veggy",
     "weight": 5,
     "charges": 2,
     "stack_size": 40,
@@ -107,7 +111,6 @@
     "name": "sugar beet seeds",
     "name_plural": "sugar beet seeds",
     "description": "Some sugar beet seeds.",
-    "material": "veggy",
     "volume": 0,
     "weight": 5,
     "stack_size": 40,
@@ -121,7 +124,6 @@
     "name": "lettuce seeds",
     "name_plural": "lettuce seeds",
     "description": "Some lettuce seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "lettuce", "fruit": "lettuce", "byproducts": [ "withered" ], "grow": 85 }
   },
   {
@@ -133,7 +135,6 @@
     "name_plural": "cabbage seeds",
     "color": "light_gray",
     "description": "Some white cabbage seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "cabbage", "fruit": "cabbage", "byproducts": [ "withered" ], "grow": 85 }
   },
   {
@@ -144,7 +145,6 @@
     "name": "tomato seeds",
     "name_plural": "tomato seeds",
     "description": "Some tomato seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "tomato", "fruit": "tomato", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
@@ -155,7 +155,6 @@
     "name": "cotton seeds",
     "name_plural": "cotton seeds",
     "description": "Some cotton seeds.  Can be processed to produce an edible oil.",
-    "material": "veggy",
     "weight": 5,
     "charges": 8,
     "stack_size": 40,
@@ -169,7 +168,6 @@
     "name": "broccoli seeds",
     "name_plural": "broccoli seeds",
     "description": "Some broccoli seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "broccoli", "fruit": "broccoli", "byproducts": [ "withered" ], "grow": 75 }
   },
   {
@@ -180,7 +178,6 @@
     "name": "zucchini seeds",
     "name_plural": "zucchini seeds",
     "description": "Some zucchini seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "zucchini", "fruit": "zucchini", "byproducts": [ "withered" ], "grow": 47 }
   },
   {
@@ -191,7 +188,6 @@
     "name": "onion seeds",
     "name_plural": "onion seeds",
     "description": "Some onion seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "onion", "fruit": "onion", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
@@ -202,7 +198,6 @@
     "name": "garlic clove",
     "name_plural": "garlic cloves",
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
-    "material": "veggy",
     "quench": -3,
     "nutrition": 3,
     "weight": 3,
@@ -219,7 +214,6 @@
     "name": "carrot seeds",
     "name_plural": "carrot seeds",
     "description": "Some carrot seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "carrot", "fruit": "carrot", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
@@ -230,7 +224,6 @@
     "name": "corn seeds",
     "name_plural": "corn seeds",
     "description": "Some corn seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": 80 }
   },
   {
@@ -242,7 +235,6 @@
     "name_plural": "chili pepper seeds",
     "color": "white",
     "description": "Some chili pepper seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "chili_pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
@@ -253,7 +245,6 @@
     "name": "cucumber seeds",
     "name_plural": "cucumber seeds",
     "description": "Some cucumber seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": 60 }
   },
   {
@@ -264,7 +255,6 @@
     "name": "seed potato",
     "name_plural": "seed potatoes",
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
-    "material": "veggy",
     "weight": 20,
     "stack_size": 10,
     "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": 95 }
@@ -282,7 +272,6 @@
     "nutrition": 2,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": 100,
-    "material": "veggy",
     "weight": 2,
     "charges": 2,
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": 91 }
@@ -296,7 +285,6 @@
     "name_plural": "fungal seeds",
     "color": "dark_gray",
     "description": "Some fungal seeds.",
-    "material": "veggy",
     "ammo_type": "NULL",
     "stack_size": 8,
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": 91 }
@@ -328,19 +316,15 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_beans",
-    "category": "seeds",
+    "copy-from": "seed",
     "name": "raw beans",
     "name_plural": "raw beans",
     "weight": 210,
-    "color": "brown",
-    "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -2,
     "nutrition": 14,
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
     "price": 90,
-    "material": "veggy",
-    "volume": 1,
     "fun": -1,
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -353,7 +337,6 @@
     "name_plural": "thyme seeds",
     "color": "green",
     "description": "Some thyme seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": 91 }
   },
@@ -365,7 +348,6 @@
     "name_plural": "canola seeds",
     "color": "green",
     "description": "Some canola seeds.  You could probably plant these, or press them into oil.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -381,7 +363,6 @@
     "nutrition": 2,
     "description": "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
     "price": 100,
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -397,7 +378,6 @@
     "nutrition": 2,
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -409,7 +389,6 @@
     "name_plural": "dogbane seeds",
     "color": "green",
     "description": "Some dogbane seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -421,7 +400,6 @@
     "name_plural": "bee balm seeds",
     "color": "green",
     "description": "Some bee balm seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -433,7 +411,6 @@
     "name_plural": "mugwort seeds",
     "color": "green",
     "description": "Some mugwort seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": 91 }
   },
@@ -445,7 +422,6 @@
     "name_plural": "buckwheat seeds",
     "color": "green",
     "description": "Some buckwheat seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -457,7 +433,6 @@
     "name_plural": "wild herb seeds",
     "color": "green",
     "description": "Some seeds harvested from wild herbs.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": 91 }
   },
@@ -469,7 +444,6 @@
     "name_plural": "wild vegetable stems",
     "color": "green",
     "description": "Some wild vegetable stems.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -481,7 +455,6 @@
     "name_plural": "dandelion seeds",
     "color": "green",
     "description": "Some dandelion seeds.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": 91 }
   },
@@ -493,7 +466,6 @@
     "name_plural": "rhubarb stems",
     "color": "green",
     "description": "Some rhubarb stems.  You could probably plant these.",
-    "material": "veggy",
     "charges": 2,
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": 91 }
   },
@@ -556,7 +528,6 @@
     "name": "celery seeds",
     "name_plural": "celery seeds",
     "description": "Some celery seeds.",
-    "material": "veggy",
     "seed_data": { "plant_name": "celery", "fruit": "celery", "byproducts": [ "withered" ], "grow": 130 }
   },
   {
