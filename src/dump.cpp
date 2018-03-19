@@ -26,7 +26,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { "dda" }, ui );
+        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;

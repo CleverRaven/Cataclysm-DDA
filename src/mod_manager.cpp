@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "path_info.h"
 #include "translations.h"
+#include "dependency_tree.h"
 
 #include <math.h>
 #include <queue>
@@ -18,8 +19,24 @@
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
-/** Second field is optional replacement mod */
-static std::map<std::string, std::string> mod_replacements;
+template<>
+const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
+{
+    const auto &map = world_generator->get_mod_manager().mod_map;
+    const auto iter = map.find( *this );
+    if( iter == map.end() ) {
+        debugmsg( "Invalid mod %s requested", str() );
+        static const MOD_INFORMATION dummy{};
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<MOD_INFORMATION>::is_valid() const
+{
+    return world_generator->get_mod_manager().mod_map.count( *this ) > 0;
+}
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
@@ -60,13 +77,13 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     return mod_list_cat_tab;
 }
 
-static void load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string path )
 {
     read_from_file_optional_json( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
         while (!jsin.end_array()) {
             auto arr = jsin.get_array();
-            mod_replacements.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
+            mod_replacements.emplace( mod_id( arr.get_string( 0 ) ), mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
     } );
 }
@@ -78,21 +95,30 @@ bool MOD_INFORMATION::need_lua() const
 
 mod_manager::mod_manager()
 {
-    // Insure mod_replacements is initialized.
-    if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
-        load_replacement_mods(FILENAMES["mods-replacements"]);
-    }
+    load_replacement_mods( FILENAMES["mods-replacements"] );
     refresh_mod_list();
+}
+
+mod_manager::~mod_manager() = default;
+
+std::vector<mod_id> mod_manager::all_mods() const
+{
+    std::vector<mod_id> result;
+    std::transform( mod_map.begin(), mod_map.end(),
+    std::back_inserter( result ), []( const decltype( mod_manager::mod_map )::value_type & pair ) {
+        return pair.first;
+    } );
+    return result;
 }
 
 dependency_tree &mod_manager::get_tree()
 {
-    return tree;
+    return *tree;
 }
 
 void mod_manager::clear()
 {
-    tree.clear();
+    tree->clear();
     mod_map.clear();
     default_mods.clear();
 }
@@ -101,7 +127,7 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
-    std::map<std::string, std::vector<std::string> > mod_dependency_map;
+    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from(FILENAMES["moddir"]);
     load_mods_from(FILENAMES["user_moddir"]);
 
@@ -112,20 +138,20 @@ void mod_manager::refresh_mod_list()
         load_mod_info(FILENAMES["mods-user-default"]);
     }
 
-    if (set_default_mods("user:default")) {
-    } else if(set_default_mods("dev:default")) {
+    if( set_default_mods( mod_id( "user:default" ) ) ) {
+    } else if( set_default_mods( mod_id( "dev:default" ) ) ) {
     }
     // remove these mods from the list, so they do not appear to the user
-    remove_mod("user:default");
-    remove_mod("dev:default");
+    remove_mod( mod_id( "user:default" ) );
+    remove_mod( mod_id( "dev:default" ) );
     for( auto &elem : mod_map ) {
         const auto &deps = elem.second.dependencies;
-        mod_dependency_map[elem.second.ident] = std::vector<std::string>( deps.begin(), deps.end() );
+        mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
     }
-    tree.init(mod_dependency_map);
+    tree->init( mod_dependency_map );
 }
 
-void mod_manager::remove_mod(const std::string &ident)
+void mod_manager::remove_mod( const mod_id &ident )
 {
     const auto a = mod_map.find(ident);
     if (a != mod_map.end()) {
@@ -133,28 +159,23 @@ void mod_manager::remove_mod(const std::string &ident)
     }
 }
 
-void mod_manager::remove_invalid_mods( std::vector<std::string> &m ) const
+void mod_manager::remove_invalid_mods( std::vector<mod_id> &m ) const
 {
-    m.erase( std::remove_if( m.begin(), m.end(), [this]( const std::string &mod ) {
-        return !has_mod( mod );
+    m.erase( std::remove_if( m.begin(), m.end(), [this]( const mod_id &mod ) {
+        return !mod.is_valid();
     } ), m.end() );
 }
 
-bool mod_manager::set_default_mods(const std::string &ident)
+bool mod_manager::set_default_mods( const mod_id &ident )
 {
-    if (!has_mod(ident)) {
+    if( !ident.is_valid() ) {
         return false;
     }
-    MOD_INFORMATION &mod = mod_map[ident];
-    auto deps = std::vector<std::string>( mod.dependencies.begin(), mod.dependencies.end() );
+    const MOD_INFORMATION &mod = *ident;
+    auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
     remove_invalid_mods( deps );
     default_mods = deps;
     return true;
-}
-
-bool mod_manager::has_mod(const std::string &ident) const
-{
-    return mod_map.count(ident) > 0;
 }
 
 void mod_manager::load_mods_from(std::string path)
@@ -171,8 +192,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
         return;
     }
 
-    std::string m_ident = jo.get_string("ident");
-    if (has_mod(m_ident)) {
+    const mod_id m_ident( jo.get_string( "ident" ) );
+    if( m_ident.is_valid() ) {
         // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
@@ -275,7 +296,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         number_stream.width(5);
         number_stream.fill('0');
         number_stream << (i + 1);
-        MOD_INFORMATION &mod = mod_map[mods_to_copy[i]];
+        const MOD_INFORMATION &mod = *mods_to_copy[i];
         size_t start_index = mod.path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
@@ -376,18 +397,19 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     if (world == NULL) {
         return;
     }
-    std::vector<std::string> &amo = world->active_mod_order;
+    std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
     bool obsolete_mod_found = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
-            const std::string mod = ja.next_string();
-            if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
+            const mod_id mod( ja.next_string() );
+            if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            if( mod_replacements.count( mod ) ) {
-                amo.push_back( mod_replacements[ mod ] );
+            const auto iter = mod_replacements.find( mod );
+            if( iter != mod_replacements.end() ) {
+                amo.push_back( iter->second );
                 obsolete_mod_found = true;
             } else {
                 amo.push_back(mod);
