@@ -19,9 +19,6 @@
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
-/** Second field is optional replacement mod */
-static std::map<mod_id, mod_id> mod_replacements;
-
 template<>
 const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
 {
@@ -80,7 +77,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     return mod_list_cat_tab;
 }
 
-static void load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string path )
 {
     read_from_file_optional_json( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
@@ -98,10 +95,7 @@ bool MOD_INFORMATION::need_lua() const
 
 mod_manager::mod_manager()
 {
-    // Insure mod_replacements is initialized.
-    if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
-        load_replacement_mods(FILENAMES["mods-replacements"]);
-    }
+    load_replacement_mods( FILENAMES["mods-replacements"] );
     refresh_mod_list();
 }
 
@@ -413,8 +407,9 @@ void mod_manager::load_mods_list(WORLDPTR world) const
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            if( mod_replacements.count( mod ) ) {
-                amo.push_back( mod_replacements[ mod ] );
+            const auto iter = mod_replacements.find( mod );
+            if( iter != mod_replacements.end() ) {
+                amo.push_back( iter->second );
                 obsolete_mod_found = true;
             } else {
                 amo.push_back(mod);
