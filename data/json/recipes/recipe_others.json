@@ -1636,7 +1636,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -1660,7 +1660,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -1684,7 +1684,7 @@
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "power_supply", 2 ] ],
-      [ [ "plut_cell", 2 ] ],
+      [ [ "small_storage_battery", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "motor_small", 2 ] ]
     ]
@@ -1708,7 +1708,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -1732,7 +1732,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -1756,7 +1756,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -1780,7 +1780,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "motor_small", 1 ] ]
     ]
