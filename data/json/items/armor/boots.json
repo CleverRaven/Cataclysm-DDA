@@ -111,25 +111,19 @@
   {
     "id": "boots_acidchitin",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "boots_chitin",
     "name": "pair of biosilicified chitin boots",
     "name_plural": "pairs of biosilicified chitin boots",
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "weight": 1823,
     "volume": 19,
     "price": 16875,
-    "to_hit": -1,
     "bashing": 6,
     "material": [ "acidchitin" ],
-    "symbol": "[",
-    "color": "green",
-    "covers": [ "FEET" ],
-    "coverage": 95,
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 5,
-    "environmental_protection": 5,
-    "flags": [ "STURDY" ]
+    "environmental_protection": 5
   },
   {
     "id": "boots_combat",
