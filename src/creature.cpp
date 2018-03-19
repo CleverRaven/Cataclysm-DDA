@@ -486,21 +486,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
-        //damage_mult *= rng_float(2.45, 3.35);
-        damage_mult *= rng_float(1.9, 2.1);//_FS
+        damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
 
     } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
-        //damage_mult *= rng_float(1.75, 2.3);
-        damage_mult *= rng_float(1.5, 1.9);//_FS
+        damage_mult *= rng_float(1.75, 2.3);
 
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
-        //damage_mult *= rng_float(1, 1.5);
-        damage_mult *= rng_float(1, 1.3);//_FS
+        damage_mult *= rng_float(1, 1.5);
 
     } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float(0.5, 1);

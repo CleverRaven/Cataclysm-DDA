@@ -2598,9 +2598,7 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    //return std::max( weight() / 10000_gram, 1 ); // original
-    //_FS reverted to old lift formula. We don't have enough LIFT tools for now. Also in game_constant.h restored constant STR_LIFT_FACTOR
-    return weight() / STR_LIFT_FACTOR + (weight().value() % STR_LIFT_FACTOR.value() != 0); //_FS
+    return std::max( weight() / 10000_gram, 1 ); // original
 }
 
 int item::attack_time() const
