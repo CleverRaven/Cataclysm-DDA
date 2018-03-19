@@ -9706,7 +9706,7 @@
     "autolearn": true,
     "batch_time_factors":[83, 3],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "result": "chilly-p",

@@ -43,7 +43,7 @@
     "density": 15,
     "bash_resist": 3,
     "cut_resist": 4,
-    "acid_resist": 8,
+    "acid_resist": 13,
     "fire_resist": 2,
     "elec_resist": 2,
     "chip_resist": 10,

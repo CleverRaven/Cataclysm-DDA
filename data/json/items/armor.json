@@ -237,10 +237,10 @@
     "volume": 11,
     "price": 25000,
     "material": [ "acidchitin" ],
-    "encumbrance": 13,
+    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
-    "environmental_protection": 3
+    "environmental_protection": 2
   },
   {
     "id": "armguard_hard",
@@ -445,7 +445,7 @@
     "price": 150000,
     "bashing": 3,
     "material": [ "acidchitin" ],
-    "encumbrance": 13,
+    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 2
@@ -2915,10 +2915,10 @@
     "price": 47500,
     "bashing": 3,
     "material": [ "acidchitin" ],
-    "encumbrance": 15,
+    "encumbrance": 18,
     "warmth": 30,
     "material_thickness": 5,
-    "environmental_protection": 6
+    "environmental_protection": 4
   },
   {
     "id": "gauntlets_larmor",
@@ -4298,10 +4298,10 @@
     "price": 47500,
     "bashing": 3,
     "material": [ "acidchitin" ],
-    "encumbrance": 13,
+    "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
-    "environmental_protection": 6
+    "environmental_protection": 4
   },
   {
     "id": "helmet_football",
