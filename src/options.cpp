@@ -1754,7 +1754,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
-            bool hasPrerequisite = current_opt->hasPrerequisite();
+            bool hasPrerequisite = current_opt.hasPrerequisite();
 
             line_pos = i - iStartPos;
 
@@ -1774,7 +1774,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             if ( !hasPrerequisite ) {
                 cLineColor = c_light_gray;
 
-            } else if (current_opt->getValue() == "false") {
+            } else if (current_opt.getValue() == "false") {
                 cLineColor = c_light_red;
             }
 
