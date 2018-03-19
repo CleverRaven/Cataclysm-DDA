@@ -896,28 +896,20 @@ void options_manager::init()
          0, MAX_VIEW_DISTANCE, 0
     );
 
-    get_option("SAFEMODEPROXIMITY").setPrerequisite("SAFEMODE");
-
     add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
          translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
          false
     );
-
-    get_option("SAFEMODEVEH").setPrerequisite("SAFEMODE");
 
     add( "AUTOSAFEMODE", "general", translate_marker( "Auto-safe mode" ),
         translate_marker( "If true, turns safemode automatically back on after it being disabled beforehand.  See option 'Turns to re-enable safe mode'" ),
         false
         );
 
-    get_option("AUTOSAFEMODE").setPrerequisite("SAFEMODE");
-
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to re-enable safe mode" ),
         translate_marker( "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe Mode proximity distance'." ),
         1, 100, 50
         );
-
-    get_option("AUTOSAFEMODETURNS").setPrerequisite("SAFEMODE");
 
     mOptionsSort["general"]++;
 
