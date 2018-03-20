@@ -70,7 +70,7 @@
     "name": "Inline-4 engine",
     "description": "A small, yet powerful 4-cylinder combustion engine.",
     "weight": 130000,
-    "volume": 6,
+    "volume": 14,
     "price": 15000,
     "displacement": 250
   },
@@ -81,7 +81,7 @@
     "name": "I6 diesel engine",
     "description": "A powerful straight-6 diesel engine.",
     "weight": 185000,
-    "volume": 15,
+    "volume": 28,
     "price": 27000,
     "displacement": 600
   },
@@ -92,7 +92,7 @@
     "name": "V-twin engine",
     "description": "A 2-cylinder 4-stroke combustion engine.",
     "weight": 45000,
-    "volume": 6,
+    "volume": 8,
     "price": 10000,
     "displacement": 100
   },
@@ -103,7 +103,7 @@
     "name": "V6 engine",
     "description": "A powerful 6-cylinder combustion engine.",
     "weight": 180000,
-    "volume": 14,
+    "volume": 19,
     "price": 18000,
     "displacement": 400
   },
@@ -114,7 +114,7 @@
     "name": "V6 diesel engine",
     "description": "A powerful 6-cylinder diesel engine.",
     "weight": 190000,
-    "volume": 15,
+    "volume": 20,
     "price": 20000,
     "displacement": 400
   },
@@ -125,7 +125,7 @@
     "name": "V8 engine",
     "description": "A large and very powerful 8-cylinder combustion engine.",
     "weight": 250000,
-    "volume": 25,
+    "volume": 30,
     "price": 25000,
     "displacement": 650
   },
@@ -136,7 +136,7 @@
     "name": "V8 diesel engine",
     "description": "A powerful 8-cylinder diesel engine.",
     "weight": 255000,
-    "volume": 26,
+    "volume": 32,
     "price": 26500,
     "displacement": 650
   },
@@ -147,7 +147,7 @@
     "name": "V12 engine",
     "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
     "weight": 300000,
-    "volume": 32,
+    "volume": 58,
     "price": 36000,
     "displacement": 1200
   },
@@ -158,7 +158,7 @@
     "name": "V12 diesel engine",
     "description": "A massive and extremely powerful V12 engine, usually built into heavy trucks.",
     "weight": 310000,
-    "volume": 34,
+    "volume": 60,
     "price": 32000,
     "displacement": 1200
   }
