@@ -873,7 +873,7 @@ iuse_actor *deploy_furn_actor::clone() const {
 
 void deploy_furn_actor::load( JsonObject &obj )
 {
-    furn_type = static_cast<furn_id>( obj.get_string( "furn_type" ) );
+    furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
 long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const

@@ -40,7 +40,6 @@ using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
-using furn_id = int_id<furn_t>;
 
 /**
  * Transform an item into a specific type.
@@ -350,7 +349,7 @@ class deploy_furn_actor : public iuse_actor
         /**
          * furniture type id the item should create
          */
-        furn_id furn_type;
+        string_id<furn_t> furn_type;
 
         deploy_furn_actor() : iuse_actor( "deploy_furn" ) {}
 
