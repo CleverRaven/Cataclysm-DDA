@@ -1890,7 +1890,7 @@
         "type" : "terrain",
         "id" : "t_chaingate_l",
         "name": "locked wire gate",
-        "description": "A gate for a chain link fence. This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence or pick the lock.  You could also examine the fence to see if it looks climbable.",
+        "description": "A gate for a chain link fence.  This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence or pick the lock.  You could also examine the fence to see if it looks climbable.",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
