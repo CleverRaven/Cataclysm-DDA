@@ -243,22 +243,22 @@ public:
 
 // This is the main game set-up process.
 game::game() :
-    map_ptr( new map() ),
-    u_ptr( new player() ),
-    liveview_ptr( new live_view() ),
+    map_ptr(),
+    u_ptr(),
+    liveview_ptr(),
     liveview( *liveview_ptr ),
-    scent_ptr( new scent_map( *this ) ),
-    event_manager_ptr( new event_manager() ),
+    scent_ptr( *this ),
+    event_manager_ptr(),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     events( *event_manager_ptr ),
-    critter_tracker( new Creature_tracker() ),
+    critter_tracker(),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
-    weather_precise( new w_point() ),
+    weather_precise(),
     w_terrain(),
     w_overmap(),
     w_omlegend(),
@@ -314,8 +314,8 @@ void game::load_static_data()
 
 bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
 {
-    auto &mods = world_generator->get_mod_manager()->mod_map;
-    auto &tree = world_generator->get_mod_manager()->get_tree();
+    auto &mods = world_generator->get_mod_manager().mod_map;
+    auto &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
@@ -323,7 +323,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            if( !e.second->obsolete ) {
+            if( !e.second.obsolete ) {
                 check.emplace( e.first );
             }
         }
@@ -346,7 +346,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
             return false;
         }
 
-        MOD_INFORMATION &mod = *iter->second;
+        MOD_INFORMATION &mod = iter->second;
 
         if( !tree.is_available( mod.ident ) ) {
             std::cerr << "Missing dependencies: " << mod.name << "\n"
@@ -361,7 +361,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep]->path, mods[dep]->ident, ui );
+                load_data_from_dir( mods[dep].path, mods[dep].ident, ui );
             }
 
             // Load mod itself
@@ -1611,7 +1611,7 @@ void game::process_activity()
     }
 
     while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( &u );
+        u.activity.do_turn( u );
     }
 }
 
@@ -1765,9 +1765,9 @@ void game::increase_kill_count( const mtype_id& id )
     kills[id]++;
 }
 
-void game::record_npc_kill( const npc *p )
+void game::record_npc_kill( const npc &p )
 {
-   npc_kills.push_back( p->get_name() );
+   npc_kills.push_back( p.get_name() );
 }
 
 void game::handle_key_blocking_activity()
@@ -3702,7 +3702,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 
         // require at least one core mod (saves before version 6 may implicitly require dda pack)
         if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager()->mod_map[e]->core;
+            return world_generator->get_mod_manager().mod_map[e].core;
         } ) ) {
             mods.insert( mods.begin(), "dda" );
         }
@@ -3731,9 +3731,9 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
     std::vector<std::string> missing;
     std::vector<std::string> available;
 
-    mod_manager *mm = world_generator->get_mod_manager();
+    mod_manager &mm = world_generator->get_mod_manager();
     for( const auto &e : packs ) {
-        if( mm->has_mod( e ) ) {
+        if( mm.has_mod( e ) ) {
             available.emplace_back( e );
             ui.add_entry( e );
         } else {
@@ -3743,7 +3743,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = *mm->mod_map[e];
+        MOD_INFORMATION &mod = mm.mod_map[e];
         load_data_from_dir( mod.path, mod.ident, ui );
 
         // if mod specifies legacy migrations load any that are required
@@ -5145,7 +5145,7 @@ void game::draw_HP()
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
     if( !wide ) {
-        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("STA"));
+        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
         wmove(w_HP, 15, hpx);
         u.print_stamina_bar(w_HP);
     }
@@ -5832,29 +5832,23 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        while (!critter.is_dead() && !critter.can_move_to(critter.pos())) {
-            // If we can't move to our current position, assign us to a new one
-                dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
-                             << " can't move to its location! (" << critter.posx()
-                             << ":" << critter.posy() << ":" << critter.posz() << "), "
-                             << m.tername(critter.posx(), critter.posy()).c_str();
-                add_msg( m_debug, "%s can't move to its location! (%d,%d,%d), %s", critter.name().c_str(),
-                         critter.posx(), critter.posy(), critter.posz(), m.tername(critter.pos()).c_str());
+        // Critters in impassable tiles get pushed away, unless it's not impassable for them
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+            dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
+                         << " can't move to its location! (" << critter.posx()
+                         << ":" << critter.posy() << ":" << critter.posz() << "), "
+                         << m.tername( critter.pos() ).c_str();
+            add_msg( m_debug, "%s can't move to its location! (%d,%d,%d), %s", critter.name().c_str(),
+                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ).c_str() );
             bool okay = false;
-            int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-            int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
-            int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
-            int z = critter.posz();
-            for (int x = startx; x != endx && !okay; x += xdir) {
-                for (int y = starty; y != endy && !okay; y += ydir) {
-                    tripoint dest( x, y, z );
-                    if (critter.can_move_to( dest ) && is_empty( dest )) {
-                        critter.setpos( dest );
-                        okay = true;
-                    }
+            for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+                if( critter.can_move_to( dest ) && is_empty( dest ) ) {
+                    critter.setpos( dest );
+                    okay = true;
+                    break;
                 }
             }
-            if (!okay) {
+            if( !okay ) {
                 // die of "natural" cause (overpopulation is natural)
                 critter.die( nullptr );
             }
@@ -7284,12 +7278,12 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &g->u.i_at(pos);
+        item &it = g->u.i_at( pos );
 
-        z->add_item(*it);
+        z->add_item( it );
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
-                it->display_name().c_str(),  pet_name.c_str());
+                it.display_name().c_str(), pet_name.c_str());
 
         g->u.i_rem(pos);
 
@@ -7322,15 +7316,15 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &z->inv[0];
+        item &it = z->inv[0];
 
-        if (!it->is_armor()) {
+        if (!it.is_armor()) {
             add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
-        units::volume max_cap = it->get_storage();
-        units::mass max_weight = z->weight_capacity() - it->weight();
+        units::volume max_cap = it.get_storage();
+        units::mass max_weight = z->weight_capacity() - it.weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
@@ -7341,12 +7335,12 @@ bool pet_menu(monster *z)
 
         if (max_weight <= 0) {
             add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
-                    pet_name.c_str(), it->tname(1).c_str());
+                    pet_name.c_str(), it.tname(1).c_str());
             return true;
         }
         if (max_cap <= 0) {
             add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
-                    pet_name.c_str(), it->tname(1).c_str() );
+                    pet_name.c_str(), it.tname(1).c_str() );
             return true;
         }
 
@@ -7798,8 +7792,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
 {
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
-        const field_entry *cur = &fld.second;
-        mvwprintz( w_look, ++line, column, cur->color(), cur->name() );
+        const field_entry &cur = fld.second;
+        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
     }
 }
 
@@ -11656,8 +11650,8 @@ void game::place_player( const tripoint &dest_loc )
     int vpart1;
     const vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
     if( veh1 != nullptr ) {
-        const vehicle_part *part = &(veh1->parts[vpart1]);
-        std::string label = veh1->get_label(part->mount.x, part->mount.y);
+        const vehicle_part &part = veh1->parts[vpart1];
+        std::string label = veh1->get_label( part.mount.x, part.mount.y );
         if (!label.empty()) {
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
@@ -13595,37 +13589,37 @@ void intro()
     catacurses::erase();
 }
 
-void game::process_artifact(item *it, player *p)
+void game::process_artifact( item &it, player &p )
 {
-    const bool worn = p->is_worn( *it );
-    const bool wielded = ( it == &p->weapon );
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
     std::vector<art_effect_passive> effects;
-    effects = it->type->artifact->effects_carried;
+    effects = it.type->artifact->effects_carried;
     if( worn ) {
-        auto &ew = it->type->artifact->effects_worn;
+        auto &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( wielded ) {
-        auto &ew = it->type->artifact->effects_wielded;
+        auto &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
-    if( it->is_tool() ) {
+    if( it.is_tool() ) {
         // Recharge it if necessary
-        if( it->ammo_remaining() < it->ammo_capacity() ) {
-            switch (it->type->artifact->charge_type) {
+        if( it.ammo_remaining() < it.ammo_capacity() ) {
+            switch( it.type->artifact->charge_type ) {
             case ARTC_NULL:
             case NUM_ARTCS:
                 break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
                 if( calendar::once_every( 1_hours ) ) {
-                    it->charges++;
+                    it.charges++;
                 }
                 break;
             case ARTC_SOLAR:
                 if( calendar::once_every( 10_minutes ) &&
-                    is_in_sunlight(p->pos())) {
-                    it->charges++;
+                    is_in_sunlight( p.pos() ) ) {
+                    it.charges++;
                 }
                 break;
             // Artifacts can inflict pain even on Deadened folks.
@@ -13634,15 +13628,15 @@ void game::process_artifact(item *it, player *p)
             case ARTC_PAIN:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p->mod_pain_noresist( 3 * rng(1, 3) );
-                    it->charges++;
+                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                    it.charges++;
                 }
                 break;
             case ARTC_HP:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1, nullptr);
-                    it->charges++;
+                    p.hurtall( 1, nullptr );
+                    it.charges++;
                 }
                 break;
             }
@@ -13652,37 +13646,37 @@ void game::process_artifact(item *it, player *p)
     for (auto &i : effects) {
         switch (i) {
         case AEP_STR_UP:
-            p->mod_str_bonus(+4);
+            p.mod_str_bonus( +4 );
             break;
         case AEP_DEX_UP:
-            p->mod_dex_bonus(+4);
+            p.mod_dex_bonus( +4 );
             break;
         case AEP_PER_UP:
-            p->mod_per_bonus(+4);
+            p.mod_per_bonus( +4 );
             break;
         case AEP_INT_UP:
-            p->mod_int_bonus(+4);
+            p.mod_int_bonus( +4 );
             break;
         case AEP_ALL_UP:
-            p->mod_str_bonus(+2);
-            p->mod_dex_bonus(+2);
-            p->mod_per_bonus(+2);
-            p->mod_int_bonus(+2);
+            p.mod_str_bonus( +2 );
+            p.mod_dex_bonus( +2 );
+            p.mod_per_bonus( +2 );
+            p.mod_int_bonus( +2 );
             break;
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
 
         case AEP_PBLUE:
-            if (p->radiation > 0) {
-                p->radiation--;
+            if( p.radiation > 0 ) {
+                p.radiation--;
             }
             break;
 
         case AEP_SMOKE:
             if( one_in( 10 ) ) {
-                tripoint pt( p->posx() + rng( -1, 1 ),
-                             p->posy() + rng( -1, 1 ),
-                             p->posz() );
+                tripoint pt( p.posx() + rng( -1, 1 ),
+                             p.posy() + rng( -1, 1 ),
+                             p.posz() );
                 m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
@@ -13691,36 +13685,36 @@ void game::process_artifact(item *it, player *p)
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                    m.adjust_field_age( tripoint( x, y, p->posz() ), fd_fire, -1);
+            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
+                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
+                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
                 }
             }
             break;
 
         case AEP_HUNGER:
             if (one_in(100)) {
-                p->mod_hunger(1);
+                p.mod_hunger( 1 );
             }
             break;
 
         case AEP_THIRST:
             if (one_in(120)) {
-                p->mod_thirst(1);
+                p.mod_thirst( 1 );
             }
             break;
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_effect( effect_evil, 300);
-                if( it->is_armor() ) {
+                p.add_effect( effect_evil, 300 );
+                if( it.is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                     }
                 } else if (!wielded) {
                     add_msg(_("You have an urge to wield the %s."),
-                            it->tname().c_str());
+                            it.tname().c_str() );
                 }
             }
             break;
@@ -13730,31 +13724,31 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_RADIOACTIVE:
             if (one_in(4)) {
-                p->radiation++;
+                p.radiation++;
             }
             break;
 
         case AEP_STR_DOWN:
-            p->mod_str_bonus(-3);
+            p.mod_str_bonus( -3 );
             break;
 
         case AEP_DEX_DOWN:
-            p->mod_dex_bonus(-3);
+            p.mod_dex_bonus( -3 );
             break;
 
         case AEP_PER_DOWN:
-            p->mod_per_bonus(-3);
+            p.mod_per_bonus( -3 );
             break;
 
         case AEP_INT_DOWN:
-            p->mod_int_bonus(-3);
+            p.mod_int_bonus( -3 );
             break;
 
         case AEP_ALL_DOWN:
-            p->mod_str_bonus(-2);
-            p->mod_dex_bonus(-2);
-            p->mod_per_bonus(-2);
-            p->mod_int_bonus(-2);
+            p.mod_str_bonus( -2 );
+            p.mod_dex_bonus( -2 );
+            p.mod_per_bonus( -2 );
+            p.mod_int_bonus( -2 );
             break;
 
         case AEP_SPEED_DOWN:
@@ -13766,10 +13760,10 @@ void game::process_artifact(item *it, player *p)
         }
     }
     // Recalculate, as it might have changed (by mod_*_bonus above)
-    p->str_cur = p->get_str();
-    p->int_cur = p->get_int();
-    p->dex_cur = p->get_dex();
-    p->per_cur = p->get_per();
+    p.str_cur = p.get_str();
+    p.int_cur = p.get_int();
+    p.dex_cur = p.get_dex();
+    p.per_cur = p.get_per();
 }
 
 void game::start_calendar()

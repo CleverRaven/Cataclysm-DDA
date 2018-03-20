@@ -42,9 +42,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 23:42-0500\n"
-"PO-Revision-Date: 2018-03-09 12:25+0000\n"
-"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
+"POT-Creation-Date: 2018-03-09 08:17-0500\n"
+"PO-Revision-Date: 2018-03-10 11:45+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56098,25 +56098,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
-"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
-"conversion results in a slight reduction to accuracy."
-msgstr ""
+msgid "M6 ASW shotgun"
+msgid_plural "M6 ASW shotguns"
+msgstr[0] "M6 航空兵求生霰彈槍"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
-"firearm converts it to a .45 ACP firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9x19mm firearm.  The conversion results in a slight "
-"reduction to accuracy."
-msgstr ""
+"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
+"irremovable."
+msgstr "整合在 M6 航空兵求生槍上的 .410 口徑霰彈槍。它並不可移除。"
 
 #: lang/json/gunmod_from_json.py
 msgid ".410 bore conversion kit"
@@ -56129,17 +56119,6 @@ msgid ""
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "這個模組用來修改霰彈槍和 7.62x39mm、.223、.308 或 .30-06 步槍，使它們可以使用較輕盈的 .410 號徑子彈。修改後會稍為減少準確性。"
-
-#: lang/json/gunmod_from_json.py
-msgid "M6 ASW shotgun"
-msgid_plural "M6 ASW shotguns"
-msgstr[0] "M6 航空兵求生霰彈槍"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
-"irremovable."
-msgstr "整合在 M6 航空兵求生槍上的 .410 口徑霰彈槍。它並不可移除。"
 
 #: lang/json/harvest_from_json.py
 msgid ""
@@ -58433,8 +58412,8 @@ msgstr "以色列刀術"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased cutting damage"
-msgstr "增加砍劈傷害"
+msgid "Increased stabbing damage"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Muay Thai"
@@ -62064,7 +62043,7 @@ msgstr ""
 
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
-msgid "mutagen message here"
+msgid "You mutate."
 msgstr ""
 
 #. ~ Mutation class: Any iv_message
@@ -81220,8 +81199,7 @@ msgstr "急難救助營"
 msgid "Mansion Entrance"
 msgstr "豪宅入口"
 
-#: lang/json/start_location_from_json.py lang/json/start_location_from_json.py
-#: src/defense.cpp
+#: lang/json/start_location_from_json.py src/defense.cpp
 msgid "Mansion"
 msgstr "豪宅"
 
@@ -83935,10 +83913,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "Utility Light"
-msgstr "工具燈"
+msgid "utility light"
+msgstr ""
 
-#. ~ Description for Utility Light
+#. ~ Description for utility light
 #: lang/json/terrain_from_json.py
 msgid ""
 "An industrial flood light set up to illuminate the surroundings.  Smashing "
@@ -100768,8 +100746,8 @@ msgstr "你必須插入一張已儲值的現金卡！"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: %d"
-msgstr "剩餘現金: %d"
+msgid "Money left: $%.2f"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -118113,6 +118091,11 @@ msgstr "你僅有的一支手力量不足，拿不了 %s。"
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "你不能放開你的 %s 。"
+
+#: src/player.cpp
+#, c-format
+msgid "Draw %s from %s?"
+msgstr ""
 
 #: src/player.cpp
 #, c-format

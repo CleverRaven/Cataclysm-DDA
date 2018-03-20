@@ -24,7 +24,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_eel",
@@ -50,7 +50,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_bowfin",
@@ -76,7 +76,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_bullhead",
@@ -102,7 +102,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_trout",
@@ -153,7 +153,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_pike",
@@ -178,7 +178,8 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "harvest": "fish_large",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_bluegill",
@@ -204,7 +205,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_sbass",
@@ -231,7 +232,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_lbass",
@@ -258,7 +259,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_pbass",
@@ -285,7 +286,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_perch",
@@ -336,7 +337,8 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "harvest": "fish_large",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_sunfish",
@@ -363,7 +365,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_whitefish",
@@ -389,8 +391,8 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "harvest": "fish_large",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_pickerel",
@@ -417,7 +419,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_zhark",

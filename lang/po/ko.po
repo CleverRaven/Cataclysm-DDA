@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 23:42-0500\n"
-"PO-Revision-Date: 2018-03-03 22:02+0000\n"
-"Last-Translator: 탯새 <lazakul@gmail.com>\n"
+"POT-Creation-Date: 2018-03-09 08:17-0500\n"
+"PO-Revision-Date: 2018-03-10 11:45+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56090,25 +56090,15 @@ msgid ""
 msgstr "쓸만한 칼날을 끈을 약간 사용해 만든 간이 대형 총검. 긴 화기나 쇠뇌에 부착하면 괜찮은 근접무기가 됩니다."
 
 #: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
-"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
-"conversion results in a slight reduction to accuracy."
-msgstr ""
+msgid "M6 ASW shotgun"
+msgid_plural "M6 ASW shotguns"
+msgstr[0] "M6 ASW 산탄총"
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
-"firearm converts it to a .45 ACP firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9x19mm firearm.  The conversion results in a slight "
-"reduction to accuracy."
-msgstr ""
+"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
+"irremovable."
+msgstr "M6 비상생존용 총기에 내장된 .410 구경 산탄총. 제거할 수 없습니다."
 
 #: lang/json/gunmod_from_json.py
 msgid ".410 bore conversion kit"
@@ -56121,17 +56111,6 @@ msgid ""
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "산탄총, 7.62x39mm, .223, .30-06구경 소총을 경량의 .410 보어 산탄총으로 바꿔주는 부품 세트. 개조하면 정확도가 약간 감소합니다."
-
-#: lang/json/gunmod_from_json.py
-msgid "M6 ASW shotgun"
-msgid_plural "M6 ASW shotguns"
-msgstr[0] "M6 ASW 산탄총"
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
-"irremovable."
-msgstr "M6 비상생존용 총기에 내장된 .410 구경 산탄총. 제거할 수 없습니다."
 
 #: lang/json/harvest_from_json.py
 msgid ""
@@ -58425,8 +58404,8 @@ msgstr "크라브 마가 (날붙이)"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased cutting damage"
-msgstr "베기공격 피해량 증가"
+msgid "Increased stabbing damage"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Muay Thai"
@@ -62056,7 +62035,7 @@ msgstr ""
 
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
-msgid "mutagen message here"
+msgid "You mutate."
 msgstr ""
 
 #. ~ Mutation class: Any iv_message
@@ -81212,8 +81191,7 @@ msgstr ""
 msgid "Mansion Entrance"
 msgstr "맨션 입구"
 
-#: lang/json/start_location_from_json.py lang/json/start_location_from_json.py
-#: src/defense.cpp
+#: lang/json/start_location_from_json.py src/defense.cpp
 msgid "Mansion"
 msgstr "맨션"
 
@@ -83927,10 +83905,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "Utility Light"
-msgstr "시설 조명"
+msgid "utility light"
+msgstr ""
 
-#. ~ Description for Utility Light
+#. ~ Description for utility light
 #: lang/json/terrain_from_json.py
 msgid ""
 "An industrial flood light set up to illuminate the surroundings.  Smashing "
@@ -100760,8 +100738,8 @@ msgstr "잔액이 있는 현금 카드를 투입 해주세요!"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: %d"
-msgstr "잔액: %d"
+msgid "Money left: $%.2f"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -118105,6 +118083,11 @@ msgstr "%s을(를) 한손만으로 들기엔 힘이 너무 약하다."
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "%s을(를) 놓을 수 없다."
+
+#: src/player.cpp
+#, c-format
+msgid "Draw %s from %s?"
+msgstr ""
 
 #: src/player.cpp
 #, c-format

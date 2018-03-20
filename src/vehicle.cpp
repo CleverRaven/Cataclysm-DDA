@@ -513,7 +513,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             tries++;
         }
     }
-    
+
     invalidate_mass();
 }
 /**
@@ -716,7 +716,7 @@ bool vehicle::is_alternator_on(int const a) const
 
     return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
         auto& eng = parts [ idx ];
-        return eng.enabled && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount && !eng.faults().count( fault_belt );
     } );
 }
 
@@ -1001,15 +1001,15 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.push_back( [&]{ turrets_set_mode(); refresh(); } );
-        
+
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
         actions.push_back( [&]{ turrets_aim_and_fire( true, false ); refresh(); } );
-        
+
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
         actions.push_back( [&]{ turrets_aim( false, true ); refresh(); } );
-        
+
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
         actions.push_back( [&]{ turrets_aim_single(); refresh(); } );
     }
@@ -1332,7 +1332,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( auto e : get_parts( "STEREO", true ) ) {
-        iuse::play_music( &g->u, global_part_pos3( *e ), 15, 30 );
+        iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
 
@@ -2615,7 +2615,7 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _(" (vol: %s/%s %s)"),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
+                                       format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
@@ -3395,7 +3395,7 @@ float vehicle::handling_difficulty() const
     const float steer = std::max( 0.0f, steering_effectiveness() );
     const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     const float kmass = k_mass();
-    const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
+    const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
     constexpr float tile_per_turn = 10 * 100;
 
@@ -4864,7 +4864,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );    
+    const long to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -6082,7 +6082,7 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
-const item& vehicle_part::get_base() const 
+const item& vehicle_part::get_base() const
 {
     return base;
 }

@@ -32,7 +32,7 @@
     "id": "diner_back",
     "type": "item_group",
     "items": [
-      [ "pickle", 20 ],
+      { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "bacon", 20 ],
       [ "fries", 20 ],
       [ "onion_rings", 20 ],

@@ -17,6 +17,7 @@
 #include "veh_type.h"
 #include "monster.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "effect.h"
 #include "vehicle.h"
 #include "mtype.h"
@@ -24,8 +25,11 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
+#include "visitable.h"
+#include "cata_algo.h"
 
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 
 // @todo: Get rid of this include
@@ -59,14 +63,22 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
-    npc_goto_destination, npc_avoid_friendly_fire,
+    npc_goto_destination,
+    npc_avoid_friendly_fire,
+    npc_escape_explosion,
     npc_base_idle,
     npc_noop,
-    npc_reach_attack, npc_aim,
+    npc_reach_attack,
+    npc_aim,
     num_npc_actions
 };
 
+namespace
+{
+
 const int avoidance_vehicles_radius = 5;
+
+}
 
 std::string npc_action_name( npc_action action );
 
@@ -164,6 +176,38 @@ bool npc::could_move_onto( const tripoint &p ) const
     }
 
     return true;
+}
+
+std::vector<sphere> npc::find_dangerous_explosives() const
+{
+    std::vector<sphere> result;
+
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE );
+
+    for( const auto &elem : active_items ) {
+        const auto use = elem->type->get_use( "explosion" );
+
+        if( !use ) {
+            continue;
+        }
+
+        const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
+        const int safe_range = actor->explosion.safe_range();
+
+        if( rl_dist( pos(), elem.position() ) >= safe_range ) {
+            continue;   // Far enough.
+        }
+
+        const int turns_to_evacuate = 2 * safe_range / speed_rating();
+
+        if( elem->charges > turns_to_evacuate ) {
+            continue;   // Consider only imminent dangers.
+        }
+
+        result.emplace_back( elem.position(), safe_range );
+    }
+
+    return result;
 }
 
 // class npc functions!
@@ -264,6 +308,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
 
     choose_target();
@@ -278,7 +323,8 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
+             name.c_str(), target_name.c_str(), ai_cache.danger,
+             confident_shoot_range( weapon, recoil_total() ) );
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
@@ -310,7 +356,9 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
-    if( target == &g->u && attitude == NPCATT_FLEE ) {
+    if( !ai_cache.dangerous_explosives.empty() ) {
+        action = npc_escape_explosion;
+    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -518,12 +566,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            if( moves > 10 ) {
-                aim();
-            } else {
-                move_pause();
-            }
-
+            aim();
             break;
 
         case npc_shoot: {
@@ -696,6 +739,10 @@ void npc::execute_action( npc_action action )
             avoid_friendly_fire();
             break;
 
+        case npc_escape_explosion:
+            escape_explosion();
+            break;
+
         case npc_base_idle:
             // TODO: patrol or sleep or something?
             move_pause();
@@ -715,7 +762,8 @@ void npc::execute_action( npc_action action )
     }
 
     if( oldmoves == moves ) {
-        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action );
+        add_msg( m_debug, "NPC didn't use its moves.  Action %s (%d).",
+                 npc_action_name( action ).c_str(), action );
     }
 }
 
@@ -726,11 +774,12 @@ void npc::choose_target()
     float highest_priority = 1.0f;
 
     // Radius we can attack without moving
-    const int cur_range = std::max( weapon.reach_range( *this ), confident_shoot_range( weapon ) );
+    const int max_range = std::max( weapon.reach_range( *this ),
+                                    confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
     constexpr static int def_radius = 6;
 
-    const auto ok_by_rules = [cur_range, this]( const Creature & c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
         if( !is_following() ) {
             return true;
         }
@@ -741,13 +790,13 @@ void npc::choose_target()
             case ENGAGE_CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
                 return rl_dist( c.pos(), g->u.pos() ) <= def_radius ||
-                       ( dist <= cur_range && scaled_dist <= def_radius / 2 );
+                       ( dist <= max_range && scaled_dist <= def_radius / 2 );
             case ENGAGE_WEAK:
                 return c.get_hp() <= average_damage_dealt();
             case ENGAGE_HIT:
                 return c.has_effect( effect_hit_by_player );
             case ENGAGE_NO_MOVE:
-                return dist <= cur_range;
+                return dist <= max_range;
             case ENGAGE_ALL:
                 return true;
         }
@@ -920,12 +969,13 @@ npc_action npc::method_of_attack()
                 rhs.second.qty );
     } );
 
+    const int cur_recoil = recoil_total();
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
                       modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
     const std::pair<std::string, item::gun_mode> &rhs ) {
-        return ( confident_gun_mode_range( lhs.second ) >= dist ) > ( confident_gun_mode_range(
-                    rhs.second ) >= dist );
+        return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
+               ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
 
     if( emergency() && alt_attack() ) {
@@ -939,7 +989,8 @@ npc_action npc::method_of_attack()
     }
 
     // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) && confident_gun_mode_range( modes[ 0 ].second ) >= dist ) {
+    if( !modes.empty() && sees( *critter ) &&
+        confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
 
         // @todo: Make NPCs understand reinforced glass and vehicles blocking line of fire
 
@@ -967,11 +1018,14 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 ) {
+    // @todo Needs a check for transparent but non-passable tiles on the way
+    if( !modes.empty() && sees( *critter ) &&
+        aim_per_move( weapon, recoil ) > 0 &&
+        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
         return npc_aim;
     }
 
-    return npc_melee;
+    return dont_move ? npc_undecided : npc_melee;
 }
 
 bool need_heal( const Character &n )
@@ -1232,48 +1286,45 @@ double npc::confidence_mult() const
 
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
-            return emergency() ? 1.0f : 0.75f;
+            return emergency() ? 1.5f : 1.0f;
             break;
         case AIM_SPRAY:
-            return 1.25f;
+            return 2.0f;
             break;
         case AIM_PRECISE:
-            return emergency() ? 0.75f : 0.4f;
+            return emergency() ? 1.0f : 0.75f;
             break;
         case AIM_STRICTLY_PRECISE:
-            return 0.25f;
+            return 0.5f;
             break;
     }
 
     return 1.0f;
 }
 
-int npc::confident_shoot_range( const item &it ) const
+int npc::confident_shoot_range( const item &it, int recoil ) const
 {
     int res = 0;
     for( const auto &m : it.gun_all_modes() ) {
-        res = std::max( res, confident_gun_mode_range( m.second ) );
+        res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
     return res;
 }
 
 int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
-    if( at_recoil < 0 ) {
-        at_recoil = recoil_total();
-    }
-
     if( !gun || gun.melee() ) {
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() + at_recoil;
-    double even_chance_range = range_with_even_chance_of_good_hit( average_dispersion );
-    // 5 round burst equivalent to ~2 individually aimed shots
-    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    // Same calculation as in @ref item::info
+    // @todo Extract into common method
+    double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
+    double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), ( int )confident_range );
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+             max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
 
@@ -1291,7 +1342,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
     // @todo: Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ? confident_throw_range( it, nullptr ) : confident_shoot_range( it );
+    int confident = throwing ?
+                    confident_throw_range( it, nullptr ) :
+                    confident_shoot_range( it, recoil_total() );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -1361,7 +1414,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 void npc::aim()
 {
     double aim_amount = aim_per_move( weapon, recoil );
-    while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
+    while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
@@ -1641,6 +1694,19 @@ void npc::avoid_friendly_fire()
     execute_action( action );
 }
 
+void npc::escape_explosion()
+{
+    if( ai_cache.dangerous_explosives.empty() ) {
+        return;
+    }
+
+    if( is_following() && one_in( 10 ) ) {
+        say( "<fire_in_the_hole>" );
+    }
+
+    move_away_from( ai_cache.dangerous_explosives, true );
+}
+
 void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 {
     tripoint best_pos = pos();
@@ -1677,6 +1743,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 }
 
 void npc::move_pause()
+
 {
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -1716,6 +1783,59 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
 
     return tripoint_min;
 }
+
+void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
+{
+    if( spheres.empty() ) {
+        return;
+    }
+
+    tripoint minp( pos() );
+    tripoint maxp( pos() );
+
+    for( const auto &elem : spheres ) {
+        minp.x = std::min( minp.x, elem.center.x - elem.radius );
+        minp.y = std::min( minp.y, elem.center.y - elem.radius );
+        maxp.x = std::max( maxp.x, elem.center.x + elem.radius );
+        maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
+    }
+
+    const tripoint_range range( minp, maxp );
+
+    std::vector<tripoint> escape_points;
+
+    std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
+    [&]( const tripoint & elem ) {
+        return g->m.passable( elem );
+    } );
+
+    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+        const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
+        [&]( const int sum, const sphere & s ) {
+            return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );
+        } );
+
+        const int distance = rl_dist( pos(), elem );
+        const int move_cost = g->m.move_cost( elem );
+
+        return std::make_tuple( danger, distance, move_cost );
+    } );
+
+    for( const auto &elem : escape_points ) {
+        update_path( elem, no_bashing );
+
+        if( elem == pos() || !path.empty() ) {
+            break;
+        }
+    }
+
+    if( !path.empty() ) {
+        move_to_next();
+    } else {
+        move_pause();
+    }
+}
+
 
 void npc::find_item()
 {
@@ -2206,7 +2326,7 @@ bool npc::do_pulp()
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
     activity.placement = pulp_location;
-    activity.do_turn( this );
+    activity.do_turn( *this );
     return moves != old_moves;
 }
 
@@ -3000,6 +3120,8 @@ std::string npc_action_name( npc_action action )
             return _( "Go to destination" );
         case npc_avoid_friendly_fire:
             return _( "Avoid friendly fire" );
+        case npc_escape_explosion:
+            return _( "Escape explosion" );
         default:
             return "Unnamed action";
     }

@@ -67,7 +67,7 @@ WORLD::WORLD()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
-    active_mod_order = world_generator->get_mod_manager()->get_default_mods();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -85,13 +85,9 @@ void WORLD::add_save( const save_t &name )
 worldfactory::worldfactory()
     : active_world( nullptr )
     , all_worlds()
-    , mman( nullptr )
-    , mman_ui( nullptr )
+    , mman()
+    , mman_ui( *mman )
 {
-    mman.reset( new mod_manager );
-    mman->refresh_mod_list();
-    mman_ui.reset( new mod_ui( mman.get() ) );
-
     // prepare tab display order
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
@@ -168,7 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // Silently remove all Lua mods set by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
+            MOD_INFORMATION &minfo = mman->mod_map[*mod_it];
             if ( minfo.need_lua() ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
@@ -640,7 +636,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            const std::string category_name = _( mman->mod_map[mods[i]]->category.second.c_str() );
+            const std::string category_name = _( mman->mod_map[mods[i]].category.second.c_str() );
             if ( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
@@ -691,7 +687,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         }
                     }
 
-                    auto &mod = *mman->mod_map[*iter];
+                    MOD_INFORMATION &mod = mman->mod_map[*iter];
 #ifndef LUA
                     if( mod.need_lua() ) {
                         trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name );
@@ -830,7 +826,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     catacurses::window w_active  = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX );
     catacurses::window w_description = catacurses::newwin( 4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX );
 
-    draw_modselection_borders(win, &ctxt);
+    draw_modselection_borders( win, ctxt );
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
@@ -876,7 +872,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             current_tab_mods.clear();
 
             for( const auto &item : mman_ui->usable_mods ) {
-                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
+                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item].category.first].first);
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
@@ -911,9 +907,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
+                selmod = &mman->mod_map[current_tab_mods[cursel[0]]];
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
+                selmod = &mman->mod_map[active_mod_order[cursel[1]]];
             }
 
             if( selmod != nullptr ) {
@@ -972,10 +968,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "CONFIRM" ) {
             if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
+                if( mman->mod_map[current_tab_mods[cursel[0]]].need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    draw_modselection_borders(win, &ctxt);
+                    draw_modselection_borders( win, ctxt );
                     redraw_description = true;
                     continue;
                 }
@@ -1037,7 +1033,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if(mman->set_default_mods(active_mod_order) ) {
                 popup(_("Saved list of active mods as default"));
-                draw_modselection_borders(win, &ctxt);
+                draw_modselection_borders( win, ctxt );
                 redraw_description = true;
                 redraw_headers = true;
             }
@@ -1047,7 +1043,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             redraw_list = true;
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, &ctxt );
+            draw_modselection_borders( win, ctxt );
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
@@ -1140,7 +1136,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         if (action == "NEXT_TAB") {
 #ifndef LUA
             for (std::string &mod : world->active_mod_order) {
-                auto &temp = *mman->mod_map[mod];
+                MOD_INFORMATION &temp = mman->mod_map[mod];
                 if ( temp.need_lua() ) {
                     popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
                     return -2; // Move back to modselect tab.
@@ -1152,6 +1148,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
+                    werase( w_confirmation );
                     continue;
                 } else {
                     world->world_name = pick_random_name();
@@ -1160,10 +1157,20 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     }
                     return 1;
                 }
-            } else if (query_yn(_("Are you SURE you're finished?")) && valid_worldname(worldname)) {
-                world->world_name = worldname;
-                return 1;
+            } else if( query_yn( _("Are you SURE you're finished?" ) ) ) {
+                // erase entire window to avoid overlapping of query with possible popup about invalid worldname
+                werase( w_confirmation );
+                wrefresh( w_confirmation );
+                catacurses::refresh();
+
+                if( valid_worldname( worldname ) ) {
+                    world->world_name = worldname;
+                    return 1;
+                } else {
+                    continue;
+                }
             } else {
+                werase( w_confirmation );
                 continue;
             }
         } else if (action == "PREV_TAB") {
@@ -1206,7 +1213,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
     return 0;
 }
 
-void worldfactory::draw_modselection_borders( const catacurses::window &win, input_context *ctxtp )
+void worldfactory::draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp )
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
@@ -1255,8 +1262,8 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
                    _("Press %s to save the list of active mods as default. Press %s for help."),
-                   ctxtp->get_desc("SAVE_DEFAULT_MODS").c_str(),
-                   ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
+                   ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
@@ -1309,7 +1316,7 @@ bool worldfactory::world_need_lua_build(std::string world_name)
         return false;
     }
     for (std::string &mod : world->active_mod_order) {
-        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua() ) {
+        if( mman->has_mod( mod ) && mman->mod_map[mod].need_lua() ) {
             return true;
         }
     }
@@ -1416,9 +1423,9 @@ void load_world_option( JsonObject &jo )
     }
 }
 
-mod_manager *worldfactory::get_mod_manager()
+mod_manager &worldfactory::get_mod_manager()
 {
-    return mman.get();
+    return *mman;
 }
 
 WORLDPTR worldfactory::get_world( const std::string &name )

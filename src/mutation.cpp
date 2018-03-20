@@ -94,8 +94,8 @@ void Character::unset_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &flag.obj();
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+        const mutation_branch &mut = *flag;
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                                 cached_mutations.end() );
     } else {
         return;

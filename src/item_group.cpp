@@ -62,7 +62,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
         tmp.item_tags.insert( "FIT" );
     }
-    if (modifier.get() != NULL) {
+    if( modifier ) {
         modifier->modify(tmp);
     }
     // TODO: change the spawn lists to contain proper references to containers
@@ -74,7 +74,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
 {
     ItemList result;
     int cnt = 1;
-    if (modifier.get() != NULL) {
+    if( modifier ) {
         cnt = (modifier->count.first == modifier->count.second) ? modifier->count.first : rng(
                   modifier->count.first, modifier->count.second);
     }
@@ -97,7 +97,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             }
             ItemList tmplist = isd->create(birthday, rec);
             rec.erase( rec.end() - 1 );
-            if (modifier.get() != NULL) {
+            if( modifier ) {
                 for( auto &elem : tmplist ) {
                     modifier->modify( elem );
                 }
@@ -123,14 +123,14 @@ void Single_item_creator::check_consistency() const
     } else {
         debugmsg("Unknown type of Single_item_creator: %d", (int) type);
     }
-    if (modifier.get() != NULL) {
+    if( modifier ) {
         modifier->check_consistency();
     }
 }
 
 bool Single_item_creator::remove_item(const Item_tag &itemid)
 {
-    if (modifier.get() != NULL) {
+    if( modifier ) {
         if (modifier->remove_item(itemid)) {
             type = S_NONE;
             return true;
@@ -159,8 +159,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 {
     if( ammo != 0 || mag != 0 ) {
         if( !modifier ) {
-            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
-            modifier = std::move( mod );
+            modifier.emplace();
         }
         modifier->with_ammo = ammo;
         modifier->with_magazine = mag;

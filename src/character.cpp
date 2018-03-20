@@ -201,16 +201,13 @@ int Character::effective_dispersion( int dispersion ) const
     return std::max( dispersion, 0 );
 }
 
-std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
+std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
 {
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
     int limit = 0;
-    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 6;
-        limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 0;
+    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = gun.has_flag( "DISABLE_SIGHTS" ) ? 0 : 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -225,6 +222,23 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
         }
     }
     return std::make_pair( sight_speed_modifier, limit );
+}
+
+int Character::get_most_accurate_sight( const item &gun ) const
+{
+    if( !gun.is_gun() ) {
+        return 0;
+    }
+
+    int limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    for( const auto e : gun.gunmods() ) {
+        const islot_gunmod &mod = *e->type->gunmod;
+        if( mod.aim_speed >= 0 ) {
+            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
+        }
+    }
+
+    return limit;
 }
 
 double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
@@ -278,7 +292,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
         return 0.0;
     }
 
-    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
     int sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
@@ -829,7 +843,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv.assign_empty_invlet( it , this );
+    inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {

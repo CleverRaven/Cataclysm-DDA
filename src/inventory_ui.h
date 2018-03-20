@@ -11,6 +11,7 @@
 #include "enums.h"
 #include "input.h"
 #include "item_location.h"
+#include "pimpl.h"
 
 class Character;
 
@@ -397,7 +398,7 @@ class selection_column : public inventory_column
         }
 
     private:
-        const std::unique_ptr<item_category> selected_cat;
+        const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
 };
 

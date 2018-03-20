@@ -31,6 +31,7 @@
 #include "artifact.h"
 #include "submap.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
@@ -957,8 +958,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
         //Energy of vehicle1 and vehicle2 before collision
-        float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
-            0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
+        float E = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
+                  0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
 
         // Collision_axis
         point cof1 = veh .rotated_center_of_mass();
@@ -972,7 +973,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         collision_axis_y.x = ( veh.global_x() + x_cof1 ) - ( veh2.global_x() + x_cof2 );
         collision_axis_y.y = ( veh.global_y() + y_cof1 ) - ( veh2.global_y() + y_cof2 );
         collision_axis_y = collision_axis_y.normalized();
-        rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
+        rl_vec2d collision_axis_x = collision_axis_y.rotated( M_PI / 2 );
         // imp? & delta? & final? reworked:
         // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
         // as per http://en.wikipedia.org/wiki/Elastic_collision
@@ -999,10 +1000,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
         veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.norm();
+        veh.velocity = final1.magnitude();
 
         veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.norm();
+        veh2.velocity = final2.magnitude();
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = (veh2.of_turn + veh.of_turn) / 2;
         if( avg_of_turn < .1f ) {
@@ -1013,8 +1014,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.of_turn = avg_of_turn * 1.1;
 
         //Energy after collision
-        float E_a = 0.5 * m1 * final1.norm() * final1.norm() +
-            0.5 * m2 * final2.norm() * final2.norm();
+        float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
+            0.5 * m2 * final2.magnitude() * final2.magnitude();
         float d_E = E - E_a;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
     } else {
@@ -4640,38 +4641,38 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
     return process_item( items, n, location, false );
 }
 
-static void process_vehicle_items( vehicle *cur_veh, int part )
+static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool fridge_here = cur_veh->part_flag( part, VPFLAG_FRIDGE ) && cur_veh->has_part( "FRIDGE", true );
+    const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             apply_in_fridge(n);
         }
     }
 
-    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->is_part_on( part );
+    const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
     if( washmachine_here ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0 ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
-                cur_veh->parts[part].enabled = false;
+                cur_veh.parts[part].enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh->name.c_str() );
+                add_msg( _( "It should take %d minutes to finish washing items in the %s." ), to_minutes<int>( time_left ) + 1, cur_veh.name.c_str() );
                 break;
             }
         }
         if( washing_machine_finished ) {
-            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh->name.c_str() );
+            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name.c_str() );
         }
     }
 
-    if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
-        for( auto &n : cur_veh->get_items( part ) ) {
+    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh.has_part( "RECHARGE", true ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
             static const std::string ups_s( "USE_UPS" );
             if( !n.has_flag( recharge_s ) && !n.has_flag( ups_s ) ) {
@@ -4679,7 +4680,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
                 constexpr int per_charge = 10;
-                const int missing = cur_veh->discharge_battery( per_charge, false );
+                const int missing = cur_veh.discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
                     n.ammo_set( "battery", n.ammo_remaining() + 1 );
@@ -4714,10 +4715,10 @@ void map::process_items( bool const active, T processor, std::string const &sign
                 submap *const current_submap = get_submap_at_grid( gp );
                 // Vehicles first in case they get blown up and drop active items on the map.
                 if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles(current_submap, processor, signal);
+                    process_items_in_vehicles( *current_submap, processor, signal );
                 }
                 if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap(current_submap, gp, processor, signal);
+                    process_items_in_submap( *current_submap, gp, processor, signal );
                 }
             }
         }
@@ -4725,17 +4726,17 @@ void map::process_items( bool const active, T processor, std::string const &sign
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap,
+void map::process_items_in_submap( submap &current_submap,
                                    const tripoint &gridp,
                                    T processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::list<item_reference> active_items = current_submap->active_items.get();
+    std::list<item_reference> active_items = current_submap.active_items.get();
     auto const grid_offset = point {gridp.x * SEEX, gridp.y * SEEY};
     for( auto &active_item : active_items ) {
-        if( !current_submap->active_items.has( active_item ) ) {
+        if( !current_submap.active_items.has( active_item ) ) {
             continue;
         }
 
@@ -4746,10 +4747,10 @@ void map::process_items_in_submap( submap *const current_submap,
 }
 
 template<typename T>
-void map::process_items_in_vehicles( submap *const current_submap, T processor,
+void map::process_items_in_vehicles( submap &current_submap, T processor,
                                      std::string const &signal )
 {
-    std::vector<vehicle*> const &veh_in_nonant = current_submap->vehicles;
+    std::vector<vehicle*> const &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
@@ -4762,28 +4763,28 @@ void map::process_items_in_vehicles( submap *const current_submap, T processor,
             continue;
         }
 
-        process_items_in_vehicle( cur_veh, current_submap, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap, processor, signal );
     }
 }
 
 template<typename T>
-void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const current_submap,
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
                                     T processor, std::string const &signal )
 {
-    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, true);
+    std::vector<int> cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, true );
     for( int part : cargo_parts ) {
         process_vehicle_items( cur_veh, part );
     }
 
-    for( auto &active_item : cur_veh->active_items.get() ) {
+    for( auto &active_item : cur_veh.active_items.get() ) {
         if ( cargo_parts.empty() ) {
             return;
-        } else if( !cur_veh->active_items.has( active_item ) ) {
+        } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
 
         auto const it = std::find_if(begin(cargo_parts), end(cargo_parts), [&](int const part) {
-            return active_item.location == cur_veh->parts[static_cast<size_t>(part)].mount;
+            return active_item.location == cur_veh.parts[static_cast<size_t>( part )].mount;
         });
 
         if (it == std::end(cargo_parts)) {
@@ -4792,10 +4793,10 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 
         // Find the cargo part and coordinates corresponding to the current active item.
         auto const part_index = static_cast<size_t>(*it);
-        const point partloc = cur_veh->global_pos() + cur_veh->parts[part_index].precalc[0];
+        const point partloc = cur_veh.global_pos() + cur_veh.parts[part_index].precalc[0];
         // TODO: Make this 3D when vehicles know their Z-coordinate
         const tripoint item_location = tripoint( partloc, abs_sub.z );
-        auto items = cur_veh->get_items(static_cast<int>(part_index));
+        auto items = cur_veh.get_items( static_cast<int>( part_index ) );
         if(!processor(items, active_item.item_iterator, item_location, signal)) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
@@ -4804,8 +4805,8 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        auto const &veh_in_nonant = current_submap->vehicles;
-        if(std::find(begin(veh_in_nonant), end(veh_in_nonant), cur_veh) == veh_in_nonant.end()) {
+        auto const &veh_in_nonant = current_submap.vehicles;
+        if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), &cur_veh ) == veh_in_nonant.end() ) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
             // or be destroyed, anyway it does not need to be processed here
@@ -4816,7 +4817,7 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
-        cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
+        cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, false );
     }
 }
 
@@ -8095,6 +8096,37 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     const int maxy = std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius );
     const int maxz = std::min<int>( OVERMAP_HEIGHT, center.z + radiusz );
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
+}
+
+std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
+{
+    std::list<item_location> result;
+
+    const point minp( center.x - radius, center.y - radius );
+    const point maxp( center.x + radius, center.y + radius );
+
+    const point ming( std::max( minp.x / SEEX, 0 ),
+                      std::max( minp.y / SEEY, 0 ) );
+    const point maxg( std::min( maxp.x / SEEX, my_MAPSIZE - 1 ),
+                      std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
+
+    for( int gx = ming.x; gx <= maxg.x; ++gx ) {
+        for( int gy = ming.y; gy <= maxg.y; ++gy ) {
+            const point sm_offset( gx * SEEX, gy * SEEY );
+
+            for( const auto &elem : get_submap_at_grid( gx, gy, center.z )->active_items.get() ) {
+                const tripoint pos( sm_offset + elem.location, center.z );
+
+                if( rl_dist( pos, center ) > radius ) {
+                    continue;
+                }
+
+                result.emplace_back( map_cursor( pos ), &*elem.item_iterator );
+            }
+        }
+    }
+
+    return result;
 }
 
 level_cache &map::access_cache( int zlev )

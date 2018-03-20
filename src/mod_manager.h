@@ -147,24 +147,22 @@ class mod_manager
 
         dependency_tree tree;
 
-        typedef std::map<std::string, std::unique_ptr<MOD_INFORMATION>> t_mod_map;
         /**
-         * The map of known mod, key is the mod ident. Values are
-         * never NULL.
+         * The map of known mods, key is the mod ident.
          */
-        t_mod_map mod_map;
+        std::map<std::string, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
 };
 
 class mod_ui
 {
     public:
-        mod_ui( mod_manager *modman );
+        mod_ui( mod_manager &modman );
 
         std::vector<std::string> usable_mods;
         std::string get_information( MOD_INFORMATION *mod );
-        mod_manager *active_manager;
-        dependency_tree *mm_tree;
+        mod_manager &active_manager;
+        dependency_tree &mm_tree;
 
         void try_add( const std::string &mod_to_add,
                       std::vector<std::string> &active_list );

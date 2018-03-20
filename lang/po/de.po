@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 23:42-0500\n"
-"PO-Revision-Date: 2018-03-07 20:57+0000\n"
+"POT-Creation-Date: 2018-03-09 08:17-0500\n"
+"PO-Revision-Date: 2018-03-10 18:31+0000\n"
 "Last-Translator: Mark Bies\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -39620,8 +39620,8 @@ msgstr ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "head torch"
 msgid_plural "head torches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stirnlampe"
+msgstr[1] "Stirnlampen"
 
 #. ~ Use action msg for head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -39638,13 +39638,13 @@ msgstr "Die Batterien der Stirnlampe sind leer."
 msgid ""
 "This is an LED head torch with an adjustable strap so as to be comfortably "
 "worn on your head or attached to your helmet.  Use it to turn it on."
-msgstr ""
+msgstr "Dies ist eine LED Stirnlampe mit verstellbarem Gurt, so dass sie bequem am Kopf getragen oder am Helm befestigt werden kann. Benutze es, um es einzuschalten."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "head torch (on)"
 msgid_plural "head torches (on)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stirnlampe (an)"
+msgstr[1] "Stirnlampen (an)"
 
 #. ~ Description for head torch (on)
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -44167,7 +44167,7 @@ msgid ""
 "This is a wooden needle whittled down to a sharp point.  It has a narrow "
 "hole carved into the head for threading.  Its low quality makes it rather "
 "unsuitable for anything requiring speed or precision."
-msgstr ""
+msgstr "Das ist eine hölzerne Nadel, die zu einer scharfen Spitze geschnitzt ist. Sie hat ein schmales Loch, das zum Einfädeln in den Kopf eingeschnitten ist. Aufgrund seiner geringen Qualität ist er eher ungeeignet für alles, was Schnelligkeit und Präzision erfordert."
 
 #. ~ Description for nodachi
 #: lang/json/TOOL_from_json.py
@@ -55815,7 +55815,7 @@ msgstr[1] ""
 msgid ""
 "A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of "
 "the US army since 1985."
-msgstr ""
+msgstr "Eine sehr beliebte 9x19mm Pistole, die M9 ist seit 1985 die serienmäßige Waffe der US-Armee."
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: 9x19mm"
@@ -59032,24 +59032,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
-"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
-"conversion results in a slight reduction to accuracy."
-msgstr ""
+msgid "M6 ASW shotgun"
+msgid_plural "M6 ASW shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"Replacing several key parts of a 9x19mm, .38, .40, 10mm, or .44 or .45 Colt "
-"firearm converts it to a .45 ACP firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9x19mm firearm.  The conversion results in a slight "
-"reduction to accuracy."
+"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
+"irremovable."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -59063,18 +59054,6 @@ msgid ""
 "This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 "
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid "M6 ASW shotgun"
-msgid_plural "M6 ASW shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
-"irremovable."
 msgstr ""
 
 #: lang/json/harvest_from_json.py
@@ -59828,7 +59807,7 @@ msgstr ""
 msgid ""
 "This weapon <good>can be used with</good> <info>unarmed fighting "
 "styles</info>."
-msgstr ""
+msgstr "Diese Waffe <good>kann verwendet werden mit</good> <info>unbewaffneten Kampfstilen </info>."
 
 #: lang/json/json_flag_from_json.py
 msgid "This bionic is a <bad>faulty</bad> bionic."
@@ -61369,8 +61348,8 @@ msgstr "Krav Maga scharf"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased cutting damage"
-msgstr "Erhöhter Schnittschaden"
+msgid "Increased stabbing damage"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Muay Thai"
@@ -65000,7 +64979,7 @@ msgstr ""
 
 #. ~ Mutation class: Any mutagen_message
 #: lang/json/mutation_category_from_json.py
-msgid "mutagen message here"
+msgid "You mutate."
 msgstr ""
 
 #. ~ Mutation class: Any iv_message
@@ -66577,7 +66556,7 @@ msgstr "Deine Moral wird zufällig hoch und runter gehen, oftmals dramatisch."
 
 #: lang/json/mutation_from_json.py
 msgid "Slow Footed"
-msgstr ""
+msgstr "Langsamfüßig"
 
 #. ~ Description for Slow Footed
 #: lang/json/mutation_from_json.py
@@ -84156,8 +84135,7 @@ msgstr ""
 msgid "Mansion Entrance"
 msgstr ""
 
-#: lang/json/start_location_from_json.py lang/json/start_location_from_json.py
-#: src/defense.cpp
+#: lang/json/start_location_from_json.py src/defense.cpp
 msgid "Mansion"
 msgstr "Villa"
 
@@ -86871,10 +86849,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "Utility Light"
-msgstr "Hilfslampe"
+msgid "utility light"
+msgstr ""
 
-#. ~ Description for Utility Light
+#. ~ Description for utility light
 #: lang/json/terrain_from_json.py
 msgid ""
 "An industrial flood light set up to illuminate the surroundings.  Smashing "
@@ -103737,8 +103715,8 @@ msgstr "Sie müssen eine Geldkarte mit Geld eingeben."
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: %d"
-msgstr "Verbleibendes Geld: %d"
+msgid "Money left: $%.2f"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -105534,7 +105512,7 @@ msgstr "<stat>Äußere</stat>. "
 
 #: src/item.cpp
 msgid "<stat>Waist</stat>. "
-msgstr ""
+msgstr "<stat>Taille</stat>. "
 
 #: src/item.cpp
 msgid "<stat>Normal</stat>. "
@@ -105776,7 +105754,7 @@ msgstr "* Dieses Bekleidungsstück <info>kann passend genäht</info> werden."
 
 #: src/item.cpp
 msgid "* This item can be worn on <info>either side</info> of the body."
-msgstr ""
+msgstr "* Dieser Gegenstand kann auf <info>beiden Seiten </info> des Körpers getragen werden."
 
 #: src/item.cpp
 msgid "* This gear is a part of power armor."
@@ -121121,6 +121099,11 @@ msgstr ""
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "Du kannst deine %s nicht ablegen."
+
+#: src/player.cpp
+#, c-format
+msgid "Draw %s from %s?"
+msgstr ""
 
 #: src/player.cpp
 #, c-format

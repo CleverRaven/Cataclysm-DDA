@@ -648,6 +648,9 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
+	if( range == 0 ) {
+		return 2 * target_size;
+	}
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }
