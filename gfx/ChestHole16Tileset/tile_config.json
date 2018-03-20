@@ -8430,12 +8430,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_hockey_stick",
-          "fg": 1254,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_hoe",
           "fg": 2406,
           "bg": 632,
@@ -12232,12 +12226,6 @@
         {
           "id": "overlay_wielded_waffleiron",
           "fg": 1419,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_wasp_sting",
-          "fg": 1421,
           "bg": 632,
           "rotates": false
         },
@@ -46366,6 +46354,11 @@
         },
         {
           "id": "overlay_wielded_needle_wood",
+          "fg": 1324,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_wasp_sting",
           "fg": 1324,
           "rotates": false
         },
