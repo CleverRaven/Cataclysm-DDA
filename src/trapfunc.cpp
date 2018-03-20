@@ -313,7 +313,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
     }
     g->m.remove_trap( p );
     g->m.spawn_item( p, "crossbow" );
-    g->m.spawn_item( p, "string_6" );
+    g->m.spawn_item( p, "string_36" );
     if( add_bolt ) {
         g->m.spawn_item( p, "bolt_steel", 1, 1 );
     }
@@ -405,13 +405,10 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         }
         c->check_dead_state();
     }
-    if( shots == 2 || g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
-        g->m.remove_trap( p );
-        g->m.spawn_item( p, "shotgun_s" );
-        g->m.spawn_item( p, "string_6" );
-    } else {
-        g->m.trap_set( p, tr_shotgun_1 );
-    }
+
+    g->m.spawn_item( p, g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
+    g->m.spawn_item( p, "string_36" );
+    g->m.remove_trap( p );
 }
 
 

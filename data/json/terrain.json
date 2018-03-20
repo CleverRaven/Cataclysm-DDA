@@ -4811,7 +4811,7 @@
             ]
         },
         "deconstruct": {
-            "ter_set": "t_dirtfloor",
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "rope_makeshift_30", "count": 1 },
                 { "item": "2x4", "count": 8 }
