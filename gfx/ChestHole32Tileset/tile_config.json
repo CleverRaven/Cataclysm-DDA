@@ -17678,18 +17678,6 @@
           "fg": 2602
         },
         {
-          "id": "overlay_wielded_polisher",
-          "fg": 2622
-        },
-        {
-          "id": "overlay_wielded_metal_smoother",
-          "fg": 2622
-        },
-        {
-          "id": "overlay_wielded_wood_smoother",
-          "fg": 2622
-        },
-        {
           "id": "overlay_wielded_con_mix",
           "fg": 2623
         },
@@ -48067,7 +48055,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_cordless_drill",
+          "id": ["overlay_wielded_cordless_drill", "overlay_wielded_wood_smoother", "overlay_wielded_polisher", "overlay_wielded_metal_smoother"],
           "fg": 1522,
           "rotates": false
         },
