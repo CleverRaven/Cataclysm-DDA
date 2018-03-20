@@ -57424,6 +57424,11 @@
           "rotates": true
         },
         {
+          "id": "overlay_wielded_torch",
+          "fg": 4254,
+          "rotates": false
+        },
+        {
           "id": ["mon_ant_acid", "mon_ant_acid_soldier"],
           "fg": 4268,
           "rotates": true
