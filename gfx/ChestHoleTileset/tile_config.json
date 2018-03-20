@@ -35201,7 +35201,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_wakizashi",
+          "id": ["overlay_wielded_wakizashi", "overlay_wielded_wakizashi_inferior"], 
           "fg": 3388,
           "bg": 632,
           "rotates": false
