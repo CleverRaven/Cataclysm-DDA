@@ -239,8 +239,8 @@
     "durability": 7,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 12 ] ],
-    "built_in_mods": [ "bipod", "m192_mount_pins" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "mount", 1] ],
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "223", [ "belt223", "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "308", [ "belt308" ] ]
