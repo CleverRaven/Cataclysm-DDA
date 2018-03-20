@@ -11622,7 +11622,7 @@
         },
         {
           "id": "overlay_wielded_sword_bayonet",
-          "fg": 1594,
+          "fg": 2505,
           "bg": 632,
           "rotates": false
         },
@@ -57199,21 +57199,6 @@
         {
           "id": "mon_zombie_smoker_pk",
           "fg": 4985,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_swimmer_pk",
-          "fg": 4992,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_tough_2",
-          "fg": 4995,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_tough_3",
-          "fg": 4996,
           "rotates": false
         },
         {
