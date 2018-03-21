@@ -9098,7 +9098,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iScrollPos = 0;
         }
 
-        if( action == "UP" ) {
+        if( action == "HELP_KEYBINDINGS" ) {
+            game::draw_ter();
+            wrefresh( w_terrain );
+        } else if( action == "UP" ) {
             do {
                 iActive--;
             } while( !mSortCategory[iActive].empty() );
@@ -9221,8 +9224,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 std::vector<iteminfo> vThisItem, vDummy;
                 activeItem->example->info( true, vThisItem );
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
-                //Only redraw trail/terrain if x/y position changed
-                if( active_pos != iLastActive ) {
+                // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
+                if( active_pos != iLastActive || action == "HELP_KEYBINDINGS" ) {
                     iLastActive = active_pos;
                     centerlistview( active_pos );
                     draw_trail_to_square( active_pos, true );
@@ -9320,7 +9323,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
 
     do {
-        if (action == "UP") {
+        if( action == "HELP_KEYBINDINGS" ) {
+            game::draw_ter();
+            wrefresh( w_terrain );
+        } else if( action == "UP" ) {
             iActive--;
             if (iActive < 0) {
                 iActive = int( monster_list.size() ) - 1;
@@ -9484,9 +9490,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
             }
 
-            //Only redraw trail/terrain if x/y position changed
+            // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
             iActivePos = cCurMon->pos() - u.pos();
-            if( iActivePos != iLastActivePos ) {
+            if( iActivePos != iLastActivePos || action == "HELP_KEYBINDINGS" ) {
                 iLastActivePos = iActivePos;
                 centerlistview( iActivePos );
                 draw_trail_to_square( iActivePos, false );
