@@ -31,7 +31,6 @@ src/iuse_actor.cpp
 src/iuse.cpp
 src/iuse_software_kitten.cpp
 src/iuse_software_minesweeper.cpp
-src/iuse_software_snake.cpp
 src/iuse_software_sokoban.cpp
 src/json.cpp
 src/lightmap.cpp
@@ -85,7 +84,6 @@ src/json.h
 src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
-src/mingw.thread.h
 src/mission.h
 src/overmapbuffer.h
 src/overmap.h
