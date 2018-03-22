@@ -329,9 +329,9 @@ void npc::move()
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-            attitude = NPCATT_FLEE;    // We don't want to take u on!
+            set_attitude( NPCATT_FLEE );    // We don't want to take u on!
         } else {
-            attitude = NPCATT_KILL;    // Yeah, we think we could take you!
+            set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
     }
 
@@ -1221,7 +1221,7 @@ npc_action npc::address_player()
         patience--;
         if( patience <= 0 ) {
             patience = 0;
-            attitude = NPCATT_KILL;
+            set_attitude( NPCATT_KILL );
             return npc_noop;
         }
         return npc_undecided;
@@ -1240,7 +1240,7 @@ npc_action npc::address_player()
                 return npc_pause;
             } else {
                 say( "<im_leaving_you>" );
-                attitude = NPCATT_NULL;
+                set_attitude( NPCATT_NULL );
                 return npc_pause;
             }
         } else if( has_destination() ) {
@@ -1602,7 +1602,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         if( attitude == NPCATT_MUG ||
             attitude == NPCATT_KILL ||
             attitude == NPCATT_WAIT_FOR_LEAVE ) {
-            attitude = NPCATT_FLEE;
+            set_attitude( NPCATT_FLEE );
         }
 
         moves = 0;
@@ -2628,7 +2628,7 @@ void npc::heal_player( player &patient )
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
             ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
             ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
-            attitude = NPCATT_FOLLOW;
+            set_attitude( NPCATT_FOLLOW );
             say( _( "That's all the healing I can do." ) );
         } else {
             say( _( "Hold still, I can heal you more." ) );
@@ -2848,7 +2848,7 @@ void npc::mug_player( player &mark )
         }
     }
     if( item_index == INT_MIN ) { // Didn't find anything worthwhile!
-        attitude = NPCATT_FLEE;
+        set_attitude( NPCATT_FLEE );
         if( !one_in( 3 ) ) {
             say( "<done_mugging>" );
         }

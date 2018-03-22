@@ -978,10 +978,10 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
 
         npc * const npc_l = g->critter_at<npc>( left );
         npc * const npc_r = g->critter_at<npc>( right );
-        if( npc_l && npc_l->attitude == NPCATT_KILL ) {
+        if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
-        if( npc_r && npc_r->attitude == NPCATT_KILL ) {
+        if( npc_r && npc_r->is_enemy() ) {
             targets.push_back( npc_r );
         }
         if(!targets.empty()) {
@@ -1019,13 +1019,13 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         npc * const npc_l = g->critter_at<npc>( left );
         npc * const npc_t = g->critter_at<npc>( target_pos );
         npc * const npc_r = g->critter_at<npc>( right );
-        if( npc_l && npc_l->attitude == NPCATT_KILL) {
+        if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
-        if( npc_t && npc_t->attitude == NPCATT_KILL) {
+        if( npc_t && npc_t->is_enemy() ) {
             targets.push_back( npc_t );
         }
-        if( npc_r && npc_r->attitude == NPCATT_KILL) {
+        if( npc_r && npc_r->is_enemy() ) {
             targets.push_back( npc_r );
         }
         if( !targets.empty() ) {
@@ -1046,7 +1046,7 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                     targets.push_back( mon );
                 }
                 npc * const np = g->critter_at<npc>( tmp );
-                if( np && np->attitude == NPCATT_KILL) {
+                if( np && np->is_enemy() ) {
                     targets.push_back( np );
                 }
             }

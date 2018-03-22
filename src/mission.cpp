@@ -302,13 +302,13 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_RECRUIT_NPC: {
             npc *p = g->find_npc( target_npc_id );
-            return p != nullptr && p->attitude == NPCATT_FOLLOW;
+            return p != nullptr && p->get_attitude() == NPCATT_FOLLOW;
         }
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
             for( auto &npc : npcs ) {
-                if( npc->myclass == recruit_class && npc->attitude == NPCATT_FOLLOW ) {
+                if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }
             }

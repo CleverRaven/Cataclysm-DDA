@@ -510,17 +510,17 @@ void npc_chatbin::check_missions()
 void npc::talk_to_u()
 {
     if( g->u.is_dead_state() ) {
-        attitude = NPCATT_NULL;
+        set_attitude( NPCATT_NULL );
         return;
     }
     const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
-    if( attitude == NPCATT_TALK ) {
-        attitude = NPCATT_NULL;
-    } else if( attitude == NPCATT_FLEE && !has_mind_control ) {
+    if( get_attitude() == NPCATT_TALK ) {
+        set_attitude( NPCATT_NULL );
+    } else if( get_attitude() == NPCATT_FLEE && !has_mind_control ) {
         add_msg( _( "%s is fleeing from you!" ), name.c_str() );
         return;
-    } else if( attitude == NPCATT_KILL && !has_mind_control ) {
+    } else if( get_attitude() == NPCATT_KILL && !has_mind_control ) {
         add_msg( _( "%s is hostile!" ), name.c_str() );
         return;
     }
@@ -1443,7 +1443,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return give_item_to( *p, false, true );
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
-        p->attitude = NPCATT_FOLLOW;
+        p->set_attitude( NPCATT_FOLLOW );
         return _( "YES MASTER" );
     }
 
@@ -2954,13 +2954,13 @@ void talk_function::assign_base( npc &p )
 
     add_msg( _( "%1$s waits at %2$s" ), p.name.c_str(), camp->camp_name().c_str() );
     p.mission = NPC_MISSION_BASE;
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
@@ -2968,7 +2968,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::stop_guard( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name.c_str() );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
@@ -3000,7 +3000,7 @@ void talk_function::insult_combat( npc &p )
 {
     add_msg( _( "You start a fight with %s!" ), p.name.c_str() );
     p.chatbin.first_topic = "TALK_DONE";
-    p.attitude =  NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::give_equipment( npc &p )
@@ -3152,7 +3152,7 @@ void talk_function::buy_100_logs( npc &p )
 
 void talk_function::follow( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     g->u.cash += p.cash;
     p.cash = 0;
 }
@@ -3184,7 +3184,7 @@ void talk_function::deny_personal_info( npc &p )
 
 void talk_function::hostile( npc &p )
 {
-    if( p.attitude == NPCATT_KILL ) {
+    if( p.get_attitude() == NPCATT_KILL ) {
         return;
     }
 
@@ -3195,38 +3195,38 @@ void talk_function::hostile( npc &p )
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
                            p.name.c_str() );
-    p.attitude = NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name.c_str() );
-    p.attitude = NPCATT_FLEE;
+    p.set_attitude( NPCATT_FLEE );
 }
 
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
     add_msg( _( "%s feels less threatened by you." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
 void talk_function::start_mugging( npc &p )
 {
-    p.attitude = NPCATT_MUG;
+    p.set_attitude( NPCATT_MUG );
     add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ),
              p.name.c_str() );
 }
 
 void talk_function::player_leaving( npc &p )
 {
-    p.attitude = NPCATT_WAIT_FOR_LEAVE;
+    p.set_attitude( NPCATT_WAIT_FOR_LEAVE );
     p.patience = 15 - p.personality.aggression;
 }
 
@@ -3252,7 +3252,7 @@ void talk_function::lead_to_safety( npc &p )
     const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
     mission->assign( g->u );
     p.goal = mission->get_target();
-    p.attitude = NPCATT_LEAD;
+    p.set_attitude( NPCATT_LEAD );
 }
 
 bool pay_npc( npc &np, int cost )
