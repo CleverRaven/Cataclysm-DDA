@@ -1703,7 +1703,7 @@
         "points" : 5,
         "visibility" : 10,
         "ugliness" : 3,
-        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to bashing and cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
         "prereqs" : ["PLANTSKIN"],
         "category" : ["MUTCAT_PLANT"],
         "wet_protection" : [
@@ -1718,7 +1718,7 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 2 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "THORNS",
