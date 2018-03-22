@@ -56795,11 +56795,6 @@
           "rotates": false
         },
         {
-          "id": "mon_robin",
-          "fg": 4817,
-          "rotates": false
-        },
-        {
           "id": "mon_robot_drone",
           "fg": 4818,
           "rotates": false
