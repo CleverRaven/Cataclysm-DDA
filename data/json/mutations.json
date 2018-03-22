@@ -1718,7 +1718,7 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 2 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "THORNS",
