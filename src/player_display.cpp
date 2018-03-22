@@ -835,8 +835,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                                     i == line ? hilite( color ) : color , mdata.name );
                 }
                 if( line < traitslist.size() ) {
-                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    traitslist[line]->description );
+                    const auto &mdata = traitslist[line].obj();
+                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
+                                    "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
+                                    mdata.name, traitslist[line]->description ) );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
