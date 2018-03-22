@@ -417,10 +417,7 @@ void Item_factory::load_item_blacklist( JsonObject &json )
     add_to_set( item_blacklist, json, "items" );
 }
 
-Item_factory::~Item_factory()
-{
-    clear();
-}
+Item_factory::~Item_factory() = default;
 
 Item_factory::Item_factory()
 {
@@ -666,7 +663,7 @@ void Item_factory::init()
     add_actor( new detach_gunmods_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
+    m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
@@ -1020,7 +1017,7 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     if (group_iter != m_template_groups.end()) {
-        return group_iter->second;
+        return group_iter->second.get();
     }
     return NULL;
 }
@@ -1959,10 +1956,6 @@ void Item_factory::reset()
 
 void Item_factory::clear()
 {
-    // clear groups
-    for( auto &elem : m_template_groups ) {
-        delete elem.second;
-    }
     m_template_groups.clear();
 
     categories.clear();
@@ -1995,12 +1988,12 @@ std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-Item_group *make_group_or_throw( const Group_tag &group_id, Item_spawn_data *&isd, Item_group::Type t,
-                                 int ammo_chance, int magazine_chance )
+Item_group *make_group_or_throw( const Group_tag &group_id, std::unique_ptr<Item_spawn_data> &isd,
+                                 Item_group::Type t, int ammo_chance, int magazine_chance )
 {
-    Item_group *ig = dynamic_cast<Item_group *>( isd );
+    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
-        isd = ig = new Item_group( t, 100, ammo_chance, magazine_chance );
+        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
     } else if( ig->type != t ) {
         throw std::runtime_error("item group \"" + group_id + "\" already defined with type \"" + to_string( ig->type ) + "\"" );
     }
@@ -2103,36 +2096,36 @@ bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, c
     return result;
 }
 
-void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
+void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 {
-    std::unique_ptr<Item_spawn_data> ptr;
+    std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
-        ptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig->with_ammo, ig->with_magazine ) );
+        gptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("collection");
     } else if (obj.has_member("distribution")) {
-        ptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig->with_ammo, ig->with_magazine ) );
+        gptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo, ig.with_magazine ) );
         jarr = obj.get_array("distribution");
     }
-    if (ptr.get() != NULL) {
-        Item_group *ig2 = dynamic_cast<Item_group *>(ptr.get());
+    if( gptr ) {
         while (jarr.has_more()) {
             JsonObject job2 = jarr.next_object();
-            add_entry(ig2, job2);
+            add_entry( *gptr, job2 );
         }
-        ig->add_entry(ptr);
+        ig.add_entry( std::move( gptr ) );
         return;
     }
 
+    std::unique_ptr<Single_item_creator> sptr;
     if (obj.has_member("item")) {
-        ptr.reset(new Single_item_creator(obj.get_string("item"), Single_item_creator::S_ITEM,
+        sptr.reset( new Single_item_creator( obj.get_string( "item" ), Single_item_creator::S_ITEM,
                                           probability));
     } else if (obj.has_member("group")) {
-        ptr.reset(new Single_item_creator(obj.get_string("group"), Single_item_creator::S_ITEM_GROUP,
+        sptr.reset( new Single_item_creator( obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP,
                                           probability));
     }
-    if (ptr.get() == NULL) {
+    if( !sptr ) {
         return;
     }
 
@@ -2141,14 +2134,14 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
-    use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", *ig );
-    use_modifier |= load_sub_ref( modifier.container, obj, "container", *ig );
-    use_modifier |= load_sub_ref( modifier.contents, obj, "contents", *ig );
+    use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
+    use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if (use_modifier) {
-        dynamic_cast<Single_item_creator *>(ptr.get())->modifier.emplace( std::move( modifier ) );
+        sptr->modifier.emplace( std::move( modifier ) );
     }
-    ig->add_entry(ptr);
+    ig.add_entry( std::move( sptr ) );
 }
 
 // Load an item group from JSON
@@ -2164,20 +2157,20 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
                                     int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
-    Item_spawn_data *&isd = m_template_groups[group_id];
+    std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group* const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
     while( entries.has_more() ) {
         JsonObject subobj = entries.next_object();
-        add_entry( ig, subobj );
+        add_entry( *ig, subobj );
     }
 }
 
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
-    Item_spawn_data *&isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>(isd);
+    std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
+    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2192,7 +2185,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         while (items.has_more()) {
             if( items.test_object() ) {
                 JsonObject subobj = items.next_object();
-                add_entry( ig, subobj );
+                add_entry( *ig, subobj );
             } else {
                 JsonArray pair = items.next_array();
                 ig->add_item_entry(pair.get_string(0), pair.get_int(1));
@@ -2205,7 +2198,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         JsonArray items = jsobj.get_array("entries");
         while( items.has_more() ) {
             JsonObject subobj = items.next_object();
-            add_entry( ig, subobj );
+            add_entry( *ig, subobj );
         }
     }
     if (jsobj.has_member("items")) {
@@ -2218,7 +2211,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                 ig->add_item_entry(subitem.get_string(0), subitem.get_int(1));
             } else {
                 JsonObject subobj = items.next_object();
-                add_entry(ig, subobj);
+                add_entry( *ig, subobj );
             }
         }
     }
@@ -2232,7 +2225,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                 ig->add_group_entry(subitem.get_string(0), subitem.get_int(1));
             } else {
                 JsonObject subobj = items.next_object();
-                add_entry(ig, subobj);
+                add_entry( *ig, subobj );
             }
         }
     }
@@ -2378,12 +2371,12 @@ bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag it
     if (m_template_groups.find(group_id) == m_template_groups.end()) {
         return false;
     }
-    Item_spawn_data *group_to_access = m_template_groups[group_id];
-    if (group_to_access->has_item(item_id)) {
-        group_to_access->remove_item(item_id);
+    Item_spawn_data &group_to_access = *m_template_groups[group_id];
+    if( group_to_access.has_item( item_id ) ) {
+        group_to_access.remove_item( item_id );
     }
 
-    Item_group *ig = dynamic_cast<Item_group *>(group_to_access);
+    Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
     if (chance != 0 && ig != NULL) {
         // Only re-add if chance != 0
         ig->add_item_entry(item_id, chance);

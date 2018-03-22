@@ -251,7 +251,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
+        typedef std::map<Group_tag, std::unique_ptr<Item_spawn_data>> GroupMap;
         GroupMap m_template_groups;
 
         /** Checks that ammo is listed in ammunition_type::name().
@@ -332,7 +332,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, JsonObject &obj, const std::string &name );
-        void add_entry( Item_group *sg, JsonObject &obj );
+        void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
