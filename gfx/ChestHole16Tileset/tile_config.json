@@ -45837,7 +45837,7 @@
           "rotates": false
         },
         {
-          "id": "f_washer",
+          "id": ["f_washer", "vp_washing_machine"],
           "fg": 1154,
           "rotates": false
         },
