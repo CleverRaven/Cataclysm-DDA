@@ -56778,41 +56778,6 @@
           "rotates": false
         },
         {
-          "id": "mon_mosquito",
-          "fg": 4791,
-          "rotates": false
-        },
-        {
-          "id": "mon_moth",
-          "fg": 4793,
-          "rotates": false
-        },
-        {
-          "id": "mon_mutant_carp",
-          "fg": 4794,
-          "rotates": false
-        },
-        {
-          "id": "mon_mutant_salmon",
-          "fg": 4795,
-          "rotates": false
-        },
-        {
-          "id": "mon_oozle",
-          "fg": 4797,
-          "rotates": false
-        },
-        {
-          "id": "mon_pidgeon",
-          "fg": 4800,
-          "rotates": false
-        },
-        {
-          "id": "mon_pig_saber",
-          "fg": 4802,
-          "rotates": false
-        },
-        {
           "id": "mon_pinky",
           "fg": 4803,
           "rotates": false
@@ -57037,11 +57002,6 @@
         {
           "id": "mon_zombie_child_scorched_2",
           "fg": 4931,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_crawler_pk",
-          "fg": 4935,
           "rotates": false
         },
         {
