@@ -49,7 +49,6 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
-//
     {
         "fd_null",
         {"", "", ""}, '%', 0,
