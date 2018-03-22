@@ -2052,32 +2052,47 @@ void veh_interact::display_details( const vpart_info *part )
                        volume_units_abbr() );
     }
 
-    // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part->size > 0 ) {
-        std::string label;
-        if ( part->has_flag(VPFLAG_CARGO) ) {
-            label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part->has_flag(VPFLAG_WHEEL) ){
-            label = small_mode ? _("Size") : _("Wheel Size");
-        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
-            label = small_mode ? _("Str") : _("Strength");
-        } else if ( part->has_flag("HORN") ) {
-            label = _("Noise");
-        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
-            label = _("Range");
-        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
-                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
-                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
-                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
-            label = _("Light");
-        } else {
-            label = small_mode ? _("Cap") : _("Capacity");
-        }
-
-        fold_and_print(w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%d</color>", label.c_str(),
+    // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
+    if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                       "%s: <color_light_gray>%d</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
                        to_milliliter( part->size ) );
     }
+
+    if( part->bonus > 0 ) {
+        std::string label;
+        if( part->has_flag( VPFLAG_SEATBELT ) ) {
+            label = small_mode ? _( "Str" ) : _( "Strength" );
+        } else if( part->has_flag( "HORN" ) ) {
+            label = _( "Noise" );
+        } else if( part->has_flag( "MUFFLER" ) ) {
+            label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
+        } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
+            label = _( "Range" );
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
+                   part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
+                   part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+            label = _( "Light" );
+        }
+
+        if( !label.empty() ) {
+            fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", label.c_str(),
+                            part->bonus );
+        }
+    }
+
+    if( part->has_flag( VPFLAG_WHEEL ) ) {
+        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
+                            whl->diameter );
+        fold_and_print( w_details, line+3, col_2, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
+                            whl->width );
+    }
+
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
                        "%s: %c<color_light_gray>%d</color>",

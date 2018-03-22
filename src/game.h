@@ -8,6 +8,7 @@
 #include "posix_time.h"
 #include "int_id.h"
 #include "cursesdef.h"
+#include "pimpl.h"
 
 #include <array>
 #include <vector>
@@ -76,6 +77,8 @@ using ammotype = string_id<ammunition_type>;
 class mission;
 class map;
 class Creature;
+class zone_type;
+using zone_type_id = string_id<zone_type>;
 class Character;
 class player;
 class npc;
@@ -154,12 +157,12 @@ class game
 
 
         // May be a bit hacky, but it's probably better than the header spaghetti
-        std::unique_ptr<map> map_ptr;
-        std::unique_ptr<player> u_ptr;
-        std::unique_ptr<live_view> liveview_ptr;
+        pimpl<map> map_ptr;
+        pimpl<player> u_ptr;
+        pimpl<live_view> liveview_ptr;
         live_view& liveview;
-        std::unique_ptr<scent_map> scent_ptr;
-        std::unique_ptr<event_manager> event_manager_ptr;
+        pimpl<scent_map> scent_ptr;
+        pimpl<event_manager> event_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -207,7 +210,7 @@ class game
         scent_map &scent;
         event_manager &events;
 
-        std::unique_ptr<Creature_tracker> critter_tracker;
+        pimpl<Creature_tracker> critter_tracker;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -507,7 +510,7 @@ class game
         void peek( const tripoint &p );
         tripoint look_debug();
 
-        bool check_zone( const std::string &type, const tripoint &where ) const;
+        bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border, const catacurses::window &w_info_border, const int iInfoHeight, const int width );
@@ -559,7 +562,7 @@ class game
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
-        std::unique_ptr<w_point> weather_precise; // Cached weather data
+        pimpl<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same

@@ -62,6 +62,14 @@ enum npc_attitude : int {
 
 std::string npc_attitude_name( npc_attitude );
 
+// Attitudes are grouped by overall behavior towards player
+enum class attitude_group : int {
+    neutral = 0, // Doesn't particularly mind the player
+    hostile, // Not necessarily attacking, but also mugging, exploiting etc.
+    fearful, // Run
+    friendly // Follow, defend, listen
+};
+
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -143,7 +151,7 @@ struct npc_opinion {
         return *this;
     }
 
-    npc_opinion &operator+( const npc_opinion &rhs ) {
+    npc_opinion operator+( const npc_opinion &rhs ) {
         return ( npc_opinion( *this ) += rhs );
     }
 
@@ -205,6 +213,7 @@ struct npc_short_term_cache {
     double my_weapon_value;
 
     std::vector<std::shared_ptr<Creature>> friends;
+    std::vector<sphere> dangerous_explosives;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -610,8 +619,8 @@ class npc : public player
         // Helper functions for ranged combat
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
-        int confident_shoot_range( const item &it ) const;
-        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
+        int confident_shoot_range( const item &it, int at_recoil ) const;
+        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
@@ -642,7 +651,9 @@ class npc : public player
         void move_to( const tripoint &p, bool no_bashing = false );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
+        void escape_explosion();
         void move_away_from( const tripoint &p, bool no_bashing = false );
+        void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
         const pathfinding_settings &get_pathfinding_settings() const override;
@@ -724,14 +735,18 @@ class npc : public player
          */
         void setpos( const tripoint &pos ) override;
 
+        npc_attitude get_attitude() const;
+        void set_attitude( npc_attitude new_attitude );
+
         // #############   VALUES   ################
 
-        npc_attitude attitude; // What we want to do to the player
         npc_class_id myclass; // What's our archetype?
         std::string idz; // A temp variable used to inform the game which npc json to use as a template
         mission_type_id miss_id; // A temp variable used to link to the correct mission
 
     private:
+
+        npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -833,6 +848,8 @@ class npc : public player
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
+
+        std::vector<sphere> find_dangerous_explosives() const;
 
         std::string companion_mission;
 };

@@ -183,7 +183,7 @@ class Messages::impl_t
         }
 };
 
-Messages::Messages() : impl_ {new impl_t()}
+Messages::Messages() : impl_()
 {
 }
 

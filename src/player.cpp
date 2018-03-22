@@ -3146,10 +3146,9 @@ std::list<item *> player::get_radio_items()
     std::list<item *> rc_items;
     const invslice &stacks = inv.slice();
     for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item *stack_iter = &itemit;
-        if( stack_iter->has_flag( "RADIO_ACTIVATION" ) ) {
-            rc_items.push_back( stack_iter );
+        item &stack_iter = stack->front();
+        if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
+            rc_items.push_back( &stack_iter );
         }
     }
 
@@ -7546,6 +7545,12 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         opts.push_back( base.magazine_current() );
     }
 
+    for( const auto mod : base.gunmods() ) {
+        if( mod->magazine_current() ) {
+            opts.push_back( mod->magazine_current() );
+        }
+    }
+
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
@@ -7672,9 +7677,19 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( _( "You're already wearing footwear!" ) );
     }
 
-    if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
-        return ret_val<bool>::make_failure( wearing_something_on( bp_head ) ?
-                            _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
+    if( it.covers( bp_head ) &&
+        !it.has_flag( "HELMET_COMPAT" ) &&
+        !it.has_flag( "SKINTIGHT" ) &&
+        !it.has_flag( "OVERSIZE" ) &&
+        is_wearing_helmet() ) {
+        return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
+                                            _( "You can't wear that with other headgear!" ) );
+    }
+
+    if( it.covers( bp_head ) &&
+        ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
+        ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
+        return ret_val<bool>::make_failure( _( "You can't wear that much on your head!" ) );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
@@ -8202,7 +8217,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() || ammo.is_non_resealable_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;
@@ -8226,7 +8241,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     }
 
     if( !it.is_gun() && !it.is_magazine() ) {
-        return mv + 100; // reload a tool
+        return mv + 100; // reload a tool or sealable container
     }
 
     /** @EFFECT_GUN decreases the time taken to reload a magazine */
@@ -8734,38 +8749,38 @@ bool player::consume_charges( item& used, long qty )
 
 void player::use( int inventory_position )
 {
-    item *used = &i_at( inventory_position );
+    item &used = i_at( inventory_position );
     item copy;
 
-    if( used->is_null() ) {
+    if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
         return;
     }
 
-    last_item = used->typeId();
+    last_item = used.typeId();
 
-    if( used->is_tool() ) {
-        if( !used->type->has_use() ) {
-            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
+    if( used.is_tool() ) {
+        if( !used.type->has_use() ) {
+            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname().c_str() );
             return;
         }
-        invoke_item( used );
+        invoke_item( &used );
 
-    } else if( used->is_food() ||
-               used->is_medication() ||
-               used->get_contained().is_food() ||
-               used->get_contained().is_medication() ) {
+    } else if( used.is_food() ||
+               used.is_medication() ||
+               used.get_contained().is_food() ||
+               used.get_contained().is_medication() ) {
         consume( inventory_position );
 
-    } else if( used->is_book() ) {
+    } else if( used.is_book() ) {
         read( inventory_position );
 
-    } else if ( used->type->has_use() ) {
-        invoke_item( used );
+    } else if ( used.type->has_use() ) {
+        invoke_item( &used );
 
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
-                 used->tname().c_str() );
+                 used.tname().c_str() );
     }
 }
 
@@ -10537,11 +10552,10 @@ bool player::is_wearing_shoes(std::string side) const
     bool right = true;
     if (side == "left" || side == "both") {
         left = false;
-        for (auto &i : worn) {
-            const item *worn_item = &i;
-            if (i.covers(bp_foot_l) &&
-                !worn_item->has_flag("BELTED") &&
-                !worn_item->has_flag("SKINTIGHT")) {
+        for( const item &worn_item : worn ) {
+            if (worn_item.covers(bp_foot_l) &&
+                !worn_item.has_flag("BELTED") &&
+                !worn_item.has_flag("SKINTIGHT")) {
                 left = true;
                 break;
             }
@@ -10549,17 +10563,42 @@ bool player::is_wearing_shoes(std::string side) const
     }
     if (side == "right" || side == "both") {
         right = false;
-        for (auto &i : worn) {
-            const item *worn_item = &i;
-            if (i.covers(bp_foot_r) &&
-                !worn_item->has_flag("BELTED") &&
-                !worn_item->has_flag("SKINTIGHT")) {
+        for( const item &worn_item : worn ) {
+            if (worn_item.covers(bp_foot_r) &&
+                !worn_item.has_flag("BELTED") &&
+                !worn_item.has_flag("SKINTIGHT")) {
                 right = true;
                 break;
             }
         }
     }
     return (left && right);
+}
+
+bool player::is_wearing_helmet() const
+{
+    for( auto i : worn ) {
+        if( i.covers( bp_head ) &&
+            !i.has_flag( "HELMET_COMPAT" ) &&
+            !i.has_flag( "SKINTIGHT" ) &&
+            !i.has_flag( "OVERSIZE" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int player::head_cloth_encumbrance() const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        const item *worn_item = &i;
+        if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) ||
+                                     worn_item->has_flag( "SKINTIGHT" ) ) ) {
+            ret += worn_item->get_encumber();
+        }
+    }
+    return ret;
 }
 
 double player::footwear_factor() const

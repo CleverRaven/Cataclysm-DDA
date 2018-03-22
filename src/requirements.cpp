@@ -845,17 +845,17 @@ requirement_data requirement_data::disassembly_requirements() const
     if( ret.qualities.empty() ) {
         ret.qualities.resize( 1 );
     } else {
-    //If the required quality level is not empty, iterate through and replace or remove 
-    //qualities with deconstruction equivalents
-        for (auto &it : ret.qualities) {
+        //If the required quality level is not empty, iterate through and replace or remove
+        //qualities with deconstruction equivalents
+        for( auto &it : ret.qualities ) {
             bool replaced = false;
-            for (const auto &quality : it) {
-                if (quality.type == quality_id("SEW")) {
+            for( const auto &quality : it ) {
+                if( quality.type == quality_id( "SEW" ) ) {
                     replaced = true;
-                    new_qualities.emplace_back(quality_id("CUT"), 1, quality.level);
+                    new_qualities.emplace_back( quality_id( "CUT" ), 1, quality.level );
                     break;
                 }
-                if (quality.type == quality_id("GLARE")) {
+                if( quality.type == quality_id( "GLARE" ) ) {
                     replaced = true;
                     //Just remove the glare protection requirement from deconstruction
                     //This only happens in case of a reversible recipe, an explicit
@@ -863,7 +863,7 @@ requirement_data requirement_data::disassembly_requirements() const
                     break;
                 }
             }
-            if (replaced) {
+            if( replaced ) {
                 it.clear();
             }
         }

@@ -31,7 +31,6 @@ src/iuse_actor.cpp
 src/iuse.cpp
 src/iuse_software_kitten.cpp
 src/iuse_software_minesweeper.cpp
-src/iuse_software_snake.cpp
 src/iuse_software_sokoban.cpp
 src/json.cpp
 src/lightmap.cpp
@@ -49,7 +48,6 @@ src/mission_start.cpp
 src/mod_manager.cpp
 src/monattack.cpp
 src/mondeath.cpp
-src/mongroup.cpp
 src/monster.cpp
 src/morale.cpp
 src/mutation.cpp
@@ -75,8 +73,6 @@ src/veh_interact.cpp
 src/weather.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
-src/clzones.h
-src/creature.h
 src/enums.h
 src/field.h
 src/game.h
@@ -88,13 +84,11 @@ src/json.h
 src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
-src/mingw.thread.h
 src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
 src/simplexnoise.h
-src/uistate.h
 src/vehicle.h
 src/wcwidth.h
 src/wdirent.h

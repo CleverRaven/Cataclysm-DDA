@@ -1157,7 +1157,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
-    item *it = &p->i_at( act->position );
+    item &it = p->i_at( act->position );
 
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
 
@@ -1182,9 +1182,9 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
-    it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
-    if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
-        p->i_rem( it );
+    it.charges = std::max(long(0), it.charges - it.type->charges_to_use());
+    if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
+        p->i_rem( &it );
     }
 }
 
@@ -1276,36 +1276,36 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
-    item *reloadable = &*act->targets[ 0 ];
+    item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
 
-    if( !reloadable->reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
-        add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
+    if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
         return;
     }
 
     std::string msg = _( "You reload the %s." );
 
-    if( reloadable->is_gun() ) {
+    if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable->has_flag( "RELOAD_ONE" ) ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
-                if( reloadable->ammo_type() == ammotype( "bolt" ) ) {
+                if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
                 }
             }
         }
-        if( reloadable->type->gun->reload_noise_volume > 0 ) {
-            sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
-            sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
+        if( reloadable.type->gun->reload_noise_volume > 0 ) {
+            sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
+            sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume, reloadable.type->gun->reload_noise );
         }
-    } else if( reloadable->is_watertight_container() ) {
+    } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( msg.c_str(), reloadable->tname().c_str() );
+    add_msg( msg.c_str(), reloadable.tname().c_str() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )

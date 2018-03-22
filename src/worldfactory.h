@@ -3,6 +3,7 @@
 #define WORLDFACTORY_H
 
 #include "options.h"
+#include "pimpl.h"
 
 #include <functional>
 #include <map>
@@ -95,7 +96,7 @@ class worldfactory
 
         std::vector<std::string> all_worldnames() const;
 
-        mod_manager *get_mod_manager();
+        mod_manager &get_mod_manager();
 
         void remove_world( std::string worldname );
         bool valid_worldname( std::string name, bool automated = false );
@@ -134,8 +135,8 @@ class worldfactory
 
         WORLDPTR add_world( WORLDPTR world );
 
-        std::unique_ptr<mod_manager> mman;
-        std::unique_ptr<mod_ui> mman_ui;
+        pimpl<mod_manager> mman;
+        pimpl<mod_ui> mman_ui;
 
         typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
 

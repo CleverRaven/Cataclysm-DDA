@@ -176,7 +176,7 @@
         "avoidance" : 5,
         "difficulty" : 6,
         "action" : "shotgun",
-        "drops" : ["string_36", "shotgun_s"]
+        "drops" : ["string_36", "shotgun_d"]
     },
     {
         "type" : "trap",

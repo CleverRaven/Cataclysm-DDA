@@ -1,143 +1,174 @@
 [
-    {
-        "type" : "MONSTER_FACTION",
-        "name" : "",
-        "base_faction" : "",
-        "by_mood" : [""]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "human"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "player",
-        "base_faction" : "human"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "zombie",
-        "friendly" : ["blob", "cult"],
-        "neutral" : ["small_animal", "insect"],
-        "by_mood": "bee"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "blob",
-        "friendly" : ["zombie", "nether", "cult"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "nether",
-        "friendly" : ["blob", "cult"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "cult",
-        "base_faction" : "zombie",
-        "neutral" : ["nether"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "cop_zombie",
-        "base_faction" : "zombie"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "jabberwock",
-        "by_mood" : ["jabberwock"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "bot",
-        "neutral" : ["cop_bot", "defense_bot", "utility_bot", "small_animal"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "military",
-        "base_faction" : "bot",
-        "neutral" : ["bot", "small_animal"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "cop_bot",
-        "base_faction" : "bot",
-        "neutral" : ["military", "defense_bot", "utility_bot", "small_animal"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "animal",
-        "neutral" : ["small_animal"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "small_animal",
-        "base_faction" : "animal"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "herbivore",
-        "base_faction" : "animal",
-        "neutral" : ["small_animal"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "fish",
-        "base_faction" : "animal"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "insect",
-        "neutral" : ["military", "defense_bot", "utility_bot", "zombie"],
-        "by_mood" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "bee",
-        "base_faction" : "insect",
-        "friendly" : "plant",
-        "neutral" : "bot",
-        "by_mood" : ["insect", "zombie"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "roach",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "mosquito",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "dragonfly",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "centipede",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "dermatik",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider",
-        "base_faction" : "insect",
-        "by_mood" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_wolf",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_web",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_jumping",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_trapdoor",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_widow",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "spider_cellar",
-        "base_faction" : "spider"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "plant",
-        "neutral" : "bot",
-        "friendly" : "bee"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "triffid",
-        "base_faction" : "plant"
-    }
+  {
+    "type": "MONSTER_FACTION",
+    "name": "",
+    "base_faction": "",
+    "by_mood": [ "" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "human"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "player",
+    "base_faction": "human"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "friendly": [ "blob", "cult" ],
+    "neutral": [ "small_animal", "insect" ],
+    "by_mood": "bee"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "blob",
+    "friendly": [ "zombie", "nether", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether",
+    "friendly": [ "blob", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cult",
+    "base_faction": "zombie",
+    "neutral": [ "nether" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cop_zombie",
+    "base_faction": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "jabberwock",
+    "by_mood": [ "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bot",
+    "neutral": [ "cop_bot", "defense_bot", "utility_bot", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "military",
+    "base_faction": "bot",
+    "neutral": [ "bot", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cop_bot",
+    "base_faction": "bot",
+    "neutral": [ "military", "defense_bot", "utility_bot", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "animal",
+    "neutral": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_animal",
+    "base_faction": "animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore",
+    "base_faction": "animal",
+    "neutral": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish",
+    "base_faction": "animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "insect",
+    "neutral": [ "military", "defense_bot", "utility_bot", "zombie" ],
+    "by_mood": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bee",
+    "base_faction": "insect",
+    "friendly": "plant",
+    "neutral": "bot",
+    "by_mood": [ "insect", "zombie" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "roach",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mosquito",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dragonfly",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "centipede",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dermatik",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider",
+    "base_faction": "insect",
+    "by_mood": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_wolf",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_web",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_jumping",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_trapdoor",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_widow",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spider_cellar",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "plant",
+    "neutral": "bot",
+    "friendly": "bee"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "triffid",
+    "base_faction": "plant"
+  }
 ]

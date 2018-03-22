@@ -795,14 +795,14 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
+    selected_cat( id, name, 0 ) {}
 
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+        entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
     }
 
@@ -817,7 +817,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, selected_cat.get() );
+    inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 

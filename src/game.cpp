@@ -243,22 +243,22 @@ public:
 
 // This is the main game set-up process.
 game::game() :
-    map_ptr( new map() ),
-    u_ptr( new player() ),
-    liveview_ptr( new live_view() ),
+    map_ptr(),
+    u_ptr(),
+    liveview_ptr(),
     liveview( *liveview_ptr ),
-    scent_ptr( new scent_map( *this ) ),
-    event_manager_ptr( new event_manager() ),
+    scent_ptr( *this ),
+    event_manager_ptr(),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     events( *event_manager_ptr ),
-    critter_tracker( new Creature_tracker() ),
+    critter_tracker(),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
-    weather_precise( new w_point() ),
+    weather_precise(),
     w_terrain(),
     w_overmap(),
     w_omlegend(),
@@ -314,8 +314,8 @@ void game::load_static_data()
 
 bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
 {
-    auto &mods = world_generator->get_mod_manager()->mod_map;
-    auto &tree = world_generator->get_mod_manager()->get_tree();
+    auto &mods = world_generator->get_mod_manager().mod_map;
+    auto &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
@@ -323,7 +323,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            if( !e.second->obsolete ) {
+            if( !e.second.obsolete ) {
                 check.emplace( e.first );
             }
         }
@@ -346,7 +346,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
             return false;
         }
 
-        MOD_INFORMATION &mod = *iter->second;
+        MOD_INFORMATION &mod = iter->second;
 
         if( !tree.is_available( mod.ident ) ) {
             std::cerr << "Missing dependencies: " << mod.name << "\n"
@@ -361,7 +361,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep]->path, mods[dep]->ident, ui );
+                load_data_from_dir( mods[dep].path, mods[dep].ident, ui );
             }
 
             // Load mod itself
@@ -1007,7 +1007,7 @@ void game::create_starting_npcs()
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
-    tmp->attitude = NPCATT_NULL;
+    tmp->set_attitude( NPCATT_NULL );
     //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
@@ -3702,7 +3702,7 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 
         // require at least one core mod (saves before version 6 may implicitly require dda pack)
         if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager()->mod_map[e]->core;
+            return world_generator->get_mod_manager().mod_map[e].core;
         } ) ) {
             mods.insert( mods.begin(), "dda" );
         }
@@ -3731,9 +3731,9 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
     std::vector<std::string> missing;
     std::vector<std::string> available;
 
-    mod_manager *mm = world_generator->get_mod_manager();
+    mod_manager &mm = world_generator->get_mod_manager();
     for( const auto &e : packs ) {
-        if( mm->has_mod( e ) ) {
+        if( mm.has_mod( e ) ) {
             available.emplace_back( e );
             ui.add_entry( e );
         } else {
@@ -3743,7 +3743,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = *mm->mod_map[e];
+        MOD_INFORMATION &mod = mm.mod_map[e];
         load_data_from_dir( mod.path, mod.ident, ui );
 
         // if mod specifies legacy migrations load any that are required
@@ -5145,7 +5145,7 @@ void game::draw_HP()
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
     if( !wide ) {
-        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("STA"));
+        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
         wmove(w_HP, 15, hpx);
         u.print_stamina_bar(w_HP);
     }
@@ -5598,7 +5598,7 @@ int game::mon_info( const catacurses::window &w )
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             safemode_state = get_safemode().check_monster(get_safemode().npc_type_name(), p->attitude_to( u ), npc_dist);
 
-            if ( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || (safemode_empty && p->attitude == NPCATT_KILL ) ) {
+            if ( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || (safemode_empty && p->get_attitude() == NPCATT_KILL ) ) {
                 if ( !safemode_empty || npc_dist <= iProxyDist ) {
                     newseen++;
                 }
@@ -5692,7 +5692,7 @@ int game::mon_info( const catacurses::window &w )
                 c = c_white;
                 sym = "+";
             } else if (j < typeshere_npc) {
-                switch (unique_types[i][j]->attitude) {
+                switch (unique_types[i][j]->get_attitude()) {
                 case NPCATT_KILL:
                     c = c_red;
                     break;
@@ -7278,12 +7278,12 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &g->u.i_at(pos);
+        item &it = g->u.i_at( pos );
 
-        z->add_item(*it);
+        z->add_item( it );
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
-                it->display_name().c_str(),  pet_name.c_str());
+                it.display_name().c_str(), pet_name.c_str());
 
         g->u.i_rem(pos);
 
@@ -7316,15 +7316,15 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        item *it = &z->inv[0];
+        item &it = z->inv[0];
 
-        if (!it->is_armor()) {
+        if (!it.is_armor()) {
             add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
-        units::volume max_cap = it->get_storage();
-        units::mass max_weight = z->weight_capacity() - it->weight();
+        units::volume max_cap = it.get_storage();
+        units::mass max_weight = z->weight_capacity() - it.weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
@@ -7335,12 +7335,12 @@ bool pet_menu(monster *z)
 
         if (max_weight <= 0) {
             add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
-                    pet_name.c_str(), it->tname(1).c_str());
+                    pet_name.c_str(), it.tname(1).c_str());
             return true;
         }
         if (max_cap <= 0) {
             add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
-                    pet_name.c_str(), it->tname(1).c_str() );
+                    pet_name.c_str(), it.tname(1).c_str() );
             return true;
         }
 
@@ -7792,8 +7792,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
 {
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
-        const field_entry *cur = &fld.second;
-        mvwprintz( w_look, ++line, column, cur->color(), cur->name() );
+        const field_entry &cur = fld.second;
+        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
     }
 }
 
@@ -7908,7 +7908,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
-bool game::check_zone( const std::string &type, const tripoint &where ) const
+bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 {
     return zone_manager::get_manager().has( type, m.getabs( where ) );
 }
@@ -8048,7 +8048,7 @@ void game::zones_manager()
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                zones.add( "", "", false, true,
+                zones.add( "", zone_type_id(), false, true,
                             m.getabs( tripoint( std::min(first.x, second.x),
                                                 std::min(first.y, second.y),
                                                 std::min(first.z, second.z) ) ),
@@ -9098,7 +9098,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iScrollPos = 0;
         }
 
-        if( action == "UP" ) {
+        if( action == "HELP_KEYBINDINGS" ) {
+            game::draw_ter();
+            wrefresh( w_terrain );
+        } else if( action == "UP" ) {
             do {
                 iActive--;
             } while( !mSortCategory[iActive].empty() );
@@ -9221,8 +9224,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 std::vector<iteminfo> vThisItem, vDummy;
                 activeItem->example->info( true, vThisItem );
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
-                //Only redraw trail/terrain if x/y position changed
-                if( active_pos != iLastActive ) {
+                // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
+                if( active_pos != iLastActive || action == "HELP_KEYBINDINGS" ) {
                     iLastActive = active_pos;
                     centerlistview( active_pos );
                     draw_trail_to_square( active_pos, true );
@@ -9320,7 +9323,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
 
     do {
-        if (action == "UP") {
+        if( action == "HELP_KEYBINDINGS" ) {
+            game::draw_ter();
+            wrefresh( w_terrain );
+        } else if( action == "UP" ) {
             iActive--;
             if (iActive < 0) {
                 iActive = int( monster_list.size() ) - 1;
@@ -9455,7 +9461,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     sText = att.first;
                     color = att.second;
                 } else if( p != nullptr ) {
-                    sText = npc_attitude_name( p->attitude );
+                    sText = npc_attitude_name( p->get_attitude() );
                     color = p->symbol_color();
                 }
                 mvwprintz( w_monsters, y, 28, color, sText );
@@ -9484,9 +9490,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
             }
 
-            //Only redraw trail/terrain if x/y position changed
+            // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
             iActivePos = cCurMon->pos() - u.pos();
-            if( iActivePos != iLastActivePos ) {
+            if( iActivePos != iLastActivePos || action == "HELP_KEYBINDINGS" ) {
                 iLastActivePos = iActivePos;
                 centerlistview( iActivePos );
                 draw_trail_to_square( iActivePos, false );
@@ -11650,8 +11656,8 @@ void game::place_player( const tripoint &dest_loc )
     int vpart1;
     const vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
     if( veh1 != nullptr ) {
-        const vehicle_part *part = &(veh1->parts[vpart1]);
-        std::string label = veh1->get_label(part->mount.x, part->mount.y);
+        const vehicle_part &part = veh1->parts[vpart1];
+        std::string label = veh1->get_label( part.mount.x, part.mount.y );
         if (!label.empty()) {
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
@@ -11793,7 +11799,7 @@ void game::place_player( const tripoint &dest_loc )
     // List items here
     if( !m.has_flag( "SEALED", u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
-            !g->check_zone( "NO_AUTO_PICKUP", u.pos() )) {
+            !g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() )) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg(_("There's something here, but you can't see what it is."));
             } else if( m.has_items(u.pos()) ) {
