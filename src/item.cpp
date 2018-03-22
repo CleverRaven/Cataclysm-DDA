@@ -2212,7 +2212,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string vehtext = "";
     if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
+        vehtext = string_format( pgettext( "vehicle adjective", "%2.1f%s " ),
+                                 convert_volume( engine_displacement() * 10 ), volume_units_abbr() );
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
