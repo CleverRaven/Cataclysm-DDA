@@ -24207,11 +24207,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_power_armor_heavy",
-          "fg": 467,
-          "rotates": false
-        },
-        {
           "id": "overlay_worn_power_armor_basic",
           "fg": 3716,
           "rotates": false
