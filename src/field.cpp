@@ -47,8 +47,8 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
+/** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
-// ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
     {
         "fd_null",
         {"", "", ""}, '%', 0,
@@ -161,7 +161,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, false, false},{true, true, true}, MINUTES( 2 ),
         {0,0,0},
         GAS,
-        false
+        true
     },
     {
         "fd_toxic_gas",
