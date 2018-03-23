@@ -30,7 +30,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": "pallet lifter",
-    "description": "A makeshift pallet lifter.  If attached to a frame it could be used to lift up to 500 kg.",
+    "description": "A makeshift pallet lifter.  If attached to a frame it could be used to lift up to 0.5 metric tonnes.",
     "price": 7900,
     "weight": 12000,
     "volume": 12,
