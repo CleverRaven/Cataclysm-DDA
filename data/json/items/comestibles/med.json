@@ -1333,7 +1333,7 @@
             "head_power" : 10,
             "torso_power" : 10,
             "limb_power" : 10,
-            "bite" : 80,
+            "bite" : 0.8,
             "move_cost" : 300
         }
     }
