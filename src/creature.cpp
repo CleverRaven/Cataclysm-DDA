@@ -255,7 +255,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            return npc_ptr->attitude == NPCATT_KILL;
+            return npc_ptr->get_attitude() == NPCATT_KILL;
         }
         //@todo: what about g->u?
         return false;

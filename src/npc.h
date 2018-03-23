@@ -62,6 +62,14 @@ enum npc_attitude : int {
 
 std::string npc_attitude_name( npc_attitude );
 
+// Attitudes are grouped by overall behavior towards player
+enum class attitude_group : int {
+    neutral = 0, // Doesn't particularly mind the player
+    hostile, // Not necessarily attacking, but also mugging, exploiting etc.
+    fearful, // Run
+    friendly // Follow, defend, listen
+};
+
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -727,14 +735,18 @@ class npc : public player
          */
         void setpos( const tripoint &pos ) override;
 
+        npc_attitude get_attitude() const;
+        void set_attitude( npc_attitude new_attitude );
+
         // #############   VALUES   ################
 
-        npc_attitude attitude; // What we want to do to the player
         npc_class_id myclass; // What's our archetype?
         std::string idz; // A temp variable used to inform the game which npc json to use as a template
         mission_type_id miss_id; // A temp variable used to link to the correct mission
 
     private:
+
+        npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.

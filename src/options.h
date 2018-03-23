@@ -95,6 +95,10 @@ class options_manager
                     return !operator==( rhs );
                 }
 
+                void setPrerequisite( const std::string &sOption );
+                std::string getPrerequisite() const;
+                bool hasPrerequisite() const;
+
             private:
                 std::string sName;
                 std::string sPage;
@@ -105,6 +109,8 @@ class options_manager
                 std::string sType;
 
                 std::string format;
+
+                std::string sPrerequisite;
 
                 copt_hide_t hide;
                 int iSortPos;

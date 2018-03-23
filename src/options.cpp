@@ -296,6 +296,32 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     options[sNameIn] = thisOpt;
 }
 
+void options_manager::cOpt::setPrerequisite( const std::string &sOption )
+{
+    if ( !get_options().has_option(sOption) ) {
+        debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
+
+    } else if ( get_options().get_option( sOption ).getType() != "bool" ) {
+        debugmsg( "setPrerequisite: option %s not of type bool", sType.c_str() );
+    }
+
+    sPrerequisite = sOption;
+}
+
+std::string options_manager::cOpt::getPrerequisite() const
+{
+    return sPrerequisite;
+}
+
+bool options_manager::cOpt::hasPrerequisite() const
+{
+    if ( sPrerequisite.empty() ) {
+        return true;
+    }
+
+    return ::get_option<bool>(sPrerequisite);
+}
+
 //helper functions
 bool options_manager::cOpt::is_hidden() const
 {
@@ -807,25 +833,35 @@ void options_manager::init()
         false
         );
 
+    get_option("AUTO_PICKUP_ADJACENT").setPrerequisite("AUTO_PICKUP");
+
     add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", translate_marker( "Auto pickup light items" ),
         translate_marker( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
         0, 20, 0
         );
+
+    get_option("AUTO_PICKUP_WEIGHT_LIMIT").setPrerequisite("AUTO_PICKUP");
 
     add( "AUTO_PICKUP_VOL_LIMIT", "general", translate_marker( "Auto pickup small items" ),
         translate_marker( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
         0, 20, 0
         );
 
+    get_option("AUTO_PICKUP_VOL_LIMIT").setPrerequisite("AUTO_PICKUP");
+
     add( "AUTO_PICKUP_SAFEMODE", "general", translate_marker( "Auto pickup safe mode" ),
         translate_marker( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
         false
         );
 
+    get_option("AUTO_PICKUP_SAFEMODE").setPrerequisite("AUTO_PICKUP");
+
     add( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS", "general", translate_marker( "List items within no auto pickup zones" ),
         translate_marker( "If false, you will not see messages about items, you step on, within no auto pickup zones." ),
         true
         );
+
+    get_option("NO_AUTO_PICKUP_ZONES_LIST_ITEMS").setPrerequisite("AUTO_PICKUP");
 
     mOptionsSort["general"]++;
 
@@ -839,6 +875,8 @@ void options_manager::init()
          { { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "butcher"
         );
 
+    get_option("AUTO_PULP_BUTCHER_ACTION").setPrerequisite("AUTO_PULP_BUTCHER");
+
     mOptionsSort["general"]++;
 
     add( "DANGEROUS_PICKUPS", "general", translate_marker( "Dangerous pickups" ),
@@ -848,6 +886,21 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "SAFEMODE", "general", translate_marker( "Safe Mode" ),
+         translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
+         true
+    );
+
+    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
+         translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
+         0, MAX_VIEW_DISTANCE, 0
+    );
+
+    add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
+         translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
+         false
+    );
+
     add( "AUTOSAFEMODE", "general", translate_marker( "Auto-safe mode" ),
         translate_marker( "If true, turns safemode automatically back on after it being disabled beforehand.  See option 'Turns to re-enable safe mode'" ),
         false
@@ -856,21 +909,6 @@ void options_manager::init()
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to re-enable safe mode" ),
         translate_marker( "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe Mode proximity distance'." ),
         1, 100, 50
-        );
-
-    add( "SAFEMODE", "general", translate_marker( "Safe Mode" ),
-        translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
-        true
-        );
-
-    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
-        translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
-        0, MAX_VIEW_DISTANCE, 0
-        );
-
-    add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
-        translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
-        false
         );
 
     mOptionsSort["general"]++;
@@ -892,10 +930,14 @@ void options_manager::init()
         10, 1000, 50
         );
 
+    get_option("AUTOSAVE_TURNS").setPrerequisite("AUTOSAVE");
+
     add( "AUTOSAVE_MINUTES", "general", translate_marker( "Real minutes between autosaves" ),
         translate_marker( "Number of real time minutes between autosaves" ),
         0, 127, 5
         );
+
+    get_option("AUTOSAVE_MINUTES").setPrerequisite("AUTOSAVE");
 
     mOptionsSort["general"]++;
 
@@ -1153,15 +1195,21 @@ void options_manager::init()
         true
         );
 
+    get_option("ANIMATION_RAIN").setPrerequisite("ANIMATIONS");
+
     add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
         translate_marker( "If true, will display scrolling combat text animations." ),
         true
         );
 
+    get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
+
     add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
         translate_marker( "The amount of time to pause between animation frames in ms." ),
         0, 100, 10
         );
+
+    get_option("ANIMATION_DELAY").setPrerequisite("ANIMATIONS");
 
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
         translate_marker( "If true, forces the game to redraw at least once per turn." ),
@@ -1192,6 +1240,8 @@ void options_manager::init()
         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
         ); // populate the options dynamically
 
+    get_option("TILES").setPrerequisite("USE_TILES");
+
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel Minimap" ),
         translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
         true, COPT_CURSES_HIDE
@@ -1204,25 +1254,35 @@ void options_manager::init()
             { "dots", translate_marker( "Dots" ) } }, "dots", COPT_CURSES_HIDE
         );
 
+    get_option("PIXEL_MINIMAP_MODE").setPrerequisite("PIXEL_MINIMAP");
+
     add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
         translate_marker( "Overall brightness of pixel-detail minimap." ),
         10, 300, 100, COPT_CURSES_HIDE
         );
+
+    get_option("PIXEL_MINIMAP_BRIGHTNESS").setPrerequisite("PIXEL_MINIMAP");
 
     add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
         0, 100, 0, COPT_CURSES_HIDE
         );
 
+    get_option("PIXEL_MINIMAP_HEIGHT").setPrerequisite("PIXEL_MINIMAP");
+
     add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain Pixel Minimap aspect ratio" ),
         translate_marker( "Preserves the square shape of tiles shown on the pixel minimap." ),
         true, COPT_CURSES_HIDE
         );
 
+    get_option("PIXEL_MINIMAP_RATIO").setPrerequisite("PIXEL_MINIMAP");
+
     add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Enemy beacon blink speed" ),
         translate_marker( "Controls how fast the enemy beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
         0, 50, 10, COPT_CURSES_HIDE
         );
+
+    get_option("PIXEL_MINIMAP_BLINK").setPrerequisite("PIXEL_MINIMAP");
 
     mOptionsSort["graphics"]++;
 
@@ -1246,6 +1306,8 @@ void options_manager::init()
         translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
         false, COPT_CURSES_HIDE
         );
+
+    get_option("FRAMEBUFFER_ACCEL").setPrerequisite("SOFTWARE_RENDERING");
 
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
@@ -1692,6 +1754,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
+            bool hasPrerequisite = current_opt.hasPrerequisite();
 
             line_pos = i - iStartPos;
 
@@ -1704,10 +1767,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             } else {
                 mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
-            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, line_pos, name_col + 3, c_white, name );
 
-            if (current_opt.getValue() == "false") {
+            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
+            mvwprintz( w_options, line_pos, name_col + 3, hasPrerequisite ? c_white : c_light_gray, name );
+
+            if ( !hasPrerequisite ) {
+                cLineColor = c_light_gray;
+
+            } else if (current_opt.getValue() == "false") {
                 cLineColor = c_light_red;
             }
 
@@ -1797,6 +1864,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             return action;
         }
 
+        cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+
+        if ( !current_opt.hasPrerequisite() &&
+            ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
+            popup( _( "Prerequisite for this option not met!\n(%s)" ), get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
+            continue;
+        }
+
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
@@ -1812,9 +1887,9 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 }
             } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
-            cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
+            current_opt.setNext();
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
-            cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
+            current_opt.setPrev();
         } else if (action == "NEXT_TAB") {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -1832,15 +1907,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if (!mPageItems[iCurrentPage].empty() && action == "CONFIRM") {
-            cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
-            if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
-                cur_opt.setNext();
+            if (current_opt.getType() == "bool" || current_opt.getType() == "string_select" || current_opt.getType() == "string_input" ) {
+                current_opt.setNext();
             } else {
-                const bool is_int = cur_opt.getType() == "int";
-                const bool is_float = cur_opt.getType() == "float";
-                const std::string old_opt_val = cur_opt.getValueName();
+                const bool is_int = current_opt.getType() == "int";
+                const bool is_float = current_opt.getType() == "float";
+                const std::string old_opt_val = current_opt.getValueName();
                 const std::string opt_val = string_input_popup()
-                                            .title( cur_opt.getMenuText() )
+                .title( current_opt.getMenuText() )
                                             .width( 10 )
                                             .text( old_opt_val )
                                             .only_digits( is_int )
@@ -1853,7 +1927,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                         float tmpFloat;
                         ssTemp >> tmpFloat;
                         if (ssTemp) {
-                            cur_opt.setValue(tmpFloat);
+                            current_opt.setValue(tmpFloat);
 
                         } else {
                             popup(_("Invalid input: not a number"));
@@ -1862,7 +1936,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                         // option is of type "int": string_input_popup
                         // has taken care that the string contains
                         // only digits, parsing is done in setValue
-                        cur_opt.setValue(opt_val);
+                        current_opt.setValue(opt_val);
                     }
                 }
             }

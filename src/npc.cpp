@@ -103,6 +103,7 @@ npc::npc()
     restock = -1;
     companion_mission_time = 0;
     last_updated = calendar::turn;
+    attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
 }
@@ -173,7 +174,7 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
-    guy.attitude = npc_attitude( jsobj.get_int( "attitude" ) );
+    guy.set_attitude( npc_attitude( jsobj.get_int( "attitude" ) ) );
     guy.mission = npc_mission( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
@@ -1162,13 +1163,13 @@ void npc::form_opinion( const player &u )
 
     if( op_of_u.fear < personality.bravery + 10 &&
         op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8 ) {
-        attitude = NPCATT_TALK;
+        set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
-        attitude = NPCATT_KILL;
+        set_attitude( NPCATT_KILL );
     } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
-        attitude = NPCATT_KILL;
+        set_attitude( NPCATT_KILL );
     } else {
-        attitude = NPCATT_FLEE;
+        set_attitude( NPCATT_FLEE );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
@@ -1227,19 +1228,15 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    if( g->u.sees( *this ) ) {
-        add_msg( _( "%s gets angry!" ), name.c_str() );
-    }
-
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        attitude = NPCATT_FLEE; // We don't want to take u on!
+        set_attitude( NPCATT_FLEE ); // We don't want to take u on!
     } else {
-        attitude = NPCATT_KILL; // Yeah, we think we could take you!
+        set_attitude( NPCATT_KILL ); // Yeah, we think we could take you!
     }
 }
 
@@ -2458,4 +2455,56 @@ bool npc::has_companion_mission() const
 std::string npc::get_companion_mission() const
 {
     return companion_mission;
+}
+
+attitude_group get_attitude_group( npc_attitude att )
+{
+    switch( att ) {
+        case NPCATT_MUG:
+        case NPCATT_WAIT_FOR_LEAVE:
+        case NPCATT_KILL:
+            return attitude_group::hostile;
+        case NPCATT_FLEE:
+            return attitude_group::fearful;
+        case NPCATT_FOLLOW:
+        case NPCATT_LEAD:
+            return attitude_group::friendly;
+        default:
+            break;
+    }
+    return attitude_group::neutral;
+}
+
+npc_attitude npc::get_attitude() const
+{
+    return attitude;
+}
+
+void npc::set_attitude( npc_attitude new_attitude )
+{
+    if( new_attitude == attitude ) {
+        return;
+    }
+    add_msg( m_debug, "%s changes attitude from %s to %s",
+             npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+    attitude_group new_group = get_attitude_group( new_attitude );
+    attitude_group old_group = get_attitude_group( attitude );
+    if( new_group != old_group && !is_fake() ) {
+        switch( new_group ) {
+            case attitude_group::hostile:
+                add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );
+                break;
+            case attitude_group::fearful:
+                add_msg_if_npc( m_warning, _( "<npcname> gets scared!" ) );
+                break;
+            default:
+                if( old_group == attitude_group::hostile ) {
+                    add_msg_if_npc( m_good, _( "<npcname> calms down." ) );
+                } else if( old_group == attitude_group::fearful ) {
+                    add_msg_if_npc( _( "<npcname> is no longer afraid." ) );
+                }
+                break;
+        }
+    }
+    attitude = new_attitude;
 }

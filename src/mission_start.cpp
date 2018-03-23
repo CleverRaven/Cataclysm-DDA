@@ -155,7 +155,7 @@ void mission_start::standard( mission * )
 void mission_start::join( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;
+    p->set_attitude( NPCATT_FOLLOW );
 }
 
 void mission_start::infect_npc( mission *miss )
@@ -358,7 +358,7 @@ void mission_start::place_jabberwock( mission *miss )
 void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
     miss->monster_type = mon_zombie.str(); // TODO: change monster_type to be mtype_id (better: species!)
     int killed = 0;
     killed += g->kill_count( mon_zombie );
@@ -377,7 +377,7 @@ void mission_start::kill_20_nightmares( mission *miss )
 void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
     //pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
     tripoint site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
@@ -515,7 +515,7 @@ void mission_start::place_priest_diary( mission *miss )
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
     tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
@@ -567,7 +567,7 @@ void mission_start::open_sarcophagus( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     if( p != NULL ) {
-        p->attitude = NPCATT_FOLLOW;
+        p->set_attitude( NPCATT_FOLLOW );
         g->u.i_add( item( "sarcophagus_access_code", 0 ) );
         add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name.c_str() );
     } else {
@@ -649,7 +649,7 @@ void mission_start::point_cabin_strange( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;// NPC joins you
+    p->set_attitude( NPCATT_FOLLOW );// NPC joins you
 
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
@@ -660,7 +660,7 @@ void mission_start::recruit_tracker( mission *miss )
     // NPCs spawn with submap coordinates, site is in overmap terrain coordinates
     temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
     overmap_buffer.insert_npc( temp );
-    temp->attitude = NPCATT_TALK;
+    temp->set_attitude( NPCATT_TALK );
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
     temp->op_of_u.owed = 10;

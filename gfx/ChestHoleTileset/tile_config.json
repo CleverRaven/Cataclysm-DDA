@@ -11628,7 +11628,7 @@
         },
         {
           "id": "overlay_wielded_sword_bayonet",
-          "fg": 1594,
+          "fg": 2505,
           "bg": 632,
           "rotates": false
         },
@@ -17676,18 +17676,6 @@
         {
           "id": "overlay_wielded_shotgun_trap",
           "fg": 2602
-        },
-        {
-          "id": "overlay_wielded_polisher",
-          "fg": 2622
-        },
-        {
-          "id": "overlay_wielded_metal_smoother",
-          "fg": 2622
-        },
-        {
-          "id": "overlay_wielded_wood_smoother",
-          "fg": 2622
         },
         {
           "id": "overlay_wielded_con_mix",
@@ -24222,11 +24210,6 @@
         {
           "id": "overlay_worn_power_armor_heavy",
           "fg": 3713,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_power_armor_heavy",
-          "fg": 467,
           "rotates": false
         },
         {
@@ -35213,7 +35196,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_wakizashi",
+          "id": ["overlay_wielded_wakizashi", "overlay_wielded_wakizashi_inferior"], 
           "fg": 3388,
           "bg": 632,
           "rotates": false
@@ -45866,7 +45849,7 @@
           "rotates": false
         },
         {
-          "id": "f_washer",
+          "id": ["f_washer", "vp_washing_machine"],
           "fg": 1154,
           "rotates": false
         },
@@ -46378,6 +46361,11 @@
         },
         {
           "id": "overlay_wielded_needle_wood",
+          "fg": 1324,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_wasp_sting",
           "fg": 1324,
           "rotates": false
         },
@@ -48061,7 +48049,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_cordless_drill",
+          "id": ["overlay_wielded_cordless_drill", "overlay_wielded_wood_smoother", "overlay_wielded_polisher", "overlay_wielded_metal_smoother"],
           "fg": 1522,
           "rotates": false
         },
@@ -50260,7 +50248,7 @@
           "rotates": false
         },
         {
-          "id": "tr_brazier",
+          "id": ["tr_brazier", "f_brazier"],
           "fg": 2590,
           "rotates": false
         },
@@ -56790,41 +56778,6 @@
           "rotates": false
         },
         {
-          "id": "mon_mosquito",
-          "fg": 4791,
-          "rotates": false
-        },
-        {
-          "id": "mon_moth",
-          "fg": 4793,
-          "rotates": false
-        },
-        {
-          "id": "mon_mutant_carp",
-          "fg": 4794,
-          "rotates": false
-        },
-        {
-          "id": "mon_mutant_salmon",
-          "fg": 4795,
-          "rotates": false
-        },
-        {
-          "id": "mon_oozle",
-          "fg": 4797,
-          "rotates": false
-        },
-        {
-          "id": "mon_pidgeon",
-          "fg": 4800,
-          "rotates": false
-        },
-        {
-          "id": "mon_pig_saber",
-          "fg": 4802,
-          "rotates": false
-        },
-        {
           "id": "mon_pinky",
           "fg": 4803,
           "rotates": false
@@ -56852,11 +56805,6 @@
         {
           "id": "mon_revenant",
           "fg": 4815,
-          "rotates": false
-        },
-        {
-          "id": "mon_robin",
-          "fg": 4817,
           "rotates": false
         },
         {
@@ -57214,21 +57162,6 @@
           "rotates": false
         },
         {
-          "id": "mon_zombie_swimmer_pk",
-          "fg": 4992,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_tough_2",
-          "fg": 4995,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_tough_3",
-          "fg": 4996,
-          "rotates": false
-        },
-        {
           "id": "vp_space_anomaly",
           "fg": 4991,
           "rotates": true
@@ -57435,6 +57368,11 @@
           "id": "f_coffin_o",
           "fg": 4255,
           "rotates": true
+        },
+        {
+          "id": "overlay_wielded_torch",
+          "fg": 4254,
+          "rotates": false
         },
         {
           "id": ["mon_ant_acid", "mon_ant_acid_soldier"],
