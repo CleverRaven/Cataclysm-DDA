@@ -8036,6 +8036,8 @@ void mx_helicopter(map &m, const tripoint &abs_sub)
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
                 } else if (m.is_bashable(x, y)) {
                     m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                } else {
+                    m.place_items("helicopter", 80, x, y, x, y, true, 0);
                 }
             } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
                 m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
@@ -8044,8 +8046,6 @@ void mx_helicopter(map &m, const tripoint &abs_sub)
     }
 
     m.spawn_item(rng(5, 18), rng(5, 18), "black_box");
-    m.place_items("helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
-    m.place_items("helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     items_location extra_items = "helicopter";
     switch (rng(1, 4)) {
     case 1:
