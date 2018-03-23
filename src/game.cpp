@@ -3092,19 +3092,19 @@ bool game::handle_action()
                 uimenu as_m;
                 as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
-                as_m.entries.emplace_back(uimenu_entry(0, true,
-                                                    (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y'),
-                                                    _("Yes.")));
+                as_m.entries.emplace_back( uimenu_entry( 0, true,
+                                           ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
+                                           _( "Yes." ) ) );
 
-                as_m.entries.emplace_back(uimenu_entry(1, (moves_since_last_save),
-                                                    (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
-                                                    _("Yes, and save game before sleeping.")));
-                as_m.entries.emplace_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
-                                                    'N' : 'n'), _("No.")));
+                as_m.entries.emplace_back( uimenu_entry( 1, ( moves_since_last_save ),
+                                           ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
+                                           _( "Yes, and save game before sleeping." ) ) );
+                as_m.entries.emplace_back( uimenu_entry( 2, true, ( get_option<bool>( "FORCE_CAPITAL_YN" ) ?
+                                           'N' : 'n' ), _( "No." ) ) );
 
                 if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) {
                     as_m.text =
-                        _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
+                        _( "You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?" );
                 }
                 // List all active items, bionics or mutations so player can deactivate them
                 std::vector<std::string> active;
