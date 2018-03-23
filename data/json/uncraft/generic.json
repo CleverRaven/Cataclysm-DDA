@@ -26,6 +26,6 @@
     "components": [
       [ [ "autobread", 1 ] ],
       [ [ "bread", 8 ] ]
-    ],
+    ]
   }
 ]
