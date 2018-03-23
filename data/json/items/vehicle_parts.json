@@ -866,8 +866,8 @@
     },
     {
         "type":"GENERIC",
-        "copy-from": "chitin_plate",
         "id": "acidchitin_plate",
+        "copy-from": "chitin_plate",
         "name": "biosilicified chitin armor kit",
         "description": "Durable silica-coated chitin plating made for a vehicle.",
         "price": 1600,

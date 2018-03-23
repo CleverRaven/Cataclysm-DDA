@@ -225,18 +225,13 @@
     {
         "type":"GENERIC",
         "id": "acidchitin_piece",
-        "category": "spare_parts",
-        "symbol": ",",
-        "color": "light_gray",
+        "copy-from": "chitin_piece",
         "name": "chunk of biosilicified chitin",
         "name_plural": "chunks of biosilicified chitin",
         "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
-        "price": 0,
-        "material": "chitin",
+        "material": "acidchitin",
         "weight": 111,
-        "volume": 1,
-        "bashing": 2,
-        "to_hit": -2
+        "bashing": 2
     },
     {
         "type":"GENERIC",

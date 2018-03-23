@@ -110,8 +110,8 @@
   },
   {
     "id": "boots_acidchitin",
-    "type": "ARMOR",
     "copy-from": "boots_chitin",
+    "type": "ARMOR",
     "name": "pair of biosilicified chitin boots",
     "name_plural": "pairs of biosilicified chitin boots",
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",

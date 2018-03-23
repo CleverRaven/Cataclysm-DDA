@@ -436,8 +436,8 @@
   },
   {
     "id": "armor_acidchitin",
-    "type": "ARMOR",
     "copy-from": "armor_chitin",
+    "type": "ARMOR",
     "name": "biosilicified chitin armor",
     "description": "Leg and body armor crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "weight": 2961,
@@ -2905,8 +2905,8 @@
   },
   {
     "id": "gauntlets_acidchitin",
-    "type": "ARMOR",
     "copy-from": "gauntlets_chitin",
+    "type": "ARMOR",
     "name": "pair of biosilicified chitin gauntlets",
     "name_plural": "pairs of biosilicified chitin gauntlets",
     "description": "Gauntlets crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
@@ -4289,8 +4289,8 @@
   },
   {
     "id": "helmet_acidchitin",
-    "type": "ARMOR",
     "copy-from": "helmet_chitin",
+    "type": "ARMOR",
     "name": "biosilicified chitin helmet",
     "description": "A helmet crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "weight": 1628,
