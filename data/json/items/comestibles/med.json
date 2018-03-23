@@ -1289,9 +1289,10 @@
         "addiction_type" : "sleeping pill",
         "use_action" : "XANAX"
     },
-    {
+	{
         "copy-from" : "rag",
         "id" : "disinrag",
+        "type" : "COMESTIBLE",
         "name" : "disinfectant soaked rag",
         "name_plural" : "disinfectant soaked rags",
         "description" : "A rag soaked on disinfectant, maybe not as effective as pouring it on the wound, but useful to optimize the bottle content.",
@@ -1307,6 +1308,7 @@
     },
     {
         "copy-from" : "cotton_ball",
+        "type" : "COMESTIBLE",
         "id" : "disincotton_ball",
         "name" : "disinfectant soaked cotton balls",
         "name_plural" : "disinfectant soaked cotton balls",
@@ -1321,5 +1323,6 @@
             "move_cost" : 300
         }
     }
+
 
 ]
