@@ -9732,22 +9732,11 @@
     "time": 100,
     "autolearn": true,
     "components": [
-      [
-        [ "flour", 3 ]
-      ],
-      [
-        [ "yeast", 1 ]
-      ],
-      [
-        [ "water", 2 ],
-        [ "water_clean", 2 ]
-      ],
-      [
-        [ "autobread", 1]
-	  ],
-	  [
-	    [ "battery", 25]
-      ]
+      [ [ "flour", 3 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "autobread", 1] ],
+	  [ [ "battery", 25] ]
     ]
   },
   {
