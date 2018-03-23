@@ -1290,20 +1290,12 @@
         "use_action" : "XANAX"
     },
     {
+        "copy-from" : "rag"
         "id" : "disinrag",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
         "name" : "disinfectant soaked rag",
         "name_plural" : "disinfectant soaked rags",
-        "description" : "A rag soaked on disinfectant, maybe not as effective as pouring it on the wound, but useful to optimize the bottle content.",
-        "weight" : 6,
-        "volume" : 1,
-        "charges" : 4,
-        "price" : 900,
-        "stack_size" : 20,
-        "material" : "cotton",
-        "symbol" : "!",
-        "color" : "white",
+        "description" : "A rag soaked on disinfectant, maybe not as effective as pouring it on the wound, but useful to optimize the bottle content."
+        "price" : 1000
         "use_action" : {
             "type" : "heal",
             "limb_power" : 10,
@@ -1314,20 +1306,12 @@
         }
     },
     {
+        "copy-from" : "cotton_ball
         "id" : "disincotton_ball",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
         "name" : "disinfectant soaked cotton balls",
-        "name_plural" : "cotton balls",
+        "name_plural" : "disinfectant soaked cotton balls",
         "description" : "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are useful to disinfect a wound.",
-        "weight" : 180,
-        "volume" : 1,
         "price" : 1000,
-        "charges" : 2,
-        "material" : "cotton",
-        "symbol" : "*",
-        "color" : "white",
-        "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
             "head_power" : 10,
