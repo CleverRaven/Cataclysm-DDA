@@ -3096,11 +3096,9 @@ bool game::handle_action()
                                                     (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y'),
                                                     _("Yes.")));
 
-                if (get_option<bool>( "SAVE_SLEEP" ) ) {
-                    as_m.entries.emplace_back(uimenu_entry(1, (moves_since_last_save),
-                                                        (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
-                                                        _("Yes, and save game before sleeping.")));
-                }
+                as_m.entries.emplace_back(uimenu_entry(1, (moves_since_last_save),
+                                                    (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
+                                                    _("Yes, and save game before sleeping.")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
                                                     'N' : 'n'), _("No.")));
 
