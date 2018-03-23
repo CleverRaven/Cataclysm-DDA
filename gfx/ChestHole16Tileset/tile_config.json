@@ -56885,15 +56885,6 @@
           "rotates": false
         },
         {
-          "id": "mon_turret_bmg",
-          "fg": 4884
-        },
-        {
-          "id": "mon_turret_shockcannon",
-          "fg": 4886,
-          "rotates": false
-        },
-        {
           "id": "mon_vinebeast_pk",
           "fg": 4891,
           "rotates": false
@@ -56904,29 +56895,6 @@
           "rotates": false
         },
         {
-          "id": "mon_wasp_queen",
-          "fg": 4895
-        },
-        {
-          "id": "mon_zanimal_scorched",
-          "fg": 4900,
-          "rotates": false
-        },
-        {
-          "id": "mon_zanimal_skeleton",
-          "fg": 4900,
-          "rotates": false
-        },
-        {
-          "id": "mon_zanimal_skeleton_dead",
-          "fg": 4900,
-          "rotates": false
-        },
-        {
-          "id": "mon_zhark",
-          "fg": 2661
-        },
-        {
           "id": "mon_zolf_scorched",
           "fg": 4903,
           "rotates": false
@@ -56934,16 +56902,6 @@
         {
           "id": "mon_zolf_shady",
           "fg": 4904,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_2",
-          "fg": 4907,
-          "rotates": false
-        },
-        {
-          "id": "mon_zombie_3",
-          "fg": 4908,
           "rotates": false
         },
         {
