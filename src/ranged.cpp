@@ -1537,7 +1537,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     double cbmBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 0.25 : 0; // insalled cbm work as bonus
     double perSkillMult = 0.0833;// = 0.25/3 to get one bio_targeting effect every 3 levels of avgSkill
     double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
-    avgSkill = std::min( avgSkill, double( MAX_SKILL ) );
+    avgSkill = std::min( avgSkill, double( 8 ) );// Cap avgSkill at 8
     double skillEffect = std::min( avgSkill * perSkillMult + cbmBonus, double( MAX_SKILL ) * perSkillMult );
     skillEffect = std::min( skillEffect, 0.999 );
     double skillMult = 1 - skillEffect;
