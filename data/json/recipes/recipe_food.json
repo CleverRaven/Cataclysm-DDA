@@ -9736,7 +9736,7 @@
       [ [ "yeast", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "autobread", 1] ],
-	  [ [ "battery", 25] ]
+      [ [ "battery", 25] ]
     ]
   },
   {
