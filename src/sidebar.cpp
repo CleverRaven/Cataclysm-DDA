@@ -167,6 +167,24 @@ void print_stamina_bar( const player &p, const catacurses::window &w )
     wprintz( w, sta_color, sta_bar.c_str() );
 }
 
+int define_temp_level( const int lvl )
+{
+    if( lvl > BODYTEMP_SCORCHING ) {
+        return 7;
+    } else if( lvl > BODYTEMP_VERY_HOT ) {
+        return 6;
+    } else if( lvl > BODYTEMP_HOT ) {
+        return 5;
+    } else if( lvl > BODYTEMP_COLD ) {
+        return 4;
+    } else if( lvl > BODYTEMP_VERY_COLD ) {
+        return 3;
+    } else if( lvl > BODYTEMP_FREEZING ) {
+        return 2;
+    }
+    return 1;
+}
+
 void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
 {
     bool sideStyle = use_narrow_sidebar();
@@ -227,44 +245,14 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // Assign zones for comparisons
-    int cur_zone = 0, conv_zone = 0;
-    if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
-        cur_zone = 7;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        cur_zone = 6;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
-        cur_zone = 5;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_COLD ) {
-        cur_zone = 4;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        cur_zone = 3;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
-        cur_zone = 2;
-    } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
-        cur_zone = 1;
-    }
-
-    if( temp_conv[conv_bp_extreme] >  BODYTEMP_SCORCHING ) {
-        conv_zone = 7;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        conv_zone = 6;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_HOT ) {
-        conv_zone = 5;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_COLD ) {
-        conv_zone = 4;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        conv_zone = 3;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_FREEZING ) {
-        conv_zone = 2;
-    } else if( temp_conv[conv_bp_extreme] <= BODYTEMP_FREEZING ) {
-        conv_zone = 1;
-    }
+    const int cur_zone = define_temp_level( temp_cur[current_bp_extreme] );
+    const int conv_zone = define_temp_level( temp_conv[conv_bp_extreme] );
 
     // delta will be positive if temp_cur is rising
-    int delta = conv_zone - cur_zone;
+    const int delta = conv_zone - cur_zone;
     // Decide if temp_cur is rising or falling
     const char *temp_message = "Error";
-    if( delta >   2 ) {
+    if( delta > 2 ) {
         temp_message = _( " (Rising!!)" );
     } else if( delta ==  2 ) {
         temp_message = _( " (Rising!)" );
