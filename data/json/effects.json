@@ -149,6 +149,12 @@
     },
     {
         "type": "effect_type",
+        "id": "took_damage",
+        "name": ["Took Damage"],
+        "desc": ["AI tag indicating a monster took damage.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "bounced",
         "name": ["Bounced"],
         "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]

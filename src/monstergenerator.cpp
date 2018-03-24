@@ -325,6 +325,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
+    add_hardcoded_attack( "SHADOW_HUNTER", mattack::shadow_hunter );
+    add_hardcoded_attack( "SHADOW_HUNTER_H", mattack::shadow_hunter_h );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
@@ -439,6 +441,7 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
+    flag_map["INVISIBLE"] = MF_INVISIBLE;
     flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
     flag_map["NO_NECRO"] = MF_NO_NECRO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;

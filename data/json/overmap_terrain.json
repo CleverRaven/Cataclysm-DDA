@@ -1663,7 +1663,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
-        "spawns" : { "group": "GROUP_STANDING_STONES", "population": [ 1,4 ], "chance": 100 },
+        "spawns" : { "group": "GROUP_STANDING_STONES", "chance": 100 },
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",

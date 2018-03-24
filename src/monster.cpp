@@ -110,6 +110,7 @@ const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_took_damage( "took_damage" );
 const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -1222,6 +1223,7 @@ void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
         set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
+        add_effect( effect_took_damage, dam );
     }
 }
 

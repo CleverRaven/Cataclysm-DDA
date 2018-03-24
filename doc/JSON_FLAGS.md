@@ -252,6 +252,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
+- ```INVISIBLE``` Monster is completely invisible unless adjacent. 
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
