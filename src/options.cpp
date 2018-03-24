@@ -2012,6 +2012,9 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
         if( ingame ) {
             g->toggle_sidebar_style();
         } else {
+            #ifdef TILES
+                tilecontext->reinit_minimap();
+            #endif
             g->narrow_sidebar = !g->narrow_sidebar;
             g->init_ui();
         }
