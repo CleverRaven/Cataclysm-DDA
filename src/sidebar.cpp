@@ -2,7 +2,6 @@
 
 #include "player.h"
 #include "string_formatter.h"
-#include "compatibility.h"
 #include "effect.h"
 #include "game.h"
 #include "map.h"
@@ -487,8 +486,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             wprintz( w, c_white, " " );
         }
 
-        //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
-        wprintz( w, c_white, string_format( "%3d°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
+        //Vehicle direction indicator in 0-359Â° where 0 is north (veh->face.dir() 0Â° is west)
+
+        wprintz( w, c_white, string_format( "%3dÂ°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
 
         if( sideStyle ) {
             // Make sure this is left-aligned.
