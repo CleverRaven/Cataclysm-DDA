@@ -747,11 +747,11 @@ class weapon_inventory_preset: public inventory_selector_preset
                     return std::string();
                 }
 
-                const int total_damage = loc->gun_damage( true );
+                const int total_damage = loc->gun_damage( true ).total_damage();
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
-                    const int basic_damage = loc->gun_damage( false );
-                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+                    const int basic_damage = loc->gun_damage( false ).total_damage();
+                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
 
                     return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ).c_str(),
