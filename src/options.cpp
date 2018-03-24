@@ -1491,13 +1491,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add( "STATIC_NPC", "world_default", translate_marker( "Static NPC" ),
-        translate_marker( "If true, the game will spawn a static NPC at the start of the game, requires world reset." ),
+    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
+        translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
         false
         );
 
     add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
-        translate_marker( "If true, the game will randomly spawn NPC during gameplay." ),
+        translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
         false
         );
 
