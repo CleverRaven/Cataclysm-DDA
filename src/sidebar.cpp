@@ -1,4 +1,4 @@
-#include "player.h"
+#include "sidebar.h"
 
 #include "action.h"
 #include "coordinate_conversions.h"
@@ -371,11 +371,11 @@ static std::string print_gun_mode( const player &p )
     }
 }
 
-void player::print_stamina_bar( const catacurses::window &w ) const
+void print_stamina_bar( const player &p, const catacurses::window &w )
 {
     std::string sta_bar;
     nc_color sta_color;
-    std::tie( sta_bar, sta_color ) = get_hp_bar( stamina, get_stamina_max() );
+    std::tie( sta_bar, sta_color ) = get_hp_bar( p.stamina, p.get_stamina_max() );
     wprintz( w, sta_color, sta_bar.c_str() );
 }
 
@@ -716,7 +716,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         if( sideStyle ) {
             // Make sure this is left-aligned.
             mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
-            print_stamina_bar( w );
+            print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
@@ -788,7 +788,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
         if( sideStyle ) {
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
-            print_stamina_bar( w );
+            print_stamina_bar( *this, w );
         }
     }
 }

@@ -100,6 +100,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "sidebar.h"
 
 #include <map>
 #include <set>
@@ -5147,7 +5148,7 @@ void game::draw_HP()
     if( !wide ) {
         mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
         wmove(w_HP, 15, hpx);
-        u.print_stamina_bar(w_HP);
+        print_stamina_bar( u, w_HP );
     }
     wrefresh(w_HP);
 }
