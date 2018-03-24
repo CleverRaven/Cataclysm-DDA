@@ -375,7 +375,7 @@ void player::print_stamina_bar( const catacurses::window &w ) const
 {
     std::string sta_bar;
     nc_color sta_color;
-    std::tie( sta_bar, sta_color ) = get_hp_bar( stamina ,  get_stamina_max() );
+    std::tie( sta_bar, sta_color ) = get_hp_bar( stamina, get_stamina_max() );
     wprintz( w, sta_color, sta_bar.c_str() );
 }
 
@@ -574,9 +574,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         col_morale = c_red;
     }
     const char *morale_str;
-    if ( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
+    if( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
         if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
-            if( morale_cur >= 200) {
+            if( morale_cur >= 200 ) {
                 morale_str = "@W@";
             } else if( morale_cur >= 100 ) {
                 morale_str = "OWO";
@@ -596,7 +596,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                 morale_str = "@m@";
             }
         } else if( has_trait( trait_THRESH_BIRD ) ) {
-            if( morale_cur >= 200) {
+            if( morale_cur >= 200 ) {
                 morale_str = "@v@";
             } else if( morale_cur >= 100 ) {
                 morale_str = "OvO";
@@ -615,7 +615,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             } else {
                 morale_str = "@v@";
             }
-        } else if( morale_cur >= 200) {
+        } else if( morale_cur >= 200 ) {
             morale_str = "@U@";
         } else if( morale_cur >= 100 ) {
             morale_str = "OuO";
@@ -707,7 +707,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                 wprintz( w, col_indc, ">" );
             }
 
-            wprintz( w, c_white, " ");
+            wprintz( w, c_white, " " );
         }
 
         //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
