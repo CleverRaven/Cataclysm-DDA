@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-09 08:17-0500\n"
-"PO-Revision-Date: 2018-03-10 11:45+0000\n"
+"POT-Creation-Date: 2018-03-16 08:54-0400\n"
+"PO-Revision-Date: 2018-03-17 11:38+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -3032,22 +3032,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "fungal seeds"
-msgid_plural "fungal seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for fungal seeds
-#: lang/json/AMMO_from_json.py
-msgid "Some fungal seeds."
-msgstr "Dei semi di  funghi."
-
-#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py
-msgid "fungal flower"
-msgstr "fiore fungino"
-
-#: lang/json/AMMO_from_json.py
 msgid "wooden crossbow bolt"
 msgstr "dardo di legno"
 
@@ -4813,6 +4797,22 @@ msgid ""
 "A highly explosive fuel mixture composed of equal parts of oxygen and "
 "acetylene gas."
 msgstr "Una mistura combustibile altamente esplosiva composta in egual parti di ossigeno e gas acetilene."
+
+#: lang/json/AMMO_from_json.py
+msgid "fungal seeds"
+msgid_plural "fungal seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fungal seeds
+#: lang/json/AMMO_from_json.py
+msgid "Some fungal seeds."
+msgstr "Dei semi di  funghi."
+
+#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py
+msgid "fungal flower"
+msgstr "fiore fungino"
 
 #: lang/json/AMMO_from_json.py
 msgid "bismuth"
@@ -16715,6 +16715,13 @@ msgid ""
 "poignant experiences with life, love, and sex."
 msgstr ""
 
+#. ~ Description for coming of age novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A graphic novel about a young girl living in Iran during the 1980's, seeing "
+"the world change around her as Iraq invaded her country."
+msgstr ""
+
 #: lang/json/BOOK_from_json.py
 msgid "crime novel"
 msgid_plural "crime novels"
@@ -16726,6 +16733,20 @@ msgstr[1] ""
 msgid ""
 "After their diamond heist goes wrong, the surviving criminals begin to "
 "suspect that one of them is a police informant."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "crime_novel"
+msgid_plural "crime_novels"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for crime_novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about three people in the fictional city of Los Santos, a gangster, "
+"an upper-class man, and a psychopath, eventually banding together to pull-"
+"off the biggest heist in the city's history"
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -16947,6 +16968,13 @@ msgid ""
 "Second World War, filled with riveting subplots about rat farming and "
 "dysentery."
 msgstr "Un racconto elettrizzante di sopravvivenza in un campo di prigionia durante la seconda guerra mondiale, pieno di intrecci affascinanti su allevamento di ratti e dissenteria."
+
+#. ~ Description for war novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about a Bosnean citizen who goes through many hardships and near "
+"death during the breakup of Yugoslavia."
+msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "western novel"
@@ -20117,17 +20145,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "barley seeds"
-msgid_plural "barley seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for barley seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some barley seeds."
-msgstr "Dei semi d'orzo."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet"
 msgstr ""
 
@@ -20139,17 +20156,6 @@ msgid ""
 msgstr "Questa radice carnosa è matura ed abbonda di zuccheri; ma richiede un po 'di elaborazione per estrarli."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sugar beet seeds"
-msgid_plural "sugar beet seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for sugar beet seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some sugar beet seeds."
-msgstr "Dei semi di barbabietola da zucchero."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "lettuce"
 msgstr ""
 
@@ -20159,17 +20165,6 @@ msgid "A crisp head of iceberg lettuce."
 msgstr "Una testa di lattuga iceberg croccante."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "lettuce seeds"
-msgid_plural "lettuce seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for lettuce seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some lettuce seeds."
-msgstr "Alcuni semi di lattuga."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cabbage"
 msgstr ""
 
@@ -20177,17 +20172,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hearty head of crisp white cabbage."
 msgstr "Un'abbondante testa di cavolo bianco croccante."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cabbage seeds"
-msgid_plural "cabbage seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cabbage seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some white cabbage seeds."
-msgstr "Alcuni semi di cavolo bianco."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tomato"
@@ -20201,32 +20185,6 @@ msgid ""
 "Juicy red tomato.  It gained popularity in Italy after being brought back "
 "from the New World."
 msgstr "Pomodoro rosso succoso. Ha guadagnato popolarità in Italia dopo esservi stato portato dal Nuovo Mondo."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "tomato seeds"
-msgid_plural "tomato seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for tomato seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some tomato seeds."
-msgstr "Dei semi di pomodoro."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton seeds"
-msgid_plural "cotton seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cotton seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cotton seeds.  Can be processed to produce an edible oil."
-msgstr "Dei semi di cotone. Possono essere raffinati per produrre dell'olio commestibile."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton"
-msgstr "cotone"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton boll"
@@ -20253,17 +20211,6 @@ msgid "It's a bit tough, but quite delicious."
 msgstr "E' un po' duro, ma piuttosto delizioso."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "broccoli seeds"
-msgid_plural "broccoli seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for broccoli seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some broccoli seeds."
-msgstr "Alcuni semi di broccolo."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini"
 msgstr ""
 
@@ -20271,17 +20218,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty summer squash."
 msgstr "Una gustosa zucchina."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "zucchini seeds"
-msgid_plural "zucchini seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for zucchini seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some zucchini seeds."
-msgstr "Alcuni semi di zucchina."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion"
@@ -20295,17 +20231,6 @@ msgid ""
 msgstr "Una cipolla aromatica utilizzata in cucina. Tagliarla può far pizzicare gli occhi!"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "onion seeds"
-msgid_plural "onion seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for onion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some onion seeds."
-msgstr "Alcuni semi di cipolla."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "garlic bulb"
 msgstr ""
 
@@ -20313,21 +20238,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A pungent garlic bulb.  Popular as a seasoning for its strong flavor."
 msgstr "Un bulbo di aglio pungente. Popolare come condimento per il suo sapore forte."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic clove"
-msgid_plural "garlic cloves"
-msgstr[0] "spicchio d'aglio"
-msgstr[1] "spicchi d'aglio"
-
-#. ~ Description for garlic clove
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
-msgstr "Spicchi d'aglio. Utili come condimento o per piantare."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic"
-msgstr "aglio"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "carrot"
@@ -20341,17 +20251,6 @@ msgid "A healthy root vegetable.  Rich in vitamin A!"
 msgstr "Un sano ortaggio da radice. Ricco di vitamina A!"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "carrot seeds"
-msgid_plural "carrot seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for carrot seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some carrot seeds."
-msgstr "Alcuni semi di carota."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "corn"
 msgid_plural "corn"
 msgstr[0] "mais"
@@ -20363,38 +20262,12 @@ msgid "Delicious golden kernels."
 msgstr "Deliziosi chicchi di mais."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "corn seeds"
-msgid_plural "corn seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for corn seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some corn seeds."
-msgstr "Alcuni semi di mais."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "chili pepper"
 msgstr ""
 
 #. ~ Description for chili pepper
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spicy chili pepper."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili pepper seeds"
-msgid_plural "chili pepper seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for chili pepper seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some chili pepper seeds."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili_pepper"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -20935,19 +20808,6 @@ msgid ""
 msgstr "Appare come un mirtillo delle dimensioni di un pugno, ma di colore rosato. Ha un aroma forte ma delizioso, ma è chiaramente mutato o di origine aliena."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "marloss seed"
-msgid_plural "marloss seeds"
-msgstr[0] "seme Marloss"
-msgstr[1] "semi Marloss"
-
-#. ~ Description for marloss seed
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"This looks like a sunflower seed the size of your palm.  It has a strong but"
-" delicious aroma, but is clearly either mutated or of alien origin."
-msgstr "Appare come un seme di girasole delle dimensioni del palmo della mano. Ha un aroma forte ma delizioso, ma è chiaramente mutato o di origine aliena."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marloss gelatin"
 msgid_plural "marloss gelatin"
 msgstr[0] "gelatina Marloss"
@@ -21016,17 +20876,6 @@ msgstr[1] "avena"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Raw oats."
 msgstr "Avena cruda."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "oat seeds"
-msgid_plural "oat seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for oat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some oat seeds."
-msgstr "Alcuni semi d'avena."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dried beans"
@@ -21388,34 +21237,6 @@ msgid ""
 "An irradiated pumpkin will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr "Una zucca irradiata rimarrà commestibile quasi per sempre. Sterilizzata con irraggiamento, quindi è sicura da mangiare."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "raw beans"
-msgid_plural "raw beans"
-msgstr[0] "fagioli crudi"
-msgstr[1] "fagioli crudi"
-
-#. ~ Description for raw beans
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
-" them to make them tasty.  Alternatively, you could plant them."
-msgstr "Fagioli crudi. Sono leggermente tossici in questo stato, ma potresti cucinarli per renderli gustosi. In alternativa,potresti piantarli."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "seed potato"
-msgid_plural "seed potatoes"
-msgstr[0] "patata da semina"
-msgstr[1] "patate da semina"
-
-#. ~ Description for seed potato
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A raw potato, cut into pieces, separating each bud for planting."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "potatoes"
-msgstr "patate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated potato"
@@ -22038,23 +21859,6 @@ msgid ""
 "A very old type of pasta made with several layers of lasagne sheets "
 "alternated with sauces and meats.  Made better with human flesh."
 msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis seeds"
-msgid_plural "cannabis seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cannabis seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
-"eaten raw."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis"
-msgstr "cannabis"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mayonnaise"
@@ -23272,17 +23076,6 @@ msgid "Come from the gourd family, not tasty but very juicy."
 msgstr "Viene dalla famiglia delle Cucurbitacee, non particolarmente buono ma succoso."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cucumber seeds"
-msgid_plural "cucumber seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cucumber seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cucumber seeds."
-msgstr "Alcuni semi di cetriolo."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cucumber"
 msgstr ""
 
@@ -23301,17 +23094,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Neither tasty nor very nutritious, but it goes well with salad."
 msgstr "Né buono né nutriente, ma si sposa bene con l'insalata."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "celery seeds"
-msgid_plural "celery seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for celery seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some celery seeds."
-msgstr "Alcuni semi di sedano."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dahlia root"
@@ -23797,57 +23579,8 @@ msgid "A stalk of thyme.  Smells delicious."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "thyme seeds"
-msgid_plural "thyme seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for thyme seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some thyme seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "canola seeds"
-msgid_plural "canola seeds"
-msgstr[0] "seme di canola"
-msgstr[1] "semi di canola"
-
-#. ~ Description for canola seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Some canola seeds.  You could probably plant these, or press them into oil."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "canola"
 msgstr "canola"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "pumpkin seeds"
-msgid_plural "pumpkin seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pumpkin seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower seeds"
-msgid_plural "sunflower seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for sunflower seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw sunflower seeds.  Could be pressed into oil."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower"
-msgstr ""
 
 #. ~ Description for canola
 #: lang/json/COMESTIBLE_from_json.py
@@ -23865,17 +23598,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "dogbane seeds"
-msgid_plural "dogbane seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for dogbane seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dogbane seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "bee balm"
 msgstr ""
 
@@ -23883,17 +23605,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A snow-white flower also known as wild bergamot.  Smells faintly of mint."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "bee balm seeds"
-msgid_plural "bee balm seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bee balm seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some bee balm seeds.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -23916,106 +23627,6 @@ msgstr ""
 #. ~ Description for mugwort
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A stalk of mugwort.  Smells wonderful."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mugwort seeds"
-msgid_plural "mugwort seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mugwort seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mugwort seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "buckwheat seeds"
-msgid_plural "buckwheat seeds"
-msgstr[0] "semi di grano saraceno"
-msgstr[1] "semi di grano saraceno"
-
-#. ~ Description for buckwheat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some buckwheat seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb seeds"
-msgid_plural "wild herb seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for wild herb seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some seeds harvested from wild herbs.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb"
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable stems"
-msgid_plural "wild vegetable stems"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for wild vegetable stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some wild vegetable stems.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable"
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "dandelion seeds"
-msgid_plural "dandelion seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for dandelion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dandelion seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "dandelion"
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "rhubarb stems"
-msgid_plural "rhubarb stems"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rhubarb stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some rhubarb stems.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mushroom spores"
-msgid_plural "mushroom spores"
-msgstr[0] "spora di fungo"
-msgstr[1] "spore di fungo"
-
-#. ~ Description for mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mushroom spores.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "morel mushroom spores"
-msgid_plural "morel mushroom spores"
-msgstr[0] "spora di fungo spugnola"
-msgstr[1] "spore di funghi spugnola"
-
-#. ~ Description for morel mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some morel mushroom spores.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24779,25 +24390,6 @@ msgstr "Fumi un cristallo di crack. Tua madre ne sarà fiera."
 msgid ""
 "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain"
 " chemistry."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "datura seeds"
-msgid_plural "datura seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for datura seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
-"psychoactive chemicals, these tiny seeds are a potent analgesic and "
-"deliriant, and can be deadly in cases of overdose.  You could probably plant"
-" these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "datura"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25774,6 +25366,442 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
 msgstr "Dei semi di fragola."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "barley seeds"
+msgid_plural "barley seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for barley seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some barley seeds."
+msgstr "Dei semi d'orzo."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sugar beet seeds"
+msgid_plural "sugar beet seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sugar beet seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some sugar beet seeds."
+msgstr "Dei semi di barbabietola da zucchero."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lettuce seeds"
+msgid_plural "lettuce seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lettuce seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some lettuce seeds."
+msgstr "Alcuni semi di lattuga."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cabbage seeds"
+msgid_plural "cabbage seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cabbage seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some white cabbage seeds."
+msgstr "Alcuni semi di cavolo bianco."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tomato seeds"
+msgid_plural "tomato seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tomato seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some tomato seeds."
+msgstr "Dei semi di pomodoro."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton seeds"
+msgid_plural "cotton seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cotton seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cotton seeds.  Can be processed to produce an edible oil."
+msgstr "Dei semi di cotone. Possono essere raffinati per produrre dell'olio commestibile."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton"
+msgstr "cotone"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "broccoli seeds"
+msgid_plural "broccoli seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for broccoli seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some broccoli seeds."
+msgstr "Alcuni semi di broccolo."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "zucchini seeds"
+msgid_plural "zucchini seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for zucchini seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some zucchini seeds."
+msgstr "Alcuni semi di zucchina."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "onion seeds"
+msgid_plural "onion seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for onion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some onion seeds."
+msgstr "Alcuni semi di cipolla."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic clove"
+msgid_plural "garlic cloves"
+msgstr[0] "spicchio d'aglio"
+msgstr[1] "spicchi d'aglio"
+
+#. ~ Description for garlic clove
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
+msgstr "Spicchi d'aglio. Utili come condimento o per piantare."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic"
+msgstr "aglio"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "carrot seeds"
+msgid_plural "carrot seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for carrot seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some carrot seeds."
+msgstr "Alcuni semi di carota."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "corn seeds"
+msgid_plural "corn seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for corn seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some corn seeds."
+msgstr "Alcuni semi di mais."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper seeds"
+msgid_plural "chili pepper seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for chili pepper seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some chili pepper seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili_pepper"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cucumber seeds"
+msgid_plural "cucumber seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cucumber seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cucumber seeds."
+msgstr "Alcuni semi di cetriolo."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "seed potato"
+msgid_plural "seed potatoes"
+msgstr[0] "patata da semina"
+msgstr[1] "patate da semina"
+
+#. ~ Description for seed potato
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A raw potato, cut into pieces, separating each bud for planting."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "potatoes"
+msgstr "patate"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis seeds"
+msgid_plural "cannabis seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cannabis seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
+"eaten raw."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis"
+msgstr "cannabis"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "marloss seed"
+msgid_plural "marloss seeds"
+msgstr[0] "seme Marloss"
+msgstr[1] "semi Marloss"
+
+#. ~ Description for marloss seed
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This looks like a sunflower seed the size of your palm.  It has a strong but"
+" delicious aroma, but is clearly either mutated or of alien origin."
+msgstr "Appare come un seme di girasole delle dimensioni del palmo della mano. Ha un aroma forte ma delizioso, ma è chiaramente mutato o di origine aliena."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw beans"
+msgid_plural "raw beans"
+msgstr[0] "fagioli crudi"
+msgstr[1] "fagioli crudi"
+
+#. ~ Description for raw beans
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
+" them to make them tasty.  Alternatively, you could plant them."
+msgstr "Fagioli crudi. Sono leggermente tossici in questo stato, ma potresti cucinarli per renderli gustosi. In alternativa,potresti piantarli."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "thyme seeds"
+msgid_plural "thyme seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for thyme seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some thyme seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canola seeds"
+msgid_plural "canola seeds"
+msgstr[0] "seme di canola"
+msgstr[1] "semi di canola"
+
+#. ~ Description for canola seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some canola seeds.  You could probably plant these, or press them into oil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "pumpkin seeds"
+msgid_plural "pumpkin seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pumpkin seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower seeds"
+msgid_plural "sunflower seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sunflower seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw sunflower seeds.  Could be pressed into oil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dogbane seeds"
+msgid_plural "dogbane seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dogbane seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dogbane seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bee balm seeds"
+msgid_plural "bee balm seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bee balm seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some bee balm seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mugwort seeds"
+msgid_plural "mugwort seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mugwort seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mugwort seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "buckwheat seeds"
+msgid_plural "buckwheat seeds"
+msgstr[0] "semi di grano saraceno"
+msgstr[1] "semi di grano saraceno"
+
+#. ~ Description for buckwheat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some buckwheat seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb seeds"
+msgid_plural "wild herb seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wild herb seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some seeds harvested from wild herbs.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable stems"
+msgid_plural "wild vegetable stems"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wild vegetable stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some wild vegetable stems.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dandelion seeds"
+msgid_plural "dandelion seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dandelion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dandelion seeds.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "dandelion"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "rhubarb stems"
+msgid_plural "rhubarb stems"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rhubarb stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some rhubarb stems.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mushroom spores"
+msgid_plural "mushroom spores"
+msgstr[0] "spora di fungo"
+msgstr[1] "spore di fungo"
+
+#. ~ Description for mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mushroom spores.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "morel mushroom spores"
+msgid_plural "morel mushroom spores"
+msgstr[0] "spora di fungo spugnola"
+msgstr[1] "spore di funghi spugnola"
+
+#. ~ Description for morel mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some morel mushroom spores.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "datura seeds"
+msgid_plural "datura seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for datura seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
+"psychoactive chemicals, these tiny seeds are a potent analgesic and "
+"deliriant, and can be deadly in cases of overdose.  You could probably plant"
+" these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "datura"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "celery seeds"
+msgid_plural "celery seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for celery seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some celery seeds."
+msgstr "Alcuni semi di sedano."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "oat seeds"
+msgid_plural "oat seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for oat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some oat seeds."
+msgstr "Alcuni semi d'avena."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat seeds"
@@ -31173,6 +31201,19 @@ msgid "A set of various vehicle controls.  Useful for crafting."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "dashboard"
+msgid_plural "dashboards"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dashboard
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A vehicle instrument panel with various gauges and switches.  Useful for "
+"crafting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "electric motor"
 msgid_plural "electric motors"
@@ -33721,6 +33762,10 @@ msgid "FUEL"
 msgstr ""
 
 #: lang/json/ITEM_CATEGORY_from_json.py
+msgid "SEEDS"
+msgstr ""
+
+#: lang/json/ITEM_CATEGORY_from_json.py
 msgid "CHEMICAL STUFF"
 msgstr ""
 
@@ -34641,6 +34686,48 @@ msgstr ""
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid "A pressurized 3L canister designed to feed a flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "small pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for small pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A pressurized 0.5L canister built for use with a small auxiliary "
+"flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-2 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-2 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 2L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-4 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-4 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 4L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -47449,14 +47536,14 @@ msgstr[1] ""
 
 #. ~ Use action friendly_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
+msgid "The jabberwock climbs to its feet and shambles around."
 msgstr ""
 
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
-"Something has gone wrong; after getting up the zombie lumbers toward you "
-"menacingly!"
+"Something has gone wrong; after getting up the jabberwock lumbers toward you"
+" menacingly!"
 msgstr ""
 
 #. ~ Description for dormant minion
@@ -59050,6 +59137,10 @@ msgid ""
 "This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 "
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/harvest_from_json.py
+msgid "You gut and fillet the fish"
 msgstr ""
 
 #: lang/json/harvest_from_json.py
@@ -100039,7 +100130,7 @@ msgid "POWER"
 msgstr "POWER"
 
 #: src/game.cpp
-msgid "STA"
+msgid "Stm"
 msgstr ""
 
 #: src/game.cpp
@@ -105741,6 +105832,10 @@ msgid "* This item <bad>conducts</bad> electricity."
 msgstr ""
 
 #: src/item.cpp
+msgid "* This item can be <info>worn with a helmet</info>."
+msgstr ""
+
+#: src/item.cpp
 msgid "* This piece of clothing <info>fits</info> you perfectly."
 msgstr ""
 
@@ -106637,6 +106732,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to eat it?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Blech, that tastes gross!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -115804,6 +115903,11 @@ msgid "Skill rust: %d%%"
 msgstr "Perdita abilità: %d%%"
 
 #: src/newcharacter.cpp
+#, c-format
+msgid "Crafting bonus: %2d%%"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid ""
 "Intelligence is also used when crafting, installing bionics, and interacting"
 " with NPCs."
@@ -121036,12 +121140,12 @@ msgid "You're already wearing footwear!"
 msgstr "Stai già indossando qualcosa ai piedi!"
 
 #: src/player.cpp
-msgid "You can't wear a helmet!"
-msgstr "Non puoi indossare un elmetto!"
+msgid "You can't wear that with other headgear!"
+msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear another helmet!"
-msgstr "Non puoi indossare un altro elmetto!"
+msgid "You can't wear that much on your head!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You can't wear that, it's made of wool!"
@@ -122022,7 +122126,7 @@ msgid "Skill rust:"
 msgstr ""
 
 #: src/player_display.cpp
-msgid "Crafting Bonus:"
+msgid "Crafting bonus:"
 msgstr ""
 
 #: src/player_display.cpp
@@ -124330,6 +124434,14 @@ msgstr "FOR"
 #: src/veh_interact.cpp
 msgid "Noise"
 msgstr "Rumore"
+
+#: src/veh_interact.cpp
+msgid "NoisRed"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Noise Reduction"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Range"

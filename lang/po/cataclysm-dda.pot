@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 08:54-0400\n"
+"POT-Creation-Date: 2018-03-23 09:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25267,6 +25267,21 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "fruit seeds"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mushroom spores"
+msgid_plural "mushroom spores"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mushroom spores.  You could probably plant these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "blackberry seeds"
 msgid_plural "blackberry seeds"
 msgstr[0] ""
@@ -25707,17 +25722,6 @@ msgstr[1] ""
 #. ~ Description for rhubarb stems
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some rhubarb stems.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mushroom spores"
-msgid_plural "mushroom spores"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mushroom spores.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -70672,16 +70676,6 @@ msgid "I'm just trying to stay alive.... and it ain't as easy as it looks."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
-msgid "Mutant"
-msgstr ""
-
-#: lang/json/npc_class_from_json.py
-msgid ""
-"I'm looking for mutagen... this world is no place for humans anymore, and I "
-"don't plan to keep being one."
-msgstr ""
-
-#: lang/json/npc_class_from_json.py
 msgid "Lizard Mutant"
 msgstr ""
 
@@ -82164,6 +82158,26 @@ msgid "<swear> <name_b>"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "This <swear> shit is gonna blow!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm standing way too close to this <swear> firecracker."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I <really> need to get some distance."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm getting my ass out of here!  You'd better do the same, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Fire in the hole, motherfuckers!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "This is not the world I have chosen. They even took my CDs!.."
 msgstr ""
 
@@ -86617,7 +86631,7 @@ msgstr ""
 #. ~ Description for half-built reinforced concrete floor
 #: lang/json/terrain_from_json.py
 msgid ""
-"Unfinished series of rebar and poured concrete, the floor hasn't been "
+"Unfinished series of rebar and poured concrete; the floor hasn't been "
 "smoothed and the roof isn't quite filled in yet."
 msgstr ""
 
@@ -86628,8 +86642,8 @@ msgstr ""
 #. ~ Description for dirt
 #: lang/json/terrain_from_json.py
 msgid ""
-"It's dirt. Looks like some fine soil for tillage, or dug out for "
-"construction projects."
+"It's dirt.  Looks like some fine soil for tillage.  Could also be dug out "
+"for construction projects."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86661,8 +86675,8 @@ msgstr ""
 #. ~ Description for mound of dirt
 #: lang/json/terrain_from_json.py
 msgid ""
-"An area of heaped dirt, not easily traversible but if examined more closely, "
-"they could be quite favorable for planting seeds and the like."
+"An area of heaped dirt, not easily traversable.  If examined more closely, "
+"it's quite favorable for planting seeds and the like."
 msgstr ""
 
 #. ~ Description for mound of dirt
@@ -86780,7 +86794,7 @@ msgstr ""
 #. ~ Description for grass
 #: lang/json/terrain_from_json.py
 msgid ""
-"A beautiful, if unkempt section of hardy Kentucky blue grass.  Cutting the "
+"A beautiful, if unkempt, section of hardy Kentucky bluegrass.  Cutting the "
 "grass short enough would destroy the root system, causing this area to turn "
 "into a patch of dirt."
 msgstr ""
@@ -86792,7 +86806,7 @@ msgstr ""
 #. ~ Description for white grass
 #: lang/json/terrain_from_json.py
 msgid ""
-"A section of Kentucky blue grass covered in white latex-based paint, with "
+"A section of Kentucky bluegrass covered in white latex-based paint, with "
 "neat lines designed for recreational sports."
 msgstr ""
 
@@ -86844,7 +86858,7 @@ msgstr ""
 #: lang/json/terrain_from_json.py
 msgid ""
 "A newer segment of poured concrete with surface finishes for aesthetics and "
-"resistant to freeze-thaw cycles."
+"resistance to freeze-thaw cycles."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86941,7 +86955,7 @@ msgstr ""
 #: lang/json/terrain_from_json.py
 msgid ""
 "A half-constructed wall of notched logs that interlock to provide "
-"stability.  Needs a few more logs to hold up a roof, and looks flammable."
+"stability.  Needs a few more logs to hold up a roof.  Looks flammable."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86982,108 +86996,347 @@ msgstr ""
 msgid "palisade wall"
 msgstr ""
 
+#. ~ Description for palisade wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"An age-old type of fortification consisting of hefty lumber staked into the "
+"ground and cabled together."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "palisade gate"
+msgstr ""
+
+#. ~ Description for palisade gate
+#: lang/json/terrain_from_json.py
+msgid ""
+"A large doorway consisting of long logs cabled together, that could be "
+"expanded upon.  Can act as a door if some type of pulley system were rigged "
+"on an adjacent palisade wall."
+msgstr ""
+
+#. ~ Description for dirt
+#: lang/json/terrain_from_json.py
+msgid ""
+"A hanging palisade gate, hoisted by a nearby pulley system.  Probably "
+"shouldn't be underneath when it comes down."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "half-built wall"
 msgstr ""
 
+#. ~ Description for half-built wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"An incomplete wall of refined wood, dotted with carefully placed nails to "
+"provide proper support.  It requires some more two by fours and nails before "
+"it'd be considered a suitable wall."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "wooden wall"
+msgstr ""
+
+#. ~ Description for wooden wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"A finished wall of planks and support beams, capable of supporting an upper "
+"level or roof.  Still highly flammable."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "chipped wood wall"
 msgstr ""
 
+#. ~ Description for chipped wood wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"A wall of aligned two by fours that's starting to crack and break open.  "
+"Some cut wood and a number of nails could patch this up quick."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "broken wood wall"
+msgstr ""
+
+#. ~ Description for broken wood wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"A number of planks are missing and the structure is beginning to sag and "
+"fall apart.  It's going to need quite a bit of work to repair this wall."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "wall"
 msgstr ""
 
+#. ~ Description for wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"The stereotypical wall with wooden support structure filled with insulation "
+"and drywalled.  Paint job is the all too common and neutral off-white or "
+"cream color, it could use more vibrant paint.  Appears as though the "
+"material is still flammable."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "concrete wall"
+msgstr ""
+
+#. ~ Description for concrete wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"An aesthetically pleasing design with simple lines, this type of concrete "
+"was used with a weaker chemical mixture in order to have faster setting "
+"times.  Not ideal for multi-story buildings, but still capable of supporting "
+"a roof."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "metal wall"
 msgstr ""
 
+#. ~ Description for metal wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"An industrially fabricated thick sheet carefully positioned and joined "
+"seamlessly with perimeter sealant, this wall is capable of resisting extreme "
+"elements as well as hostile forces.  Blast load rated and extremely fire-"
+"retardant, breaching will require specialized tools or industrial vehicles."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "glass wall"
+msgstr ""
+
+#. ~ Description for glass wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"A barrier made of glass, it's nothing complicated, and looks extremely "
+"fragile.  Some contain glass break sensors or window sensors that trigger if "
+"the glass is tampered."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "reinforced glass"
 msgstr ""
 
+#. ~ Description for reinforced glass
+#: lang/json/terrain_from_json.py
+msgid ""
+"A thicker pane of glass with thin metal wires embedded throughout, "
+"strengthening the structural properties.  Still weaker than other types of "
+"walls, and not made to support a roof either."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "reinforced glass with closed shutters"
+msgstr ""
+
+#. ~ Description for reinforced glass with closed shutters
+#: lang/json/terrain_from_json.py
+msgid ""
+"A secondary layer of protection over reinforced glass, these metal shutters "
+"are typically used to ward off criminals or protect against damage from "
+"extreme weather.  Looks like it can only be opened from the inside.  Even "
+"with the installed shutters, it isn't feasible in supporting a roof."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "reinforced glass with open shutters"
 msgstr ""
 
+#. ~ Description for reinforced glass with open shutters
+#: lang/json/terrain_from_json.py
+msgid ""
+"Hanging metal shutters that haven't been deployed, exposing the reinforced "
+"glass.  It appears as though the metal shutters can only be activated from "
+"the inside."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "closed reinforced glass door"
 msgstr ""
 
+#. ~ Description for closed reinforced glass door
 #: lang/json/terrain_from_json.py
-msgid "open reinforced  glass door"
+msgid ""
+"A closed glass door reinforced with woven steel wires in a stylish, but "
+"practical pattern."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "open reinforced glass door"
+msgstr ""
+
+#. ~ Description for open reinforced glass door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A glass door reinforced with woven steel wires in a stylish, but practical "
+"pattern.  Yep, it's open."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "metal bars"
 msgstr ""
 
+#. ~ Description for metal bars
+#: lang/json/terrain_from_json.py
+msgid ""
+"Thick, heavy bars from the floor to the ceiling, interlaced wall to wall.  "
+"Not made to support roofs, but great for blocking paths."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "closed wood door"
+msgstr ""
+
+#. ~ Description for closed wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A standard wooden door that doesn't look very resilient.  It'd probably burn "
+"easily, too."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed wood door with peephole"
 msgstr ""
 
+#. ~ Description for closed wood door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"A regular door made of ordinary wood, except this one has a peephole.  If "
+"you examined it more closely, you'd be able to peek through the hole."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "damaged wood door"
+msgstr ""
+
+#. ~ Description for damaged wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A trashed wooden door, that is more of an obstacle than a door.  Also, you "
+"can see right through it.  It could be boarded up with a few two by fours."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "damaged wood door with peephole"
 msgstr ""
 
+#. ~ Description for damaged wood door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"Bad news is the peephole is broken and you can't look outside the door.  "
+"Good news is the door is nearly broken down, so there's nothing blocking the "
+"view.  A few planks, nails and the right tools could patch up all the damage."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open wood door"
+msgstr ""
+
+#. ~ Description for open wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A standard wooden door that doesn't look very resilient.  It'd probably burn "
+"easily, too.  This one is wide open."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "open wood door with peephole"
 msgstr ""
 
+#. ~ Description for open wood door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"A regular door made of ordinary wood, except this one has a peephole.  If "
+"you examined it more closely, you'd be able to peek through the hole.  "
+"Although, you don't need to peek through it since the door is open anyway."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "closed reinforced wood door"
+msgstr ""
+
+#. ~ Description for closed reinforced wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"Just like other wooden doors, except this one has layers of nailed in two by "
+"fours for reinforcement.  It might be barricaded, but still susceptible to "
+"fire."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "damaged reinforced wood door"
 msgstr ""
 
+#. ~ Description for damaged reinforced wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"There are splintering planks and visible holes in the wood, it looks like it "
+"could be smashed apart if not repaired."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open reinforced wood door"
+msgstr ""
+
+#. ~ Description for open reinforced wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"Just like other wooden doors, except this one has layers of nailed in two by "
+"fours for reinforcement.  It might be fortified, but still susceptible to "
+"fire.  It's open so it's not stopping anything right now."
+msgstr ""
+
+#. ~ Description for closed wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A standard wooden door that doesn't look very resilient.  It'd probably burn "
+"easily, too.  This one has an extra keyhole, so it's likely locked.  You "
+"could pry it open or pick the lock."
+msgstr ""
+
+#. ~ Description for closed wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A standard wooden door that doesn't look very resilient.  It'd probably burn "
+"easily, too.  This one has a deadbolt keyhole, so it's likely locked.  You "
+"could pry it open or pick the lock, or unlock the deadbolt from the inside."
+msgstr ""
+
+#. ~ Description for closed wood door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A regular door made of ordinary wood, except this one has a peephole.  If "
+"you examined it more closely, you'd be able to peek through the hole.  This "
+"one has a deadbolt keyhole, so it's likely locked.  You could pry it open or "
+"pick the lock, or unlock the deadbolt from the inside."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed door curtain"
 msgstr ""
 
+#. ~ Description for closed door curtain
+#: lang/json/terrain_from_json.py
+msgid ""
+"Repurposed curtains from a window acting as a door.  Could be easily taken "
+"down for supplies or placing somewhere else."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "closed makeshift door"
+msgstr ""
+
+#. ~ Description for closed makeshift door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A makeshift screen consisting of two by fours bound together with vertical "
+"rope hanging from the top of the doorway.  Could be easily taken down and re-"
+"purposed."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -87094,64 +87347,180 @@ msgstr ""
 msgid "open door curtain"
 msgstr ""
 
+#. ~ Description for open door curtain
+#: lang/json/terrain_from_json.py
+msgid ""
+"Repurposed curtains from a window acting as a door.  Could be easily taken "
+"down for supplies or placing somewhere else.  These curtains are open, "
+"bundled and tied next to the doorway."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open makeshift door"
+msgstr ""
+
+#. ~ Description for open makeshift door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A makeshift screen consisting of two by fours bound together with rope "
+"hanging from the top of the doorway.  Could be easily taken down and re-"
+"purposed.  The planks have been rolled up and attached to the top of the "
+"doorway, allowing free movement through."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "empty door frame"
 msgstr ""
 
+#. ~ Description for empty door frame
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty door frame made from two by fours and nails.  A variety of doors "
+"could be constructed here."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "empty metal door frame"
+msgstr ""
+
+#. ~ Description for empty metal door frame
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty door frame made of steel and assorted metal.  A variety of doors "
+"could be constructed here."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "empty metal window frame"
 msgstr ""
 
+#. ~ Description for empty metal window frame
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty window frame constructed from assembled metal and carefully braced "
+"with various hardware."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "locked wire gate"
+msgstr ""
+
+#. ~ Description for locked wire gate
+#: lang/json/terrain_from_json.py
+msgid ""
+"A gate for a chain link fence.  This one has a locked padlock on the latch "
+"system.  With the right tools, you could cut the metal fence or pick the "
+"lock.  You could also examine the fence to see if it looks climbable."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed wooden gate"
 msgstr ""
 
+#. ~ Description for closed wooden gate
+#: lang/json/terrain_from_json.py
+msgid "A commercial quality gate made of wood with a latch system."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open wooden gate"
+msgstr ""
+
+#. ~ Description for open wooden gate
+#: lang/json/terrain_from_json.py
+msgid ""
+"A commercial quality gate made of wood with a latch system.  The gate is "
+"wide open, allowing anything to travel through."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed wire gate"
 msgstr ""
 
+#. ~ Description for closed wire gate
+#: lang/json/terrain_from_json.py
+msgid "A gate for a chain link fence with a latch system to stay closed."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open wire gate"
+msgstr ""
+
+#. ~ Description for open wire gate
+#: lang/json/terrain_from_json.py
+msgid ""
+"A gate for a chain link fence with a latch system to stay closed.  The latch "
+"is undone, so the gate has swung open."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up door"
 msgstr ""
 
+#. ~ Description for boarded up door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A standard wooden door that has several planks across it, nailed down to "
+"board it up and increase its durability.  Still flammable though."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "boarded up damaged door"
+msgstr ""
+
+#. ~ Description for boarded up damaged door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A boarded up wooden door, except some of the planks are fractured or coming "
+"loose.  Without repairs, it could be broken down easily."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up door with peephole"
 msgstr ""
 
+#. ~ Description for boarded up door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"A boarded up door made of ordinary wood, except this one has a peephole.  "
+"Although it's been covered up in planks, you could still examine the "
+"peephole."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "boarded up reinforced door"
+msgstr ""
+
+#. ~ Description for boarded up reinforced door
+#: lang/json/terrain_from_json.py
+msgid ""
+"An additionally reinforced door of layered two by fours that has been "
+"boarded up with more wood to prevent it from opening.  Still susceptible to "
+"fire."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up damaged reinforced door"
 msgstr ""
 
+#. ~ Description for boarded up damaged reinforced door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A battered and torn reinforced door with planks bursting from the joints.  "
+"The boarded up two by fours are fragmented and in pieces, this doesn't look "
+"like an easy repair."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "boarded up damaged door with peephole"
+msgstr ""
+
+#. ~ Description for boarded up damaged door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"A wrecked door made of ordinary wood, except this one has a peephole.  "
+"Although it's been covered up in planks, the peephole was damaged and can't "
+"be used to see through."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -116191,7 +116560,7 @@ msgstr ""
 #. ~ Gender switch message. 1s - change key name, 2s - profession name.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Press %1$s to switch to %2$s(female)."
+msgid "Press %1$s to switch to %2$s( female )."
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -116464,11 +116833,6 @@ msgstr ""
 #: src/npc.cpp
 #, c-format
 msgid "<npcname> wields a %s."
-msgstr ""
-
-#: src/npc.cpp
-#, c-format
-msgid "%s gets angry!"
 msgstr ""
 
 #: src/npc.cpp
@@ -116765,6 +117129,22 @@ msgstr ""
 msgid "Is still innocent and killing them will be considered murder."
 msgstr ""
 
+#: src/npc.cpp
+msgid "<npcname> gets angry!"
+msgstr ""
+
+#: src/npc.cpp
+msgid "<npcname> gets scared!"
+msgstr ""
+
+#: src/npc.cpp
+msgid "<npcname> calms down."
+msgstr ""
+
+#: src/npc.cpp
+msgid "<npcname> is no longer afraid."
+msgstr ""
+
 #: src/npcmove.cpp
 #, c-format
 msgid "%s lies down to sleep."
@@ -116956,6 +117336,10 @@ msgstr ""
 
 #: src/npcmove.cpp
 msgid "Avoid friendly fire"
+msgstr ""
+
+#: src/npcmove.cpp
+msgid "Escape explosion"
 msgstr ""
 
 #: src/npcmove.cpp
@@ -118536,7 +118920,7 @@ msgid "We're friends, aren't we?"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "!I'll kill you if you don't."
+msgid "I'll kill you if you don't."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118764,19 +119148,19 @@ msgid "Don't worry, I'm not going to hurt you."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "!Drop your weapon!"
+msgid "Drop your weapon!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "!Get out of here or I'll kill you."
+msgid "Get out of here or I'll kill you."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "!Calm down.  I'm not going to hurt you."
+msgid "Calm down.  I'm not going to hurt you."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "!Screw you, no."
+msgid "Screw you, no."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -119372,6 +119756,13 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Disables tracking food, thirst and ( partially ) fatigue for NPCs."
+msgstr ""
+
+#: src/options.cpp
+#, c-format
+msgid ""
+"Prerequisite for this option not met!\n"
+"(%s)"
 msgstr ""
 
 #: src/output.cpp
@@ -124531,14 +124922,6 @@ msgid "Capacity"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Size"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "Wheel Size"
-msgstr ""
-
-#: src/veh_interact.cpp
 msgid "Str"
 msgstr ""
 
@@ -124556,6 +124939,22 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Range"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Dia"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheel Diameter"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wdt"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheel Width"
 msgstr ""
 
 #: src/veh_interact.cpp

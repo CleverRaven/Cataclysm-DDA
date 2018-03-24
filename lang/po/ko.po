@@ -18,10 +18,11 @@
 # 건욱 김 <ksgh1234@gmail.com>, 2017
 # 구민준 <ku6318@gmail.com>, 2016
 # 탯새 <lazakul@gmail.com>, 2017-2018
-# Miyu, 2015
+# Mark, 2015
+# Mark, 2018
 # mcmilan tac <hrqa12@gmail.com>, 2016
 # Miyu, 2015
-# Miyu, 2015-2016
+# Mark, 2015-2016
 # 오민우 <qqq30845250@gmail.com>, 2016
 # mcmilan tac <hrqa12@gmail.com>, 2015-2016
 # Sail Recycle <sailrecycle@gmail.com>, 2017
@@ -34,8 +35,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-09 08:17-0500\n"
-"PO-Revision-Date: 2018-03-10 11:45+0000\n"
+"POT-Creation-Date: 2018-03-16 08:54-0400\n"
+"PO-Revision-Date: 2018-03-17 11:38+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -3021,21 +3022,6 @@ msgid ""
 msgstr "이것은 물질이 불에 타고 남은 가벼운 잔류물입니다."
 
 #: lang/json/AMMO_from_json.py
-msgid "fungal seeds"
-msgid_plural "fungal seeds"
-msgstr[0] ""
-
-#. ~ Description for fungal seeds
-#: lang/json/AMMO_from_json.py
-msgid "Some fungal seeds."
-msgstr "약간의 진균 씨앗."
-
-#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py
-msgid "fungal flower"
-msgstr "진균체 꽃"
-
-#: lang/json/AMMO_from_json.py
 msgid "wooden crossbow bolt"
 msgstr "목제 쇠뇌 볼트"
 
@@ -4780,6 +4766,21 @@ msgid ""
 "A highly explosive fuel mixture composed of equal parts of oxygen and "
 "acetylene gas."
 msgstr "아세탈린 가스와 산소를 1:1로 섞은 혼합 원료. 잘 터진다."
+
+#: lang/json/AMMO_from_json.py
+msgid "fungal seeds"
+msgid_plural "fungal seeds"
+msgstr[0] ""
+
+#. ~ Description for fungal seeds
+#: lang/json/AMMO_from_json.py
+msgid "Some fungal seeds."
+msgstr "약간의 진균 씨앗."
+
+#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py
+msgid "fungal flower"
+msgstr "진균체 꽃"
 
 #: lang/json/AMMO_from_json.py
 msgid "bismuth"
@@ -15804,6 +15805,13 @@ msgid ""
 "poignant experiences with life, love, and sex."
 msgstr "한 어린 남자가 성장하면서 겪는 인생과 사랑, 섹스에 대한 재미있으면서도 슬픈 경험을 적은 고전적인 이야기입니다."
 
+#. ~ Description for coming of age novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A graphic novel about a young girl living in Iran during the 1980's, seeing "
+"the world change around her as Iraq invaded her country."
+msgstr ""
+
 #: lang/json/BOOK_from_json.py
 msgid "crime novel"
 msgid_plural "crime novels"
@@ -15815,6 +15823,19 @@ msgid ""
 "After their diamond heist goes wrong, the surviving criminals begin to "
 "suspect that one of them is a police informant."
 msgstr "다이아몬드를 훔치고 나서 일이 잘 풀리지 않자, 살아남은 범죄자는 일원 중 하나가 경찰의 끄나풀일 것 같다는 의심을 하기 시작한다."
+
+#: lang/json/BOOK_from_json.py
+msgid "crime_novel"
+msgid_plural "crime_novels"
+msgstr[0] ""
+
+#. ~ Description for crime_novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about three people in the fictional city of Los Santos, a gangster, "
+"an upper-class man, and a psychopath, eventually banding together to pull-"
+"off the biggest heist in the city's history"
+msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "drama novel"
@@ -16017,6 +16038,13 @@ msgid ""
 "Second World War, filled with riveting subplots about rat farming and "
 "dysentery."
 msgstr "흥분되는 서사 구조를 가진 소설로, 제2차 세계 대전 하에 있는 포로 수용소의 죄수 이야기입니다. 관심을 사로잡는 부차적 줄거리로는 쥐 농장과 이질 이야기 등이 있습니다."
+
+#. ~ Description for war novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about a Bosnean citizen who goes through many hardships and near "
+"death during the breakup of Yugoslavia."
+msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "western novel"
@@ -19005,16 +19033,6 @@ msgid ""
 msgstr "맥주 제조에 사용되는 거친 곡물. 양조에 필수적인 재료이며, 빻아서 가루로 만들 수도 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "barley seeds"
-msgid_plural "barley seeds"
-msgstr[0] ""
-
-#. ~ Description for barley seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some barley seeds."
-msgstr "약간의 보리 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet"
 msgstr "사탕무"
 
@@ -19026,16 +19044,6 @@ msgid ""
 msgstr "당분이 함유된 두꺼운 뿌리식물. 몇몇 공정을 거치면 설탕을 추출할 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sugar beet seeds"
-msgid_plural "sugar beet seeds"
-msgstr[0] ""
-
-#. ~ Description for sugar beet seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some sugar beet seeds."
-msgstr "약간의 사탕무 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "lettuce"
 msgstr "상추"
 
@@ -19045,16 +19053,6 @@ msgid "A crisp head of iceberg lettuce."
 msgstr "아삭거리는 상추."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "lettuce seeds"
-msgid_plural "lettuce seeds"
-msgstr[0] ""
-
-#. ~ Description for lettuce seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some lettuce seeds."
-msgstr "약간의 양배추 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cabbage"
 msgstr "양배추"
 
@@ -19062,16 +19060,6 @@ msgstr "양배추"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hearty head of crisp white cabbage."
 msgstr "머리통 크기의 바스락거리는 백양배추."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cabbage seeds"
-msgid_plural "cabbage seeds"
-msgstr[0] ""
-
-#. ~ Description for cabbage seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some white cabbage seeds."
-msgstr "약간의 백양배추 씨앗."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tomato"
@@ -19084,30 +19072,6 @@ msgid ""
 "Juicy red tomato.  It gained popularity in Italy after being brought back "
 "from the New World."
 msgstr "과즙 많은 빨간 토마토. 신대륙에서 이탈리아로 넘어오면서 인기를 끌기 시작했다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "tomato seeds"
-msgid_plural "tomato seeds"
-msgstr[0] ""
-
-#. ~ Description for tomato seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some tomato seeds."
-msgstr "약간의 토마토 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton seeds"
-msgid_plural "cotton seeds"
-msgstr[0] ""
-
-#. ~ Description for cotton seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cotton seeds.  Can be processed to produce an edible oil."
-msgstr "약간의 목화 씨앗. 식용유를 만들 때 사용할 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton"
-msgstr "목화"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton boll"
@@ -19132,16 +19096,6 @@ msgid "It's a bit tough, but quite delicious."
 msgstr "먹기 조금 힘들지만, 꽤 맛있다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "broccoli seeds"
-msgid_plural "broccoli seeds"
-msgstr[0] ""
-
-#. ~ Description for broccoli seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some broccoli seeds."
-msgstr "약간의 브로콜리 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini"
 msgstr "주키니"
 
@@ -19149,16 +19103,6 @@ msgstr "주키니"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty summer squash."
 msgstr "여름에 나오는 맛있는 호박."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "zucchini seeds"
-msgid_plural "zucchini seeds"
-msgstr[0] ""
-
-#. ~ Description for zucchini seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some zucchini seeds."
-msgstr "약간의 주키니 씨앗."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion"
@@ -19172,16 +19116,6 @@ msgid ""
 msgstr "요리에 쓰이는 향기로운 양파. 자르면 눈물이 날수도 있습니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "onion seeds"
-msgid_plural "onion seeds"
-msgstr[0] ""
-
-#. ~ Description for onion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some onion seeds."
-msgstr "약간의 양파 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "garlic bulb"
 msgstr "통마늘"
 
@@ -19189,20 +19123,6 @@ msgstr "통마늘"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A pungent garlic bulb.  Popular as a seasoning for its strong flavor."
 msgstr "냄새가 강한 통마늘 한 뿌리. 향이 강해서 조미료로 자주 사용된다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic clove"
-msgid_plural "garlic cloves"
-msgstr[0] "마늘 조각"
-
-#. ~ Description for garlic clove
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
-msgstr "마늘 한 쪽. 조미료로 사용하거나 심어서 기를 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic"
-msgstr "마늘"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "carrot"
@@ -19215,16 +19135,6 @@ msgid "A healthy root vegetable.  Rich in vitamin A!"
 msgstr "건강에 좋은 뿌리 채소. 비타민 A가 풍부하다!"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "carrot seeds"
-msgid_plural "carrot seeds"
-msgstr[0] ""
-
-#. ~ Description for carrot seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some carrot seeds."
-msgstr "약간의 당근 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "corn"
 msgid_plural "corn"
 msgstr[0] "옥수수"
@@ -19235,16 +19145,6 @@ msgid "Delicious golden kernels."
 msgstr "맛있는 황금색 알갱이들."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "corn seeds"
-msgid_plural "corn seeds"
-msgstr[0] ""
-
-#. ~ Description for corn seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some corn seeds."
-msgstr "약간의 옥수수 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "chili pepper"
 msgstr "고추"
 
@@ -19252,20 +19152,6 @@ msgstr "고추"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spicy chili pepper."
 msgstr "매운 고추다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili pepper seeds"
-msgid_plural "chili pepper seeds"
-msgstr[0] ""
-
-#. ~ Description for chili pepper seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some chili pepper seeds."
-msgstr "약간의 고추 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili_pepper"
-msgstr "고추가루"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lettuce"
@@ -19788,18 +19674,6 @@ msgid ""
 msgstr "블루베리와 비슷해보이며, 크기는 주먹 정도입니다만, 색은 분홍빛이 돕니다. 맛있는 향기가 강하게 나지만, 이 열매는 분명히 변이된 것이거나 외계에서 왔을 겁니다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "marloss seed"
-msgid_plural "marloss seeds"
-msgstr[0] "말로스 씨앗"
-
-#. ~ Description for marloss seed
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"This looks like a sunflower seed the size of your palm.  It has a strong but"
-" delicious aroma, but is clearly either mutated or of alien origin."
-msgstr "손바닥만한 해바라기 씨앗. 강렬하지만 맛있을것 같은 아로마향이 짙으며, 돌연변이 혹은 외계에서 온것이 분명해보인다."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marloss gelatin"
 msgid_plural "marloss gelatin"
 msgstr[0] "말로스 젤라틴"
@@ -19864,16 +19738,6 @@ msgstr[0] "귀리"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Raw oats."
 msgstr "생 귀리."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "oat seeds"
-msgid_plural "oat seeds"
-msgstr[0] ""
-
-#. ~ Description for oat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some oat seeds."
-msgstr "약간의 귀리 씨앗."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dried beans"
@@ -20211,32 +20075,6 @@ msgid ""
 "An irradiated pumpkin will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr "방사선에 조사된 호박. 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으로 살균했기에 먹어도 안전합니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "raw beans"
-msgid_plural "raw beans"
-msgstr[0] "생 콩"
-
-#. ~ Description for raw beans
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
-" them to make them tasty.  Alternatively, you could plant them."
-msgstr "조리 하지 않은 콩. 약간의 독을 함유하고 있지만, 조리하면 맛있게 먹을수 있다. 아니면 심을 수도 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "seed potato"
-msgid_plural "seed potatoes"
-msgstr[0] "씨감자"
-
-#. ~ Description for seed potato
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A raw potato, cut into pieces, separating each bud for planting."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "potatoes"
-msgstr "감자"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated potato"
@@ -20840,22 +20678,6 @@ msgid ""
 "A very old type of pasta made with several layers of lasagne sheets "
 "alternated with sauces and meats.  Made better with human flesh."
 msgstr "얇은 라자냐와 소스, 그리고 고기가 교차로 만든 층으로 된 파스타로 아주 오래된 음식입니다. 인육으로 만들어서 더 맛있습니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis seeds"
-msgid_plural "cannabis seeds"
-msgstr[0] ""
-
-#. ~ Description for cannabis seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
-"eaten raw."
-msgstr "대마의 씨앗입니다. 비타민이 들어있으며, 굽거나 생으로 먹을 수도 있습니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis"
-msgstr "대마초"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mayonnaise"
@@ -22028,16 +21850,6 @@ msgid "Come from the gourd family, not tasty but very juicy."
 msgstr "박과에 속하는 식물로, 맛은 없지만 수분은 많습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cucumber seeds"
-msgid_plural "cucumber seeds"
-msgstr[0] ""
-
-#. ~ Description for cucumber seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cucumber seeds."
-msgstr "약간의 오이 씨앗."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cucumber"
 msgstr "방사선 살균된 오이"
 
@@ -22056,16 +21868,6 @@ msgstr "셀러리"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Neither tasty nor very nutritious, but it goes well with salad."
 msgstr "맛도 없고 영양가도 없지만, 샐러드와 잘 어울립니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "celery seeds"
-msgid_plural "celery seeds"
-msgstr[0] ""
-
-#. ~ Description for celery seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some celery seeds."
-msgstr "약간의 셀러리 씨앗."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dahlia root"
@@ -22530,53 +22332,8 @@ msgid "A stalk of thyme.  Smells delicious."
 msgstr "백리향 줄기. 맛있는 냄새가 난다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "thyme seeds"
-msgid_plural "thyme seeds"
-msgstr[0] "백리향 씨앗"
-
-#. ~ Description for thyme seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some thyme seeds.  You could probably plant these."
-msgstr "약간의 백리향 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "canola seeds"
-msgid_plural "canola seeds"
-msgstr[0] "카놀라 씨앗"
-
-#. ~ Description for canola seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Some canola seeds.  You could probably plant these, or press them into oil."
-msgstr "약간의 카놀라 씨앗. 심거나 기름을 짜낼 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "canola"
 msgstr "카놀라"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "pumpkin seeds"
-msgid_plural "pumpkin seeds"
-msgstr[0] ""
-
-#. ~ Description for pumpkin seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
-msgstr "약간의 가공하지 않은 호박씨. 볶아서 먹거나 땅에 심을 수 있습니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower seeds"
-msgid_plural "sunflower seeds"
-msgstr[0] ""
-
-#. ~ Description for sunflower seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw sunflower seeds.  Could be pressed into oil."
-msgstr "약간의 가공하지 않은 해바라기씨. 기름을 짜낼 수 있습니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower"
-msgstr "해바라기"
 
 #. ~ Description for canola
 #: lang/json/COMESTIBLE_from_json.py
@@ -22594,16 +22351,6 @@ msgid ""
 msgstr "개정향풀 줄기. 섬유질이 풍부하고 약한 독성을 가지고 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "dogbane seeds"
-msgid_plural "dogbane seeds"
-msgstr[0] "개정향풀 씨앗"
-
-#. ~ Description for dogbane seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dogbane seeds.  You could probably plant these."
-msgstr "약간의 개정향풀 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "bee balm"
 msgstr "향수박하"
 
@@ -22612,16 +22359,6 @@ msgstr "향수박하"
 msgid ""
 "A snow-white flower also known as wild bergamot.  Smells faintly of mint."
 msgstr "수레박하라고도 알려진 새하얀 꽃. 희미한 민트향이 난다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "bee balm seeds"
-msgid_plural "bee balm seeds"
-msgstr[0] "향수박하 씨앗"
-
-#. ~ Description for bee balm seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some bee balm seeds.  You could probably plant these."
-msgstr "약간의 향수박하 씨앗. 심을 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bee balm tea"
@@ -22643,98 +22380,6 @@ msgstr "쑥"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A stalk of mugwort.  Smells wonderful."
 msgstr "쑥 줄기. 냄새가 독하다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mugwort seeds"
-msgid_plural "mugwort seeds"
-msgstr[0] "쑥 씨앗"
-
-#. ~ Description for mugwort seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mugwort seeds.  You could probably plant these."
-msgstr "약간의 쑥 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "buckwheat seeds"
-msgid_plural "buckwheat seeds"
-msgstr[0] "메밀 씨앗"
-
-#. ~ Description for buckwheat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some buckwheat seeds.  You could probably plant these."
-msgstr "약간의 메밀 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb seeds"
-msgid_plural "wild herb seeds"
-msgstr[0] "야생 허브 씨앗"
-
-#. ~ Description for wild herb seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some seeds harvested from wild herbs.  You could probably plant these."
-msgstr "약간의 야생 허브 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb"
-msgstr "야생 허브"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable stems"
-msgid_plural "wild vegetable stems"
-msgstr[0] "산나물 줄기"
-
-#. ~ Description for wild vegetable stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some wild vegetable stems.  You could probably plant these."
-msgstr "약간의 산나물 줄기. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable"
-msgstr "산나물"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "dandelion seeds"
-msgid_plural "dandelion seeds"
-msgstr[0] "민들레 씨앗"
-
-#. ~ Description for dandelion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dandelion seeds.  You could probably plant these."
-msgstr "약간의 민들레 씨앗. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "dandelion"
-msgstr "민들레"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "rhubarb stems"
-msgid_plural "rhubarb stems"
-msgstr[0] "대황 줄기"
-
-#. ~ Description for rhubarb stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some rhubarb stems.  You could probably plant these."
-msgstr "약간의 대황 줄기. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mushroom spores"
-msgid_plural "mushroom spores"
-msgstr[0] "버섯 포자"
-
-#. ~ Description for mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mushroom spores.  You could probably plant these."
-msgstr "약간의 버섯 포자. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "morel mushroom spores"
-msgid_plural "morel mushroom spores"
-msgstr[0] "곰보버섯 포자"
-
-#. ~ Description for morel mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some morel mushroom spores.  You could probably plant these."
-msgstr "약간의 곰보버섯 포자. 심을 수 있다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "eggnog"
@@ -23467,24 +23112,6 @@ msgid ""
 "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain"
 " chemistry."
 msgstr "방사능 처리된 코카인 결정체입니다. 극도로 높은 중독성을 가지고 있으며, 뇌 화학적 상태에 부정적인 영향을 줍니다."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "datura seeds"
-msgid_plural "datura seeds"
-msgstr[0] "다투라 씨앗"
-
-#. ~ Description for datura seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
-"psychoactive chemicals, these tiny seeds are a potent analgesic and "
-"deliriant, and can be deadly in cases of overdose.  You could probably plant"
-" these."
-msgstr "다투라의 뾰족한 씨방에서 나온 작고 까만 씨앗. 강력한 향정신성 물질로 진통과 환각 작용을 일으키며, 남용할 경우 치명적이다. 심을 수 있다."
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "datura"
-msgstr "다투라"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "non-drowsy cough syrup"
@@ -24438,6 +24065,407 @@ msgstr[0] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
 msgstr "약간의 딸기 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "barley seeds"
+msgid_plural "barley seeds"
+msgstr[0] ""
+
+#. ~ Description for barley seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some barley seeds."
+msgstr "약간의 보리 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sugar beet seeds"
+msgid_plural "sugar beet seeds"
+msgstr[0] ""
+
+#. ~ Description for sugar beet seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some sugar beet seeds."
+msgstr "약간의 사탕무 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lettuce seeds"
+msgid_plural "lettuce seeds"
+msgstr[0] ""
+
+#. ~ Description for lettuce seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some lettuce seeds."
+msgstr "약간의 양배추 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cabbage seeds"
+msgid_plural "cabbage seeds"
+msgstr[0] ""
+
+#. ~ Description for cabbage seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some white cabbage seeds."
+msgstr "약간의 백양배추 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tomato seeds"
+msgid_plural "tomato seeds"
+msgstr[0] ""
+
+#. ~ Description for tomato seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some tomato seeds."
+msgstr "약간의 토마토 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton seeds"
+msgid_plural "cotton seeds"
+msgstr[0] ""
+
+#. ~ Description for cotton seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cotton seeds.  Can be processed to produce an edible oil."
+msgstr "약간의 목화 씨앗. 식용유를 만들 때 사용할 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton"
+msgstr "목화"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "broccoli seeds"
+msgid_plural "broccoli seeds"
+msgstr[0] ""
+
+#. ~ Description for broccoli seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some broccoli seeds."
+msgstr "약간의 브로콜리 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "zucchini seeds"
+msgid_plural "zucchini seeds"
+msgstr[0] ""
+
+#. ~ Description for zucchini seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some zucchini seeds."
+msgstr "약간의 주키니 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "onion seeds"
+msgid_plural "onion seeds"
+msgstr[0] ""
+
+#. ~ Description for onion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some onion seeds."
+msgstr "약간의 양파 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic clove"
+msgid_plural "garlic cloves"
+msgstr[0] "마늘 조각"
+
+#. ~ Description for garlic clove
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
+msgstr "마늘 한 쪽. 조미료로 사용하거나 심어서 기를 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic"
+msgstr "마늘"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "carrot seeds"
+msgid_plural "carrot seeds"
+msgstr[0] ""
+
+#. ~ Description for carrot seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some carrot seeds."
+msgstr "약간의 당근 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "corn seeds"
+msgid_plural "corn seeds"
+msgstr[0] ""
+
+#. ~ Description for corn seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some corn seeds."
+msgstr "약간의 옥수수 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper seeds"
+msgid_plural "chili pepper seeds"
+msgstr[0] ""
+
+#. ~ Description for chili pepper seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some chili pepper seeds."
+msgstr "약간의 고추 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili_pepper"
+msgstr "고추가루"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cucumber seeds"
+msgid_plural "cucumber seeds"
+msgstr[0] ""
+
+#. ~ Description for cucumber seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cucumber seeds."
+msgstr "약간의 오이 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "seed potato"
+msgid_plural "seed potatoes"
+msgstr[0] "씨감자"
+
+#. ~ Description for seed potato
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A raw potato, cut into pieces, separating each bud for planting."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "potatoes"
+msgstr "감자"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis seeds"
+msgid_plural "cannabis seeds"
+msgstr[0] ""
+
+#. ~ Description for cannabis seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
+"eaten raw."
+msgstr "대마의 씨앗입니다. 비타민이 들어있으며, 굽거나 생으로 먹을 수도 있습니다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis"
+msgstr "대마초"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "marloss seed"
+msgid_plural "marloss seeds"
+msgstr[0] "말로스 씨앗"
+
+#. ~ Description for marloss seed
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This looks like a sunflower seed the size of your palm.  It has a strong but"
+" delicious aroma, but is clearly either mutated or of alien origin."
+msgstr "손바닥만한 해바라기 씨앗. 강렬하지만 맛있을것 같은 아로마향이 짙으며, 돌연변이 혹은 외계에서 온것이 분명해보인다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw beans"
+msgid_plural "raw beans"
+msgstr[0] "생 콩"
+
+#. ~ Description for raw beans
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
+" them to make them tasty.  Alternatively, you could plant them."
+msgstr "조리 하지 않은 콩. 약간의 독을 함유하고 있지만, 조리하면 맛있게 먹을수 있다. 아니면 심을 수도 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "thyme seeds"
+msgid_plural "thyme seeds"
+msgstr[0] "백리향 씨앗"
+
+#. ~ Description for thyme seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some thyme seeds.  You could probably plant these."
+msgstr "약간의 백리향 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canola seeds"
+msgid_plural "canola seeds"
+msgstr[0] "카놀라 씨앗"
+
+#. ~ Description for canola seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some canola seeds.  You could probably plant these, or press them into oil."
+msgstr "약간의 카놀라 씨앗. 심거나 기름을 짜낼 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "pumpkin seeds"
+msgid_plural "pumpkin seeds"
+msgstr[0] ""
+
+#. ~ Description for pumpkin seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
+msgstr "약간의 가공하지 않은 호박씨. 볶아서 먹거나 땅에 심을 수 있습니다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower seeds"
+msgid_plural "sunflower seeds"
+msgstr[0] ""
+
+#. ~ Description for sunflower seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw sunflower seeds.  Could be pressed into oil."
+msgstr "약간의 가공하지 않은 해바라기씨. 기름을 짜낼 수 있습니다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower"
+msgstr "해바라기"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dogbane seeds"
+msgid_plural "dogbane seeds"
+msgstr[0] "개정향풀 씨앗"
+
+#. ~ Description for dogbane seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dogbane seeds.  You could probably plant these."
+msgstr "약간의 개정향풀 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bee balm seeds"
+msgid_plural "bee balm seeds"
+msgstr[0] "향수박하 씨앗"
+
+#. ~ Description for bee balm seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some bee balm seeds.  You could probably plant these."
+msgstr "약간의 향수박하 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mugwort seeds"
+msgid_plural "mugwort seeds"
+msgstr[0] "쑥 씨앗"
+
+#. ~ Description for mugwort seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mugwort seeds.  You could probably plant these."
+msgstr "약간의 쑥 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "buckwheat seeds"
+msgid_plural "buckwheat seeds"
+msgstr[0] "메밀 씨앗"
+
+#. ~ Description for buckwheat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some buckwheat seeds.  You could probably plant these."
+msgstr "약간의 메밀 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb seeds"
+msgid_plural "wild herb seeds"
+msgstr[0] "야생 허브 씨앗"
+
+#. ~ Description for wild herb seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some seeds harvested from wild herbs.  You could probably plant these."
+msgstr "약간의 야생 허브 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb"
+msgstr "야생 허브"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable stems"
+msgid_plural "wild vegetable stems"
+msgstr[0] "산나물 줄기"
+
+#. ~ Description for wild vegetable stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some wild vegetable stems.  You could probably plant these."
+msgstr "약간의 산나물 줄기. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable"
+msgstr "산나물"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dandelion seeds"
+msgid_plural "dandelion seeds"
+msgstr[0] "민들레 씨앗"
+
+#. ~ Description for dandelion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dandelion seeds.  You could probably plant these."
+msgstr "약간의 민들레 씨앗. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "dandelion"
+msgstr "민들레"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "rhubarb stems"
+msgid_plural "rhubarb stems"
+msgstr[0] "대황 줄기"
+
+#. ~ Description for rhubarb stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some rhubarb stems.  You could probably plant these."
+msgstr "약간의 대황 줄기. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mushroom spores"
+msgid_plural "mushroom spores"
+msgstr[0] "버섯 포자"
+
+#. ~ Description for mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mushroom spores.  You could probably plant these."
+msgstr "약간의 버섯 포자. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "morel mushroom spores"
+msgid_plural "morel mushroom spores"
+msgstr[0] "곰보버섯 포자"
+
+#. ~ Description for morel mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some morel mushroom spores.  You could probably plant these."
+msgstr "약간의 곰보버섯 포자. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "datura seeds"
+msgid_plural "datura seeds"
+msgstr[0] "다투라 씨앗"
+
+#. ~ Description for datura seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
+"psychoactive chemicals, these tiny seeds are a potent analgesic and "
+"deliriant, and can be deadly in cases of overdose.  You could probably plant"
+" these."
+msgstr "다투라의 뾰족한 씨방에서 나온 작고 까만 씨앗. 강력한 향정신성 물질로 진통과 환각 작용을 일으키며, 남용할 경우 치명적이다. 심을 수 있다."
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "datura"
+msgstr "다투라"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "celery seeds"
+msgid_plural "celery seeds"
+msgstr[0] ""
+
+#. ~ Description for celery seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some celery seeds."
+msgstr "약간의 셀러리 씨앗."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "oat seeds"
+msgid_plural "oat seeds"
+msgstr[0] ""
+
+#. ~ Description for oat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some oat seeds."
+msgstr "약간의 귀리 씨앗."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat seeds"
@@ -29440,6 +29468,18 @@ msgid "A set of various vehicle controls.  Useful for crafting."
 msgstr "다양한 자동차 조종장치 세트이다. 제작에 사용된다."
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "dashboard"
+msgid_plural "dashboards"
+msgstr[0] ""
+
+#. ~ Description for dashboard
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A vehicle instrument panel with various gauges and switches.  Useful for "
+"crafting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "electric motor"
 msgid_plural "electric motors"
@@ -31782,6 +31822,10 @@ msgid "FUEL"
 msgstr "연료"
 
 #: lang/json/ITEM_CATEGORY_from_json.py
+msgid "SEEDS"
+msgstr ""
+
+#: lang/json/ITEM_CATEGORY_from_json.py
 msgid "CHEMICAL STUFF"
 msgstr "화학 재료"
 
@@ -32703,6 +32747,48 @@ msgstr "스콜피온 Vz.82 탄창"
 msgid ""
 "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov."
 msgstr "9x18mm 마카로프탄을 사용하는 Vz.82 스콜피온용 표준 20발들이 탄창"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid "A pressurized 3L canister designed to feed a flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "small pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for small pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A pressurized 0.5L canister built for use with a small auxiliary "
+"flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-2 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-2 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 2L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-4 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-4 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 4L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "nail rifle magazine"
@@ -44962,15 +45048,15 @@ msgstr[0] "좀비 (휴면중)"
 
 #. ~ Use action friendly_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
-msgstr "좀비가 제 발로 일어서더니 비틀거리며 움직인다."
+msgid "The jabberwock climbs to its feet and shambles around."
+msgstr ""
 
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
-"Something has gone wrong; after getting up the zombie lumbers toward you "
-"menacingly!"
-msgstr "무언가 잘못됐는지 좀비가 일어나서 이쪽을 보며 위협적으로 다가오기 시작했다!"
+"Something has gone wrong; after getting up the jabberwock lumbers toward you"
+" menacingly!"
+msgstr ""
 
 #. ~ Description for dormant minion
 #: lang/json/TOOL_from_json.py
@@ -51658,7 +51744,7 @@ msgstr "대중적인 .22 구경 권총."
 #: lang/json/gun_from_json.py
 msgid "Remington ACR"
 msgid_plural "Remington ACRs"
-msgstr[0] ""
+msgstr[0] "레밍턴 ACR"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -52183,7 +52269,7 @@ msgstr "20세기의 가장 유명한 권총 중 하나. 이름이 본드가 아�
 #: lang/json/gun_from_json.py
 msgid "SIG P226"
 msgid_plural "SIG P226s"
-msgstr[0] ""
+msgstr[0] "SIG P226"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -52527,7 +52613,7 @@ msgid ""
 "chambered in .45.  It soon earned a reputation as one of the most "
 "intimidating guns on the market, for firer and target alike.  Similar to "
 "other Leadworks products it doesn't accept third-party modifications."
-msgstr ""
+msgstr "9x19mm 모델의 성공 이후, 레드웍스 LLC(Leadworks LLC) 사는 45구경탄을 사용하는 L39B를 출시했습니다. 얼마 지나지 않아, 이 권총은 총기 시장에서 가장 위협적인 총기 중 하나라는 명성을 얻게 되었습니다. 다른 레드웍스 제품들과 마찬가지로, 타사의 개조품은 사용할 수 없습니다."
 
 #: lang/json/gun_from_json.py
 msgid "L39-45"
@@ -53126,7 +53212,7 @@ msgstr ""
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: 9x19mm"
 msgid_plural "pipe rifles: 9x19mm"
-msgstr[0] ""
+msgstr[0] "수제 소총: 9x19mm"
 
 #: lang/json/gun_from_json.py
 msgid "STEN"
@@ -53175,18 +53261,18 @@ msgid ""
 "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any "
 "other submachine gun.  It is widely used as a personal defense weapon, or as"
 " a primary weapon by elite frontline forces."
-msgstr ""
+msgstr "우지 9x19mm는 그 어떤 기관단총보다 많은 판매량을 올리며 어마어마한 인기를 누려왔습니다. 개인 방어 무기나 최전선 정예 부대의 기본 화기로 널리 사용됩니다."
 
 #: lang/json/gun_from_json.py
 msgid "Glock 17"
 msgid_plural "Glock 17s"
-msgstr[0] ""
+msgstr[0] "글록 17"
 
 #: lang/json/gun_from_json.py
 msgid ""
 "Designed for all shooters, the Glock 17 is marketed towards law-enforcement "
 "and military."
-msgstr ""
+msgstr "글록 17은 누구나 사용할 수 있도록 제작했으며, 법 집행기관과 군대를 대상으로 판매하였습니다."
 
 #: lang/json/gun_from_json.py
 msgid "Makarov PM"
@@ -53623,7 +53709,7 @@ msgstr ""
 #: lang/json/gun_from_json.py
 msgid "homemade laser pistol"
 msgid_plural "homemade laser pistols"
-msgstr[0] ""
+msgstr[0] "수제 레이저 권총"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53733,7 +53819,7 @@ msgstr[0] "수제 기관단총: .38"
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: 9x19mm"
 msgid_plural "pipe SMG: 9x19mms"
-msgstr[0] ""
+msgstr[0] "수제 기관단총: 9x19mm"
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .40"
@@ -53845,7 +53931,7 @@ msgstr "DREAD 마크 9의 소형화 버젼. 오퍼레이터의 손목에 부착�
 #: lang/json/gun_from_json.py
 msgid "JHEC M128"
 msgid_plural "JHEC M128s"
-msgstr[0] ""
+msgstr[0] "JHEC M128"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53868,7 +53954,7 @@ msgstr ""
 #: lang/json/gun_from_json.py
 msgid "gunsword"
 msgid_plural "gunswords"
-msgstr[0] ""
+msgstr[0] "건소드"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53880,7 +53966,7 @@ msgstr "자루에 두 개의 .500 S&W 매그넘 약실을 달아놓은 길고 �
 #: lang/json/gun_from_json.py
 msgid "gunknife"
 msgid_plural "gunknives"
-msgstr[0] ""
+msgstr[0] "건나이프"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -54484,7 +54570,7 @@ msgstr ""
 #: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
 msgid "gel shooter"
 msgid_plural "gel shooters"
-msgstr[0] ""
+msgstr[0] "젤 발사기"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -54606,7 +54692,7 @@ msgstr ""
 #: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
 msgid "gel lancer"
 msgid_plural "gel lancers"
-msgstr[0] ""
+msgstr[0] "젤 랜서"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56111,6 +56197,10 @@ msgid ""
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "산탄총, 7.62x39mm, .223, .30-06구경 소총을 경량의 .410 보어 산탄총으로 바꿔주는 부품 세트. 개조하면 정확도가 약간 감소합니다."
+
+#: lang/json/harvest_from_json.py
+msgid "You gut and fillet the fish"
+msgstr ""
 
 #: lang/json/harvest_from_json.py
 msgid ""
@@ -97074,8 +97164,8 @@ msgid "POWER"
 msgstr "전력"
 
 #: src/game.cpp
-msgid "STA"
-msgstr "지구력"
+msgid "Stm"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -102757,6 +102847,10 @@ msgid "* This item <bad>conducts</bad> electricity."
 msgstr "* 이 물품은 전기가 <bad>통한다</bad>."
 
 #: src/item.cpp
+msgid "* This item can be <info>worn with a helmet</info>."
+msgstr ""
+
+#: src/item.cpp
 msgid "* This piece of clothing <info>fits</info> you perfectly."
 msgstr "* 이 의류는 <info>치수</info>가 완벽히 맞는다."
 
@@ -103648,6 +103742,10 @@ msgstr "이것은 건강에 해로워 보입니다만, 그래도 마시겠습니
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to eat it?"
 msgstr "이것은 건강에 해로워 보입니다만, 그래도 먹겠습니까?"
+
+#: src/iuse.cpp
+msgid "Blech, that tastes gross!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Blech, that burns your throat!"
@@ -112804,6 +112902,11 @@ msgid "Skill rust: %d%%"
 msgstr "기술 망각: %d%%"
 
 #: src/newcharacter.cpp
+#, c-format
+msgid "Crafting bonus: %2d%%"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid ""
 "Intelligence is also used when crafting, installing bionics, and interacting"
 " with NPCs."
@@ -118024,12 +118127,12 @@ msgid "You're already wearing footwear!"
 msgstr "이미 신발을 신고 있다!"
 
 #: src/player.cpp
-msgid "You can't wear a helmet!"
-msgstr "헬멧을 착용할 수 없다!"
+msgid "You can't wear that with other headgear!"
+msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear another helmet!"
-msgstr "헬멧 위에는 다른 헬멧을 착용할 수 없다!"
+msgid "You can't wear that much on your head!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You can't wear that, it's made of wool!"
@@ -119001,8 +119104,8 @@ msgid "Skill rust:"
 msgstr "기술 망각:"
 
 #: src/player_display.cpp
-msgid "Crafting Bonus:"
-msgstr "제작 보너스:"
+msgid "Crafting bonus:"
+msgstr ""
 
 #: src/player_display.cpp
 msgid ""
@@ -121303,6 +121406,14 @@ msgstr "강도"
 #: src/veh_interact.cpp
 msgid "Noise"
 msgstr "소음"
+
+#: src/veh_interact.cpp
+msgid "NoisRed"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Noise Reduction"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Range"
