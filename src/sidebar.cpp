@@ -2,6 +2,7 @@
 
 #include "player.h"
 #include "string_formatter.h"
+#include "catacharset.h"
 #include "effect.h"
 #include "game.h"
 #include "map.h"
