@@ -979,7 +979,6 @@ private:
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
-        void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
         void draw_sidebar_messages();

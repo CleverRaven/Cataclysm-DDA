@@ -2,6 +2,7 @@
 
 #include "player.h"
 #include "string_formatter.h"
+#include "effect.h"
 #include "game.h"
 #include "map.h"
 #include "options.h"
@@ -30,9 +31,117 @@
 #include <stdlib.h>
 #include <limits>
 
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+
+void draw_HP( const player &p, const catacurses::window &w_HP )
+{
+    werase( w_HP );
+
+    // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
+    bool wide = ( getmaxy( w_HP ) == 7 );
+    int hpx = wide ? 7 : 0;
+    int hpy = wide ? 0 : 1;
+    int dy = wide ? 1 : 2;
+
+    bool const is_self_aware = p.has_trait( trait_SELFAWARE );
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        wmove( w_HP, i * dy + hpy, hpx );
+
+        static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
+        const nc_color color ) {
+            while( num-- > 0 ) {
+                wprintz( w, color, sym.c_str() );
+            }
+        };
+
+        if( p.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
+            //Limb is broken
+            std::string limb = "~~%~~";
+            nc_color color = c_light_red;
+
+            const auto bp = p.hp_to_bp( static_cast<hp_part>( i ) );
+            if( p.worn_with_flag( "SPLINT", bp ) ) {
+                static const efftype_id effect_mending( "mending" );
+                const auto &eff = p.get_effect( effect_mending, bp );
+                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
+                                                  ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+
+                if( is_self_aware ) {
+                    limb = string_format( "=%2d%%=", mend_perc );
+                    color = c_blue;
+                } else {
+                    const int num = static_cast<int>( mend_perc / 20 );
+                    print_symbol_num( w_HP, num, "#", c_blue );
+                    print_symbol_num( w_HP, 5 - num, "=", c_blue );
+                    continue;
+                }
+            }
+
+            wprintz( w_HP, color, limb );
+            continue;
+        }
+
+        auto const &hp = get_hp_bar( p.hp_cur[i], p.hp_max[i] );
+
+        if( is_self_aware ) {
+            wprintz( w_HP, hp.second, "%3d  ", p.hp_cur[i] );
+        } else {
+            wprintz( w_HP, hp.second, hp.first );
+
+            //Add the trailing symbols for a not-quite-full health bar
+            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
+        }
+    }
+
+    const size_t num_parts = 7;
+    static std::array<body_part, num_parts> part = {{
+            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
+        }
+    };
+    for( size_t i = 0; i < num_parts; i++ ) {
+        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
+        wmove( w_HP, i * dy, 0 );
+        if( wide ) {
+            wprintz( w_HP, p.limb_color( part[i], true, true, true ), " " );
+        }
+        wprintz( w_HP, p.limb_color( part[i], true, true, true ), str.c_str() );
+        if( !wide ) {
+            wprintz( w_HP, p.limb_color( part[i], true, true, true ), ":" );
+        }
+    }
+
+    int powx = hpx;
+    int powy = wide ? 6 : 13;
+    if( p.max_power_level == 0 ) {
+        wmove( w_HP, powy, powx );
+        if( wide )
+            for( int i = 0; i < 2; i++ ) {
+                wputch( w_HP, c_light_gray, LINE_OXOX );
+            } else {
+            wprintz( w_HP, c_light_gray, " --   " );
+        }
+    } else {
+        nc_color color = c_red;
+        if( p.power_level == p.max_power_level ) {
+            color = c_blue;
+        } else if( p.power_level >= p.max_power_level * .5 ) {
+            color = c_light_blue;
+        } else if( p.power_level > 0 ) {
+            color = c_yellow;
+        }
+        mvwprintz( w_HP, powy, powx, color, "%-3d", p.power_level );
+    }
+    if( !wide ) {
+        mvwprintz( w_HP, 14, hpx, c_white, "%s", _( "Stm" ) );
+        wmove( w_HP, 15, hpx );
+        print_stamina_bar( p, w_HP );
+    }
+    wrefresh( w_HP );
+}
 
 static std::string print_gun_mode( const player &p )
 {
