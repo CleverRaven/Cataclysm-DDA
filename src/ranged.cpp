@@ -1534,7 +1534,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     //_FS
-    if ( !is_fake ) {
+    if ( !is_fake() ) {
         double perSkillMult = 0.0833;// = 0.25/3 to get one bio_targeting effect every 3 levels of avgSkill
         double bioTargetingBonus = 0.25;
         double maxBonusWithoutBioTargeting = 0.6664;
@@ -1548,9 +1548,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         double skillMult = 1 - skillEffect;
         dispersion.add_multiplier( skillMult );
     }
-    
     //
-
     //_FS Original CBM effect disabled
    /* if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
