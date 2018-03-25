@@ -651,6 +651,7 @@ void Item_factory::init()
     add_actor( new manualnoise_actor() );
     add_actor( new musical_instrument_actor() );
     add_actor( new pick_lock_actor() );
+    add_actor( new deploy_furn_actor() );
     add_actor( new place_monster_iuse() );
     add_actor( new reveal_map_actor() );
     add_actor( new salvage_actor() );
