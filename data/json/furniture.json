@@ -938,7 +938,8 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "pipe", "count": [6, 12] }
+                { "item": "pipe", "count": [6, 12] },
+                { "item": "sheet_metal", "count": [1, 2] }
             ]
         },
         "max_volume": 7000,
