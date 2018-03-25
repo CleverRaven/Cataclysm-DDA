@@ -97,13 +97,12 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         }
     }
 
-    const size_t num_parts = 7;
-    static std::array<body_part, num_parts> part = {{
+    static std::array<body_part, 7> part = {{
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
         }
     };
-    for( size_t i = 0; i < num_parts; i++ ) {
-        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
+    for( size_t i = 0; i < part.size(); i++ ) {
+        const std::string str = ( i == part.size() - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
         wmove( w_HP, i * dy, 0 );
         if( wide ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), " " );
@@ -251,7 +250,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
     // Decide if temp_cur is rising or falling
-    const char *temp_message = "Error";
+    const char *temp_message;
     if( delta > 2 ) {
         temp_message = _( " (Rising!!)" );
     } else if( delta ==  2 ) {
