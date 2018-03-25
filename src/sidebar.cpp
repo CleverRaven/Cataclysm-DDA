@@ -41,10 +41,10 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
     werase( w_HP );
 
     // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
-    bool wide = ( getmaxy( w_HP ) == 7 );
-    int hpx = wide ? 7 : 0;
-    int hpy = wide ? 0 : 1;
-    int dy = wide ? 1 : 2;
+    const bool wide = ( getmaxy( w_HP ) == 7 );
+    const int hpx = wide ? 7 : 0;
+    const int hpy = wide ? 0 : 1;
+    const int dy = wide ? 1 : 2;
 
     bool const is_self_aware = p.has_trait( trait_SELFAWARE );
 
@@ -114,8 +114,8 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         }
     }
 
-    int powx = hpx;
-    int powy = wide ? 6 : 13;
+    const int powx = hpx;
+    const int powy = wide ? 6 : 13;
     if( p.max_power_level == 0 ) {
         wmove( w_HP, powy, powx );
         if( wide )
@@ -209,7 +209,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     if( !style.empty() ) {
-        int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
+        const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
         mvwprintz( weapwin, 1, x, style_color, style.c_str() );
     }
 
@@ -287,8 +287,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
     }
 
-    int x = 32;
-    int y = sideStyle ?  0 :  1;
+    const int x = 32;
+    const int y = sideStyle ?  0 :  1;
     if( is_deaf() ) {
         mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
     } else {
@@ -342,7 +342,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
     }
 
-    int morale_cur = get_morale_level();
+    const int morale_cur = get_morale_level();
     nc_color col_morale = c_white;
     if( morale_cur >= 10 ) {
         col_morale = c_green;
@@ -543,8 +543,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         mvwprintz( w, wy + dy * 2, wx + dx * 2, col_int, _( "Int %d" ), int_cur );
         mvwprintz( w, wy + dy * 3, wx + dx * 3, col_per, _( "Per %d" ), per_cur );
 
-        int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
-        int spdy = sideStyle ?  5 : wy + dy * 4;
+        const int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
+        const int spdy = sideStyle ?  5 : wy + dy * 4;
         mvwprintz( w, spdy, spdx, col_spd, _( "Spd %d" ), get_speed() );
         if( this->weight_carried() > this->weight_capacity() ) {
             col_time = h_black;
