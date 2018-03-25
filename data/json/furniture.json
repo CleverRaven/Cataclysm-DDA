@@ -950,8 +950,7 @@
             "items": [
                 { "item": "scrap", "count": [2, 8] },
                 { "item": "steel_chunk", "count": [0, 3] },
-                { "item": "pipe", "count": 1 },
-                { "item": "sheet_metal", "count": [0, 1] }
+                { "item": "pipe", "count": 1 }
             ]
         }
     },{
