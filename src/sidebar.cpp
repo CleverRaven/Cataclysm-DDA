@@ -102,7 +102,8 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         }
     };
     for( size_t i = 0; i < part.size(); i++ ) {
-        const std::string str = ( i == part.size() - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
+        const std::string str = ( i == part.size() - 1 ) ?
+                                _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
         wmove( w_HP, i * dy, 0 );
         if( wide ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), " " );
