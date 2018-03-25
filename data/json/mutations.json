@@ -3899,6 +3899,16 @@
         "healing_awake" : -0.0008
     },{
         "type" : "mutation",
+        "id" : "NO_HEALING_RESTING",
+        "name" : "Lost resting healing",
+        "points" : -2,
+        "starting_trait" : true,
+        "valid" : true,
+        "purifiable": true,
+        "description" : "Your default ability to regenerate during resting was lost.",
+        "healing_resting" : -0.01 
+    },{
+        "type" : "mutation",
         "id" : "SUNBURN",
         "name" : "Solar Sensitivity",
         "points" : -3,
