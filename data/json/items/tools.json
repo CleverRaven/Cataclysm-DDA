@@ -967,21 +967,6 @@
     }
   },
   {
-    "id": "brazier",
-    "type": "TOOL",
-    "name": "brazier",
-    "description": "This is a large metal stand with slots on the side.  You can set it somewhere through the construction menu and then set fires in it with no risk of spreading.",
-    "weight": 2000,
-    "volume": 6,
-    "price": 9000,
-    "to_hit": 1,
-    "bashing": 7,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "brick_kiln",
     "type": "TOOL",
     "name": "brick kiln",
