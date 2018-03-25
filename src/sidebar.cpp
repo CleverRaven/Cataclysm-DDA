@@ -108,7 +108,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         if( wide ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), " " );
         }
-        wprintz( w_HP, p.limb_color( part[i], true, true, true ), str.c_str() );
+        wprintz( w_HP, p.limb_color( part[i], true, true, true ), str );
         if( !wide ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), ":" );
         }
@@ -164,7 +164,7 @@ void print_stamina_bar( const player &p, const catacurses::window &w )
     std::string sta_bar;
     nc_color sta_color;
     std::tie( sta_bar, sta_color ) = get_hp_bar( p.stamina, p.get_stamina_max() );
-    wprintz( w, sta_color, sta_bar.c_str() );
+    wprintz( w, sta_color, sta_bar );
 }
 
 int define_temp_level( const int lvl )
@@ -210,7 +210,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     if( !style.empty() ) {
         const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-        mvwprintz( weapwin, 1, x, style_color, style.c_str() );
+        mvwprintz( weapwin, 1, x, style_color, style );
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
@@ -487,8 +487,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         }
 
         //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
-
-        wprintz( w, c_white, string_format( "%3d°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
+        wprintz( w, c_white, "%3d°", ( veh->face.dir() + 90 ) % 360 );
 
         if( sideStyle ) {
             // Make sure this is left-aligned.
