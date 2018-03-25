@@ -74,7 +74,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
                     limb = string_format( "=%2d%%=", mend_perc );
                     color = c_blue;
                 } else {
-                    const int num = static_cast<int>( mend_perc / 20 );
+                    const int num = mend_perc / 20;
                     print_symbol_num( w_HP, num, "#", c_blue );
                     print_symbol_num( w_HP, 5 - num, "=", c_blue );
                     continue;
