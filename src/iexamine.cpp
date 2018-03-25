@@ -859,6 +859,9 @@ void iexamine::bars(player &p, const tripoint &examp)
 
 void iexamine::deployed_furniture( player &p, const tripoint &pos )
 {
+    if ( !query_yn( _( "Take down the %s?" ), g->m.furn( pos ).obj().name().c_str() ) ) {
+        return;
+    }
     p.add_msg_if_player( m_info, _( "You take down the %s." ),
                          g->m.furn( pos ).obj().name().c_str() );
     const auto furn_item = g->m.furn( pos ).obj().deployed_item;
