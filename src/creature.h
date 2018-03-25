@@ -356,8 +356,9 @@ class Creature
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
 
-        virtual void mod_moves( int nmoves );
-        virtual void set_moves( int nmoves );
+        int get_moves() const;
+        void mod_moves( int nmoves );
+        void set_moves( int nmoves );
 
         virtual bool in_sleep_state() const;
 
