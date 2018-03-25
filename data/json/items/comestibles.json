@@ -7232,11 +7232,10 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 15,
-        "nutrition": 15,
+        "nutrition": 3,
         "spoils_in": 160,
         "charges": 5,
-        "fun": -5,
+        "fun": -1,
         "phase": "liquid"
     },
     {
@@ -7272,8 +7271,8 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 10,
-        "nutrition": 10,
+        "fun": -1,
+        "nutrition": 3,
         "charges": 5,
         "phase": "liquid"
     },
