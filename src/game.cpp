@@ -5399,16 +5399,6 @@ int game::assign_npc_id()
     return ret;
 }
 
-faction *game::faction_by_ident(std::string id)
-{
-    for( const faction &elem : faction_manager_ptr->all() ) {
-        if( elem.id == id ) {
-            return const_cast<faction*>( &elem );
-        }
-    }
-    return nullptr;
-}
-
 Creature *game::is_hostile_nearby()
 {
     int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? MAX_VIEW_DISTANCE : get_option<int>( "SAFEMODEPROXIMITY" );

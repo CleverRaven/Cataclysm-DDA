@@ -949,3 +949,14 @@ void faction_manager::create_if_needed()
         factions.emplace_back( elem.second );
     }
 }
+
+faction *faction_manager::get( const faction_id &id )
+{
+    for( faction &elem : factions ) {
+        if( elem.id == id ) {
+            return &elem;
+        }
+    }
+    debugmsg( "Requested non-existing faction '%s'", id.str() );
+    return nullptr;
+}

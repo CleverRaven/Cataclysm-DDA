@@ -1735,14 +1735,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
         p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
         p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 5;
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         add_response_done( _( "Don't mind me..." ) );

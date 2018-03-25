@@ -164,7 +164,6 @@ class game
         live_view& liveview;
         pimpl<scent_map> scent_ptr;
         pimpl<event_manager> event_manager_ptr;
-        pimpl<faction_manager> faction_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -213,6 +212,7 @@ class game
         event_manager &events;
 
         pimpl<Creature_tracker> critter_tracker;
+        pimpl<faction_manager> faction_manager_ptr;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -493,7 +493,6 @@ class game
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
         int assign_npc_id();
-        faction *faction_by_ident(std::string ident);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();

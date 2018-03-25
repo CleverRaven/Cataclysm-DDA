@@ -155,6 +155,8 @@ class faction_manager
         const std::vector<faction> &all() const {
             return factions;
         }
+
+        faction *get( const faction_id &id );
 };
 
 #endif
