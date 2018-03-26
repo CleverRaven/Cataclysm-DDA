@@ -18,6 +18,11 @@
 std::string invent_name();
 std::string invent_adj();
 
+constexpr inline unsigned long mfb( const int v )
+{
+    return 1 << v;
+}
+
 faction::faction()
 {
     // debugmsg("Warning: Faction created without UID!");

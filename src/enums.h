@@ -365,9 +365,4 @@ struct sphere
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
 
-constexpr inline unsigned long mfb( const int v )
-{
-    return 1 << v;
-}
-
 #endif
