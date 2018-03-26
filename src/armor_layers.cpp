@@ -392,7 +392,7 @@ void player::sort_armor()
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( bp_aBodyPart[cover], combined ? 2 : 1 ).c_str() );
+                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ).c_str() );
                 pos++;
             }
             rightListSize++;

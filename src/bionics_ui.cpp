@@ -404,7 +404,7 @@ void player::power_bionics()
             int max_width = 0;
             std::vector<std::string>bps;
             for( int i = 0; i < num_bp; ++i ) {
-                const body_part bp = bp_aBodyPart[i];
+                const body_part bp = all_body_parts[i];
                 const int total = get_total_bionics_slots( bp );
                 const std::string s = string_format( "%s: %d/%d",
                                                      body_part_name_as_heading( bp, 1 ).c_str(),
