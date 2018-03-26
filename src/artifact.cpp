@@ -213,7 +213,7 @@ struct artifact_armor_form_datum {
     int warmth;
     units::volume storage;
     int melee_bash, melee_cut, melee_hit;
-    std::bitset<num_bp> covers;
+    body_part_set covers;
     bool plural;
     std::array<artifact_armor_mod, 5> available_mods;
 };
@@ -423,13 +423,13 @@ static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_dat
 static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
     {
         "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-        0, false,
+        {}, false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
     // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
-        mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
+        { { bp_torso, bp_leg_l, bp_leg_r } }, false,
         {{
             ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
             ARMORMOD_PADDED
@@ -438,7 +438,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
-        mfb(bp_torso), false,
+        { { bp_torso } }, false,
         {{
             ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
             ARMORMOD_PLATED
@@ -447,7 +447,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
-        mfb(bp_eyes) | mfb(bp_mouth), false,
+        { { bp_eyes, bp_mouth } }, false,
         {{
             ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
             ARMORMOD_NULL
@@ -457,7 +457,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
     // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
-        mfb(bp_head), false,
+        { { bp_head } }, false,
         {{
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
@@ -466,7 +466,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
-        mfb(bp_hand_l) | mfb(bp_hand_r), true,
+        { { bp_hand_l, bp_hand_r } }, true,
         {{
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
@@ -476,7 +476,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
     // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
-        mfb(bp_foot_l) | mfb(bp_foot_r), true,
+        { { bp_foot_l, bp_foot_r } }, true,
         {{
             ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
@@ -485,7 +485,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-        0, true,
+        {}, true,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     }
 } };
@@ -496,45 +496,45 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
  */
 static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
     {
-        "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
+        "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, {}, false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
     // Description; "It is ..." or "They are ..."
     {
         translate_marker("very thin and light."), def_c_white, material_id( "null" ),
         // Vol   Wgt Enc Cov Thk Env Wrm Sto
-        -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
+        -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("extremely bulky."), def_c_white, material_id( "null" ),
-        2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
+        2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("covered in pockets."), def_c_white, material_id( "null" ),
-        250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
+        250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, {},  false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("disgustingly furry."), def_c_white, material_id( "wool" ),
         // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-        1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
+        1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("leather-padded."), def_c_white, material_id( "leather" ),
-        1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
+        1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("plated in iron."), def_c_white, material_id( "iron" ),
-        1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
+        1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, {}, false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 } };

@@ -683,7 +683,7 @@ void player::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bp_torso ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" )[bp_torso] ) {
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -3397,17 +3397,17 @@ void player::pause()
     if( !in_vehicle ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
-            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
-                         mfb( bp_arm_r ) | mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) |
-                         mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
+            drench( 100, { { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                         bp_arm_r, bp_head, bp_eyes, bp_mouth,
+                         bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r } }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
-            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
-                         mfb( bp_arm_r ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) |
-                         mfb( bp_hand_r ), true );
+            drench( 100, { { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                         bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
+                         bp_hand_r } }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+            drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
         }
     }
 
@@ -6415,7 +6415,7 @@ void player::vomit()
     }
 }
 
-void player::drench( int saturation, int flags, bool ignore_waterproof )
+void player::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
     if( saturation < 1 ) {
         return;
@@ -6431,7 +6431,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
     for( int i = bp_torso; i < num_bp; ++i ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if( mfb(i) & flags ){
+        if( flags.test( static_cast<body_part>( i ) ) ) {
             bp_wetness_max = drench_capacity[i];
         }
 
@@ -6510,7 +6510,7 @@ void player::apply_wetness_morale( int temperature )
         }
 
         int bp_morale = 0;
-        const bool is_friendly = wet_friendliness[i];
+        const bool is_friendly = wet_friendliness.test( static_cast<body_part>( i ) );
         const int effective_drench = part_drench - part_ignored;
         if( is_friendly ) {
             // Using entire bonus from mutations and then some "human" bonus
@@ -7103,13 +7103,13 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     return res;
 }
 
-bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
+bool player::covered_with_flag( const std::string &flag, const body_part_set &parts ) const
 {
     if( parts.none() ) {
         return true;
     }
 
-    std::bitset<num_bp> to_cover( parts );
+    body_part_set to_cover( parts );
 
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
@@ -7126,7 +7126,7 @@ bool player::covered_with_flag( const std::string &flag, const std::bitset<num_b
     return to_cover.none();
 }
 
-bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
+bool player::is_waterproof( const body_part_set &parts ) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }

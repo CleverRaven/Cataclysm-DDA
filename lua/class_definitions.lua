@@ -519,7 +519,6 @@ classes = {
             { name = "disp_name", rval = "string", args = { } },
             { name = "do_read", rval = nil, args = { "item" } },
             { name = "dodge_roll", rval = "float", args = { } },
-            { name = "drench", rval = nil, args = { "int", "int", "bool" } },
             { name = "drench_mut_calc", rval = nil, args = { } },
             { name = "apply_wetness_morale", rval = nil, args = { "int" } },
             { name = "drink_from_hands", rval = "int", args = { "item" } },

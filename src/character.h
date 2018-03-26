@@ -12,6 +12,7 @@
 
 #include <map>
 #include <vector>
+#include <bitset>
 
 class Skill;
 struct pathfinding_settings;
@@ -223,7 +224,7 @@ class Character : public Creature, public visitable<Character>
         bool is_blind() const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */

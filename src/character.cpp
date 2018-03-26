@@ -1567,7 +1567,7 @@ int Character::encumb( body_part bp ) const
 
 void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                             const mutation_branch &mut,
-                            const std::bitset<num_bp> &oversize )
+                            const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
@@ -1611,14 +1611,14 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
 }
 
-std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
 {
-    std::bitset<num_bp> ret;
-    ret.set();
+    body_part_set ret = body_part_set::all();
+
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
+            ret &= ~elem.get_covered_body_parts();
         }
     }
 
