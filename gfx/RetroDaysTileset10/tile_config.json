@@ -7115,7 +7115,7 @@
           "rotates": false
         },
         {
-          "id": "novel_crime",
+          "id": [ "novel_crime", "novel_crime2" ],
           "fg": 400,
           "rotates": false
         },
@@ -7275,7 +7275,7 @@
           "rotates": false
         },
         {
-          "id": "novel_coa",
+          "id": [ "novel_coa", "novel_coa2" ],
           "fg": 401,
           "rotates": false
         },
@@ -8125,7 +8125,7 @@
           "rotates": false
         },
         {
-          "id": "novel_war",
+          "id": [ "novel_war", "novel_war2" ],
           "fg": 409,
           "rotates": false
         },

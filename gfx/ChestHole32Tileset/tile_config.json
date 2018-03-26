@@ -38486,13 +38486,13 @@
           "rotates": false
         },
         {
-          "id": "novel_coa",
+          "id": [ "novel_coa", "novel_coa2" ],
           "fg": 693,
           "bg": 635,
           "rotates": false
         },
         {
-          "id": "novel_crime",
+          "id": [ "novel_crime", "novel_crime2" ],
           "fg": 712,
           "bg": 635,
           "rotates": false
@@ -38600,7 +38600,7 @@
           "rotates": false
         },
         {
-          "id": "novel_war",
+          "id": [ "novel_war", "novel_war2" ],
           "fg": 713,
           "bg": 635,
           "rotates": false

@@ -24433,17 +24433,17 @@
         },
         {
           "fg": 6119,
-          "id": [ "novel_adventure", "novel_drama", "novel_coa", "novel_fantasy", "novel_horror", "novel_samurai", "novel_thriller" ],
+          "id": [ "novel_adventure", "novel_drama", "novel_coa", "novel_coa2", "novel_fantasy", "novel_horror", "novel_samurai", "novel_thriller" ],
           "rotates": false
         },
         {
           "fg": 6120,
-          "id": [ "novel_crime", "novel_erotic", "novel_romance", "novel_sports", "novel_tragedy", "novel_western" ],
+          "id": [ "novel_crime", "novel_crime2", "novel_erotic", "novel_romance", "novel_sports", "novel_tragedy", "novel_western" ],
           "rotates": false
         },
         {
           "fg": 6121,
-          "id": [ "novel_experimental", "novel_pulp", "novel_mystery", "novel_satire", "novel_scifi", "novel_spy", "novel_war" ],
+          "id": [ "novel_experimental", "novel_pulp", "novel_mystery", "novel_satire", "novel_scifi", "novel_spy", "novel_war", "novel_war2" ],
           "rotates": false
         },
         {
