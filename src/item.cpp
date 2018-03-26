@@ -5006,24 +5006,6 @@ bool item::flammable( int threshold ) const
     return flammability > threshold;
 }
 
-std::ostream & operator<<(std::ostream & out, const item * it)
-{
-    out << "item(";
-    if(!it)
-    {
-        out << "NULL)";
-        return out;
-    }
-    out << it->tname() << ")";
-    return out;
-}
-
-std::ostream & operator<<(std::ostream & out, const item & it)
-{
-    out << (&it);
-    return out;
-}
-
 itype_id item::typeId() const
 {
     return type ? type->get_id() : "null";
