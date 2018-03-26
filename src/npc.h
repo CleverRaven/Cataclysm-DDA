@@ -805,7 +805,7 @@ class npc : public player
         std::vector<tripoint> path; // Our movement plans
 
         // Personality & other defining characteristics
-        std::string fac_id; // A temp variable used to inform the game which faction to link
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
         int companion_mission_time;
         npc_mission mission;

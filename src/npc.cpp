@@ -165,7 +165,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = jsobj.get_string( "faction" );
+        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -239,7 +239,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         male = tguy.male;
     }
     fac_id = tguy.fac_id;
-    set_fac( faction_id( fac_id ) );
+    set_fac( fac_id );
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
@@ -266,8 +266,8 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( !fac_id.empty() ) {
-        set_fac( faction_id( fac_id ) );
+    if( !fac_id.str().empty() ) {
+        set_fac( fac_id );
     }
 }
 
