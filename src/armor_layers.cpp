@@ -212,9 +212,9 @@ void player::sort_armor()
     */
 
     int req_right_h = 3 + 1 + 2 + 12 + 1;
-    for( int cover = 0; cover < num_bp; cover++ ) {
-        for( auto &elem : worn ) {
-            if( elem.covers( static_cast<body_part>( cover ) ) ) {
+    for( const body_part cover : all_body_parts ) {
+        for( const item &elem : worn ) {
+            if( elem.covers( cover ) ) {
                 req_right_h++;
             }
         }

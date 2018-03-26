@@ -320,8 +320,8 @@ void mutation_branch::load( JsonObject &jsobj )
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
                 // Shorthand, since many mutations protect whole body
-                for( size_t i = 0; i < num_bp; i++ ) {
-                    bps.insert( static_cast<body_part>( i ) );
+                for( const body_part bp : all_body_parts ) {
+                    bps.insert( bp );
                 }
             } else {
                 bps.insert( get_body_part_token( part_string ) );

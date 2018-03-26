@@ -506,8 +506,8 @@ void player_morale::clear()
 {
     points.clear();
     no_body_part = body_part_data();
-    for( int i = 0; i < num_bp; ++i ) {
-        body_parts[i] = body_part_data();
+    for( const body_part bp : all_body_parts ) {
+        body_parts[bp] = body_part_data();
     }
     for( auto &m : mutations ) {
         m.second.clear();
@@ -600,9 +600,9 @@ void player_morale::set_worn( const item &it, bool worn )
     const auto covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( int i = 0; i < num_bp; ++i ) {
-            if( covered.test( i ) ) {
-                update_body_part( body_parts[i] );
+        for( const body_part bp : all_body_parts ) {
+            if( covered.test( bp ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {

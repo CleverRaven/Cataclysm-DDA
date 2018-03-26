@@ -403,8 +403,7 @@ void player::power_bionics()
 
             int max_width = 0;
             std::vector<std::string>bps;
-            for( int i = 0; i < num_bp; ++i ) {
-                const body_part bp = all_body_parts[i];
+            for( const body_part bp : all_body_parts ) {
                 const int total = get_total_bionics_slots( bp );
                 const std::string s = string_format( "%s: %d/%d",
                                                      body_part_name_as_heading( bp, 1 ).c_str(),
@@ -414,7 +413,7 @@ void player::power_bionics()
             }
             const int pos_x = WIDTH - 2 - max_width;
             if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
-                for( int i = 0; i < num_bp; ++i ) {
+                for( size_t i = 0; i < bps.size(); ++i ) {
                     mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, bps[i] );
                 }
             }

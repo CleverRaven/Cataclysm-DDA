@@ -1092,25 +1092,25 @@ void player::hardcoded_effects( effect &it )
         if( !woke_up ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
-            for( int i = 0 ; i < num_bp ; i++ ) {
-                if( temp_cur[i] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
+            for( const body_part bp : all_body_parts ) {
+                if( temp_cur[bp] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 5000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
-                    if( temp_cur[i] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[i] + 5000 ) ) {
+                    if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
+                        one_in( temp_cur[bp] + 5000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0 );
                         woke_up = true;
                         break;
                     }
-                } else if( temp_cur[i] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
+                } else if( temp_cur[bp] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
                     if( one_in( 5000 ) ) {
                         add_msg_if_player( _( "You toss and turn in the heat." ) );
                     }
-                    if( temp_cur[i] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 15000 - temp_cur[i] ) ) {
+                    if( temp_cur[bp] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
+                        one_in( 15000 - temp_cur[bp] ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0 );
