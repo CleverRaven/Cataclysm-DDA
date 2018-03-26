@@ -4605,7 +4605,7 @@ void game::disp_NPCs()
     inp_mngr.wait_for_any_key();
 }
 
-faction *game::list_factions()
+void game::list_factions()
 {
     std::vector<const faction *> valfac; // Factions that we know of.
     for( const faction &elem : faction_manager_ptr->all() ) {
@@ -4615,7 +4615,7 @@ faction *game::list_factions()
     }
     if (valfac.empty()) { // We don't know of any factions!
         popup(_("You don't know of any factions.  Press Spacebar..."));
-        return nullptr;
+        return;
     }
 
     catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -4635,9 +4635,8 @@ faction *game::list_factions()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
-    faction *cur_frac = nullptr;
     while (true) {
-        cur_frac = valfac[sel];
+        faction *const cur_frac = valfac[sel];
         if (redraw) {
             // Init w_list content
             werase(w_list);
@@ -4685,14 +4684,12 @@ faction *game::list_factions()
         } else if ( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if (action == "QUIT") {
-            cur_frac = nullptr;
             break;
         } else if (action == "CONFIRM") {
             break;
         }
     }
     refresh_all();
-    return cur_frac;
 }
 
 // A little helper to draw footstep glyphs.
