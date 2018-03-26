@@ -542,7 +542,6 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        void list_factions();
 
         bool has_gametype() const;
         special_game_id gametype() const;

@@ -6,6 +6,8 @@
 #include "string_formatter.h"
 #include "output.h"
 #include "debug.h"
+#include "input.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "catacharset.h"
@@ -959,4 +961,79 @@ faction *faction_manager::get( const faction_id &id )
     }
     debugmsg( "Requested non-existing faction '%s'", id.str() );
     return nullptr;
+}
+
+void faction_manager::display() const
+{
+    std::vector<const faction *> valfac; // Factions that we know of.
+    for( const faction &elem : factions ) {
+        if( elem.known_by_u ) {
+            valfac.push_back( &elem );
+        }
+    }
+    if( valfac.empty() ) { // We don't know of any factions!
+        popup( _( "You don't know of any factions.  Press Spacebar..." ) );
+        return;
+    }
+
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2,
+                                FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+                                1 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                MAX_FAC_NAME_SIZE + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+
+    const int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    size_t sel = 0;
+    bool redraw = true;
+
+    input_context ctxt( "FACTIONS" );
+    ctxt.register_action( "UP", _( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    while( true ) {
+        const faction &cur_frac = *valfac[sel];
+        if( redraw ) {
+            werase( w_list );
+            draw_border( w_list );
+            mvwprintz( w_list, 1, 1, c_white, _( "FACTIONS:" ) );
+            for( size_t i = 0; i < valfac.size(); i++ ) {
+                nc_color col = ( i == sel ? h_white : c_white );
+                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
+            }
+            wrefresh( w_list );
+            werase( w_info );
+            mvwprintz( w_info, 0, 0, c_white, _( "Ranking:           %s" ),
+                       fac_ranking_text( cur_frac.likes_u ) );
+            mvwprintz( w_info, 1, 0, c_white, _( "Respect:           %s" ),
+                       fac_respect_text( cur_frac.respects_u ) );
+            mvwprintz( w_info, 2, 0, c_white, _( "Wealth:            %s" ), fac_wealth_text( cur_frac.wealth,
+                       cur_frac.size ) );
+            mvwprintz( w_info, 3, 0, c_white, _( "Food Supply:       %s" ),
+                       fac_food_supply_text( cur_frac.food_supply, cur_frac.size ) );
+            mvwprintz( w_info, 4, 0, c_white, _( "Combat Ability:    %s" ),
+                       fac_combat_ability_text( cur_frac.combat_ability ) );
+            fold_and_print( w_info, 6, 0, maxlength, c_white, cur_frac.describe() );
+            wrefresh( w_info );
+            redraw = false;
+        }
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac.name );
+            sel = ( sel + 1 ) % valfac.size();
+            redraw = true;
+        } else if( action == "UP" ) {
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac.name );
+            sel = ( sel + valfac.size() - 1 ) % valfac.size();
+            redraw = true;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            redraw = true;
+        } else if( action == "QUIT" ) {
+            break;
+        } else if( action == "CONFIRM" ) {
+            break;
+        }
+    }
 }

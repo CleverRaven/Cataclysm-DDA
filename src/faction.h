@@ -16,7 +16,7 @@ std::string fac_wealth_text( int val, int size );
 std::string fac_food_supply_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class game;
+class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
@@ -157,6 +157,8 @@ class faction_manager
         }
 
         faction *get( const faction_id &id );
+
+        void display() const;
 };
 
 #endif
