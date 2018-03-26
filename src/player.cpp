@@ -574,12 +574,10 @@ player::player() : Character()
 
     empty_traits();
 
-    for( const body_part bp : all_body_parts ) {
-        temp_cur[bp] = BODYTEMP_NORM;
-        frostbite_timer[bp] = 0;
-        temp_conv[bp] = BODYTEMP_NORM;
-        body_wetness[bp] = 0;
-    }
+    temp_cur.fill( BODYTEMP_NORM );
+    frostbite_timer.fill( 0 );
+    temp_conv.fill( BODYTEMP_NORM );
+    body_wetness.fill( 0 );
     nv_cached = false;
     volume = 0;
 
@@ -624,9 +622,7 @@ void player::normalize()
 
     recalc_hp();
 
-    for( const body_part bp : all_body_parts ) {
-        temp_conv[bp] = BODYTEMP_NORM;
-    }
+    temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
 }
 
@@ -1056,10 +1052,8 @@ HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 void player::update_bodytemp()
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
-        for( const body_part bp : all_body_parts ) {
-            temp_cur[bp] = BODYTEMP_NORM;
-            temp_conv[bp] = BODYTEMP_NORM;
-        }
+        temp_cur.fill( BODYTEMP_NORM );
+        temp_conv.fill( BODYTEMP_NORM );
         return;
     }
     // NOTE : visit weather.h for some details on the numbers used
@@ -5601,27 +5595,19 @@ void player::suffer()
             if (one_in(3600)) {
                 if (one_in(3)) {
                     add_msg_if_player(m_bad, _("You suddenly feel very cold."));
-                    for( const body_part bp : all_body_parts ) {
-                        temp_cur[bp] = BODYTEMP_VERY_COLD;
-                    }
+                    temp_cur.fill( BODYTEMP_VERY_COLD );
                 } else {
                     add_msg_if_player(m_bad, _("You suddenly feel cold."));
-                    for( const body_part bp : all_body_parts ) {
-                        temp_cur[bp] = BODYTEMP_COLD;
-                    }
+                    temp_cur.fill( BODYTEMP_COLD );
                 }
             }
             if (one_in(3600)) {
                 if (one_in(3)) {
                     add_msg_if_player(m_bad, _("You suddenly feel very hot."));
-                    for( const body_part bp : all_body_parts ) {
-                        temp_cur[bp] = BODYTEMP_VERY_HOT;
-                    }
+                    temp_cur.fill( BODYTEMP_VERY_HOT );
                 } else {
                     add_msg_if_player(m_bad, _("You suddenly feel hot."));
-                    for( const body_part bp : all_body_parts ) {
-                        temp_cur[bp] = BODYTEMP_HOT;
-                    }
+                    temp_cur.fill( BODYTEMP_HOT );
                 }
             }
         }

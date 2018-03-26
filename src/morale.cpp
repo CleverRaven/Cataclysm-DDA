@@ -506,9 +506,7 @@ void player_morale::clear()
 {
     points.clear();
     no_body_part = body_part_data();
-    for( const body_part bp : all_body_parts ) {
-        body_parts[bp] = body_part_data();
-    }
+    body_parts.fill( body_part_data() );
     for( auto &m : mutations ) {
         m.second.clear();
     }
