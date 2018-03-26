@@ -533,8 +533,30 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"],
+        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
         "healing_resting" : -0.0025
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER2",
+        "name" : "Very Slow Sleep Healing",
+        "points" : -4,
+        "description" : "You heal much slower than most; sleeping will heal only one third HP compare to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
+        "healing_resting" : -0.0066
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER3",
+        "name" : "Extremely Slow Sleep Healing",
+        "points" : -8,
+        "description" : "You almost cannot recover lost health by sleeping; sleeping will heal only one tenth HP compare to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
+        "healing_resting" : -0.009
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -3897,16 +3919,6 @@
         "prereqs" : ["ROT2"],
         "category": ["MUTCAT_ALPHA"],
         "healing_awake" : -0.0008
-    },{
-        "type" : "mutation",
-        "id" : "NO_HEALING_RESTING",
-        "name" : "Lost resting healing",
-        "points" : -2,
-        "starting_trait" : true,
-        "valid" : true,
-        "purifiable": true,
-        "description" : "Your default ability to regenerate during resting was lost.",
-        "healing_resting" : -0.01 
     },{
         "type" : "mutation",
         "id" : "SUNBURN",
