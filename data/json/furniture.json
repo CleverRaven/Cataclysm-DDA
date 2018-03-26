@@ -938,7 +938,8 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "pipe", "count": [6, 12] }
+                { "item": "pipe", "count": [6, 12] },
+                { "item": "sheet_metal", "count": [1, 2] }
             ]
         },
         "max_volume": 7000,
@@ -2879,6 +2880,8 @@
         "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
+        "deployed_item": "brazier",
+        "examine_action": "deployed_furniture",
         "deconstruct": {
             "items": [
                 { "item": "brazier", "count": 1 }
