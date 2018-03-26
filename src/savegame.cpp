@@ -919,7 +919,7 @@ void overmap::unserialize( std::istream &fin ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->fac_id.empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                    new_npc->set_fac( faction_id( new_npc->fac_id ) );
                 }
                 npcs.push_back( new_npc );
             }

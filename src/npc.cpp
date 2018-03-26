@@ -239,7 +239,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         male = tguy.male;
     }
     fac_id = tguy.fac_id;
-    set_fac( fac_id );
+    set_fac( faction_id( fac_id ) );
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
@@ -267,7 +267,7 @@ void npc::load_info( std::string data )
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
     if( !fac_id.empty() ) {
-        set_fac( fac_id );
+        set_fac( faction_id( fac_id ) );
     }
 }
 
@@ -661,9 +661,9 @@ void npc::randomize_from_faction( faction *fac )
     }
 }
 
-void npc::set_fac( std::string fac_name )
+void npc::set_fac( const string_id<faction> &id )
 {
-    my_fac = g->faction_manager_ptr->get( faction_id( name ) );
+    my_fac = g->faction_manager_ptr->get( id );
     fac_id = my_fac->id;
 }
 
