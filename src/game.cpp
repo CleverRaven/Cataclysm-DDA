@@ -3278,7 +3278,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FACTIONS:
-            list_factions(_("FACTIONS:"));
+            list_factions();
             break;
 
         case ACTION_MORALE:
@@ -4605,7 +4605,7 @@ void game::disp_NPCs()
     inp_mngr.wait_for_any_key();
 }
 
-faction *game::list_factions(std::string title)
+faction *game::list_factions()
 {
     std::vector<const faction *> valfac; // Factions that we know of.
     for( const faction &elem : faction_manager_ptr->all() ) {
@@ -4642,7 +4642,7 @@ faction *game::list_factions(std::string title)
             // Init w_list content
             werase(w_list);
             draw_border(w_list);
-            mvwprintz( w_list, 1, 1, c_white, title );
+            mvwprintz( w_list, 1, 1, c_white, _( "FACTIONS:" ) );
             for (size_t i = 0; i < valfac.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
                 mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
