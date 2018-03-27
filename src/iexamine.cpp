@@ -857,6 +857,18 @@ void iexamine::bars(player &p, const tripoint &examp)
     p.setpos( examp );
 }
 
+void iexamine::deployed_furniture( player &p, const tripoint &pos )
+{
+    if ( !query_yn( _( "Take down the %s?" ), g->m.furn( pos ).obj().name().c_str() ) ) {
+        return;
+    }
+    p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                         g->m.furn( pos ).obj().name().c_str() );
+    const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+    g->m.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    g->m.furn_set( pos, f_null );
+}
+
 /**
  * Determine structure's type and prompts its removal.
  */
@@ -3487,6 +3499,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 {
     static const std::map<std::string, iexamine_function> function_map = {{
         { "none", &iexamine::none },
+        { "deployed_furniture", &iexamine::deployed_furniture },
         { "cvdmachine", &iexamine::cvdmachine },
         { "gaspump", &iexamine::gaspump },
         { "atm", &iexamine::atm },

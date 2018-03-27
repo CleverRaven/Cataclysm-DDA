@@ -835,14 +835,14 @@ void options_manager::init()
 
     get_option("AUTO_PICKUP_ADJACENT").setPrerequisite("AUTO_PICKUP");
 
-    add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", translate_marker( "Auto pickup light items" ),
+    add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", translate_marker( "Auto pickup weight limit" ),
         translate_marker( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
         0, 20, 0
         );
 
     get_option("AUTO_PICKUP_WEIGHT_LIMIT").setPrerequisite("AUTO_PICKUP");
 
-    add( "AUTO_PICKUP_VOL_LIMIT", "general", translate_marker( "Auto pickup small items" ),
+    add( "AUTO_PICKUP_VOL_LIMIT", "general", translate_marker( "Auto pickup volume limit" ),
         translate_marker( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
         0, 20, 0
         );
@@ -886,28 +886,28 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "SAFEMODE", "general", translate_marker( "Safe Mode" ),
+    add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
          translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
          true
     );
 
-    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe Mode proximity distance" ),
+    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe mode proximity distance" ),
          translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance." ),
          0, MAX_VIEW_DISTANCE, 0
     );
 
-    add( "SAFEMODEVEH", "general", translate_marker( "Safe Mode when driving" ),
+    add( "SAFEMODEVEH", "general", translate_marker( "Safe mode when driving" ),
          translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
          false
     );
 
-    add( "AUTOSAFEMODE", "general", translate_marker( "Auto-safe mode" ),
-        translate_marker( "If true, turns safemode automatically back on after it being disabled beforehand.  See option 'Turns to re-enable safe mode'" ),
+    add( "AUTOSAFEMODE", "general", translate_marker( "Auto reactivate safe mode" ),
+        translate_marker( "If true, safe mode will automatically reactivate after a certain number of turns.  See option 'Turns to auto reactivate safe mode.'" ),
         false
         );
 
-    add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to re-enable safe mode" ),
-        translate_marker( "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe Mode proximity distance'." ),
+    add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
+        translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
         1, 100, 50
         );
 
@@ -920,7 +920,7 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTOSAVE", "general", translate_marker( "Periodically autosave" ),
+    add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
         translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
         false
         );
@@ -968,12 +968,12 @@ void options_manager::init()
         build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
         ); // populate the options dynamically
 
-    add( "MUSIC_VOLUME", "general", translate_marker( "Music Volume" ),
+    add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
         translate_marker( "Adjust the volume of the music being played in the background." ),
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
 
-    add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound Effect Volume" ),
+    add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
         translate_marker( "Adjust the volume of sound effects being played by the game." ),
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
@@ -1169,7 +1169,7 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
-    add( "ENABLE_JOYSTICK", "interface", translate_marker( "Enable Joystick" ),
+    add( "ENABLE_JOYSTICK", "interface", translate_marker( "Enable joystick" ),
         translate_marker( "Enable input from joystick." ),
         true, COPT_CURSES_HIDE
         );
@@ -1242,12 +1242,12 @@ void options_manager::init()
 
     get_option("TILES").setPrerequisite("USE_TILES");
 
-    add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel Minimap" ),
+    add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel minimap" ),
         translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
         true, COPT_CURSES_HIDE
         );
 
-    add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel Minimap drawing mode" ),
+    add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel minimap drawing mode" ),
         translate_marker( "Specified the mode in which the minimap drawn." ), {
             { "solid", translate_marker( "Solid" ) },
             { "squares", translate_marker( "Squares" ) },
@@ -1256,21 +1256,21 @@ void options_manager::init()
 
     get_option("PIXEL_MINIMAP_MODE").setPrerequisite("PIXEL_MINIMAP");
 
-    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
+    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel minimap brightness" ),
         translate_marker( "Overall brightness of pixel-detail minimap." ),
         10, 300, 100, COPT_CURSES_HIDE
         );
 
     get_option("PIXEL_MINIMAP_BRIGHTNESS").setPrerequisite("PIXEL_MINIMAP");
 
-    add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
+    add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel minimap height" ),
         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
         0, 100, 0, COPT_CURSES_HIDE
         );
 
     get_option("PIXEL_MINIMAP_HEIGHT").setPrerequisite("PIXEL_MINIMAP");
 
-    add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain Pixel Minimap aspect ratio" ),
+    add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain pixel minimap aspect ratio" ),
         translate_marker( "Preserves the square shape of tiles shown on the pixel minimap." ),
         true, COPT_CURSES_HIDE
         );
@@ -1371,7 +1371,7 @@ void options_manager::init()
 
     mOptionsSort["debug"]++;
 
-    add( "FOV_3D", "debug", translate_marker( "Experimental 3D Field of Vision" ),
+    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
         false
         );
@@ -1491,13 +1491,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add( "STATIC_NPC", "world_default", translate_marker( "Static npcs" ),
-        translate_marker( "If true, the game will spawn static NPC at the start of the game, requires world reset." ),
+    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
+        translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
         false
         );
 
-    add( "RANDOM_NPC", "world_default", translate_marker( "Random npcs" ),
-        translate_marker( "If true, the game will randomly spawn NPC during gameplay." ),
+    add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
+        translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
         false
         );
 

@@ -7,6 +7,7 @@
 #include "color.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "int_id.h"
 #include "explosion.h"
 #include "units.h"
 #include <limits.h>
@@ -38,6 +39,7 @@ class emit;
 using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+struct furn_t;
 
 /**
  * Transform an item into a specific type.
@@ -333,6 +335,25 @@ class pick_lock_actor : public iuse_actor
         pick_lock_actor() : iuse_actor( "picklock" ) {}
 
         ~pick_lock_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
+
+/**
+ * Implements deployable furniture from items
+ */
+class deploy_furn_actor : public iuse_actor
+{
+    public:
+        /**
+         * furniture type id the item should create
+         */
+        string_id<furn_t> furn_type;
+
+        deploy_furn_actor() : iuse_actor( "deploy_furn" ) {}
+
+        ~deploy_furn_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;

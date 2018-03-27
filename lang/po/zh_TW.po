@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-09 08:17-0500\n"
-"PO-Revision-Date: 2018-03-10 11:45+0000\n"
+"POT-Creation-Date: 2018-03-16 08:54-0400\n"
+"PO-Revision-Date: 2018-03-17 11:38+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -3029,21 +3029,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "fungal seeds"
-msgid_plural "fungal seeds"
-msgstr[0] "真菌種子"
-
-#. ~ Description for fungal seeds
-#: lang/json/AMMO_from_json.py
-msgid "Some fungal seeds."
-msgstr "一些真菌種子。"
-
-#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py
-msgid "fungal flower"
-msgstr "真菌花"
-
-#: lang/json/AMMO_from_json.py
 msgid "wooden crossbow bolt"
 msgstr "木製十字弓箭"
 
@@ -4788,6 +4773,21 @@ msgid ""
 "A highly explosive fuel mixture composed of equal parts of oxygen and "
 "acetylene gas."
 msgstr "一種含有相等含量氧氣與乙炔且具有高爆性的燃料混劑。"
+
+#: lang/json/AMMO_from_json.py
+msgid "fungal seeds"
+msgid_plural "fungal seeds"
+msgstr[0] "真菌種子"
+
+#. ~ Description for fungal seeds
+#: lang/json/AMMO_from_json.py
+msgid "Some fungal seeds."
+msgstr "一些真菌種子。"
+
+#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py
+msgid "fungal flower"
+msgstr "真菌花"
 
 #: lang/json/AMMO_from_json.py
 msgid "bismuth"
@@ -15812,6 +15812,13 @@ msgid ""
 "poignant experiences with life, love, and sex."
 msgstr "一本關於成長的經典寓言故事，描述一位年輕男子在生活、愛、和性的有趣和淒美的經驗。"
 
+#. ~ Description for coming of age novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A graphic novel about a young girl living in Iran during the 1980's, seeing "
+"the world change around her as Iraq invaded her country."
+msgstr ""
+
 #: lang/json/BOOK_from_json.py
 msgid "crime novel"
 msgid_plural "crime novels"
@@ -15823,6 +15830,19 @@ msgid ""
 "After their diamond heist goes wrong, the surviving criminals begin to "
 "suspect that one of them is a police informant."
 msgstr "鑽石搶劫案出錯後，倖存的罪犯開始懷疑，同伴其中一人是警方的線人。"
+
+#: lang/json/BOOK_from_json.py
+msgid "crime_novel"
+msgid_plural "crime_novels"
+msgstr[0] ""
+
+#. ~ Description for crime_novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about three people in the fictional city of Los Santos, a gangster, "
+"an upper-class man, and a psychopath, eventually banding together to pull-"
+"off the biggest heist in the city's history"
+msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "drama novel"
@@ -16025,6 +16045,13 @@ msgid ""
 "Second World War, filled with riveting subplots about rat farming and "
 "dysentery."
 msgstr "講述一個驚心動魄的二戰戰俘營中的生存故事，內容充滿了老鼠、農業、以及痢疾。"
+
+#. ~ Description for war novel
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A story about a Bosnean citizen who goes through many hardships and near "
+"death during the breakup of Yugoslavia."
+msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "western novel"
@@ -19013,16 +19040,6 @@ msgid ""
 msgstr "顆粒狀的穀物。常用做為釀酒的原料。它也可以被磨成麵粉。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "barley seeds"
-msgid_plural "barley seeds"
-msgstr[0] "大麥種子"
-
-#. ~ Description for barley seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some barley seeds."
-msgstr "一些大麥籽。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet"
 msgstr "甜菜"
 
@@ -19034,16 +19051,6 @@ msgid ""
 msgstr "這塊根莖已經成熟且充滿糖分；稍做處理就能提取出糖。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sugar beet seeds"
-msgid_plural "sugar beet seeds"
-msgstr[0] "甜菜種子"
-
-#. ~ Description for sugar beet seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some sugar beet seeds."
-msgstr "一些甜菜籽。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "lettuce"
 msgstr "萵苣"
 
@@ -19053,16 +19060,6 @@ msgid "A crisp head of iceberg lettuce."
 msgstr "一個鮮嫩的捲心萵苣。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "lettuce seeds"
-msgid_plural "lettuce seeds"
-msgstr[0] "萵苣種子"
-
-#. ~ Description for lettuce seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some lettuce seeds."
-msgstr "一些萵苣種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cabbage"
 msgstr "捲心菜"
 
@@ -19070,16 +19067,6 @@ msgstr "捲心菜"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hearty head of crisp white cabbage."
 msgstr "一份豐盛的脆白菜頭。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cabbage seeds"
-msgid_plural "cabbage seeds"
-msgstr[0] "捲心菜種子"
-
-#. ~ Description for cabbage seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some white cabbage seeds."
-msgstr "一些白色捲心菜的種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tomato"
@@ -19092,30 +19079,6 @@ msgid ""
 "Juicy red tomato.  It gained popularity in Italy after being brought back "
 "from the New World."
 msgstr "多汁的紅色番茄。從新大陸帶回後便開始在義大利流行開來。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "tomato seeds"
-msgid_plural "tomato seeds"
-msgstr[0] "番茄種子"
-
-#. ~ Description for tomato seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some tomato seeds."
-msgstr "一些番茄種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton seeds"
-msgid_plural "cotton seeds"
-msgstr[0] "棉花種子"
-
-#. ~ Description for cotton seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cotton seeds.  Can be processed to produce an edible oil."
-msgstr "一些棉籽。經過處理後可以產生食用油。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cotton"
-msgstr "棉"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton boll"
@@ -19140,16 +19103,6 @@ msgid "It's a bit tough, but quite delicious."
 msgstr "有點硬，但還滿好吃的。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "broccoli seeds"
-msgid_plural "broccoli seeds"
-msgstr[0] "花椰菜種子"
-
-#. ~ Description for broccoli seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some broccoli seeds."
-msgstr "一些花椰菜種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "zucchini"
 msgstr "西葫蘆"
 
@@ -19157,16 +19110,6 @@ msgstr "西葫蘆"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty summer squash."
 msgstr "美味的西葫蘆。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "zucchini seeds"
-msgid_plural "zucchini seeds"
-msgstr[0] "西葫蘆種子"
-
-#. ~ Description for zucchini seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some zucchini seeds."
-msgstr "一些西葫蘆種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion"
@@ -19180,16 +19123,6 @@ msgid ""
 msgstr "烹飪時常用到的洋蔥。切割這個東西會讓你的眼睛刺痛！"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "onion seeds"
-msgid_plural "onion seeds"
-msgstr[0] "洋蔥種子"
-
-#. ~ Description for onion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some onion seeds."
-msgstr "一些洋蔥種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "garlic bulb"
 msgstr "蒜頭"
 
@@ -19197,20 +19130,6 @@ msgstr "蒜頭"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A pungent garlic bulb.  Popular as a seasoning for its strong flavor."
 msgstr "刺鼻的蒜頭。乾燥之後強勁的味道很受歡迎。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic clove"
-msgid_plural "garlic cloves"
-msgstr[0] "大蒜丁香"
-
-#. ~ Description for garlic clove
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
-msgstr "大蒜丁香。調味時很有用，或者用來種植。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic"
-msgstr "大蒜"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "carrot"
@@ -19223,16 +19142,6 @@ msgid "A healthy root vegetable.  Rich in vitamin A!"
 msgstr "一個健康的根類蔬菜。富含維他命 A！"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "carrot seeds"
-msgid_plural "carrot seeds"
-msgstr[0] "胡蘿蔔種子"
-
-#. ~ Description for carrot seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some carrot seeds."
-msgstr "一些胡蘿蔔種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "corn"
 msgid_plural "corn"
 msgstr[0] "玉米"
@@ -19243,16 +19152,6 @@ msgid "Delicious golden kernels."
 msgstr "美味的黃金蔬菜。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "corn seeds"
-msgid_plural "corn seeds"
-msgstr[0] "玉米種子"
-
-#. ~ Description for corn seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some corn seeds."
-msgstr "一些玉米種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "chili pepper"
 msgstr "辣椒"
 
@@ -19260,20 +19159,6 @@ msgstr "辣椒"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spicy chili pepper."
 msgstr "很辣的辣椒。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili pepper seeds"
-msgid_plural "chili pepper seeds"
-msgstr[0] "辣椒種子"
-
-#. ~ Description for chili pepper seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some chili pepper seeds."
-msgstr "一些辣椒種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "chili_pepper"
-msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lettuce"
@@ -19796,18 +19681,6 @@ msgid ""
 msgstr "看起來像是拳頭大的藍莓，只是顏色是粉紅色。有很強烈的香氣，很明顯是外星的突變品種。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "marloss seed"
-msgid_plural "marloss seeds"
-msgstr[0] "馬洛斯種子"
-
-#. ~ Description for marloss seed
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"This looks like a sunflower seed the size of your palm.  It has a strong but"
-" delicious aroma, but is clearly either mutated or of alien origin."
-msgstr "它看起來像是手掌大的向日葵種子，有著強烈但美味的香氣，但明顯不是突變而來就是外星物種。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marloss gelatin"
 msgid_plural "marloss gelatin"
 msgstr[0] "馬洛斯果凝膠"
@@ -19872,16 +19745,6 @@ msgstr[0] "燕麥"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Raw oats."
 msgstr "生燕麥。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "oat seeds"
-msgid_plural "oat seeds"
-msgstr[0] "燕麥種子"
-
-#. ~ Description for oat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some oat seeds."
-msgstr "一些燕麥種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dried beans"
@@ -20219,32 +20082,6 @@ msgid ""
 "An irradiated pumpkin will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr "被輻射照過的南瓜，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "raw beans"
-msgid_plural "raw beans"
-msgstr[0] "生豆子"
-
-#. ~ Description for raw beans
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
-" them to make them tasty.  Alternatively, you could plant them."
-msgstr "一些未煮過的生豆子。生豆有著微量毒性，不過煮過之後就會變得美味。或者你可以栽種在地上。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "seed potato"
-msgid_plural "seed potatoes"
-msgstr[0] "馬鈴薯種薯"
-
-#. ~ Description for seed potato
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A raw potato, cut into pieces, separating each bud for planting."
-msgstr "一個切成塊狀的生馬鈴薯，每個分開了的芽可用來種植。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "potatoes"
-msgstr "馬鈴薯"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated potato"
@@ -20848,22 +20685,6 @@ msgid ""
 "A very old type of pasta made with several layers of lasagne sheets "
 "alternated with sauces and meats.  Made better with human flesh."
 msgstr "一種非常傳統的義大利麵，利用了許多層的麵皮，佐以醬汁與肉。只是肉的部份都是人肉。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis seeds"
-msgid_plural "cannabis seeds"
-msgstr[0] "大麻種子"
-
-#. ~ Description for cannabis seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
-"eaten raw."
-msgstr "大麻植物的種子。充滿了維他命，可以烤或生吃。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cannabis"
-msgstr "大麻"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mayonnaise"
@@ -22036,16 +21857,6 @@ msgid "Come from the gourd family, not tasty but very juicy."
 msgstr "葫蘆科植物，沒什麼味道但是非常多汁。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cucumber seeds"
-msgid_plural "cucumber seeds"
-msgstr[0] "黃瓜種子"
-
-#. ~ Description for cucumber seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some cucumber seeds."
-msgstr "一些黃瓜種子。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cucumber"
 msgstr "輻照黃瓜"
 
@@ -22064,16 +21875,6 @@ msgstr "芹菜"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Neither tasty nor very nutritious, but it goes well with salad."
 msgstr "既不好吃也說不上非常營養，但是適合做沙拉。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "celery seeds"
-msgid_plural "celery seeds"
-msgstr[0] "芹菜種子"
-
-#. ~ Description for celery seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some celery seeds."
-msgstr "一些芹菜種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dahlia root"
@@ -22538,53 +22339,8 @@ msgid "A stalk of thyme.  Smells delicious."
 msgstr "一根麝香草。聞起來很好吃。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "thyme seeds"
-msgid_plural "thyme seeds"
-msgstr[0] "麝香草種子"
-
-#. ~ Description for thyme seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some thyme seeds.  You could probably plant these."
-msgstr "一些麝香草種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "canola seeds"
-msgid_plural "canola seeds"
-msgstr[0] "油菜籽"
-
-#. ~ Description for canola seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Some canola seeds.  You could probably plant these, or press them into oil."
-msgstr "一些油菜籽，你或許可以種一些試試，或者將它製作油"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "canola"
 msgstr "油菜"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "pumpkin seeds"
-msgid_plural "pumpkin seeds"
-msgstr[0] "南瓜種子"
-
-#. ~ Description for pumpkin seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
-msgstr "一些生南瓜籽。可以油炸食用或是用於種植。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower seeds"
-msgid_plural "sunflower seeds"
-msgstr[0] "向日葵種子"
-
-#. ~ Description for sunflower seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some raw sunflower seeds.  Could be pressed into oil."
-msgstr "一些向日葵種子。可以搾出油。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "sunflower"
-msgstr "向日葵"
 
 #. ~ Description for canola
 #: lang/json/COMESTIBLE_from_json.py
@@ -22602,16 +22358,6 @@ msgid ""
 msgstr "一條毒狗草的莖，它具有非常多的纖維質和輕微的毒性。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "dogbane seeds"
-msgid_plural "dogbane seeds"
-msgstr[0] "毒狗草種子"
-
-#. ~ Description for dogbane seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dogbane seeds.  You could probably plant these."
-msgstr "一些毒狗草的種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "bee balm"
 msgstr "管蜂香草"
 
@@ -22620,16 +22366,6 @@ msgstr "管蜂香草"
 msgid ""
 "A snow-white flower also known as wild bergamot.  Smells faintly of mint."
 msgstr "一種雪白的花，也被叫作野生佛手柑，有一點薄荷味。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "bee balm seeds"
-msgid_plural "bee balm seeds"
-msgstr[0] "管蜂香草種子"
-
-#. ~ Description for bee balm seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some bee balm seeds.  You could probably plant these."
-msgstr "一些管蜂香草的種子，你或許可以種一些試試。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bee balm tea"
@@ -22651,98 +22387,6 @@ msgstr "艾草"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A stalk of mugwort.  Smells wonderful."
 msgstr "一條艾草的莖。聞起來很棒。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mugwort seeds"
-msgid_plural "mugwort seeds"
-msgstr[0] "艾草種子"
-
-#. ~ Description for mugwort seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mugwort seeds.  You could probably plant these."
-msgstr "一些艾草的種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "buckwheat seeds"
-msgid_plural "buckwheat seeds"
-msgstr[0] "蕎麥種子"
-
-#. ~ Description for buckwheat seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some buckwheat seeds.  You could probably plant these."
-msgstr "一些蕎麥的種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb seeds"
-msgid_plural "wild herb seeds"
-msgstr[0] "野生草藥種子"
-
-#. ~ Description for wild herb seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some seeds harvested from wild herbs.  You could probably plant these."
-msgstr "一些野生草藥的種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild herb"
-msgstr "野生草藥"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable stems"
-msgid_plural "wild vegetable stems"
-msgstr[0] "野菜莖"
-
-#. ~ Description for wild vegetable stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some wild vegetable stems.  You could probably plant these."
-msgstr "一些野菜的莖，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "wild vegetable"
-msgstr "野菜"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "dandelion seeds"
-msgid_plural "dandelion seeds"
-msgstr[0] "蒲公英籽"
-
-#. ~ Description for dandelion seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some dandelion seeds.  You could probably plant these."
-msgstr "一些蒲公英的種子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "dandelion"
-msgstr "蒲公英"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "rhubarb stems"
-msgid_plural "rhubarb stems"
-msgstr[0] "大黃的莖"
-
-#. ~ Description for rhubarb stems
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some rhubarb stems.  You could probably plant these."
-msgstr "一些大黃的莖，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mushroom spores"
-msgid_plural "mushroom spores"
-msgstr[0] "蘑菇孢子"
-
-#. ~ Description for mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some mushroom spores.  You could probably plant these."
-msgstr "一些蘑菇的孢子，你或許可以種一些試試。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "morel mushroom spores"
-msgid_plural "morel mushroom spores"
-msgstr[0] "羊肚菌孢子"
-
-#. ~ Description for morel mushroom spores
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Some morel mushroom spores.  You could probably plant these."
-msgstr "一些羊肚菌的孢子，你或許可以種一些試試。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "eggnog"
@@ -23475,24 +23119,6 @@ msgid ""
 "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain"
 " chemistry."
 msgstr "純化的的古柯鹼結晶，極度容易令人上癮。此藥品會傷害大腦。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "datura seeds"
-msgid_plural "datura seeds"
-msgstr[0] "曼陀羅花種子"
-
-#. ~ Description for datura seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
-"psychoactive chemicals, these tiny seeds are a potent analgesic and "
-"deliriant, and can be deadly in cases of overdose.  You could probably plant"
-" these."
-msgstr "從曼陀羅植物帶刺的莢囊中取得的又小又黑的種子。充滿了強力的致幻劑，這種微小的種子是一種強效的止痛劑和迷幻藥，使用過量會致命。也許這可以用來種植。"
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "datura"
-msgstr "曼陀羅"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "non-drowsy cough syrup"
@@ -24446,6 +24072,407 @@ msgstr[0] "草莓種子"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
 msgstr "一些草莓的種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "barley seeds"
+msgid_plural "barley seeds"
+msgstr[0] "大麥種子"
+
+#. ~ Description for barley seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some barley seeds."
+msgstr "一些大麥籽。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sugar beet seeds"
+msgid_plural "sugar beet seeds"
+msgstr[0] "甜菜種子"
+
+#. ~ Description for sugar beet seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some sugar beet seeds."
+msgstr "一些甜菜籽。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lettuce seeds"
+msgid_plural "lettuce seeds"
+msgstr[0] "萵苣種子"
+
+#. ~ Description for lettuce seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some lettuce seeds."
+msgstr "一些萵苣種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cabbage seeds"
+msgid_plural "cabbage seeds"
+msgstr[0] "捲心菜種子"
+
+#. ~ Description for cabbage seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some white cabbage seeds."
+msgstr "一些白色捲心菜的種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tomato seeds"
+msgid_plural "tomato seeds"
+msgstr[0] "番茄種子"
+
+#. ~ Description for tomato seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some tomato seeds."
+msgstr "一些番茄種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton seeds"
+msgid_plural "cotton seeds"
+msgstr[0] "棉花種子"
+
+#. ~ Description for cotton seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cotton seeds.  Can be processed to produce an edible oil."
+msgstr "一些棉籽。經過處理後可以產生食用油。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton"
+msgstr "棉"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "broccoli seeds"
+msgid_plural "broccoli seeds"
+msgstr[0] "花椰菜種子"
+
+#. ~ Description for broccoli seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some broccoli seeds."
+msgstr "一些花椰菜種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "zucchini seeds"
+msgid_plural "zucchini seeds"
+msgstr[0] "西葫蘆種子"
+
+#. ~ Description for zucchini seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some zucchini seeds."
+msgstr "一些西葫蘆種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "onion seeds"
+msgid_plural "onion seeds"
+msgstr[0] "洋蔥種子"
+
+#. ~ Description for onion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some onion seeds."
+msgstr "一些洋蔥種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic clove"
+msgid_plural "garlic cloves"
+msgstr[0] "大蒜丁香"
+
+#. ~ Description for garlic clove
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
+msgstr "大蒜丁香。調味時很有用，或者用來種植。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic"
+msgstr "大蒜"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "carrot seeds"
+msgid_plural "carrot seeds"
+msgstr[0] "胡蘿蔔種子"
+
+#. ~ Description for carrot seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some carrot seeds."
+msgstr "一些胡蘿蔔種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "corn seeds"
+msgid_plural "corn seeds"
+msgstr[0] "玉米種子"
+
+#. ~ Description for corn seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some corn seeds."
+msgstr "一些玉米種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper seeds"
+msgid_plural "chili pepper seeds"
+msgstr[0] "辣椒種子"
+
+#. ~ Description for chili pepper seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some chili pepper seeds."
+msgstr "一些辣椒種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili_pepper"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cucumber seeds"
+msgid_plural "cucumber seeds"
+msgstr[0] "黃瓜種子"
+
+#. ~ Description for cucumber seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some cucumber seeds."
+msgstr "一些黃瓜種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "seed potato"
+msgid_plural "seed potatoes"
+msgstr[0] "馬鈴薯種薯"
+
+#. ~ Description for seed potato
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A raw potato, cut into pieces, separating each bud for planting."
+msgstr "一個切成塊狀的生馬鈴薯，每個分開了的芽可用來種植。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "potatoes"
+msgstr "馬鈴薯"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis seeds"
+msgid_plural "cannabis seeds"
+msgstr[0] "大麻種子"
+
+#. ~ Description for cannabis seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
+"eaten raw."
+msgstr "大麻植物的種子。充滿了維他命，可以烤或生吃。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cannabis"
+msgstr "大麻"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "marloss seed"
+msgid_plural "marloss seeds"
+msgstr[0] "馬洛斯種子"
+
+#. ~ Description for marloss seed
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This looks like a sunflower seed the size of your palm.  It has a strong but"
+" delicious aroma, but is clearly either mutated or of alien origin."
+msgstr "它看起來像是手掌大的向日葵種子，有著強烈但美味的香氣，但明顯不是突變而來就是外星物種。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw beans"
+msgid_plural "raw beans"
+msgstr[0] "生豆子"
+
+#. ~ Description for raw beans
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Raw, uncooked beans.  They are mildly toxic in this form, but you could cook"
+" them to make them tasty.  Alternatively, you could plant them."
+msgstr "一些未煮過的生豆子。生豆有著微量毒性，不過煮過之後就會變得美味。或者你可以栽種在地上。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "thyme seeds"
+msgid_plural "thyme seeds"
+msgstr[0] "麝香草種子"
+
+#. ~ Description for thyme seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some thyme seeds.  You could probably plant these."
+msgstr "一些麝香草種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canola seeds"
+msgid_plural "canola seeds"
+msgstr[0] "油菜籽"
+
+#. ~ Description for canola seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some canola seeds.  You could probably plant these, or press them into oil."
+msgstr "一些油菜籽，你或許可以種一些試試，或者將它製作油"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "pumpkin seeds"
+msgid_plural "pumpkin seeds"
+msgstr[0] "南瓜種子"
+
+#. ~ Description for pumpkin seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
+msgstr "一些生南瓜籽。可以油炸食用或是用於種植。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower seeds"
+msgid_plural "sunflower seeds"
+msgstr[0] "向日葵種子"
+
+#. ~ Description for sunflower seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw sunflower seeds.  Could be pressed into oil."
+msgstr "一些向日葵種子。可以搾出油。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sunflower"
+msgstr "向日葵"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dogbane seeds"
+msgid_plural "dogbane seeds"
+msgstr[0] "毒狗草種子"
+
+#. ~ Description for dogbane seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dogbane seeds.  You could probably plant these."
+msgstr "一些毒狗草的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bee balm seeds"
+msgid_plural "bee balm seeds"
+msgstr[0] "管蜂香草種子"
+
+#. ~ Description for bee balm seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some bee balm seeds.  You could probably plant these."
+msgstr "一些管蜂香草的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mugwort seeds"
+msgid_plural "mugwort seeds"
+msgstr[0] "艾草種子"
+
+#. ~ Description for mugwort seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mugwort seeds.  You could probably plant these."
+msgstr "一些艾草的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "buckwheat seeds"
+msgid_plural "buckwheat seeds"
+msgstr[0] "蕎麥種子"
+
+#. ~ Description for buckwheat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some buckwheat seeds.  You could probably plant these."
+msgstr "一些蕎麥的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb seeds"
+msgid_plural "wild herb seeds"
+msgstr[0] "野生草藥種子"
+
+#. ~ Description for wild herb seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some seeds harvested from wild herbs.  You could probably plant these."
+msgstr "一些野生草藥的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild herb"
+msgstr "野生草藥"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable stems"
+msgid_plural "wild vegetable stems"
+msgstr[0] "野菜莖"
+
+#. ~ Description for wild vegetable stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some wild vegetable stems.  You could probably plant these."
+msgstr "一些野菜的莖，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wild vegetable"
+msgstr "野菜"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dandelion seeds"
+msgid_plural "dandelion seeds"
+msgstr[0] "蒲公英籽"
+
+#. ~ Description for dandelion seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dandelion seeds.  You could probably plant these."
+msgstr "一些蒲公英的種子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "dandelion"
+msgstr "蒲公英"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "rhubarb stems"
+msgid_plural "rhubarb stems"
+msgstr[0] "大黃的莖"
+
+#. ~ Description for rhubarb stems
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some rhubarb stems.  You could probably plant these."
+msgstr "一些大黃的莖，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mushroom spores"
+msgid_plural "mushroom spores"
+msgstr[0] "蘑菇孢子"
+
+#. ~ Description for mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mushroom spores.  You could probably plant these."
+msgstr "一些蘑菇的孢子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "morel mushroom spores"
+msgid_plural "morel mushroom spores"
+msgstr[0] "羊肚菌孢子"
+
+#. ~ Description for morel mushroom spores
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some morel mushroom spores.  You could probably plant these."
+msgstr "一些羊肚菌的孢子，你或許可以種一些試試。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "datura seeds"
+msgid_plural "datura seeds"
+msgstr[0] "曼陀羅花種子"
+
+#. ~ Description for datura seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
+"psychoactive chemicals, these tiny seeds are a potent analgesic and "
+"deliriant, and can be deadly in cases of overdose.  You could probably plant"
+" these."
+msgstr "從曼陀羅植物帶刺的莢囊中取得的又小又黑的種子。充滿了強力的致幻劑，這種微小的種子是一種強效的止痛劑和迷幻藥，使用過量會致命。也許這可以用來種植。"
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "datura"
+msgstr "曼陀羅"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "celery seeds"
+msgid_plural "celery seeds"
+msgstr[0] "芹菜種子"
+
+#. ~ Description for celery seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some celery seeds."
+msgstr "一些芹菜種子。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "oat seeds"
+msgid_plural "oat seeds"
+msgstr[0] "燕麥種子"
+
+#. ~ Description for oat seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some oat seeds."
+msgstr "一些燕麥種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat seeds"
@@ -29448,6 +29475,18 @@ msgid "A set of various vehicle controls.  Useful for crafting."
 msgstr "一組通用於多種車輛的控制器。製作物品時很有用。"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "dashboard"
+msgid_plural "dashboards"
+msgstr[0] ""
+
+#. ~ Description for dashboard
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A vehicle instrument panel with various gauges and switches.  Useful for "
+"crafting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "electric motor"
 msgid_plural "electric motors"
@@ -31790,6 +31829,10 @@ msgid "FUEL"
 msgstr "燃料"
 
 #: lang/json/ITEM_CATEGORY_from_json.py
+msgid "SEEDS"
+msgstr ""
+
+#: lang/json/ITEM_CATEGORY_from_json.py
 msgid "CHEMICAL STUFF"
 msgstr "化學製品"
 
@@ -32711,6 +32754,48 @@ msgstr "Vz.82 蠍式衝鋒槍彈匣"
 msgid ""
 "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov."
 msgstr "一個標準的 20 發鋼製盒狀彈匣，能容納 9x18mm 馬卡洛夫子彈，適用於 Vz.82 蠍式衝鋒槍。"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid "A pressurized 3L canister designed to feed a flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "small pressurized fuel tank"
+msgstr ""
+
+#. ~ Description for small pressurized fuel tank
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A pressurized 0.5L canister built for use with a small auxiliary "
+"flamethrower."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-2 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-2 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 2L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RM450-4 fuel canister"
+msgstr ""
+
+#. ~ Description for RM450-4 fuel canister
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 4L pressurized steel canister with a valve designed for the RM451's feed "
+"system."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "nail rifle magazine"
@@ -44970,15 +45055,15 @@ msgstr[0] "睡眠中的殭屍奴隸"
 
 #. ~ Use action friendly_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
-msgstr "這隻殭屍腳步不穩、步履蹣跚。"
+msgid "The jabberwock climbs to its feet and shambles around."
+msgstr ""
 
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
-"Something has gone wrong; after getting up the zombie lumbers toward you "
-"menacingly!"
-msgstr "出了一些錯誤，這隻殭屍伐木工來勢洶洶的朝你衝過來！"
+"Something has gone wrong; after getting up the jabberwock lumbers toward you"
+" menacingly!"
+msgstr ""
 
 #. ~ Description for dormant minion
 #: lang/json/TOOL_from_json.py
@@ -56119,6 +56204,10 @@ msgid ""
 "rifle to the lightweight .410 shotgun bore.  The conversion results in a "
 "slight reduction to accuracy."
 msgstr "這個模組用來修改霰彈槍和 7.62x39mm、.223、.308 或 .30-06 步槍，使它們可以使用較輕盈的 .410 號徑子彈。修改後會稍為減少準確性。"
+
+#: lang/json/harvest_from_json.py
+msgid "You gut and fillet the fish"
+msgstr ""
 
 #: lang/json/harvest_from_json.py
 msgid ""
@@ -97082,8 +97171,8 @@ msgid "POWER"
 msgstr "能量"
 
 #: src/game.cpp
-msgid "STA"
-msgstr "體力"
+msgid "Stm"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -102765,6 +102854,10 @@ msgid "* This item <bad>conducts</bad> electricity."
 msgstr "* 此物品會<bad>導電</bad>。"
 
 #: src/item.cpp
+msgid "* This item can be <info>worn with a helmet</info>."
+msgstr ""
+
+#: src/item.cpp
 msgid "* This piece of clothing <info>fits</info> you perfectly."
 msgstr "* 這一件衣物很<info>合身</info>。"
 
@@ -103656,6 +103749,10 @@ msgstr "這看起來不健康，你確定要喝？"
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to eat it?"
 msgstr "這看起來不健康，你確定要吃？"
+
+#: src/iuse.cpp
+msgid "Blech, that tastes gross!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Blech, that burns your throat!"
@@ -112812,6 +112909,11 @@ msgid "Skill rust: %d%%"
 msgstr "技能衰退: %d%%"
 
 #: src/newcharacter.cpp
+#, c-format
+msgid "Crafting bonus: %2d%%"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid ""
 "Intelligence is also used when crafting, installing bionics, and interacting"
 " with NPCs."
@@ -118032,12 +118134,12 @@ msgid "You're already wearing footwear!"
 msgstr "你已經穿了鞋了！"
 
 #: src/player.cpp
-msgid "You can't wear a helmet!"
-msgstr "你無法戴上頭盔！"
+msgid "You can't wear that with other headgear!"
+msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear another helmet!"
-msgstr "你無法再戴上另一個頭盔！"
+msgid "You can't wear that much on your head!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You can't wear that, it's made of wool!"
@@ -119009,8 +119111,8 @@ msgid "Skill rust:"
 msgstr "技能衰減:"
 
 #: src/player_display.cpp
-msgid "Crafting Bonus:"
-msgstr "物品製作加成:"
+msgid "Crafting bonus:"
+msgstr ""
 
 #: src/player_display.cpp
 msgid ""
@@ -121311,6 +121413,14 @@ msgstr "力量 "
 #: src/veh_interact.cpp
 msgid "Noise"
 msgstr "聲響"
+
+#: src/veh_interact.cpp
+msgid "NoisRed"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Noise Reduction"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Range"

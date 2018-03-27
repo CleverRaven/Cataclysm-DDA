@@ -4058,7 +4058,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "...but acidic blood melts the %s, destroying it!" ),
                                       it->tname().c_str() );
-                p->inv.remove_item( it );
+                p->i_rem( it );
                 return 0;
             }
             p->add_msg_if_player( m_info, _( "...but acidic blood damages the %s!" ), it->tname().c_str() );
