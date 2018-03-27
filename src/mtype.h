@@ -30,7 +30,7 @@ enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
-using mon_action_death  = void ( * )( monster * );
+using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 struct MonsterGroup;
