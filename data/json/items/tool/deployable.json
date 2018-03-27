@@ -3,13 +3,14 @@
     "id": "brazier",
     "type": "TOOL",
     "name": "brazier",
-    "name_plural": "brazier",
-    "description": "A metal stand used to contain a fire.",
+    "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": 5000,
     "volume": 10,
     "price": 5000,
+    "to_hit": -4,
+    "bashing": 7,
     "material": [ "steel" ],
-    "symbol": "#",
+    "symbol": ";",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" }
   }

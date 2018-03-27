@@ -2882,11 +2882,6 @@
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
         "deployed_item": "brazier",
         "examine_action": "deployed_furniture",
-        "deconstruct": {
-            "items": [
-                { "item": "brazier", "count": 1 }
-            ]
-        },
         "max_volume": 4000,
         "bash": {
             "str_min": 8, "str_max": 30,
