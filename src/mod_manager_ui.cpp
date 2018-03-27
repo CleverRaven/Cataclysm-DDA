@@ -18,7 +18,7 @@ mod_ui::mod_ui( mod_manager &mman )
 bool compare_mod_by_name_and_category( const MOD_INFORMATION *a, const MOD_INFORMATION *b )
 {
     return ( ( a->category < b->category ) || ( ( a->category == b->category ) &&
-             ( a->name < b->name ) ) );
+             ( a->name() < b->name() ) ) );
 }
 
 void mod_ui::set_usable_mods()
@@ -70,7 +70,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         const auto &deps = mod->dependencies;
         auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
             if( e.is_valid() ) {
-                return string_format( "[%s]", e->name.c_str() );
+                return string_format( "[%s]", e->name() );
             } else {
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }

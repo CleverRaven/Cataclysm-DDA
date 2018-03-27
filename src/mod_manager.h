@@ -20,6 +20,7 @@ class mod_ui;
 class game;
 class worldfactory;
 class JsonObject;
+class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
@@ -29,40 +30,46 @@ struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
 
 struct MOD_INFORMATION {
-    std::string name;
-    mod_id ident;
+    private:
+        friend mod_manager;
+        std::string name_;
 
-    /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
-    std::string path;
+    public:
+        std::string name() const;
 
-    /** If set load legacy migrations from this location dependent upon save version */
-    std::string legacy;
+        mod_id ident;
 
-    /** All authors who have added content to the mod (excluding maintenance changes) */
-    std::set<std::string> authors;
+        /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
+        std::string path;
 
-    /**
-     *  Assigned maintainers responsible for maintaining compatibility with core
-     *  @note these should be verbatim GH account names
-     */
-    std::set<std::string> maintainers;
+        /** If set load legacy migrations from this location dependent upon save version */
+        std::string legacy;
 
-    std::string description;
-    std::string version;
+        /** All authors who have added content to the mod (excluding maintenance changes) */
+        std::set<std::string> authors;
 
-    /** What other mods must be loaded prior to this one? */
-    std::set<mod_id> dependencies;
+        /**
+         *  Assigned maintainers responsible for maintaining compatibility with core
+         *  @note these should be verbatim GH account names
+         */
+        std::set<std::string> maintainers;
 
-    /** Core mods are loaded before any other mods */
-    bool core = false;
+        std::string description;
+        std::string version;
 
-    /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
-    bool obsolete = false;
+        /** What other mods must be loaded prior to this one? */
+        std::set<mod_id> dependencies;
 
-    /** Does this mod require Lua support? **/
-    bool need_lua() const;
+        /** Core mods are loaded before any other mods */
+        bool core = false;
 
-    std::pair<int, std::string> category = { -1, "" };
+        /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
+        bool obsolete = false;
+
+        /** Does this mod require Lua support? **/
+        bool need_lua() const;
+
+        std::pair<int, std::string> category = { -1, "" };
 };
 
 class mod_manager

@@ -691,12 +691,12 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     const MOD_INFORMATION &mod = **iter;
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name() );
                     } else {
-                        trim_and_print( w, iNum-start, 4, wwidth, c_white, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_white, mod.name() );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name() );
 #endif
 
                     if( w_shift ) {
@@ -1139,7 +1139,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             for( const mod_id &mod : world->active_mod_order ) {
                 const MOD_INFORMATION &temp = *mod;
                 if ( temp.need_lua() ) {
-                    popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
+                    popup( _( "Mod '%s' requires Lua support." ), temp.name() );
                     return -2; // Move back to modselect tab.
                 }
             }

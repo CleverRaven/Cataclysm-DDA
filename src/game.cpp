@@ -348,12 +348,12 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         const MOD_INFORMATION &mod = *e;
 
         if( !tree.is_available( mod.ident ) ) {
-            std::cerr << "Missing dependencies: " << mod.name << "\n"
+            std::cerr << "Missing dependencies: " << mod.name() << "\n"
                       << tree.get_node( mod.ident )->s_errors() << std::endl;
             return false;
         }
 
-        std::cout << "Checking mod " << mod.name << " [" << mod.ident.str() << "]" << std::endl;
+        std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
             load_core_data( ui );
@@ -3733,7 +3733,7 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     for( const mod_id &e : packs ) {
         if( e.is_valid() ) {
             available.emplace_back( e );
-            ui.add_entry( e->name );
+            ui.add_entry( e->name() );
         } else {
             missing.push_back( e );
         }

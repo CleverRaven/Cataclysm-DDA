@@ -38,6 +38,17 @@ bool string_id<MOD_INFORMATION>::is_valid() const
     return world_generator->get_mod_manager().mod_map.count( *this ) > 0;
 }
 
+std::string MOD_INFORMATION::name() const
+{
+    if( name_.empty() ) {
+        // "No name" gets confusing if many mods have no name
+        //~ name of a mod that has no name entry, (%s is the mods identifier)
+        return string_format( _( "No name (%s)" ), ident.c_str() );
+    } else {
+        return _( name_.c_str() );
+    }
+}
+
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
@@ -204,13 +215,6 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     }
 
     std::string m_name = jo.get_string("name", "");
-    if (m_name.empty()) {
-        // "No name" gets confusing if many mods have no name
-        //~ name of a mod that has no name entry, (%s is the mods identifier)
-        m_name = string_format(_("No name (%s)"), m_ident.c_str());
-    } else {
-        m_name = _(m_name.c_str());
-    }
 
     std::string m_cat = jo.get_string("category", "");
     std::pair<int, std::string> p_cat = {-1, ""};
@@ -234,7 +238,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 
     MOD_INFORMATION modfile;
     modfile.ident = m_ident;
-    modfile.name = m_name;
+    modfile.name_ = m_name;
     modfile.category = p_cat;
 
     if( assign( jo, "path", modfile.path ) ) {
