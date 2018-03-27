@@ -162,16 +162,18 @@ void mod_manager::remove_mod( const mod_id &ident )
 void mod_manager::remove_invalid_mods( std::vector<mod_id> &m ) const
 {
     m.erase( std::remove_if( m.begin(), m.end(), [this]( const mod_id &mod ) {
-        return !mod.is_valid();
+        return mod_map.count( mod ) == 0;
     } ), m.end() );
 }
 
 bool mod_manager::set_default_mods( const mod_id &ident )
 {
-    if( !ident.is_valid() ) {
+    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
+    const auto iter = mod_map.find( ident );
+    if( iter == mod_map.end() ) {
         return false;
     }
-    const MOD_INFORMATION &mod = *ident;
+    const MOD_INFORMATION &mod = iter->second;
     auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
     remove_invalid_mods( deps );
     default_mods = deps;
@@ -193,7 +195,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     }
 
     const mod_id m_ident( jo.get_string( "ident" ) );
-    if( m_ident.is_valid() ) {
+    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
+    if( mod_map.count( m_ident ) > 0 ) {
         // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
