@@ -488,7 +488,7 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Visual Studio Guide
 
-Visual Studio 2015 (or later) is required to build Cataclysm. We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
+Visual Studio 2015 (or later) is required to build Cataclysm.  If you use a later version of Visual Studio, you will need to (enable the Visual Studio 2015 (v140) platform toolset)[https://developercommunity.visualstudio.com/content/problem/48806/cant-find-v140-in-visual-studio-2017.html]. We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
 
 ### Dependencies
 
