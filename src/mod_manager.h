@@ -120,6 +120,10 @@ class mod_manager
         void load_mods_list( WORLDPTR world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
+        const std::vector<mod_id> &get_usable_mods() const {
+            return usable_mods;
+        }
+
     protected:
     private:
         // Make this accessible for now
@@ -165,6 +169,10 @@ class mod_manager
         t_mod_list default_mods;
         /** Second field is optional replacement mod */
         std::map<mod_id, mod_id> mod_replacements;
+
+        std::vector<mod_id> usable_mods;
+
+        void set_usable_mods();
 };
 
 class mod_ui
@@ -172,7 +180,6 @@ class mod_ui
     public:
         mod_ui( mod_manager &modman );
 
-        std::vector<mod_id> usable_mods;
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;
         dependency_tree &mm_tree;
@@ -184,9 +191,6 @@ class mod_ui
 
         bool can_shift_up( long selection, std::vector<mod_id> active_list );
         bool can_shift_down( long selection, std::vector<mod_id> active_list );
-
-    private:
-        void set_usable_mods();
 };
 
 #endif

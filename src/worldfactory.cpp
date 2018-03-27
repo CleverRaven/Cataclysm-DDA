@@ -838,7 +838,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     int tab_output = 0;
     size_t last_active_header = 0;
     size_t active_header = 0;
-    size_t useable_mod_count = mman_ui->usable_mods.size();
+    size_t useable_mod_count = mman->get_usable_mods().size();
     int startsel[2] = {0, 0};
     size_t cursel[2] = {0, 0};
     size_t iCurrentTab = 0;
@@ -872,7 +872,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( recalc_tabs ) {
             current_tab_mods.clear();
 
-            for( const auto &item : mman_ui->usable_mods ) {
+            for( const auto &item : mman->get_usable_mods() ) {
                 const auto &iter = get_mod_list_cat_tab().find( get_mod_list_categories()[item->category.first].first );
 
                 std::string sCatTab = "tab_default";

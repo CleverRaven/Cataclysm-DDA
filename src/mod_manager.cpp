@@ -108,6 +108,7 @@ mod_manager::mod_manager()
 {
     load_replacement_mods( FILENAMES["mods-replacements"] );
     refresh_mod_list();
+    set_usable_mods();
 }
 
 mod_manager::~mod_manager() = default;
@@ -432,4 +433,38 @@ void mod_manager::load_mods_list(WORLDPTR world) const
 const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 {
     return default_mods;
+}
+
+inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+        const MOD_INFORMATION *const b )
+{
+    return ( a->category < b->category ) || ( ( a->category == b->category ) &&
+            ( a->name() < b->name() ) );
+}
+
+void mod_manager::set_usable_mods()
+{
+    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> ordered_mods;
+
+    std::vector<const MOD_INFORMATION *> mods;
+    for( const auto &pair : mod_map ) {
+        if( !pair.second.obsolete ) {
+            mods.push_back( &pair.second );
+        }
+    }
+    std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
+
+    for( const MOD_INFORMATION *const modinfo : mods ) {
+        if( modinfo->core ) {
+            available_cores.push_back( modinfo->ident );
+        } else {
+            available_supplementals.push_back( modinfo->ident );
+        }
+    }
+    ordered_mods.insert( ordered_mods.begin(), available_supplementals.begin(),
+                         available_supplementals.end() );
+    ordered_mods.insert( ordered_mods.begin(), available_cores.begin(), available_cores.end() );
+
+    usable_mods = ordered_mods;
 }

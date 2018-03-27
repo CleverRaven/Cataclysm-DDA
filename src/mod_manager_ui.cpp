@@ -12,40 +12,6 @@ mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
     , mm_tree( active_manager.get_tree() )
 {
-    set_usable_mods();
-}
-
-bool compare_mod_by_name_and_category( const MOD_INFORMATION *a, const MOD_INFORMATION *b )
-{
-    return ( ( a->category < b->category ) || ( ( a->category == b->category ) &&
-             ( a->name() < b->name() ) ) );
-}
-
-void mod_ui::set_usable_mods()
-{
-    std::vector<mod_id> available_cores, available_supplementals;
-    std::vector<mod_id> ordered_mods;
-
-    std::vector<const MOD_INFORMATION *> mods;
-    for( const mod_id &id : active_manager.all_mods() ) {
-        if( !id->obsolete ) {
-            mods.push_back( &id.obj() );
-        }
-    }
-    std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
-
-    for( auto modinfo : mods ) {
-        if( modinfo->core ) {
-            available_cores.push_back( modinfo->ident );
-        } else {
-            available_supplementals.push_back( modinfo->ident );
-        }
-    }
-    ordered_mods.insert( ordered_mods.begin(), available_supplementals.begin(),
-                         available_supplementals.end() );
-    ordered_mods.insert( ordered_mods.begin(), available_cores.begin(), available_cores.end() );
-
-    usable_mods = ordered_mods;
 }
 
 std::string mod_ui::get_information( const MOD_INFORMATION *mod )
