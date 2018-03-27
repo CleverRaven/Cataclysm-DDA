@@ -8302,13 +8302,18 @@ bool player::wear( item& to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
-            add_msg( m_info, _( "You are already wearing that." ) );
+            add_msg_player_or_npc( m_info,
+                                   _( "You are already wearing that." ),
+                                   _( "<npcname> is already wearing that.")
+                                   );
         }
         return false;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
-            add_msg( m_info, _( "You don't have that item. ") );
+            add_msg_player_or_npc( m_info,
+                                   _( "You don't have that item."),
+                                   _( "<npcname> doesn't have that item."));
         }
         return false;
     }
@@ -8349,7 +8354,10 @@ bool player::wear_item( const item &to_wear, bool interactive )
     worn.push_back(to_wear);
 
     if( interactive ) {
-        add_msg( _("You put on your %s."), to_wear.tname().c_str() );
+        add_msg_player_or_npc(
+                              _("You put on your %s."),
+                              _("<npcname> puts on their %s."),
+                              to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
         for( int i = 0; i < num_bp; i++ ) {
