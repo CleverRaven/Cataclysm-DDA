@@ -515,8 +515,6 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
-            // NOTE: This is from player's inventory, even for NPCs!
-            // @todo: Allow making NPCs equip their own stuff
             item_location loc = game_menus::inv::wear( *this );
 
             // only equip if something valid selected!
