@@ -59,6 +59,11 @@ void faction_template::load( JsonObject &jsobj )
     _all_faction_templates.emplace( fac.id, fac );
 }
 
+void faction_template::reset()
+{
+    _all_faction_templates.clear();
+}
+
 faction_template::faction_template( JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )

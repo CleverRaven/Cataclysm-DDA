@@ -372,6 +372,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();
+    faction_template::reset();
     quality::reset();
     trap::reset();
     reset_constructions();
