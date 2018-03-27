@@ -1,6 +1,5 @@
 #include "monattack.h"
 #include "monster.h"
-#include "mondeath.h"
 
 #include "ballistics.h"
 #include "dispersion.h"
