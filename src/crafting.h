@@ -16,6 +16,9 @@ class JsonOut;
 class crafting_uistatedata
 {
     public:
+        unsigned int tab = 0;
+        unsigned int subtab = 0;
+    public:
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };

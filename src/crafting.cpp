@@ -45,12 +45,16 @@ static const trait_id trait_PAWS( "PAWS" );
 
 void crafting_uistatedata::serialize( JsonOut &json ) const
 {
-    ( void ) json; // unused
+    json.member( "crafting_tab", tab );
+    json.member( "crafting_subtab", subtab );
 }
 
 void crafting_uistatedata::deserialize( JsonIn &jsin )
 {
     auto jo = jsin.get_object();
+
+    jo.read( "crafting_tab", tab );
+    jo.read( "crafting_subtab", subtab );
 }
 
 static bool crafting_allowed( const player &p, const recipe &rec )

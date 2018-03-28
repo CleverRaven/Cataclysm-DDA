@@ -265,21 +265,29 @@ template<typename T>
 class list_circularizer
 {
     private:
-        unsigned int _index = 0;
+        unsigned int _index;
         std::vector<T> *_list;
     public:
         /** Construct list_circularizer from an existing std::vector. */
-        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        list_circularizer( std::vector<T> &_list,
+                           unsigned int _index = 0 ) : _index( _index < _list.size() ? _index : 0 ), _list( &_list ) {
         }
 
         /** Advance list to next item, wrapping back to 0 at end of list */
-        void next() {
+        unsigned int next() {
             _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
+            return _index;
         }
 
         /** Advance list to previous item, wrapping back to end at zero */
-        void prev() {
+        unsigned int prev() {
             _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
+            return _index;
+        }
+
+        /** Return index of the current location */
+        unsigned int pos() {
+            return _index;
         }
 
         /** Return list element at the current location */

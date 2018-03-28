@@ -15,6 +15,7 @@
 #include "output.h"
 #include "json.h"
 #include "string_input_popup.h"
+#include "uistate.h"
 
 #include "debug.h"
 
@@ -167,8 +168,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
                                     item_info_width );
 
-    list_circularizer<std::string> tab( craft_cat_list );
-    list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
+    list_circularizer<std::string> tab( craft_cat_list, uistate.crafting->tab );
+    list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()], uistate.crafting->subtab );
     std::vector<const recipe *> current;
     std::vector<bool> available;
     const int componentPrintHeight = dataHeight - tailHeight - 1;
@@ -545,7 +546,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "LEFT" ) {
             std::string start = subtab.cur();
             do {
-                subtab.prev();
+                uistate.crafting->subtab = subtab.prev();
             } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             redraw = true;
@@ -554,19 +555,21 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "SCROLL_DOWN" ) {
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
-            tab.prev();
+            uistate.crafting->tab = tab.prev();
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            uistate.crafting->subtab = subtab.pos();
             redraw = true;
         } else if( action == "RIGHT" ) {
             std::string start = subtab.cur();
             do {
-                subtab.next();
+                uistate.crafting->subtab = subtab.next();
             } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
-            tab.next();
+            uistate.crafting->tab = tab.next();
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            uistate.crafting->subtab = subtab.pos();
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;
