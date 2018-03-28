@@ -2,6 +2,7 @@
 #include "item.h"
 #include "json.h"
 #include "crafting.h"
+#include "advanced_inv.h"
 #include "construction.h"
 #include "editmap.h"
 #include "game.h"
@@ -14,6 +15,7 @@ uistatedata uistate;
 
 uistatedata::uistatedata()
 {
+    modules.emplace_back( new JsonSerDesAdapter<advanced_inv_uistatedata>( *advanced_inv ) );
     modules.emplace_back( new JsonSerDesAdapter<construction_uistatedata>( *construction ) );
     modules.emplace_back( new JsonSerDesAdapter<crafting_uistatedata>( *crafting ) );
     modules.emplace_back( new JsonSerDesAdapter<editmap_uistatedata>( *editmap ) );
@@ -28,8 +30,6 @@ void uistatedata::serialize( JsonOut &json ) const
 {
     json.start_object();
 
-    _serialize( json );
-
     for( auto &module : modules ) {
         module->serialize( json );
     }
@@ -42,9 +42,6 @@ void uistatedata::deserialize( JsonIn &jsin )
     int start = jsin.tell();
     auto jo = jsin.get_object();
     int end = jsin.tell();
-
-    jsin.seek( start );
-    _deserialize( jsin );
 
     for( auto &module : modules ) {
         jsin.seek( start );

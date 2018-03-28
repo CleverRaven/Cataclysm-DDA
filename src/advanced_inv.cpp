@@ -25,6 +25,7 @@
 #include "item_search.h"
 #include "string_input_popup.h"
 #include "pickup.h"
+#include "json.h"
 
 #include <map>
 #include <set>
@@ -43,6 +44,97 @@ enum aim_exit {
     exit_okay,
     exit_re_entry
 };
+
+// nice little convenience function for serializing an array, regardless of amount. :^)
+template<typename T>
+static void serialize_array( JsonOut &json, std::string name, T &data )
+{
+    json.member(name);
+    json.start_array();
+    for(const auto &d : data) {
+         json.write(d);
+    }
+    json.end_array();
+}
+
+void advanced_inv_uistatedata::serialize(JsonOut &json) const
+{
+    /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
+    serialize_array(json, "adv_inv_sort", adv_inv_sort);
+    serialize_array(json, "adv_inv_area", adv_inv_area);
+    serialize_array(json, "adv_inv_index", adv_inv_index);
+    serialize_array(json, "adv_inv_in_vehicle", adv_inv_in_vehicle);
+    serialize_array(json, "adv_inv_filter", adv_inv_filter);
+    serialize_array(json, "adv_inv_default_areas", adv_inv_default_areas);
+    // non array stuffs
+    json.member("adv_inv_src", adv_inv_src);
+    json.member("adv_inv_dest", adv_inv_dest);
+    json.member("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+    json.member("adv_inv_container_location", adv_inv_container_location);
+    json.member("adv_inv_container_index", adv_inv_container_index);
+    json.member("adv_inv_container_in_vehicle", adv_inv_container_in_vehicle);
+    json.member("adv_inv_container_type", adv_inv_container_type);
+    json.member("adv_inv_container_content_type", adv_inv_container_content_type);
+}
+
+void advanced_inv_uistatedata::deserialize(JsonIn &jsin)
+{
+    auto jo = jsin.get_object();
+
+    /**** here ****/
+    if(jo.has_array("adv_inv_sort")) {
+        auto tmp = jo.get_int_array("adv_inv_sort");
+        std::move(tmp.begin(), tmp.end(), adv_inv_sort.begin());
+    } else {
+        jo.read("adv_inv_leftsort", adv_inv_sort[left]);
+        jo.read("adv_inv_rightsort", adv_inv_sort[right]);
+    }
+    // pane area selected
+    if(jo.has_array("adv_inv_area")) {
+        auto tmp = jo.get_int_array("adv_inv_area");
+        std::move(tmp.begin(), tmp.end(), adv_inv_area.begin());
+    } else {
+        jo.read("adv_inv_leftarea", adv_inv_area[left]);
+        jo.read("adv_inv_rightarea", adv_inv_area[right]);
+    }
+    // pane current index
+    if(jo.has_array("adv_inv_index")) {
+        auto tmp = jo.get_int_array("adv_inv_index");
+        std::move(tmp.begin(), tmp.end(), adv_inv_index.begin());
+    } else {
+        jo.read("adv_inv_leftindex", adv_inv_index[left]);
+        jo.read("adv_inv_rightindex", adv_inv_index[right]);
+    }
+    // viewing vehicle cargo
+    if(jo.has_array("adv_inv_in_vehicle")) {
+        auto ja = jo.get_array( "adv_inv_in_vehicle" );
+        for(size_t i = 0; ja.has_more(); ++i) {
+            adv_inv_in_vehicle[i] = ja.next_bool();
+        }
+    }
+    // filter strings
+    if(jo.has_array("adv_inv_filter")) {
+        auto tmp = jo.get_string_array("adv_inv_filter");
+        std::move(tmp.begin(), tmp.end(), adv_inv_filter.begin());
+    } else {
+        jo.read("adv_inv_leftfilter", adv_inv_filter[left]);
+        jo.read("adv_inv_rightfilter", adv_inv_filter[right]);
+    }
+    // default areas
+    if(jo.has_array("adv_inv_deafult_areas")) {
+        auto tmp = jo.get_int_array("adv_inv_deafult_areas");
+        std::move(tmp.begin(), tmp.end(), adv_inv_default_areas.begin());
+    }
+    // the rest
+    jo.read("adv_inv_src", adv_inv_src);
+    jo.read("adv_inv_dest", adv_inv_dest);
+    jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+    jo.read("adv_inv_container_location", adv_inv_container_location);
+    jo.read("adv_inv_container_index", adv_inv_container_index);
+    jo.read("adv_inv_container_in_vehicle", adv_inv_container_in_vehicle);
+    jo.read("adv_inv_container_type", adv_inv_container_type);
+    jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
+}
 
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
@@ -96,7 +188,7 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
     save_settings( false );
-    auto &aim_code = uistate.adv_inv_exit_code;
+    auto &aim_code = uistate.advanced_inv->adv_inv_exit_code;
     if( aim_code != exit_re_entry ) {
         aim_code = exit_okay;
     }
@@ -114,27 +206,27 @@ advanced_inventory::~advanced_inventory()
 void advanced_inventory::save_settings( bool only_panes )
 {
     if( only_panes == false ) {
-        uistate.adv_inv_last_coords = g->u.pos();
-        uistate.adv_inv_src = src;
-        uistate.adv_inv_dest = dest;
+        uistate.advanced_inv->adv_inv_last_coords = g->u.pos();
+        uistate.advanced_inv->adv_inv_src = src;
+        uistate.advanced_inv->adv_inv_dest = dest;
     }
     for( int i = 0; i < NUM_PANES; ++i ) {
-        uistate.adv_inv_in_vehicle[i] = panes[i].in_vehicle();
-        uistate.adv_inv_area[i] = panes[i].get_area();
-        uistate.adv_inv_index[i] = panes[i].index;
-        uistate.adv_inv_filter[i] = panes[i].filter;
+        uistate.advanced_inv->adv_inv_in_vehicle[i] = panes[i].in_vehicle();
+        uistate.advanced_inv->adv_inv_area[i] = panes[i].get_area();
+        uistate.advanced_inv->adv_inv_index[i] = panes[i].index;
+        uistate.advanced_inv->adv_inv_filter[i] = panes[i].filter;
     }
 }
 
 void advanced_inventory::load_settings()
 {
-    aim_exit aim_code = static_cast<aim_exit>(uistate.adv_inv_exit_code);
+    aim_exit aim_code = static_cast<aim_exit>(uistate.advanced_inv->adv_inv_exit_code);
     for(int i = 0; i < NUM_PANES; ++i) {
         aim_location location;
         if (get_option<bool>("OPEN_DEFAULT_ADV_INV")) {
-            location = static_cast<aim_location>(uistate.adv_inv_default_areas[i]);
+            location = static_cast<aim_location>(uistate.advanced_inv->adv_inv_default_areas[i]);
         } else {
-            location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+            location = static_cast<aim_location>(uistate.advanced_inv->adv_inv_area[i]);
         }
         auto square = squares[location];
         // determine the square's vehicle/map item presence
@@ -143,14 +235,14 @@ void advanced_inventory::load_settings()
         bool has_map_items = !g->m.i_at(square.pos).empty();
         // determine based on map items and settings to show cargo
         bool show_vehicle = (aim_code == exit_re_entry) ?
-            uistate.adv_inv_in_vehicle[i] : (has_veh_items) ?
+            uistate.advanced_inv->adv_inv_in_vehicle[i] : (has_veh_items) ?
             true : (has_map_items) ? false : square.can_store_in_vehicle();
         panes[i].set_area(square, show_vehicle);
-        panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
-        panes[i].index = uistate.adv_inv_index[i];
-        panes[i].filter = uistate.adv_inv_filter[i];
+        panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.advanced_inv->adv_inv_sort[i]);
+        panes[i].index = uistate.advanced_inv->adv_inv_index[i];
+        panes[i].filter = uistate.advanced_inv->adv_inv_filter[i];
     }
-    uistate.adv_inv_exit_code = exit_none;
+    uistate.advanced_inv->adv_inv_exit_code = exit_none;
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
@@ -718,8 +810,8 @@ void advanced_inventory::init()
 
     load_settings();
 
-    src  = static_cast<side>( uistate.adv_inv_src );
-    dest = static_cast<side>( uistate.adv_inv_dest );
+    src  = static_cast<side>( uistate.advanced_inv->adv_inv_src );
+    dest = static_cast<side>( uistate.advanced_inv->adv_inv_dest );
 
     w_height = ( TERMY < min_w_height + head_height ) ? min_w_height : TERMY - head_height;
     w_width = ( TERMX < min_w_width ) ? min_w_width : ( TERMX > max_w_width ) ? max_w_width :
@@ -1151,9 +1243,9 @@ bool advanced_inventory::move_all_items(bool nested_call)
         auto shadow = panes[src];
         // here we recursively call this function with each area in order to
         // put all items in the proper destination area, with minimal fuss
-        auto &loc = uistate.adv_inv_aim_all_location;
+        auto &loc = uistate.advanced_inv->adv_inv_aim_all_location;
         // re-entry nonsense
-        auto &entry = uistate.adv_inv_re_enter_move_all;
+        auto &entry = uistate.advanced_inv->adv_inv_re_enter_move_all;
         // if we are just starting out, set entry to initial value
         switch(static_cast<aim_entry>(entry++)) {
             case ENTRY_START:
@@ -1451,7 +1543,7 @@ void advanced_inventory::display()
         } else if (action == "ITEMS_DEFAULT") {
             for( side cside : { left, right } ) {
                 auto &pane = panes[cside];
-                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                aim_location location = ( aim_location )uistate.advanced_inv->adv_inv_default_areas[cside];
                 if( pane.get_area() != location || location == AIM_ALL ) {
                     pane.recalc = true;
                 }
@@ -1459,8 +1551,8 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if (action == "SAVE_DEFAULT") {
-            uistate.adv_inv_default_areas[left] = panes[left].get_area();
-            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            uistate.advanced_inv->adv_inv_default_areas[left] = panes[left].get_area();
+            uistate.advanced_inv->adv_inv_default_areas[right] = panes[right].get_area();
             popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
@@ -1649,7 +1741,7 @@ void advanced_inventory::display()
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
                 recalc = true;
-                uistate.adv_inv_sort[src] = spane.sortby;
+                uistate.advanced_inv->adv_inv_sort[src] = spane.sortby;
             }
             redraw = true;
         } else if( action == "FILTER" ) {
@@ -1908,7 +2000,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         }
     }
     // Selected keyed to uimenu.entries, which starts at 0.
-    menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
+    menu.selected = uistate.advanced_inv->adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
         // Render a fancy ASCII grid at the left of the menu.
@@ -1922,7 +2014,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         // we have to set the destination pane so that move actions will target it
         // we can use restore_area later to undo this
         panes[dest].set_area( squares[def], true );
-        uistate.adv_inv_last_popup_dest = menu.ret;
+        uistate.advanced_inv->adv_inv_last_popup_dest = menu.ret;
         return true;
     }
     return false;
@@ -2049,7 +2141,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
     dest_container.fill_with( src, amount );
 
-    uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
+    uistate.advanced_inv->adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {
         src_container.contents.clear();
     }
@@ -2232,14 +2324,14 @@ item *advanced_inv_area::get_container( bool in_vehicle )
 {
     item *container = nullptr;
 
-    if( uistate.adv_inv_container_location != -1 ) {
+    if( uistate.advanced_inv->adv_inv_container_location != -1 ) {
         // try to find valid container in the area
-        if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
+        if( uistate.advanced_inv->adv_inv_container_location == AIM_INVENTORY ) {
             const invslice &stacks = g->u.inv.slice();
 
             // check index first
-            if( stacks.size() > ( size_t )uistate.adv_inv_container_index ) {
-                auto &it = stacks[uistate.adv_inv_container_index]->front();
+            if( stacks.size() > ( size_t )uistate.advanced_inv->adv_inv_container_index ) {
+                auto &it = stacks[uistate.advanced_inv->adv_inv_container_index]->front();
                 if( is_container_valid( &it ) ) {
                     container = &it;
                 }
@@ -2251,14 +2343,14 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                     auto &it = stacks[x]->front();
                     if( is_container_valid( &it ) ) {
                         container = &it;
-                        uistate.adv_inv_container_index = x;
+                        uistate.advanced_inv->adv_inv_container_index = x;
                         break;
                     }
                 }
             }
-        } else if( uistate.adv_inv_container_location == AIM_WORN ) {
+        } else if( uistate.advanced_inv->adv_inv_container_location == AIM_WORN ) {
             auto& worn = g->u.worn;
-            size_t idx = ( size_t )uistate.adv_inv_container_index;
+            size_t idx = ( size_t )uistate.advanced_inv->adv_inv_container_index;
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
@@ -2273,7 +2365,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                 for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
                     if( is_container_valid( &*iter ) ) {
                         container = &*iter;
-                        uistate.adv_inv_container_index = i;
+                        uistate.advanced_inv->adv_inv_container_index = i;
                         break;
                     }
                 }
@@ -2281,7 +2373,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
         } else {
             map &m = g->m;
             bool is_in_vehicle = veh &&
-                ( uistate.adv_inv_container_in_vehicle ||
+                ( uistate.advanced_inv->adv_inv_container_in_vehicle ||
                   (can_store_in_vehicle() && in_vehicle) );
 
             const itemstack &stacks = (is_in_vehicle) ?
@@ -2289,8 +2381,8 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                 i_stacked( m.i_at( pos ) );
 
             // check index first
-            if( stacks.size() > ( size_t )uistate.adv_inv_container_index ) {
-                auto it = stacks[uistate.adv_inv_container_index].front();
+            if( stacks.size() > ( size_t )uistate.advanced_inv->adv_inv_container_index ) {
+                auto it = stacks[uistate.advanced_inv->adv_inv_container_index].front();
                 if( is_container_valid( it ) ) {
                     container = it;
                 }
@@ -2302,7 +2394,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                     auto it = stacks[x].front();
                     if( is_container_valid( it ) ) {
                         container = it;
-                        uistate.adv_inv_container_index = x;
+                        uistate.advanced_inv->adv_inv_container_index = x;
                         break;
                     }
                 }
@@ -2323,32 +2415,32 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 {
     if( advitem != nullptr ) {
         item *it( advitem->items.front() );
-        uistate.adv_inv_container_location = advitem->area;
-        uistate.adv_inv_container_in_vehicle = advitem->from_vehicle;
-        uistate.adv_inv_container_index = advitem->idx;
-        uistate.adv_inv_container_type = it->typeId();
-        uistate.adv_inv_container_content_type = ( !it->is_container_empty() ) ?
+        uistate.advanced_inv->adv_inv_container_location = advitem->area;
+        uistate.advanced_inv->adv_inv_container_in_vehicle = advitem->from_vehicle;
+        uistate.advanced_inv->adv_inv_container_index = advitem->idx;
+        uistate.advanced_inv->adv_inv_container_type = it->typeId();
+        uistate.advanced_inv->adv_inv_container_content_type = ( !it->is_container_empty() ) ?
             it->contents.front().typeId() : "null";
         set_container_position();
     } else {
-        uistate.adv_inv_container_location = -1;
-        uistate.adv_inv_container_index = 0;
-        uistate.adv_inv_container_in_vehicle = false;
-        uistate.adv_inv_container_type = "null";
-        uistate.adv_inv_container_content_type = "null";
+        uistate.advanced_inv->adv_inv_container_location = -1;
+        uistate.advanced_inv->adv_inv_container_index = 0;
+        uistate.advanced_inv->adv_inv_container_in_vehicle = false;
+        uistate.advanced_inv->adv_inv_container_type = "null";
+        uistate.advanced_inv->adv_inv_container_content_type = "null";
     }
 }
 
 bool advanced_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
-        if( it->typeId() == uistate.adv_inv_container_type ) {
+        if( it->typeId() == uistate.advanced_inv->adv_inv_container_type ) {
             if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type == "null" ) {
+                if( uistate.advanced_inv->adv_inv_container_content_type == "null" ) {
                     return true;
                 }
             } else {
-                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.front().typeId() == uistate.advanced_inv->adv_inv_container_content_type ) {
                     return true;
                 }
             }
@@ -2361,7 +2453,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 void advanced_inv_area::set_container_position()
 {
     // update the offset of the container based on location
-    switch( uistate.adv_inv_container_location ) {
+    switch( uistate.advanced_inv->adv_inv_container_location ) {
         case AIM_DRAGGED:
             off = g->u.grab_point;
             break;
@@ -2518,12 +2610,12 @@ void advanced_inventory::do_return_entry()
     save_settings( true );
     g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
     g->u.activity.auto_resume = true;
-    uistate.adv_inv_exit_code = exit_re_entry;
+    uistate.advanced_inv->adv_inv_exit_code = exit_re_entry;
 }
 
 bool advanced_inventory::is_processing() const
 {
-    return ( uistate.adv_inv_re_enter_move_all != ENTRY_START );
+    return ( uistate.advanced_inv->adv_inv_re_enter_move_all != ENTRY_START );
 }
 
 aim_location advanced_inventory::screen_relative_location( aim_location area )
@@ -2565,5 +2657,5 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
 
 void cancel_aim_processing()
 {
-    uistate.adv_inv_re_enter_move_all = ENTRY_START;
+    uistate.advanced_inv->adv_inv_re_enter_move_all = ENTRY_START;
 }
