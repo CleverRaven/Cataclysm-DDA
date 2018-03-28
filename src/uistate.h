@@ -27,6 +27,7 @@ class editmap_uistatedata;
 class game_uistatedata;
 class iexamine_uistatedata;
 class overmap_uistatedata;
+class wish_uistatedata;
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -45,6 +46,7 @@ class uistatedata
         pimpl<game_uistatedata> game;
         pimpl<iexamine_uistatedata> iexamine;
         pimpl<overmap_uistatedata> overmap;
+        pimpl<wish_uistatedata> wish;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
@@ -52,9 +54,6 @@ class uistatedata
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         /**** declare your variable here. It can be anything, really *****/
-        int wishitem_selected = 0;
-        int wishmutate_selected = 0;
-        int wishmonster_selected = 0;
         std::array<int, 2> adv_inv_sort = {{1, 1}};
         std::array<int, 2> adv_inv_area = {{5, 0}};
         std::array<int, 2> adv_inv_index = {{0, 0}};
