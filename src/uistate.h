@@ -22,6 +22,7 @@ class JsonOut;
 class JsonSerDes;
 
 class crafting_uistatedata;
+class editmap_uistatedata;
 class game_uistatedata;
 class overmap_uistatedata;
 
@@ -37,6 +38,7 @@ class uistatedata
         uistatedata();
     public:
         pimpl<crafting_uistatedata> crafting;
+        pimpl<editmap_uistatedata> editmap;
         pimpl<game_uistatedata> game;
         pimpl<overmap_uistatedata> overmap;
         /**** this will set a default value on startup, however to save, see below ****/
@@ -71,7 +73,6 @@ class uistatedata
 
         int ags_pay_gas_selected_pump = 0;
 
-        bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
@@ -117,7 +118,6 @@ class uistatedata
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             json.member( "adv_inv_container_type", adv_inv_container_type );
             json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
-            json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
         };
 
         template<typename JsonStream>

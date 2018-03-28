@@ -2,6 +2,7 @@
 #include "item.h"
 #include "json.h"
 #include "crafting.h"
+#include "editmap.h"
 #include "game.h"
 #include "overmap.h"
 
@@ -10,6 +11,7 @@ uistatedata uistate;
 uistatedata::uistatedata()
 {
     modules.emplace_back( new JsonSerDesAdapter<crafting_uistatedata>( *crafting ) );
+    modules.emplace_back( new JsonSerDesAdapter<editmap_uistatedata>( *editmap ) );
     modules.emplace_back( new JsonSerDesAdapter<game_uistatedata>( *game ) );
     modules.emplace_back( new JsonSerDesAdapter<overmap_uistatedata>( *overmap ) );
 }
