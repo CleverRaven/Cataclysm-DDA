@@ -842,7 +842,7 @@ bool main_menu::load_character_tab()
                         continue;
                     }
 
-                    g->load( world->world_name, savegames[sel3] );
+                    g->load( savegames[sel3] );
                     start = true;
                 }
             }

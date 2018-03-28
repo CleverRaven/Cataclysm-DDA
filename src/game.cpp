@@ -3572,7 +3572,7 @@ bool game::load( const std::string &world ) {
     try {
         world_generator->set_active_world( wptr );
         g->setup();
-        g->load( world, wptr->world_saves.front() );
+        g->load( wptr->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
@@ -3581,15 +3581,15 @@ bool game::load( const std::string &world ) {
     return true;
 }
 
-void game::load(std::string worldname, const save_t &name)
+void game::load( const save_t &name )
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->get_world( worldname )->world_path + "/";
+    const std::string worldpath = world_generator->active_world->world_path + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    load_master( worldname );
+    load_master( world_generator->active_world->world_name );
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
@@ -3619,7 +3619,7 @@ void game::load(std::string worldname, const save_t &name)
     get_auto_pickup().load_character(); // Load character auto pickup rules
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( world_generator->get_world( worldname )->world_path + "/uistate.json", []( std::istream &stream ) {
+    read_from_file_optional( world_generator->active_world->world_path + "/uistate.json", []( std::istream &stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
     } );
@@ -13189,7 +13189,7 @@ void game::quickload()
             } catch( const std::exception &err ) {
                 debugmsg( "Error: %s", err.what() );
             }
-            load( active_world->world_name, save_t::from_player_name( u.name ) );
+            load( save_t::from_player_name( u.name ) );
         }
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
