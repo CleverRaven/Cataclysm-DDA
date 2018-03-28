@@ -7,6 +7,7 @@
 
 #include "enums.h"
 #include "omdata.h"
+#include "pimpl.h"
 
 #include <map>
 #include <vector>
@@ -20,6 +21,8 @@ class JsonIn;
 class JsonOut;
 class JsonSerDes;
 
+class crafting_uistatedata;
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -30,6 +33,8 @@ class uistatedata
         std::vector<std::unique_ptr<JsonSerDes>> modules;
     public:
         uistatedata();
+    public:
+        pimpl<crafting_uistatedata> crafting;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy

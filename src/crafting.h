@@ -10,6 +10,15 @@ class inventory;
 class npc;
 class player;
 class recipe;
+class JsonIn;
+class JsonOut;
+
+class crafting_uistatedata
+{
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.

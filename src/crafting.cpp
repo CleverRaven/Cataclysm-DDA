@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
+#include "json.h"
 
 #include <algorithm> //std::min
 #include <iostream>
@@ -41,6 +42,16 @@ void drop_or_handle( const item &newit, player &p );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
+
+void crafting_uistatedata::serialize( JsonOut &json ) const
+{
+    ( void ) json; // unused
+}
+
+void crafting_uistatedata::deserialize( JsonIn &jsin )
+{
+    auto jo = jsin.get_object();
+}
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {

@@ -1,11 +1,13 @@
 #include "uistate.h"
 #include "item.h"
 #include "json.h"
+#include "crafting.h"
 
 uistatedata uistate;
 
 uistatedata::uistatedata()
 {
+    modules.emplace_back( new JsonSerDesAdapter<crafting_uistatedata>( *crafting ) );
 }
 
 void uistatedata::serialize( JsonOut &json ) const
