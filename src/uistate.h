@@ -23,6 +23,7 @@ class JsonSerDes;
 
 class crafting_uistatedata;
 class game_uistatedata;
+class overmap_uistatedata;
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -37,6 +38,7 @@ class uistatedata
     public:
         pimpl<crafting_uistatedata> crafting;
         pimpl<game_uistatedata> game;
+        pimpl<overmap_uistatedata> overmap;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
@@ -70,10 +72,6 @@ class uistatedata
         int ags_pay_gas_selected_pump = 0;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
-        bool overmap_blinking = true;           // toggles active blinking of overlays.
-        bool overmap_show_overlays = false;     // whether overlays are shown or not.
-        bool overmap_show_city_labels = true;
-
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
@@ -82,11 +80,6 @@ class uistatedata
         // construction menu selections
         std::string construction_filter;
         std::string last_construction;
-
-        // overmap editor selections
-        const oter_t *place_terrain = nullptr;
-        const overmap_special *place_special = nullptr;
-        om_direction::type omedit_rotation = om_direction::type::none;
 
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
@@ -125,9 +118,6 @@ class uistatedata
             json.member( "adv_inv_container_type", adv_inv_container_type );
             json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
-            json.member( "overmap_blinking", overmap_blinking );
-            json.member( "overmap_show_overlays", overmap_show_overlays );
-            json.member( "overmap_show_city_labels", overmap_show_city_labels );
         };
 
         template<typename JsonStream>
@@ -186,9 +176,6 @@ class uistatedata
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
             jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
-            jo.read( "overmap_blinking", overmap_blinking );
-            jo.read( "overmap_show_overlays", overmap_show_overlays );
-            jo.read( "overmap_show_city_labels", overmap_show_city_labels );
         };
 
     public:

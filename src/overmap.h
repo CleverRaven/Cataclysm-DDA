@@ -244,6 +244,22 @@ private:
     point origin_overmap;
 };
 
+class overmap_uistatedata
+{
+    public:
+        bool overmap_blinking = true;           // toggles active blinking of overlays.
+        bool overmap_show_overlays = false;     // whether overlays are shown or not.
+        bool overmap_show_city_labels = true;
+
+        // overmap editor selections
+        const oter_t *place_terrain = nullptr;
+        const overmap_special *place_special = nullptr;
+        om_direction::type omedit_rotation = om_direction::type::none;
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class overmap
 {
  public:
