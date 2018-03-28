@@ -27,6 +27,7 @@ class editmap_uistatedata;
 class game_uistatedata;
 class iexamine_uistatedata;
 class overmap_uistatedata;
+class player_uistatedata;
 class wish_uistatedata;
 
 /*
@@ -46,6 +47,7 @@ class uistatedata
         pimpl<game_uistatedata> game;
         pimpl<iexamine_uistatedata> iexamine;
         pimpl<overmap_uistatedata> overmap;
+        pimpl<player_uistatedata> player;
         pimpl<wish_uistatedata> wish;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
@@ -77,8 +79,6 @@ class uistatedata
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
-
-        std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.

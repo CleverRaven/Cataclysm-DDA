@@ -7,6 +7,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "overmap.h"
+#include "player.h"
 #include "wish.h"
 
 uistatedata uistate;
@@ -19,6 +20,7 @@ uistatedata::uistatedata()
     modules.emplace_back( new JsonSerDesAdapter<game_uistatedata>( *game ) );
     modules.emplace_back( new JsonSerDesAdapter<iexamine_uistatedata>( *iexamine ) );
     modules.emplace_back( new JsonSerDesAdapter<overmap_uistatedata>( *overmap ) );
+    modules.emplace_back( new JsonSerDesAdapter<player_uistatedata>( *player ) );
     modules.emplace_back( new JsonSerDesAdapter<wish_uistatedata>( *wish ) );
 }
 

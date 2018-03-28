@@ -129,6 +129,15 @@ struct stat_mod {
     int speed = 0;
 };
 
+class player_uistatedata
+{
+    public:
+        std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class player : public Character
 {
     public:
