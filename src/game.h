@@ -825,7 +825,6 @@ class game
         void save_weather( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_uistate();
-        void load_uistate( std::string worldname );
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
