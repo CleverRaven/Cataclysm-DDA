@@ -621,7 +621,7 @@ bool main_menu::new_character_tab()
                     werase( w_background );
                     wrefresh( w_background );
 
-                    if( !g->start_game( world->world_name ) ) {
+                    if( !g->start_game() ) {
                         g->u = player();
                         continue;
                     }
@@ -704,7 +704,7 @@ bool main_menu::new_character_tab()
                 }
                 werase( w_background );
                 wrefresh( w_background );
-                if( !g->start_game( world_generator->active_world->world_name ) ) {
+                if( !g->start_game() ) {
                     g->u = player();
                     continue;
                 }

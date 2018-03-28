@@ -790,7 +790,7 @@ void game::load_map( tripoint pos_sm )
 }
 
 // Set up all default values for a new game
-bool game::start_game(std::string worldname)
+bool game::start_game()
 {
     if( !gamemode ) {
         gamemode.reset( new special_game() );
@@ -808,7 +808,7 @@ bool game::start_game(std::string worldname)
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    load_master( worldname );
+    load_master( world_generator->active_world->world_name );
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
