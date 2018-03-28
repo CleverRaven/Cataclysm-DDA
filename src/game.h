@@ -809,7 +809,7 @@ class game
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
-        void load_master( const std::string &worldname ); // Load the master data file, with factions &c
+        void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
         bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp

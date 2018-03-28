@@ -808,7 +808,7 @@ bool game::start_game()
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    load_master( world_generator->active_world->world_name );
+    load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -3550,10 +3550,10 @@ void game::move_save_to_graveyard()
     }
 }
 
-void game::load_master( const std::string &worldname )
+void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
+    const auto datafile = world_generator->active_world->world_path + "/master.gsav";
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
     faction_manager_ptr->create_if_needed();
 }
@@ -3589,7 +3589,7 @@ void game::load( const save_t &name )
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    load_master( world_generator->active_world->world_name );
+    load_master();
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
