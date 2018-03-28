@@ -24,6 +24,7 @@ class JsonSerDes;
 class crafting_uistatedata;
 class editmap_uistatedata;
 class game_uistatedata;
+class iexamine_uistatedata;
 class overmap_uistatedata;
 
 /*
@@ -40,6 +41,7 @@ class uistatedata
         pimpl<crafting_uistatedata> crafting;
         pimpl<editmap_uistatedata> editmap;
         pimpl<game_uistatedata> game;
+        pimpl<iexamine_uistatedata> iexamine;
         pimpl<overmap_uistatedata> overmap;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
@@ -51,7 +53,6 @@ class uistatedata
         int wishitem_selected = 0;
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
-        int iexamine_atm_selected = 0;
         std::array<int, 2> adv_inv_sort = {{1, 1}};
         std::array<int, 2> adv_inv_area = {{5, 0}};
         std::array<int, 2> adv_inv_index = {{0, 0}};
@@ -70,8 +71,6 @@ class uistatedata
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
-
-        int ags_pay_gas_selected_pump = 0;
 
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};

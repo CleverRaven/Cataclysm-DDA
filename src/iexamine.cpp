@@ -34,6 +34,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "json.h"
 
 #include <sstream>
 #include <algorithm>
@@ -73,6 +74,16 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
+
+void iexamine_uistatedata::serialize(JsonOut &json) const
+{
+    ( void ) json; // unused
+}
+
+void iexamine_uistatedata::deserialize(JsonIn &jsin)
+{
+    auto jo = jsin.get_object();
+}
 
 /**
  * Nothing player can interact with here.
@@ -206,7 +217,7 @@ private:
             return static_cast<options>( u.activity.index );
         }
         amenu.query();
-        uistate.iexamine_atm_selected = amenu.ret;
+        uistate.iexamine->iexamine_atm_selected = amenu.ret;
         return static_cast<options>( amenu.ret );
     }
 
@@ -219,7 +230,7 @@ private:
             amenu.reset();
         }
 
-        amenu.selected = uistate.iexamine_atm_selected;
+        amenu.selected = uistate.iexamine->iexamine_atm_selected;
         amenu.return_invalid = true;
         amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
                                      "Your current balance is: $%ld.%02ld"),
@@ -3268,8 +3279,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         return;
     }
 
-    if( uistate.ags_pay_gas_selected_pump + 1 > pumpCount ) {
-        uistate.ags_pay_gas_selected_pump = 0;
+    if( uistate.iexamine->ags_pay_gas_selected_pump + 1 > pumpCount ) {
+        uistate.iexamine->ags_pay_gas_selected_pump = 0;
     }
 
     int discount = findBestGasDiscount( p );
@@ -3290,7 +3301,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 );
+                                  to_string( uistate.iexamine->ags_pay_gas_selected_pump + 1 );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
 
@@ -3309,7 +3320,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     if( choose_pump == choice ) {
         uimenu amenu;
-        amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
+        amenu.selected = uistate.iexamine->ags_pay_gas_selected_pump + 1;
         amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
         amenu.addentry( 0, true, static_cast<long>( 'q' ), str_to_illiterate_str( _( "Cancel" ) ) );
@@ -3325,9 +3336,9 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        uistate.ags_pay_gas_selected_pump = choice - 1;
+        uistate.iexamine->ags_pay_gas_selected_pump = choice - 1;
 
-        turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump );
+        turnOnSelectedPump( examp, uistate.iexamine->ags_pay_gas_selected_pump );
 
         return;
 
@@ -3368,7 +3379,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        tripoint pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
+        tripoint pGasPump = getGasPumpByNumber( examp,  uistate.iexamine->ags_pay_gas_selected_pump );
         if( !toPumpFuel( pTank, pGasPump, liters * 1000 ) ) {
             return;
         }
@@ -3400,7 +3411,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 add_msg( _( "Nothing happens." ) );
                 break;
             case HACK_SUCCESS:
-                tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+                tripoint pGasPump = getGasPumpByNumber( examp, uistate.iexamine->ags_pay_gas_selected_pump );
                 if( toPumpFuel( pTank, pGasPump, tankGasUnits ) ) {
                     add_msg( _( "You hack the terminal and route all available fuel to your pump!" ) );
                     sounds::sound( p.pos(), 6, _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ) );
@@ -3423,7 +3434,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
-        tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+        tripoint pGasPump = getGasPumpByNumber( examp, uistate.iexamine->ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
