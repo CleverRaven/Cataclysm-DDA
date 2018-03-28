@@ -6,6 +6,7 @@
 #include "output.h"
 #include "ui.h"
 #include "compatibility.h"
+#include "game.h"
 
 #include <cstdlib>
 
@@ -94,7 +95,7 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( _identifier.empty() ) {
         return;
     }
-    std::vector<std::string> &hist = uistate.gethistory( _identifier );
+    std::vector<std::string> &hist = uistate.game->gethistory( _identifier );
     uimenu hmenu;
     hmenu.title = _( "d: delete history" );
     hmenu.return_invalid = true;
@@ -133,7 +134,7 @@ void string_input_popup::show_history( utf8_wrapper &ret )
 void string_input_popup::add_to_history( const std::string &value ) const
 {
     if( !_identifier.empty() && !value.empty() ) {
-        std::vector<std::string> &hist = uistate.gethistory( _identifier );
+        std::vector<std::string> &hist = uistate.game->gethistory( _identifier );
         if( hist.size() == 0 || hist[hist.size() - 1] != value ) {
             hist.push_back( value );
         }

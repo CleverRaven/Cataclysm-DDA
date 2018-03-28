@@ -22,6 +22,7 @@ class JsonOut;
 class JsonSerDes;
 
 class crafting_uistatedata;
+class game_uistatedata;
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -35,6 +36,7 @@ class uistatedata
         uistatedata();
     public:
         pimpl<crafting_uistatedata> crafting;
+        pimpl<game_uistatedata> game;
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
@@ -77,17 +79,6 @@ class uistatedata
         int last_inv_start = -2;
         int last_inv_sel = -2;
 
-        // V Menu Stuff
-        bool vmenu_show_items = true; // false implies show monsters
-        int list_item_sort = 0;
-        std::string list_item_filter;
-        std::string list_item_downvote;
-        std::string list_item_priority;
-        bool list_item_filter_active = false;
-        bool list_item_downvote_active = false;
-        bool list_item_priority_active = false;
-        bool list_item_init = false;
-
         // construction menu selections
         std::string construction_filter;
         std::string last_construction;
@@ -97,21 +88,11 @@ class uistatedata
         const overmap_special *place_special = nullptr;
         om_direction::type omedit_rotation = om_direction::type::none;
 
-        /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
-           output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
-        */
-
-        std::map<std::string, std::vector<std::string>> input_history;
-
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
-
-        std::vector<std::string> &gethistory( std::string id ) {
-            return input_history[id];
-        }
 
     protected:
         // nice little convenience function for serializing an array, regardless of amount. :^)
@@ -127,8 +108,6 @@ class uistatedata
 
         template<typename JsonStream>
         void _serialize( JsonStream &json ) const {
-            const unsigned int input_history_save_max = 25;
-
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
             serialize_array( json, "adv_inv_sort", adv_inv_sort );
             serialize_array( json, "adv_inv_area", adv_inv_area );
@@ -149,29 +128,6 @@ class uistatedata
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
-            json.member( "vmenu_show_items", vmenu_show_items );
-            json.member( "list_item_sort", list_item_sort );
-            json.member( "list_item_filter_active", list_item_filter_active );
-            json.member( "list_item_downvote_active", list_item_downvote_active );
-            json.member( "list_item_priority_active", list_item_priority_active );
-
-            json.member( "input_history" );
-            json.start_object();
-            for( auto &e : input_history ) {
-                json.member( e.first );
-                const std::vector<std::string> &history = e.second;
-                json.start_array();
-                int save_start = 0;
-                if( history.size() > input_history_save_max ) {
-                    save_start = history.size() - input_history_save_max;
-                }
-                for( std::vector<std::string>::const_iterator hit = history.begin() + save_start;
-                     hit != history.end(); ++hit ) {
-                    json.write( *hit );
-                }
-                json.end_array();
-            }
-            json.end_object(); // input_history
         };
 
         template<typename JsonStream>
@@ -233,39 +189,6 @@ class uistatedata
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
-
-            if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
-                // This is an old save: 1 means view items, 2 means view monsters,
-                // -1 means uninitialized
-                vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
-            }
-
-            jo.read( "list_item_sort", list_item_sort );
-            jo.read( "list_item_filter_active", list_item_filter_active );
-            jo.read( "list_item_downvote_active", list_item_downvote_active );
-            jo.read( "list_item_priority_active", list_item_priority_active );
-
-            auto inhist = jo.get_object( "input_history" );
-            std::set<std::string> inhist_members = inhist.get_member_names();
-            for( std::set<std::string>::iterator it = inhist_members.begin();
-                 it != inhist_members.end(); ++it ) {
-                auto ja = inhist.get_array( *it );
-                std::vector<std::string> &v = gethistory( *it );
-                v.clear();
-                while( ja.has_more() ) {
-                    v.push_back( ja.next_string() );
-                }
-            }
-            // fetch list_item settings from input_history
-            if( !gethistory( "item_filter" ).empty() ) {
-                list_item_filter = gethistory( "item_filter" ).back();
-            }
-            if( !gethistory( "list_item_downvote" ).empty() ) {
-                list_item_downvote = gethistory( "list_item_downvote" ).back();
-            }
-            if( !gethistory( "list_item_priority" ).empty() ) {
-                list_item_priority = gethistory( "list_item_priority" ).back();
-            }
         };
 
     public:

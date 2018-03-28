@@ -240,6 +240,74 @@ public:
     }
 };
 
+void game_uistatedata::serialize(JsonOut &json) const
+{
+    const unsigned int input_history_save_max = 25;
+
+    json.member("vmenu_show_items", vmenu_show_items );
+    json.member("list_item_sort", list_item_sort);
+    json.member("list_item_filter_active", list_item_filter_active);
+    json.member("list_item_downvote_active", list_item_downvote_active);
+    json.member("list_item_priority_active", list_item_priority_active);
+
+    json.member("input_history");
+    json.start_object();
+    for( auto& e : input_history ) {
+        json.member( e.first );
+        const std::vector<std::string>& history = e.second;
+        json.start_array();
+        int save_start = 0;
+        if ( history.size() > input_history_save_max) {
+            save_start = history.size() - input_history_save_max;
+        }
+        for (std::vector<std::string>::const_iterator hit = history.begin() + save_start;
+             hit != history.end(); ++hit ) {
+            json.write(*hit);
+        }
+        json.end_array();
+    }
+    json.end_object(); // input_history
+}
+
+void game_uistatedata::deserialize(JsonIn &jsin)
+{
+    auto jo = jsin.get_object();
+
+    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
+        // This is an old save: 1 means view items, 2 means view monsters,
+        // -1 means uninitialized
+        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
+    }
+
+    jo.read("list_item_sort", list_item_sort);
+    jo.read("list_item_filter_active", list_item_filter_active);
+    jo.read("list_item_downvote_active", list_item_downvote_active);
+    jo.read("list_item_priority_active", list_item_priority_active);
+
+    auto inhist = jo.get_object( "input_history" );
+    std::set<std::string> inhist_members = inhist.get_member_names();
+    for (std::set<std::string>::iterator it = inhist_members.begin();
+         it != inhist_members.end(); ++it) {
+        auto ja = inhist.get_array( *it );
+        std::vector<std::string>& v = gethistory(*it);
+        v.clear();
+        while (ja.has_more()) {
+            v.push_back(ja.next_string());
+        }
+    }
+
+    // fetch list_item settings from input_history
+    if ( !gethistory("item_filter").empty() ) {
+        list_item_filter = gethistory("item_filter").back();
+    }
+    if ( !gethistory("list_item_downvote").empty() ) {
+         list_item_downvote = gethistory("list_item_downvote").back();
+    }
+    if ( !gethistory("list_item_priority").empty() ) {
+         list_item_priority = gethistory("list_item_priority").back();
+    }
+}
+
 // This is the main game set-up process.
 game::game() :
     map_ptr(),
@@ -8535,20 +8603,20 @@ void game::list_items_monsters()
     } );
 
     // If the current list is empty, switch to the non-empty list
-    if( uistate.vmenu_show_items ) {
+    if( uistate.game->vmenu_show_items ) {
         if( items.empty() ) {
-            uistate.vmenu_show_items = false;
+            uistate.game->vmenu_show_items = false;
         }
     } else if( mons.empty() ) {
-        uistate.vmenu_show_items = true;
+        uistate.game->vmenu_show_items = true;
     }
 
     temp_exit_fullscreen();
     game::vmenu_ret ret;
     while( true ) {
-        ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
+        ret = uistate.game->vmenu_show_items ? list_items( items ) : list_monsters( mons );
         if( ret == game::vmenu_ret::CHANGE_TAB ) {
-            uistate.vmenu_show_items = !uistate.vmenu_show_items;
+            uistate.game->vmenu_show_items = !uistate.game->vmenu_show_items;
         } else {
             break;
         }
@@ -8572,21 +8640,21 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     catacurses::window w_item_info = catacurses::newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
 
     // use previously selected sorting method
-    bool sort_radius = uistate.list_item_sort != 2;
+    bool sort_radius = uistate.game->list_item_sort != 2;
     bool addcategory = !sort_radius;
 
     // reload filter/priority settings on the first invocation, if they were active
-    if (!uistate.list_item_init) {
-        if (uistate.list_item_filter_active) {
-            sFilter = uistate.list_item_filter;
+    if (!uistate.game->list_item_init) {
+        if (uistate.game->list_item_filter_active) {
+            sFilter = uistate.game->list_item_filter;
         }
-        if (uistate.list_item_downvote_active) {
-            list_item_downvote = uistate.list_item_downvote;
+        if (uistate.game->list_item_downvote_active) {
+            list_item_downvote = uistate.game->list_item_downvote;
         }
-        if (uistate.list_item_priority_active) {
-            list_item_upvote = uistate.list_item_priority;
+        if (uistate.game->list_item_priority_active) {
+            list_item_upvote = uistate.game->list_item_priority;
         }
-        uistate.list_item_init = true;
+        uistate.game->list_item_init = true;
     }
 
     std::vector<map_item_stack> ground_items = item_list;
@@ -8652,14 +8720,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refilter = true;
             addcategory = !sort_radius;
-            uistate.list_item_filter_active = !sFilter.empty();
+            uistate.game->list_item_filter_active = !sFilter.empty();
         } else if( action == "RESET_FILTER" ) {
             sFilter.clear();
             filtered_items = ground_items;
             iLastActive = tripoint_min;
             reset = true;
             refilter = true;
-            uistate.list_item_filter_active = false;
+            uistate.game->list_item_filter_active = false;
             addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() ) {
             std::vector<iteminfo> vThisItem, vDummy;
@@ -8684,7 +8752,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
-            uistate.list_item_priority_active = !list_item_upvote.empty();
+            uistate.game->list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::LOW_PRIORITY );
             list_item_downvote = string_input_popup()
@@ -8698,15 +8766,15 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
-            uistate.list_item_downvote_active = !list_item_downvote.empty();
+            uistate.game->list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
             if( sort_radius ) {
                 sort_radius = false;
                 addcategory = true;
-                uistate.list_item_sort = 2; // list is sorted by category
+                uistate.game->list_item_sort = 2; // list is sorted by category
             } else {
                 sort_radius = true;
-                uistate.list_item_sort = 1; // list is sorted by distance
+                uistate.game->list_item_sort = 1; // list is sorted by distance
             }
             highPEnd = -1;
             lowPStart = -1;
@@ -8728,9 +8796,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 add_msg(m_info, _("You can't travel there."));
             }
         }
-        if( uistate.list_item_sort == 1 ) {
+        if( uistate.game->list_item_sort == 1 ) {
             ground_items = item_list;
-        } else if( uistate.list_item_sort == 2 ) {
+        } else if( uistate.game->list_item_sort == 2 ) {
             std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
         }
 
