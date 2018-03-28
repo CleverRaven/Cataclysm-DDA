@@ -2,6 +2,7 @@
 #include "item.h"
 #include "json.h"
 #include "crafting.h"
+#include "construction.h"
 #include "editmap.h"
 #include "game.h"
 #include "iexamine.h"
@@ -11,6 +12,7 @@ uistatedata uistate;
 
 uistatedata::uistatedata()
 {
+    modules.emplace_back( new JsonSerDesAdapter<construction_uistatedata>( *construction ) );
     modules.emplace_back( new JsonSerDesAdapter<crafting_uistatedata>( *crafting ) );
     modules.emplace_back( new JsonSerDesAdapter<editmap_uistatedata>( *editmap ) );
     modules.emplace_back( new JsonSerDesAdapter<game_uistatedata>( *game ) );

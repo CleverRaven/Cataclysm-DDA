@@ -21,6 +21,7 @@ class JsonIn;
 class JsonOut;
 class JsonSerDes;
 
+class construction_uistatedata;
 class crafting_uistatedata;
 class editmap_uistatedata;
 class game_uistatedata;
@@ -38,6 +39,7 @@ class uistatedata
     public:
         uistatedata();
     public:
+        pimpl<construction_uistatedata> construction;
         pimpl<crafting_uistatedata> crafting;
         pimpl<editmap_uistatedata> editmap;
         pimpl<game_uistatedata> game;
@@ -76,10 +78,6 @@ class uistatedata
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
-
-        // construction menu selections
-        std::string construction_filter;
-        std::string last_construction;
 
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 

@@ -23,6 +23,20 @@ struct tripoint;
 using skill_id = string_id<Skill>;
 using requirement_id = string_id<requirement_data>;
 
+class JsonIn;
+class JsonOut;
+
+class construction_uistatedata
+{
+    public:
+        // construction menu selections
+        std::string construction_filter;
+        std::string last_construction;
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 struct construction {
         std::string category; //Construction type category
         std::string description; // how the action is displayed to the player
