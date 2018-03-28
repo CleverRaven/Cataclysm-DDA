@@ -208,8 +208,6 @@ game *g;
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
-uistatedata uistate;
-
 bool is_valid_in_w_terrain(int x, int y)
 {
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
