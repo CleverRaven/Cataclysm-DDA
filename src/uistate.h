@@ -16,6 +16,9 @@ class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 
 class item;
+class JsonIn;
+class JsonOut;
+class JsonSerDes;
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -23,6 +26,10 @@ class item;
 */
 class uistatedata
 {
+    protected:
+        std::vector<std::unique_ptr<JsonSerDes>> modules;
+    public:
+        uistatedata();
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
@@ -101,6 +108,7 @@ class uistatedata
             return input_history[id];
         }
 
+    protected:
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename JsonStream, typename T>
         void serialize_array( JsonStream &json, std::string name, T &data ) const {
@@ -113,9 +121,8 @@ class uistatedata
         }
 
         template<typename JsonStream>
-        void serialize( JsonStream &json ) const {
+        void _serialize( JsonStream &json ) const {
             const unsigned int input_history_save_max = 25;
-            json.start_object();
 
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
             serialize_array( json, "adv_inv_sort", adv_inv_sort );
@@ -160,12 +167,10 @@ class uistatedata
                 json.end_array();
             }
             json.end_object(); // input_history
-
-            json.end_object();
         };
 
         template<typename JsonStream>
-        void deserialize( JsonStream &jsin ) {
+        void _deserialize( JsonStream &jsin ) {
             auto jo = jsin.get_object();
             /**** here ****/
             if( jo.has_array( "adv_inv_sort" ) ) {
@@ -257,6 +262,10 @@ class uistatedata
                 list_item_priority = gethistory( "list_item_priority" ).back();
             }
         };
+
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 extern uistatedata uistate;
 
