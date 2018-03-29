@@ -1173,6 +1173,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             }
             break;
 
+        case 4:
         case 5: {
             add_msg( m_bad, _( "The installation is faulty!" ) );
             std::vector<bionic_id> valid;
