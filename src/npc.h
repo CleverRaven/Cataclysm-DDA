@@ -818,7 +818,7 @@ class npc : public player
         // Personality & other defining characteristics
         string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        int companion_mission_time;
+        time_point companion_mission_time;
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;

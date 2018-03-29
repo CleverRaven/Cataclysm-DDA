@@ -74,6 +74,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
+    : companion_mission_time( calendar::before_time_starts )
 {
     submap_coords = point( 0, 0 );
     position.x = -1;
@@ -101,7 +102,6 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
-    companion_mission_time = 0;
     last_updated = calendar::turn;
     attitude = NPCATT_NULL;
 

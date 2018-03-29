@@ -1029,7 +1029,6 @@ void npc::load(JsonObject &data)
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
-    int comp_miss_t = 0;
     int stock = 0;;
     std::string facID;
     std::string comp_miss;
@@ -1121,8 +1120,8 @@ void npc::load(JsonObject &data)
         companion_mission = comp_miss;
     }
 
-    if ( data.read( "companion_mission_time", comp_miss_t) ) {
-        companion_mission_time = comp_miss_t;
+    if( !data.read( "companion_mission_time", companion_mission_time ) ) {
+        companion_mission_time = calendar::before_time_starts;
     }
 
     if ( data.read( "restock", stock) ) {
