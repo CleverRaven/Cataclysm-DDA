@@ -1947,12 +1947,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat that comes pre-sliced.  Its first name isn't Oscar.  Can be eaten cold.",
         "price" : 1000,
         "material" : "flesh",
-        "volume" : 4,
-        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer."
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1965,12 +1965,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
         "price" : 2000,
         "material" : "hflesh",
-        "volume" : 4,
-        "charges" : 40
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -7232,11 +7232,10 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 15,
-        "nutrition": 15,
+        "nutrition": 3,
         "spoils_in": 160,
         "charges": 5,
-        "fun": -5,
+        "fun": -1,
         "phase": "liquid"
     },
     {
@@ -7272,8 +7271,8 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 10,
-        "nutrition": 10,
+        "fun": -1,
+        "nutrition": 3,
         "charges": 5,
         "phase": "liquid"
     },
