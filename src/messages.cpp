@@ -174,7 +174,7 @@ class Messages::impl_t
 
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
             []( game_message const & msg ) {
-                return std::make_pair( msg.timestamp_in_turns.print_time(),
+                return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.count ? msg.message + to_string( msg.count ) : msg.message );
             }
                           );

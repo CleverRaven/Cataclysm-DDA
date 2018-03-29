@@ -4567,7 +4567,7 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
-        wprintz( time_window, c_white, calendar::turn.print_time() );
+        wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -13028,7 +13028,7 @@ void game::wait()
 
     add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
     as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */

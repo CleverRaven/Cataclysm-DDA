@@ -391,33 +391,32 @@ std::string to_string_approx( const time_duration &d, const bool verbose )
     return make_result( turns, _( "about %s" ), "%s" );
 }
 
-std::string calendar::print_time() const
+std::string to_string_time_of_day( const time_point &p )
 {
-    std::ostringstream time_string;
-    int hour_param;
+    const int hour = hour_of_day<int>( p );
+    const int minute = minute_of_hour<int>( p );
+    //@todo add a to_seconds function?
+    const int second = to_turns<int>( time_past_midnight( p ) ) * 10;
+    const std::string format_type = get_option<std::string>( "24_HOUR" );
 
-    if (get_option<std::string>( "24_HOUR" ) == "military") {
-        hour_param = hour % 24;
-        time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
-    } else if (get_option<std::string>( "24_HOUR" ) == "24h") {
-        hour_param = hour % 24;
+    if( format_type == "military" ) {
+        return string_format( "%02d%02d.%02d", hour, minute, second );
+    } else if( format_type == "24h" ) {
         //~ hour:minute (24hr time display)
-        time_string << string_format( _( "%02d:%02d:%02d" ), hour_param, minute, second );
+        return string_format( _( "%02d:%02d:%02d" ), hour, minute, second );
     } else {
-        hour_param = hour % 12;
-        if (hour_param == 0) {
+        int hour_param = hour % 12;
+        if( hour_param == 0 ) {
             hour_param = 12;
         }
         // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
-        std::string padding = hour_param < 10 ? " " : "";
+        const std::string padding = hour_param < 10 ? " " : "";
         if( hour < 12 ) {
-            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
+            return string_format( _( "%d:%02d:%02d%sAM" ), hour_param, minute, second, padding );
         } else {
-            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
+            return string_format( _( "%d:%02d:%02d%sPM" ), hour_param, minute, second, padding );
         }
     }
-
-    return time_string.str();
 }
 
 std::string calendar::day_of_week() const
@@ -558,4 +557,20 @@ season_type season_of_year( const time_point &p )
     }
     
     return prev_season;
+}
+
+std::string to_string( const time_point &p )
+{
+    const int year = to_turns<int>( p - calendar::time_of_cataclysm ) / to_turns<int>( calendar::year_length() ) + 1;
+    const std::string time = to_string_time_of_day( p );
+    if( calendar::eternal_season() ) {
+        const int day = to_days<int>( time_past_new_year( p ) );
+        //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
+    } else {
+        const int day = day_of_season<int>( p );
+        //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
+                              calendar::name_season( season_of_year( p ) ), day, time );
+    }
 }

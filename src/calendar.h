@@ -258,9 +258,6 @@ class calendar
          * option) to actual in-game length.
          */
         static float season_from_default_ratio();
-
-        /** Returns the current time in a string according to the options set */
-        std::string print_time() const;
         /**
          * Returns the name of the current day of the week
          *
@@ -635,5 +632,9 @@ inline T day_of_season( const time_point &p )
 /// @returns The season of the of the given time point. Returns the same season for
 /// any input if the calendar::eternal_season yields true.
 season_type season_of_year( const time_point &p );
+/// @returns The time point formatted to be shown to the player. Contains year, season, day and time of day.
+std::string to_string( const time_point &p );
+/// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
+std::string to_string_time_of_day( const time_point &p );
 
 #endif
