@@ -3759,15 +3759,6 @@ bool game::save_maps()
     }
 }
 
-bool game::save_uistate()
-{
-    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
-    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        JsonOut jsout( fout );
-        uistate.serialize( jsout );
-    }, _( "uistate data" ) );
-}
-
 bool game::save_player_data()
 {
     const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
@@ -3794,7 +3785,10 @@ bool game::save()
              !save_maps() ||
              !get_auto_pickup().save_character() ||
              !get_safemode().save_character() ||
-             !save_uistate()){
+             !write_to_file_exclusive( world_generator->active_world->world_path + "/uistate.json", [&]( std::ostream &fout ) {
+                JsonOut jsout( fout );
+                uistate.serialize( jsout );
+             }, _( "uistate data" ) ) ) {
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
