@@ -736,7 +736,7 @@ void game::setup()
     loading_ui ui( true );
     load_core_data( ui );
 
-    load_world_modfiles( world_generator->active_world, ui );
+    load_world_modfiles( ui );
 
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
@@ -3648,43 +3648,41 @@ void game::load( const save_t &name )
     draw();
 }
 
-void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
+void game::load_world_modfiles( loading_ui &ui )
 {
     catacurses::erase();
     catacurses::refresh();
 
-    if( world ) {
-        auto &mods = world->active_mod_order;
+    auto &mods = world_generator->active_world->active_mod_order;
 
-        // remove any duplicates whilst preserving order (fixes #19385)
-        std::set<mod_id> found;
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
-            if( found.count( e ) ) {
-                return true;
-            } else {
-                found.insert( e );
-                return false;
-            }
-        } ), mods.end() );
-
-        // require at least one core mod (saves before version 6 may implicitly require dda pack)
-        if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
-            return e->core;
-        } ) ) {
-            mods.insert( mods.begin(), mod_id( "dda" ) );
+    // remove any duplicates whilst preserving order (fixes #19385)
+    std::set<mod_id> found;
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
+        if( found.count( e ) ) {
+            return true;
+        } else {
+            found.insert( e );
+            return false;
         }
+    } ), mods.end() );
 
-        load_artifacts(world->world_path + "/artifacts.gsav");
-        // this code does not care about mod dependencies,
-        // it assumes that those dependencies are static and
-        // are resolved during the creation of the world.
-        // That means world->active_mod_order contains a list
-        // of mods in the correct order.
-        load_packs( _( "Loading files" ), mods, ui );
-
-        // Load additional mods from that world-specific folder
-        load_data_from_dir( world->world_path + "/mods", "custom", ui );
+    // require at least one core mod (saves before version 6 may implicitly require dda pack)
+    if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
+        return e->core;
+    } ) ) {
+        mods.insert( mods.begin(), mod_id( "dda" ) );
     }
+
+    load_artifacts( world_generator->active_world->world_path + "/artifacts.gsav" );
+    // this code does not care about mod dependencies,
+    // it assumes that those dependencies are static and
+    // are resolved during the creation of the world.
+    // That means world->active_mod_order contains a list
+    // of mods in the correct order.
+    load_packs( _( "Loading files" ), mods, ui );
+
+    // Load additional mods from that world-specific folder
+    load_data_from_dir( world_generator->active_world->world_path + "/mods", "custom", ui );
 
     catacurses::erase();
     catacurses::refresh();

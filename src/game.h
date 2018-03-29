@@ -142,8 +142,8 @@ class game
          */
         bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
 
-        /** Loads core data and mods from the given world. May throw. */
-        void load_world_modfiles( WORLDPTR world, loading_ui &ui );
+        /** Loads core data and mods from the active world. May throw. */
+        void load_world_modfiles( loading_ui &ui );
 
         /**
          *  Load content packs
