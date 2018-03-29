@@ -1191,7 +1191,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
 
     // generic data
     json.member("id", id);
-    json.member("name", name);
+    json.member("name", name); 
     json.member("description", description);
     json.member("sym", sym);
     json.member("color", color);
