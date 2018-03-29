@@ -1,6 +1,5 @@
 #include "calendar.h"
 #include <cmath>
-#include <sstream>
 #include <limits>
 #include <array>
 
@@ -8,7 +7,6 @@
 #include "options.h"
 #include "translations.h"
 #include "string_formatter.h"
-#include "debug.h"
 #include "rng.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
