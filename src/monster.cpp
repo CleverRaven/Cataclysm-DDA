@@ -276,7 +276,7 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
+    const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
 
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
@@ -288,7 +288,7 @@ void monster::try_upgrade(bool pin_time) {
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start / DAYS(1);
+            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
         }
     }
 
