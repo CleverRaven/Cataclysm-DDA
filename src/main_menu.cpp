@@ -547,6 +547,7 @@ bool main_menu::new_character_tab()
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
+    vSubItems.push_back( pgettext( "Main Menu|New Game", "<F|f>ully Random Character" ) );
     std::vector<std::vector<std::string>> vNewGameHotkeys;
     for( auto item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
@@ -595,11 +596,11 @@ bool main_menu::new_character_tab()
                 sel1 = 1;
             }
             if( action == "UP" || action == "CONFIRM" ) {
-                if( sel2 == 0 || sel2 == 2 || sel2 == 3 ) {
+                if( sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4 ) {
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-                    WORLDPTR world = world_generator->pick_world( sel2 != 3 );
+                    WORLDPTR world = world_generator->pick_world( sel2 != 3 || sel2 != 4 );
                     if( world == NULL ) {
                         continue;
                     }
@@ -611,7 +612,21 @@ bool main_menu::new_character_tab()
                         g->u = player();
                         continue;
                     }
-                    if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
+                    character_type play_type;
+                    switch ( sel2 ) {
+                        case 0:
+                            play_type = PLTYPE_CUSTOM;
+                            break;
+                        case 2:
+                            play_type = PLTYPE_RANDOM;
+                            break;
+                        case 3:
+                            play_type = PLTYPE_NOW;
+                            break;
+                        case 4:
+                            play_type = PLTYPE_FULL_RANDOM;
+                    }
+                    if( !g->u.create( play_type ) ) {
                         g->u = player();
                         werase( w_background );
                         wrefresh( w_background );
