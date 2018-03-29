@@ -861,7 +861,8 @@
     "name": "Solar Panels",
     "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge.",
     "occupied_bodyparts": [ [ "TORSO", 20 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE" ]
+    "flags": [ "BIONIC_POWER_SOURCE" ],
+    "//": "Should be removed after 0.D."
   },
   {
     "id": "bio_spasm",
