@@ -44605,7 +44605,8 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3119
+              "fg": 3119,
+              "bg": 678
             }
           ]
         },
