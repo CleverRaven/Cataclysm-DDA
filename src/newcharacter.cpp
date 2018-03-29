@@ -1445,10 +1445,10 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
 
         // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
+        buffer << "<color_light_blue>" << _( "Profession items:" ) << "</color>\n";
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {
-            buffer << "<color_light_blue>" << _( "Profession items:" ) << "</color>\n";
             for( const auto &i : prof_items ) {
                 // TODO: If the item group is randomized *at all*, these will be different each time
                 // and it won't match what you actually start with
