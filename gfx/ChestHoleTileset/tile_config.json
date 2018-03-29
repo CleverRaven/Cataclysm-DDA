@@ -10577,7 +10577,7 @@
         },
         {
           "id": "overlay_wielded_ksg",
-          "fg": 1526,
+          "fg": 1521,
           "bg": 632,
           "rotates": false
         },
@@ -32510,7 +32510,7 @@
         },
         {
           "id": "ksg",
-          "fg": 1532,
+          "fg": 1495,
           "bg": 632,
           "rotates": false
         },
@@ -40717,7 +40717,7 @@
           "rotates": false
         },
         {
-          "id": "mon_bear_smoky",
+          "id": ["mon_bear_smoky", "mon_bear_smoky_pk"],
           "fg": 2817,
           "bg": 642,
           "rotates": false
@@ -41098,7 +41098,7 @@
           "rotates": false
         },
         {
-          "id": "mon_dog_zombie_rot",
+          "id": ["mon_dog_zombie_rot", "mon_dog_zombie_rot_worms", "mon_dog_zombie_rot_pain"],
           "fg": 1666,
           "bg": 642,
           "rotates": false
@@ -42090,7 +42090,7 @@
           "rotates": false
         },
         {
-          "id": "mon_zombie_rot",
+          "id": ["mon_zombie_rot", "mon_zombie_rot_flu"],
           "fg": 1802,
           "bg": 642,
           "rotates": false
@@ -49378,18 +49378,18 @@
         },
         {
           "id": "tr_landmine_buried_season_winter",
-          "fg": 2587,
-          "bg": 2424
+          "bg": 2587,
+          "fg": 2424
         },
         {
           "id": "tr_landmine",
-          "bg": 2424,
+          "fg": 2424,
           "rotates": false
         },
         {
           "id": "tr_landmine_buried",
-          "fg": 2586,
-          "bg": 2424,
+          "bg": 2586,
+          "fg": 2424,
           "rotates": false
         },
         {
@@ -53055,7 +53055,7 @@
           "rotates": false
         },
         {
-          "id": "mon_zombie_rot_pk",
+          "id": ["mon_zombie_rot_pk", "mon_zombie_rot_pk_flu", "mon_zombie_rot_worms", "mon_zombie_rot_worms_pk"],
           "fg": 3959,
           "bg": 632,
           "rotates": false
@@ -55934,16 +55934,6 @@
           "rotates": false
         },
         {
-          "id": "mon_bear_smoky_pk",
-          "fg": 4576,
-          "rotates": false
-        },
-        {
-          "id": "mon_bear_weak",
-          "fg": 4576,
-          "rotates": false
-        },
-        {
           "id": "vp_inkie",
           "fg": 4577,
           "rotates": true
@@ -56588,43 +56578,8 @@
           "rotates": false
         },
         {
-          "id": "mon_furvivor",
-          "fg": 4720,
-          "rotates": false
-        },
-        {
-          "id": "mon_furvivor_deagle",
-          "fg": 4721,
-          "rotates": false
-        },
-        {
-          "id": "mon_furvivor_glock",
-          "fg": 4722,
-          "rotates": false
-        },
-        {
-          "id": "mon_furvivor_pk",
-          "fg": 4723,
-          "rotates": false
-        },
-        {
-          "id": "mon_furvivor_shotgun",
-          "fg": 4724,
-          "rotates": false
-        },
-        {
-          "id": "mon_furvivor_smg",
-          "fg": 4725,
-          "rotates": false
-        },
-        {
           "id": "mon_gator",
           "fg": 4728,
-          "rotates": false
-        },
-        {
-          "id": "mon_gloople",
-          "fg": 4734,
           "rotates": false
         },
         {
@@ -56658,16 +56613,6 @@
           "rotates": false
         },
         {
-          "id": "mon_horse_zombie",
-          "fg": 4752,
-          "rotates": false
-        },
-        {
-          "id": "mon_horse_zombie_scorched",
-          "fg": 4753,
-          "rotates": false
-        },
-        {
           "id": "mon_imp",
           "fg": 4756,
           "rotates": false
@@ -56688,23 +56633,8 @@
           "rotates": false
         },
         {
-          "id": "mon_lostsoul",
-          "fg": 4767,
-          "rotates": false
-        },
-        {
-          "id": "mon_lostsoul_mount",
-          "fg": 4768,
-          "rotates": false
-        },
-        {
           "id": "mon_maggot",
           "fg": 4769,
-          "rotates": false
-        },
-        {
-          "id": "mon_mancubus",
-          "fg": 4770,
           "rotates": false
         },
         {
@@ -56759,12 +56689,12 @@
         },
         {
           "id": "mon_mi_go_terminal",
-          "fg": 4784,
+          "fg": 4782,
           "rotates": false
         },
         {
-          "id": "mon_mole_large",
-          "fg": 4786,
+          "id": "mon_moth",
+          "fg": 4793,
           "rotates": false
         },
         {
@@ -56785,11 +56715,6 @@
         {
           "id": "mon_pinky_revive",
           "fg": 4804,
-          "rotates": false
-        },
-        {
-          "id": "mon_pregnant_giant_cockroach",
-          "fg": 4806,
           "rotates": false
         },
         {
@@ -56838,31 +56763,6 @@
           "rotates": false
         },
         {
-          "id": "mon_soulcube",
-          "fg": 4839,
-          "rotates": false
-        },
-        {
-          "id": "mon_spider_jumping_giant_acid",
-          "fg": 4844,
-          "rotates": false
-        },
-        {
-          "id": "mon_spider_trapdoor_giant_guardian",
-          "fg": 4847,
-          "rotates": false
-        },
-        {
-          "id": "mon_spider_trapdoor_giant_pk",
-          "fg": 4848,
-          "rotates": false
-        },
-        {
-          "id": "mon_spider_trapdoor_giant_s",
-          "fg": 4849,
-          "rotates": false
-        },
-        {
           "id": "mon_spider_web_alpha",
           "fg": 4851,
           "rotates": false
@@ -56895,16 +56795,6 @@
         {
           "id": "mon_triffid_pk",
           "fg": 4878,
-          "rotates": false
-        },
-        {
-          "id": "mon_vinebeast_pk",
-          "fg": 4891,
-          "rotates": false
-        },
-        {
-          "id": "mon_vinebeast_terminal",
-          "fg": 4892,
           "rotates": false
         },
         {
@@ -57330,6 +57220,26 @@
         {
           "id": "overlay_wielded_torch",
           "fg": 4254,
+          "rotates": false
+        },
+        {
+          "id": "mon_nakedmolerat_giant",
+          "fg": 4253,
+          "rotates": false
+        },
+        {
+          "id": "mon_mole_large",
+          "fg": 4269,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_child_fungus",
+          "fg": 4270,
+          "rotates": false
+        },
+        {
+          "id": "mon_robin",
+          "fg": 4271,
           "rotates": false
         },
         {
