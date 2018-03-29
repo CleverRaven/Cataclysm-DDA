@@ -2089,7 +2089,7 @@ void veh_interact::display_details( const vpart_info *part )
                             "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
                             whl->diameter );
         fold_and_print( w_details, line+3, col_2, column_width, c_white,
-                            "%s: <color_light_gray>%d</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
+                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
                             whl->width );
     }
 
