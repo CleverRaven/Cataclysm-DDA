@@ -75,6 +75,7 @@ void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
     : companion_mission_time( calendar::before_time_starts )
+    , last_updated( calendar::turn )
 {
     submap_coords = point( 0, 0 );
     position.x = -1;
@@ -102,7 +103,6 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
-    last_updated = calendar::turn;
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
@@ -2083,23 +2083,21 @@ void npc::on_unload()
 
 void npc::on_load()
 {
-    const int now = calendar::turn;
+    // Cap at some reasonable number, say 2 days
+    const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
-    int dt = now - last_updated;
     last_updated = calendar::turn;
-    // Cap at some reasonable number, say 2 days (2 * 48 * 30 minutes)
-    dt = std::min( dt, 2 * 48 * MINUTES( 30 ) );
-    int cur = now - dt;
-    add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
+    time_point cur = calendar::turn - dt;
+    add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
-    for( ; cur < now - MINUTES( 30 ); cur += MINUTES( 30 ) + 1 ) {
-        update_body( cur, cur + MINUTES( 30 ) );
+    for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 30_minutes ) );
     }
-    for( ; cur < now - MINUTES( 5 ); cur += MINUTES( 5 ) + 1 ) {
-        update_body( cur, cur + MINUTES( 5 ) );
+    for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 5_minutes ) );
     }
-    for( ; cur < now; cur++ ) {
-        update_body( cur, cur + 1 );
+    for( ; cur < calendar::turn; cur += 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 1_turns ) );
     }
 
     if( dt > 0 ) {

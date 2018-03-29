@@ -1135,7 +1135,9 @@ void npc::load(JsonObject &data)
         data.read("combat_rules", rules);
     }
 
-    last_updated = data.get_int( "last_updated", calendar::turn );
+    if( !data.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
     //@todo time_point does not have a default constructor, need to read in the map manually
     {
         complaints.clear();

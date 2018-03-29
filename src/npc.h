@@ -831,7 +831,7 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static const tripoint no_goal_point;
 
-        int last_updated;
+        time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */
