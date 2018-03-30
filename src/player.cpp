@@ -2416,7 +2416,6 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Inventory
     memorial_file << _( "Inventory:" ) << eol;
     inv.restack( *this );
-    inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
         item &next_item = elem->front();
@@ -7267,7 +7266,6 @@ bool player::consume(int target_position)
         //Restack and sort so that we don't lie about target's invlet
         if( target_position >= 0 ) {
             inv.restack( *this );
-            inv.sort();
         }
 
         if( was_in_container && target_position == -1 ) {

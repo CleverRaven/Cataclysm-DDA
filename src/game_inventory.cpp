@@ -60,7 +60,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &hint = std::string() )
 {
     u.inv.restack( u );
-    u.inv.sort();
 
     inventory_pick_selector inv_s( u, preset );
 
@@ -87,7 +86,6 @@ void game_menus::inv::common( player &p )
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_pick_selector inv_s( p );
 
@@ -908,7 +906,6 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
         return p.can_unwield( *location ).success();
@@ -931,7 +928,6 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 void game_menus::inv::compare( player &p, const tripoint &offset )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_compare_selector inv_s( p );
 
@@ -1014,7 +1010,6 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 void game_menus::inv::swap_letters( player &p )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_pick_selector inv_s( p );
 

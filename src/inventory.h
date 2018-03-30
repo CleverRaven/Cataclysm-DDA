@@ -80,7 +80,6 @@ class inventory : public visitable<inventory>
         inventory  operator+ ( const std::list<item> &rhs );
 
         void unsort(); // flags the inventory as unsorted
-        void sort();
         void clear();
         void push_back( std::list<item> newits );
         // returns a reference to the added item
