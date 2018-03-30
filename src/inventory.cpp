@@ -29,7 +29,6 @@ inventory::inventory()
 , nullstack()
 , invlet_cache()
 , items()
-, sorted(false)
 {
 }
 
@@ -117,7 +116,6 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::unsort()
 {
-    sorted = false;
     binned = false;
 }
 
@@ -129,7 +127,6 @@ bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
 void inventory::sort()
 {
     items.sort(stack_compare);
-    sorted = true;
 }
 
 void inventory::clear()

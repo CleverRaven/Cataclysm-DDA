@@ -188,7 +188,6 @@ class inventory : public visitable<inventory>
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
-        bool sorted;
 
         mutable bool binned;
         /**
