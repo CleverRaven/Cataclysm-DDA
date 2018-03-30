@@ -30,6 +30,7 @@
 #include "vehicle_selector.h"
 #include "skill.h"
 #include "ui.h"
+#include "help.h"
 
 #include "string_formatter.h"
 #include <vector>
@@ -1096,7 +1097,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case 2:
                 return _( "At least we've got shelter." );
         }
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        return get_hint();
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         switch( rng( 1, 5 ) ) {
             case 1:
@@ -2071,6 +2073,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Thanks..." ), "TALK_DONE" );
     } else if( topic == "TALK_SHELTER" ) {
         add_response( _( "What should we do now?" ), "TALK_SHELTER_PLANS" );
+        add_response( _( "Any tips?" ), "TALK_SHELTER_ADVICE" );
         add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
         if( !p->is_following() ) {
             add_response( _( "Want to travel with me?" ), "TALK_SUGGEST_FOLLOW" );
@@ -2078,7 +2081,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
         add_response( _( "I can't leave the shelter without equipment..." ), "TALK_SHARE_EQUIPMENT" );
         add_response_done( _( "Well, bye." ) );
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        add_response_none( _( "Thanks!" ) );
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         // TODO: Add _("follow me")
         add_response_none( _( "Hmm, okay." ) );
