@@ -187,6 +187,7 @@
       [ "l_mbr_223", 100 ],
       [ "m107a1", 30 ],
       [ "m134", 10 ],
+      [ "m14ebr", 10 ],
       [ "m2010", 20 ],
       [ "m240", 15 ],
       [ "m249", 25 ],
@@ -309,6 +310,15 @@
     "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
     "items": [
+      [ "LAW_Packed", 200 ],
+      [ "RPG", 5 ],
+      [ "RPG-7_ammo", 10 ],
+      [ "m202_flash", 100 ],
+      [ "m235tpa", 150 ],
+      [ "m3_carlgustav", 50 ],
+      [ "84x246mm_he", 100 ],
+      [ "84x246mm_hedp", 80 ],
+      [ "84x246mm_smoke", 100 ]
     ]
   },
   {
