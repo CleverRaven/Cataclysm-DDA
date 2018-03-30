@@ -1554,6 +1554,7 @@
         "description" : "Tea, the beverage of gentlemen everywhere.",
         "price" : 90,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -2156,6 +2157,7 @@
         "description" : "A healthy beverage made from dandelion roots steeped in boiling water.",
         "price" : 50,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -5811,6 +5813,7 @@
         "description" : "A healthy beverage made from herbs steeped in boiling water.",
         "price" : 100,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -5829,6 +5832,7 @@
         "description" : "A fragrant and healthy beverage made from pine needles steeped in boiling water.",
         "price" : 0,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 1,
@@ -9969,7 +9973,7 @@
         "nutrition" : 8,
         "description" : "Usually consumed in the mornings, milk tea is common among many countries.",
         "price" : 450,
-        "material" : "milk",
+        "material" : [ "milk", "water" ],
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
@@ -9993,7 +9997,7 @@
         "nutrition" : 8,
         "description" : "A traditional south Asian mixed-spice tea with milk.",
         "price" : 475,
-        "material" : "milk",
+        "material" : [ "milk", "water" ],
         "volume" : 1,
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
@@ -10013,6 +10017,7 @@
         "description" : "Often regarded as folk medicine in some countries, bark tea tastes awful and tends to dry you out, but can help flush out stomach or other gut bugs.",
         "price" : 1250,
         "volume" : 2,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : -5
@@ -10347,6 +10352,7 @@
        "description" : "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
        "price" : 100,
        "volume" : 1,
+       "material" : [ "water" ],
        "phase" : "liquid",
        "flags" : ["EATEN_HOT"],
        "fun" : 1
