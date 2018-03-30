@@ -808,7 +808,7 @@ class npc : public player
          */
         tripoint pulp_location;
 
-        int restock;
+        time_point restock;
         bool fetching_item;
         bool has_new_items; // If true, we have something new and should re-equip
         int  worst_item_value; // The value of our least-wanted item

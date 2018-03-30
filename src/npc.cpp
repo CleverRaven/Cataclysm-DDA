@@ -74,7 +74,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : companion_mission_time( calendar::before_time_starts )
+    : player()
+    , restock( calendar::before_time_starts )
+    , companion_mission_time( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
     submap_coords = point( 0, 0 );
@@ -102,7 +104,6 @@ npc::npc()
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
     patience = 0;
-    restock = -1;
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
@@ -305,7 +306,7 @@ void npc::randomize( const npc_class_id &type )
     per_max = the_class.roll_perception();
 
     if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = DAYS( 3 );
+        restock = calendar::turn + 3_days;
         cash += 100000;
     }
 
@@ -1409,7 +1410,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 
 void npc::shop_restock()
 {
-    restock = calendar::turn + DAYS( 3 );
+    restock = calendar::turn + 3_days;
     if( is_friend() ) {
         return;
     }

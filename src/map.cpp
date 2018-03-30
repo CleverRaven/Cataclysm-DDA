@@ -7063,7 +7063,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
     //Check for Merchants to restock
     for( npc &guy : g->all_npcs() ) {
-        if( guy.restock > 0 && calendar::turn > guy.restock ) {
+        if( guy.restock != calendar::before_time_starts && calendar::turn > guy.restock ) {
             guy.shop_restock();
         }
     }
