@@ -74,8 +74,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 r.push_back( to_string( obj.type->ammo->range ) );
                 r.push_back( to_string( obj.type->ammo->dispersion ) );
                 r.push_back( to_string( obj.type->ammo->recoil ) );
-                r.push_back( to_string( obj.type->ammo->damage ) );
-                r.push_back( to_string( obj.type->ammo->pierce ) );
+                damage_instance damage = obj.type->ammo->damage;
+                r.push_back( to_string( damage.total_damage() ) );
+                r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
                 rows.push_back( r );
             }
         };
@@ -179,8 +180,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
             r.push_back( to_string( obj.gun_recoil( who ) ) );
-            r.push_back( to_string( obj.gun_damage() ) );
-            r.push_back( to_string( obj.gun_pierce() ) );
+            damage_instance damage = obj.gun_damage();
+            r.push_back( to_string( damage.total_damage() ) );
+            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
