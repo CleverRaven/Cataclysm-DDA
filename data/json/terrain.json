@@ -6658,7 +6658,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dgray_brown" ],
+    "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
