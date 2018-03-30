@@ -7662,7 +7662,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) || weapon.is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
-                                              : string_format( _( "%s doesn't have a hand free to wear that.", name.c_str() ) ) ) );
+                                              : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
@@ -7676,7 +7676,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         return ret_val<bool>::make_failure( ( is_player() ? _( "You're already wearing footwear!" )
-                                              : string_format( _( "%s is already wearing footwear!", name.c_str() ) ) ) );
+                                              : string_format( _( "%s is already wearing footwear!" ), name.c_str() ) ) );
     }
 
     if( it.covers( bp_head ) &&
@@ -7693,7 +7693,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
-                                              : string_format( _( "%s can't wear that much on their head!", name.c_str() ) ) ) );
+                                              : string_format( _( "%s can't wear that much on their head!" ), name.c_str() ) ) );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
