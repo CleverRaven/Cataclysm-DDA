@@ -2180,7 +2180,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
     memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
                                     pronoun.c_str(), profession_name.c_str() ) << eol;
-    memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun, to_string( calendar::turn ) ) << eol;
+    memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun, to_string( time_point( calendar::turn ) ) ) << eol;
     memorial_file << kill_place << eol;
     memorial_file << eol;
 
@@ -2377,7 +2377,7 @@ void player::add_memorial_log( const std::string &male_msg, const std::string &f
     const std::string &location = cur_ter->get_name();
 
     std::stringstream log_message;
-    log_message << "| " << to_string( calendar::turn ) << " | " << location << " | " << msg;
+    log_message << "| " << to_string( time_point( calendar::turn ) ) << " | " << location << " | " << msg;
 
     memorial_log.push_back( log_message.str() );
 
