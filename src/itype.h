@@ -56,6 +56,27 @@ using quality_id = string_id<quality>;
 
 enum field_id : int;
 
+class gun_modifier_data
+{
+    private:
+        std::string name_;
+        int qty_;
+        std::set<std::string> flags_;
+
+    public:
+        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ), qty_( q ), flags_( f ) { }
+
+        std::string name() const {
+            return name_;
+        }
+        int qty() const {
+            return qty_;
+        }
+        const std::set<std::string> &flags() const {
+            return flags_;
+        }
+};
+
 class gunmod_location
 {
     private:
@@ -418,7 +439,7 @@ struct islot_gun : common_ranged_data {
     std::set<itype_id> default_mods;
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
-    std::map<gun_mode_id, std::tuple<std::string, int, std::set<std::string>>> modes;
+    std::map<gun_mode_id, gun_modifier_data> modes;
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
@@ -478,7 +499,7 @@ struct islot_gunmod : common_ranged_data {
     int ups_charges = 0;
 
     /** Firing modes added to or replacing those of the base gun */
-    std::map<gun_mode_id, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+    std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
     std::set<std::string> ammo_effects;
 

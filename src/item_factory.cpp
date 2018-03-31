@@ -227,13 +227,11 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
-                                std::set<std::string>() ) );
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), gun_modifier_data( defmode, 1, std::set<std::string>() ) );
 
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
-                                    std::set<std::string>() ) );
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), gun_modifier_data( _( "auto" ), obj.gun->burst, std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {
@@ -1265,7 +1263,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
 
-            std::tuple<std::string, int, std::set<std::string>> mode(
+            gun_modifier_data mode(
                 curr.get_string( 1 ),
                 curr.get_int( 2 ),
                 curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
@@ -1567,7 +1565,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
 
-            std::tuple<std::string, int, std::set<std::string>> mode(
+            gun_modifier_data mode(
                 curr.get_string( 1 ),
                 curr.get_int( 2 ),
                 curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
