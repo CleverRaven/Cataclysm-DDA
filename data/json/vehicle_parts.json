@@ -398,6 +398,16 @@
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
+        "type" : "vehicle_part",
+        "id" : "hdstowboard_horizontal",
+        "copy-from": "stowboard_horizontal",
+        "name" : "heavy duty stow board",
+        "color" : "light_gray",
+        "broken_color" : "dark_gray",
+        "durability" : 830,
+        "size" : 190,
+        "item" : "steel_plate"
+    },{
         "type":"vehicle_part",
         "id" : "stowboard_vertical",
         "name" : "stow board",
@@ -411,6 +421,16 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
+    },{
+        "type":"vehicle_part",
+        "id" : "hdstowboard_vertical",
+        "copy-from": "stowboard_vertical",
+        "name" : "heavy duty stow board",
+        "color" : "light_gray",
+        "broken_color" : "dark_gray",
+        "durability" : 830,
+        "size" : 190,
+        "item" : "steel_plate"
     },{
         "type" : "vehicle_part",
         "id" : "roof_cloth",
