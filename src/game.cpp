@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "rng.h"
+#include "dependency_tree.h"
 #include "input.h"
 #include "output.h"
 #include "skill.h"
@@ -312,19 +313,18 @@ void game::load_static_data()
     get_safemode().load_global();
 }
 
-bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
+bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 {
-    auto &mods = world_generator->get_mod_manager().mod_map;
     auto &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
-    std::set<std::string> check( opts.begin(), opts.end() );
+    std::set<mod_id> check( opts.begin(), opts.end() );
 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
-        for( const auto &e : mods ) {
-            if( !e.second.obsolete ) {
-                check.emplace( e.first );
+        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
+            if( !e->obsolete ) {
+                check.emplace( e );
             }
         }
     }
@@ -340,32 +340,31 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
     }
 
     for( const auto &e : check ) {
-        auto iter = mods.find( e );
-        if( iter == mods.end() ) {
-            std::cerr << "Unknown mod: " << e << std::endl;
+        if( !e.is_valid() ) {
+            std::cerr << "Unknown mod: " << e.str() << std::endl;
             return false;
         }
 
-        MOD_INFORMATION &mod = iter->second;
+        const MOD_INFORMATION &mod = *e;
 
         if( !tree.is_available( mod.ident ) ) {
-            std::cerr << "Missing dependencies: " << mod.name << "\n"
+            std::cerr << "Missing dependencies: " << mod.name() << "\n"
                       << tree.get_node( mod.ident )->s_errors() << std::endl;
             return false;
         }
 
-        std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
+        std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
             load_core_data( ui );
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep].path, mods[dep].ident, ui );
+                load_data_from_dir( dep->path, dep->ident.str(), ui );
             }
 
             // Load mod itself
-            load_data_from_dir( mod.path, mod.ident, ui );
+            load_data_from_dir( mod.path, mod.ident.str(), ui );
             DynamicDataLoader::get_instance().finalize_loaded_data( ui );
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
@@ -3674,8 +3673,8 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
         auto &mods = world->active_mod_order;
 
         // remove any duplicates whilst preserving order (fixes #19385)
-        std::set<std::string> found;
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const std::string &e ) {
+        std::set<mod_id> found;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
             if( found.count( e ) ) {
                 return true;
             } else {
@@ -3685,10 +3684,10 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
         } ), mods.end() );
 
         // require at least one core mod (saves before version 6 may implicitly require dda pack)
-        if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager().mod_map[e].core;
+        if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
+            return e->core;
         } ) ) {
-            mods.insert( mods.begin(), "dda" );
+            mods.insert( mods.begin(), mod_id( "dda" ) );
         }
 
         load_artifacts(world->world_path + "/artifacts.gsav");
@@ -3709,17 +3708,16 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
-bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui )
+bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
 {
     ui.new_context( msg );
-    std::vector<std::string> missing;
-    std::vector<std::string> available;
+    std::vector<mod_id> missing;
+    std::vector<mod_id> available;
 
-    mod_manager &mm = world_generator->get_mod_manager();
-    for( const auto &e : packs ) {
-        if( mm.has_mod( e ) ) {
+    for( const mod_id &e : packs ) {
+        if( e.is_valid() ) {
             available.emplace_back( e );
-            ui.add_entry( e );
+            ui.add_entry( e->name() );
         } else {
             missing.push_back( e );
         }
@@ -3727,15 +3725,15 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = mm.mod_map[e];
-        load_data_from_dir( mod.path, mod.ident, ui );
+        const MOD_INFORMATION &mod = *e;
+        load_data_from_dir( mod.path, mod.ident.str(), ui );
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
                 popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
                               e.c_str(), i, core_version - 1 );
-                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident, ui );
+                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
             }
         }
 

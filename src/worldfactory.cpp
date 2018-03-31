@@ -18,6 +18,8 @@
 #include "name.h"
 #include "json.h"
 
+#include <algorithm>
+
 using namespace std::placeholders;
 
 static const std::string SAVE_MASTER( "master.gsav" );
@@ -122,7 +124,7 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
     return retworld;
 }
 
-WORLDPTR worldfactory::make_new_world( const std::vector<std::string> &mods )
+WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     WORLDPTR retworld = new WORLD();
     retworld->active_mod_order = mods;
@@ -162,9 +164,8 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     } else { // 'Play NOW'
 #ifndef LUA
         // Silently remove all Lua mods set by default.
-        std::vector<std::string>::iterator mod_it;
-        for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION &minfo = mman->mod_map[*mod_it];
+        for( auto mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end(); ) {
+            const MOD_INFORMATION &minfo = **mod_it;
             if ( minfo.need_lua() ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
@@ -616,7 +617,7 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
 }
 
 void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                                  const std::vector<std::string> &mods, bool is_active_list,
+                                  const std::vector<mod_id> &mods, bool is_active_list,
                                   const std::string &text_if_empty, const catacurses::window &w_shift )
 {
     werase( w );
@@ -636,7 +637,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            const std::string category_name = _( mman->mod_map[mods[i]].category.second.c_str() );
+            const std::string category_name = _( mods[i]->category.second.c_str() );
             if ( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
@@ -687,15 +688,15 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         }
                     }
 
-                    MOD_INFORMATION &mod = mman->mod_map[*iter];
+                    const MOD_INFORMATION &mod = **iter;
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name() );
                     } else {
-                        trim_and_print( w, iNum-start, 4, wwidth, c_white, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_white, mod.name() );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name() );
 #endif
 
                     if( w_shift ) {
@@ -740,7 +741,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
     wrefresh( w_shift );
 }
 
-void worldfactory::show_active_world_mods( const std::vector<std::string> &world_mods ) {
+void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods ) {
     const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
@@ -789,9 +790,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
-    std::vector<std::string> &active_mod_order = world->active_mod_order;
+    std::vector<mod_id> &active_mod_order = world->active_mod_order;
     {
-        std::vector<std::string> tmp_mod_order;
+        std::vector<mod_id> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
         // that changes (like changing dependencies) get updated
         tmp_mod_order.swap(active_mod_order);
@@ -837,11 +838,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     int tab_output = 0;
     size_t last_active_header = 0;
     size_t active_header = 0;
-    size_t useable_mod_count = mman_ui->usable_mods.size();
+    size_t useable_mod_count = mman->get_usable_mods().size();
     int startsel[2] = {0, 0};
     size_t cursel[2] = {0, 0};
     size_t iCurrentTab = 0;
-    std::vector<std::string> current_tab_mods;
+    std::vector<mod_id> current_tab_mods;
 
     bool redraw_headers = true;
     bool redraw_description = true;
@@ -871,8 +872,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( recalc_tabs ) {
             current_tab_mods.clear();
 
-            for( const auto &item : mman_ui->usable_mods ) {
-                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item].category.first].first);
+            for( const auto &item : mman->get_usable_mods() ) {
+                const auto &iter = get_mod_list_cat_tab().find( get_mod_list_categories()[item->category.first].first );
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
@@ -903,13 +904,13 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_description ) {
             werase( w_description );
 
-            MOD_INFORMATION *selmod = nullptr;
+            const MOD_INFORMATION *selmod = nullptr;
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
-                selmod = &mman->mod_map[current_tab_mods[cursel[0]]];
+                selmod = &current_tab_mods[cursel[0]].obj();
             } else if( !active_mod_order.empty() ) {
-                selmod = &mman->mod_map[active_mod_order[cursel[1]]];
+                selmod = &active_mod_order[cursel[1]].obj();
             }
 
             if( selmod != nullptr ) {
@@ -968,7 +969,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "CONFIRM" ) {
             if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if( mman->mod_map[current_tab_mods[cursel[0]]].need_lua() ) {
+                if( current_tab_mods[cursel[0]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
                     draw_modselection_borders( win, ctxt );
@@ -1135,10 +1136,10 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
 #ifndef LUA
-            for (std::string &mod : world->active_mod_order) {
-                MOD_INFORMATION &temp = mman->mod_map[mod];
+            for( const mod_id &mod : world->active_mod_order ) {
+                const MOD_INFORMATION &temp = *mod;
                 if ( temp.need_lua() ) {
-                    popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
+                    popup( _( "Mod '%s' requires Lua support." ), temp.name() );
                     return -2; // Move back to modselect tab.
                 }
             }
@@ -1315,8 +1316,8 @@ bool worldfactory::world_need_lua_build(std::string world_name)
     if( world == nullptr ) {
         return false;
     }
-    for (std::string &mod : world->active_mod_order) {
-        if( mman->has_mod( mod ) && mman->mod_map[mod].need_lua() ) {
+    for( const mod_id &mod : world->active_mod_order ) {
+        if( mod.is_valid() && mod->need_lua() ) {
             return true;
         }
     }
