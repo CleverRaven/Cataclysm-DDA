@@ -1129,7 +1129,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         std::vector<std::string> fm;
         for( const auto &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
-                fm.emplace_back( string_format( "%s (%i)", _( e.second.mode.c_str() ), e.second.qty ) );
+                fm.emplace_back( string_format( "%s (%i)", e.second.name(), e.second.qty ) );
             }
         }
         if( !fm.empty() ) {

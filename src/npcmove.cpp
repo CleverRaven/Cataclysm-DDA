@@ -1324,7 +1324,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
              max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
