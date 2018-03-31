@@ -1099,7 +1099,7 @@ void npc::load(JsonObject &data)
     }
 
     if ( data.read( "my_fac", facID) ) {
-        fac_id = facID;
+        fac_id = faction_id( facID );
     }
 
     if ( data.read( "attitude", atttmp) ) {
@@ -1187,7 +1187,7 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // @todo: stringid
-    if( !fac_id.empty() ) { // set in constructor
+    if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );

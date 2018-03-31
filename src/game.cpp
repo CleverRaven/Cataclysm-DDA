@@ -743,7 +743,6 @@ void game::setup()
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
-    next_faction_id = 1;
     next_mission_id = 1;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
@@ -760,7 +759,7 @@ void game::setup()
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
-    factions.clear();
+    faction_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     events = event_manager();
@@ -811,10 +810,7 @@ bool game::start_game(std::string worldname)
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    // Init some factions.
-    if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
-        create_factions();
-    }
+    load_master( worldname );
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -910,18 +906,6 @@ bool game::start_game(std::string worldname)
    lua_callback("on_new_player_created");
 
     return true;
-}
-
-void game::create_factions()
-{
-    faction tmp;
-    std::vector<std::string> faction_vector = tmp.all_json_factions();
-    for(auto &cur_fac : faction_vector) {
-        tmp = faction(cur_fac);
-        tmp.randomize();
-        tmp.load_faction_template(cur_fac);
-        factions.push_back(tmp);
-    }
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -3294,7 +3278,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FACTIONS:
-            list_factions(_("FACTIONS:"));
+            faction_manager_ptr->display();
+            refresh_all();
             break;
 
         case ACTION_MORALE:
@@ -3575,11 +3560,12 @@ void game::move_save_to_graveyard()
     }
 }
 
-bool game::load_master(std::string worldname)
+void game::load_master( const std::string &worldname )
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
-    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    faction_manager_ptr->create_if_needed();
 }
 
 void game::load_uistate(std::string worldname)
@@ -3623,9 +3609,7 @@ void game::load(std::string worldname, const save_t &name)
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    if( !load_master( worldname ) || factions.empty() ) {
-        create_factions();
-    }
+    load_master( worldname );
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
@@ -4416,7 +4400,7 @@ void game::disp_faction_ends()
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
     std::vector<std::string> data;
 
-    for( auto &elem : factions ) {
+    for( const faction &elem : faction_manager_ptr->all() ) {
         if(elem.known_by_u) {
             if (elem.name == "Your Followers"){
                 data.emplace_back( "" );
@@ -4620,96 +4604,6 @@ void game::disp_NPCs()
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
-}
-
-faction *game::list_factions(std::string title)
-{
-    std::vector<faction *> valfac; // Factions that we know of.
-    for( auto &elem : factions ) {
-        if( elem.known_by_u ) {
-            valfac.push_back( &elem );
-        }
-    }
-    if (valfac.empty()) { // We don't know of any factions!
-        popup(_("You don't know of any factions.  Press Spacebar..."));
-        return nullptr;
-    }
-
-    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                            ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
-                            1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
-
-    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
-    size_t sel = 0;
-    bool redraw = true;
-
-    input_context ctxt("FACTIONS");
-    ctxt.register_action("UP", _("Move cursor up"));
-    ctxt.register_action("DOWN", _("Move cursor down"));
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    faction *cur_frac = nullptr;
-    while (true) {
-        cur_frac = valfac[sel];
-        if (redraw) {
-            // Init w_list content
-            werase(w_list);
-            draw_border(w_list);
-            mvwprintz( w_list, 1, 1, c_white, title );
-            for (size_t i = 0; i < valfac.size(); i++) {
-                nc_color col = (i == sel ? h_white : c_white);
-                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
-            }
-            wrefresh(w_list);
-            // Init w_info content
-            // fac_*_text() is in faction.cpp
-            werase(w_info);
-            mvwprintz(w_info, 0, 0, c_white,
-                      _("Ranking:           %s"), fac_ranking_text(cur_frac->likes_u).c_str());
-            mvwprintz(w_info, 1, 0, c_white,
-                      _("Respect:           %s"), fac_respect_text(cur_frac->respects_u).c_str());
-            mvwprintz(w_info, 2, 0, c_white,
-                      _("Wealth:            %s"), fac_wealth_text(cur_frac->wealth, cur_frac->size).c_str());
-            mvwprintz(w_info, 3, 0, c_white,
-                      _("Food Supply:       %s"), fac_food_supply_text(cur_frac->food_supply, cur_frac->size).c_str());
-            mvwprintz(w_info, 4, 0, c_white,
-                      _("Combat Ability:    %s"), fac_combat_ability_text(cur_frac->combat_ability).c_str());
-            fold_and_print(w_info, 6, 0, maxlength, c_white, cur_frac->describe());
-            wrefresh(w_info);
-            redraw = false;
-        }
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN") {
-            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
-            if (sel == valfac.size() - 1) {
-                sel = 0;    // Wrap around
-            } else {
-                sel++;
-            }
-            redraw = true;
-        } else if (action == "UP") {
-            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
-            if (sel == 0) {
-                sel = valfac.size() - 1;    // Wrap around
-            } else {
-                sel--;
-            }
-            redraw = true;
-        } else if ( action == "HELP_KEYBINDINGS" ) {
-            redraw = true;
-        } else if (action == "QUIT") {
-            cur_frac = nullptr;
-            break;
-        } else if (action == "CONFIRM") {
-            break;
-        }
-    }
-    refresh_all();
-    return cur_frac;
 }
 
 // A little helper to draw footstep glyphs.
@@ -5414,23 +5308,6 @@ int game::assign_npc_id()
     int ret = next_npc_id;
     next_npc_id++;
     return ret;
-}
-
-int game::assign_faction_id()
-{
-    int ret = next_faction_id;
-    next_faction_id++;
-    return ret;
-}
-
-faction *game::faction_by_ident(std::string id)
-{
-    for( auto &elem : factions ) {
-        if( elem.id == id ) {
-            return &elem;
-        }
-    }
-    return nullptr;
 }
 
 Creature *game::is_hostile_nearby()
@@ -13461,18 +13338,6 @@ void game::nuke( const tripoint &p )
     for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
         npc->marked_for_death = true;
     }
-}
-
-std::vector<faction *> game::factions_at( const tripoint &p )
-{
-    // TODO: Factions with z-levels
-    std::vector<faction *> ret;
-    for( auto &elem : factions ) {
-        if( trig_dist( p.x, p.y, elem.mapx, elem.mapy ) <= elem.size ) {
-            ret.push_back( &( elem ) );
-        }
-    }
-    return ret;
 }
 
 void game::display_scent()

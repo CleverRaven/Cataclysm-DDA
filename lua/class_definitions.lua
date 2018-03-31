@@ -310,7 +310,6 @@ classes = {
         functions = {
             { name = "add_zombie", rval = "bool", args = { "monster" } },
             { name = "add_zombie", rval = "bool", args = { "monster", "bool" } },
-            { name = "assign_faction_id", rval = "int", args = { } },
             { name = "assign_mission_id", rval = "int", args = { } },
             { name = "assign_npc_id", rval = "int", args = { } },
             { name = "cancel_activity", rval = nil, args = { } },
