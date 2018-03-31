@@ -111,7 +111,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
-    if( has_items_on_ground && !items_are_sealed ) {
+    if( has_items_on_ground && !items_are_sealed && !g->u.in_vehicle ) {
         selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
     }
 
