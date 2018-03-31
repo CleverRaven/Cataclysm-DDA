@@ -964,8 +964,8 @@ npc_action npc::method_of_attack()
     std::stable_sort( modes.begin(),
                       modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
     const std::pair<std::string, item::gun_mode> &rhs ) {
-        return ( lhs.second->gun_damage() * lhs.second.qty ) > ( rhs.second->gun_damage() *
-                rhs.second.qty );
+        return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
+               ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
 
     const int cur_recoil = recoil_total();
