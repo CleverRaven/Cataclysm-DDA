@@ -545,9 +545,9 @@ bool main_menu::new_character_tab()
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (<F|f>ixed Scenario)" ) );
     }
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<F|f>ully Random Character" ) );
+    vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (Random <S|s>cenario)" ) );
     std::vector<std::vector<std::string>> vNewGameHotkeys;
     for( auto item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
