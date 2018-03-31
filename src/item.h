@@ -36,6 +36,7 @@ class gun_type_type;
 class gunmod_location;
 class game;
 class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
@@ -1500,19 +1501,19 @@ public:
         ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, gun_mode> gun_all_modes() const;
+        std::map<gun_mode_id, gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        gun_mode gun_get_mode( const std::string& mode ) const;
+        gun_mode gun_get_mode( const gun_mode_id &mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
         gun_mode gun_current_mode() const;
 
         /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
-        std::string gun_get_mode_id() const;
+        gun_mode_id gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
-        bool gun_set_mode( const std::string& mode );
+        bool gun_set_mode( const gun_mode_id &mode );
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();

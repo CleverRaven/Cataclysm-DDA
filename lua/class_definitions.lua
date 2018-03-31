@@ -82,6 +82,13 @@ no connection at all to the monster.
 --]]
 
 classes = {
+    gun_mode = {
+        string_id = "gun_mode_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     effect_type = {
         string_id = "efftype_id",
         attributes = {
@@ -916,12 +923,13 @@ classes = {
             { name = "gun_cycle_mode", rval = nil, args = { } },
             { name = "gun_dispersion", rval = "int", args = { "bool" } },
             { name = "gun_dispersion", rval = "int", args = { } },
+            { name = "gun_get_mode_id", rval = "gun_mode_id", args = { } },
             { name = "gun_range", rval = "int", args = { "bool" } },
             { name = "gun_range", rval = "int", args = { "player" } },
             { name = "gun_range", rval = "int", args = { } },
             { name = "gun_recoil", rval = "int", args = { "player" } },
             { name = "gun_recoil", rval = "int", args = { "player", "bool" } },
-            { name = "gun_set_mode", rval = nil, args = { "string" } },
+            { name = "gun_set_mode", rval = nil, args = { "gun_mode_id" } },
             { name = "gun_skill", rval = "skill_id", args = { } },
             { name = "gunmod_find", rval = "item&", args = { "string" } },
             { name = "has_flag", rval = "bool", args = { "string" } },

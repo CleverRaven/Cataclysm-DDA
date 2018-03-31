@@ -24,6 +24,8 @@
 
 // see item.h
 class item_category;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
 class recipe;
 class emit;
@@ -416,7 +418,7 @@ struct islot_gun : common_ranged_data {
     std::set<itype_id> default_mods;
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
-    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> modes;
+    std::map<gun_mode_id, std::tuple<std::string, int, std::set<std::string>>> modes;
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
@@ -476,7 +478,7 @@ struct islot_gunmod : common_ranged_data {
     int ups_charges = 0;
 
     /** Firing modes added to or replacing those of the base gun */
-    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+    std::map<gun_mode_id, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
 
     std::set<std::string> ammo_effects;
 

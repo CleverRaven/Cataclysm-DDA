@@ -227,12 +227,12 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
                                 std::set<std::string>() ) );
 
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
                                     std::set<std::string>() ) );
         }
 
@@ -1270,7 +1270,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
                 curr.get_int( 2 ),
                 curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
             );
-            slot.modes.emplace( curr.get_string( 0 ), mode );
+            slot.modes.emplace( gun_mode_id( curr.get_string( 0 ) ), mode );
         }
     }
 }
@@ -1572,7 +1572,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
                 curr.get_int( 2 ),
                 curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
             );
-            slot.mode_modifier.emplace( curr.get_string( 0 ), mode );
+            slot.mode_modifier.emplace( gun_mode_id( curr.get_string( 0 ) ), mode );
         }
     }
 }
