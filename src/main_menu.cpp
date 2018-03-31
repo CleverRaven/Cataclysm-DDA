@@ -612,7 +612,7 @@ bool main_menu::new_character_tab()
                         g->u = player();
                         continue;
                     }
-                    character_type play_type;
+                    character_type play_type = PLTYPE_NULL;
                     switch( sel2 ) {
                         case 0:
                             play_type = PLTYPE_CUSTOM;
