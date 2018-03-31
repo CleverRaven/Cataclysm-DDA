@@ -29,7 +29,6 @@ inventory::inventory()
 , nullstack()
 , invlet_cache()
 , items()
-, sorted(false)
 {
 }
 
@@ -68,11 +67,6 @@ const std::list<item> &inventory::const_stack(int i) const
 size_t inventory::size() const
 {
     return items.size();
-}
-
-bool inventory::is_sorted() const
-{
-    return sorted;
 }
 
 inventory &inventory::operator+= (const inventory &rhs)
@@ -122,19 +116,12 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::unsort()
 {
-    sorted = false;
     binned = false;
 }
 
 bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
 {
     return lhs.front() < rhs.front();
-}
-
-void inventory::sort()
-{
-    items.sort(stack_compare);
-    sorted = true;
 }
 
 void inventory::clear()
@@ -315,6 +302,7 @@ void inventory::restack( player &p )
             inner.invlet = outer.front().invlet;
         }
     }
+    items.sort( stack_compare );
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
@@ -646,7 +634,7 @@ int inventory::position_by_type(itype_id type)
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't want to change the function signature right now
-    sort();
+    items.sort( stack_compare );
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();

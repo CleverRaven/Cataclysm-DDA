@@ -54,5 +54,22 @@
         "artifact_data": {
            "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ]
         }
+    },
+    {
+        "id": "acid_spit",
+        "type": "GUN",
+        "copy-from": "fake_item",
+        "name": "acid spit gun",
+        "description": "Fake gun that fires acid globs.",
+        "flags": [ "NEVER_JAMS" ],
+        "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+        "skill": "rifle",
+        "durability": 10,
+        "range" : 100,
+        "dispersion" : 1000,
+        "ranged_damage" : {
+            "damage_type": "acid",
+            "amount": 4
+        }
     }
 ]

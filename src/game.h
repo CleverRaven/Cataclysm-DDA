@@ -80,9 +80,12 @@ class Creature;
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 class Character;
+class faction_manager;
 class player;
 class npc;
 class monster;
+struct MOD_INFORMATION;
+using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
 class calendar;
@@ -137,7 +140,7 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<std::string> &opts, loading_ui &ui );
+        bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
 
         /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles( WORLDPTR world, loading_ui &ui );
@@ -149,7 +152,7 @@ class game
          *  @param ui structure for load progress display
          *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui );
+        bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
@@ -211,6 +214,7 @@ class game
         event_manager &events;
 
         pimpl<Creature_tracker> critter_tracker;
+        pimpl<faction_manager> faction_manager_ptr;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -484,7 +488,6 @@ class game
 
         /** Nuke the area at p - global overmap terrain coordinates! */
         void nuke( const tripoint &p );
-        std::vector<faction *> factions_at( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -492,8 +495,6 @@ class game
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
         int assign_npc_id();
-        int assign_faction_id();
-        faction *faction_by_ident(std::string ident);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
@@ -543,7 +544,6 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;
         special_game_id gametype() const;
@@ -591,8 +591,6 @@ class game
     private:
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
-        std::vector<faction> factions;
-
         int ter_view_x, ter_view_y, ter_view_z;
 
     private:
@@ -794,7 +792,7 @@ class game
     private:
         // Game-start procedures
         void load( std::string worldname, const save_t &name ); // Load a player-specific save file
-        bool load_master(std::string worldname); // Load the master data file, with factions &c
+        void load_master( const std::string &worldname ); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
@@ -814,7 +812,6 @@ class game
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
-        void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // V Menu Functions and helpers:
@@ -1019,7 +1016,7 @@ private:
         bool bVMonsterLookFire;
         time_point nextspawn; // The time on which monsters will spawn next.
         time_point nextweather; // The time on which weather will shift next.
-        int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
+        int next_npc_id, next_mission_id; // Keep track of UIDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

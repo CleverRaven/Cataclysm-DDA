@@ -248,7 +248,7 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     add( "MOD_INFO", &load_ignored_type );
 
-    add( "faction", &faction::load_faction );
+    add( "faction", &faction_template::load );
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
@@ -372,6 +372,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();
+    faction_template::reset();
     quality::reset();
     trap::reset();
     reset_constructions();

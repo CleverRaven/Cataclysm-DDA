@@ -679,6 +679,15 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
     }
 }
 
+// @todo Get rid of, handle multiple types gracefully
+static int get_ranged_pierce( const common_ranged_data &ranged )
+{
+    if( ranged.damage.empty() ) {
+        return 0;
+    }
+    return ranged.damage.damage_units.front().res_pen;
+}
+
 std::string item::info( bool showtext ) const
 {
     std::vector<iteminfo> dummy;
@@ -916,9 +925,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             }
 
             const auto& ammo = *ammo_data()->ammo;
-            if( ammo.damage > 0 ) {
-                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo.damage, true, "", false, false );
-                info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), "", ammo.pierce, true, "", true, false );
+            if( !ammo.damage.empty() ) {
+                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo.damage.total_damage(), true, "", false, false );
+                info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), "", get_ranged_pierce( ammo ), true, "", true, false );
                 info.emplace_back( "AMMO", _( "Range: " ), "", ammo.range, true, "", false, false );
                 info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, true, "", true, true );
                 info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, true, "", true, true );
@@ -967,9 +976,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         bool has_ammo = curammo && mod->ammo_remaining();
 
-        int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
+        damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
+        // @todo This doesn't cover multiple damage types
+        int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
         int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
-        int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
         const Skill &skill = *mod->gun_skill();
@@ -1022,20 +1032,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                                TICKS_TO_SECONDS( aim_mv ), false, "", true, true );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
+        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ).total_damage(), true, "", false, false ) );
 
         if( has_ammo ) {
             temp1.str( "" );
-            temp1 << ( ammo_dam >= 0 ? "+" : "" );
+            temp1 << ( ammo_dam.total_damage() >= 0 ? "+" : "" );
             // ammo_damage and sum_of_damage don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                      ammo_dam, true, temp1.str(), false, false, false ) );
+                                      ammo_dam.total_damage(), true, temp1.str(), false, false, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
-                                      mod->gun_damage( true ), true, "", false, false, false ) );
+                                      mod->gun_damage( true ).total_damage(), true, "", false, false, false ) );
         }
 
         info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
-                                  mod->gun_pierce( false ), true, "", !has_ammo, false ) );
+                                  get_ranged_pierce( gun ), true, "", !has_ammo, false ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_pierce >= 0 ? "+" : "" );
@@ -1043,7 +1053,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.push_back( iteminfo( "GUN", "ammo_armor_pierce", "",
                                       ammo_pierce, true, temp1.str(), false, false, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
-                                      mod->gun_pierce( true ), true, "", true, false, false ) );
+                                      get_ranged_pierce( gun ) + ammo_pierce, true, "", true, false, false ) );
         }
 
         info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
@@ -1188,13 +1198,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
                                       mod.aim_speed, true, "", true, true ) );
         }
-        if( mod.damage != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod.damage, true,
-                                      ( ( mod.damage > 0 ) ? "+" : "" ) ) );
+        int total_damage = static_cast<int>( mod.damage.total_damage() );
+        if( total_damage != 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", total_damage, true,
+                                      ( ( total_damage > 0 ) ? "+" : "" ) ) );
         }
-        if( mod.pierce != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod.pierce, true,
-                                      ( ( mod.pierce > 0 ) ? "+" : "" ) ) );
+        int pierce = get_ranged_pierce( mod );
+        if( get_ranged_pierce( mod ) != 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", pierce, true,
+                                      ( ( pierce > 0 ) ? "+" : "" ) ) );
         }
         if( mod.handling != 0 ) {
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod.handling > 0 ? "+" : "", mod.handling, true );
@@ -4053,35 +4065,25 @@ int item::sight_dispersion() const
     return res;
 }
 
-int item::gun_damage( bool with_ammo ) const
+damage_instance item::gun_damage( bool with_ammo ) const
 {
     if( !is_gun() ) {
-        return 0;
+        return damage_instance();
     }
-    int ret = type->gun->damage;
+    damage_instance ret = type->gun->damage;
     if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->damage;
+        ret.add( ammo_data()->ammo->damage );
     }
     for( const auto mod : gunmods() ) {
-        ret += mod->type->gunmod->damage;
+        ret.add( mod->type->gunmod->damage );
     }
-    ret -= damage() * 2;
-    return ret;
-}
-
-int item::gun_pierce( bool with_ammo ) const
-{
-    if( !is_gun() ) {
-        return 0;
+    int item_damage = damage();
+    if( item_damage != 0 ) {
+        // @todo This isn't a good solution for multi-damage guns/ammos
+        for( damage_unit &du : ret ) {
+            du.amount -= item_damage * 2;
+        }
     }
-    int ret = type->gun->pierce;
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->pierce;
-    }
-    for( const auto mod : gunmods() ) {
-        ret += mod->type->gunmod->pierce;
-    }
-    // TODO: item::damage is not used here, but it is in item::gun_damage?
     return ret;
 }
 
@@ -5377,8 +5379,8 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
             apply_ammo_effects( p, ammo_type.ammo_effects );
         } else if( ammo_type.cookoff ) {
             // Ammo that cooks off, but doesn't have a
-            // large intrinsic effect blows up with shrapnel
-           g->explosion( p, sqrtf( ammo_type.damage / 10.0f ) * 5, 0.5f,
+            // large intrinsic effect blows up with shrapnel but no blast
+           g->explosion( p, sqrtf( ammo_type.damage.total_damage() / 10.0f ) * 5, 0.0f,
                          false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;

@@ -2409,7 +2409,6 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Inventory
     memorial_file << _( "Inventory:" ) << eol;
     inv.restack( *this );
-    inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
         item &next_item = elem->front();
@@ -7253,7 +7252,6 @@ bool player::consume(int target_position)
         //Restack and sort so that we don't lie about target's invlet
         if( target_position >= 0 ) {
             inv.restack( *this );
-            inv.sort();
         }
 
         if( was_in_container && target_position == -1 ) {
@@ -7405,7 +7403,9 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         if( base.is_gun() || base.is_magazine() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() : sel.ammo->ammo_data();
             if( ammo ) {
-                row += string_format( "| %-7d | %-7d", ammo->ammo->damage, ammo->ammo->pierce );
+                const damage_instance &dam = ammo->ammo->damage;
+                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
+                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
             } else {
                 row += "|         |         ";
             }

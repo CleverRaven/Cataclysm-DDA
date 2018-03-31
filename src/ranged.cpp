@@ -1310,7 +1310,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.impact = gun.gun_damage();
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1565,9 +1565,7 @@ double player::gun_value( const item &weap, long ammo ) const
                               item::find_type( ammo_type ) :
                               nullptr;
 
-    float damage_factor = weap.gun_damage( false );
-    damage_factor += weap.gun_pierce( false ) / 2.0;
-
+    damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
@@ -1575,9 +1573,14 @@ double player::gun_value( const item &weap, long ammo ) const
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
-        damage_factor += def_ammo.damage;
-        damage_factor += def_ammo.pierce / 2;
+        gun_damage.add( def_ammo.damage );
         total_dispersion += def_ammo.dispersion;
+    }
+
+    float damage_factor = gun_damage.total_damage();
+    if( damage_factor > 0 ) {
+        // @todo Multiple damage types
+        damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
     int move_cost = time_to_fire( *this, *weap.type );

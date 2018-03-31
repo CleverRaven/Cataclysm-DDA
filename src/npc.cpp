@@ -165,7 +165,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = jsobj.get_string( "faction" );
+        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -266,7 +266,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( !fac_id.empty() ) {
+    if( !fac_id.str().empty() ) {
         set_fac( fac_id );
     }
 }
@@ -661,14 +661,10 @@ void npc::randomize_from_faction( faction *fac )
     }
 }
 
-void npc::set_fac( std::string fac_name )
+void npc::set_fac( const string_id<faction> &id )
 {
-    my_fac = g->faction_by_ident( fac_name );
-    if( my_fac == nullptr ) {
-        debugmsg( "The game could not find the %s faction", fac_name.c_str() );
-    } else {
-        fac_id = my_fac->id;
-    }
+    my_fac = g->faction_manager_ptr->get( id );
+    fac_id = my_fac->id;
 }
 
 // item id from group "<class-name>_<what>" or from fallback group

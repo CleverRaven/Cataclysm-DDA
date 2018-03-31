@@ -247,7 +247,7 @@ void color_manager::load_default()
     add_color( def_i_black, "i_black", color_pair( 32 ), def_c_black );
     add_color( def_i_white, "i_white", color_pair( 8 ).blink(), def_c_white );
     add_color( def_i_light_gray, "i_light_gray", color_pair( 8 ), def_c_light_gray );
-    add_color( def_i_dark_gray, "i_dark__gray", color_pair( 32 ).blink(), def_c_dark_gray );
+    add_color( def_i_dark_gray, "i_dark_gray", color_pair( 32 ).blink(), def_c_dark_gray );
     add_color( def_i_red, "i_red", color_pair( 9 ), def_c_red );
     add_color( def_i_green, "i_green", color_pair( 10 ), def_c_green );
     add_color( def_i_blue, "i_blue", color_pair( 11 ), def_c_blue );

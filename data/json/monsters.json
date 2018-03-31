@@ -5270,7 +5270,18 @@
     "vision_night": 3,
     "luminance": 0,
     "special_attacks": [
-      [ "ACID_ACCURATE", 5 ],
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 50,
+        "gun_type": "acid_spit",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 8,
+        "fake_per": 8,
+        "require_targeting_player": "false",
+        "description": "The corrosive zombie spits a glob of acid!",
+        "ranges": [ [ 2, 10, "DEFAULT" ] ]
+      },
       [ "ACID_BARF", 5 ]
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],

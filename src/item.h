@@ -1583,13 +1583,10 @@ public:
         int gun_recoil( const player &p, bool bipod = false ) const;
 
         /**
-         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
+         * Returns empty instance on non-gun items.
          */
-        int gun_damage( bool with_ammo = true ) const;
-        /**
-         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
-         */
-        int gun_pierce( bool with_ammo = true ) const;
+        damage_instance gun_damage( bool with_ammo = true ) const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */

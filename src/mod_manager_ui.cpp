@@ -4,50 +4,17 @@
 #include "debug.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "dependency_tree.h"
+
 #include <algorithm>
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
     , mm_tree( active_manager.get_tree() )
 {
-    set_usable_mods();
 }
 
-bool compare_mod_by_name_and_category( const MOD_INFORMATION *a, const MOD_INFORMATION *b )
-{
-    return ( ( a->category < b->category ) || ( ( a->category == b->category ) &&
-             ( a->name < b->name ) ) );
-}
-
-void mod_ui::set_usable_mods()
-{
-    std::vector<std::string> available_cores, available_supplementals;
-    std::vector<std::string> ordered_mods;
-
-    std::vector<MOD_INFORMATION *> mods;
-    for( auto &modinfo_pair : active_manager.mod_map ) {
-        if( !modinfo_pair.second.obsolete ) {
-            mods.push_back( &modinfo_pair.second );
-        }
-    }
-    std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
-
-    for( auto modinfo : mods ) {
-        if( modinfo->core ) {
-            available_cores.push_back( modinfo->ident );
-        } else {
-            available_supplementals.push_back( modinfo->ident );
-        }
-    }
-    std::vector<std::string>::iterator it = ordered_mods.begin();
-    ordered_mods.insert( it, available_supplementals.begin(), available_supplementals.end() );
-    it = ordered_mods.begin();
-    ordered_mods.insert( it, available_cores.begin(), available_cores.end() );
-
-    usable_mods = ordered_mods;
-}
-
-std::string mod_ui::get_information( MOD_INFORMATION *mod )
+std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 {
     if( mod == NULL ) {
         return "";
@@ -67,10 +34,9 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
 
     if( !mod->dependencies.empty() ) {
         const auto &deps = mod->dependencies;
-        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const std::string & e ) {
-            const auto iter = active_manager.mod_map.find( e );
-            if( iter != active_manager.mod_map.end() ) {
-                return string_format( "[%s]", iter->second.name.c_str() );
+        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
+            if( e.is_valid() ) {
+                return string_format( "[%s]", e->name() );
             } else {
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
@@ -105,18 +71,18 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     return info.str();
 }
 
-void mod_ui::try_add( const std::string &mod_to_add,
-                      std::vector<std::string> &active_list )
+void mod_ui::try_add( const mod_id &mod_to_add,
+                      std::vector<mod_id> &active_list )
 {
     if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
         return;
     }
-    if( active_manager.mod_map.count( mod_to_add ) == 0 ) {
+    if( !mod_to_add.is_valid() ) {
         debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
-    MOD_INFORMATION &mod = active_manager.mod_map[mod_to_add];
+    const MOD_INFORMATION &mod = *mod_to_add;
     bool errs;
     try {
         dependency_node *checknode = mm_tree.get_node( mod.ident );
@@ -133,12 +99,12 @@ void mod_ui::try_add( const std::string &mod_to_add,
         return;
     }
     // get dependencies of selection in the order that they would appear from the top of the active list
-    std::vector<std::string> dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
+    std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if( mod.core ) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if( ( !active_list.empty() ) && ( active_manager.mod_map[active_list[0]].core ) &&
+        if( !active_list.empty() && active_list[0]->core &&
             ( active_list[0] != mod_to_add ) ) {
             // remove existing core
             try_rem( 0, active_list );
@@ -148,11 +114,11 @@ void mod_ui::try_add( const std::string &mod_to_add,
         active_list.insert( active_list.begin(), mod_to_add );
     } else {
         // now check dependencies and add them as necessary
-        std::vector<std::string> mods_to_add;
+        std::vector<mod_id> mods_to_add;
         bool new_core = false;
         for( auto &i : dependencies ) {
             if( std::find( active_list.begin(), active_list.end(), i ) == active_list.end() ) {
-                if( active_manager.mod_map[i].core ) {
+                if( i->core ) {
                     mods_to_add.insert( mods_to_add.begin(), i );
                     new_core = true;
                 } else {
@@ -175,36 +141,34 @@ void mod_ui::try_add( const std::string &mod_to_add,
     }
 }
 
-void mod_ui::try_rem( size_t selection, std::vector<std::string> &active_list )
+void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )
 {
     // first make sure that what we are looking for exists in the list
     if( selection >= active_list.size() ) {
         // trying to access an out of bounds value! quit early
         return;
     }
-    std::string sel_string = active_list[selection];
+    const mod_id sel_string = active_list[selection];
 
-    MOD_INFORMATION &mod = active_manager.mod_map[active_list[selection]];
+    const MOD_INFORMATION &mod = *active_list[selection];
 
-    std::vector<std::string> dependents = mm_tree.get_dependents_of_X_as_strings( mod.ident );
+    std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings( mod.ident );
 
     // search through the rest of the active list for mods that depend on this one
-    if( !dependents.empty() ) {
-        for( auto &i : dependents ) {
-            auto rem = std::find( active_list.begin(), active_list.end(), i );
-            if( rem != active_list.end() ) {
-                active_list.erase( rem );
-            }
+    for( auto &i : dependents ) {
+        auto rem = std::find( active_list.begin(), active_list.end(), i );
+        if( rem != active_list.end() ) {
+            active_list.erase( rem );
         }
     }
-    std::vector<std::string>::iterator rem = std::find( active_list.begin(), active_list.end(),
-            sel_string );
+    std::vector<mod_id>::iterator rem = std::find( active_list.begin(), active_list.end(),
+                                        sel_string );
     if( rem != active_list.end() ) {
         active_list.erase( rem );
     }
 }
 
-void mod_ui::try_shift( char direction, size_t &selection, std::vector<std::string> &active_list )
+void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
     if( selection >= active_list.size() ) {
@@ -213,8 +177,8 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<std::stri
 
     size_t newsel;
     size_t oldsel;
-    std::string selstring;
-    std::string modstring;
+    mod_id selstring;
+    mod_id modstring;
     int selshift = 0;
 
     // shift up (towards 0)
@@ -248,20 +212,20 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<std::stri
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( long selection, std::vector<std::string> active_list )
+bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
         return false;
     }
     // dependencies of this active element
-    std::vector<std::string> dependencies = mm_tree.get_dependencies_of_X_as_strings(
-            active_list[selection] );
+    std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings(
+                                           active_list[selection] );
 
     int newsel;
     int oldsel;
-    std::string selstring;
-    std::string modstring;
+    mod_id selstring;
+    mod_id modstring;
 
     // figure out if we can move up!
     if( selection == 0 ) {
@@ -275,7 +239,7 @@ bool mod_ui::can_shift_up( long selection, std::vector<std::string> active_list 
     modstring = active_list[newsel];
     selstring = active_list[oldsel];
 
-    if( active_manager.mod_map[modstring].core ||
+    if( modstring->core ||
         std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
         // can't move up due to a blocker
         return false;
@@ -285,19 +249,19 @@ bool mod_ui::can_shift_up( long selection, std::vector<std::string> active_list 
     }
 }
 
-bool mod_ui::can_shift_down( long selection, std::vector<std::string> active_list )
+bool mod_ui::can_shift_down( long selection, std::vector<mod_id> active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
         return false;
     }
-    std::vector<std::string> dependents = mm_tree.get_dependents_of_X_as_strings(
-            active_list[selection] );
+    std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings(
+                                         active_list[selection] );
 
     int newsel;
     int oldsel;
-    std::string selstring;
-    std::string modstring;
+    mod_id selstring;
+    mod_id modstring;
 
     // figure out if we can move down!
     if( selection == ( int )active_list.size() - 1 ) {
@@ -310,7 +274,7 @@ bool mod_ui::can_shift_down( long selection, std::vector<std::string> active_lis
     modstring = active_list[newsel];
     selstring = active_list[oldsel];
 
-    if( active_manager.mod_map[modstring].core ||
+    if( modstring->core ||
         std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
         // can't move down due to a blocker
         return false;
