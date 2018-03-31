@@ -57,7 +57,7 @@ bool item_is_blacklisted(const std::string &id)
 
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
-                                       std::bitset<num_bp> &parts, bool &sided )
+                                       body_part_set &parts, bool &sided )
 {
     auto parse = [&parts,&sided]( const std::string &val ) {
         if( val == "ARMS" || val == "ARM_EITHER" ) {

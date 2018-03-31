@@ -24,6 +24,11 @@ static std::map<faction_id, faction_template> _all_faction_templates;
 std::string invent_name();
 std::string invent_adj();
 
+constexpr inline unsigned long mfb( const int v )
+{
+    return 1 << v;
+}
+
 faction_template::faction_template()
 {
     likes_u = 0;

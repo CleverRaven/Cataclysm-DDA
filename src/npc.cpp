@@ -938,18 +938,17 @@ bool npc::wear_if_wanted( const item &it )
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
-        for( size_t i = 0; i < num_bp; i++ ) {
-            const auto bp = static_cast<body_part>( i );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
 
-            if( it_encumber > max_encumb[i] ) {
+            if( it_encumber > max_encumb[bp] ) {
                 // Not an NPC-friendly item
                 return false;
             }
 
-            if( new_enc[i].encumbrance > max_encumb[i] ) {
+            if( new_enc[bp].encumbrance > max_encumb[bp] ) {
                 encumb_ok = false;
                 break;
             }
@@ -961,8 +960,7 @@ bool npc::wear_if_wanted( const item &it )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( size_t j = 0; j < num_bp; j++ ) {
-            const body_part bp = static_cast<body_part>( j );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }

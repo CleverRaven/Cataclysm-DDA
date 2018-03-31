@@ -11,6 +11,7 @@
 #include "skill.h"
 #include "vitamin.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -374,21 +375,17 @@ bool item::is_null() const
 
 bool item::covers( const body_part bp ) const
 {
-    if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
-        return false;
-    }
-    return get_covered_body_parts().test(bp);
+    return get_covered_body_parts().test( bp );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts() const
+body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts( side s ) const
+body_part_set item::get_covered_body_parts( const side s ) const
 {
-    std::bitset<num_bp> res;
+    body_part_set res;
 
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
@@ -2065,14 +2062,14 @@ void item::on_wear( Character &p )
 
         set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            lhs += left_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            lhs += left_enc[bp].encumbrance;
         }
 
         set_side( side::RIGHT );
         const auto right_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            rhs += right_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            rhs += right_enc[bp].encumbrance;
         }
 
         set_side( lhs <= rhs ? side::LEFT : side::RIGHT );

@@ -11668,7 +11668,7 @@ void game::place_player( const tripoint &dest_loc )
     m.creature_on_trap( u );
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
-        u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
+        u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
     // List items here
@@ -12097,11 +12097,11 @@ void game::plswim( const tripoint &p )
 
     u.burn_move_stamina( movecost );
 
-    int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_hand_l) | mfb(bp_hand_r);
+    body_part_set drenchFlags{ { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+        bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r } };
 
     if (u.is_underwater()) {
-        drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
+        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
     }
     u.drench( 100, drenchFlags, true );
 }

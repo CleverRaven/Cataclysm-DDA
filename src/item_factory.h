@@ -7,7 +7,6 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-#include <bitset>
 #include <memory>
 #include <list>
 #include <functional>
