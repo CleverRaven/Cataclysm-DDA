@@ -859,7 +859,7 @@
     "id": "bio_solar",
     "type": "bionic",
     "name": "Solar Panels",
-    "description": "You have a small solar panels contained in a box on your back.  On activation they will retract in a butterfly wings manner, and while in direct sunlight, your power level will slowly recharge.",
+    "description": "You have small solar panels contained in a box on your back.  On activation they will retract in a butterfly wings manner, and while in direct sunlight, your power level will slowly recharge.",
     "occupied_bodyparts": [ [ "TORSO", 20 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
     "act_cost": 10

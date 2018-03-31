@@ -703,7 +703,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Solar Panels CBM",
-    "description": "You have a small solar panels contained in a box on your back.  On activation they will retract in a butterfly wings manner, and while in direct sunlight, your power level will slowly recharge.",
+    "description": "You have small solar panels contained in a box on your back.  On activation they will retract in a butterfly wings manner, and while in direct sunlight, your power level will slowly recharge.",
     "price": 350000,
     "difficulty": 4
   },
