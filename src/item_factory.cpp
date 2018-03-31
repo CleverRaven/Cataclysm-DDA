@@ -55,6 +55,20 @@ bool item_is_blacklisted(const std::string &id)
     return item_blacklist.count( id );
 }
 
+static void assign( JsonObject &jo, const std::string &name,
+                    std::map<gun_mode_id, gun_modifier_data> &mods )
+{
+    if( !jo.has_array( name ) ) {
+        return;
+    }
+    mods.clear();
+    JsonArray jarr = jo.get_array( name );
+    while( jarr.has_more() ) {
+        JsonArray curr = jarr.next_array();
+        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( curr.get_string( 1 ),
+                      curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
+    }
+}
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
                                        body_part_set &parts, bool &sided )
@@ -1257,20 +1271,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         }
     }
 
-    if( jo.has_array( "modes" ) ) {
-        slot.modes.clear();
-        JsonArray jarr = jo.get_array( "modes" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            gun_modifier_data mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.modes.emplace( gun_mode_id( curr.get_string( 0 ) ), mode );
-        }
-    }
+    assign( jo, "modes", slot.modes );
 }
 
 void Item_factory::load_gun( JsonObject &jo, const std::string &src )
@@ -1559,20 +1560,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
         }
     }
 
-    if( jo.has_array( "mode_modifier" ) ) {
-        slot.mode_modifier.clear();
-        JsonArray jarr = jo.get_array( "mode_modifier" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            gun_modifier_data mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.mode_modifier.emplace( gun_mode_id( curr.get_string( 0 ) ), mode );
-        }
-    }
+    assign( jo, "mode_modifier", slot.mode_modifier );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
