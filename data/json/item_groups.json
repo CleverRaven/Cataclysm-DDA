@@ -6857,6 +6857,10 @@
     "items":[
       { "group": "guns_launcher_milspec", "prob": 10 },
       { "group": "guns_rifle_milspec", "prob": 10 },
+      { "item": "human_flesh", "prob": 4, "charges-min": 1, "charges-max": 10 },
+      { "item": "bone_human", "prob": 10, "charges-min": 1, "charges-max": 5 },
+      { "item": "rag_bloody", "prob": 10, "charges-min": 1, "charges-max": 40 },
+      ["seat", 4],
       ["chain", 20],
       ["power_supply", 16],
       ["antenna", 18],
