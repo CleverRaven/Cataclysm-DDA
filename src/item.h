@@ -1530,14 +1530,13 @@ public:
         };
 
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, const item::gun_mode> gun_all_modes() const;
+        std::map<std::string, item::gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        const gun_mode gun_get_mode( const std::string& mode ) const;
+        gun_mode gun_get_mode( const std::string& mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
-        gun_mode gun_current_mode();
-        const gun_mode gun_current_mode() const;
+        gun_mode gun_current_mode() const;
 
         /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
         std::string gun_get_mode_id() const;
