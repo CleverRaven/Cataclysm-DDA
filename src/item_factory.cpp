@@ -233,19 +233,22 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.gun ) {
         handle_legacy_ranged( *obj.gun );
         // @todo: add explicit action field to gun definitions
-        std::string defmode = _( "semi-auto" );
-        if( obj.gun->clip == 1 ) {
-            defmode = _( "manual" ); // break-type actions
-        } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-            defmode = _( "revolver" );
-        }
+        const auto defmode_name = [&]() {
+            if( obj.gun->clip == 1 ) {
+                return translate_marker( "manual" ); // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                return translate_marker( "revolver" );
+            } else {
+                return translate_marker( "semi-auto" );
+            }
+        };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), gun_modifier_data( defmode, 1, std::set<std::string>() ) );
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), gun_modifier_data( _( "auto" ), obj.gun->burst, std::set<std::string>() ) );
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), gun_modifier_data( translate_marker( "auto" ), obj.gun->burst, std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {

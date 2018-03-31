@@ -64,10 +64,13 @@ class gun_modifier_data
         std::set<std::string> flags_;
 
     public:
+        /**
+         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
+         */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ), qty_( q ), flags_( f ) { }
-
+        /// @returns The translated name of the gun mode.
         std::string name() const {
-            return name_;
+            return _( name_.c_str() );
         }
         int qty() const {
             return qty_;
