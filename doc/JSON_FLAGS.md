@@ -933,7 +933,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ## Books
 
-- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
+- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
 
 ### Use actions
 
