@@ -7544,7 +7544,10 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
                 ? ammo->contents.front().typeId()
                 : ammo->typeId();
             if( e->can_reload_with( id ) ) {
-                ammo_match_found = true;
+                // Speedloaders require an empty target.
+                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                    ammo_match_found = true;
+                }
             }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
@@ -7556,7 +7559,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ), base.tname().c_str() );
 
-        } else if ( ammo_match_found ) {
+        } else if( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
             std::string name;
@@ -7567,7 +7570,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
             } else {
                 name = base.ammo_type()->name();
             }
-            add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
+            add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
+                               name.c_str(), base.tname() );
         }
         return reload_option();
     }

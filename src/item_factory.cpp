@@ -846,11 +846,6 @@ void Item_factory::check_definitions() const
                 }
 
             } else {
-                // whereas if it does use ammo enforce specifying either (but not both)
-                if( bool( type->gun->clip ) == !type->magazines.empty() ) {
-                    msg << "missing or duplicate clip_size or magazine" << "\n";
-                }
-
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
@@ -859,7 +854,6 @@ void Item_factory::check_definitions() const
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
             }
-
             if( type->gun->barrel_length < 0 ) {
                 msg << "gun barrel length cannot be negative" << "\n";
             }
@@ -897,6 +891,9 @@ void Item_factory::check_definitions() const
 
             for( const auto &e : type->mod->magazine_adaptor ) {
                 check_ammo_type( msg, e.first );
+                if( e.second.empty() ) {
+                    msg << "No magazines specified for ammo type " << e.first.str() << "\n";
+                }
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
                     if( !mag->magazine || mag->magazine->type != e.first ) {
@@ -931,14 +928,27 @@ void Item_factory::check_definitions() const
             }
         }
 
-        for( const auto& typ : type->magazines ) {
-            for( const auto& opt : typ.second ) {
-                const itype *mag = find_template( opt );
-                if( !mag->magazine ) {
-                    msg << "unknown magazine \"" << opt << "\"\n";
-                } else if( mag->magazine->type != typ.first ) {
-                    msg << "magazine \"" << opt << "\" holds incompatible ammo (\""
-                        << mag->magazine->type.str() << "\" instead of \"" << typ.first.str() << "\")\n";
+        for( const std::pair<const string_id<ammunition_type>, std::set<std::string>> &ammo_variety : type->magazines ) {
+            if( ammo_variety.second.empty() ) {
+                msg << "No magazine specified for " << ammo_variety.first.str() << "\n";
+            }
+            for( const std::string &magazine : ammo_variety.second ) {
+                const itype *mag_ptr = find_template( magazine );
+                if( mag_ptr == nullptr ) {
+                    msg << "Magazine \"" << magazine << "\" specified for \""
+                        << ammo_variety.first.str() << "\" does not exist\n";
+                } else if( !mag_ptr->magazine ) {
+                    msg << "Magazine \"" << magazine << "\" specified for \""
+                        << ammo_variety.first.str() << "\" is not a magazine\n";
+                } else if( mag_ptr->magazine->type != ammo_variety.first ) {
+                    msg << "magazine \"" << magazine << "\" holds incompatible ammo (\""
+                        << mag_ptr->magazine->type.str() << "\" instead of \""
+                        << ammo_variety.first.str() << "\")\n";
+                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
+                           mag_ptr->magazine->capacity != type->gun->clip ) {
+                    msg << "Speedloader " << magazine << " capacity ("
+                        << mag_ptr->magazine->capacity << ") does not match gun capacity ("
+                        << type->gun->clip << ").\n";
                 }
             }
         }
