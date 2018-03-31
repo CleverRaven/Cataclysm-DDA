@@ -112,7 +112,6 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 ### Examine actions
 
 - ```none``` None
-- ```acid_source``` Get acid from an acid source.
 - ```aggie_plant``` Harvest plants.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
 - ```bulletin_board``` Create a home camp; currently not implemented.
@@ -122,20 +121,15 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
 - ```fault``` Displays descriptive message, but otherwise unused.
-- ```fence_post``` Build a fence.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
-- ```harvest_tree_shrub``` Harvest a fruit tree or shrub.
 - ```pit``` Cover the pit if you have some planks of wood.
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
 - ```recycler``` Recycle metal objects.
-- ```remove_fence_barbed``` Remove the barbed wire from the fence.
-- ```remove_fence_rope``` Remove the rope from the fence.
-- ```remove_fence_wire``` Remove the wire from the fence.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
@@ -146,7 +140,6 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```toilet``` Either drink or get water out of the toilet.
 - ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
-- ```wreckage``` Clear up the wreckage if you have a shovel.
 
 ### Currently only used for Fungal conversions
 
