@@ -212,9 +212,9 @@ void player::sort_armor()
     */
 
     int req_right_h = 3 + 1 + 2 + 12 + 1;
-    for( int cover = 0; cover < num_bp; cover++ ) {
-        for( auto &elem : worn ) {
-            if( elem.covers( static_cast<body_part>( cover ) ) ) {
+    for( const body_part cover : all_body_parts ) {
+        for( const item &elem : worn ) {
+            if( elem.covers( cover ) ) {
                 req_right_h++;
             }
         }
@@ -392,7 +392,7 @@ void player::sort_armor()
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( bp_aBodyPart[cover], combined ? 2 : 1 ).c_str() );
+                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ).c_str() );
                 pos++;
             }
             rightListSize++;

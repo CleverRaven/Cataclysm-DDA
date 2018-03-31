@@ -6,13 +6,11 @@
 #include <string>
 #include <vector>
 #include <list>
-#include <bitset>
 #include <unordered_set>
 #include <set>
 #include <map>
 
 #include "visitable.h"
-#include "bodypart.h"
 #include "string_id.h"
 #include "item_location.h"
 #include "debug.h"
@@ -50,6 +48,9 @@ using material_id = string_id<material_type>;
 class item_category;
 enum art_effect_passive : int;
 enum phase_id : int;
+enum body_part : int;
+enum class side : int;
+class body_part_set;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
@@ -1246,7 +1247,7 @@ public:
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
          */
-        std::bitset<num_bp> get_covered_body_parts() const;
+        body_part_set get_covered_body_parts() const;
          /**
          * Bitset of all covered body parts, from a specific side.
          *
@@ -1258,7 +1259,7 @@ public:
          *
          * @param s Specifies the side. Will be ignored for non-sided items.
          */
-        std::bitset<num_bp> get_covered_body_parts( side s ) const;
+        body_part_set get_covered_body_parts( side s ) const;
         /**
           * Returns true if item is armor and can be worn on different sides of the body
           */
@@ -1582,13 +1583,10 @@ public:
         int gun_recoil( const player &p, bool bipod = false ) const;
 
         /**
-         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
+         * Returns empty instance on non-gun items.
          */
-        int gun_damage( bool with_ammo = true ) const;
-        /**
-         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
-         */
-        int gun_pierce( bool with_ammo = true ) const;
+        damage_instance gun_damage( bool with_ammo = true ) const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */

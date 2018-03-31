@@ -13,7 +13,6 @@
 #include "calendar.h"
 
 #include <unordered_set>
-#include <bitset>
 #include <memory>
 #include <array>
 
@@ -722,7 +721,7 @@ class player : public Character
         void vomit();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench( int saturation, int flags, bool ignore_waterproof );
+        void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -1168,8 +1167,8 @@ class player : public Character
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
 
-        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
-        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
+        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool is_waterproof( const body_part_set &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.

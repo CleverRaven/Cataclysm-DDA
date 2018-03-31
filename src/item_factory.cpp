@@ -57,7 +57,7 @@ bool item_is_blacklisted(const std::string &id)
 
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
-                                       std::bitset<num_bp> &parts, bool &sided )
+                                       body_part_set &parts, bool &sided )
 {
     auto parse = [&parts,&sided]( const std::string &val ) {
         if( val == "ARMS" || val == "ARM_EITHER" ) {
@@ -116,6 +116,18 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
+    static const auto handle_legacy_ranged = []( common_ranged_data &ranged ) {
+        if( ranged.legacy_damage != 0 ) {
+            ranged.damage.add( damage_instance::physical( 0, 0, ranged.legacy_damage, ranged.legacy_pierce ) );
+            ranged.legacy_damage = 0;
+            ranged.legacy_pierce = 0;
+        }
+    };
+
+    if( obj.gunmod ) {
+        handle_legacy_ranged( *obj.gunmod );
+    }
+
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         obj.use_methods.emplace( func, usage_from_string( func ) );
@@ -167,10 +179,16 @@ void Item_factory::finalize_pre( itype &obj )
             obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
         }
     }
+
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
     if( obj.ammo ) {
+        handle_legacy_ranged( *obj.ammo );
+
         if( obj.ammo->loudness < 0 ) {
-            obj.ammo->loudness = ( obj.ammo->damage + obj.ammo->pierce + obj.ammo->range ) * 2;
+            obj.ammo->loudness = obj.ammo->range * 2;
+            for( const damage_unit &du : obj.ammo->damage ) {
+                obj.ammo->loudness += ( du.amount + du.res_pen ) * 2;
+            }
         }
 
         const auto &mats = obj.materials;
@@ -199,6 +217,7 @@ void Item_factory::finalize_pre( itype &obj )
            obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
     }
     if( obj.gun ) {
+        handle_legacy_ranged( *obj.gun );
         // @todo: add explicit action field to gun definitions
         std::string defmode = _( "semi-auto" );
         if( obj.gun->clip == 1 ) {
@@ -651,6 +670,7 @@ void Item_factory::init()
     add_actor( new manualnoise_actor() );
     add_actor( new musical_instrument_actor() );
     add_actor( new pick_lock_actor() );
+    add_actor( new deploy_furn_actor() );
     add_actor( new place_monster_iuse() );
     add_actor( new reveal_map_actor() );
     add_actor( new salvage_actor() );
@@ -1116,8 +1136,13 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "drop", slot.drop, strict );
     assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
     assign( jo, "drop_active", slot.drop_active, strict );
-    assign( jo, "damage", slot.damage, strict, 0 );
-    assign( jo, "pierce", slot.pierce, strict, 0 );
+    if( jo.has_object( "damage" ) ) {
+        assign( jo, "damage", slot.damage, strict );
+    } else {
+        assign( jo, "damage", slot.legacy_damage, strict, 0 );
+    }
+
+    assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
     assign( jo, "range", slot.range, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict, 0 );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -1193,8 +1218,13 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "skill", slot.skill_used, strict );
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
-    assign( jo, "ranged_damage", slot.damage, strict );
-    assign( jo, "pierce", slot.pierce, strict );
+    if( jo.has_object( "ranged_damage" ) ) {
+        assign( jo, "ranged_damage", slot.damage, strict );
+    } else {
+        assign( jo, "ranged_damage", slot.legacy_damage, strict );
+    }
+
+    assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -1500,7 +1530,11 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage );
+    if( jo.has_object( "damage_modifier" ) ) {
+        assign( jo, "damage_modifier", slot.damage );
+    } else {
+        assign( jo, "damage_modifier", slot.legacy_damage );
+    }
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );

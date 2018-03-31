@@ -21086,7 +21086,7 @@
           "fg": [
             882
           ],
-          "id": "novel_crime",
+          "id": [ "novel_crime", "novel_crime2" ],
           "multitile": false,
           "rotates": false
         },
@@ -21158,7 +21158,7 @@
           "fg": [
             881
           ],
-          "id": "novel_war",
+          "id": [ "novel_war", "novel_war2" ],
           "multitile": false,
           "rotates": false
         },

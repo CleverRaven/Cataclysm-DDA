@@ -867,7 +867,43 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint& ) const
     return it.type->charges_to_use();
 }
 
+iuse_actor *deploy_furn_actor::clone() const {
+    return new deploy_furn_actor( *this );
+}
 
+void deploy_furn_actor::load( JsonObject &obj )
+{
+    furn_type = furn_str_id( obj.get_string( "furn_type" ) );
+}
+
+long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+{
+    tripoint dir = pos;
+    if( pos == p.pos() ) {
+        if( !choose_adjacent( _( "Deploy where?" ), dir ) ) {
+            return 0;
+        }
+    }
+
+    if( dir.x == p.posx() && dir.y == p.posy() ) {
+        p.add_msg_if_player( m_info,
+                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
+        return 0;
+    }
+
+    if( g->m.move_cost( dir ) != 2 ) {
+        p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
+        return 0;
+    }
+
+    if( g->m.has_furn( pos ) ) {
+        p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
+        return 0;
+    }
+
+    g->m.furn_set( dir, furn_type );
+    return 1;
+}
 
 iuse_actor *reveal_map_actor::clone() const
 {

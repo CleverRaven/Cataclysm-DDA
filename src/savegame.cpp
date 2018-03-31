@@ -918,7 +918,7 @@ void overmap::unserialize( std::istream &fin ) {
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.empty() ) {
+                if( !new_npc->fac_id.str().empty() ) {
                     new_npc->set_fac( new_npc->fac_id );
                 }
                 npcs.push_back( new_npc );
@@ -1369,19 +1369,12 @@ void game::unserialize_master(std::istream &fin) {
             std::string name = jsin.get_member_name();
             if (name == "next_mission_id") {
                 next_mission_id = jsin.get_int();
-            } else if (name == "next_faction_id") {
-                next_faction_id = jsin.get_int();
             } else if (name == "next_npc_id") {
                 next_npc_id = jsin.get_int();
             } else if (name == "active_missions") {
                 mission::unserialize_all( jsin );
             } else if (name == "factions") {
-                jsin.start_array();
-                while (!jsin.end_array()) {
-                    faction fac;
-                    fac.deserialize(jsin);
-                    factions.push_back(fac);
-                }
+                jsin.read( *faction_manager_ptr );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1408,23 +1401,27 @@ void game::serialize_master(std::ostream &fout) {
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);
-        json.member("next_faction_id", next_faction_id);
         json.member("next_npc_id", next_npc_id);
 
         json.member("active_missions");
         mission::serialize_all( json );
 
-        json.member("factions");
-        json.start_array();
-        for (auto &i : factions) {
-            i.serialize(json);
-        }
-        json.end_array();
+        json.member( "factions", *faction_manager_ptr );
 
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg("error saving to master.gsav: %s", e.c_str());
     }
+}
+
+void faction_manager::serialize( JsonOut &jsout ) const
+{
+    jsout.write( factions );
+}
+
+void faction_manager::deserialize( JsonIn &jsin )
+{
+    jsin.read( factions );
 }
 
 void Creature_tracker::deserialize( JsonIn &jsin )

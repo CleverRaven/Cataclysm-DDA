@@ -179,7 +179,7 @@ struct islot_armor {
      * Bitfield of enum body_part
      * TODO: document me.
      */
-    std::bitset<num_bp> covers;
+    body_part_set covers;
     /**
      * Whether this item can be worn on either side of the body
      */
@@ -299,21 +299,25 @@ struct islot_mod {
  */
 struct common_ranged_data {
     /**
-     * Armor-pierce bonus from gun.
+     * Damage, armor piercing and multipliers for each.
+     * If multipliers are set on both gun and ammo, values will be normalized
+     * as in @ref damage_instance::add_damage
      */
-    int pierce = 0;
+    damage_instance damage;
     /**
      * Range bonus from gun.
      */
     int range = 0;
     /**
-     * Damage bonus from gun.
-     */
-    int damage = 0;
-    /**
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
+    /**
+     * Legacy pierce and damage values, used if @ref damage isn't set.
+    *@{*/
+    int legacy_pierce = 0;
+    int legacy_damage = 0;
+    /*@}*/
 };
 
 struct islot_engine

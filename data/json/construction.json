@@ -1562,7 +1562,8 @@
             ]
             ],
         "components" : [
-            [ [ "pipe", 12 ] ]
+            [ [ "pipe", 12 ] ],
+            [ [ "sheet_metal", 2 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_rack"
@@ -1881,17 +1882,6 @@
         "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_still"
-    },{
-        "type" : "construction",
-        "description" : "Place Brazier",
-        "category" : "FURN",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "components" : [
-            [ [ "brazier", 1 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_terrain" : "f_brazier"
     },{
         "type" : "construction",
         "description" : "Build Water Well",

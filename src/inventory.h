@@ -62,7 +62,6 @@ class inventory : public visitable<inventory>
         const_invslice const_slice() const;
         const std::list<item> &const_stack( int i ) const;
         size_t size() const;
-        bool is_sorted() const;
 
         std::map<char, itype_id> assigned_invlet;
 
@@ -81,7 +80,6 @@ class inventory : public visitable<inventory>
         inventory  operator+ ( const std::list<item> &rhs );
 
         void unsort(); // flags the inventory as unsorted
-        void sort();
         void clear();
         void push_back( std::list<item> newits );
         // returns a reference to the added item
@@ -189,7 +187,6 @@ class inventory : public visitable<inventory>
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
-        bool sorted;
 
         mutable bool binned;
         /**

@@ -75,7 +75,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", body_part_name_as_heading( bp_aBodyPart[bp],
+        out = string_format( "%-7s", body_part_name_as_heading( all_body_parts[bp],
                              combine ? 2 : 1 ).c_str() );
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
@@ -435,8 +435,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     wrefresh( w_tip );
 
     // First!  Default STATS screen.
-    const char *title_STATS = _( "STATS" );
-    mvwprintz( w_stats, 0, 13 - utf8_width( title_STATS ) / 2, c_light_gray, title_STATS );
+    const std::string title_STATS = _( "STATS" );
+    center_print( w_stats, 0, c_light_gray, title_STATS );
 
     // Stats
     const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line_n ) {
@@ -468,35 +468,36 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     wrefresh( w_stats );
 
     // Next, draw encumbrance.
-    const char *title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
-    mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_light_gray, title_ENCUMB );
+    const std::string title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
+    center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
     print_encumbrance( w_encumb );
     wrefresh( w_encumb );
 
     // Next, draw traits.
-    const char *title_TRAITS = _( "TRAITS" );
-    mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_light_gray, title_TRAITS );
+    const std::string title_TRAITS = _( "TRAITS" );
+    center_print( w_traits, 0, c_light_gray, title_TRAITS );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
         const auto &mdata = traitslist[i].obj();
         const auto color = mdata.get_display_color();
-        mvwprintz( w_traits, int( i ) + 1, 1, color, mdata.name.c_str() );
+        trim_and_print( w_traits, int( i ) + 1, 1, getmaxx( w_traits ) - 1, color, mdata.name );
     }
     wrefresh( w_traits );
 
     // Next, draw effects.
-    const char *title_EFFECTS = _( "EFFECTS" );
-    mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
+    const std::string title_EFFECTS = _( "EFFECTS" );
+    center_print( w_effects, 0, c_light_gray, title_EFFECTS );
     for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
-        mvwprintz( w_effects, int( i ) + 1, 0, c_light_gray, effect_name[i] );
+        trim_and_print( w_effects, int( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
+                        effect_name[i] );
     }
     wrefresh( w_effects );
 
     // Next, draw skills.
     line = 1;
 
-    const char *title_SKILLS = _( "SKILLS" );
-    mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, c_light_gray, title_SKILLS );
+    const std::string title_SKILLS = _( "SKILLS" );
+    center_print( w_skills, 0, c_light_gray, title_SKILLS );
 
     for( auto &elem : skillslist ) {
         const SkillLevel &level = get_skill_level_object( elem->ident() );
@@ -545,8 +546,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     wrefresh( w_skills );
 
     // Finally, draw speed.
-    const char *title_SPEED = _( "SPEED" );
-    mvwprintz( w_speed, 0, 13 - utf8_width( title_SPEED ) / 2, c_light_gray, title_SPEED );
+    const std::string title_SPEED = _( "SPEED" );
+    center_print( w_speed, 0, c_light_gray, title_SPEED );
     mvwprintz( w_speed, 1,  1, c_light_gray, _( "Base Move Cost:" ) );
     mvwprintz( w_speed, 2,  1, c_light_gray, _( "Current Speed:" ) );
     int newmoves = get_speed();
@@ -666,7 +667,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         switch( curtab ) {
             case 1: // Stats tab
                 mvwprintz( w_stats, 0, 0, h_light_gray, header_spaces.c_str() );
-                mvwprintz( w_stats, 0, 13 - utf8_width( title_STATS ) / 2, h_light_gray, title_STATS );
+                center_print( w_stats, 0, h_light_gray, title_STATS );
 
                 // Clear bonus/penalty menu.
                 mvwprintz( w_stats, 6, 0, c_light_gray, "%26s", "" );
@@ -748,7 +749,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 } else if( action == "NEXT_TAB" ) {
                     mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces.c_str() );
-                    mvwprintz( w_stats, 0, 13 - utf8_width( title_STATS ) / 2, c_light_gray, title_STATS );
+                    center_print( w_stats, 0, c_light_gray, title_STATS );
                     wrefresh( w_stats );
                     line = 0;
                     curtab++;
@@ -763,14 +764,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 break;
             case 2: { // Encumbrance tab
                 werase( w_encumb );
-                mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, h_light_gray, title_ENCUMB );
+                center_print( w_encumb, 0, h_light_gray, title_ENCUMB );
                 print_encumbrance( w_encumb, line );
                 wrefresh( w_encumb );
 
                 werase( w_info );
                 std::string s;
 
-                body_part bp = line <= 11 ? bp_aBodyPart[line] : num_bp;
+                body_part bp = line <= 11 ? all_body_parts[line] : num_bp;
                 bool combined_here = ( bp_aiOther[line] == line + 1 ||
                                        bp_aiOther[line] == line - 1 ) && // first of a pair
                                      should_combine_bps( *this, line, bp_aiOther[line] );
@@ -798,7 +799,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 } else if( action == "NEXT_TAB" ) {
                     mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces.c_str() );
-                    mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_light_gray, title_ENCUMB );
+                    center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
                     wrefresh( w_encumb );
                     line = 0;
                     curtab++;
@@ -809,7 +810,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             }
             case 4: // Traits tab
                 mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces.c_str() );
-                mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, h_light_gray, title_TRAITS );
+                center_print( w_traits, 0, h_light_gray, title_TRAITS );
                 if( line <= ( trait_win_size_y - 1 ) / 2 ) {
                     min = 0;
                     max = trait_win_size_y;
@@ -831,17 +832,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     const auto &mdata = traitslist[i].obj();
                     mvwprintz( w_traits, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     const auto color = mdata.get_display_color();
-                    if( i == line ) {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, hilite( color ),
-                                   mdata.name );
-                    } else {
-                        mvwprintz( w_traits, int( 1 + i - min ), 1, color,
-                                   mdata.name );
-                    }
+                    trim_and_print( w_traits, int( 1 + i - min ), 1, getmaxx( w_traits ) - 1,
+                                    i == line ? hilite( color ) : color, mdata.name );
                 }
                 if( line < traitslist.size() ) {
-                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    traitslist[line]->description );
+                    const auto &mdata = traitslist[line].obj();
+                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
+                                        "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
+                                        mdata.name, traitslist[line]->description ) );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
@@ -858,12 +856,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 } else if( action == "NEXT_TAB" ) {
                     mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces.c_str() );
-                    mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_light_gray, title_TRAITS );
+                    center_print( w_traits, 0, c_light_gray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
                         const auto &mdata = traitslist[i].obj();
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
-                        mvwprintz( w_traits, int( i + 1 ), 1, color, mdata.name );
+                        trim_and_print( w_traits, int( i + 1 ), 1, getmaxx( w_traits ) - 1,
+                                        color, mdata.name );
                     }
                     wrefresh( w_traits );
                     line = 0;
@@ -875,7 +874,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
             case 5: // Effects tab
                 mvwprintz( w_effects, 0, 0, h_light_gray, header_spaces.c_str() );
-                mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, h_light_gray, title_EFFECTS );
+                center_print( w_effects, 0, h_light_gray, title_EFFECTS );
                 half_y = effect_win_size_y / 2;
                 if( line <= half_y ) {
                     min = 0;
@@ -895,11 +894,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {
-                    if( i == line ) {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, h_light_gray, effect_name[i] );
-                    } else {
-                        mvwprintz( w_effects, int( 1 + i - min ), 0, c_light_gray, effect_name[i] );
-                    }
+                    trim_and_print( w_effects, int( 1 + i - min ), 0, getmaxx( w_effects ) - 1,
+                                    i == line ? h_light_gray : c_light_gray, effect_name[i] );
                 }
                 if( line < effect_text.size() ) {
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, effect_text[line] );
@@ -919,7 +915,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 } else if( action == "NEXT_TAB" ) {
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
-                    mvwprintz( w_effects, 0, 13 - utf8_width( title_EFFECTS ) / 2, c_light_gray, title_EFFECTS );
+                    center_print( w_effects, 0, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
                         mvwprintz( w_effects, int( i + 1 ), 0, c_light_gray, effect_name[i] );
                     }
@@ -933,7 +929,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
             case 3: // Skills tab
                 mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces.c_str() );
-                mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, h_light_gray, title_SKILLS );
+                center_print( w_skills, 0, h_light_gray, title_SKILLS );
                 half_y = skill_win_size_y / 2;
                 if( line <= half_y ) {
                     min = 0;
@@ -1012,7 +1008,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 } else if( action == "NEXT_TAB" ) {
                     werase( w_skills );
                     mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces.c_str() );
-                    mvwprintz( w_skills, 0, 13 - utf8_width( title_SKILLS ) / 2, c_light_gray, title_SKILLS );
+                    center_print( w_skills, 0, c_light_gray, title_SKILLS );
                     for( size_t i = 0; i < skillslist.size() && i < size_t( skill_win_size_y ); i++ ) {
                         const Skill *thisSkill = skillslist[i];
                         const SkillLevel &level = get_skill_level_object( thisSkill->ident() );

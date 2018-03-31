@@ -1947,12 +1947,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat that comes pre-sliced.  Its first name isn't Oscar.  Can be eaten cold.",
         "price" : 1000,
         "material" : "flesh",
-        "volume" : 4,
-        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer."
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1965,12 +1965,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
         "price" : 2000,
         "material" : "hflesh",
-        "volume" : 4,
-        "charges" : 40
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -6926,7 +6926,7 @@
         "symbol" : "%",
         "nutrition" : 25,
         "description" : "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
-        "price" : 0,
+        "price" : 1500,
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "fun" : 20
@@ -6935,32 +6935,21 @@
         "type" : "COMESTIBLE",
         "id" : "cake2",
         "name" : "cake",
-        "weight" : 420,
-        "color" : "white",
-        "stim" : 4,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "nutrition" : 25,
+        "copy-from": "jihelucake",
         "description" : "Delicious chocolate cake.  It has all the icing.  All of it.",
-        "price" : 0,
-        "material" : ["wheat", "junk"],
-        "volume" : 1,
-        "fun" : 20
+        "price" : 1800,
+        "stim" : 4
     },
     {
         "type" : "COMESTIBLE",
         "id" : "cake3",
         "name" : "cake",
-        "weight" : 420,
-        "color" : "white",
+        "copy-from": "jihelucake",
         "stim" : 8,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
         "quench" : -5,
         "nutrition" : 20,
         "description" : "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it...",
-        "price" : 0,
-        "material" : ["wheat", "junk"],
+        "price" : 2200,
         "volume" : 3,
         "fun" : 30
     },
@@ -7232,11 +7221,10 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 15,
-        "nutrition": 15,
+        "nutrition": 3,
         "spoils_in": 160,
         "charges": 5,
-        "fun": -5,
+        "fun": -1,
         "phase": "liquid"
     },
     {
@@ -7272,8 +7260,8 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 10,
-        "nutrition": 10,
+        "fun": -1,
+        "nutrition": 3,
         "charges": 5,
         "phase": "liquid"
     },

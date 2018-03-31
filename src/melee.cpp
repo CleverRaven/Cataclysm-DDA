@@ -1604,7 +1604,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         const auto &branch = pr.first.obj();
         for( const auto &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts[ mut_atk.bp ] ) {
+            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
                 continue;
             }
 

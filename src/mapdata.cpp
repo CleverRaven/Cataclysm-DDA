@@ -1092,6 +1092,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
+    optional( jo, was_loaded, "deployed_item", deployed_item );
 
     load_symbol( jo );
     transparent = false;

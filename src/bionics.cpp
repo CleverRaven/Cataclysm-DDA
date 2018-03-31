@@ -715,8 +715,8 @@ void player::process_bionic( int b )
                 charge_power( -5 );
             }
         }
-        for( int i = 0; i < num_bp; i++ ) {
-            if( power_level >= 2 && remove_effect( effect_bleed, ( body_part )i ) ) {
+        for( const body_part bp : all_body_parts ) {
+            if( power_level >= 2 && remove_effect( effect_bleed, bp ) ) {
                 charge_power( -2 );
             }
         }
@@ -1174,13 +1174,6 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
 
         case 4:
-            add_msg( m_mixed, _( "Something went terribly wrong, you mutate!" ) );
-            while( failure_level > 0 ) {
-                u->mutate();
-                failure_level -= rng( 1, failure_level + 2 );
-            }
-            break;
-
         case 5: {
             add_msg( m_bad, _( "The installation is faulty!" ) );
             std::vector<bionic_id> valid;

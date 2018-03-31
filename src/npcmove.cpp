@@ -964,8 +964,8 @@ npc_action npc::method_of_attack()
     std::stable_sort( modes.begin(),
                       modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
     const std::pair<std::string, item::gun_mode> &rhs ) {
-        return ( lhs.second->gun_damage() * lhs.second.qty ) > ( rhs.second->gun_damage() *
-                rhs.second.qty );
+        return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
+               ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
 
     const int cur_recoil = recoil_total();
@@ -3179,8 +3179,7 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
 {
     body_part ret = num_bp;
     int highest_intensity = INT_MIN;
-    for( int i = 0; i < num_bp; i++ ) {
-        body_part bp = body_part( i );
+    for( const body_part bp : all_body_parts ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
             ret = bp;

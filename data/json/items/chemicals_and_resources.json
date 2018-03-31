@@ -816,7 +816,7 @@
     "name" : "wood ash",
     "name_plural" : "wood ashes",
     "symbol" : "=",
-    "color" : "gray",
+    "color" : "light_gray",
     "description" : "This is almost weightless residue left after the burning of some substance.",
     "material" : "powder",
     "volume" : 1,

@@ -962,7 +962,7 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 60000,
+  "time": 15000,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [
@@ -971,19 +971,19 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 10 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
     [
-      [ "meat", 8 ]
+      [ "meat", 1 ]
     ],
     [
-      [ "salt", 10 ],
+      [ "salt", 5 ],
       [ "soysauce", 1 ],
-      [ "seasoning_italian", 10 ],
-      [ "wild_herbs", 10 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 5 ],
+      [ "seasoning_salt", 5 ]
     ]
   ]
 },{
@@ -993,7 +993,7 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 60000,
+  "time": 15000,
   "batch_time_factors":[83, 3],
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
@@ -1002,19 +1002,19 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 10 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
     [
-      [ "human_flesh", 8 ]
+      [ "human_flesh", 1 ]
     ],
     [
-      [ "salt", 10 ],
+      [ "salt", 5 ],
       [ "soysauce", 1 ],
-      [ "seasoning_italian", 10 ],
-      [ "wild_herbs", 10 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 5 ],
+      [ "seasoning_salt", 5 ]
     ]
   ]
 },{
