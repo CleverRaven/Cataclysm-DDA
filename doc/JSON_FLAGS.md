@@ -908,7 +908,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-- ```WRAP``` Unused?
 
 ### Flags that apply to items, not to item types.
 
