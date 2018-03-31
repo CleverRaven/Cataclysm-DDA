@@ -35,6 +35,7 @@ using volume = quantity<int, volume_in_milliliter_tag>;
 class gun_type_type;
 class gunmod_location;
 class game;
+class gun_mode;
 class Character;
 class player;
 class npc;
@@ -1498,39 +1499,8 @@ public:
          */
         ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
-        struct gun_mode {
-            /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
-             * `gunmod_data:mode_modifier` for GENERIC or TOOL types */
-            /** name of this mode, e.g. `bayonet` for bayonets, `auto` for automatic fire, etc. */
-            std::string mode;
-            /** pointer to item providing this mode - base gun or attached gunmod */
-            item *target = nullptr;
-            /** burst size for is_gun() firearms, or melee range for is_melee() weapons */
-            int qty = 0;
-            /** flags change behavior of gun mode, e.g. MELEE for bayonets that make a reach attack instead of firing - these are **not** equivalent to item flags! */
-            std::set<std::string> flags;
-
-            gun_mode() = default;
-            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
-                mode( mode ),
-                target( target ),
-                qty( qty ),
-                flags( flags ) {}
-
-            /** if true perform a melee attach as opposed to shooting */
-            bool melee() const { return flags.count( "MELEE" ); }
-
-            operator bool() const { return target != nullptr; }
-
-            item &operator*() { return *target; }
-            const item &operator*() const { return *target; }
-
-            item *operator->() { return target; }
-            const item *operator->() const { return target; }
-        };
-
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, item::gun_mode> gun_all_modes() const;
+        std::map<std::string, gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
         gun_mode gun_get_mode( const std::string& mode ) const;

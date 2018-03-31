@@ -13,6 +13,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "game.h"
+#include "gun_mode.h"
 #include "map.h"
 #include "debug.h"
 #include "cursesdef.h"
@@ -4517,9 +4518,9 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     return ret_val<bool>::make_success();
 }
 
-std::map<std::string, item::gun_mode> item::gun_all_modes() const
+std::map<std::string, gun_mode> item::gun_all_modes() const
 {
-    std::map<std::string, item::gun_mode> res;
+    std::map<std::string, gun_mode> res;
 
     if( !is_gun() || is_gunmod() ) {
         return res;
@@ -4542,14 +4543,14 @@ std::map<std::string, item::gun_mode> item::gun_all_modes() const
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
+                res.emplace( prefix += m.first, gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
                                                                 qty, std::get<2>( m.second ) ) );
             };
 
         // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                res.emplace( m.first, gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
@@ -4558,7 +4559,7 @@ std::map<std::string, item::gun_mode> item::gun_all_modes() const
     return res;
 }
 
-item::gun_mode item::gun_get_mode( const std::string& mode ) const
+gun_mode item::gun_get_mode( const std::string& mode ) const
 {
     if( is_gun() ) {
         for( auto e : gun_all_modes() ) {
@@ -4570,7 +4571,7 @@ item::gun_mode item::gun_get_mode( const std::string& mode ) const
     return gun_mode();
 }
 
-item::gun_mode item::gun_current_mode() const
+gun_mode item::gun_current_mode() const
 {
     return gun_get_mode( gun_get_mode_id() );
 }

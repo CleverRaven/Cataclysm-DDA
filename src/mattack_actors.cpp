@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "sounds.h"
+#include "gun_mode.h"
 #include "npc.h"
 #include "output.h"
 #include "debug.h"

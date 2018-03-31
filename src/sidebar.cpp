@@ -6,6 +6,7 @@
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "gun_mode.h"
 #include "weather.h"
 #include "item.h"
 #include "translations.h"

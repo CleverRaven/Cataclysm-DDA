@@ -2,6 +2,7 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "gun_mode.h"
 #include "dispersion.h"
 #include "game.h"
 #include "map.h"

@@ -19,6 +19,7 @@
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"
+#include "gun_mode.h"
 #include "weighted_list.h"
 #include "mongroup.h"
 #include "translations.h"
