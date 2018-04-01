@@ -175,16 +175,27 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::time_to_craft( const recipe &rec, int batch_size )
+size_t available_assistant_count( const player &u, const recipe &rec )
 {
     // NPCs around you should assist in batch production if they have the skills
-    const auto helpers = get_crafting_helpers();
-    const size_t assistants = std::count_if( helpers.begin(), helpers.end(),
+    // @todo Cache them in activity, include them in modifier calculations
+    const auto helpers = u.get_crafting_helpers();
+    return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
         return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
     } );
-    float modifier = crafting_speed_multiplier( rec );
+}
 
+int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    return rec.batch_time( batch_size, 1.0f, assistants );
+}
+
+int player::expected_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    float modifier = crafting_speed_multiplier( rec );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
@@ -500,7 +511,7 @@ void player::complete_craft()
 
     if( making->skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + time_to_craft( *making, batch_size ) / 30000.0;
+        const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
         practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
                   ( int )making->difficulty * 1.25 );
 

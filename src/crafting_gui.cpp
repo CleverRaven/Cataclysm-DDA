@@ -483,10 +483,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
-                const std::string text = string_format( _( "Time to complete: %s" ),
-                                                        to_string( time_duration::from_turns( turns ) ) );
-                ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
+                const int expected_turns = g->u.expected_time_to_craft( *current[line], count ) / MOVES( 1 );
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
+                                        to_string( time_duration::from_turns( expected_turns ) ) );
 
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :

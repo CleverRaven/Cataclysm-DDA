@@ -1971,9 +1971,14 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    float crafting_speed = p->crafting_speed_multiplier( recipe_id( act->name ).obj(), true );
+    const recipe &rec = recipe_id( act->name ).obj();
+    float crafting_speed = p->crafting_speed_multiplier( rec, true );
     if( crafting_speed <= 0.0f ) {
-        p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        }
         act->set_to_null();
         return;
     }
