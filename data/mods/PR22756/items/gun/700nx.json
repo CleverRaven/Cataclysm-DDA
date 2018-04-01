@@ -1,0 +1,9 @@
+[
+  {
+    "copy-from": "trex_gun",
+    "range": 23,
+    "type": "GUN",
+    "id": "trex_gun",
+    "name": "Elephant gun"
+  }
+]

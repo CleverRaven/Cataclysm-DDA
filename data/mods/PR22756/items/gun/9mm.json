@@ -1,0 +1,115 @@
+[
+  {
+    "copy-from": "l_mp_9mm",
+    "description": "A selective-firing 9mm handgun introduced in the early 21st century, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "type": "GUN",
+    "id": "l_mp_9mm",
+    "name": "L39B"
+  },
+  {
+    "copy-from": "cx4",
+    "range": 10,
+    "type": "GUN",
+    "id": "cx4",
+    "name": "Cx4 Storm"
+  },
+  {
+    "copy-from": "rifle_9mm",
+    "range": 10,
+    "type": "GUN",
+    "id": "rifle_9mm",
+    "name": "pipe rifle: 9mm"
+  },
+  {
+    "copy-from": "calico",
+    "range": 6,
+    "type": "GUN",
+    "id": "calico",
+    "name": "Calico M960"
+  },
+  {
+    "copy-from": "l_lookout_9mm",
+    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released during the early 21st century, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
+    "type": "GUN",
+    "id": "l_lookout_9mm",
+    "name": "L2032 Lookout"
+  },
+  {
+    "copy-from": "briefcase_smg",
+    "range": 5,
+    "type": "GUN",
+    "id": "briefcase_smg",
+    "name": "briefcase SMG"
+  },
+  {
+    "copy-from": "sten",
+    "range": 6,
+    "type": "GUN",
+    "id": "sten",
+    "name": "STEN"
+  },
+  {
+    "copy-from": "usp_9mm",
+    "range": 5,
+    "type": "GUN",
+    "id": "usp_9mm",
+    "name": "USP 9mm"
+  },
+  {
+    "description": "A semiautomatic 9mm handgun introduced in the early 21st century, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "range": 5,
+    "copy-from": "l_sp_9mm",
+    "type": "GUN",
+    "id": "l_sp_9mm",
+    "name": "L39"
+  },
+  {
+    "copy-from": "glock_19",
+    "range": 4,
+    "type": "GUN",
+    "id": "glock_19",
+    "name": "Glock 19"
+  },
+  {
+    "copy-from": "hk_mp5",
+    "range": 6,
+    "type": "GUN",
+    "id": "hk_mp5",
+    "name": "H&K MP5"
+  },
+  {
+    "copy-from": "ksub2000",
+    "range": 14,
+    "type": "GUN",
+    "id": "ksub2000",
+    "name": "Kel-Tec SUB-2000"
+  },
+  {
+    "copy-from": "m9",
+    "range": 4,
+    "type": "GUN",
+    "id": "m9",
+    "name": "Beretta M9"
+  },
+  {
+    "copy-from": "glock_17",
+    "range": 4,
+    "type": "GUN",
+    "id": "glock_17",
+    "name": "Glock 17"
+  },
+  {
+    "copy-from": "tec9",
+    "range": 4,
+    "type": "GUN",
+    "id": "tec9",
+    "name": "TEC-9"
+  },
+  {
+    "copy-from": "uzi",
+    "range": 7,
+    "type": "GUN",
+    "id": "uzi",
+    "name": "Uzi 9mm"
+  }
+]

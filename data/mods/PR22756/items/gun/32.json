@@ -1,0 +1,23 @@
+[
+  {
+    "copy-from": "sig_p230",
+    "range": 5,
+    "type": "GUN",
+    "id": "sig_p230",
+    "name": "SIG Sauer P230"
+  },
+  {
+    "copy-from": "walther_ppk",
+    "range": 5,
+    "type": "GUN",
+    "id": "walther_ppk",
+    "name": "Walther PPK"
+  },
+  {
+    "copy-from": "skorpion_61",
+    "range": 7,
+    "type": "GUN",
+    "id": "skorpion_61",
+    "name": "Skorpion Vz. 61"
+  }
+]

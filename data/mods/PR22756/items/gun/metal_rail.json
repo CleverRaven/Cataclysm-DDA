@@ -1,0 +1,16 @@
+[
+  {
+    "copy-from": "rebar_rifle",
+    "range": 20,
+    "type": "GUN",
+    "id": "rebar_rifle",
+    "name": "ferromagnetic rail rifle"
+  },
+  {
+    "copy-from": "heavy_rail_rifle",
+    "range": 30,
+    "type": "GUN",
+    "id": "heavy_rail_rifle",
+    "name": "heavy rail rifle"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "copy-from": "hk_ucp",
+    "range": 4,
+    "type": "GUN",
+    "id": "hk_ucp",
+    "name": "H&K UCP"
+  },
+  {
+    "copy-from": "hk_mp7",
+    "range": 6,
+    "type": "GUN",
+    "id": "hk_mp7",
+    "name": "H&K MP7"
+  }
+]

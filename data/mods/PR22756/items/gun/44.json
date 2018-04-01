@@ -1,0 +1,37 @@
+[
+  {
+    "copy-from": "ruger_redhawk",
+    "range": 4,
+    "type": "GUN",
+    "id": "ruger_redhawk",
+    "name": "Ruger Redhawk"
+  },
+  {
+    "copy-from": "henry_big_boy",
+    "range": 16,
+    "type": "GUN",
+    "id": "henry_big_boy",
+    "name": "Henry Big Boy .44"
+  },
+  {
+    "copy-from": "deagle_44",
+    "range": 6,
+    "type": "GUN",
+    "id": "deagle_44",
+    "name": "Desert Eagle .44"
+  },
+  {
+    "copy-from": "lemat_revolver",
+    "range": 4,
+    "type": "GUN",
+    "id": "lemat_revolver",
+    "name": "LeMat revolver"
+  },
+  {
+    "copy-from": "sw629",
+    "range": 4,
+    "type": "GUN",
+    "id": "sw629",
+    "name": "S&W 629"
+  }
+]

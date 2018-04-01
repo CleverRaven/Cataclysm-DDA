@@ -1,0 +1,72 @@
+[
+  {
+    "copy-from": "m1a",
+    "range": 18,
+    "type": "GUN",
+    "id": "m1a",
+    "name": "M1A"
+  },
+  {
+    "copy-from": "m60",
+    "range": 20,
+    "type": "GUN",
+    "id": "m60",
+    "name": "M60"
+  },
+  {
+    "copy-from": "savage_111f",
+    "range": 25,
+    "type": "GUN",
+    "id": "savage_111f",
+    "name": "Savage 111F"
+  },
+  {
+    "copy-from": "m134",
+    "range": 14,
+    "type": "GUN",
+    "id": "m134",
+    "name": "M134D-H Minigun"
+  },
+  {
+    "relative": { "range": -3 },
+    "copy-from": "scar_h",
+    "type": "GUN",
+    "id": "scar_h",
+    "name": "FN SCAR-H"
+  },
+  {
+    "copy-from": "hk_g3",
+    "range": 14,
+    "type": "GUN",
+    "id": "hk_g3",
+    "name": "H&K G3"
+  },
+  {
+    "copy-from": "m14ebr",
+    "range": 20,
+    "type": "GUN",
+    "id": "m14ebr",
+    "name": "M14 EBR-RI"
+  },
+  {
+    "copy-from": "m240",
+    "range": 18,
+    "type": "GUN",
+    "id": "m240",
+    "name": "M240"
+  },
+  {
+    "copy-from": "fn_fal",
+    "range": 10,
+    "type": "GUN",
+    "id": "fn_fal",
+    "name": "FN FAL"
+  },
+  {
+    "copy-from": "rifle_308",
+    "range": 12,
+    "type": "GUN",
+    "id": "rifle_308",
+    "name": "pipe rifle: .308"
+  }
+]

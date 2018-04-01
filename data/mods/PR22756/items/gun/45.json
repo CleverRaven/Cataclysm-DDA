@@ -1,0 +1,61 @@
+[
+  {
+    "//": "Dispersion increased by 20 to accound for the larger round",
+    "name": "L1820 Long Ranger",
+    "dispersion": 200,
+    "range": 16,
+    "copy-from": "l_long_45",
+    "type": "GUN",
+    "id": "l_long_45"
+  },
+  {
+    "copy-from": "TDI",
+    "range": 7,
+    "type": "GUN",
+    "id": "TDI",
+    "name": "TDI Vector"
+  },
+  {
+    "copy-from": "surv_hand_cannon",
+    "range": 3,
+    "type": "GUN",
+    "id": "surv_hand_cannon",
+    "name": "homemade hand cannon"
+  },
+  {
+    "copy-from": "hk_ump45",
+    "range": 6,
+    "type": "GUN",
+    "id": "hk_ump45",
+    "name": "H&K UMP45"
+  },
+  {
+    "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series running near the end of the 20th century.",
+    "range": 4,
+    "copy-from": "l_enforcer_45",
+    "type": "GUN",
+    "id": "l_enforcer_45",
+    "name": "L2031 Enforcer"
+  },
+  {
+    "copy-from": "m1911",
+    "range": 6,
+    "type": "GUN",
+    "id": "m1911",
+    "name": "M1911"
+  },
+  {
+    "copy-from": "mac_10",
+    "range": 5,
+    "type": "GUN",
+    "id": "mac_10",
+    "name": "MAC-10"
+  },
+  {
+    "copy-from": "tommygun",
+    "range": 7,
+    "type": "GUN",
+    "id": "tommygun",
+    "name": "Thompson submachine gun"
+  }
+]

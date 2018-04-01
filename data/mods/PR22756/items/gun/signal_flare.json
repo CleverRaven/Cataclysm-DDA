@@ -1,0 +1,9 @@
+[
+  {
+    "copy-from": "flaregun",
+    "range": 14,
+    "type": "GUN",
+    "id": "flaregun",
+    "name": "flaregun"
+  }
+]

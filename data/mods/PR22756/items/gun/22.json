@@ -1,0 +1,58 @@
+[
+  {
+    "copy-from": "rifle_22",
+    "range": 10,
+    "type": "GUN",
+    "id": "rifle_22",
+    "name": "pipe rifle: .22"
+  },
+  {
+    "copy-from": "american_180",
+    "range": 8,
+    "type": "GUN",
+    "id": "american_180",
+    "name": "American-180"
+  },
+  {
+    "copy-from": "rm360_carbine",
+    "range": 8,
+    "type": "GUN",
+    "id": "rm360_carbine",
+    "name": "RM360 rotary carbine"
+  },
+  {
+    "copy-from": "sw_22",
+    "range": 4,
+    "type": "GUN",
+    "id": "sw_22",
+    "name": "S&W 22A"
+  },
+  {
+    "copy-from": "moss_brownie",
+    "range": 4,
+    "type": "GUN",
+    "id": "moss_brownie",
+    "name": "Mossberg Brownie"
+  },
+  {
+    "copy-from": "marlin_9a",
+    "range": 15,
+    "type": "GUN",
+    "id": "marlin_9a",
+    "name": "Marlin 39A"
+  },
+  {
+    "copy-from": "ruger_1022",
+    "range": 17,
+    "type": "GUN",
+    "id": "ruger_1022",
+    "name": "Ruger 10/22"
+  },
+  {
+    "copy-from": "sig_mosquito",
+    "range": 5,
+    "type": "GUN",
+    "id": "sig_mosquito",
+    "name": "SIG Mosquito"
+  }
+]

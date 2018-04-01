@@ -1,0 +1,16 @@
+[
+  {
+    "copy-from": "fn57",
+    "range": 4,
+    "type": "GUN",
+    "id": "fn57",
+    "name": "FN Five-Seven"
+  },
+  {
+    "copy-from": "fn_p90",
+    "range": 8,
+    "type": "GUN",
+    "id": "fn_p90",
+    "name": "FN P90"
+  }
+]

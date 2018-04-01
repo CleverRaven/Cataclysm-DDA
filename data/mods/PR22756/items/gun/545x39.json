@@ -1,0 +1,16 @@
+[
+  {
+    "copy-from": "an94",
+    "range": 16,
+    "type": "GUN",
+    "id": "an94",
+    "name": "AN-94"
+  },
+  {
+    "copy-from": "ak74",
+    "range": 14,
+    "type": "GUN",
+    "id": "ak74",
+    "name": "AK-74M"
+  }
+]

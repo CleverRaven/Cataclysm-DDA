@@ -1,0 +1,9 @@
+[
+  {
+    "copy-from": "flamethrower_simple",
+    "range": 3,
+    "type": "GUN",
+    "id": "flamethrower_simple",
+    "name": "simple flamethrower"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "copy-from": "sig_40",
+    "range": 4,
+    "type": "GUN",
+    "id": "sig_40",
+    "name": "SIG Pro .40"
+  },
+  {
+    "copy-from": "sw_610",
+    "range": 5,
+    "type": "GUN",
+    "id": "sw_610",
+    "name": "S&W 610"
+  },
+  {
+    "copy-from": "surv_six_shooter",
+    "range": 3,
+    "type": "GUN",
+    "id": "surv_six_shooter",
+    "name": "survivor's six shooter"
+  },
+  {
+    "copy-from": "glock_22",
+    "range": 5,
+    "type": "GUN",
+    "id": "glock_22",
+    "name": "Glock 22"
+  }
+]

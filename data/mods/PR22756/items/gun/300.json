@@ -1,0 +1,23 @@
+[
+  {
+    "copy-from": "m2010",
+    "range": 19,
+    "type": "GUN",
+    "id": "m2010",
+    "name": "M2010 ESR"
+  },
+  {
+    "copy-from": "weatherby_5",
+    "range": 19,
+    "type": "GUN",
+    "id": "weatherby_5",
+    "name": "Weatherby Mark V"
+  },
+  {
+    "copy-from": "win70",
+    "range": 19,
+    "type": "GUN",
+    "id": "win70",
+    "name": "Winchester Model 70"
+  }
+]

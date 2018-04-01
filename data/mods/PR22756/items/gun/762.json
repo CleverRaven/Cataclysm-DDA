@@ -1,0 +1,23 @@
+[
+  {
+    "copy-from": "arx160",
+    "range": 15,
+    "type": "GUN",
+    "id": "arx160",
+    "name": "Beretta ARX-160"
+  },
+  {
+    "copy-from": "sks",
+    "range": 16,
+    "type": "GUN",
+    "id": "sks",
+    "name": "SKS"
+  },
+  {
+    "copy-from": "ak47",
+    "range": 14,
+    "type": "GUN",
+    "id": "ak47",
+    "name": "AKM"
+  }
+]

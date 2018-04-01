@@ -1,0 +1,16 @@
+[
+  {
+    "copy-from": "sw_500",
+    "range": 4,
+    "type": "GUN",
+    "id": "sw_500",
+    "name": "S&W 500"
+  },
+  {
+    "copy-from": "bh_m89",
+    "range": 20,
+    "type": "GUN",
+    "id": "bh_m89",
+    "name": "Big Horn Model 89"
+  }
+]

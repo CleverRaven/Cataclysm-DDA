@@ -1,0 +1,9 @@
+[
+  {
+    "copy-from": "colt_army",
+    "range": 4,
+    "type": "GUN",
+    "id": "colt_army",
+    "name": "Colt M1860 Army"
+  }
+]

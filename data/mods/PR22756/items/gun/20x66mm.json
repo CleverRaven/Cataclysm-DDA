@@ -1,0 +1,23 @@
+[
+  {
+    "copy-from": "rm228",
+    "range": 4,
+    "type": "GUN",
+    "id": "rm228",
+    "name": "RM228 PDW"
+  },
+  {
+    "copy-from": "rm20",
+    "range": 8,
+    "type": "GUN",
+    "id": "rm20",
+    "name": "RM20 autoshotgun"
+  },
+  {
+    "copy-from": "rm120c",
+    "range": 12,
+    "type": "GUN",
+    "id": "rm120c",
+    "name": "RM120c shotgun"
+  }
+]
