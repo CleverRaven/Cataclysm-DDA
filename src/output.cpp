@@ -1650,11 +1650,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
-    const int title_length = utf8_width( title );
     for( ;; ) {
         werase( w );
-        draw_border( w );
-        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, title );
+        draw_border( w, BORDER_COLOR, title, c_white );
         for( int i = 0; i < rows * columns; i++ ) {
             if( i + offset * columns >= ( int )data.size() ) {
                 break;
