@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "PR22756",
+    "name": "Firearms Overhaul V 1.0",
+    "description": "Ranges converted from Real Values to Relative in game values.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
