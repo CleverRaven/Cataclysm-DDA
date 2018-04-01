@@ -1107,7 +1107,7 @@ void options_manager::init()
         );
 
     add( "SIDEBAR_STYLE", "interface", translate_marker( "Sidebar style" ),
-        translate_marker( "Switch between a narrower or wider sidebar.  Requires restart." ),
+        translate_marker( "Switch between a narrower or wider sidebar." ),
         //~ sidebar style
         { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
         );
@@ -1954,6 +1954,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
+    bool sidebar_style_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1967,6 +1968,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
               || iter.first == "PIXEL_MINIMAP_RATIO"
               || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
+            }
+
+            if( iter.first == "SIDEBAR_STYLE" ) {
+                sidebar_style_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -2001,6 +2006,18 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     }
     if( lang_changed ) {
         set_language();
+    }
+
+    if( sidebar_style_changed ) {
+        if( ingame ) {
+            g->toggle_sidebar_style();
+        } else {
+            #ifdef TILES
+                tilecontext->reinit_minimap();
+            #endif
+            g->narrow_sidebar = !g->narrow_sidebar;
+            g->init_ui();
+        }
     }
 
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
