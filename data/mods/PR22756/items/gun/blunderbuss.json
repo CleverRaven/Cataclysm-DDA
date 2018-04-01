@@ -1,9 +1,9 @@
 [
   {
-    "copy-from": "blunderbuss", 
-    "range": 6, 
-    "type": "GUN", 
-    "id": "blunderbuss", 
+    "copy-from": "blunderbuss",
+    "range": 6,
+    "type": "GUN",
+    "id": "blunderbuss",
     "name": "blunderbuss"
   }
 ]
