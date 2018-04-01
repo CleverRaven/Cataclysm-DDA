@@ -1422,9 +1422,7 @@ bool game::do_turn()
     update_weather();
     reset_light_level();
 
-    if( calendar::once_every( 1_hours ) ) {
-        perhaps_add_random_npc();
-    }
+    perhaps_add_random_npc();
 
     process_activity();
 
@@ -13045,6 +13043,9 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 
 void game::perhaps_add_random_npc()
 {
+    if( !calendar::once_every( 1_hours ) ) {
+        return;
+    }
     // Create a new NPC?
     // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
     if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
