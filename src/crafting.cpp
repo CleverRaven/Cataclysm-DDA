@@ -85,7 +85,7 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
-float player::morale_crafting_speed_multiplier( const recipe & rec ) const
+float player::morale_crafting_speed_multiplier( const recipe &rec ) const
 {
     int morale = get_morale_level();
     if( morale >= 0 ) {
@@ -95,7 +95,8 @@ float player::morale_crafting_speed_multiplier( const recipe & rec ) const
 
     // Harder jobs are more frustrating, even when skilled
     // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1, get_skill_level( rec.skill_used ) ) );
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+                                  get_skill_level( rec.skill_used ) ) );
     for( const auto &pr : rec.required_skills ) {
         morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
     }
