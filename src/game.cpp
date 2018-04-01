@@ -187,7 +187,6 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -275,7 +274,6 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    nextspawn( calendar::before_time_starts ),
     nextweather( calendar::before_time_starts ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
@@ -841,7 +839,6 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
@@ -1425,11 +1422,8 @@ bool game::do_turn()
     update_weather();
     reset_light_level();
 
-    // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
+    if( calendar::once_every( 1_hours ) ) {
         perhaps_add_random_npc();
-        nextspawn = calendar::turn;
     }
 
     process_activity();
@@ -3980,13 +3974,13 @@ void game::debug()
         case 7: {
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
+            s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), to_turn<int>( nextspawn ),
+                int( calendar::turn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures() );
@@ -12736,9 +12730,6 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if( calendar::turn >= nextspawn ) {
-        perhaps_add_random_npc();
-    }
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
 

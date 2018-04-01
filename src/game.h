@@ -1014,7 +1014,6 @@ private:
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
-        time_point nextspawn; // The time on which monsters will spawn next.
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::map<mtype_id, int> kills;         // Player's kill count
