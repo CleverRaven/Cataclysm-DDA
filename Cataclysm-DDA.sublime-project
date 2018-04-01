@@ -61,6 +61,10 @@
 	"folders":
 	[
 		{
+			"folder_exclude_patterns":
+			[
+				"Cataclysm.app"
+			],
 			"path": "."
 		},
 		{
