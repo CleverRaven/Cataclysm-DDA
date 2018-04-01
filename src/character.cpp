@@ -933,9 +933,10 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
+        const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
-            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+        src.visit_items( [&src,&nested,&out,&mags,ammo]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
@@ -952,9 +953,13 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
+            if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
+                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                    out = item_location( src, node );
+                }
+            }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
-
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
@@ -1485,17 +1490,16 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
     const int armorenc = !power_armor || !it.is_power_armor() ?
         encumber_val : std::max( 0, encumber_val - 40 );
 
-    for( size_t i = 0; i < num_bp; i++ ) {
-        body_part bp = body_part( i );
+    for( const body_part bp : all_body_parts ) {
         if( !it.covers( bp ) ) {
             continue;
         }
 
-        int &this_layer = layers[i][item_layer];
+        int &this_layer = layers[bp][item_layer];
         this_layer = std::max( this_layer, layering_encumbrance );
 
-        vals[i].armor_encumbrance += armorenc;
-        vals[i].layer_penalty += layering_encumbrance;
+        vals[bp].armor_encumbrance += armorenc;
+        vals[bp].layer_penalty += layering_encumbrance;
     }
 }
 
@@ -1545,9 +1549,9 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const i
     // The stacking penalty applies by doubling the encumbrance of
     // each item except the highest encumbrance one.
     // So we add them together and then subtract out the highest.
-    for( size_t i = 0; i < num_bp; i++ ) {
+    for( const body_part bp : all_body_parts ) {
         for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
-            vals[i].layer_penalty -= std::max( 0, layers[i][j] );
+            vals[bp].layer_penalty -= std::max( 0, layers[bp][j] );
         }
     }
 
@@ -1567,7 +1571,7 @@ int Character::encumb( body_part bp ) const
 
 void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                             const mutation_branch &mut,
-                            const std::bitset<num_bp> &oversize )
+                            const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
@@ -1611,14 +1615,14 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
 }
 
-std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
 {
-    std::bitset<num_bp> ret;
-    ret.set();
+    body_part_set ret = body_part_set::all();
+
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
+            ret &= ~elem.get_covered_body_parts();
         }
     }
 

@@ -11,6 +11,7 @@
 #include "skill.h"
 #include "vitamin.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -374,21 +375,17 @@ bool item::is_null() const
 
 bool item::covers( const body_part bp ) const
 {
-    if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
-        return false;
-    }
-    return get_covered_body_parts().test(bp);
+    return get_covered_body_parts().test( bp );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts() const
+body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts( side s ) const
+body_part_set item::get_covered_body_parts( const side s ) const
 {
-    std::bitset<num_bp> res;
+    body_part_set res;
 
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
@@ -2065,14 +2062,14 @@ void item::on_wear( Character &p )
 
         set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            lhs += left_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            lhs += left_enc[bp].encumbrance;
         }
 
         set_side( side::RIGHT );
         const auto right_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            rhs += right_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            rhs += right_enc[bp].encumbrance;
         }
 
         set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -3789,7 +3786,8 @@ bool item::is_reloadable_helper( const itype_id& ammo, bool now ) const
                 }
             } else {
                 auto at = find_type( ammo );
-                if( !at->ammo || !at->ammo->type.count( ammo_type() ) ) {
+                if( ( !at->ammo || !at->ammo->type.count( ammo_type() ) ) &&
+                    !magazine_compatible().count( ammo ) ) {
                     return false;
                 }
             }
@@ -4373,21 +4371,15 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
 
 bool item::magazine_integral() const
 {
-    // Finds the first mod which changes magazines and returns if it adds a list of them (can just unset instead)
-    // If no mod changes them, checks if there is a magazine set for the base item type
+    // If a mod sets a magazine type, we're not integral.
     for( const auto m : is_gun() ? gunmods() : toolmods() ) {
-        const auto &mod_mags = m->type->mod->magazine_adaptor;
-        if( !mod_mags.empty() ) {
-            return std::none_of( mod_mags.begin(), mod_mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-                return !e.second.empty();
-            } );
+        if( !m->type->mod->magazine_adaptor.empty() ) {
+            return false;
         }
     }
 
-    const auto& mags = type->magazines;
-    return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-        return !e.second.empty();
-    } );
+    // We have an integral magazine if we're a gun with an ammo capacity (clip) or we have no magazines.
+    return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -4692,25 +4684,15 @@ item::reload_option &item::reload_option::operator=( const reload_option &rhs )
     return *this;
 }
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
+item::reload_option::reload_option( const player *who, const item *target, const item *parent,
+                                    item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
         max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
-
-    // magazine, ammo or ammo container
-    item& tmp = ( this->ammo->is_ammo_container() || this->ammo->is_watertight_container() )
-        ? this->ammo->contents.front()
-        : *this->ammo;
-
-    if( this->ammo->is_watertight_container() || ( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) ) {
-        qty( tmp.charges );
-    } else {
-        qty( 1 );
-    }
+    qty( max_qty );
 }
-
 
 int item::reload_option::moves() const
 {
@@ -4727,37 +4709,35 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_magazine() || target->has_flag( "RELOAD_ONE" )) {
-        qty_ = 1L;
+    bool ammo_in_container = ammo->is_ammo_container();
+    bool ammo_in_liquid_container = ammo->is_watertight_container();
+    item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
+        ammo->contents.front() : *ammo;
+
+    if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
+        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+        debugmsg( "Invalid reload option: %s", ammo_obj.tname().c_str() );
         return;
     }
 
-    item* obj = nullptr;
-    bool is_ammo_container = ammo->is_ammo_container();
-    bool is_liquid_container = ammo->is_watertight_container();
-    if ( is_ammo_container || is_liquid_container ) {
-        obj = &( ammo->contents.front() );
-    } else {
-        obj = &*ammo;
+    // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
+    // This gets rounded up to 1 later.
+    long remaining_capacity = target->is_watertight_container() ?
+        target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
+        target->ammo_capacity() - target->ammo_remaining();
+    if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
+        remaining_capacity = 1;
     }
-
-    if( ( is_ammo_container && !obj->is_ammo() ) ||
-            ( is_liquid_container && !obj->made_of( LIQUID ) ) ) {
-        debugmsg( "Invalid reload option: %s", obj->tname().c_str() );
-        return;
-    }
-
-    long limit = is_liquid_container
-            ? target->get_remaining_capacity_for_liquid( *obj, true )
-            : target->ammo_capacity() - target->ammo_remaining();
-
     if( target->ammo_type() == ammotype( "plutonium" ) ) {
-        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+        remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
+            ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
     }
 
+    bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
+    long available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
-    qty_ = std::min( { val, obj->charges, limit, max_qty } );
+    qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
 
     // always expect to reload at least one charge
     qty_ = std::max( qty_, 1L );
@@ -4875,23 +4855,27 @@ bool item::reload( player &u, item_location loc, long qty )
         return true;
 
     } else {
-        curammo = find_type( ammo->typeId() );
-
-        if( ammo_type() == ammotype( "plutonium" ) ) {
+        if( ammo->has_flag( "SPEEDLOADER" ) ) {
+            curammo = find_type( ammo->contents.front().typeId() );
+            qty = std::min( qty, ammo->ammo_remaining() );
+            ammo->ammo_consume( qty, { 0, 0, 0 } );
+            charges += qty;
+        } else if( ammo_type() == ammotype( "plutonium" ) ) {
+            curammo = find_type( ammo->typeId() );
             ammo->charges -= qty;
 
             // any excess is wasted rather than overfilling the item
             charges += qty * PLUTONIUM_CHARGES;
             charges = std::min( charges, ammo_capacity() );
-
         } else {
+            curammo = find_type( ammo->typeId() );
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
         }
     }
 
-    if( ammo->charges == 0 ) {
+    if( ammo->charges == 0 && !ammo->has_flag( "SPEEDLOADER" ) ) {
         if( container != nullptr ) {
             container->contents.erase(container->contents.begin());
             u.inv.restack( u ); // emptied containers do not stack with non-empty ones

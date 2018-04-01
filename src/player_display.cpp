@@ -75,7 +75,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", body_part_name_as_heading( bp_aBodyPart[bp],
+        out = string_format( "%-7s", body_part_name_as_heading( all_body_parts[bp],
                              combine ? 2 : 1 ).c_str() );
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
@@ -771,7 +771,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 werase( w_info );
                 std::string s;
 
-                body_part bp = line <= 11 ? bp_aBodyPart[line] : num_bp;
+                body_part bp = line <= 11 ? all_body_parts[line] : num_bp;
                 bool combined_here = ( bp_aiOther[line] == line + 1 ||
                                        bp_aiOther[line] == line - 1 ) && // first of a pair
                                      should_combine_bps( *this, line, bp_aiOther[line] );

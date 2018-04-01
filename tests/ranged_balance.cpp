@@ -197,7 +197,7 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
 
 void assert_encumbrance( npc &shooter, int encumbrance )
 {
-    for( body_part bp : bp_aBodyPart ) {
+    for( const body_part bp : all_body_parts ) {
         INFO( "Body Part: " << body_part_name( bp ) );
         REQUIRE( shooter.encumb( bp ) == encumbrance );
     }

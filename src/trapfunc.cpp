@@ -90,12 +90,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
-        body_part hit = num_bp;
-        if( one_in( 2 ) ) {
-            hit = bp_leg_l;
-        } else {
-            hit = bp_leg_r;
-        }
+        const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
 
         // Messages
         c->add_memorial_log( pgettext( "memorial_male", "Caught by a beartrap." ),
@@ -443,12 +438,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what gets hit
-        body_part hit = num_bp;
-        if( one_in( 2 ) ) {
-            hit = bp_leg_l;
-        } else {
-            hit = bp_leg_r;
-        }
+        const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
         // Messages
         c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
                                   _( "A snare closes on <npcname>s leg." ) );
@@ -471,12 +461,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what got hit
-        body_part hit = num_bp;
-        if( one_in( 2 ) ) {
-            hit = bp_leg_l;
-        } else {
-            hit = bp_leg_r;
-        }
+        const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
         //~ %s is bodypart name in accusative.
         c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
                                   _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit ).c_str() );

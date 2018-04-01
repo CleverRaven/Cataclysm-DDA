@@ -179,7 +179,7 @@ struct islot_armor {
      * Bitfield of enum body_part
      * TODO: document me.
      */
-    std::bitset<num_bp> covers;
+    body_part_set covers;
     /**
      * Whether this item can be worn on either side of the body
      */

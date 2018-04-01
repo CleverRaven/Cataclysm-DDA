@@ -344,10 +344,10 @@ void wet_player( int amount )
 
     const auto &wet = g->u.body_wetness;
     const auto &capacity = g->u.drench_capacity;
-    int drenched_parts = mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head);
+    body_part_set drenched_parts{ { bp_torso, bp_arm_l, bp_arm_r, bp_head } };
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts = drenched_parts | mfb(bp_leg_l) | mfb(bp_leg_r) ;
+        drenched_parts |= { { bp_leg_l, bp_leg_r } };
     }
 
     g->u.drench( amount, drenched_parts, false );

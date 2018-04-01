@@ -507,8 +507,8 @@ int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
         if (x_in_y(95, 100)) {
             // Add recovery effect for each infected wound
             int infected_tot = 0;
-            for (int i = 0; i < num_bp; ++i) {
-                int infected_dur = p->get_effect_dur( effect_infected, body_part(i) );
+            for( const body_part bp : all_body_parts ) {
+                int infected_dur = p->get_effect_dur( effect_infected, bp );
                 if (infected_dur > 0) {
                     infected_tot += infected_dur;
                 }
@@ -5009,9 +5009,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     // dry off from being wet
     } else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
-        for (int i = 0; i < num_bp; ++i) {
-            p->body_wetness[i] = 0;
-        }
+        p->body_wetness.fill( 0 );
         p->add_msg_if_player(_("You use the %s to dry off, saturating it with water!"),
                              it->tname().c_str());
 

@@ -186,8 +186,8 @@ void body_part_struct::finalize()
 
 void body_part_struct::check_consistency()
 {
-    for( size_t i = 0; i < num_bp; i++ ) {
-        const auto &legacy_bp = convert_bp( static_cast<body_part>( i ) );
+    for( const body_part bp : all_body_parts ) {
+        const auto &legacy_bp = convert_bp( bp );
         if( !legacy_bp.is_valid() ) {
             debugmsg( "Mandatory body part %s was not loaded", legacy_bp.c_str() );
         }

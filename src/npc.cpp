@@ -165,7 +165,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = jsobj.get_string( "faction" );
+        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -266,7 +266,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( !fac_id.empty() ) {
+    if( !fac_id.str().empty() ) {
         set_fac( fac_id );
     }
 }
@@ -661,14 +661,10 @@ void npc::randomize_from_faction( faction *fac )
     }
 }
 
-void npc::set_fac( std::string fac_name )
+void npc::set_fac( const string_id<faction> &id )
 {
-    my_fac = g->faction_by_ident( fac_name );
-    if( my_fac == nullptr ) {
-        debugmsg( "The game could not find the %s faction", fac_name.c_str() );
-    } else {
-        fac_id = my_fac->id;
-    }
+    my_fac = g->faction_manager_ptr->get( id );
+    fac_id = my_fac->id;
 }
 
 // item id from group "<class-name>_<what>" or from fallback group
@@ -942,18 +938,17 @@ bool npc::wear_if_wanted( const item &it )
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
-        for( size_t i = 0; i < num_bp; i++ ) {
-            const auto bp = static_cast<body_part>( i );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
 
-            if( it_encumber > max_encumb[i] ) {
+            if( it_encumber > max_encumb[bp] ) {
                 // Not an NPC-friendly item
                 return false;
             }
 
-            if( new_enc[i].encumbrance > max_encumb[i] ) {
+            if( new_enc[bp].encumbrance > max_encumb[bp] ) {
                 encumb_ok = false;
                 break;
             }
@@ -965,8 +960,7 @@ bool npc::wear_if_wanted( const item &it )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( size_t j = 0; j < num_bp; j++ ) {
-            const body_part bp = static_cast<body_part>( j );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
