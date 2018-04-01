@@ -1428,7 +1428,7 @@ bool game::do_turn()
     // The following happens when we stay still; 10/40 minutes overdue for spawn
     if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
         (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
-        spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
+        perhaps_add_random_npc();
         nextspawn = calendar::turn;
     }
 
@@ -12737,7 +12737,7 @@ void game::update_map(int &x, int &y)
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
     if( calendar::turn >= nextspawn ) {
-        spawn_mon(shiftx, shifty);
+        perhaps_add_random_npc();
     }
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
@@ -13052,7 +13052,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
+void game::perhaps_add_random_npc()
 {
     // Create a new NPC?
     // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots

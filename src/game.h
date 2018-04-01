@@ -945,7 +945,7 @@ private:
          */
         void despawn_monster( monster &critter );
 
-        void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
+        void perhaps_add_random_npc();
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
