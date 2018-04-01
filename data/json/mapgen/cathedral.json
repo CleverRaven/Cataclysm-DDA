@@ -137,7 +137,7 @@
         "V": "t_wall_glass",
         "X": "t_door_metal_locked",
         "^": "t_floor",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "b": "t_floor",
         "c": "t_floor",
         "d": "t_floor",
