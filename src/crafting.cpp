@@ -44,7 +44,7 @@ static const trait_id trait_PAWS( "PAWS" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
-    if( !p.has_morale_to_craft() ) {
+    if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
@@ -83,6 +83,42 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
                 8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
+}
+
+float player::morale_crafting_speed_multiplier( const recipe & rec ) const
+{
+    int morale = get_morale_level();
+    if( morale >= 0 ) {
+        // No bonus for being happy yet
+        return 1.0f;
+    }
+
+    // Harder jobs are more frustrating, even when skilled
+    // For each skill where skill=difficulty, multiply effective morale by 200%
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1, get_skill_level( rec.skill_used ) ) );
+    for( const auto &pr : rec.required_skills ) {
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
+    }
+
+    // Halve speed at -50 effective morale, quarter at -150
+    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
+
+    return 1.0f / morale_effect;
+}
+
+float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+{
+    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec );
+    // Can't start if we'd need 300% time, but we can still finish the job
+    if( !in_progress && result < 0.33f ) {
+        return 0.0f;
+    }
+    // If we're working below 20% speed, just give up
+    if( result < 0.2f ) {
+        return 0.0f;
+    }
+
+    return result;
 }
 
 bool player::has_morale_to_craft() const
@@ -139,17 +175,28 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::time_to_craft( const recipe &rec, int batch_size )
+size_t available_assistant_count( const player &u, const recipe &rec )
 {
     // NPCs around you should assist in batch production if they have the skills
-    const auto helpers = get_crafting_helpers();
-    const size_t assistants = std::count_if( helpers.begin(), helpers.end(),
+    // @todo Cache them in activity, include them in modifier calculations
+    const auto helpers = u.get_crafting_helpers();
+    return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
         return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
     } );
-    const float lighting_speed = lighting_craft_speed_multiplier( rec );
+}
 
-    return rec.batch_time( batch_size, lighting_speed, assistants );
+int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    return rec.batch_time( batch_size, 1.0f, assistants );
+}
+
+int player::expected_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    float modifier = crafting_speed_multiplier( rec );
+    return rec.batch_time( batch_size, modifier, assistants );
 }
 
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -464,7 +511,7 @@ void player::complete_craft()
 
     if( making->skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + time_to_craft( *making, batch_size ) / 30000.0;
+        const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
         practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
                   ( int )making->difficulty * 1.25 );
 

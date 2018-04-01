@@ -31,6 +31,7 @@ struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,

@@ -1068,6 +1068,10 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
+int Creature::get_moves() const
+{
+    return moves;
+}
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

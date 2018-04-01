@@ -32,13 +32,13 @@
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_LONGCRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_DISASSEMBLE",

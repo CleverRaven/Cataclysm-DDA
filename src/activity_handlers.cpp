@@ -50,6 +50,8 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
 {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
+    { activity_id( "ACT_CRAFT" ), craft_do_turn },
+    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -1966,6 +1968,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
     act->set_to_null();
+}
+
+void activity_handlers::craft_do_turn( player_activity *act, player *p )
+{
+    const recipe &rec = recipe_id( act->name ).obj();
+    float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    if( crafting_speed <= 0.0f ) {
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        }
+        act->set_to_null();
+        return;
+    }
+    act->moves_left -= crafting_speed * p->get_moves();
+    p->set_moves( 0 );
+    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
+        // @todo Describe the causes of slowdown
+        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+    }
 }
 
 void activity_handlers::craft_finish( player_activity *act, player *p )
