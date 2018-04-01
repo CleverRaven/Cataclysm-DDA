@@ -13053,51 +13053,56 @@ void game::perhaps_add_random_npc()
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
+    //@todo This is inaccurate when the player is near a overmap border, and it will
+    //immediately spawn new npcs upon entering a new overmap. Rather use number of npcs *nearby*.
     const int npc_num = get_cur_om().get_npcs().size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
     }
 
-    if( x_in_y( density, 100 ) ) {
-        std::shared_ptr<npc> tmp = std::make_shared<npc>();
-        tmp->normalize();
-        tmp->randomize();
-        //tmp->stock_missions();
-        // Create the NPC in one of the outermost submaps,
-        // hopefully far away to be invisible to the player,
-        // to prevent NPCs appearing out of thin air.
-        // This can be changed to let the NPC spawn further away,
-        // so it does not became active immediately.
-        int msx = get_levx();
-        int msy = get_levy();
-        switch (rng(0, 4)) { // on which side of the map to spawn
+    if( !x_in_y( density, 100 ) ) {
+        return;
+    }
+
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    tmp->normalize();
+    tmp->randomize();
+    //tmp->stock_missions();
+    // Create the NPC in one of the outermost submaps,
+    // hopefully far away to be invisible to the player,
+    // to prevent NPCs appearing out of thin air.
+    // This can be changed to let the NPC spawn further away,
+    // so it does not became active immediately.
+    int msx = get_levx();
+    int msy = get_levy();
+    switch( rng( 0, 4 ) ) { // on which side of the map to spawn
         case 0:
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 1:
             msx += MAPSIZE - 1;
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 2:
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         case 3:
             msy += MAPSIZE - 1;
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         default:
             break;
-        }
-        // adds the npc to the correct overmap.
-        tmp->spawn_at_sm( msx, msy, 0 );
-        overmap_buffer.insert_npc( tmp );
-        tmp->form_opinion( u );
-        tmp->mission = NPC_MISSION_NULL;
-        tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
-        // This will make the new NPC active
-        load_npcs();
     }
+    // adds the npc to the correct overmap.
+    tmp->spawn_at_sm( msx, msy, 0 );
+    overmap_buffer.insert_npc( tmp );
+    tmp->form_opinion( u );
+    tmp->mission = NPC_MISSION_NULL;
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
+                          tmp->getID() ) );
+    // This will make the new NPC active
+    load_npcs();
 }
 
 void game::wait()
