@@ -483,10 +483,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
-                const std::string text = string_format( _( "Time to complete: %s" ),
-                                                        to_string( time_duration::from_turns( turns ) ) );
-                ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
+                const int expected_turns = g->u.expected_time_to_craft( *current[line], count ) / MOVES( 1 );
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
+                                        to_string( time_duration::from_turns( expected_turns ) ) );
 
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
@@ -648,13 +647,14 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
-    if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( g->u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, margin_y + 1, 1, i_red, _( "too dark" ) );
-    } else if( !g->u.has_morale_to_craft() ) {
+    } else if( g->u.crafting_speed_multiplier( rec ) <= 0.0f ) {
+        // Technically not always only too sad, but must be too sad
         right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
-    } else if( g->u.lighting_craft_speed_multiplier( rec ) < 1.0f ) {
+    } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
-                     int( g->u.lighting_craft_speed_multiplier( rec ) * 100 ) ) );
+                     int( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
     }

@@ -206,7 +206,6 @@ static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_solar( "bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -4827,10 +4826,6 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( has_bionic( bio_solar ) && g->is_in_sunlight( pos() ) ) {
-        charge_power( rate_multiplier * 25 );
-    }
-
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && (has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK )) ) {
         // TODO: Make NPCs complain
@@ -8494,9 +8489,9 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
-                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         iter->on_takeoff( *this );
         inv.add_item_keep_invlet( it );
