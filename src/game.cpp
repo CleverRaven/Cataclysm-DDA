@@ -1555,6 +1555,9 @@ bool game::do_turn()
     u.apply_wetness_morale( temperature );
     u.do_skill_rust();
 
+    // reset the moved state
+    u.moved = false;
+
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
     }
@@ -2604,12 +2607,14 @@ bool game::handle_action()
 
         case ACTION_TIMEOUT:
             if( check_safe_mode_allowed(false) ) {
+                u.change_move_mode();
                 u.pause();
             }
             break;
 
         case ACTION_PAUSE:
             if( check_safe_mode_allowed() ) {
+                u.change_move_mode();
                 u.pause();
             }
             break;
@@ -2700,12 +2705,14 @@ bool game::handle_action()
 
         case ACTION_MOVE_DOWN:
             if (!u.in_vehicle) {
+                u.change_move_mode();
                 vertical_move(-1, false);
             }
             break;
 
         case ACTION_MOVE_UP:
             if (!u.in_vehicle) {
+                u.change_move_mode();
                 vertical_move(1, false);
             }
             break;
@@ -2784,6 +2791,7 @@ bool game::handle_action()
             if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't peek around corners while you're in your shell."));
             } else {
+                u.change_move_mode();
                 peek();
             }
             break;
@@ -11021,6 +11029,9 @@ bool game::plmove(int dx, int dy, int dz)
         return false;
     }
 
+    // change move_mode to selected_move_mode before moving
+    u.change_move_mode();
+
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
         dest_loc.x = rng(u.posx() - 1, u.posx() + 1);
@@ -11412,22 +11423,26 @@ bool game::walk_move( const tripoint &dest_loc )
             u.mod_fatigue( 1 );
         }
     }
-
+    // Sound of footsteps may awaken nearby monsters
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
         if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) ) {
+            int footstep_vol = 6; // 6 being the default volume while walking
             if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
-                sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
-                sfx::do_footstep();
+                footstep_vol = 2;
             } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
-                sounds::sound( dest_loc, 10, "", true, "none", "none" );
-                sfx::do_footstep();
+                footstep_vol = 10;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                sounds::sound( dest_loc, 12, "", true, "none", "none" );
-                sfx::do_footstep();
-            } else {
-                sounds::sound( dest_loc, 6, "", true, "none" );
-                sfx::do_footstep();
+                footstep_vol = 12;
             }
+
+            // Footstep volume changes for the different move modes
+            if( u.move_mode == "sneak") {
+                footstep_vol /= 2;
+            } else if( u.move_mode == "run" ) {
+                footstep_vol *= 1.5;
+            }
+           sounds::sound( dest_loc, footstep_vol, "", true, "none" );
+           sfx::do_footstep();
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
@@ -11959,6 +11974,9 @@ void game::on_move_effects()
 
     // apply martial art move bonuses
     u.ma_onmove_effects();
+
+    // set the moved member
+    u.moved = true;
 
     sfx::do_ambient();
 }

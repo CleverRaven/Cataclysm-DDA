@@ -94,6 +94,7 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_survival( "survival" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -562,6 +563,8 @@ player::player() : Character()
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
     move_mode = "walk";
+    selected_move_mode = move_mode;
+    moved = false;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -1996,7 +1999,11 @@ int player::run_cost( int base_cost, bool diag ) const
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
+    } else if( move_mode == "sneak" ) {
+        // Sneaking speed is 0.5x walking speed
+        stamina_modifier *= 0.5;
     }
+
     movecost /= stamina_modifier;
 
     if( diag ) {
@@ -2893,7 +2900,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         }
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-                 col_per = c_white, col_spd = c_white, col_time = c_white;
+                 col_per = c_white, col_spd = c_white, col_time = c_white, col_mvmd = c_white;
         int str_bonus = get_str_bonus();
         int dex_bonus = get_dex_bonus();
         int int_bonus = get_int_bonus();
@@ -2956,9 +2963,17 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         //~ Movement type: "walking". Max string length: one letter.
         const auto str_walk = pgettext( "movement-type", "W" );
+        //~ Movement type: "sneaking". Max string length: one letter.
+        const auto str_sneak = pgettext( "movement-type", "S" );
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
-        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
+        // yellow color indicates a change in move_mode
+        if ( move_mode != selected_move_mode ) {
+            col_mvmd = c_yellow;
+        }
+        wprintz( w, col_mvmd, " %s", selected_move_mode == "walk" ? str_walk :
+                                    ( selected_move_mode == "sneak" ? str_sneak : str_run ) );
+
         if( sideStyle ) {
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
             print_stamina_bar( w );
@@ -3524,16 +3539,32 @@ void player::shout( std::string msg )
 
 void player::toggle_move_mode()
 {
-    if( move_mode == "walk" ) {
+    if( selected_move_mode == "walk" ) {
+        selected_move_mode = "sneak";
+        add_msg( _( "You start sneaking." ) );
+    } else if( selected_move_mode == "sneak" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
-            move_mode = "run";
-            add_msg(_("You start running."));
+            selected_move_mode = "run";
+            add_msg( _( "You start running." ) );
         } else {
-            add_msg(m_bad, _("You're too tired to run."));
+            add_msg( m_bad, _( "You're too tired to run." ) );
+            selected_move_mode = "walk";
+            add_msg( _( "You stand up to walk instead." ) );
         }
-    } else if( move_mode == "run" ) {
-        move_mode = "walk";
-        add_msg(_("You slow to a walk."));
+    } else if( selected_move_mode == "run" ) {
+        selected_move_mode = "walk";
+        add_msg( _( "You slow to a walk." ) );
+    }
+}
+
+void player::change_move_mode()
+{
+    if ( selected_move_mode != move_mode ) {
+        // walk/run <-> sneak transitions takes some time
+        if ( selected_move_mode == "sneak" || move_mode == "sneak" ) {
+            moves -= 20;
+        }
+        move_mode = selected_move_mode;
     }
 }
 
@@ -11197,7 +11228,11 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
-    return MS_MEDIUM;
+    if ( move_mode == "sneak" ) {
+        return MS_SMALL;
+    } else {
+        return MS_MEDIUM;
+    }
 }
 
 int player::get_hp() const
@@ -11315,12 +11350,12 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const tripoint &t, bool ) const
+bool player::sees( const tripoint &t, bool is_player) const
 {
     static const bionic_id str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t );
+    bool can_see = this->is_player() ? g->m.pl_sees( t, wanted_range ) :
+        Creature::sees( t, is_player );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
@@ -11352,6 +11387,31 @@ bool player::sees( const Creature &critter ) const
         return true;
     }
     return Creature::sees( critter );
+}
+
+float player::get_sees_modifier() const
+{
+    float modifier = 1.0;
+    if ( get_size() == MS_SMALL ) {
+        // player sillhouete is 50% smaller while sneaking
+        modifier = 0.5;
+    }
+
+    // having moved during last action adds 12.5% to 50% depending on movecost (slower is better)
+    if ( moved ) {
+        modifier += ( 0.25 / ( movecounter / 100.0 ) );
+    }
+
+    // survival skill helps with staying hidden in all circumstances (2.5% per level)
+    modifier -= get_skill_level( skill_survival ) * 0.025;
+
+    // encumbrance on bodyparts has negative effect (every 20 points = 1%)
+    modifier += ( encumb( bp_torso ) + encumb( bp_head ) +
+                  encumb( bp_arm_l ) + encumb( bp_arm_r ) +
+                  encumb( bp_foot_l ) + encumb( bp_foot_r ) +
+                  encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2000.0;
+
+    return modifier;
 }
 
 nc_color player::bodytemp_color(int bp) const

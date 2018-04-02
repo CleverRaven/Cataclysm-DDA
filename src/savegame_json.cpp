@@ -619,6 +619,8 @@ void player::serialize(JsonOut &json) const
 
     json.member( "stamina", stamina);
     json.member( "move_mode", move_mode );
+    json.member( "selected_move_mode", selected_move_mode );
+    json.member( "moved", moved );
 
     // crafting etc
     json.member( "activity", activity );
@@ -721,6 +723,11 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "stamina", stamina);
     data.read( "move_mode", move_mode );
+    // @todo: The if clause can be omitted after some time, just there for old savegames
+    if ( !data.read( "selected_move_mode", selected_move_mode ) ) {
+       selected_move_mode = move_mode;
+    }
+    data.read( "moved",  moved );
 
     set_highest_cat_level();
     drench_mut_calc();

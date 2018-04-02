@@ -349,6 +349,9 @@ class player : public Character
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
+        /** Returns a modifier used if other creatures try check if they see the player, see Creature::sees */
+        float get_sees_modifier() const;
+
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -377,7 +380,10 @@ class player : public Character
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & reduces recoil
-        void toggle_move_mode(); // Toggles to the next move mode.
+        /** Toggles to the next move mode without changing it. */
+        void toggle_move_mode();
+        /** Changes the move mode to the selected one (can cost some move points). */
+        void change_move_mode();
         void shout( std::string text = "" );
 
         // martialarts.cpp
@@ -1359,6 +1365,8 @@ class player : public Character
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
+        std::string selected_move_mode;
+        bool moved;
         int power_level, max_power_level;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
