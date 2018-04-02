@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "No_Cure",
+    "name": "<color_red>No Cure!</color>",
+    "description": "You will <color_red>die</color> in <color_yellow>72 hours</color> after getting <color_green>infected</color>.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
