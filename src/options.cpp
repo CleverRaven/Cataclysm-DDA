@@ -1044,11 +1044,6 @@ void options_manager::init()
         false
         );
 
-    add( "SAVE_SLEEP", "interface", translate_marker( "Ask to save before sleeping" ),
-        translate_marker( "If true, game will ask to save the map before sleeping." ),
-        false
-        );
-
     add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly" ),
         translate_marker( "If true, will query before disassembling items." ),
         true

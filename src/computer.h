@@ -121,8 +121,8 @@ class computer
          *  the main system security. */
         bool hack_attempt( player &p, int Security = -1 );
         // Save/load
-        std::string save_data();
-        void load_data( std::string data );
+        std::string save_data() const;
+        void load_data( const std::string &data );
 
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?

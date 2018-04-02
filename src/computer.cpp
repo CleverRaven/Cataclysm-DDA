@@ -247,68 +247,64 @@ bool computer::hack_attempt( player &p, int Security )
     return successful_attempt;
 }
 
-std::string computer::save_data()
+std::string computer::save_data() const
 {
     std::ostringstream data;
-    std::string savename = name; // Replace " " with "_"
-    size_t found = savename.find( ' ' );
-    while (found != std::string::npos) {
-        savename.replace(found, 1, "_");
-        found = savename.find( ' ' );
-    }
-    data << savename << " " << security << " " << mission_id << " " <<
-         options.size() << " ";
+
+    data.imbue( std::locale::classic() );
+
+    data
+        << string_replace( name, " ", "_" ) << ' '
+        << security << ' '
+        << mission_id << ' '
+        << options.size() << ' ';
+
     for( auto &elem : options ) {
-        savename = elem.name;
-        found = savename.find( ' ' );
-        while (found != std::string::npos) {
-            savename.replace(found, 1, "_");
-            found = savename.find( ' ' );
-        }
-        data << savename << " " << int( elem.action ) << " " << elem.security << " ";
+        data
+            << string_replace( elem.name, " ", "_" ) << ' '
+            << static_cast<int>( elem.action ) << ' '
+            << elem.security << ' ';
     }
-    data << failures.size() << " ";
+
+    data << failures.size() << ' ';
     for( auto &elem : failures ) {
-        data << int( elem.type ) << " ";
+        data << static_cast<int>( elem.type ) << ' ';
     }
 
     return data.str();
 }
 
-void computer::load_data(std::string data)
+void computer::load_data( const std::string &data )
 {
     options.clear();
     failures.clear();
-    std::stringstream dump;
-    dump << data;
 
-    // Pull in name and security
+    std::istringstream dump( data );
+    dump.imbue( std::locale::classic() );
+
     dump >> name >> security >> mission_id;
-    size_t found = name.find( '_' );
-    while (found != std::string::npos) {
-        name.replace(found, 1, " ");
-        found = name.find( '_' );
-    }
+
+    name = string_replace( name, "_", " " );
 
     // Pull in options
     int optsize;
     dump >> optsize;
     for (int n = 0; n < optsize; n++) {
         std::string tmpname;
-        int tmpaction, tmpsec;
+
+        int tmpaction;
+        int tmpsec;
+
         dump >> tmpname >> tmpaction >> tmpsec;
-        size_t tmp_found = tmpname.find( '_' );
-        while (tmp_found != std::string::npos) {
-            tmpname.replace(tmp_found, 1, " ");
-            tmp_found = tmpname.find( '_' );
-        }
-        add_option(tmpname, computer_action(tmpaction), tmpsec);
+
+        add_option( string_replace( tmpname, "_", " " ), computer_action( tmpaction ), tmpsec );
     }
 
     // Pull in failures
-    int failsize, tmpfail;
+    int failsize;
     dump >> failsize;
     for (int n = 0; n < failsize; n++) {
+        int tmpfail;
         dump >> tmpfail;
         add_failure(computer_failure_type(tmpfail));
     }
