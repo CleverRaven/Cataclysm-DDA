@@ -220,6 +220,13 @@ bool string_id<oter_type_t>::is_valid() const
     return terrain_types.is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+const string_id<oter_type_t> &int_id<oter_type_t>::id() const
+{
+    return terrain_types.convert( *this );
+}
+
 /** @relates string_id */
 template<>
 int_id<oter_type_t> string_id<oter_type_t>::id() const

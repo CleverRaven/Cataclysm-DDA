@@ -166,7 +166,15 @@ inventory_selector_preset::inventory_selector_preset()
 
 bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
 {
-    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) < 0; // Simple alphabetic order
+    // Place items with an assigned inventory letter first, since the player cared enough to assign them
+    const bool left_fav  = g->u.inv.assigned_invlet.count(lhs->invlet);
+    const bool right_fav = g->u.inv.assigned_invlet.count(rhs->invlet);
+    if ((left_fav && right_fav) || (!left_fav && !right_fav)) {
+        return lhs->tname(1).compare(rhs->tname(1)) < 0; // Simple alphabetic order
+    } else if (left_fav) {
+        return true;
+    }
+    return false;
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
