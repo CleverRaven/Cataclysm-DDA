@@ -7,7 +7,7 @@
   ],
   "tiles-new": [
     {
-      "file": "retrodaystiles10.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "id": "12mm",
@@ -28323,7 +28323,7 @@
       ]
     },
     {
-      "file": "retrodaysfallback10.png",
+      "file": "fallback.png",
       "tiles": [],
       "ascii": [
         {
