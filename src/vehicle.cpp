@@ -4890,12 +4890,10 @@ bool vehicle::add_item( vehicle_part &pt, const item &obj )
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
 {
+    // Nonempty nonresealable containers are placed on the ground below the vehicle tile
     if( itm.is_bucket_nonempty() ) {
-        for( auto &elem : itm.contents ) {
-            g->m.add_item_or_charges( global_part_pos3( part ), elem );
-        }
-
-        itm.contents.clear();
+        g->m.add_item( global_part_pos3( part ), itm );
+        return false;
     }
 
     const auto new_pos = parts[part].items.insert( index, itm );
