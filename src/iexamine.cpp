@@ -798,10 +798,10 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         }
     }
     if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
-        add_msg( _( "You mantle over the obstacle with ease." ) );
+        add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
-        add_msg( _( "You mantle over the obstacle." ) );
+        add_msg( _( "You vault over the obstacle." ) );
         p.moves -= 300; // Most common move cost for barricades pre-change.
     } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
