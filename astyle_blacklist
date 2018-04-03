@@ -18,7 +18,6 @@ src/effect.cpp
 src/event.cpp
 src/faction.cpp
 src/field.cpp
-src/filesystem.cpp
 src/game.cpp
 src/iexamine.cpp
 src/init.cpp
@@ -45,7 +44,6 @@ src/melee.cpp
 src/mission_companion.cpp
 src/missiondef.cpp
 src/mission_start.cpp
-src/mod_manager.cpp
 src/monattack.cpp
 src/mondeath.cpp
 src/monster.cpp
@@ -75,7 +73,6 @@ src/wincurse.cpp
 src/worldfactory.cpp
 src/enums.h
 src/field.h
-src/game.h
 src/io.h
 src/item.h
 src/itype.h
