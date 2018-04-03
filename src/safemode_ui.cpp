@@ -436,17 +436,13 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
             1 + offset_y, 1 + offset_x );
 
-    draw_border( w_test_rule_border );
-
     int nmatch = creature_list.size();
     std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                      "%1$d monsters match: %2$s",
                                      nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
-    mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
-               buf );
-
-    mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
-               _( "Lists monsters regardless of their attitude." ) );
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
+                  _( "Lists monsters regardless of their attitude." ) );
 
     wrefresh( w_test_rule_border );
 
