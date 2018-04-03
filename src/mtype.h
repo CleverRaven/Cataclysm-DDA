@@ -160,6 +160,7 @@ enum m_flag : int {
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MILKABLE,            // This monster is milkable.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
+    MF_STEALS_FOOD,         // Steals items of category "FOOD", not including drinks.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

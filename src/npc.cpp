@@ -1652,6 +1652,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FOLLOW:
         case MATT_FPASSIVE:
         case MATT_IGNORE:
+        case MATT_SEEK:
         case MATT_FLEE:
             return A_NEUTRAL;
         case MATT_FRIEND:

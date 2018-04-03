@@ -22,6 +22,8 @@ class item;
 class monfaction;
 class player;
 class Character;
+class map_stack;
+class item_location;
 struct mtype;
 enum monster_trigger : int;
 enum field_id : int;
@@ -51,6 +53,7 @@ enum monster_attitude {
     MATT_FOLLOW,
     MATT_ATTACK,
     MATT_ZLAVE,
+    MATT_SEEK,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -109,6 +112,8 @@ class monster : public Creature
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
 
         std::string extended_description() const override;
+        std::string inventory_summary() const;
+
         // Inverts color if inv==true
         bool has_flag( const m_flag f ) const override; // Returns true if f is set (see mtype.h)
         bool can_see() const;      // MF_SEES and no ME_BLIND
@@ -166,6 +171,8 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        float rate_food( const item &itm );
+
         // Pass all factions to mon, so that hordes of same-faction mons
         // do not iterate over each other
         void plan( const mfactions &factions );
@@ -223,6 +230,10 @@ class monster : public Creature
          * @return True if we managed to push something and took its place, false otherwise.
          */
         bool push_to( const tripoint &p, int boost, size_t depth );
+
+        bool take_item_at( item_location &to_pick_up );
+        bool take_food_at( const tripoint &p );
+        bool eat_food_from_inventory();
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
@@ -349,6 +360,9 @@ class monster : public Creature
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
         void add_item( item it );   // Add an item to inventory
+
+        item_location get_most_desired_visible_item(
+            std::function<float( const item & )> calc_desirability ) const;
 
         /**
          * Makes monster react to heard sound

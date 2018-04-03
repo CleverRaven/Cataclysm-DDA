@@ -21,6 +21,8 @@
 #include "mtype.h"
 #include "field.h"
 #include "scent_map.h"
+#include "itype.h"
+#include "item_location.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions
@@ -36,7 +38,15 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
+const efftype_id effect_seeking_item( "seeking_item" );
+const efftype_id effect_run( "run" ); // i.e. flee
 const efftype_id effect_stunned( "stunned" );
+
+
+item_location get_most_desired_item_in_radius( tripoint pos, int radius,
+        std::function<bool( const tripoint & ) > tile_qualifies,
+        std::function<float( const item & )> calc_desirability );
+
 
 bool monster::wander()
 {
@@ -194,6 +204,17 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
+
+float monster::rate_food( const item &itm )
+{
+    // Note that is_food() is not sufficient here because it (for some reason) includes drinks
+    if( itm.is_comestible() && itm.type->comestible->comesttype == "FOOD" ) {
+        return itm.type->comestible->nutr;
+    }
+    return -1.0;
+
+}
+
 void monster::plan( const mfactions &factions )
 {
     // Bots are more intelligent than most living stuff
@@ -210,6 +231,7 @@ void monster::plan( const mfactions &factions )
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
+    bool steals_food = has_flag( MF_STEALS_FOOD );
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -329,6 +351,7 @@ void monster::plan( const mfactions &factions )
         } else if( fleeing ) {
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
+
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
@@ -343,6 +366,25 @@ void monster::plan( const mfactions &factions )
             set_dest( g->u.pos() );
         } else {
             unset_dest();
+        }
+    }
+
+    // Triggers for idle food stealers (not fleeing, not attacking)
+    if( ( friendly >= 0 || target == nullptr ) && !fleeing && steals_food ) {
+        // We only "want to steal" occasionally --- otherwise food stealers
+        // will always laser-focus onto the nearest food item as soon as
+        // they've eaten what they already have. Make sure to account for when
+        // we're already in the process of seeking an item.
+        if( has_effect( effect_seeking_item ) ||
+            ( inv.empty() && one_in( 25 ) ) ) {
+            auto item_target_loc = get_most_desired_visible_item( [&]( const item & itm ) {
+                return rate_food( itm );
+            } );
+
+            if( item_target_loc ) {
+                add_effect( effect_seeking_item, 3 );
+                set_dest( item_target_loc.position() );
+            }
         }
     }
 }
@@ -492,6 +534,13 @@ void monster::move()
                 }
             }
         }
+    }
+
+    // If we're a food stealer who has food and is idle, eat some of it.
+    // NOTE: Monsters currently have infinite stomach size.
+    if( current_attitude == MATT_IGNORE && has_flag( MF_STEALS_FOOD ) &&
+        one_in( 25 ) && eat_food_from_inventory() ) {
+        return;
     }
 
     if( current_attitude == MATT_IGNORE ||
@@ -647,6 +696,10 @@ void monster::move()
             }
         }
     }
+
+    // Pick up our goal item if we reach it
+    const bool can_pickup_goal_item = ( current_attitude == MATT_SEEK ) && next_step == goal;
+
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
@@ -654,6 +707,7 @@ void monster::move()
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            ( !pacified && has_flag( MF_STEALS_FOOD ) && can_pickup_goal_item && take_food_at( next_step ) ) ||
             move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
 
         if( !did_something ) {
@@ -1253,6 +1307,75 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     return true;
 }
 
+bool monster::take_item_at( item_location &to_pick_up )
+{
+
+    inv.push_back( *to_pick_up );
+
+    /**
+     * If there is a stack of items on the ground, only pick up as many of them as would
+     * count as "one" item for spawning purposes.
+     *
+     * TODO(sm): no volume/weight limits yet; AFAIK monsters/creatures have no notion of either.
+     */
+    int default_charges = to_pick_up->type->charges_default();
+    if( default_charges > 1 && to_pick_up->charges > default_charges ) {
+        to_pick_up->mod_charges( -default_charges );
+        inv.back().charges = default_charges;
+    } else {
+        to_pick_up.remove_item();
+    }
+
+    if( g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %1$s grabs a %2$s!" ), name().c_str(),
+                 inv.back().display_name() );
+    }
+
+    return true;
+}
+
+bool monster::take_food_at( const tripoint &p )
+{
+    item_location loc = get_most_desired_item_in_radius( p, 0,
+    []( const tripoint & ) {
+        return true;
+    },
+    [&]( const item & itm ) {
+        return rate_food( itm );
+    } );
+    bool success = take_item_at( loc );
+
+    if( success ) {
+        // Flee after we've got an item
+        remove_effect( effect_seeking_item );
+        add_effect( effect_run, 50 );
+        mod_moves( -100 );
+    }
+    return success;
+}
+
+bool monster::eat_food_from_inventory()
+{
+    // Monsters don't have nutrition, so eating doesn't actually do anything for them yet
+    for( auto it = inv.begin(); it != inv.end(); ++it ) {
+        if( it->is_food() ) {
+            if( g->u.sees( *this ) ) {
+                add_msg( _( "The %1$s eats a %2$s." ), name().c_str(), it->tname().c_str() );
+            }
+
+            // NOTE: The moves cost is taken from the default player mealtime
+            mod_moves( -250 );
+
+            it->mod_charges( -1 );
+            if( it->charges <= 0 ) {
+                inv.erase( it );
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Stumble in a random direction, but with some caveats.
  */
@@ -1457,4 +1580,37 @@ int monster::turns_to_reach( int x, int y )
     }
 
     return int( turns + .9 ); // Halve (to get turns) and round up
+}
+
+item_location get_most_desired_item_in_radius( tripoint pos, int radius,
+        std::function<bool( const tripoint & ) > tile_qualifies,
+        std::function<float( const item & )> calc_desirability )
+{
+    float max_desirability = -1;
+    tripoint desired_item_pos;
+    item *desired_item = nullptr;
+    for( auto &p : g->m.points_in_radius( pos, radius ) ) {
+        if( g->m.has_items( p ) && tile_qualifies ) {
+            auto items = g->m.i_at( p );
+            for( auto &itm : items ) {
+                float des = calc_desirability( itm );
+                if( des > max_desirability ) {
+                    desired_item = &itm;
+                    desired_item_pos = p;
+                }
+            }
+        }
+    }
+    return item_location( map_cursor( desired_item_pos ), desired_item );
+}
+
+item_location monster::get_most_desired_visible_item(
+    std::function<float( const item & )> calc_desirability ) const
+{
+    int sight_radius = sight_range( g->m.ambient_light_at( pos() ) );
+    return get_most_desired_item_in_radius( pos(), sight_radius,
+    [&]( const tripoint & p ) {
+        return g->m.sees_some_items( p, *this );
+    },
+    calc_desirability );
 }

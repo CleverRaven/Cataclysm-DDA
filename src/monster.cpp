@@ -113,6 +113,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
+const efftype_id effect_seeking_item( "seeking_item" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
@@ -143,6 +144,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_SEEK, {translate_marker( "Seeking." ), def_c_yellow}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -434,6 +436,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
 
+    if (!inv.empty()) {
+        // Cut off really long item names
+        std::vector<std::string> lines = foldstring( inventory_summary(), getmaxx(w) - 1 - column );
+        mvwprintz( w, vStart++, column, c_yellow, _("Carrying %s."), lines.front().c_str() );
+    }
+
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
@@ -457,6 +465,7 @@ std::string monster::extended_description() const
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << string_format("It is carrying %s.", inventory_summary().c_str()) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
@@ -528,6 +537,17 @@ std::string monster::extended_description() const
     return replace_colors( ss.str() );
 }
 
+std::string monster::inventory_summary() const
+{
+    if (inv.empty()) {
+        return "nothing";
+    } else if (inv.size() == 1) {
+        return inv.front().display_name(inv.front().charges);
+    } else {
+        return "several items";
+    }
+}
+
 const std::string &monster::symbol() const
 {
     return type->sym;
@@ -555,7 +575,7 @@ nc_color monster::color_with_effects() const
           has_effect( effect_lightsnare) || has_effect( effect_heavysnare ) ) {
         ret = hilite(ret);
     }
-    if (has_effect( effect_pacified)) {
+    if (has_effect( effect_pacified )) {
         ret = invert_color(ret);
     }
     if (has_effect( effect_onfire)) {
@@ -713,6 +733,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
+            case MATT_SEEK:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -805,6 +826,9 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
+        if( has_effect( effect_seeking_item ) ) {
+            return MATT_SEEK;
+        }
         return MATT_IGNORE;
     }
 

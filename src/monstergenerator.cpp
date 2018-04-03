@@ -451,6 +451,7 @@ void MonsterGenerator::init_flags()
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
+    flag_map["STEALS_FOOD"] = MF_STEALS_FOOD;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
