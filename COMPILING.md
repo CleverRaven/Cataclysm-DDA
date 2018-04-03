@@ -375,22 +375,22 @@ For MacPorts:
     hash -r
 
 ### gcc
-    
+
 The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
 
     brew install gcc
-    
+
 However, homebrew installs gcc as gcc-6 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-6` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
-    
+
     cd /usr/local/bin
     ln -s gcc-6 gcc
     ln -s g++-6 g++
     ln -s c++-6 c++
-    
-Or, to do this for everything in `/usr/local/bin/` ending with `-6`, 
+
+Or, to do this for everything in `/usr/local/bin/` ending with `-6`,
 
     find /usr/local/bin -name "*-6" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
-    
+
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
 Check that `gcc -v` shows the homebrew version you installed.
@@ -494,7 +494,7 @@ Visual Studio 2015 (or later) is required to build Cataclysm.  If you use a late
 
 We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
 
-Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
+Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project, run the enclosed `copy_dll_to_bin.bat` to put all the dlls in Windepend\bin\{x86,x64}.
 
 ### Lua
 
@@ -532,7 +532,7 @@ If we want to compile with localization, we will need gettext and libintl. In "A
 If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
 * `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
-* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
+* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz`
 * `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
 
 #### Bundled Libraries
@@ -545,8 +545,8 @@ For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the incl
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
 
 #### ISSUE - "winapifamily.h" no such file or directoyr
-There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
-https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
+There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced.
+https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
 ### Makefile changes
