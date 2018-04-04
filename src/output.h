@@ -585,7 +585,7 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
 
 void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected );
 void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
-                  bool bDecorate = true );
+                  bool bDecorate = true, bool bDisabled = false );
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
                      const int iContentHeight, const int iNumLines, const int iOffsetY = 0, const int iOffsetX = 0,
                      nc_color bar_color = c_white, const bool bDoNotScrollToEnd = false );

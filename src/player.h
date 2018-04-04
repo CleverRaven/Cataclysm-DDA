@@ -190,8 +190,6 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the player's stamina bar. **/
-        void print_stamina_bar( const catacurses::window &w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 

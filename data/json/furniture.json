@@ -75,9 +75,10 @@
         "symbol": "#",
         "bgcolor": "yellow",
         "description": "A road barricade.  For barricading roads.",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -101,9 +102,10 @@
         "symbol": "#",
         "bgcolor": "brown",
         "description": "A sandbag, typically used for blocking bullets.",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },

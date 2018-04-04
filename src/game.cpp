@@ -101,6 +101,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "sidebar.h"
 
 #include <map>
 #include <set>
@@ -187,7 +188,6 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -275,7 +275,6 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    nextspawn( calendar::before_time_starts ),
     nextweather( calendar::before_time_starts ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
@@ -841,7 +840,6 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
@@ -1425,12 +1423,7 @@ bool game::do_turn()
     update_weather();
     reset_light_level();
 
-    // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
-        spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
-        nextspawn = calendar::turn;
-    }
+    perhaps_add_random_npc();
 
     process_activity();
 
@@ -3980,13 +3973,13 @@ void game::debug()
         case 7: {
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
+            s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), to_turn<int>( nextspawn ),
+                int( calendar::turn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures() );
@@ -4579,7 +4572,7 @@ void game::draw_sidebar()
     const bool sideStyle = use_narrow_sidebar();
 
     // Draw Status
-    draw_HP();
+    draw_HP( u, w_HP );
     werase(w_status);
     if( sideStyle ) {
         werase(w_status2);
@@ -4854,113 +4847,6 @@ void game::refresh_all()
 
     draw();
     catacurses::refresh();
-}
-
-void game::draw_HP()
-{
-    werase(w_HP);
-
-    // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
-    bool wide = (getmaxy(w_HP) == 7);
-    int hpx = wide ? 7 : 0;
-    int hpy = wide ? 0 : 1;
-    int dy = wide ? 1 : 2;
-
-    bool const is_self_aware = u.has_trait( trait_id( "SELFAWARE" ) );
-
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        wmove( w_HP, i * dy + hpy, hpx );
-
-        static auto print_symbol_num = []( const catacurses::window &w, int num, const std::string &sym,
-                                           const nc_color color ) {
-            while( num-- > 0 ) {
-                wprintz( w, color, sym.c_str() );
-            }
-        };
-
-        if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
-            //Limb is broken
-            std::string limb = "~~%~~";
-            nc_color color = c_light_red;
-
-            const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
-            if( u.worn_with_flag( "SPLINT", bp ) ) {
-                static const efftype_id effect_mending( "mending" );
-                const auto &eff = u.get_effect( effect_mending, bp );
-                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
-                    ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
-
-                if( is_self_aware ) {
-                    limb = string_format( "=%2d%%=", mend_perc );
-                    color = c_blue;
-                } else {
-                    const int num = static_cast<int>( mend_perc / 20 );
-                    print_symbol_num( w_HP, num, "#", c_blue );
-                    print_symbol_num( w_HP, 5 - num, "=", c_blue );
-                    continue;
-                }
-            }
-
-            wprintz( w_HP, color, limb );
-            continue;
-        }
-
-        auto const &hp = get_hp_bar( u.hp_cur[i], u.hp_max[i] );
-
-        if( is_self_aware ) {
-            wprintz( w_HP, hp.second, "%3d  ", u.hp_cur[i] );
-        } else {
-            wprintz( w_HP, hp.second, hp.first );
-
-            //Add the trailing symbols for a not-quite-full health bar
-            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
-        }
-    }
-
-    const size_t num_parts = 7;
-    static std::array<body_part, num_parts> part = {{
-        bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
-    }};
-    for (size_t i = 0; i < num_parts; i++) {
-        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
-        wmove(w_HP, i * dy, 0);
-        if (wide) {
-            wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
-        }
-        wprintz(w_HP, u.limb_color(part[i], true, true, true), str.c_str());
-        if (!wide) {
-            wprintz(w_HP, u.limb_color(part[i], true, true, true), ":");
-        }
-    }
-
-    int powx = hpx;
-    int powy = wide ? 6 : 13;
-    if (u.max_power_level == 0) {
-        wmove(w_HP, powy, powx);
-        if (wide)
-            for (int i = 0; i < 2; i++) {
-                wputch(w_HP, c_light_gray, LINE_OXOX);
-            }
-        else {
-            wprintz(w_HP, c_light_gray, " --   ");
-        }
-    } else {
-        nc_color color = c_red;
-        if (u.power_level == u.max_power_level) {
-            color = c_blue;
-        } else if (u.power_level >= u.max_power_level * .5) {
-            color = c_light_blue;
-        } else if (u.power_level > 0) {
-            color = c_yellow;
-        }
-        mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
-    }
-    if( !wide ) {
-        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
-        wmove(w_HP, 15, hpx);
-        u.print_stamina_bar(w_HP);
-    }
-    wrefresh(w_HP);
 }
 
 void game::draw_minimap()
@@ -12736,9 +12622,6 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if( calendar::turn >= nextspawn ) {
-        spawn_mon(shiftx, shifty);
-    }
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
 
@@ -13052,8 +12935,11 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
+void game::perhaps_add_random_npc()
 {
+    if( !calendar::once_every( 1_hours ) ) {
+        return;
+    }
     // Create a new NPC?
     // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
     if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
@@ -13061,51 +12947,56 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
+    //@todo This is inaccurate when the player is near a overmap border, and it will
+    //immediately spawn new npcs upon entering a new overmap. Rather use number of npcs *nearby*.
     const int npc_num = get_cur_om().get_npcs().size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
     }
 
-    if( x_in_y( density, 100 ) ) {
-        std::shared_ptr<npc> tmp = std::make_shared<npc>();
-        tmp->normalize();
-        tmp->randomize();
-        //tmp->stock_missions();
-        // Create the NPC in one of the outermost submaps,
-        // hopefully far away to be invisible to the player,
-        // to prevent NPCs appearing out of thin air.
-        // This can be changed to let the NPC spawn further away,
-        // so it does not became active immediately.
-        int msx = get_levx();
-        int msy = get_levy();
-        switch (rng(0, 4)) { // on which side of the map to spawn
+    if( !x_in_y( density, 100 ) ) {
+        return;
+    }
+
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    tmp->normalize();
+    tmp->randomize();
+    //tmp->stock_missions();
+    // Create the NPC in one of the outermost submaps,
+    // hopefully far away to be invisible to the player,
+    // to prevent NPCs appearing out of thin air.
+    // This can be changed to let the NPC spawn further away,
+    // so it does not became active immediately.
+    int msx = get_levx();
+    int msy = get_levy();
+    switch( rng( 0, 4 ) ) { // on which side of the map to spawn
         case 0:
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 1:
             msx += MAPSIZE - 1;
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 2:
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         case 3:
             msy += MAPSIZE - 1;
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         default:
             break;
-        }
-        // adds the npc to the correct overmap.
-        tmp->spawn_at_sm( msx, msy, 0 );
-        overmap_buffer.insert_npc( tmp );
-        tmp->form_opinion( u );
-        tmp->mission = NPC_MISSION_NULL;
-        tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
-        // This will make the new NPC active
-        load_npcs();
     }
+    // adds the npc to the correct overmap.
+    tmp->spawn_at_sm( msx, msy, 0 );
+    overmap_buffer.insert_npc( tmp );
+    tmp->form_opinion( u );
+    tmp->mission = NPC_MISSION_NULL;
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
+                          tmp->getID() ) );
+    // This will make the new NPC active
+    load_npcs();
 }
 
 void game::wait()

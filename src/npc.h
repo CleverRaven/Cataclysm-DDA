@@ -22,11 +22,14 @@ class npc_class;
 class auto_pickup;
 class monfaction;
 struct mission_type;
+struct overmap_location;
+
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
+using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -607,6 +610,13 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+
+        static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
+
+        static std::string get_need_str_id( const npc_need &need );
+
+        static overmap_location_str_id get_location_for( const npc_need &need );
+
         npc_action address_needs();
         npc_action address_needs( float danger );
         npc_action address_player();
@@ -891,7 +901,7 @@ struct epilogue {
     void random_by_group( std::string group, std::string name );
 };
 
-std::ostream &operator<< ( std::ostream &os, npc_need need );
+std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();

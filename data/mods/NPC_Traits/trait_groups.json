@@ -1,149 +1,256 @@
 [
   {
-    "//": "This group picks out several negative and positive traits, with up to 4 rolls of decreasing likelihood.",
-    "type" : "trait_group",
-    "id" : "starting_trait_n_rolls",
+    "//": "This group picks out several negative and positive traits",
+    "type": "trait_group",
+    "id": "starting_trait_n_rolls",
     "subtype": "collection",
     "traits": [
-        {"group": "starting_trait_both_maybe", "prob": 100},
-        {"group": "starting_trait_both_maybe", "prob": 75},
-        {"group": "starting_trait_both_maybe", "prob": 50},
-        {"group": "starting_trait_both_maybe", "prob": 25}
+      { "group": "trait_group_NONADDICTIVE", "prob": 10 },
+      { "group": "trait_group_EASYSLEEPER", "prob": 10 },
+      { "group": "trait_group_ANIMALEMPATH", "prob": 10 },
+      { "group": "trait_group_FASTHEALER", "prob": 10 },
+      { "group": "trait_group_FASTLEARNER", "prob": 10 },
+      { "group": "trait_group_FASTREADER", "prob": 10 },
+      { "group": "trait_group_FLEET", "prob": 10 },
+      { "group": "trait_group_GOODHEARING", "prob": 10 },
+      { "group": "trait_group_GOODMEMORY", "prob": 10 },
+      { "group": "trait_group_DRUNKEN", "prob": 10 },
+      { "group": "trait_group_GOODCARDIO", "prob": 10 },
+      { "group": "trait_group_WAKEFUL", "prob": 10 },
+      { "group": "trait_group_LIGHTEATER", "prob": 10 },
+      { "group": "trait_group_LIGHTSTEP", "prob": 10 },
+      { "group": "trait_group_OPTIMISTIC", "prob": 10 },
+      { "group": "trait_group_PACKMULE", "prob": 10 },
+      { "group": "trait_group_PARKOUR", "prob": 10 },
+      { "group": "trait_group_PRETTY", "prob": 10 },
+      { "group": "trait_group_PSYCHOPATH", "prob": 10 },
+      { "group": "trait_group_EAGLEEYED", "prob": 10 },
+      { "group": "trait_group_MARTIAL_ARTS", "prob": 10 },
+      { "group": "trait_group_LIAR", "prob": 10 },
+      { "group": "trait_group_STRONGBACK", "prob": 10 },
+      { "group": "trait_group_STRONGSTOMACH", "prob": 10 },
+      { "group": "trait_group_THICKSKIN", "prob": 10 },
+      { "group": "trait_group_TOUGH", "prob": 10 },
+      { "group": "trait_group_WEAKSCENT", "prob": 10 },
+      { "group": "trait_group_PAINRESIST", "prob": 10 },
+      { "trait": "CANNIBAL", "prob": 5 },
+      { "trait": "DEFT", "prob": 10 },
+      { "trait": "DISRESISTANT", "prob": 10 },
+      { "trait": "GOURMAND", "prob": 10 },
+      { "trait": "ADRENALINE", "prob": 10 },
+      { "trait": "INFRESIST", "prob": 10 },
+      { "trait": "MASOCHIST", "prob": 10 },
+      { "trait": "NIGHTVISION", "prob": 10 },
+      { "trait": "OUTDOORSMAN", "prob": 10 },
+      { "trait": "POISRESIST", "prob": 10 },
+      { "trait": "QUICK", "prob": 10 },
+      { "trait": "ROBUST", "prob": 10 },
+      { "trait": "SELFAWARE", "prob": 10 },
+      { "trait": "SPIRITUAL", "prob": 10 },
+      { "trait": "STYLISH", "prob": 10 },
+      { "trait": "TERRIFYING", "prob": 10 },
+      { "trait": "TOUGH_FEET", "prob": 10 },
+      { "trait": "ALBINO", "prob": 5 },
+      { "trait": "ASTHMA", "prob": 5 },
+      { "trait": "CHEMIMBALANCE", "prob": 10 },
+      { "trait": "HEAVYSLEEPER", "prob": 10 },
+      { "trait": "HYPEROPIC", "prob": 10 },
+      { "trait": "GLASSJAW", "prob": 10 },
+      { "trait": "ANTIFRUIT", "prob": 10 },
+      { "trait": "MEATARIAN", "prob": 5 },
+      { "trait": "THIRST", "prob": 10 },
+      { "trait": "HOARDER", "prob": 10 },
+      { "trait": "JITTERY", "prob": 10 },
+      { "trait": "ANTIJUNK", "prob": 5 },
+      { "trait": "LACTOSE", "prob": 5 },
+      { "trait": "VEGETARIAN", "prob": 5 },
+      { "trait": "MOODSWINGS", "prob": 10 },
+      { "trait": "SAVANT", "prob": 10 },
+      { "trait": "SCHIZOPHRENIC", "prob": 10 },
+      { "trait": "SQUEAMISH", "prob": 10 },
+      { "trait": "TRIGGERHAPPY", "prob": 10 },
+      { "trait": "ANTIWHEAT", "prob": 5 },
+      { "trait": "WOOLALLERGY", "prob": 5 },
+      { "trait": "INCONSPICUOUS", "prob": 10 }
     ]
   },
   {
-    "//": "This group picks out pos and neg starting traits; 50% pos+neg, 25% only pos, 25% only neg",
-    "type" : "trait_group",
-    "id" : "starting_trait_both_maybe",
+    "//": "This group picks out one of the exluding traits.",
+    "type": "trait_group",
+    "id": "trait_group_NONADDICTIVE",
+    "subtype": "distribution",
+    "traits": [ { "trait": "NONADDICTIVE" }, { "trait": "ADDICTIVE" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_EASYSLEEPER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "EASYSLEEPER" }, { "trait": "INSOMNIA" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_ANIMALEMPATH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "ANIMALEMPATH" }, { "trait": "ANIMALDISCORD" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTHEALER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTHEALER" }, { "trait": "SLOWHEALER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTLEARNER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTREADER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FLEET",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FLEET" }, { "trait": "SLOWRUNNER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_GOODHEARING",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODHEARING" }, { "trait": "BADHEARING" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_GOODMEMORY",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODMEMORY" }, { "trait": "FORGETFUL" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_DRUNKEN",
     "subtype": "distribution",
     "traits": [
-        { "collection" : [
-            {"group": "starting_trait_positive" },
-            {"group": "starting_trait_negative" }
-        ], "prob": 100 },
-        { "collection" : [
-            {"group": "starting_trait_positive" }
-        ], "prob": 25 },
-        { "collection" : [
-            {"group": "starting_trait_negative" }
-        ], "prob": 25 }
+      { "collection": [ { "trait": "DRUNKEN", "prob": 50 }, { "trait": "TOLERANCE", "prob": 50 } ] },
+      { "trait": "LIGHTWEIGHT" }
     ]
   },
   {
-    "//": "This group picks out a single positive starting trait.",
-    "type" : "trait_group",
-    "id" : "starting_trait_positive",
+    "type": "trait_group",
+    "id": "trait_group_GOODCARDIO",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODCARDIO" }, { "trait": "BADCARDIO" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_WAKEFUL",
+    "subtype": "distribution",
+    "traits": [ { "trait": "WAKEFUL" }, { "trait": "SLEEPY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_LIGHTEATER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "LIGHTEATER" }, { "trait": "HUNGER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_LIGHTSTEP",
+    "subtype": "distribution",
+    "traits": [ { "trait": "LIGHTSTEP" }, { "trait": "CLUMSY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_OPTIMISTIC",
+    "subtype": "distribution",
+    "traits": [ { "trait": "OPTIMISTIC" }, { "trait": "BADTEMPER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PACKMULE",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PACKMULE" }, { "trait": "DISORGANIZED" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PARKOUR",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PRETTY",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PRETTY" }, { "trait": "UGLY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PSYCHOPATH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "PACIFIST" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_EAGLEEYED",
+    "subtype": "distribution",
+    "traits": [ { "trait": "EAGLEEYED" }, { "trait": "MYOPIC" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_MARTIAL_ARTS",
     "subtype": "distribution",
     "traits": [
-        { "trait": "EASYSLEEPER" },
-        { "trait": "NONADDICTIVE" },
-        { "trait": "ANIMALEMPATH" },
-        { "trait": "CANNIBAL" },
-        { "trait": "DEFT" },
-        { "trait": "DISRESISTANT" },
-        { "trait": "DRUNKEN" },
-        { "trait": "FASTHEALER" },
-        { "trait": "FASTLEARNER" },
-        { "trait": "FASTREADER" },
-        { "trait": "FLEET" },
-        { "trait": "GOODHEARING" },
-        { "trait": "GOODMEMORY" },
-        { "trait": "GOURMAND" },
-        { "trait": "ADRENALINE" },
-        { "trait": "GOODCARDIO" },
-        { "trait": "INFRESIST" },
-        { "trait": "WAKEFUL" },
-        { "trait": "LIGHTEATER" },
-        { "trait": "LIGHTSTEP" },
-        { "trait": "MARTIAL_ARTS" },
-        { "trait": "MASOCHIST" },
-        { "trait": "MARTIAL_ARTS5" },
-        { "trait": "NIGHTVISION" },
-        { "trait": "OPTIMISTIC" },
-        { "trait": "OUTDOORSMAN" },
-        { "trait": "PACKMULE" },
-        { "trait": "PAINRESIST" },
-        { "trait": "PARKOUR" },
-        { "trait": "POISRESIST" },
-        { "trait": "PRETTY" },
-        { "trait": "PSYCHOPATH" },
-        { "trait": "QUICK" },
-        { "trait": "ROBUST" },
-        { "trait": "EAGLEEYED" },
-        { "trait": "SELFAWARE" },
-        { "trait": "MARTIAL_ARTS2" },
-        { "trait": "MARTIAL_ARTS3" },
-        { "trait": "LIAR" },
-        { "trait": "SPIRITUAL" },
-        { "trait": "STRONGBACK" },
-        { "trait": "STRONGSTOMACH" },
-        { "trait": "STYLISH" },
-        { "trait": "TOLERANCE" },
-        { "trait": "TERRIFYING" },
-        { "trait": "THICKSKIN" },
-        { "trait": "TOUGH" },
-        { "trait": "TOUGH_FEET" },
-        { "trait": "MARTIAL_ARTS4" },
-        { "trait": "WEAKSCENT" }
+      { "trait": "MARTIAL_ARTS" },
+      { "trait": "MARTIAL_ARTS2" },
+      { "trait": "MARTIAL_ARTS3" },
+      { "trait": "MARTIAL_ARTS4" },
+      { "trait": "MARTIAL_ARTS5" }
     ]
   },
   {
-    "//": "This group picks out a single negative starting trait.",
-    "type" : "trait_group",
-    "id" : "starting_trait_negative",
+    "type": "trait_group",
+    "id": "trait_group_LIAR",
     "subtype": "distribution",
-    "traits": [
-        { "trait": "ADDICTIVE" },
-        { "trait": "ALBINO" },
-        { "trait": "ANIMALDISCORD" },
-        { "trait": "ASTHMA" },
-        { "trait": "BADBACK" },
-        { "trait": "BADKNEES" },
-        { "trait": "BADTEMPER" },
-        { "trait": "CHEMIMBALANCE" },
-        { "trait": "CLUMSY" },
-        { "trait": "DISORGANIZED" },
-        { "trait": "HYPEROPIC" },
-        { "trait": "HUNGER" },
-        { "trait": "FLIMSY" },
-        { "trait": "FORGETFUL" },
-        { "trait": "FLIMSY3" },
-        { "trait": "FLIMSY2" },
-        { "trait": "GLASSJAW" },
-        { "trait": "ANTIFRUIT" },
-        { "trait": "MEATARIAN" },
-        { "trait": "HEAVYSLEEPER" },
-        { "trait": "THIRST" },
-        { "trait": "HOARDER" },
-        { "trait": "ILLITERATE" },
-        { "trait": "INSOMNIA" },
-        { "trait": "JITTERY" },
-        { "trait": "ANTIJUNK" },
-        { "trait": "LACTOSE" },
-        { "trait": "BADCARDIO" },
-        { "trait": "LIGHTWEIGHT" },
-        { "trait": "VEGETARIAN" },
-        { "trait": "MOODSWINGS" },
-        { "trait": "MORE_PAIN" },
-        { "trait": "MYOPIC" },
-        { "trait": "PACIFIST" },
-        { "trait": "BADHEARING" },
-        { "trait": "SAVANT" },
-        { "trait": "SCHIZOPHRENIC" },
-        { "trait": "SLEEPY" },
-        { "trait": "SLOWRUNNER" },
-        { "trait": "SLOWHEALER" },
-        { "trait": "SLOWLEARNER" },
-        { "trait": "SLOWREADER" },
-        { "trait": "SQUEAMISH" },
-        { "trait": "SMELLY" },
-        { "trait": "THINSKIN" },
-        { "trait": "TRIGGERHAPPY" },
-        { "trait": "TRUTHTELLER" },
-        { "trait": "UGLY" },
-        { "trait": "WEAKSTOMACH" },
-        { "trait": "ANTIWHEAT" },
-        { "trait": "WOOLALLERGY" }
-    ]
+    "traits": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_STRONGBACK",
+    "subtype": "distribution",
+    "traits": [ { "trait": "STRONGBACK" }, { "trait": "BADBACK" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_STRONGSTOMACH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "STRONGSTOMACH" }, { "trait": "WEAKSTOMACH" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_THICKSKIN",
+    "subtype": "distribution",
+    "traits": [ { "trait": "THICKSKIN" }, { "trait": "THINSKIN" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_TOUGH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "TOUGH" }, { "trait": "FLIMSY" }, { "trait": "FLIMSY2" }, { "trait": "FLIMSY3" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_WEAKSCENT",
+    "subtype": "distribution",
+    "traits": [ { "trait": "WEAKSCENT" }, { "trait": "SMELLY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PAINRESIST",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" } ]
   }
 ]
+

@@ -100,6 +100,11 @@ class recipe_subset
          */
         int get_custom_difficulty( const recipe *r ) const;
 
+        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
+        bool empty_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
+
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
             const std::string &cat,
