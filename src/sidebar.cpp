@@ -447,7 +447,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
         nc_color col_indf1 = c_light_gray;
 
-        float strain = veh->strain();
+        const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
@@ -456,10 +456,10 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
-        bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
-        // Logic below is not applicable to translated units and should be changed
-        int velx    = metric ? 4 : 3; // strlen(units) + 1
-        int cruisex = metric ? 9 : 8; // strlen(units) + 6
+        const bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
+        // @todo: Logic below is not applicable to translated units and should be changed
+        const int velx    = metric ? 4 : 3; // strlen(units) + 1
+        const int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
         if( !sideStyle ) {
             if( !veh->cruise_on ) {
@@ -505,10 +505,10 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
-        int wx  = sideStyle ? 18 : 12;
-        int wy  = sideStyle ?  0 :  3;
-        int dx = sideStyle ?  0 :  7;
-        int dy = sideStyle ?  1 :  0;
+        const int wx = sideStyle ? 18 : 12;
+        const int wy = sideStyle ?  0 :  3;
+        const int dx = sideStyle ?  0 :  7;
+        const int dy = sideStyle ?  1 :  0;
         mvwprintz( w, wy + dy * 0, wx + dx * 0, stat_color( get_str_bonus() ), _( "Str %d" ), str_cur );
         mvwprintz( w, wy + dy * 1, wx + dx * 1, stat_color( get_dex_bonus() ), _( "Dex %d" ), dex_cur );
         mvwprintz( w, wy + dy * 2, wx + dx * 2, stat_color( get_int_bonus() ), _( "Int %d" ), int_cur );
@@ -542,5 +542,4 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         }
     }
 }
-
 
