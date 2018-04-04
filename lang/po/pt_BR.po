@@ -5,14 +5,15 @@
 # Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>, 2016-2017
 # Joao Pedro de Campos Magalhaes <dragon530698@gmail.com>, 2017
 # Anti-Seis Joga <arbitrium.vincit.omnia@hotmail.com>, 2016
+# Thiago Keizo Oshima Tatehira <thiagokeizo@gmail.com>, 2018
 # Vítor da Silva <lordmallisyt@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-23 09:43-0400\n"
-"PO-Revision-Date: 2018-03-23 22:37+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2018-03-30 05:45-0400\n"
+"PO-Revision-Date: 2018-04-03 22:34+0000\n"
+"Last-Translator: Thiago Keizo Oshima Tatehira <thiagokeizo@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,7 +136,7 @@ msgid ""
 "homebase."
 msgstr "Se verdadeiro, irá permitir a coleta de itens a um piso em volta do jogador. Você pode estabelecer zonas Sem Auto Coleta com o Gerenciador de Zonas tecla 'Y' por ex. sua base principal. "
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto pickup light items"
 msgstr "Auto coletar itens leves"
 
@@ -145,7 +146,7 @@ msgid ""
 "You must also set the small items option.  '0' disables this option"
 msgstr "Automaticamente coletar itens de peso menor ou igual a [opção] * 50 gramas. Você tambem deve escolher a opção de itens pequenos. '0' desativa essa opção."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto pickup small items"
 msgstr "Auto coletar itens pequenos"
 
@@ -176,27 +177,27 @@ msgid ""
 "weight limit."
 msgstr "Se falso, irá fazer com que o jogador largue itens novos que o façam ultrapassar o limite de peso."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto-safe mode"
 msgstr "Modo seguro automático"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, turns safemode automatically back on after it being disabled "
 "beforehand.  See option 'Turns to re-enable safe mode'"
 msgstr "Se verdadeiro, liga o modo seguro automaticamente logo quando ele for desligado. Veja a opção 'Turnos para reativar o modo seguro'"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Turns to re-enable safe mode"
 msgstr "Turnos para reativar o modo seguro"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe "
 "Mode proximity distance'."
 msgstr "Número de turnos para o modo seguro ser ativado se não houver inimigos que estão 'distância de proximidade do modo seguro\""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode"
 msgstr "Modo Seguro"
 
@@ -206,7 +207,7 @@ msgid ""
 "is approaching."
 msgstr "Se ativado, irá pausar o jogo e mostrar um aviso se houver algum monstro/npc se aproximando."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode proximity distance"
 msgstr "Distância de proximidade do Modo Seguro"
 
@@ -216,7 +217,7 @@ msgid ""
 " a warning.  0 = Max player viewdistance."
 msgstr "Se o modo seguro estiver ativado, define a distância do inimigo para o jogador no qual se deve acionar o aviso. 0= Visão máxima do jogador"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode when driving"
 msgstr "Modo Seguro enquanto estiver dirigindo"
 
@@ -237,7 +238,7 @@ msgid ""
 " = disabled."
 msgstr "Se ativado, monstros periodicamente avançarão turnos de jogo. Esse valor é o intervalo entre cada turno, em segundos. Funciona melhor com o Modo Seguro desativado.  0 = desativado."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Periodically autosave"
 msgstr "Autosave periódico"
 
@@ -341,7 +342,7 @@ msgstr "Escolher pacote de som"
 msgid "Choose the soundpack you want to use."
 msgstr "Escolha o pacote de som que deseja usar."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Music Volume"
 msgstr "Volume de Música"
 
@@ -349,7 +350,7 @@ msgstr "Volume de Música"
 msgid "Adjust the volume of the music being played in the background."
 msgstr "Ajustar o volume da música tocando ao fundo."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sound Effect Volume"
 msgstr "Volume de Efeitos Sonoros"
 
@@ -692,7 +693,7 @@ msgstr "Mostrar símbolos dos itens"
 msgid "If true, show item symbols in inventory and pick up menu."
 msgstr "Se verdadeiro, irá mostrar símbolos dos itens no inventário e no menu de coleta."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Enable Joystick"
 msgstr "Habilitar Joystick"
 
@@ -797,7 +798,7 @@ msgstr "Escolher tileset"
 msgid "Choose the tileset you want to use."
 msgstr "Escolha o tileset que você quer usar."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Pixel Minimap"
 msgstr "Minimapa de Pixels"
 
@@ -808,7 +809,7 @@ msgid ""
 "gameplay."
 msgstr "Se verdadeiro, mostra o minimapa em pixels depois de carregar um jogo salvo. Use a ação 'Alternar Minimapa de Pixels' para mudar sua visibilidade durante o jogo."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Pixel Minimap height"
 msgstr "Altura do Minimapa de Pixels"
 
@@ -818,7 +819,7 @@ msgid ""
 "default spacing."
 msgstr "Altura do minimapa de pixels, medido em linhas do terminal. Coloque 0 para o espaçamento padrão."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Maintain Pixel Minimap aspect ratio"
 msgstr "Manter proporção da tela do Minimapa de Pixels"
 
@@ -977,7 +978,7 @@ msgid ""
 "dependent, capped - Off: None at all."
 msgstr "Ajusta o nível de degradação das habilidades. Padrão: Cataclysm padrão - Limite: Limita no nível 2 - Int: Depende da inteligência - LimInt: Depende da inteligência, limitado pelo nível. Desligado: sem degradação."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Experimental 3D Field of Vision"
 msgstr "Campo de visão experimental 3D"
 
@@ -1235,21 +1236,21 @@ msgid ""
 "If true, spawn zombies at shelters.  Makes the starting game a lot harder."
 msgstr "Se verdadeiro, irá spawnar zumbis em abrigos. O início do jogo vai ser bem mais difícil."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Static npcs"
 msgstr "NPCs estáticos"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, the game will spawn static NPC at the start of the game, requires "
 "world reset."
 msgstr "Se verdadeiro, o jogo irá spawnar NPCs estáticos no começo do jogo, precisa resetar o mundo."
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Random npcs"
 msgstr "NPCs aleatórios"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "If true, the game will randomly spawn NPC during gameplay."
 msgstr "Se verdadeiro, o jogo irá aleatoriamente spawnar NPCs ao longo do tempo."
 
@@ -2398,12 +2399,12 @@ msgstr "Uma mistura perigosa feita com produtos de limpeza caseiros, improvisada
 
 #: lang/json/AMMO_from_json.py
 msgid "chain link"
-msgstr ""
+msgstr "elo de Corrente"
 
 #. ~ Description for chain link
 #: lang/json/AMMO_from_json.py
 msgid "Small metal rings, suitable for constructing chainmail."
-msgstr ""
+msgstr "Pequenos anéis de metal, apropriado para a construção de cota de malha"
 
 #: lang/json/AMMO_from_json.py
 msgid "fire-hardened wooden arrow"
@@ -2525,7 +2526,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive arrow"
-msgstr ""
+msgstr "flecha explosiva"
 
 #. ~ Description for explosive arrow
 #: lang/json/AMMO_from_json.py
@@ -2801,8 +2802,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "calcium carbide"
 msgid_plural "calcium carbide"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "carbeto de cálcio"
+msgstr[1] "carbeto de cálcio"
 
 #. ~ Description for calcium carbide
 #: lang/json/AMMO_from_json.py
@@ -16730,13 +16731,7 @@ msgid ""
 "suspect that one of them is a police informant."
 msgstr ""
 
-#: lang/json/BOOK_from_json.py
-msgid "crime_novel"
-msgid_plural "crime_novels"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for crime_novel
+#. ~ Description for crime novel
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A story about three people in the fictional city of Los Santos, a gangster, "
@@ -16967,7 +16962,7 @@ msgstr ""
 #. ~ Description for war novel
 #: lang/json/BOOK_from_json.py
 msgid ""
-"A story about a Bosnean citizen who goes through many hardships and near "
+"A story about a Bosnian citizen who goes through many hardships and near "
 "death during the breakup of Yugoslavia."
 msgstr ""
 
@@ -32781,6 +32776,19 @@ msgid ""
 "used to lift up to 3.5 metric tonnes."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "pallet lifter"
+msgid_plural "pallet lifters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pallet lifter
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A makeshift pallet lifter.  If attached to a frame it could be used to lift "
+"up to 0.5 metric tonnes."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
 msgid_plural "vehicle crafting rigs"
@@ -41469,20 +41477,6 @@ msgid ""
 "identify you as a friendly, and attack all enemies with a built-in SMG."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
-msgid "brazier"
-msgid_plural "braziers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for brazier
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a large metal stand with slots on the side.  You can set it "
-"somewhere through the construction menu and then set fires in it with no "
-"risk of spreading."
-msgstr ""
-
 #: lang/json/TOOL_from_json.py
 msgid "brick kiln"
 msgid_plural "brick kilns"
@@ -46374,6 +46368,19 @@ msgid ""
 " and the way it shimmers makes you uneasy."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "brazier"
+msgid_plural "braziers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for brazier
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A large metal stand used to contain a fire.  Fires set in a brazier will not"
+" spread to surrounding flammable objects."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "electric lantern (off)"
 msgid_plural "electric lanterns (off)"
@@ -49530,10 +49537,6 @@ msgstr "Colocar Forja"
 #: lang/json/construction_from_json.py
 msgid "Place Still"
 msgstr "Colocar Alambique"
-
-#: lang/json/construction_from_json.py
-msgid "Place Brazier"
-msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Water Well"
@@ -53708,7 +53711,8 @@ msgid ""
 "remaining intact for re-use."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py
+#: lang/json/gunmod_from_json.py lang/json/gunmod_from_json.py
 msgctxt "gun_type_type"
 msgid "rifle"
 msgstr ""
@@ -53744,6 +53748,16 @@ msgstr ""
 #: lang/json/gunmod_from_json.py lang/json/gunmod_from_json.py
 msgctxt "gun_type_type"
 msgid "smg"
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "acid spit gun"
+msgid_plural "acid spit guns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid "Fake gun that fires acid globs."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -59170,6 +59184,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Pick a lock"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Deploy item"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -67307,9 +67325,9 @@ msgstr "Casca"
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your skin is coated in a light bark, like that of a tree.  This provides "
-"resistance to bashing and cutting damage and minor protection from fire.  "
-"Greatly reduces wet effects."
-msgstr "Sua pele está coberta por uma leve casca, assim como uma árvore. Isso fornece resistência a danos de corte e impacto e menor proteção contra o fogo. Reduz muito os feitos por estar molhado."
+"resistance to cutting damage and minor protection from fire.  Greatly "
+"reduces wet effects."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Thorns"
@@ -93729,10 +93747,6 @@ msgid "Some of your existing bionics are lost!"
 msgstr ""
 
 #: src/bionics.cpp
-msgid "Something went terribly wrong, you mutate!"
-msgstr ""
-
-#: src/bionics.cpp
 msgid "The installation is faulty!"
 msgstr ""
 
@@ -104276,6 +104290,11 @@ msgstr ""
 msgid "Take down the %s?"
 msgstr ""
 
+#: src/iexamine.cpp src/map.cpp
+#, c-format
+msgid "You take down the %s."
+msgstr ""
+
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr ""
@@ -110056,6 +110075,23 @@ msgid "The lock stumps your efforts to pick it."
 msgstr ""
 
 #: src/iuse_actor.cpp
+msgid "Deploy where?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You attempt to become one with the furniture.  It doesn't work."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You can't deploy a %s there."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There is already furniture at that location."
+msgstr ""
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "There isn't anything new on the %s."
 msgstr ""
@@ -112228,11 +112264,6 @@ msgstr ""
 #: src/map.cpp
 #, c-format
 msgid "The washing machine in the %s has finished washing."
-msgstr ""
-
-#: src/map.cpp
-#, c-format
-msgid "You take down the %s."
 msgstr ""
 
 #: src/map.cpp
@@ -116398,13 +116429,13 @@ msgid "%1$s (%2$d)"
 msgstr "%1$s (%2$d)"
 
 #: src/newcharacter.cpp
+msgid "Profession items:"
+msgstr "Objetos da profissão:"
+
+#: src/newcharacter.cpp
 msgctxt "set_profession_item"
 msgid "None"
 msgstr "Nada"
-
-#: src/newcharacter.cpp
-msgid "Profession items:"
-msgstr "Objetos da profissão:"
 
 #: src/newcharacter.cpp
 msgid "Profession bionics:"
@@ -119443,6 +119474,14 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Auto pickup weight limit"
+msgstr ""
+
+#: src/options.cpp
+msgid "Auto pickup volume limit"
+msgstr ""
+
+#: src/options.cpp
 msgid "List items within no auto pickup zones"
 msgstr ""
 
@@ -119483,9 +119522,53 @@ msgid "Pulp Adjacent"
 msgstr ""
 
 #: src/options.cpp
+msgid "Safe mode"
+msgstr ""
+
+#: src/options.cpp
+msgid "Safe mode proximity distance"
+msgstr ""
+
+#: src/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player view distance."
+msgstr ""
+
+#: src/options.cpp
+msgid "Safe mode when driving"
+msgstr ""
+
+#: src/options.cpp
+msgid "Auto reactivate safe mode"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, safe mode will automatically reactivate after a certain number of "
+"turns.  See option 'Turns to auto reactivate safe mode.'"
+msgstr ""
+
+#: src/options.cpp
+msgid "Turns to auto reactivate safe mode"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Number of turns after which safe mode is reactivated. Will only reactivate "
+"if no hostiles are in 'Safe mode proximity distance.'"
+msgstr ""
+
+#: src/options.cpp
+msgid "Autosave"
+msgstr ""
+
+#: src/options.cpp
+msgid "Music volume"
+msgstr ""
+
+#: src/options.cpp
+msgid "Sound effect volume"
 msgstr ""
 
 #: src/options.cpp
@@ -119556,7 +119639,15 @@ msgid "Vertical"
 msgstr ""
 
 #: src/options.cpp
-msgid "Pixel Minimap drawing mode"
+msgid "Enable joystick"
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap"
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap drawing mode"
 msgstr ""
 
 #: src/options.cpp
@@ -119572,11 +119663,19 @@ msgid "Dots"
 msgstr ""
 
 #: src/options.cpp
-msgid "Pixel Minimap brightness"
+msgid "Pixel minimap brightness"
 msgstr ""
 
 #: src/options.cpp
 msgid "Overall brightness of pixel-detail minimap."
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap height"
+msgstr ""
+
+#: src/options.cpp
+msgid "Maintain pixel minimap aspect ratio"
 msgstr ""
 
 #: src/options.cpp
@@ -119603,6 +119702,10 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Experimental 3D field of vision"
+msgstr ""
+
+#: src/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities, roads and any"
 " scenario requiring a city start."
@@ -119610,6 +119713,24 @@ msgstr ""
 
 #: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."
+msgstr ""
+
+#: src/options.cpp
+msgid "Static NPCs"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, static NPCs will spawn at pre-defined locations. Requires world "
+"reset."
+msgstr ""
+
+#: src/options.cpp
+msgid "Random NPCs"
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, the game will randomly spawn NPCs during gameplay."
 msgstr ""
 
 #: src/options.cpp
