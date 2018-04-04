@@ -3,6 +3,10 @@
   "type": "bionic",
   "name": "Solar Panels",
   "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-  "occupied_bodyparts": [ [ "TORSO", 20 ] ],
-  "flags": [ "BIONIC_POWER_SOURCE" ]
+  "occupied_bodyparts": [
+    [ "TORSO", 20 ]
+  ],
+  "flags": [
+    "BIONIC_POWER_SOURCE"
+  ]
 }
