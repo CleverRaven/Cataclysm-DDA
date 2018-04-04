@@ -498,10 +498,6 @@ void player::load(JsonObject &data)
         remove_mutation( trait_MYOPIC );
     }
 
-    if( has_bionic( bionic_id( "bio_solar" ) ) ) {
-        remove_bionic( bionic_id( "bio_solar" ) );
-    }
-
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
 }
