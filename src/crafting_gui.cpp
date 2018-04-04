@@ -226,7 +226,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
-            draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes );
+            draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
 
             available.clear();
 
