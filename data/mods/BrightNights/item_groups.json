@@ -12,7 +12,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
-      [ "bio_solar", 10 ]
+      [ "bn_bio_solar", 10 ]
     ]
   },
   {
@@ -21,7 +21,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
-      [ "bio_solar", 10 ]
+      [ "bn_bio_solar", 10 ]
     ]
   },
   {
@@ -30,7 +30,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
-      [ "bio_solar", 5 ]
+      [ "bn_bio_solar", 5 ]
     ]
   },
   {
@@ -39,16 +39,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
-      [ "bio_solar", 15 ]
-    ]
-  },
-  {
-    "id" : "bionics_op",
-    "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
-    "items": [
-      [ "bio_solar", 15 ]
+      [ "bn_bio_solar", 15 ]
     ]
   },
   {
