@@ -36,6 +36,96 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+enum face_type : int {
+    face_human = 0,
+    face_bird,
+    face_bear,
+    face_cat,
+    num_face_types
+};
+
+std::string morale_emotion( const int morale_cur, const face_type face,
+                            const bool horizontal_style )
+{
+    if( horizontal_style ) {
+        if( face == face_bear || face == face_cat ) {
+            if( morale_cur >= 200 ) {
+                return "@W@";
+            } else if( morale_cur >= 100 ) {
+                return "OWO";
+            } else if( morale_cur >= 50 ) {
+                return "owo";
+            } else if( morale_cur >= 10 ) {
+                return "^w^";
+            } else if( morale_cur >= -10 ) {
+                return "-w-";
+            } else if( morale_cur >= -50 ) {
+                return "-m-";
+            } else if( morale_cur >= -100 ) {
+                return "TmT";
+            } else if( morale_cur >= -200 ) {
+                return "XmX";
+            } else {
+                return "@m@";
+            }
+        } else if( face == face_bird ) {
+            if( morale_cur >= 200 ) {
+                return "@v@";
+            } else if( morale_cur >= 100 ) {
+                return "OvO";
+            } else if( morale_cur >= 50 ) {
+                return "ovo";
+            } else if( morale_cur >= 10 ) {
+                return "^v^";
+            } else if( morale_cur >= -10 ) {
+                return "-v-";
+            } else if( morale_cur >= -50 ) {
+                return ".v.";
+            } else if( morale_cur >= -100 ) {
+                return "TvT";
+            } else if( morale_cur >= -200 ) {
+                return "XvX";
+            } else {
+                return "@v@";
+            }
+        } else if( morale_cur >= 200 ) {
+            return "@U@";
+        } else if( morale_cur >= 100 ) {
+            return "OuO";
+        } else if( morale_cur >= 50 ) {
+            return "^u^";
+        } else if( morale_cur >= 10 ) {
+            return "n_n";
+        } else if( morale_cur >= -10 ) {
+            return "-_-";
+        } else if( morale_cur >= -50 ) {
+            return "-n-";
+        } else if( morale_cur >= -100 ) {
+            return "TnT";
+        } else if( morale_cur >= -200 ) {
+            return "XnX";
+        } else {
+            return "@n@";
+        }
+    } else if( morale_cur >= 100 ) {
+        return "8D";
+    } else if( morale_cur >= 50 ) {
+        return ":D";
+    } else if( face == face_cat && morale_cur >= 10 ) {
+        return ":3";
+    } else if( face != face_cat && morale_cur >= 10 ) {
+        return ":)";
+    } else if( morale_cur >= -10 ) {
+        return ":|";
+    } else if( morale_cur >= -50 ) {
+        return "):";
+    } else if( morale_cur >= -100 ) {
+        return "D:";
+    } else {
+        return "D8";
+    }
+}
+
 void draw_HP( const player &p, const catacurses::window &w_HP )
 {
     werase( w_HP );
@@ -359,85 +449,18 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( morale_cur <= -10 ) {
         col_morale = c_red;
     }
-    const char *morale_str;
-    if( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
-        if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
-            if( morale_cur >= 200 ) {
-                morale_str = "@W@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OWO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "owo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^w^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-w-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = "-m-";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TmT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XmX";
-            } else {
-                morale_str = "@m@";
-            }
-        } else if( has_trait( trait_THRESH_BIRD ) ) {
-            if( morale_cur >= 200 ) {
-                morale_str = "@v@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OvO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "ovo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^v^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-v-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = ".v.";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TvT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XvX";
-            } else {
-                morale_str = "@v@";
-            }
-        } else if( morale_cur >= 200 ) {
-            morale_str = "@U@";
-        } else if( morale_cur >= 100 ) {
-            morale_str = "OuO";
-        } else if( morale_cur >= 50 ) {
-            morale_str = "^u^";
-        } else if( morale_cur >= 10 ) {
-            morale_str = "n_n";
-        } else if( morale_cur >= -10 ) {
-            morale_str = "-_-";
-        } else if( morale_cur >= -50 ) {
-            morale_str = "-n-";
-        } else if( morale_cur >= -100 ) {
-            morale_str = "TnT";
-        } else if( morale_cur >= -200 ) {
-            morale_str = "XnX";
-        } else {
-            morale_str = "@n@";
-        }
-    } else if( morale_cur >= 100 ) {
-        morale_str = "8D";
-    } else if( morale_cur >= 50 ) {
-        morale_str = ":D";
-    } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":3";
-    } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":)";
-    } else if( morale_cur >= -10 ) {
-        morale_str = ":|";
-    } else if( morale_cur >= -50 ) {
-        morale_str = "):";
-    } else if( morale_cur >= -100 ) {
-        morale_str = "D:";
-    } else {
-        morale_str = "D8";
+
+    face_type fc = face_human;
+    if( has_trait( trait_THRESH_FELINE ) ) {
+        fc = face_cat;
+    } else if( has_trait( trait_THRESH_URSINE ) ) {
+        fc = face_bear;
+    } else if( has_trait( trait_THRESH_BIRD ) ) {
+        fc = face_bird;
     }
-    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
+
+    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale,
+               morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
