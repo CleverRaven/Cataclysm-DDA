@@ -45,6 +45,7 @@ warning_suppressed_list = {
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
+    "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
 }
 
