@@ -41,8 +41,7 @@
     "ident": "acidchitin",
     "copy-from": "chitin",
     "name": "Biosilicified Chitin",
-    "density": 15,
-    "acid_resist": 13
+    "proportional": { "density": 1.5, "acid_resist": 2.167 }
   },
   {
     "type": "material",

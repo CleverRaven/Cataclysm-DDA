@@ -230,8 +230,8 @@
         "name_plural": "chunks of biosilicified chitin",
         "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
         "material": "acidchitin",
-        "weight": 111,
-        "bashing": 2
+        "proportional:" { "weight": 1.25 },
+        "relative:" { "bashing": 2 }
     },
     {
         "type":"GENERIC",

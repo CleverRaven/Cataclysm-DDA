@@ -115,15 +115,9 @@
     "name": "pair of biosilicified chitin boots",
     "name_plural": "pairs of biosilicified chitin boots",
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
-    "weight": 1823,
-    "volume": 19,
-    "price": 16875,
-    "bashing": 6,
     "material": [ "acidchitin" ],
-    "encumbrance": 21,
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 3
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 2, "material_thickness": 1 }
   },
   {
     "id": "boots_combat",

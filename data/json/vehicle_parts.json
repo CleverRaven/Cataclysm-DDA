@@ -2073,7 +2073,7 @@
         "id" : "plating_acidchitin",
         "copy-from": "plating_chitin",
         "name" : "biosilicified chitin plating",
-        "durability" : 750,
+        "proportional": { "durability" : 1.5 },
         "item" : "acidchitin_plate",
         "breaks_into" : [
             {"item": "acidchitin_piece", "count": [6, 19]}
