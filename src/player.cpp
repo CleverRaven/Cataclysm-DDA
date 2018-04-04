@@ -778,9 +778,6 @@ void player::reset_stats()
         update_mental_focus();
     }
 
-    recalc_sight_limits();
-    recalc_speed_bonus();
-
     // Effects
     for( auto maps : *effects ) {
         for( auto i : maps.second ) {
@@ -794,6 +791,9 @@ void player::reset_stats()
     }
 
     Character::reset_stats();
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
 }
 
 void player::process_turn()
