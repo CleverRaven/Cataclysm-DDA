@@ -185,6 +185,16 @@ int define_temp_level( const int lvl )
     return 1;
 }
 
+nc_color stat_color( const int bonus )
+{
+    if( bonus > 0 ) {
+        return c_green;
+    } else if( bonus < 0 ) {
+        return c_red;
+    }
+    return c_white;
+}
+
 void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
 {
     bool sideStyle = use_narrow_sidebar();
@@ -495,56 +505,20 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
-        nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-                 col_per = c_white, col_spd = c_white, col_time = c_white;
-        int str_bonus = get_str_bonus();
-        int dex_bonus = get_dex_bonus();
-        int int_bonus = get_int_bonus();
-        int per_bonus = get_per_bonus();
-        int spd_bonus = get_speed_bonus();
-        if( str_bonus < 0 ) {
-            col_str = c_red;
-        }
-        if( str_bonus > 0 ) {
-            col_str = c_green;
-        }
-        if( dex_bonus  < 0 ) {
-            col_dex = c_red;
-        }
-        if( dex_bonus  > 0 ) {
-            col_dex = c_green;
-        }
-        if( int_bonus  < 0 ) {
-            col_int = c_red;
-        }
-        if( int_bonus  > 0 ) {
-            col_int = c_green;
-        }
-        if( per_bonus  < 0 ) {
-            col_per = c_red;
-        }
-        if( per_bonus  > 0 ) {
-            col_per = c_green;
-        }
-        if( spd_bonus < 0 ) {
-            col_spd = c_red;
-        }
-        if( spd_bonus > 0 ) {
-            col_spd = c_green;
-        }
-
         int wx  = sideStyle ? 18 : 12;
         int wy  = sideStyle ?  0 :  3;
         int dx = sideStyle ?  0 :  7;
         int dy = sideStyle ?  1 :  0;
-        mvwprintz( w, wy + dy * 0, wx + dx * 0, col_str, _( "Str %d" ), str_cur );
-        mvwprintz( w, wy + dy * 1, wx + dx * 1, col_dex, _( "Dex %d" ), dex_cur );
-        mvwprintz( w, wy + dy * 2, wx + dx * 2, col_int, _( "Int %d" ), int_cur );
-        mvwprintz( w, wy + dy * 3, wx + dx * 3, col_per, _( "Per %d" ), per_cur );
+        mvwprintz( w, wy + dy * 0, wx + dx * 0, stat_color( get_str_bonus() ), _( "Str %d" ), str_cur );
+        mvwprintz( w, wy + dy * 1, wx + dx * 1, stat_color( get_dex_bonus() ), _( "Dex %d" ), dex_cur );
+        mvwprintz( w, wy + dy * 2, wx + dx * 2, stat_color( get_int_bonus() ), _( "Int %d" ), int_cur );
+        mvwprintz( w, wy + dy * 3, wx + dx * 3, stat_color( get_per_bonus() ), _( "Per %d" ), per_cur );
 
         const int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
-        mvwprintz( w, spdy, spdx, col_spd, _( "Spd %d" ), get_speed() );
+        mvwprintz( w, spdy, spdx, stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
+
+        nc_color col_time = c_white;
         if( this->weight_carried() > this->weight_capacity() ) {
             col_time = h_black;
         }
