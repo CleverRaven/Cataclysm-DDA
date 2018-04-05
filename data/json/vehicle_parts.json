@@ -385,54 +385,6 @@
         "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
-        "id" : "stowboard_horizontal",
-        "name" : "stow board",
-        "symbol" : "h",
-        "color" : "white",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 200,
-        "size" : 250,
-        "item" : "sheet_metal",
-        "difficulty" : 2,
-        "location" : "center",
-        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdstowboard_horizontal",
-        "copy-from": "stowboard_horizontal",
-        "name" : "heavy duty stow board",
-        "color" : "light_gray",
-        "broken_color" : "dark_gray",
-        "durability" : 830,
-        "size" : 190,
-        "item" : "steel_plate"
-    },{
-        "type":"vehicle_part",
-        "id" : "stowboard_vertical",
-        "name" : "stow board",
-        "symbol" : "j",
-        "color" : "white",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 200,
-        "size" : 250,
-        "item" : "sheet_metal",
-        "difficulty" : 2,
-        "location" : "center",
-        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
-    },{
-        "type":"vehicle_part",
-        "id" : "hdstowboard_vertical",
-        "copy-from": "stowboard_vertical",
-        "name" : "heavy duty stow board",
-        "color" : "light_gray",
-        "broken_color" : "dark_gray",
-        "durability" : 830,
-        "size" : 190,
-        "item" : "steel_plate"
-    },{
-        "type" : "vehicle_part",
         "id" : "roof_cloth",
         "name" : "cloth roof",
         "symbol" : "#",
