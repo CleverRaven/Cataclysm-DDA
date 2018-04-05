@@ -18,10 +18,14 @@
 // Calculated to run out at 60 squares.
 // Cumulative transparency should drop to 0.1 or lower over 60 squares,
 // Bright sunlight should drop to LIGHT_AMBIENT_LOW over 60 squares.
-#define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
+//#define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
+
+// Eyeballed to be half of the above and tested to drop to LIGHT_AMBIENT_LOW over 120 squares.
+#define LIGHT_TRANSPARENCY_OPEN_AIR   0.0155
 #define LIGHT_TRANSPARENCY_CLEAR 1
 
 #define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / (float)b) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
+
 
 
 enum lit_level {

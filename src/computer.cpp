@@ -512,10 +512,10 @@ void computer::activate_function( computer_action action )
     break;
 
     case COMPACT_MAP_SEWER: {
-        g->u.moves -= 30;
+        g->u.moves -= DISTANCE_FROM_CENTER / 2;
         const tripoint center = g->u.global_omt_location();
-        for (int i = -60; i <= 60; i++) {
-            for (int j = -60; j <= 60; j++) {
+        for (int i = -DISTANCE_FROM_CENTER; i <= DISTANCE_FROM_CENTER; i++) {
+            for (int j = -DISTANCE_FROM_CENTER; j <= DISTANCE_FROM_CENTER; j++) {
                 const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
                 if (is_ot_type("sewer", oter) || is_ot_type("sewage", oter)) {
                     overmap_buffer.set_seen(center.x + i, center.y + j, center.z, true);

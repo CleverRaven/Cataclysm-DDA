@@ -5695,18 +5695,27 @@ const visibility_variables &map::get_visibility_variables_cache() const {
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
     const int dist = rl_dist( g->u.pos(), p );
+    
+    // Being outside of the world bubble overrides Clairvoyance.
+    if(p.x < 0 || p.y < 0)
+    {
+        return LL_BLANK;
+    }
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
         return LL_BRIGHT;
     }
+
     const auto &map_cache = get_cache_ref(p.z);
     bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
+    const int unimpaired_range = g->u.unimpaired_range();
+
+    if( dist > unimpaired_range ) {
         if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
             return LL_BRIGHT_ONLY;
         } else {

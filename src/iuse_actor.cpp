@@ -1030,7 +1030,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
     const float light_level = g->natural_light_level( pos.z );
     if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-        light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+        light_level >= LIGHT_SIXTY_F && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }
 

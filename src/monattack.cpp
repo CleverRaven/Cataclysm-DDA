@@ -4512,7 +4512,7 @@ bool mattack::grenadier(monster *const z)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return false;
     }
-    int ret = grenade_helper(z, target, 30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, DISTANCE_FROM_CENTER, grenades);
     if (ret == -1) {
         // Something broke badly, disable our special
         z->disable_special("GRENADIER");
@@ -4545,7 +4545,7 @@ bool mattack::grenadier_elite(monster *const z)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return false;
     }
-    int ret = grenade_helper(z, target, 30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, DISTANCE_FROM_CENTER, grenades);
     if (ret == -1) {
         // Something broke badly, disable our special
         z->disable_special("GRENADIER_ELITE");

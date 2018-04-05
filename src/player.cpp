@@ -2756,8 +2756,8 @@ float player::active_light() const
 
     lumination = ( float )maxlum;
 
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
+    if( lumination < DISTANCE_FROM_CENTER && has_active_bionic( bio_flashlight ) ) {
+        lumination = DISTANCE_FROM_CENTER;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && has_effect( effect_glowing ) ) {
@@ -2810,7 +2810,7 @@ int player::sight_range( int light_level ) const
 
 int player::unimpaired_range() const
 {
-    return std::min( sight_max, 60 );
+    return std::min( sight_max, PLAYER_VIEW_DISTANCE_INT );
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )

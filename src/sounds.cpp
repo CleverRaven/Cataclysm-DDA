@@ -175,7 +175,7 @@ int get_signal_for_hordes( const centroid &centr )
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
     const int vol = centr.volume - weather_data( g->weather ).sound_attn;
-    const int min_vol_cap = 60; //Hordes can't hear volume lower than this
+    const int min_vol_cap = DISTANCE_FROM_CENTER; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap

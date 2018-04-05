@@ -30,7 +30,7 @@
 // only can wear a maximum of two of any type of clothing
 #define MAX_WORN_PER_TYPE 2
 
-#define MAPSIZE 11
+#define MAPSIZE 21
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
@@ -86,7 +86,24 @@
 #define MAX_STAT 20
 
 /** Maximum range at which ranged attacks can be executed */
-#define RANGE_HARD_CAP 60
+#define RANGE_HARD_CAP 120
+
+/** Player view distance */
+#define PLAYER_VIEW_DISTANCE 120.0f
+
+/** Player view distance INT */
+#define PLAYER_VIEW_DISTANCE_INT 120
+
+/** 60... kind of related... but not to view distance exactly? */
+#define DISTANCE_FROM_CENTER 60
+
+#define LIGHT_SIXTY_F 60.0f
+
+/** Just 60... for not map/distance related reasons INT */
+#define SIXTY 60
+
+/** Just 0.60... for not map/distance related reasons INT */
+#define Z_SIXTY 0.60
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;

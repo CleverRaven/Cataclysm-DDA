@@ -489,7 +489,7 @@ void cast_zlight(
         return;
     }
 
-    float radius = 60.0f - offset_distance;
+    float radius = PLAYER_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -801,7 +801,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         if( !is_camera ) {
             offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
         } else {
-            offsetDistance = 60 - veh->part_info( mirror ).bonus *
+            offsetDistance = PLAYER_VIEW_DISTANCE_INT - veh->part_info( mirror ).bonus *
                                   veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
             seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
@@ -842,7 +842,7 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const int row, float start, const float end, double cumulative_transparency )
 {
     float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    float radius = PLAYER_VIEW_DISTANCE - offsetDistance;
     if( start < end ) {
         return;
     }
