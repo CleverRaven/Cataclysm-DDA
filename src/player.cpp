@@ -1679,7 +1679,7 @@ int player::blood_loss( body_part bp ) const
     } else if( bp == bp_head ) {
         blood_loss = ( 100 - 100 * hp_cur[hp_head] / hp_max[hp_head] );
     }
-    return blood_loss;
+    return std::max( blood_loss, 0 );
 }
 
 void player::temp_equalizer( body_part bp1, body_part bp2 )
