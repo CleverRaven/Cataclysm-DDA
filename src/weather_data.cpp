@@ -42,7 +42,7 @@ weather_datum const weather_data( weather_type const type )
      * Weather types data definition.
      * Name, color in UI, ranged penalty, sight penalty,
      * light modifier, sound attenuation, warn player?
-     * Note light modifier assumes baseline of DAYLIGHT_LEVEL at DISTANCE_FROM_CENTER
+     * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
      */
     static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
             weather_datum {

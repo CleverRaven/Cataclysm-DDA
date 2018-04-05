@@ -5712,9 +5712,8 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    const int unimpaired_range = g->u.unimpaired_range();
 
-    if( dist > unimpaired_range ) {
+    if( dist > g->u.unimpaired_range() ) {
         if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
             return LL_BRIGHT_ONLY;
         } else {

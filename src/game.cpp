@@ -1979,8 +1979,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
             const bool are_valid_coordinates = ctxt.get_coordinates(w_terrain, mx, my);
             // TODO: Z
             int mz = g->get_levz();
-            if (are_valid_coordinates && ( mx >= 0 && my >= 0 )
-                                      && ( mx != liveview_pos.x ||
+            if (are_valid_coordinates && ( mx != liveview_pos.x ||
                                            my != liveview_pos.y ||
                                            mz != liveview_pos.z ) ) {
                 liveview_pos = tripoint( mx, my, mz );

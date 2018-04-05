@@ -2756,8 +2756,8 @@ float player::active_light() const
 
     lumination = ( float )maxlum;
 
-    if( lumination < DISTANCE_FROM_CENTER && has_active_bionic( bio_flashlight ) ) {
-        lumination = DISTANCE_FROM_CENTER;
+    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
+        lumination = 60;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && has_effect( effect_glowing ) ) {
