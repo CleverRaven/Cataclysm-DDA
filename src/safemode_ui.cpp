@@ -4,7 +4,6 @@
 #include "player.h"
 #include "output.h"
 #include "debug.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "cata_utility.h"
@@ -13,7 +12,7 @@
 #include "input.h"
 #include "mtype.h"
 #include "json.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "monstergenerator.h"
 #include "string_input_popup.h"
 
@@ -627,10 +626,8 @@ bool safemode::save( const bool is_character_in )
     auto file = FILENAMES["safemode"];
 
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode(
-                   g->u.name ) + ".sfm.json";
-        if( !file_exist( world_generator->active_world->world_path + "/" +
-                         base64_encode( g->u.name ) + ".sav" ) ) {
+        file = g->get_player_base_save_path() + ".sfm.json";
+        if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -662,7 +659,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     std::string file = FILENAMES["safemode"];
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
+        file = g->get_player_base_save_path() + ".sfm.json";
     }
 
     fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );

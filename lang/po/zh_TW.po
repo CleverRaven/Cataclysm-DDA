@@ -42,9 +42,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-23 09:43-0400\n"
-"PO-Revision-Date: 2018-03-23 22:37+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2018-03-30 05:45-0400\n"
+"PO-Revision-Date: 2018-04-03 16:17+0000\n"
+"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,7 +167,7 @@ msgid ""
 "homebase."
 msgstr "若為 是 將啟用撿取玩家四周的物品。你能夠利用 'Y' 區域管理員，指派不自動撿取的區域，例如你的基地。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto pickup light items"
 msgstr "自動撿取重量輕的物品"
 
@@ -177,7 +177,7 @@ msgid ""
 "You must also set the small items option.  '0' disables this option"
 msgstr "自動撿取重量小於或是等於 [設定值] * 50 公克的物品。設定 0 停用這個選項。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto pickup small items"
 msgstr "自動撿取體積小的物品"
 
@@ -208,27 +208,27 @@ msgid ""
 "weight limit."
 msgstr "若設定為 否 ，玩家將會在超重時自動捨棄剛撿取的物品。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Auto-safe mode"
 msgstr "自動安全模式"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, turns safemode automatically back on after it being disabled "
 "beforehand.  See option 'Turns to re-enable safe mode'"
 msgstr "若為 是，安全模式在關閉後會於一定回合內自動重啟。參照「重新啟用安全模式的回合」。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Turns to re-enable safe mode"
 msgstr "重啟安全模式的所需回合"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe "
 "Mode proximity distance'."
 msgstr "在「安全模式偵測距離」內沒有敵人時，安全模式重啟的所需回合數。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode"
 msgstr "安全模式"
 
@@ -238,7 +238,7 @@ msgid ""
 "is approaching."
 msgstr "若為 是，當有敵對的怪物/NPC 接近時，將會暫停遊戲並顯示警告。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode proximity distance"
 msgstr "安全模式偵測距離"
 
@@ -248,7 +248,7 @@ msgid ""
 " a warning.  0 = Max player viewdistance."
 msgstr "假如已啟用安全模式，敵人在指定距離內出現將會顯示警告。 0 = 玩家的最大可視距離。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Safe Mode when driving"
 msgstr "駕駛時的安全模式"
 
@@ -269,7 +269,7 @@ msgid ""
 " = disabled."
 msgstr "啟用的話，怪物將會隨著時間自行行動，輸入的數值是每回合之間的延遲，以秒作為單位，建議停用安全模式，0=停用"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Periodically autosave"
 msgstr "定時自動存檔"
 
@@ -373,7 +373,7 @@ msgstr "選擇音效包"
 msgid "Choose the soundpack you want to use."
 msgstr "選擇你想使用的音效包。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Music Volume"
 msgstr "音樂音量"
 
@@ -381,7 +381,7 @@ msgstr "音樂音量"
 msgid "Adjust the volume of the music being played in the background."
 msgstr "調整背景音樂的音量。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sound Effect Volume"
 msgstr "音效音量"
 
@@ -724,7 +724,7 @@ msgstr "顯示物品符號"
 msgid "If true, show item symbols in inventory and pick up menu."
 msgstr "若為 是，會在物品欄和撿取目錄中顯示物品的符號。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Enable Joystick"
 msgstr "啟用搖桿"
 
@@ -829,7 +829,7 @@ msgstr "選擇圖像包"
 msgid "Choose the tileset you want to use."
 msgstr "選擇你想使用的圖像包。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Pixel Minimap"
 msgstr "像素小地圖"
 
@@ -840,7 +840,7 @@ msgid ""
 "gameplay."
 msgstr "設定為 是，在載入存檔後顯示像素小地圖。使用切換像素小地圖的按鍵來切換小地圖是否顯示。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Pixel Minimap height"
 msgstr "像素小地圖高度"
 
@@ -850,7 +850,7 @@ msgid ""
 "default spacing."
 msgstr "像素小地圖的高度，以行數為單位。設置為 0 代表預設值。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Maintain Pixel Minimap aspect ratio"
 msgstr "維持像素小地圖長寬比"
 
@@ -1009,7 +1009,7 @@ msgid ""
 "dependent, capped - Off: None at all."
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Experimental 3D Field of Vision"
 msgstr "實驗性 3D 視野"
 
@@ -1267,21 +1267,21 @@ msgid ""
 "If true, spawn zombies at shelters.  Makes the starting game a lot harder."
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Static npcs"
 msgstr "初始 NPC"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, the game will spawn static NPC at the start of the game, requires "
 "world reset."
 msgstr "設定為 是，遊戲在一開始便會在世界中產生 NPC，必須重置世界才有效果。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Random npcs"
 msgstr "隨機產生 NPC"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "If true, the game will randomly spawn NPC during gameplay."
 msgstr "設定為 是，遊戲將會在進行時隨機產生 NPC。"
 
@@ -3697,7 +3697,7 @@ msgstr ".32 ACP（重填彈）"
 
 #: lang/json/AMMO_from_json.py
 msgid ".357 SIG FMJ"
-msgstr ""
+msgstr ".357 SIG 全金屬彈"
 
 #. ~ Description for .357 SIG FMJ
 #: lang/json/AMMO_from_json.py
@@ -3708,7 +3708,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".357 SIG JHP"
-msgstr ""
+msgstr ".357 SIG 空尖彈"
 
 #. ~ Description for .357 SIG JHP
 #: lang/json/AMMO_from_json.py
@@ -3720,11 +3720,11 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .357 SIG FMJ"
-msgstr ""
+msgstr ".357 SIG 全金屬彈 (重填彈)"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .357 SIG JHP"
-msgstr ""
+msgstr ".357 SIG 空尖彈 (重填彈)"
 
 #: lang/json/AMMO_from_json.py
 msgid ".36 paper cartridge"
@@ -15831,12 +15831,7 @@ msgid ""
 "suspect that one of them is a police informant."
 msgstr "鑽石搶劫案出錯後，倖存的罪犯開始懷疑，同伴其中一人是警方的線人。"
 
-#: lang/json/BOOK_from_json.py
-msgid "crime_novel"
-msgid_plural "crime_novels"
-msgstr[0] ""
-
-#. ~ Description for crime_novel
+#. ~ Description for crime novel
 #: lang/json/BOOK_from_json.py
 msgid ""
 "A story about three people in the fictional city of Los Santos, a gangster, "
@@ -16049,7 +16044,7 @@ msgstr "講述一個驚心動魄的二戰戰俘營中的生存故事，內容充
 #. ~ Description for war novel
 #: lang/json/BOOK_from_json.py
 msgid ""
-"A story about a Bosnean citizen who goes through many hardships and near "
+"A story about a Bosnian citizen who goes through many hardships and near "
 "death during the breakup of Yugoslavia."
 msgstr ""
 
@@ -30570,17 +30565,17 @@ msgstr "一個空的 7.62x39mm 子彈殼。"
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x25mm casing"
 msgid_plural "7.62x25mm casings"
-msgstr[0] ""
+msgstr[0] "7.62x25mm 彈殼"
 
 #. ~ Description for 7.62x25mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 7.62x25mm round."
-msgstr ""
+msgstr "一個空的 7.62x25mm 子彈殼。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "9x19mm casing"
 msgid_plural "9x19mm casings"
-msgstr[0] ""
+msgstr[0] "9x19mm 彈殼"
 
 #. ~ Description for 9x19mm casing
 #: lang/json/GENERIC_from_json.py
@@ -30590,12 +30585,12 @@ msgstr "一個9x19mm子彈的彈殼。"
 #: lang/json/GENERIC_from_json.py
 msgid ".357 SIG casing"
 msgid_plural ".357 SIG casings"
-msgstr[0] ""
+msgstr[0] ".357 SIG 彈殼"
 
 #. ~ Description for .357 SIG casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .357 SIG round."
-msgstr ""
+msgstr "一個空的 .357 SIG 子彈殼。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "9x18mm casing"
@@ -30639,7 +30634,7 @@ msgstr[0] "傳動帶"
 msgid ""
 "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to"
 " engines or other industrial equipment."
-msgstr ""
+msgstr "一條含鋼筋纖維的合成橡膠V型皮帶，通常適用於引擎或者其他工業用機器。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift drive belt"
@@ -30924,6 +30919,18 @@ msgid ""
 "A small steel telescoping cantilever.  If attached to a frame it could be "
 "used to lift up to 3.5 metric tonnes."
 msgstr "一件鋼製的小型伸縮式懸臂。連接到車架後，它能抬起高達 3.5 公噸的物件。"
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "pallet lifter"
+msgid_plural "pallet lifters"
+msgstr[0] ""
+
+#. ~ Description for pallet lifter
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A makeshift pallet lifter.  If attached to a frame it could be used to lift "
+"up to 0.5 metric tonnes."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
@@ -31834,7 +31841,7 @@ msgstr "燃料"
 
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "SEEDS"
-msgstr ""
+msgstr "種子"
 
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "CHEMICAL STUFF"
@@ -32761,7 +32768,7 @@ msgstr "一個標準的 20 發鋼製盒狀彈匣，能容納 9x18mm 馬卡洛夫
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "pressurized fuel tank"
-msgstr ""
+msgstr "壓縮燃料罐"
 
 #. ~ Description for pressurized fuel tank
 #: lang/json/MAGAZINE_from_json.py
@@ -39389,19 +39396,6 @@ msgid ""
 "identify you as a friendly, and attack all enemies with a built-in SMG."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
-msgid "brazier"
-msgid_plural "braziers"
-msgstr[0] "火盆"
-
-#. ~ Description for brazier
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a large metal stand with slots on the side.  You can set it "
-"somewhere through the construction menu and then set fires in it with no "
-"risk of spreading."
-msgstr ""
-
 #: lang/json/TOOL_from_json.py
 msgid "brick kiln"
 msgid_plural "brick kilns"
@@ -43981,6 +43975,18 @@ msgid ""
 " and the way it shimmers makes you uneasy."
 msgstr "這根本是一條天神恩賜的電纜，50公尺長、無傳導能量耗損，就像羽毛一樣的輕，還可以收納在一個火柴盒裡頭，你很確定這種玩意根本不應該存在於人世間，而且它發出的淡光讓你覺得不太自在。"
 
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "brazier"
+msgid_plural "braziers"
+msgstr[0] "火盆"
+
+#. ~ Description for brazier
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A large metal stand used to contain a fire.  Fires set in a brazier will not"
+" spread to surrounding flammable objects."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "electric lantern (off)"
 msgid_plural "electric lanterns (off)"
@@ -47034,10 +47040,6 @@ msgid "Place Still"
 msgstr "放置蒸餾器"
 
 #: lang/json/construction_from_json.py
-msgid "Place Brazier"
-msgstr ""
-
-#: lang/json/construction_from_json.py
 msgid "Build Water Well"
 msgstr "建設水井"
 
@@ -49644,7 +49646,7 @@ msgstr "快樂"
 
 #: lang/json/effects_from_json.py
 msgid "Joyful"
-msgstr ""
+msgstr "喜悅"
 
 #: lang/json/effects_from_json.py
 msgid "Elated"
@@ -51199,7 +51201,8 @@ msgid ""
 "remaining intact for re-use."
 msgstr "一具裝填緩慢的十字弓。夠強壯的人能以更快的速度重新裝填。由此武器射出的十字弓箭矢多數可以重複使用。"
 
-#: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py
+#: lang/json/gunmod_from_json.py lang/json/gunmod_from_json.py
 msgctxt "gun_type_type"
 msgid "rifle"
 msgstr "步槍"
@@ -51234,6 +51237,15 @@ msgstr "一把定製的十字弓，有著機巧的機關可讓弩箭的裝填和
 msgctxt "gun_type_type"
 msgid "smg"
 msgstr "衝鋒槍"
+
+#: lang/json/gun_from_json.py
+msgid "acid spit gun"
+msgid_plural "acid spit guns"
+msgstr[0] ""
+
+#: lang/json/gun_from_json.py
+msgid "Fake gun that fires acid globs."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "BB gun"
@@ -56242,6 +56254,10 @@ msgstr "拔出鐵釘"
 #: lang/json/item_action_from_json.py
 msgid "Pick a lock"
 msgstr "撬鎖"
+
+#: lang/json/item_action_from_json.py
+msgid "Deploy item"
+msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Pry crate, window or door"
@@ -64378,9 +64394,9 @@ msgstr "樹皮"
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your skin is coated in a light bark, like that of a tree.  This provides "
-"resistance to bashing and cutting damage and minor protection from fire.  "
-"Greatly reduces wet effects."
-msgstr "你的皮膚覆蓋了一層樹皮，就像樹木一樣。能夠提供抗鈍擊、抗砍劈、防火的一般保護。大幅增加防水能力。"
+"resistance to cutting damage and minor protection from fire.  Greatly "
+"reduces wet effects."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Thorns"
@@ -90789,10 +90805,6 @@ msgid "Some of your existing bionics are lost!"
 msgstr "你有一些生化插件消失了！"
 
 #: src/bionics.cpp
-msgid "Something went terribly wrong, you mutate!"
-msgstr "某處搞砸了，你突變了！"
-
-#: src/bionics.cpp
 msgid "The installation is faulty!"
 msgstr "這次安裝故障了！"
 
@@ -93133,7 +93145,7 @@ msgstr "爆頭!"
 
 #: src/creature.cpp src/melee.cpp
 msgid "Critical!"
-msgstr ""
+msgstr "爆擊！"
 
 #: src/creature.cpp
 msgid "Good hit!"
@@ -101314,6 +101326,11 @@ msgstr "你在欄杆之間滑過。"
 msgid "Take down the %s?"
 msgstr "取下 %s？"
 
+#: src/iexamine.cpp src/map.cpp
+#, c-format
+msgid "You take down the %s."
+msgstr "你取下了 %s。"
+
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr "在坑上覆蓋板子？"
@@ -107074,6 +107091,23 @@ msgid "The lock stumps your efforts to pick it."
 msgstr "這個鎖無情的嘲笑你的開鎖技術。"
 
 #: src/iuse_actor.cpp
+msgid "Deploy where?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You attempt to become one with the furniture.  It doesn't work."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You can't deploy a %s there."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "There is already furniture at that location."
+msgstr ""
+
+#: src/iuse_actor.cpp
 #, c-format
 msgid "There isn't anything new on the %s."
 msgstr "這張 %s 沒有任何新地點。"
@@ -109245,11 +109279,6 @@ msgstr ""
 #, c-format
 msgid "The washing machine in the %s has finished washing."
 msgstr ""
-
-#: src/map.cpp
-#, c-format
-msgid "You take down the %s."
-msgstr "你取下了 %s。"
 
 #: src/map.cpp
 msgid "You disarm the trap!"
@@ -113404,13 +113433,13 @@ msgid "%1$s (%2$d)"
 msgstr "%1$s (%2$d)"
 
 #: src/newcharacter.cpp
+msgid "Profession items:"
+msgstr "職業物品:"
+
+#: src/newcharacter.cpp
 msgctxt "set_profession_item"
 msgid "None"
 msgstr "無"
-
-#: src/newcharacter.cpp
-msgid "Profession items:"
-msgstr "職業物品:"
 
 #: src/newcharacter.cpp
 msgid "Profession bionics:"
@@ -116444,6 +116473,14 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Auto pickup weight limit"
+msgstr "自動撿取重量限制"
+
+#: src/options.cpp
+msgid "Auto pickup volume limit"
+msgstr "自動撿取體積限制"
+
+#: src/options.cpp
 msgid "List items within no auto pickup zones"
 msgstr ""
 
@@ -116455,25 +116492,25 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Auto pulp or butcher"
-msgstr ""
+msgstr "自動打爛或屠宰"
 
 #: src/options.cpp
 msgid ""
 "If true, enables auto pulping resurrecting corpses or auto butchering any "
 "corpse.  Never pulps acidic corpses.  Disabled as long as any enemy monster "
 "is seen."
-msgstr ""
+msgstr "著設定為 是，將會自動將會復活的屍體打爛或者屠宰任何屍體。不會自動打欄含酸液的屍體。視野內有任何敵對怪物時將暫時關閉此功能。"
 
 #: src/options.cpp
 msgid "Auto pulp or butcher action"
-msgstr ""
+msgstr "自動打爛或屠宰行動設定"
 
 #: src/options.cpp
 msgid ""
 "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp "
 "corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you."
 "  - Butcher: Butcher corpses you stand on."
-msgstr ""
+msgstr "當「自動打爛或屠宰」啟用時的行動。打爛：打爛在你下面的屍體。 - 打爛鄰接：把鄰接的屍體也一起打爛。 - 屠宰：屠宰在你下面的屍體。"
 
 #: src/options.cpp
 msgid "Pulp"
@@ -116484,10 +116521,54 @@ msgid "Pulp Adjacent"
 msgstr ""
 
 #: src/options.cpp
+msgid "Safe mode"
+msgstr "安全模式"
+
+#: src/options.cpp
+msgid "Safe mode proximity distance"
+msgstr "安全模式偵測距離"
+
+#: src/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player view distance."
 msgstr ""
+
+#: src/options.cpp
+msgid "Safe mode when driving"
+msgstr "駕駛時安全模式"
+
+#: src/options.cpp
+msgid "Auto reactivate safe mode"
+msgstr "自動重啟安全模式"
+
+#: src/options.cpp
+msgid ""
+"If true, safe mode will automatically reactivate after a certain number of "
+"turns.  See option 'Turns to auto reactivate safe mode.'"
+msgstr ""
+
+#: src/options.cpp
+msgid "Turns to auto reactivate safe mode"
+msgstr "重啟安全模式回合數"
+
+#: src/options.cpp
+msgid ""
+"Number of turns after which safe mode is reactivated. Will only reactivate "
+"if no hostiles are in 'Safe mode proximity distance.'"
+msgstr ""
+
+#: src/options.cpp
+msgid "Autosave"
+msgstr "自動保存"
+
+#: src/options.cpp
+msgid "Music volume"
+msgstr "音樂音量"
+
+#: src/options.cpp
+msgid "Sound effect volume"
+msgstr "音效音量"
 
 #: src/options.cpp
 msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
@@ -116557,8 +116638,16 @@ msgid "Vertical"
 msgstr ""
 
 #: src/options.cpp
-msgid "Pixel Minimap drawing mode"
-msgstr "像素小地圖描繪模式"
+msgid "Enable joystick"
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap"
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap drawing mode"
+msgstr ""
 
 #: src/options.cpp
 msgid "Specified the mode in which the minimap drawn."
@@ -116573,11 +116662,19 @@ msgid "Dots"
 msgstr "圓點"
 
 #: src/options.cpp
-msgid "Pixel Minimap brightness"
-msgstr "像素小地圖明亮度"
+msgid "Pixel minimap brightness"
+msgstr ""
 
 #: src/options.cpp
 msgid "Overall brightness of pixel-detail minimap."
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel minimap height"
+msgstr ""
+
+#: src/options.cpp
+msgid "Maintain pixel minimap aspect ratio"
 msgstr ""
 
 #: src/options.cpp
@@ -116604,6 +116701,10 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Experimental 3D field of vision"
+msgstr ""
+
+#: src/options.cpp
 msgid ""
 "A number determining how large cities are.  0 disables cities, roads and any"
 " scenario requiring a city start."
@@ -116611,6 +116712,24 @@ msgstr ""
 
 #: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."
+msgstr ""
+
+#: src/options.cpp
+msgid "Static NPCs"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, static NPCs will spawn at pre-defined locations. Requires world "
+"reset."
+msgstr ""
+
+#: src/options.cpp
+msgid "Random NPCs"
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, the game will randomly spawn NPCs during gameplay."
 msgstr ""
 
 #: src/options.cpp
@@ -116638,7 +116757,7 @@ msgstr ""
 msgid ""
 "Prerequisite for this option not met!\n"
 "(%s)"
-msgstr ""
+msgstr "此選項的前提設定不符合！\n(%s)"
 
 #: src/output.cpp
 msgid "Press any key for more..."

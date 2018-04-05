@@ -196,7 +196,7 @@ void Character::pick_name(bool bUseDefault)
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
-    if( type == PLTYPE_NOW ) {
+    if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
     }
     if( styles.size() == 1 ) {
@@ -433,7 +433,7 @@ bool player::create(character_type type, std::string tempname)
 
 
     catacurses::window w;
-    if( type != PLTYPE_NOW ) {
+    if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
         w = catacurses::newwin( TERMY, TERMX, 0, 0 );
     }
 
@@ -441,12 +441,16 @@ bool player::create(character_type type, std::string tempname)
     points_left points = points_left();
 
     switch (type) {
+    case PLTYPE_NULL:
     case PLTYPE_CUSTOM:
         break;
     case PLTYPE_NOW:
     case PLTYPE_RANDOM:
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
+        break;
+    case PLTYPE_FULL_RANDOM:
+        randomize( true, points );
         break;
     case PLTYPE_TEMPLATE:
         if( !load_template( tempname ) ) {
