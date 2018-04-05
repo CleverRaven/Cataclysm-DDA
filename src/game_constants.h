@@ -30,7 +30,7 @@
 // only can wear a maximum of two of any type of clothing
 #define MAX_WORN_PER_TYPE 2
 
-#define MAPSIZE 21
+#define MAPSIZE 11
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
@@ -86,13 +86,13 @@
 #define MAX_STAT 20
 
 /** Maximum range at which ranged attacks can be executed */
-#define RANGE_HARD_CAP 120
+#define RANGE_HARD_CAP 60
 
 /** Player view distance FLOAT */
-#define PLAYER_VIEW_DISTANCE 120.0f
+#define PLAYER_VIEW_DISTANCE 60.0f
 
 /** Player view distance INTEGER */
-#define PLAYER_VIEW_DISTANCE_INT 120
+#define PLAYER_VIEW_DISTANCE_INT 60
 
 /** Kind of related... but not to view distance exactly? Changing this would change balance of things I think? */
 #define DISTANCE_FROM_CENTER 60
