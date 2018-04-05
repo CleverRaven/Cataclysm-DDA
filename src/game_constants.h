@@ -88,22 +88,17 @@
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 120
 
-/** Player view distance */
+/** Player view distance FLOAT */
 #define PLAYER_VIEW_DISTANCE 120.0f
 
-/** Player view distance INT */
+/** Player view distance INTEGER */
 #define PLAYER_VIEW_DISTANCE_INT 120
 
-/** 60... kind of related... but not to view distance exactly? */
+/** Kind of related... but not to view distance exactly? Changing this would change balance of things I think? */
 #define DISTANCE_FROM_CENTER 60
 
+/** Was used based off lighting but I'm not sure?*/
 #define LIGHT_SIXTY_F 60.0f
-
-/** Just 60... for not map/distance related reasons INT */
-#define SIXTY 60
-
-/** Just 0.60... for not map/distance related reasons INT */
-#define Z_SIXTY 0.60
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;
