@@ -3877,7 +3877,8 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E")));
         as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban")));
         as_m.entries.push_back(uimenu_entry(4, true, '4', _("Minesweeper")));
-        as_m.entries.push_back(uimenu_entry(5, true, '5', _("Cancel")));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', _("Lights on!")));
+        as_m.entries.push_back(uimenu_entry(6, true, '6', _("Cancel")));
         as_m.query();
 
         switch (as_m.ret) {
@@ -3893,7 +3894,10 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
             case 4:
                 loaded_software = "minesweeper_game";
                 break;
-            case 5: //Cancel
+            case 5:
+                loaded_software = "lightson_game";
+                break;
+            case 6: //Cancel
                 return 0;
         }
 

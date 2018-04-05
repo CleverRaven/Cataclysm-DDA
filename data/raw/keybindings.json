@@ -1059,6 +1059,30 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "TOGGLE",
+        "category": "LIGHTSON",
+        "name": "Toggle lights",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"5"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "RESET",
+        "category": "LIGHTSON",
+        "name": "Reset level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
