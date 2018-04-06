@@ -1060,7 +1060,19 @@
     },
     {
         "type": "keybinding",
-        "id": "TOGGLE",
+        "id": "TOGGLE_SPACE",
+        "category": "LIGHTSON",
+        "name": "Toggle lights",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":" "
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "TOGGLE_5",
         "category": "LIGHTSON",
         "name": "Toggle lights",
         "bindings":[

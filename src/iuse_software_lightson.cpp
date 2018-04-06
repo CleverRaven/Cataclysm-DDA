@@ -23,7 +23,7 @@ void lightson_game::new_level()
     level_size = std::make_pair( lvl_height, lvl_width );
     level.resize( lvl_height * lvl_width );
 
-    const int steps_rng = std::floor( half_perimeter / 2.0 + rng( 0, 2 ) );
+    const int steps_rng = half_perimeter / 2.0 + rng( 0, 2 );
     generate_change_coords( steps_rng );
 
     reset_level();
@@ -120,12 +120,13 @@ int lightson_game::start_game()
 
     input_context ctxt( "LIGHTSON" );
     ctxt.register_directions();
-    ctxt.register_action( "TOGGLE" );
+    ctxt.register_action( "TOGGLE_SPACE" );
+    ctxt.register_action( "TOGGLE_5" );
     ctxt.register_action( "RESET" );
     ctxt.register_action( "QUIT" );
 
     std::vector<std::string> shortcuts;
-    shortcuts.push_back( _( "<5>toggle lights" ) ); // '5': toggle
+    shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) ); // '5': toggle
     shortcuts.push_back( _( "<r>eset" ) );          // 'r': reset
     shortcuts.push_back( _( "<q>uit" ) );           // 'q': quit
 
@@ -165,7 +166,7 @@ int lightson_game::start_game()
         if( ctxt.get_direction( iDirX, iDirY, action ) ) {
             position.first = std::min( std::max( position.first + iDirY, 0 ), level_size.first - 1 );
             position.second = std::min( std::max( position.second + iDirX, 0 ), level_size.second - 1 );
-        } else if( action == "TOGGLE" ) {
+        } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();
             if( win ) {
