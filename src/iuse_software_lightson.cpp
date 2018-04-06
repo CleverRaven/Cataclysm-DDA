@@ -23,7 +23,7 @@ void lightson_game::new_level()
     level_size = std::make_pair( lvl_height, lvl_width );
     level.resize( lvl_height * lvl_width );
 
-    const int steps_rng = half_perimeter / 2.0 + rng( 0, 2 );
+    const int steps_rng = half_perimeter / 2.0 + rng_float( 0, 2 );
     generate_change_coords( steps_rng );
 
     reset_level();
@@ -127,8 +127,8 @@ int lightson_game::start_game()
 
     std::vector<std::string> shortcuts;
     shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) ); // '5': toggle
-    shortcuts.push_back( _( "<r>eset" ) );          // 'r': reset
-    shortcuts.push_back( _( "<q>uit" ) );           // 'q': quit
+    shortcuts.push_back( _( "<r>eset" ) );                       // 'r': reset
+    shortcuts.push_back( _( "<q>uit" ) );                        // 'q': quit
 
     int iWidth = 0;
     for( auto &shortcut : shortcuts ) {
@@ -170,6 +170,7 @@ int lightson_game::start_game()
             toggle_lights();
             win = check_win();
             if( win ) {
+                draw_level();
                 popup_top( _( "Congratulations, you won!" ) );
                 hasWon++;
             }
