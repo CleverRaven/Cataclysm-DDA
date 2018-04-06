@@ -1166,6 +1166,7 @@
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
             "draw_cost": 3,
+            "min_volume": 1,
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
         } ],
