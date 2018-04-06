@@ -1535,7 +1535,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     //_FS
     if ( !is_fake() ) {
-        double perSkillMult = 0.1;// = 0.25/3 to get one bio_targeting effect every 3 levels of avgSkill
+        double perSkillMult = 0.1;
         double perSkillMult2 = 0.04;
         double skillThreshold = 6;
         double maxBonusWithoutBioTargeting = 0.75;
