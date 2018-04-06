@@ -1892,6 +1892,11 @@ void vehicle::deserialize(JsonIn &jsin)
             }
         }
     }
+
+    for( auto turret : get_parts( "TURRET", false ) ) {
+        install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
+    }
+
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if ( savegame_loading_version < 11 ) {

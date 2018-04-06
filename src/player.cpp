@@ -206,6 +206,7 @@ static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
+static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -4305,6 +4306,10 @@ void player::update_needs( int rate_multiplier )
 
     if( get_painkiller() > 0 ) {
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
+    }
+
+    if( has_bionic( bn_bio_solar ) && g->is_in_sunlight( pos() ) ) {
+        charge_power( rate_multiplier * 25 );
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
