@@ -16,6 +16,7 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "effect.h"
@@ -618,21 +619,21 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
-            int p1;
-            vehicle *veh = g->m.veh_at( g->u.pos(), p1 );
+            const cata::optional<vpart_position> vp = g->m.veh_at( g->u.pos() );
 
-            if( veh == nullptr ) {
+            if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
                 move_pause();
                 break;
             }
+            vehicle *const veh = &vp->vehicle();
 
             // Try to find the last destination
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
-            if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
-                last_dest = veh->parts[p1].mount;
+            if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
+                last_dest = veh->parts[vp->part_index()].mount;
             }
 
             // Prioritize last found path, then seats
@@ -1561,13 +1562,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    vehicle *veh = g->m.veh_at( pos() );
-    if( veh != nullptr ) {
-        int other_part = -1;
-        const vehicle *oveh = g->m.veh_at( p, other_part );
-        if( abs( veh->velocity ) > 0 &&
-            ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
+    if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        const cata::optional<vpart_position> ovp = g->m.veh_at( p );
+        if( abs( vp->vehicle().velocity ) > 0 &&
+            ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
+              vp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
@@ -1624,9 +1623,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
             doors::close_door( g->m, *this, old_pos );
         }
 
-        int part;
-        vehicle *veh = g->m.veh_at( p, part );
-        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        const cata::optional<vpart_position> vp = g->m.veh_at( p );
+        if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1927,13 +1925,12 @@ void npc::find_item()
         // Allow terrain check without sight, because it would cost more CPU than it is worth
         consider_terrain( p );
 
-        int veh_part = -1;
-        const vehicle *veh = g->m.veh_at( p, veh_part );
-        if( veh == nullptr || veh->velocity != 0 || !sees( p ) ) {
+        const cata::optional<vpart_position> vp = g->m.veh_at( p );
+        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
             continue;
         }
-
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, true );
+        vehicle *const veh = &vp->vehicle();
+        int veh_part = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
         if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
@@ -1985,11 +1982,9 @@ void npc::pick_up_item()
         return;
     }
 
-    int veh_part = -1;
-    vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, false );
-    }
+    const cata::optional<vpart_position> vp = g->m.veh_at( wanted_item_pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
+    int veh_part = vp ? veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false ) : -1;
 
     const bool has_cargo = veh != nullptr &&
                            veh_part >= 0 &&

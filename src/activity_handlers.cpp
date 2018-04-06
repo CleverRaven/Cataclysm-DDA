@@ -17,6 +17,7 @@
 #include "morale_types.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -723,7 +724,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh = g->m.veh_at( source_pos );
+            source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
@@ -761,8 +762,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
         case LTT_VEHICLE:
-            if( auto veh = g->m.veh_at( act.coords.at( 1 ) ) ) {
-                p->pour_into( *veh, liquid );
+            if( const cata::optional<vpart_position> vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                p->pour_into( vp->vehicle(), liquid );
             } else {
                 throw std::runtime_error( "could not find target vehicle for liquid transfer" );
             }
@@ -1017,8 +1018,8 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    if( veh ) {
+    if( const cata::optional<vpart_position> vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
+        vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > (int)rng(1, 6) ) {
             //success
@@ -1380,7 +1381,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
+    const cata::optional<vpart_position> vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -1395,11 +1396,11 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
         debugmsg("process_activity invalid ACT_VEHICLE values:%d",
                  act->values.size());
     } else {
-        if( veh ) {
+        if( vp ) {
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
+            g->exam_vehicle( vp->vehicle(), act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
             dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
@@ -1454,7 +1455,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     vehicle *veh = g->remoteveh();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
-        veh = g->m.veh_at( pos );
+        veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         if( !veh ) { return; }
     }
 
@@ -1625,7 +1626,7 @@ struct weldrig_hack {
         }
 
         part = act.values[1];
-        veh = g->m.veh_at( act.coords[0] );
+        veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
         if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
             part = -1;
             return false;

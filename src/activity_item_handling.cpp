@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "output.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "veh_type.h"
 #include "player.h"
 #include "string_formatter.h"
@@ -190,12 +191,10 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
 void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( where, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
+    if( const cata::optional<vpart_position> vp = g->m.veh_at( where ) ) {
+        const int veh_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
         if( veh_part >= 0 ) {
-            put_into_vehicle( p, items, *veh, veh_part );
+            put_into_vehicle( p, items, vp->vehicle(), veh_part );
             return;
         }
     }
@@ -523,15 +522,17 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
     // load vehicle information if requested
     if( from_vehicle ) {
-        s_veh = g->m.veh_at( source, s_cargo );
-        assert( s_veh != nullptr );
-        s_cargo = s_veh->part_with_feature( s_cargo, "CARGO", false );
+        const cata::optional<vpart_position> vp = g->m.veh_at( source );
+        assert( vp );
+        s_veh = &vp->vehicle();
+        s_cargo = s_veh->part_with_feature( vp->part_index(), "CARGO", false );
         assert( s_cargo >= 0 );
     }
     if( to_vehicle ) {
-        d_veh = g->m.veh_at( destination, d_cargo );
-        assert( d_veh != nullptr );
-        d_cargo = d_veh->part_with_feature( d_cargo, "CARGO", false );
+        const cata::optional<vpart_position> vp = g->m.veh_at( destination );
+        assert( vp );
+        d_veh = &vp->vehicle();
+        d_cargo = d_veh->part_with_feature( vp->part_index(), "CARGO", false );
         assert( d_cargo >= 0 );
     }
 

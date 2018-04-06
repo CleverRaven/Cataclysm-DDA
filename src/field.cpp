@@ -8,6 +8,7 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "messages.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "material.h"
 #include "monster.h"
@@ -1616,8 +1617,6 @@ void map::player_in_field( player &u )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = get_field( u.pos() );
-    int veh_part; // vehicle part existing on this tile.
-    vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
@@ -1625,8 +1624,9 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        veh = veh_at( u.pos(), veh_part );
-        inside = (veh && veh->is_inside(veh_part));
+        if( const cata::optional<vpart_position> vp = veh_at( u.pos() ) ) {
+            inside = vp->vehicle().is_inside( vp->part_index() );
+        }
     }
 
     // Iterate through all field effects on this tile.

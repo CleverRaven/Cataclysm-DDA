@@ -16,6 +16,7 @@
 #include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -2307,9 +2308,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
-            vehicle *veh = g->m.veh_at( p->pos() );
-            if( veh != nullptr ) {
-                if( abs( veh->velocity ) > 0 ) {
+            if( const cata::optional<vpart_position> vp = g->m.veh_at( p->pos() ) ) {
+                if( abs( vp->vehicle().velocity ) > 0 ) {
                     reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
                 }
             }

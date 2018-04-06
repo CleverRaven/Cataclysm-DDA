@@ -10,6 +10,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "vpart_position.h"
 #include "shadowcasting.h"
 
 #include <cmath>
@@ -758,10 +759,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
 
-    vehicle *veh = veh_at( origin );
-    if( veh == nullptr ) {
+    const cata::optional<vpart_position> vp = veh_at( origin );
+    if( !vp ) {
         return;
     }
+    vehicle *const veh = &vp->vehicle();
 
     // We're inside a vehicle. Do mirror calculations.
     std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
