@@ -237,9 +237,8 @@ void editmap_hilight::draw( editmap &hm, bool update )
     if( blink_interval[ cur_blink ] || update ) {
         for( auto &elem : points ) {
             const tripoint &p = elem.first;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( ! g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -541,9 +540,8 @@ void editmap::update_view( bool update_info )
     if( blink && target_list.size() > 1 ) {
         for( auto &elem : target_list ) {
             const tripoint &p = elem;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -1418,8 +1416,7 @@ int editmap::edit_critter( Creature &critter )
 int editmap::edit_veh()
 {
     int ret = 0;
-    int veh_part = -1;
-    vehicle *it = g->m.veh_at( target, veh_part );
+    vehicle *it = g->m.veh_at( target );
     edit_json( *it );
     return ret;
 }

@@ -482,8 +482,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_meteorologist" ) {
         // Calculate local wind power
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( pos(), vpart );
+        vehicle *veh = g->m.veh_at( pos() );
         int vehwindspeed = 0;
         if( veh != nullptr ) {
             vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph

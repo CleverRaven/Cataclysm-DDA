@@ -7326,8 +7326,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     }
 
     if( it->typeId() == "weather_reader" ) {
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( p->pos(), vpart );
+        vehicle *veh = g->m.veh_at( p->pos() );
         int vehwindspeed = 0;
         if( veh ) {
             vehwindspeed = abs( veh->velocity / 100 ); // For mph

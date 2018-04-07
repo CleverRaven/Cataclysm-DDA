@@ -500,8 +500,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( p, veh_part );
+    vehicle *veh = g->m.veh_at( p );
     if( veh ) {
         return true;
     }
@@ -590,8 +589,7 @@ action_id handle_action_menu()
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
-        int veh_part = 0;
-        vehicle *veh = g->m.veh_at( g->u.pos(), veh_part );
+        vehicle *veh = g->m.veh_at( g->u.pos() );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;

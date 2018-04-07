@@ -1561,8 +1561,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    int vpart;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
+    vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr ) {
         int other_part = -1;
         const vehicle *oveh = g->m.veh_at( p, other_part );

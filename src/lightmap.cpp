@@ -758,8 +758,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
 
-    int part;
-    vehicle *veh = veh_at( origin, part );
+    vehicle *veh = veh_at( origin );
     if( veh == nullptr ) {
         return;
     }

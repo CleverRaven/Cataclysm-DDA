@@ -2442,8 +2442,7 @@ bool game::handle_action()
         ctxt = get_player_input(action);
     }
 
-    int veh_part;
-    vehicle *veh = m.veh_at( u.pos(), veh_part );
+    vehicle *veh = m.veh_at( u.pos() );
     bool veh_ctrl = !u.is_dead_state() &&
         ( ( veh && veh->player_in_control(u) ) || remoteveh() != nullptr );
 
@@ -6749,8 +6748,7 @@ void game::open_gate( const tripoint &p )
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
 {
-    int vpart;
-    vehicle *veh = m.veh_at(u.pos(), vpart);
+    vehicle *veh = m.veh_at( u.pos() );
     if( veh == nullptr ) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
@@ -6801,7 +6799,7 @@ void game::control_vehicle()
         if (!choose_adjacent(_("Control vehicle where?"), examp)) {
             return;
         }
-        veh = m.veh_at(examp, veh_part);
+        veh = m.veh_at( examp );
         if (!veh) {
             add_msg(_("No vehicle there."));
             return;
@@ -7202,8 +7200,7 @@ void game::examine( const tripoint &examp )
         }
     }
 
-    int veh_part = 0;
-    vehicle *veh = m.veh_at( examp, veh_part );
+    vehicle *veh = m.veh_at( examp );
     if( veh != nullptr ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -11011,8 +11008,8 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     // GRAB: pre-action checking.
-    int vpart0 = -1, vpart1 = -1, dpart = -1;
-    vehicle *veh0 = m.veh_at( u.pos(), vpart0 );
+    int vpart1 = -1, dpart = -1;
+    vehicle *veh0 = m.veh_at( u.pos() );
     vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
 
     bool veh_closed_door = false;

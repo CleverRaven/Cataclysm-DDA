@@ -229,13 +229,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos(), g->u.pos() );
-    int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( pos(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( pos() ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
+        int part;
         if( in_veh && g->m.veh_at( u.pos(), part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
@@ -278,7 +278,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos() ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }

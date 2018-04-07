@@ -980,8 +980,7 @@ void player::update_bodytemp()
     // Converts temperature to Celsius/10
     int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
     w_point const weather = *g->weather_precise;
-    int vpart = -1;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
+    vehicle *veh = g->m.veh_at( pos() );
     int vehwindspeed = 0;
     if( veh != nullptr ) {
         vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph

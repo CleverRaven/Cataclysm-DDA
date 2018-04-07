@@ -2080,8 +2080,7 @@ int map::climb_difficulty( const tripoint &p ) const
             best_difficulty = std::min( best_difficulty, 10 );
             blocks_movement++;
         } else {
-            int part;
-            const vehicle *veh = veh_at( pt, part );
+            const vehicle *veh = veh_at( pt );
             if( veh != nullptr ) {
                 // Vehicle tiles are quite good for climbing
                 // TODO: Penalize spiked parts?
