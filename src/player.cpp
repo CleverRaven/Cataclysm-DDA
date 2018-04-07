@@ -27,6 +27,7 @@
 #include "crafting.h"
 #include "craft_command.h"
 #include "requirements.h"
+#include "melee.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"

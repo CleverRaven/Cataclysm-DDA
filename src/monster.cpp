@@ -18,6 +18,7 @@
 #include <numeric>
 #include "cursesdef.h"
 #include "effect.h"
+#include "melee.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -1004,14 +1005,14 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+void monster::melee_attack( Creature &target )
 {
-    int hitspread = target.deal_melee_attack(this, hit_roll());
-    melee_attack( target, allow_special, force_technique, hitspread );
+    melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
+void monster::melee_attack( Creature &target, float accuracy )
 {
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1463,7 +1464,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return normal_roll( hit * 5, 25.0f );
+    return melee::melee_hit_range( hit );
 }
 
 bool monster::has_grab_break_tec() const

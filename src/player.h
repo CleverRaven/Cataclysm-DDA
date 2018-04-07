@@ -458,7 +458,6 @@ class player : public Character
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -466,16 +465,12 @@ class player : public Character
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique );
         /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t Creature to attack
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
-         * @param hitspread Used to calculate odds of successful damage
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        void melee_attack( Creature &t, bool allow_special );
 
         /**
          * Returns a weapon's modified dispersion value.

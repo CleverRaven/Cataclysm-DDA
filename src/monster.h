@@ -253,10 +253,9 @@ class monster : public Creature
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
-        using Creature::melee_attack;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique,
-                           int hitspread ) override;
+        void melee_attack( Creature &p );
+        void melee_attack( Creature &p, float accuracy );
+        void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
