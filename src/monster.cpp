@@ -784,7 +784,7 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
-                    effective_morale += 5;
+                    effective_morale += 55;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
@@ -805,7 +805,11 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        return MATT_IGNORE;
+        if( get_hp() != get_hp_max() ) {
+            return MATT_FLEE;
+        } else {
+            return MATT_IGNORE;
+        }
     }
 
     if( effective_anger < 10 ) {
