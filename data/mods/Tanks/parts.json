@@ -77,27 +77,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "forklift_fork",
-        "name" : "forklift arm",
-        "symbol" : "|",
-        "color" : "light_gray",
-        "broken_symbol" : "x",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 200,
-        "durability" : 300,
-        "size" : 50,
-        "item" : "frame",
-        "difficulty" : 2,
-        "location" : "structure",
-        "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
-        "flags" : ["CARGO", "PROTRUSION"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "tow_launcher",
         "copy_from": "turret",
         "name" : "mounted ATGM launcher",
