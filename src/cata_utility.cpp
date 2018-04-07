@@ -427,8 +427,8 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
-    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
     std::string gibberish_wide =
+    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
         _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
