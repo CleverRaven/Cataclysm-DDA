@@ -1,6 +1,8 @@
 [
   {
     "abstract": "canbomb_generic",
+    "type": "AMMO",
+    "name": "IED",
     "bashing": 8,
     "material": "iron",
     "symbol": "*",
@@ -12,7 +14,7 @@
   },
   {
     "id": "canbomb",
-    "copy-from": "canister_generic",
+    "copy-from": "canbomb_generic",
     "type": "AMMO",
     "name": "blast canister",
     "description": "An IED composed of a sealed container filled with a payload material that triggers on impact.  Carries a substantial explosive payload.",
@@ -26,7 +28,7 @@
   },
   {
     "id": "canbomb2",
-    "copy-from": "canister_generic",
+    "copy-from": "canbomb_generic",
     "type": "AMMO",
     "name": "Big Bang canister",
     "description": "An IED composed of a sealed container filled with a payload material that triggers on impact.  Carries a VERY substantial explosive payload.",
@@ -40,7 +42,7 @@
   },
   {
     "id": "canbombfire",
-    "copy-from": "canister_generic",
+    "copy-from": "canbomb_generic",
     "type": "AMMO",
     "name": "fire canister",
     "description": "An IED composed of a container filled with a payload material and a means to trigger it.  Intended to be fired from a specialized launcher.  This one is designed to douse a small area with deadly flames.",
@@ -54,6 +56,7 @@
   },
   {
     "id": "canbombfire2",
+    "copy-from": "canbomb_generic",
     "type": "AMMO",
     "name": "inferno canister",
     "description": "An IED composed of a container filled with a payload material and a means to trigger it.  Intended to be fired from a specialized launcher.  This one is designed to douse a large area with deadly flames.",
@@ -67,6 +70,7 @@
   },
   {
     "id": "canbombfrag",
+    "copy-from": "canbomb_generic",
     "type": "AMMO",
     "name": "fragmentation canister",
     "description": "An IED composed of a container filled with a payload material and a means to trigger it.  Intended to be fired from a specialized launcher.  This one is designed to spray the immediate area with deadly shrapnel.",
@@ -117,6 +121,8 @@
   },
   {
     "abstract": "hbolt_generic",
+    "type": "AMMO",
+    "name": "IED on a bolt",
     "volume": 1,
     "bashing": 8,
     "material": "iron",
