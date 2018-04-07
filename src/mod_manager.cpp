@@ -383,7 +383,7 @@ void mod_manager::load_mod_info( std::string info_file_path )
 
 std::string mod_manager::get_mods_list_file( const WORLDPTR world )
 {
-    return world->world_path + "/mods.json";
+    return world->path() + "/mods.json";
 }
 
 void mod_manager::save_mods_list( WORLDPTR world ) const

@@ -13760,5 +13760,5 @@ std::string game::get_player_base_save_path() const
 
 std::string game::get_world_base_save_path() const
 {
-    return world_generator->active_world->world_path;
+    return world_generator->active_world->path();
 }
