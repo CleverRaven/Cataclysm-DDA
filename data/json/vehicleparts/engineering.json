@@ -65,6 +65,6 @@
     "size" : 50,
     "breaks_into" : [ { "item": "steel_lump", "count": [4, 6] }, { "item": "steel_chunk", "count": [4, 6] }, { "item": "scrap", "count": [4, 6] } ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
-    "flags" : [ "CARGO", "PROTRUSION" ],
+    "flags" : [ "CARGO", "PROTRUSION" ]
   }
 ]
