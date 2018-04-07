@@ -2080,7 +2080,7 @@
     "difficulty": 4,
     "range": 6,
     "folded_volume": 8,
-    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ]
   },
   {
     "id": "shotgun_dnc",
@@ -2149,6 +2149,7 @@
   },
   {
     "id": "slaunchernc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated speargun",
     "item": "slauncher",
