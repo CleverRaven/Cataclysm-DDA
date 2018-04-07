@@ -3679,13 +3679,11 @@ vehicle* vehicle::find_vehicle( const tripoint &where )
         point veh_location( found_veh->posx, found_veh->posy );
 
         if( veh_in_sm == veh_location ) {
-            veh = found_veh;
-            break;
+            return found_veh;
         }
     }
 
-    // ...and hand it over.
-    return veh;
+    return nullptr;
 }
 
 template <typename Func, typename Vehicle>
