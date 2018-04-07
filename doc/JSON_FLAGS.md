@@ -459,7 +459,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CAMERA```
 - ```CAMERA_CONTROL```
 - ```CARGO``` Cargo holding area.
-- ```CARGO_LOCKING``` This cargo area is inaccessable to NPCs.
+- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
