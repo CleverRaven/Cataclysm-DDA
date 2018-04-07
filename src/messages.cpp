@@ -364,13 +364,6 @@ void Messages::display_messages()
                 line++;
             }
         }
-
-        if( offset < msg_count - bottom ) {
-            mvwprintz( w, bottom + 1, 5, c_magenta, "vvv" );
-        }
-        if( offset > 0 ) {
-            mvwprintz( w, bottom + 1, FULL_SCREEN_WIDTH - 8, c_magenta, "^^^" );
-        }
         wrefresh( w );
 
         const std::string &action = ctxt.handle_input();
