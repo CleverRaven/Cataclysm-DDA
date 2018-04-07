@@ -309,7 +309,8 @@ void Messages::display_messages()
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, bottom + 1, 32, c_red, _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() );
+        center_print( w, bottom + 1, c_red,
+                      string_format( _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() ) );
         draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
