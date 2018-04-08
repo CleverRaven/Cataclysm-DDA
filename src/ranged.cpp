@@ -1534,21 +1534,23 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     //_FS
-    if ( !is_fake() ) {
+    if( !is_fake() )
+    {
         double perSkillMult = 0.1;
         double perSkillMult2 = 0.04;
         double skillThreshold = 6;
         double maxBonusWithoutBioTargeting = 0.75;
         double maxBonusWithBioTargeting = 0.8;
-        double cbmLevelBonus = has_bionic(bionic_id("bio_targeting")) ? 2.5 : 0;
+        double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0;
         double cbmSkillMultBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 0.05 : 0;
 
         double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
         avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
 
-        double skillEffect = ( avgSkill> skillThreshold ) ? skillThreshold *perSkillMult + (avgSkill- skillThreshold) * perSkillMult2
-            : avgSkill * perSkillMult;
-        skillEffect = std::min(skillEffect, maxBonusWithoutBioTargeting);
+        double skillEffect = ( avgSkill > skillThreshold ) ? skillThreshold * perSkillMult +
+                             ( avgSkill - skillThreshold ) * perSkillMult2
+                             : avgSkill * perSkillMult;
+        skillEffect = std::min( skillEffect, maxBonusWithoutBioTargeting );
         skillEffect = std::min( skillEffect + cbmSkillMultBonus, maxBonusWithBioTargeting );
         skillEffect = std::min( skillEffect, 0.999 );
         double skillMult = 1 - skillEffect;
