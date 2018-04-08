@@ -3863,7 +3863,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             std::set<item *> without;
             std::vector<item *> added;
 
-            inventory newinv;
             for( auto &pricing : yours ) {
                 if( pricing.selected ) {
                     added.push_back( pricing.loc.get_item() );
