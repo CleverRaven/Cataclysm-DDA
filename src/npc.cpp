@@ -2022,7 +2022,7 @@ std::string npc_attitude_name( npc_attitude att )
     }
 
     debugmsg( "Invalid attitude: %d", att );
-    return _( "Unknown" );
+    return _( "Unknown attitude" );
 }
 
 void npc::setID( int i )
