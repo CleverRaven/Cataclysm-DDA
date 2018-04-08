@@ -570,11 +570,11 @@ class game
         bool has_gametype() const;
         special_game_id gametype() const;
 
-        void toggle_sidebar_style( void );
-        void toggle_fullscreen( void );
-        void toggle_pixel_minimap( void );
-        void temp_exit_fullscreen( void );
-        void reenter_fullscreen( void );
+        void toggle_sidebar_style();
+        void toggle_fullscreen();
+        void toggle_pixel_minimap();
+        void temp_exit_fullscreen();
+        void reenter_fullscreen();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
