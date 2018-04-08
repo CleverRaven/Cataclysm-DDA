@@ -441,7 +441,6 @@ bool player::create(character_type type, std::string tempname)
     points_left points = points_left();
 
     switch (type) {
-    case PLTYPE_NULL:
     case PLTYPE_CUSTOM:
         break;
     case PLTYPE_NOW:
