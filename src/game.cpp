@@ -10588,7 +10588,7 @@ void game::chat()
         .query();
 
         std::string sentence = popup.text();
-        add_msg( _( "You yell %s" ), sentence.c_str() );
+        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
 
     } else if( nmenu.ret <= ( int )available.size() ) {
