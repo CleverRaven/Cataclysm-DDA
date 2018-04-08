@@ -371,6 +371,9 @@ class nc_color
         // Returns this attribute plus A_ITALIC.
         nc_color italic() const;
         bool is_italic() const;
+        // Returns this attribute plus A_UNDERLINE.
+        nc_color underline() const;
+        bool is_underline() const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

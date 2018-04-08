@@ -363,4 +363,14 @@ bool nc_color::is_italic() const
     return attribute_value & A_ITALIC;
 }
 
+nc_color nc_color::underline() const
+{
+    return nc_color( attribute_value | A_UNDERLINE );
+}
+
+bool nc_color::is_underline() const
+{
+    return attribute_value & A_UNDERLINE;
+}
+
 #endif
