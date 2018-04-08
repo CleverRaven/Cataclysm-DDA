@@ -69,7 +69,7 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
-std::string WORLD::path() const
+std::string WORLD::folder_path() const
 {
     return FILENAMES["savedir"] + utf8_to_native( world_name );
 }
@@ -231,7 +231,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
         for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-            rename( origin_file.c_str(), std::string( newworld->path() + filename ).c_str() );
+            rename( origin_file.c_str(), std::string( newworld->folder_path() + filename ).c_str() );
         }
 
         DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
@@ -259,14 +259,14 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         return false;
     }
 
-    if (!assure_dir_exist(world->path())) {
+    if (!assure_dir_exist(world->folder_path())) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
                                     "] directory for saving";
         return false;
     }
 
     if (!is_conversion) {
-        const auto savefile = world->path() + "/" + FILENAMES["worldoptions"];
+        const auto savefile = world->folder_path() + "/" + FILENAMES["worldoptions"];
         const bool saved = write_to_file( savefile, [&]( std::ostream &fout ) {
             JsonOut jout( fout );
 
@@ -346,7 +346,7 @@ void worldfactory::init()
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if( has_world( "save" ) ) {
-        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->path());
+        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->folder_path());
         if (converted_world) {
             converted_world->world_saves = all_worlds["save"]->world_saves;
             converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
@@ -1384,12 +1384,12 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     world->WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = world->path() + "/" + FILENAMES["worldoptions"];
+    const auto path = world->folder_path() + "/" + FILENAMES["worldoptions"];
     if( read_from_file_optional_json( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
         return true;
     }
 
-    const auto legacy_path = world->path() + "/" + FILENAMES["legacy_worldoptions"];
+    const auto legacy_path = world->folder_path() + "/" + FILENAMES["legacy_worldoptions"];
     if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
         if( save_world( world ) ) {
             // Remove old file as the options have been saved to the new file.
@@ -1439,7 +1439,7 @@ static bool isForbidden(std::string candidate)
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->path();
+    std::string worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path("", worldpath, true, true);

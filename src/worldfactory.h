@@ -48,7 +48,12 @@ class save_t
 
 struct WORLD {
     public:
-        std::string path() const;
+        /**
+         * @returns A path to a folder in the file system that should contain
+         * all the world specific files. It depends on @ref world_name,
+         * changing that will also change the result of this function.
+         */
+        std::string folder_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
